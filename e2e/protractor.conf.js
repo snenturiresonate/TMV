@@ -10,27 +10,40 @@ const { SpecReporter, StacktraceOption } = require('jasmine-spec-reporter');
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
-    './src/**/*.e2e-spec.ts'
+    './src/**/features/**/*.feature'
   ],
   capabilities: {
-    browserName: 'chrome'
+    browserName: 'chrome',
+    chromeOptions: {
+      args: [ "--headless", "--disable-gpu", "--window-size=1980,1080" ]
+    }
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
-  framework: 'jasmine',
-  jasmineNodeOpts: {
-    showColors: true,
-    defaultTimeoutInterval: 30000,
-    print: function() {}
+  framework: 'custom',
+  frameworkPath: require.resolve('protractor-cucumber-framework'),
+  cucumberOpts: {
+    require: ['./src/**/*.steps.ts'],
+    // Tell CucumberJS to save the JSON report
+    format: 'json:.tmp/results.json'
   },
-  onPrepare() {
+  async onPrepare() {
     require('ts-node').register({
       project: require('path').join(__dirname, './tsconfig.json')
     });
-    jasmine.getEnv().addReporter(new SpecReporter({
-      spec: {
-        displayStacktrace: StacktraceOption.PRETTY
+  },
+  plugins: [{
+    package: 'protractor-multiple-cucumber-html-reporter-plugin',
+    options:{
+      automaticallyGenerateReport: true,
+      removeExistingJsonReportFile: true,
+      customData: {
+        title: 'Run info',
+        data: [
+          {label: 'Project', value: 'TMV'},
+          {label: 'Release', value: '0.1'},
+        ]
       }
-    }));
-  }
+    }
+  }]
 };

@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "TMVEndToEndTestFramework"
+    }
+  },
+  "defaultProject": "TMVEndToEndTestFramework",
+  "cli": {
+    "analytics": false
+  }
 }
