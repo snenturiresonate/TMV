@@ -16,10 +16,11 @@ exports.config = {
     browserName: 'chrome',
     chromeOptions: {
       args: [ "--headless", "--disable-gpu", "--window-size=1980,1080" ]
+      // args: [ "--disable-gpu", "--window-size=1980,1080" ]
     }
   },
   directConnect: true,
-  baseUrl: 'http://localhost:4200/',
+  baseUrl: 'http://10.5.0.198',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
