@@ -89,7 +89,7 @@ When(/^the following train journey modification messages? (?:is|are) sent from L
   const trainJourneyModificationMessages: any = trainJourneyModificationMessageTable.hashes();
 
   trainJourneyModificationMessages.forEach((trainJourneyModificationMessage: any) => {
-    linxRestClient.postTrainJourneyModification(trainJourneyModificationMessage.asXml)
+    linxRestClient.postTrainJourneyModification(trainJourneyModificationMessage.asXml);
   });
 });
 
@@ -98,7 +98,7 @@ When(/^the following train journey modification change of id messages? (?:is|are
   const trainJourneyModificationChangeOfIdMessages: any = trainJourneyModificationChangeOfIdMessageTable.hashes();
 
   trainJourneyModificationChangeOfIdMessages.forEach((trainJourneyModificationChangeOfIdMessage: any) => {
-    linxRestClient.postTrainJourneyModificationIdChange(trainJourneyModificationChangeOfIdMessage.asXml)
+    linxRestClient.postTrainJourneyModificationIdChange(trainJourneyModificationChangeOfIdMessage.asXml);
   });
 });
 
@@ -106,7 +106,7 @@ When(/^the following train activation messages? (?:is|are) sent from LINX$/, asy
   const trainActivationMessages: any = trainActivationMessageTable.hashes();
 
   trainActivationMessages.forEach((trainActivationMessage: any) => {
-    linxRestClient.postTrainActivation(trainActivationMessage.asXml)
+    linxRestClient.postTrainActivation(trainActivationMessage.asXml);
   });
 });
 
@@ -114,7 +114,7 @@ When(/^the following VSTP messages? (?:is|are) sent from LINX$/, async (vstpMess
   const vstpMessages: any = vstpMessageTable.hashes();
 
   vstpMessages.forEach((vstpMessage: any) => {
-    linxRestClient.postVstp(vstpMessage.asXml)
+    linxRestClient.postVstp(vstpMessage.asXml);
   });
 });
 
@@ -122,7 +122,8 @@ When(/^the following train running information messages? (?:is|are) sent from LI
   const trainRunningInformationMessages: any = trainRunningInformationMessageTable.hashes();
 
   trainRunningInformationMessages.forEach((trainRunningInformationMessage: any) => {
-    linxRestClient.postTrainRunningInformation(trainRunningInformationMessage.asXml)
+    linxRestClient.postTrainRunningInformation(trainRunningInformationMessage.asXml);
+
   });
 });
 
