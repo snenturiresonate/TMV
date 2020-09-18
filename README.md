@@ -26,6 +26,12 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 Run `npm run e2e-ci --ci_ip=10.5.0.234` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/), targeting the CI IP address.
 
+## Generating the LINX Test Harness models
+
+* Get the swagger JSON from the swagger UI of the LINX Test Harness and place it into the `tools/*/openapi.json` file.
+* Execute the `generate-linx-test-harness-api-from-swagger-spec.sh` script to generate the model.
+* Copy the model from `tmp/*/models` into the `src/app/api/linx/models` directory
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
