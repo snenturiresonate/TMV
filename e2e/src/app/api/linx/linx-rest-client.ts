@@ -5,6 +5,7 @@ import {BerthInterpose} from '../../../../../src/app/api/linx/models/berth-inter
 import {BerthCancel} from '../../../../../src/app/api/linx/models/berth-cancel';
 import {BerthStep} from '../../../../../src/app/api/linx/models/berth-step';
 import {Heartbeat} from '../../../../../src/app/api/linx/models/heartbeat';
+import {AccessPlanRequest} from '../../../../../src/app/api/linx/models/access-plan-request';
 
 export class LinxRestClient {
   public httpClient: HttpClient;
@@ -47,6 +48,14 @@ export class LinxRestClient {
 
   public postTrainRunningInformation(body: string): ResponsePromise {
     return this.httpClient.post('/trainrunninginformation/trainrunninginformation', body, {'Content-Type': 'text/plain'});
+  }
+
+  public addAccessPlan(fileName: string, body: string): ResponsePromise {
+    return this.httpClient.post('/add-access-plan', body, {'Content-Type': 'text/plain'});
+  }
+
+  public writeAccessPlan(body: AccessPlanRequest): ResponsePromise {
+    return this.httpClient.post('/write-access-plan', body);
   }
 
 }
