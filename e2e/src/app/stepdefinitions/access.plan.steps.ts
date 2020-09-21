@@ -17,3 +17,9 @@ When('the access plan located in JSON file {string} is received from LINX', asyn
   const accessPlanRequest: AccessPlanRequest = JSON.parse(rawData.toString());
   linxRestClient.writeAccessPlan(accessPlanRequest);
 });
+
+When('the access plan located in CIF file {string} is received from LINX with name {string}',
+  async (cifFilePath: string, cifName: string) => {
+  const rawData: Buffer = fs.readFileSync(cifFilePath);
+  linxRestClient.addAccessPlan(cifName, rawData.toString());
+});

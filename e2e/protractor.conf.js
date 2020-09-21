@@ -28,7 +28,8 @@ exports.config = {
     // Tell CucumberJS to save the JSON report
     format: 'json:.tmp/results.json',
     // To run or not to run
-    tags: '(not @bug) and @blp'
+    // tags: '(not @bug) and @blp'
+    tags: '(not @bug)'
   },
   async onPrepare() {
     require('ts-node').register({
