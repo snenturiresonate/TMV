@@ -72,5 +72,5 @@ Feature: Example Scenarios
 
   Scenario: Example - Receive access plan from CIF file example
     Given I am on the home page
-    When the access plan located in CIF file 'testdata/access-plan/one-schedule.cif' is received from LINX with name 'CFR1LXC.LCF'
+    When the access plan located in CIF file 'testdata/access-plan/one-schedule.cif' is received from LINX with name 'CFR1LXB.LCF'
     Then I should see nothing
