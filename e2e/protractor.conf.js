@@ -20,13 +20,16 @@ exports.config = {
     }
   },
   directConnect: true,
-  baseUrl: 'http://10.5.0.198',
+  baseUrl: 'http://10.5.1.166',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
     require: ['./src/**/*.steps.ts'],
     // Tell CucumberJS to save the JSON report
-    format: 'json:.tmp/results.json'
+    format: 'json:.tmp/results.json',
+    // To run or not to run
+    // tags: '(not @bug) and @blp'
+    tags: '(not @bug)'
   },
   async onPrepare() {
     require('ts-node').register({

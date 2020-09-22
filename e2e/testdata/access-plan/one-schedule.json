@@ -1,0 +1,153 @@
+{
+  "associations": [
+    {
+      "transactionType": "N",
+      "associationIdentifier": {
+        "mainTrainUid": "C59916",
+        "associatedTrainUid": "C57984",
+        "associationStartDate": "2020-09-03",
+        "stpIndicator": "0"
+      },
+      "associationEndDate": "2020-10-01",
+      "associationDays": {
+        "monday": true,
+        "tuesday": true,
+        "wednesday": true,
+        "thursday": true,
+        "friday": true,
+        "saturday": false,
+        "sunday": false
+      },
+      "associationCategory": "NP",
+      "associationDateInd": "S",
+      "associationLocation": "DIDCOTP",
+      "baseLocationSuffix": 2,
+      "diagramType": "T",
+      "associationType": "O"
+    }
+  ],
+  "schedules": [
+    {
+      "transactionType": "N",
+      "scheduleIdentifier": {
+        "trainUid": "H39407",
+        "dateRunsFrom": "2020-09-04",
+        "stpIndicator": "P"
+      },
+      "dateRunsTo": "2020-10-01",
+      "daysRun": {
+        "monday": true,
+        "tuesday": true,
+        "wednesday": true,
+        "thursday": true,
+        "friday": true,
+        "saturday": false,
+        "sunday": false
+      },
+      "trainStatus": "F",
+      "serviceCharacteristics": {
+        "trainCategory": "H4",
+        "trainIdentity": "6V10",
+        "courseIndicator": "1",
+        "trainServiceCode": "57610310"
+      },
+      "stockCharacteristics": {
+        "powerType": "",
+        "timingLoad": "",
+        "speed": 60,
+        "operatingCharacteristics": [
+          "Q"
+        ]
+      },
+      "atocCode": "ZZ",
+      "applicableTimetableCode": "Y",
+      "trainSpecificNotes": [
+        {
+          "noteType": "1",
+          "note": "TRAIN SPECIFIC NOTE"
+        }
+      ],
+      "originLocation": {
+        "location": {
+          "tiploc": "PADTON"
+        },
+        "scheduledDeparture": "12:30:30",
+        "publicDeparture": "12:30",
+        "platform": "6",
+        "line": "2",
+        "engineeringAllowance": 1,
+        "pathingAllowance": 10,
+        "activity": [
+          "TB"
+        ],
+        "performanceAllowance": 99,
+        "locationSpecificNotes": [
+          {
+            "noteType": "1",
+            "note": "LOCATION SPECIFIC NOTE"
+          }
+        ]
+      },
+      "intermediateLocations": [
+        {
+          "location": {
+            "tiploc": "RDNGSTN"
+          },
+          "scheduledPass": "12:57:00",
+          "publicArrival": "00:00",
+          "publicDeparture": "00:00",
+          "platform": "13",
+          "line": "URL",
+          "path": "UL",
+          "activity": [
+            "C"
+          ],
+          "engineeringAllowance": 1.5,
+          "pathingAllowance": 1,
+          "performanceAllowance": 1,
+          "changesEnRoute": {
+            "location": {
+              "tiploc": "RDNGSTN"
+            },
+            "serviceCharacteristics": {
+              "trainCategory": "XX",
+              "trainIdentity": "1M74",
+              "headcode": "3321",
+              "courseIndicator": "1",
+              "trainServiceCode": "22180010"
+            },
+            "stockCharacteristics": {
+              "powerType": "DMU",
+              "timingLoad": "V",
+              "speed": 125,
+              "seatingClass": "B",
+              "reservations": "S"
+            }
+          },
+          "locationSpecificNotes": [
+            {
+              "noteType": "1",
+              "note": "LOCATION SPECIFIC NOTE"
+            }
+          ]
+        }
+      ],
+      "terminatingLocation": {
+        "location": {
+          "tiploc": "PADTON"
+        },
+        "scheduledArrival": "13:25",
+        "publicArrival": "13:25",
+        "platform": "7",
+        "path": "2",
+        "activity": ["TF"],
+        "locationSpecificNotes": [
+          {
+            "noteType": "1",
+            "note": "LOCATION SPECIFIC NOTE"
+          }
+        ]
+      }
+    }
+  ]
+}

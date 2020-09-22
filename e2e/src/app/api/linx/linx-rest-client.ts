@@ -51,7 +51,8 @@ export class LinxRestClient {
   }
 
   public addAccessPlan(fileName: string, body: string): ResponsePromise {
-    return this.httpClient.post('/add-access-plan', body, {'Content-Type': 'text/plain'});
+    return this.httpClient.post('/add-access-plan', body,
+      {'file-name': fileName, 'Content-Type': 'text/plain'});
   }
 
   public writeAccessPlan(body: AccessPlanRequest): ResponsePromise {

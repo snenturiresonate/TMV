@@ -4,11 +4,6 @@ import {browser, logging} from 'protractor';
 import { expect } from 'chai';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {BerthCancel, BerthInterpose, BerthStep, Heartbeat} from '../../../../src/app/api/linx/models';
-import {TrainJourneyModification} from '../../../../src/app/api/linx/models/train-journey-modification';
-import {S015TrainIdChange} from '../../../../src/app/api/linx/models/s015-train-id-change';
-import {TrainActivation} from '../../../../src/app/api/linx/models/train-activation';
-import {S002Vstp} from '../../../../src/app/api/linx/models/s002-vstp';
-import {TrainRunningInformation} from '../../../../src/app/api/linx/models/train-running-information';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;

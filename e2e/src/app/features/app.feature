@@ -65,3 +65,12 @@ Feature: Example Scenarios
       | <?xml version="1.0" encoding="UTF-8"?><TrainRunningInformationMessage xmlns="http://www.era.europa.eu/schemes/TAFTSI/5.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:n1="http://www.era.europa.eu/schemes/TAFTSI/5.3" xsi:schemaLocation="http://www.era.europa.eu/schemes/TAFTSI/5.3 taf_cat_complete.xsd"><MessageHeader><MessageReference><MessageType>4005</MessageType><MessageTypeVersion>5.3.1.GB</MessageTypeVersion><MessageIdentifier>414d51204e52504230303920202020205e81b4b92f5227f2</MessageIdentifier><MessageDateTime>2020-04-07T23:00:03-00:00</MessageDateTime></MessageReference><SenderReference>9H74aA2cM67J</SenderReference><Sender n1:CI_InstanceNumber="01">0070</Sender><Recipient n1:CI_InstanceNumber="99">9999</Recipient></MessageHeader><MessageStatus>1</MessageStatus><TrainOperationalIdentification><TransportOperationalIdentifiers><ObjectType>TR</ObjectType><Company>0070</Company><Core>--879H741907</Core><Variant>01</Variant><TimetableYear>2020</TimetableYear><StartDate>2020-04-07</StartDate></TransportOperationalIdentifiers></TrainOperationalIdentification><OperationalTrainNumberIdentifier><OperationalTrainNumber>9H74</OperationalTrainNumber></OperationalTrainNumberIdentifier><ResponsibleRU>9930</ResponsibleRU><TrainLocationReport><Location><CountryCodeISO>GB</CountryCodeISO><LocationPrimaryCode>53013</LocationPrimaryCode><LocationSubsidiaryIdentification><LocationSubsidiaryCode n1:LocationSubsidiaryTypeCode="0">CFTNRJN</LocationSubsidiaryCode><AllocationCompany>0070</AllocationCompany></LocationSubsidiaryIdentification></Location><LocationDateTime>2020-04-08T00:00:00-00:00</LocationDateTime><TrainLocationStatus>04</TrainLocationStatus><BookedLocationDateTime>2020-04-07T23:59:30-00:00</BookedLocationDateTime><TrainDelay><AgainstBooked>+0001</AgainstBooked></TrainDelay></TrainLocationReport></TrainRunningInformationMessage> |
     Then I should see nothing
 
+  Scenario: Example - Receive access plan from JSON file example
+    Given I am on the home page
+    When the access plan located in JSON file 'testdata/access-plan/one-schedule.json' is received from LINX
+    Then I should see nothing
+
+  Scenario: Example - Receive access plan from CIF file example
+    Given I am on the home page
+    When the access plan located in CIF file 'testdata/access-plan/one-schedule.cif' is received from LINX with name 'CFR1LXB.LCF'
+    Then I should see nothing
