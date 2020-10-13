@@ -164,6 +164,7 @@ Then('the map has not moved', async () => {
 });
 
 Then('berth {string} in train describer {string} contains {string}', async (berthId: string, trainDescriber: string, berthContents: string) => {
+  browser.sleep(1000);
   const trainDescription: String = await mapPageObject.getBerthText(berthId, trainDescriber);
   expect(trainDescription).equals(berthContents);
 })
