@@ -30,7 +30,6 @@ Feature: 41849 - Basic UI - Display berth state
       | 09:59:00  | 0099      | D3            | 1G69             |
     And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' does not contain '1G69'
-    And berth '0099' in train describer 'D3' contains '0099'
 
   @bug #47181
   Scenario: 47119 - Display Berth State - berth step causes train description to step to the next berth
