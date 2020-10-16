@@ -75,4 +75,9 @@ export class MapPageObject {
     const berth: ElementFinder = element(by.css('[id^=berth-element-text-bth\\.' + trainDescriber + berthId + ']'));
     return berth.getText();
   }
+
+  public async berthTextIsVisible(berthId: String, trainDescriber: String): Promise<boolean> {
+    const berth: ElementFinder = element(by.css('[id^=berth-element-text-bth\\.' + trainDescriber + berthId + ']'));
+    return berth.isDisplayed();
+  }
 }

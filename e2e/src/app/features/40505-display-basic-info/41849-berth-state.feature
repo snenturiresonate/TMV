@@ -13,7 +13,7 @@ Feature: 41849 - Basic UI - Display berth state
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
     And the maximum amount of time is allowed for end to end transmission
-    Then berth '0099' in train describer 'D3' contains '1G69'
+    Then berth '0099' in train describer 'D3' contains '1G69' and is visible
 
   @bug #47181, 47120
   Scenario: 47117 - Display Berth State - berth cancel removes train description from UI
@@ -31,7 +31,7 @@ Feature: 41849 - Basic UI - Display berth state
     And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' does not contain '1G69'
     And I toggle the 'Berth' toggle 'on'
-    Then berth '0099' in train describer 'D3' contains '0099'
+    Then berth '0099' in train describer 'D3' contains '0099' and is visible
 
   @bug #47181
   Scenario: 47119 - Display Berth State - berth step causes train description to step to the next berth
@@ -48,7 +48,7 @@ Feature: 41849 - Basic UI - Display berth state
       | 09:59:00  | 0099      | 0092    | D3            | 1G69             |
     And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' does not contain '1G69'
-    And berth '0092' in train describer 'D3' contains '1G69'
+    And berth '0092' in train describer 'D3' contains '1G69' and is visible
 
   @bug #47181, 47327
   Scenario: 47121 - Display Berth State - berth interpose whilst berth IDs are displayed
@@ -67,5 +67,5 @@ Feature: 41849 - Basic UI - Display berth state
     And berth '0092' in train describer 'D3' does not contain '1G70'
     When I click on the layers icon in the nav bar
     And I toggle the 'Berth' toggle 'off'
-    Then berth '0099' in train describer 'D3' contains '1G69'
-    And berth '0092' in train describer 'D3' contains '1G70'
+    Then berth '0099' in train describer 'D3' contains '1G69' and is visible
+    And berth '0092' in train describer 'D3' contains '1G70' and is visible
