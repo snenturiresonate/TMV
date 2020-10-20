@@ -12,11 +12,12 @@ then
   exit 1;
 fi
 
-echo "Logging into AWS."
-# For AWS CLI version 1
-$(aws ecr get-login --region eu-west-2 --no-include-email) &> /dev/null
-# For AWS CLI version 2
-#aws --region eu-west-2 ecr get-login-password &> /dev/null
+# This shouldn't be needed anymore, but lets keep it for a while, just in case.
+#echo "Logging into AWS."
+## For AWS CLI version 1
+#$(aws ecr get-login --region eu-west-2 --no-include-email) &> /dev/null
+## For AWS CLI version 2
+##aws --region eu-west-2 ecr get-login-password &> /dev/null
 
 echo "Looking for environment with the Stack Name: $STACK_NAME"
 STACK_DETAILS=$(aws cloudformation describe-stacks --stack-name "$STACK_NAME" 2> /dev/null)
@@ -39,7 +40,7 @@ fi
 echo "Found $HOST created at $CREATION_TIME"
 
 # Run the full end to end tests
-npm run e2e
+export npm_config_ci_ip=${HOST}; npm run e2e-ci
 
 # Generate JUnit style XML to support VSTS reporting
 npm run junit-xml

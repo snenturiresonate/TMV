@@ -67,10 +67,10 @@ Feature: Example Scenarios
 
   Scenario: Example - Receive access plan from JSON file example
     Given I am on the home page
-    When the access plan located in JSON file 'testdata/access-plan/one-schedule.json' is received from LINX
+    When the access plan located in JSON file 'e2e/testdata/access-plan/one-schedule.json' is received from LINX
     Then I should see nothing
 
   Scenario: Example - Receive access plan from CIF file example
     Given I am on the home page
-    When the access plan located in CIF file 'testdata/access-plan/one-schedule.cif' is received from LINX with name 'CFR1LXB.LCF'
+    When the access plan located in CIF file 'e2e/testdata/access-plan/one-schedule.cif' is received from LINX with name 'CFR1LXB.LCF'
     Then I should see nothing
