@@ -3,7 +3,7 @@ import {AppPage} from '../pages/app.po';
 import {browser, logging} from 'protractor';
 import { expect } from 'chai';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
-import {BerthCancel, BerthInterpose, BerthStep, Heartbeat} from '../../../../src/app/api/linx/models';
+import {BerthCancel, BerthInterpose, BerthStep, Heartbeat, SignallingUpdate} from '../../../../src/app/api/linx/models';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
@@ -62,6 +62,21 @@ When(/^the following berth cancel messages? (?:is|are) sent from LINX$/, async (
     );
 
     linxRestClient.postBerthCancel(berthCancel);
+  });
+});
+
+When(/^the following signalling update messages? (?:is|are) sent from LINX$/, async (signallingUpdateMessageTable: any) => {
+  const signallingUpdateMessages: any = signallingUpdateMessageTable.hashes();
+
+  signallingUpdateMessages.forEach((signallingUpdateMessage: any) => {
+    const signallingUpdate: SignallingUpdate = new SignallingUpdate(
+      signallingUpdateMessage.address,
+      signallingUpdateMessage.data,
+      signallingUpdateMessage.timestamp,
+      signallingUpdateMessage.trainDescriber
+    );
+
+    linxRestClient.postSignallingUpdate(signallingUpdate);
   });
 });
 

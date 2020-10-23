@@ -1,5 +1,6 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {of} from 'rxjs';
+import {CssColorConverterService} from '../../services/css-color-converter.service';
 
 const SCALEFACTORX_START = 7;
 
@@ -30,8 +31,8 @@ export class MapPageObject {
     this.currentlyDraggedLayer = element(by.css('.draggable-map.grabbing'));
   }
 
-  navigateTo(mapId: String): Promise<unknown> {
-    return browser.get(browser.baseUrl + "/tmv/maps/" + mapId) as Promise<unknown>;
+  navigateTo(mapId: string): Promise<unknown> {
+    return browser.get(browser.baseUrl + '/tmv/maps/' + mapId) as Promise<unknown>;
   }
 
   public async isPlatformLayerPresent(): Promise<boolean> {
@@ -71,12 +72,18 @@ export class MapPageObject {
     return parseFloat(scaleFactorX);
   }
 
-  public async getBerthText(berthId: String, trainDescriber: String): Promise<String> {
+  public async getBerthText(berthId: string, trainDescriber: string): Promise<string> {
     const berth: ElementFinder = element(by.css('[id^=berth-element-text-bth\\.' + trainDescriber + berthId + ']'));
     return berth.getText();
   }
 
-  public async berthTextIsVisible(berthId: String, trainDescriber: String): Promise<boolean> {
+  public async getSignalLampRoundColour(signalId: string): Promise<string> {
+    const signalLampRound: ElementFinder = element(by.css('[id^=signal-element-lamp-round-' + signalId  + ']'));
+    const lampRoundColourRgb: string = await signalLampRound.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(lampRoundColourRgb);
+  }
+
+  public async berthTextIsVisible(berthId: string, trainDescriber: string): Promise<boolean> {
     const berth: ElementFinder = element(by.css('[id^=berth-element-text-bth\\.' + trainDescriber + berthId + ']'));
     return berth.isDisplayed();
   }

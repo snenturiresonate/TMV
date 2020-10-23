@@ -1,13 +1,48 @@
-import {Given, Then, When} from 'cucumber';
+import {Before, Given, Then, When} from 'cucumber';
 import {expect} from 'chai';
 import {MapPageObject} from '../../pages/maps/map.page';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
 import {browser} from 'protractor';
+import {SignallingUpdate} from '../../../../../src/app/api/linx/models/signalling-update';
+import {LinxRestClient} from '../../api/linx/linx-rest-client';
+import {NFRConfig} from '../../config/nfr-config';
 
+let page: MapPageObject;
+let linxRestClient: LinxRestClient;
+
+Before(() => {
+  page = new MapPageObject();
+  linxRestClient = new LinxRestClient();
+});
 const mapPageObject: MapPageObject = new MapPageObject();
 
-Given(/^I am viewing the map (.*)$/, async (mapId: String) => {
+const mapObjectColour = {
+  red: '#ff0000',
+  green: '#00ff00',
+  white: '#ffffff',
+  orange: '#ffa700',
+  grey: '#969696'
+};
+
+Given(/^I am viewing the map (.*)$/, async (mapId: string) => {
   await mapPageObject.navigateTo(mapId);
+});
+
+Given('I set up all signals for address {word} in {word} to be {word}', async (address: string, trainDescriber: string, colour: string) => {
+  const redSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, '00', '10:45:00', trainDescriber);
+  const greenSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, 'FF', '10:45:00', trainDescriber);
+  if (colour === 'red') {
+    linxRestClient.postSignallingUpdate(greenSignallingUpdate);
+    await browser.sleep(NFRConfig.E2E_TRANSMISSION_TIME_MS);
+    linxRestClient.postSignallingUpdate(redSignallingUpdate);
+    await browser.sleep(NFRConfig.E2E_TRANSMISSION_TIME_MS);
+  }
+  if (colour === 'green') {
+    linxRestClient.postSignallingUpdate(redSignallingUpdate);
+    await browser.sleep(NFRConfig.E2E_TRANSMISSION_TIME_MS);
+    linxRestClient.postSignallingUpdate(greenSignallingUpdate);
+    await browser.sleep(NFRConfig.E2E_TRANSMISSION_TIME_MS);
+  }
 });
 
 When('I make a note of the zoom level', async () => {
@@ -98,7 +133,8 @@ Then('there are {int} {word} elements in the {word} layer', async (expectedItemC
   expect(actualLayerItems.length).to.equal(expectedItemCount);
 });
 
-Then('the {word} elements in the {word} layer have colour {string}', async (elementName: string, layer: string, designatedColour: string) => {
+Then('the {word} elements in the {word} layer have colour {string}',
+  async (elementName: string, layer: string, designatedColour: string) => {
   let actualLayerItems: any[];
   let styleProperty: string;
   if (layer === 'Platform') {
@@ -163,18 +199,29 @@ Then('the map has not moved', async () => {
   expect(newMapTopPX).to.equal(browser.referenceMapTopPX);
 });
 
-Then('berth {string} in train describer {string} contains {string}', async (berthId: string, trainDescriber: string, berthContents: string) => {
-  const trainDescription: String = await mapPageObject.getBerthText(berthId, trainDescriber);
+Then('berth {string} in train describer {string} contains {string}',
+  async (berthId: string, trainDescriber: string, berthContents: string) => {
+  const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
   expect(trainDescription).equals(berthContents);
-})
+});
 
-Then('berth {string} in train describer {string} contains {string} and is visible', async (berthId: string, trainDescriber: string, berthContents: string) => {
-  const trainDescription: String = await mapPageObject.getBerthText(berthId, trainDescriber);
+Then('berth {string} in train describer {string} contains {string} and is visible',
+  async (berthId: string, trainDescriber: string, berthContents: string) => {
+  const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
   expect(trainDescription).equals(berthContents);
   expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber));
-})
+});
 
-Then('berth {string} in train describer {string} does not contain {string}', async (berthId: string, trainDescriber: string, berthContents: string) => {
-  const trainDescription: String = await mapPageObject.getBerthText(berthId, trainDescriber);
+Then('berth {string} in train describer {string} does not contain {string}',
+  async (berthId: string, trainDescriber: string, berthContents: string) => {
+  const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
   expect(trainDescription).to.not.equal(berthContents);
-})
+});
+
+Then('the signal roundel for signal {string} is {word}',
+  async (signalId: string, expectedSignalColour: string) => {
+    const expectedSignalColourHex = mapObjectColour[expectedSignalColour];
+    const actualSignalColourHex = await mapPageObject.getSignalLampRoundColour(signalId);
+    expect(actualSignalColourHex).to.equal(expectedSignalColourHex);
+  });
+
