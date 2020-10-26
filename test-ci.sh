@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-CHECK_COVERAGE=${CHECK_COVERAGE:-"false"}
-
 # Change to directory of script
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" || echo "Could not change directory, exiting." #&& exit 1
 
@@ -46,14 +44,6 @@ export npm_config_ci_ip=${HOST}; npm run e2e-ci
 
 # Generate JUnit style XML to support VSTS reporting
 npm run junit-xml
-
-# get and publish code coverage metrics to SonarQube
-if [[ "$CHECK_COVERAGE" = "true" ]]
-then
-  cd coverage || exit "${failed}"
-  ./get-coverage.sh
-  ./publish-coverage.sh
-fi
 
 # Print a brief summary
 passed=$(cat .tmp/results.json | grep passed | wc -l)
