@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+CHECK_COVERAGE=${CHECK_COVERAGE:-"false"}
+echo ${CHECK_COVERAGE} > /tmp/check-fe2e-coverage.txt
+
 # Change to directory of script
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" || echo "Could not change directory, exiting." #&& exit 1
 
