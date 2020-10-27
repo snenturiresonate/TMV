@@ -10,17 +10,17 @@ const { SpecReporter, StacktraceOption } = require('jasmine-spec-reporter');
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
-    './src/**/features/**/*.feature'
+    './src/**/features/**/41849-berth-state.feature'
   ],
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      args: [ "--headless", "--disable-gpu", "--window-size=1980,1080" ]
+      args: [ "--disable-gpu", "--window-size=1980,1080" ]
       // args: [ "--disable-gpu", "--window-size=1980,1080" ]
     }
   },
   directConnect: true,
-  baseUrl: 'http://10.5.1.166',
+  baseUrl: 'http://10.5.0.154',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {

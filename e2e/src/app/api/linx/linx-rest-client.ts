@@ -26,6 +26,10 @@ export class LinxRestClient {
     return this.httpClient.post('/traindescriberupdates/berthstep', body);
   }
 
+  public postSignallingUpdate(body: BerthCancel): ResponsePromise {
+    return this.httpClient.post('/traindescriberupdates/signallingupdate', body);
+  }
+
   public postHeartbeat(body: Heartbeat): ResponsePromise {
     return this.httpClient.post('/traindescriberupdates/heartbeat', body);
   }
