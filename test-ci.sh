@@ -4,7 +4,8 @@
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" || echo "Could not change directory, exiting." #&& exit 1
 
 # Set up test parameters
-STACK_NAME=${1:-"$STACK_NAME"}
+STACK_NAME=${STACK_NAME:-tmv-national-test-coverage}
+CUCUMBER_TAGS=${CUCUMBER_TAGS:-"~@bug"}
 
 if [[ -z "$STACK_NAME" ]]
 then
@@ -40,7 +41,7 @@ fi
 echo "Found $HOST created at $CREATION_TIME"
 
 # Run the full end to end tests
-export npm_config_ci_ip=${HOST}; npm run e2e-ci
+export npm_config_ci_ip="${HOST}"; export cucumber_tags="${CUCUMBER_TAGS}"; npm run e2e-ci
 
 # Generate JUnit style XML to support VSTS reporting
 npm run junit-xml

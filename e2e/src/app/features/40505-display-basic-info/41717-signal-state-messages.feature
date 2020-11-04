@@ -1,3 +1,5 @@
+# 48665
+@bug
 Feature: 41717 - Basic UI - Signal State Scenarios
   (From Gherkin for Feature 40505 and functionality developed in US41851)
   As a TMV user

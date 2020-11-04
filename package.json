@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "e2e-ci": "protractor --baseUrl=\"http://$npm_config_ci_ip\" e2e/protractor.conf.js",
+    "e2e-ci": "protractor --baseUrl=\"http://$npm_config_ci_ip\" --cucumberOpts.tags=\"$cucumber_tags\" e2e/protractor.conf.js",
     "junit-xml": "cat .tmp/results.json | ./node_modules/.bin/cucumber-junit > .tmp/TEST-results.xml"
   },
   "private": true,
