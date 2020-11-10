@@ -212,6 +212,13 @@ Then('berth {string} in train describer {string} contains {string} and is visibl
   expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber));
 });
 
+Then('it is {string} that berth {string} in train describer {string} is present',
+  async (isPresent: string, berthId: string, trainDescriber: string) => {
+    const expectedPresent: boolean = (isPresent == 'true');
+    const present: boolean = await mapPageObject.isBerthPersent(berthId, trainDescriber);
+    expect(present).equals(Boolean(expectedPresent));
+});
+
 Then('berth {string} in train describer {string} does not contain {string}',
   async (berthId: string, trainDescriber: string, berthContents: string) => {
   const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);

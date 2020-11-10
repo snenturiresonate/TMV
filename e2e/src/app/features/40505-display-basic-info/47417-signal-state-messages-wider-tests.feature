@@ -1,6 +1,7 @@
 # 48665
 @bug
-Feature: 41717 - Basic UI - Signal State Scenarios
+@skip
+Feature: 47417 - Basic UI - Signal State Scenarios
   (From Notes on Gherkin for Feature 40505)
   As a TMV user
   I want the signal aspect to be displayed for signals on the paddington HD map

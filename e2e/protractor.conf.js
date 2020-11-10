@@ -29,7 +29,7 @@ exports.config = {
     format: 'json:.tmp/results.json',
     // To run or not to run
     // tags: '['~@bug', '@blp']'
-    tags: ['~@bug']
+    tags: ['~@bug', '~@tdd']
   },
   async onPrepare() {
     require('ts-node').register({

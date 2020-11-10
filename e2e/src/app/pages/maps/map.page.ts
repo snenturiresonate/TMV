@@ -77,6 +77,11 @@ export class MapPageObject {
     return berth.getText();
   }
 
+  public async isBerthPersent(berthId: string, trainDescriber: string): Promise<boolean> {
+    const berth: ElementFinder = element(by.css('[id^=berth-element-text-bth\\.' + trainDescriber + berthId + ']'));
+    return berth.isPresent();
+  }
+
   public async getSignalLampRoundColour(signalId: string): Promise<string> {
     const signalLampRound: ElementFinder = element(by.css('[id^=signal-element-lamp-round-' + signalId  + ']'));
     const lampRoundColourRgb: string = await signalLampRound.getCssValue('fill');
