@@ -30,11 +30,11 @@ Feature: 41717 - Basic UI - Signal State Scenarios
 
   Scenario: 40505-x2 - Display Signal State - signal state messages are reflected in all open maps containing relevant signals
     Given I am on the home page
-    And I expand the group of maps located at position number 2
-    And I navigate to the maps view with id HDGW01paddington.v
+    And I expand the group of maps located at position number 1
+    And I navigate to the maps view with id hdgw01paddington.v
     And I switch to the second-newest tab
-    And I expand the group of maps located at position number 3
-    And I navigate to the maps view with id GW02heathrow.v
+    #And I expand the group of maps located at position number 3
+    And I navigate to the maps view with id gw02heathrow.v
     When I switch to the new tab
     And I set up all signals for address 92 in D3 to be green
     Then the signal roundel for signal 'SN211' is green
