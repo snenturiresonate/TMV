@@ -19,7 +19,6 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
 
   # 47656 - getting initial state (for second map)
   @tdd
-  @skip
   Scenario: 40505-1 - interpose is displayed in the berth, which is not a Q berth
     # a berth that exists on the map is empty
     #  it is not a Q berth
@@ -94,7 +93,6 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
 
   # 48780 - berth cancellation succeeds if the wrong train description is provided
   @bug
-  @skip
   Scenario: 40505-3 - cancellation of train description for a train description that isn't in the berth, but the berth is occupied
     Given berth '0099' in train describer 'D3' contains '' and is visible
     When the following berth interpose message is sent from LINX

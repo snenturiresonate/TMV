@@ -2,10 +2,9 @@
 
 # Change to directory of script
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" || echo "Could not change directory, exiting." #&& exit 1
-
 # Set up test parameters
 STACK_NAME=${STACK_NAME:-tmv-national-test-coverage}
-CUCUMBER_TAGS=${CUCUMBER_TAGS:-"~@skip"}
+CUCUMBER_TAGS=${CUCUMBER_TAGS:-"not (@bug or @tdd)"}
 
 if [[ -z "$STACK_NAME" ]]
 then

@@ -27,9 +27,10 @@ exports.config = {
     require: ['./src/**/*.steps.ts'],
     // Tell CucumberJS to save the JSON report
     format: 'json:.tmp/results.json',
-    // To run or not to run
-    // tags: '['~@bug', '@blp']'
-    tags: ['~@bug', '~@tdd']
+    // To run specific Scenarios marked with the tag @test (for example), uncomment the next line
+    // tags: '['@test']'
+    // To run all scenarios not marked @bug or @tdd, uncomment the next line
+    tags: ['not (@bug or @tdd)']
   },
   async onPrepare() {
     require('ts-node').register({
