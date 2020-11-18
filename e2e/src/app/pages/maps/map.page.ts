@@ -73,12 +73,12 @@ export class MapPageObject {
   }
 
   public async getBerthText(berthId: string, trainDescriber: string): Promise<string> {
-    const berth: ElementFinder = element(by.css('[id^=berth-element-text-bth\\.' + trainDescriber + berthId + ']'));
+    const berth: ElementFinder = await this.getBerthElementFinder(berthId, trainDescriber);
     return berth.getText();
   }
 
-  public async isBerthPersent(berthId: string, trainDescriber: string): Promise<boolean> {
-    const berth: ElementFinder = element(by.css('[id^=berth-element-text-bth\\.' + trainDescriber + berthId + ']'));
+  public async isBerthPresent(berthId: string, trainDescriber: string): Promise<boolean> {
+    const berth: ElementFinder = await this.getBerthElementFinder(berthId, trainDescriber);
     return berth.isPresent();
   }
 
@@ -89,7 +89,14 @@ export class MapPageObject {
   }
 
   public async berthTextIsVisible(berthId: string, trainDescriber: string): Promise<boolean> {
-    const berth: ElementFinder = element(by.css('[id^=berth-element-text-bth\\.' + trainDescriber + berthId + ']'));
+    const berth: ElementFinder = await this.getBerthElementFinder(berthId, trainDescriber);
     return berth.isDisplayed();
+  }
+
+  public async getBerthElementFinder(berthId: string, trainDescriber: string): Promise<ElementFinder> {
+      // id for berths can be either berth-element-text-bth.[train_id] or berth-element-text-btl.[train_id]
+      // using $= to get element based on just train_id
+      const berth: ElementFinder = element(by.css('text[id$=' + trainDescriber + berthId + ']'));
+      return berth;
   }
 }

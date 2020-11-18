@@ -43,6 +43,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
 
   # Negative test - interpose into a Q-berth
   # Q-berth Q070 is translated to become berth DC
+  # expect message to be treated as an S class message. s class display would show DC
   Scenario: 40505-1 - interpose is not displayed in the berth, which is a Q berth
     Given I am viewing the map hdgw06gloucester.v
     When I click on the layers icon in the nav bar
@@ -53,7 +54,6 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
       | 09:59:00  | Q070    | GL            | DnDC             |
     And the maximum amount of time is allowed for end to end transmission
     Then it is 'false' that berth 'Q070' in train describer 'GL' is present
-    Then it is 'true' that berth 'DC' in train describer 'GL' is present
 
   Scenario: 40505-2 - interpose into berth that already contains a train description
     #    Given a berth that exists on the map is displaying a train description

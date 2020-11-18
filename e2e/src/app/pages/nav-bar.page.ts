@@ -1,4 +1,4 @@
-import {by, element, ElementArrayFinder, ElementFinder, browser, protractor} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 
 export class NavBarPageObject {
   public navBarIcons: ElementArrayFinder;
@@ -104,6 +104,11 @@ export class NavBarPageObject {
   }
 
   public async toggle(toggleName: string, requiredState: string): Promise<void> {
+    const currentState: string = await this.getToggleState(toggleName);
+    if (currentState === requiredState)
+    {
+      return;
+    }
     if (toggleName === 'Platform') {
       if (requiredState === 'on') {
         await this.platformToggleOff.click();
