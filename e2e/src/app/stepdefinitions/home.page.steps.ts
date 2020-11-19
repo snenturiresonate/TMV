@@ -23,6 +23,10 @@ When('I expand the group of maps located at position number {int}', async (posit
   await homePage.expandMapGrouping(position);
 });
 
+When('I expand the group of maps with name {string}', async (mapName: string) => {
+  await homePage.expandMapGroupingForName(mapName);
+});
+
 Then('the maps listed include {string}', async (location: string) => {
   const maps: string = await homePage.getMapsListed();
   expect(maps.toString()).to.contain(location);

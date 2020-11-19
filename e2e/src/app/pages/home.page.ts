@@ -44,6 +44,12 @@ export class HomePageObject {
     return this.mapGroupingIcons.get(position - 1).click();
   }
 
+  public async expandMapGroupingForName(mapName: string): Promise<void>
+  {
+    const mapListItem: ElementFinder = element(by.xpath('//div[contains(text(),"' + mapName + '")]'));
+    return mapListItem.click();
+  }
+
   public async getMapsListed(): Promise<string> {
     return this.mapList.getText();
   }
