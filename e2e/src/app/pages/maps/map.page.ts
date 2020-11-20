@@ -1,6 +1,11 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {of} from 'rxjs';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
+import * as fs from 'fs';
+import {CucumberLog} from '../../logging/cucumber-log';
+import {ProjectDirectoryUtil} from '../../utils/project-directory.util';
+import assert = require('assert');
+import path = require('path');
 
 const SCALEFACTORX_START = 7;
 
@@ -94,9 +99,18 @@ export class MapPageObject {
   }
 
   public async getBerthElementFinder(berthId: string, trainDescriber: string): Promise<ElementFinder> {
-      // id for berths can be either berth-element-text-bth.[train_id] or berth-element-text-btl.[train_id]
-      // using $= to get element based on just train_id
-      const berth: ElementFinder = element(by.css('text[id$=' + trainDescriber + berthId + ']'));
-      return berth;
+    // id for berths can be either berth-element-text-bth.[train_id] or berth-element-text-btl.[train_id]
+    // using $= to get element based on just train_id
+    const berth: ElementFinder = element(by.css('text[id$=' + trainDescriber + berthId + ']'));
+    return berth;
+  }
+
+  public async navigateToMapWithBerth(berthId: string, trainDescriber: string): Promise<void> {
+    const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), 'maps.json'));
+    const mapBerthData = JSON.parse(rawData.toString());
+    const filtered = mapBerthData.filter((mapObj) => mapObj.berths.includes(trainDescriber + berthId));
+    assert(filtered.length > 0, 'no map found containing berth ' + berthId + ' in train describer ' + trainDescriber + ' found');
+    await CucumberLog.addText(filtered[0].map);
+    await this.navigateTo(filtered[0].map);
   }
 }

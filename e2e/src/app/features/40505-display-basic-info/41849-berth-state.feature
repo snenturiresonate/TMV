@@ -11,7 +11,6 @@ Feature: 41849 - Basic UI - Display berth state
     And the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
 
   Scenario: 47117 - Display Berth State - berth cancel removes train description from UI
@@ -22,11 +21,9 @@ Feature: 41849 - Basic UI - Display berth state
     And the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     And the following berth cancel message is sent from LINX
       | timestamp | fromBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' does not contain '1G69'
     And I toggle the 'Berth' toggle 'on'
     Then berth '0099' in train describer 'D3' contains '0099' and is visible
@@ -39,11 +36,9 @@ Feature: 41849 - Basic UI - Display berth state
     And the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     And the following berth step message is sent from LINX
       | timestamp | fromBerth | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | 0092    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' does not contain '1G69'
     And berth '0092' in train describer 'D3' contains '1G69' and is visible
 
@@ -54,11 +49,9 @@ Feature: 41849 - Basic UI - Display berth state
     And the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     And the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0092    | D3            | 1G70             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' does not contain '1G69'
     And berth '0092' in train describer 'D3' does not contain '1G70'
     And I toggle the 'Berth' toggle 'off'

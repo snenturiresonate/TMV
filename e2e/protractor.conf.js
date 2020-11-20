@@ -20,7 +20,7 @@ exports.config = {
     }
   },
   directConnect: true,
-  baseUrl: 'http://10.5.1.166',
+  baseUrl: '',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
@@ -28,7 +28,7 @@ exports.config = {
     // Tell CucumberJS to save the JSON report
     format: 'json:.tmp/results.json',
     // To run specific Scenarios marked with the tag @test (for example), uncomment the next line
-    // tags: ['@test']
+    //tags: ['@test']
     // To run all scenarios not marked @bug or @tdd, uncomment the next line
     tags: ['not (@bug or @tdd)']
   },

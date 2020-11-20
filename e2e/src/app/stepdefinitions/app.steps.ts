@@ -1,9 +1,10 @@
 import {After, Before, Given, Then, When} from 'cucumber';
 import {AppPage} from '../pages/app.po';
 import {browser, logging} from 'protractor';
-import { expect } from 'chai';
+import {expect} from 'chai';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {BerthCancel, BerthInterpose, BerthStep, Heartbeat, SignallingUpdate} from '../../../../src/app/api/linx/models';
+import {CucumberLog} from '../logging/cucumber-log';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
@@ -17,7 +18,8 @@ Given(/^I am on the home page$/, async () => {
   await page.navigateTo();
 });
 
-When(/^I do nothing$/, () => {});
+When(/^I do nothing$/, () => {
+});
 
 When(/^the following berth interpose messages? (?:is|are) sent from LINX$/, async (berthInterposeMessageTable: any) => {
   const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
@@ -29,9 +31,10 @@ When(/^the following berth interpose messages? (?:is|are) sent from LINX$/, asyn
       berthInterposeMessage.trainDescriber,
       berthInterposeMessage.trainDescription
     );
-
+    CucumberLog.addJson(berthInterpose);
     linxRestClient.postBerthInterpose(berthInterpose);
   });
+  await linxRestClient.waitMaxTransmissionTime();
 });
 
 When(/^the following berth step messages? (?:is|are) sent from LINX$/, async (berthStepMessageTable: any) => {
@@ -45,9 +48,10 @@ When(/^the following berth step messages? (?:is|are) sent from LINX$/, async (be
       berthStepMessage.trainDescriber,
       berthStepMessage.trainDescription
     );
-
+    CucumberLog.addJson(berthStep);
     linxRestClient.postBerthStep(berthStep);
   });
+  await linxRestClient.waitMaxTransmissionTime();
 });
 
 When(/^the following berth cancel messages? (?:is|are) sent from LINX$/, async (berthCancelMessageTable: any) => {
@@ -60,9 +64,10 @@ When(/^the following berth cancel messages? (?:is|are) sent from LINX$/, async (
       berthCancelMessage.trainDescriber,
       berthCancelMessage.trainDescription
     );
-
+    CucumberLog.addJson(berthCancel);
     linxRestClient.postBerthCancel(berthCancel);
   });
+  await linxRestClient.waitMaxTransmissionTime();
 });
 
 When(/^the following signalling update messages? (?:is|are) sent from LINX$/, async (signallingUpdateMessageTable: any) => {
@@ -75,9 +80,10 @@ When(/^the following signalling update messages? (?:is|are) sent from LINX$/, as
       signallingUpdateMessage.timestamp,
       signallingUpdateMessage.trainDescriber
     );
-
+    CucumberLog.addJson(signallingUpdate);
     linxRestClient.postSignallingUpdate(signallingUpdate);
   });
+  await linxRestClient.waitMaxTransmissionTime();
 });
 
 When(/^the following heartbeat messages? (?:is|are) sent from LINX$/, async (heartbeatMessageTable: any) => {
@@ -89,28 +95,31 @@ When(/^the following heartbeat messages? (?:is|are) sent from LINX$/, async (hea
       heartbeatMessage.trainDescriber,
       heartbeatMessage.trainDescriberTimestamp
     );
-
+    CucumberLog.addJson(heartbeat);
     linxRestClient.postHeartbeat(heartbeat);
   });
+  await linxRestClient.waitMaxTransmissionTime();
 });
 
 When(/^the following train journey modification messages? (?:is|are) sent from LINX$/,
   async (trainJourneyModificationMessageTable: any) => {
-  const trainJourneyModificationMessages: any = trainJourneyModificationMessageTable.hashes();
+    const trainJourneyModificationMessages: any = trainJourneyModificationMessageTable.hashes();
 
-  trainJourneyModificationMessages.forEach((trainJourneyModificationMessage: any) => {
-    linxRestClient.postTrainJourneyModification(trainJourneyModificationMessage.asXml);
+    trainJourneyModificationMessages.forEach((trainJourneyModificationMessage: any) => {
+      linxRestClient.postTrainJourneyModification(trainJourneyModificationMessage.asXml);
+    });
+    await linxRestClient.waitMaxTransmissionTime();
   });
-});
 
 When(/^the following train journey modification change of id messages? (?:is|are) sent from LINX$/,
   async (trainJourneyModificationChangeOfIdMessageTable: any) => {
-  const trainJourneyModificationChangeOfIdMessages: any = trainJourneyModificationChangeOfIdMessageTable.hashes();
+    const trainJourneyModificationChangeOfIdMessages: any = trainJourneyModificationChangeOfIdMessageTable.hashes();
 
-  trainJourneyModificationChangeOfIdMessages.forEach((trainJourneyModificationChangeOfIdMessage: any) => {
-    linxRestClient.postTrainJourneyModificationIdChange(trainJourneyModificationChangeOfIdMessage.asXml);
+    trainJourneyModificationChangeOfIdMessages.forEach((trainJourneyModificationChangeOfIdMessage: any) => {
+      linxRestClient.postTrainJourneyModificationIdChange(trainJourneyModificationChangeOfIdMessage.asXml);
+    });
+    await linxRestClient.waitMaxTransmissionTime();
   });
-});
 
 When(/^the following train activation messages? (?:is|are) sent from LINX$/, async (trainActivationMessageTable: any) => {
   const trainActivationMessages: any = trainActivationMessageTable.hashes();
@@ -118,6 +127,7 @@ When(/^the following train activation messages? (?:is|are) sent from LINX$/, asy
   trainActivationMessages.forEach((trainActivationMessage: any) => {
     linxRestClient.postTrainActivation(trainActivationMessage.asXml);
   });
+  await linxRestClient.waitMaxTransmissionTime();
 });
 
 When(/^the following VSTP messages? (?:is|are) sent from LINX$/, async (vstpMessageTable: any) => {
@@ -126,6 +136,7 @@ When(/^the following VSTP messages? (?:is|are) sent from LINX$/, async (vstpMess
   vstpMessages.forEach((vstpMessage: any) => {
     linxRestClient.postVstp(vstpMessage.asXml);
   });
+  await linxRestClient.waitMaxTransmissionTime();
 });
 
 When(/^the following train running information messages? (?:is|are) sent from LINX$/, async (trainRunningInformationMessageTable: any) => {
@@ -133,8 +144,8 @@ When(/^the following train running information messages? (?:is|are) sent from LI
 
   trainRunningInformationMessages.forEach((trainRunningInformationMessage: any) => {
     linxRestClient.postTrainRunningInformation(trainRunningInformationMessage.asXml);
-
   });
+  await linxRestClient.waitMaxTransmissionTime();
 });
 
 Then(/^I should see nothing$/, async () => {
@@ -145,4 +156,16 @@ After(async () => {
   // Assert that there are no errors emitted from the browser
   const logs = await browser.manage().logs().get(logging.Type.BROWSER);
   expect(logs).not.have.deep.property('level', logging.Level.SEVERE);
+});
+
+// None arrow methods required to avoid the binding of keyword this
+// tslint:disable-next-line:typedef
+Before(async function() {
+  await CucumberLog.attachLog(this);
+});
+
+// None arrow methods required to avoid the binding of keyword this
+// tslint:disable-next-line:typedef only-arrow-functions
+After(async function(scenario){
+  await CucumberLog.addScreenshotOnFailure(scenario);
 });

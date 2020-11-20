@@ -15,7 +15,6 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
       | 09:59:00  | 0095      | D3            | 1G69             |
       | 09:59:00  | 0115      | D3            | 1G69             |
       | 09:59:00  | 0129      | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
 
   # 47656 - getting initial state (for second map)
   @tdd
@@ -26,12 +25,10 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0095    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0095' in train describer 'D3' contains '1G69' and is visible
     # same map open twice - contains the existing interposes
     When I am viewing the map HDGW01paddington.v
@@ -52,7 +49,6 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | Q070    | GL            | DnDC             |
-    And the maximum amount of time is allowed for end to end transmission
     Then it is 'false' that berth 'Q070' in train describer 'GL' is present
 
   Scenario: 40505-2 - interpose into berth that already contains a train description
@@ -65,12 +61,10 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 9Z99             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '9Z99' and is visible
     But berth '0099' in train describer 'D3' does not contain '1G69'
 
@@ -83,12 +77,10 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     When the following berth cancel message is sent from LINX
       | timestamp | fromBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '' and is visible
 
   # 48780 - berth cancellation succeeds if the wrong train description is provided
@@ -98,12 +90,10 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     When the following berth cancel message is sent from LINX
       | timestamp | fromBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | D3            | 9Z99             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     But berth '0099' in train describer 'D3' does not contain '9Z99'
 
@@ -113,17 +103,14 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0095    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0095' in train describer 'D3' contains '1G69' and is visible
     When the following berth cancel message is sent from LINX
       | timestamp | fromBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0095' in train describer 'D3' contains '1G69' and is visible
 
@@ -132,7 +119,6 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     When the following berth cancel message is sent from LINX
       | timestamp | fromBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '' and is visible
 
   Scenario: 40505-5 - berth step
@@ -148,13 +134,11 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
     When the following berth step message is sent from LINX
       | timestamp | fromBerth | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | 0115    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '1G69' and is visible
 
@@ -165,17 +149,14 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
     When the following berth cancel message is sent from LINX
       | timestamp | fromBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     And the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0115    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '1G69' and is visible
 
@@ -186,13 +167,11 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     And the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0115    | D3            | 1G99             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '1G99' and is visible
     When the following berth step message is sent from LINX
       | timestamp | fromBerth | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | 0115    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '1G69' and is visible
 
@@ -203,14 +182,12 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
     And berth '0129' in train describer 'D3' contains '' and is visible
     When the following berth step message is sent from LINX
       | timestamp | fromBerth | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | 0129    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
     And berth '0129' in train describer 'D3' contains '1G69' and is visible
@@ -221,13 +198,11 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
     When the following berth step message is sent from LINX
       | timestamp | fromBerth | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0000      | 9999    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
 
@@ -237,13 +212,11 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
     When the following berth step message is sent from LINX
       | timestamp | fromBerth | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | 9999    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
 
@@ -253,12 +226,10 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
     When the following berth step message is sent from LINX
       | timestamp | fromBerth | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0000      | 0115    | D3            | 1G69             |
-    And the maximum amount of time is allowed for end to end transmission
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     And berth '0115' in train describer 'D3' contains '1G69' and is visible

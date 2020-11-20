@@ -5,7 +5,6 @@ import {CssColorConverterService} from '../../services/css-color-converter.servi
 import {browser} from 'protractor';
 import {SignallingUpdate} from '../../../../../src/app/api/linx/models/signalling-update';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
-import {NFRConfig} from '../../config/nfr-config';
 
 let page: MapPageObject;
 let linxRestClient: LinxRestClient;
@@ -14,6 +13,7 @@ Before(() => {
   page = new MapPageObject();
   linxRestClient = new LinxRestClient();
 });
+
 const mapPageObject: MapPageObject = new MapPageObject();
 
 const mapObjectColour = {
@@ -33,15 +33,15 @@ Given('I set up all signals for address {word} in {word} to be {word}', async (a
   const greenSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, 'FF', '10:45:00', trainDescriber);
   if (colour === 'red') {
     linxRestClient.postSignallingUpdate(greenSignallingUpdate);
-    await browser.sleep(NFRConfig.E2E_TRANSMISSION_TIME_MS);
+    await linxRestClient.waitMaxTransmissionTime();
     linxRestClient.postSignallingUpdate(redSignallingUpdate);
-    await browser.sleep(NFRConfig.E2E_TRANSMISSION_TIME_MS);
+    await linxRestClient.waitMaxTransmissionTime();
   }
   if (colour === 'green') {
     linxRestClient.postSignallingUpdate(redSignallingUpdate);
-    await browser.sleep(NFRConfig.E2E_TRANSMISSION_TIME_MS);
+    await linxRestClient.waitMaxTransmissionTime();
     linxRestClient.postSignallingUpdate(greenSignallingUpdate);
-    await browser.sleep(NFRConfig.E2E_TRANSMISSION_TIME_MS);
+    await linxRestClient.waitMaxTransmissionTime();
   }
 });
 
@@ -221,8 +221,8 @@ Then('it is {string} that berth {string} in train describer {string} is present'
 
 Then('berth {string} in train describer {string} does not contain {string}',
   async (berthId: string, trainDescriber: string, berthContents: string) => {
-  const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
-  expect(trainDescription).to.not.equal(berthContents);
+    const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
+    expect(trainDescription).to.not.equal(berthContents);
 });
 
 Then('the signal roundel for signal {string} is {word}',
@@ -232,3 +232,18 @@ Then('the signal roundel for signal {string} is {word}',
     expect(actualSignalColourHex).to.equal(expectedSignalColourHex);
   });
 
+Then('berth {string} in train describer {string} contains the train description {string} but the first 2 characters have been swapped',
+  async (berthId: string, trainDescriber: string, trainDescription: string) => {
+    await page.navigateToMapWithBerth(berthId, trainDescriber);
+    const array = trainDescription.split('');
+    const expectedTrainDescription = array[1] + array[0] + array[2] + array[3];
+    const present: boolean = await mapPageObject.isBerthPresent(berthId, trainDescriber);
+    expect(present).equals(true);
+    const berthText = await mapPageObject.getBerthText(berthId, trainDescriber);
+    expect(berthText).equals(expectedTrainDescription);
+    expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber));
+});
+
+Given('I am on a map showing berth {string} and in train describer {string}', async (berthId: string, trainDescriber: string) => {
+  await page.navigateToMapWithBerth(berthId, trainDescriber);
+});

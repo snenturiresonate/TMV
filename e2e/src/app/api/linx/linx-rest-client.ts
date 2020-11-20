@@ -6,6 +6,7 @@ import {BerthCancel} from '../../../../../src/app/api/linx/models/berth-cancel';
 import {BerthStep} from '../../../../../src/app/api/linx/models/berth-step';
 import {Heartbeat} from '../../../../../src/app/api/linx/models/heartbeat';
 import {AccessPlanRequest} from '../../../../../src/app/api/linx/models/access-plan-request';
+import {NFRConfig} from '../../config/nfr-config';
 
 export class LinxRestClient {
   public httpClient: HttpClient;
@@ -63,4 +64,7 @@ export class LinxRestClient {
     return this.httpClient.post('/write-access-plan', body);
   }
 
+  public async waitMaxTransmissionTime(): Promise<void> {
+    await browser.sleep(NFRConfig.E2E_TRANSMISSION_TIME_MS);
+  }
 }
