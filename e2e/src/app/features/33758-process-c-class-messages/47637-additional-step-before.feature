@@ -20,4 +20,3 @@ So that I can record berth stepping for use by the system
     And berth '0119' in train describer 'D3' contains '1G69' and is visible
     #New To
     And berth 'LSNP' in train describer 'D3' contains '1G69' and is visible
-

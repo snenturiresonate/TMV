@@ -106,11 +106,11 @@ export class MapPageObject {
   }
 
   public async navigateToMapWithBerth(berthId: string, trainDescriber: string): Promise<void> {
-    const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), 'maps.json'));
+    const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), 'maps-western.json'));
     const mapBerthData = JSON.parse(rawData.toString());
     const filtered = mapBerthData.filter((mapObj) => mapObj.berths.includes(trainDescriber + berthId));
     assert(filtered.length > 0, 'no map found containing berth ' + berthId + ' in train describer ' + trainDescriber + ' found');
-    await CucumberLog.addText(filtered[0].map);
+    await CucumberLog.addText(browser.baseUrl + '/tmv/maps/' + filtered[0].map);
     await this.navigateTo(filtered[0].map);
   }
 }

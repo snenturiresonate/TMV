@@ -16,4 +16,4 @@ Feature: 47637 - Process C Class Messages - Swap Description scenarios
 
     Examples:
       | map          | toBerth | trainDescriber | trainDescription |
-      | md01euston.v | 0015    | WS             | 1G69             |
+      | md01euston.v | 0015    | WS             | 1G70             |

@@ -1,4 +1,4 @@
-Feature: 47637 - Process C Class Messages - Berth Translation scenarios
+Feature: 47637 - Process C Class Messages - Berth Translation
 
   As a TMV User
   I want the berth state messages to be processed
@@ -10,9 +10,9 @@ Feature: 47637 - Process C Class Messages - Berth Translation scenarios
   #T = To step
   #F = From Step
 
-  @bug
-  #49500 only first example is correctly translated
+  @tdd
   Scenario Outline: 33758 Berth Translation - Interpose With Matching Config
+    # Has type I
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
@@ -21,12 +21,12 @@ Feature: 47637 - Process C Class Messages - Berth Translation scenarios
 
     Examples:
       | trainDescription | toTrainDescriber | toBerth | newTrainDescriber | newBerth |
-      | 1E22             | D3               | 6071    | D3                | 6068     |
-      | 1E22             | C1               | 1624    | C1                | 1029     |
-      | 1E22             | D4               | 0310    | Q1                | 0310     |
-
+      | 1E01             | D3               | 6071    | D3                | 6068     |
+      | 1E02             | C1               | 1624    | C1                | 1029     |
+      | 1E03             | D4               | 0310    | Q1                | 0310     |
 
   Scenario Outline: 33758 Berth Translation - Interpose With No Matching Config
+    # Does not have type I
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
@@ -35,10 +35,10 @@ Feature: 47637 - Process C Class Messages - Berth Translation scenarios
 
     Examples:
       | trainDescription | toTrainDescriber | toBerth | newTrainDescriber | newBerth |
-      | 1E22             | EX               | EJ08    | ZY                | EJ08     |
+      | 1E04             | EX               | EJ08    | ZY                | EJ08     |
 
-
-  Scenario Outline: 33758 Berth Translation - Interpose to Wildcard
+  Scenario Outline: 33758 Berth Translation - Interpose to Null
+    # Translation is ******
     Given I am on a map showing berth '<toBerth>' and in train describer '<toTrainDescriber>'
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
@@ -47,12 +47,12 @@ Feature: 47637 - Process C Class Messages - Berth Translation scenarios
 
     Examples:
       | trainDescription | toTrainDescriber | toBerth |
-      | 1E22             | D5               | 2494    |
-      | 1E22             | RA               | 0626    |
+      | 1E05             | D5               | 2494    |
+      | 1E06             | RA               | 0626    |
 
-  @bug
-  #49502 berth translations are not applied
+  @tdd
   Scenario Outline: 33758 Berth Translation - Step With Matching Config - To
+    # Has Type T
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
     When the following berth step message is sent from LINX
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
@@ -62,13 +62,13 @@ Feature: 47637 - Process C Class Messages - Berth Translation scenarios
 
     Examples:
       | trainDescription | fromTrainDescriber | fromBerth | toTrainDescriber | toBerth | newTrainDescriber | newBerth |
-      | 1E22             | D3                 | 6067      | D3               | 6071    | D3                | 6068     |
-      | 1E22             | C1                 | 1628      | C1               | 1624    | C1                | 1029     |
-      | 1E22             | ZY                 | EJ04      | EX               | EJ08    | ZY                | EJ08     |
+      | 1E07             | D3                 | 6067      | D3               | 6071    | D3                | 6068     |
+      | 1E08             | C1                 | 1628      | C1               | 1624    | C1                | 1029     |
+      | 1E09             | ZY                 | EJ04      | EX               | EJ08    | ZY                | EJ08     |
 
-  @bug
-  #49529 Step and Interpose messages with no translation config not showing on screen
+  @tdd
   Scenario Outline: 33758 Berth Translation - Step With Matching Config - From
+    # Has Type F
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth    | trainDescriber      | trainDescription   |
@@ -82,13 +82,14 @@ Feature: 47637 - Process C Class Messages - Berth Translation scenarios
 
     Examples:
       | trainDescription | fromTrainDescriber | fromBerth | toTrainDescriber | toBerth | newTrainDescriber | newBerth |
-      | 1E22             | D3                 | 6071      | D3               | 6067    | D3                | 6068     |
-      | 1E22             | C1                 | 1624      | C1               | 1628    | C1                | 1029     |
-      | 1E22             | EX                 | EJ08      | ZY               | EJ04    | ZY                | EJ08     |
+      | 1E10             | D3                 | 6071      | D3               | 6067    | D3                | 6068     |
+      | 1E11             | C1                 | 1624      | C1               | 1628    | C1                | 1029     |
+      | 1E12             | EX                 | EJ08      | ZY               | EJ04    | ZY                | EJ08     |
 
-  @bug
-  #49529 Step and Interpose messages with no translation config not showing on screen
+  @tdd
+  # no map config for scenario
   Scenario Outline: 33758 Berth Translation - Step With No Matching Config
+    # Does not have type T or F
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
     When the following berth step message is sent from LINX
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
@@ -98,11 +99,11 @@ Feature: 47637 - Process C Class Messages - Berth Translation scenarios
 
     Examples:
       | trainDescription | fromTrainDescriber | fromBerth | toTrainDescriber | toBerth | newTrainDescriber | newBerth |
-      | 1E22             | D4                 | 0466      | D4               | 0310    | Q1                | 0310     |
+      | 1E13             | D4                 | 0466      | D4               | 0310    | Q1                | 0310     |
 
-  @bug
-  #49529 Step and Interpose messages with no translation config not showing on screen
+  @tdd
   Scenario Outline: 33758 Berth Translation - Cancel With Matching Config
+    # Has type C
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
     And the following berth interpose message is sent from LINX
       | timestamp | toBerth    | trainDescriber      | trainDescription   |
@@ -115,13 +116,14 @@ Feature: 47637 - Process C Class Messages - Berth Translation scenarios
 
     Examples:
       | trainDescription | fromTrainDescriber | fromBerth | newTrainDescriber | newBerth |
-      | 1E22             | D3                 | 6067      | D3                | 6068     |
-      | 1E22             | C1                 | 1628      | C1                | 1029     |
-      | 1E22             | ZY                 | EJ04      | ZY                | EJ08     |
+      | 1E14             | D3                 | 6067      | D3                | 6068     |
+      | 1E15             | C1                 | 1628      | C1                | 1029     |
+      | 1E16             | ZY                 | EJ04      | ZY                | EJ08     |
 
-  @bug
-  #49529 Step and Interpose messages with no translation config not showing on screen
+  @tdd
+  # no map config for scenario
   Scenario Outline: 33758 Berth Translation - Cancel With No Matching Config
+    # Does not have type C
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
     And the following berth interpose message is sent from LINX
       | timestamp | toBerth    | trainDescriber      | trainDescription   |
@@ -134,5 +136,4 @@ Feature: 47637 - Process C Class Messages - Berth Translation scenarios
 
     Examples:
       | trainDescription | fromTrainDescriber | fromBerth | newTrainDescriber | newBerth |
-      | 1E22             | D4                 | 0310      | Q1                | 0310     |
-
+      | 1E17             | D4                 | 0310      | Q1                | 0310     |

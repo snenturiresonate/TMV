@@ -31,6 +31,7 @@ When(/^the following berth interpose messages? (?:is|are) sent from LINX$/, asyn
       berthInterposeMessage.trainDescriber,
       berthInterposeMessage.trainDescription
     );
+    CucumberLog.addText(browser.baseUrl + ':8480/swagger-ui.html/train-describer-updates-controller/');
     CucumberLog.addJson(berthInterpose);
     linxRestClient.postBerthInterpose(berthInterpose);
   });
@@ -48,6 +49,7 @@ When(/^the following berth step messages? (?:is|are) sent from LINX$/, async (be
       berthStepMessage.trainDescriber,
       berthStepMessage.trainDescription
     );
+    CucumberLog.addText(browser.baseUrl + ':8480/swagger-ui.html/train-describer-updates-controller/');
     CucumberLog.addJson(berthStep);
     linxRestClient.postBerthStep(berthStep);
   });
@@ -64,6 +66,7 @@ When(/^the following berth cancel messages? (?:is|are) sent from LINX$/, async (
       berthCancelMessage.trainDescriber,
       berthCancelMessage.trainDescription
     );
+    CucumberLog.addText(browser.baseUrl + ':8480/swagger-ui.html/train-describer-updates-controller/');
     CucumberLog.addJson(berthCancel);
     linxRestClient.postBerthCancel(berthCancel);
   });
@@ -80,6 +83,7 @@ When(/^the following signalling update messages? (?:is|are) sent from LINX$/, as
       signallingUpdateMessage.timestamp,
       signallingUpdateMessage.trainDescriber
     );
+    CucumberLog.addText(browser.baseUrl + ':8480/swagger-ui.html/train-describer-updates-controller/');
     CucumberLog.addJson(signallingUpdate);
     linxRestClient.postSignallingUpdate(signallingUpdate);
   });
