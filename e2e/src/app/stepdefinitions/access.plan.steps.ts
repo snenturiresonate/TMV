@@ -25,3 +25,9 @@ When('the access plan located in CIF file {string} is received from LINX with na
   const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), cifFilePath));
   linxRestClient.addAccessPlan(cifName, rawData.toString());
 });
+
+When('the access plan located in CIF file {string} is received from LINX',
+  async (cifFilePath: string) => {
+    const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), cifFilePath));
+    linxRestClient.addAccessPlan('', rawData.toString());
+  });
