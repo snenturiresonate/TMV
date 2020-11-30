@@ -1,7 +1,8 @@
 /* tslint:disable */
 
-import {ServiceCharacteristics} from "./service-characteristics";
-import {StockCharacteristics} from "./stock-characteristics";
+import {Location} from './location';
+import {ServiceCharacteristics} from './service-characteristics';
+import {StockCharacteristics} from './stock-characteristics';
 
 export class ChangesEnRoute {
   location?: Location;

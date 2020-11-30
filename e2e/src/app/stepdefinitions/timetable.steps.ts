@@ -1,7 +1,14 @@
-import {Before, Then, When} from 'cucumber';
+import {Before, Given, Then, When} from 'cucumber';
 import {TimetablePageObject} from '../pages/timetable.page';
-import {expect} from 'chai';
+import {assert, expect} from 'chai';
 import {Duration, LocalTime} from '@js-joda/core';
+import {ScheduleBuilder} from '../utils/access-plan-requests/schedule-builder';
+import {LocationBuilder} from '../utils/access-plan-requests/location-builder';
+import {OriginLocationBuilder} from '../utils/access-plan-requests/origin-location-builder';
+import {IntermediateLocationBuilder} from '../utils/access-plan-requests/intermediate-location-builder';
+import {TerminatingLocationBuilder} from '../utils/access-plan-requests/terminating-location-builder';
+import {AccessPlanRequestBuilder} from '../utils/access-plan-requests/access-plan-request-builder';
+import {LinxRestClient} from '../api/linx/linx-rest-client';
 
 let page: TimetablePageObject;
 
@@ -48,4 +55,57 @@ Then(/^the expected arrival time for inserted location (.*) is (.*) percent betw
   const expectedArrivalTime = startingDepartureTime.plusSeconds(difference * (percentage / 1000));
   const row = await page.getRowByLocation(page.ensureInsertedLocationFormat(location));
   row.plannedArr.getText().then(text => expect(text).to.equal(expectedArrivalTime.toString()));
+});
+
+Then(/^the locations line code matches the path code$/, async (locationsTable: any) => {
+  const locations: any = locationsTable.hashes();
+  for (const location of locations) {
+    const row = await page.getRowByLocation(location.location);
+    const text = await row.ln.getText();
+    assert(location.pathCode === text, `location ${location.location} should have Line Code ${text}`);
+  }
+});
+
+Then(/^the locations line code matches the original line code$/, async (locationsTable: any) => {
+  const locations: any = locationsTable.hashes();
+  for (const location of locations) {
+    const row = await page.getRowByLocation(location.location);
+    const text = await row.ln.getText();
+    assert(location.lineCode === text, `location ${location.location} should have Line Code ${text}`);
+  }
+});
+
+Then('no line code is displayed for location {string}', async (location: string) => {
+  const row = await page.getRowByLocation(location);
+  const text = await row.ln.getText();
+  assert('' === text, `location ${location} should have Line Code not set, was ${text}`);
+});
+
+Given(/^I generate an access plan request$/, async () => {
+  // this is a work in progress, currently blocked by https://resonatevsts.visualstudio.com/illuminati/_workitems/edit/50347
+  const origin = new OriginLocationBuilder()
+    .withLocation(new LocationBuilder().withTiploc('PADTON').build())
+    .withScheduledDeparture('09:58')
+    .build();
+  const int = new IntermediateLocationBuilder()
+    .withLocation(new LocationBuilder().withTiploc('ROYAOJN').build())
+    .withScheduledArrival('10:00')
+    .withLine('LIN')
+    .withPath('PAT')
+    .build();
+  const term = new TerminatingLocationBuilder()
+    .withLocation(new LocationBuilder().withTiploc('OLDOXRS').build())
+    .withScheduledArrival('10:13')
+    .withPath('PAT')
+    .build();
+  const schedule = new ScheduleBuilder()
+    .withOriginLocation(origin)
+    .withIntermediateLocation(int)
+    .withTerminatingLocation(term)
+    .build();
+  const accessPlan = new AccessPlanRequestBuilder()
+    .withSchedule(schedule)
+    .build();
+  new LinxRestClient().writeAccessPlan(accessPlan);
+  console.log(JSON.stringify(accessPlan));
 });

@@ -31,3 +31,11 @@ When('the access plan located in CIF file {string} is received from LINX',
     const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), cifFilePath));
     linxRestClient.addAccessPlan('', rawData.toString());
   });
+
+When(/^the access (?:plan is|plans are) received from LINX$/, async (cifFilePaths: any) => {
+    const cifFiles: any = cifFilePaths.hashes();
+    cifFiles.forEach((cifFile: any) => {
+      const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), cifFile.path));
+      linxRestClient.addAccessPlan('', rawData.toString());
+    });
+  });
