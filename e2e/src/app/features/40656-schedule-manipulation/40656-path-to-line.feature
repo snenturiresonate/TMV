@@ -7,8 +7,8 @@ Feature: 40656 - Schedule Manipulation - Path To Line
   @tdd
   Scenario: 40656-3 Schedule with propagated line code
     Given the access plan is received from LINX
-      | path                                                                     |
-      | access-plan/schedule-manipulation/schedule-with-propagated-line-code.cif |
+      | path                                                        |
+      | access-plan/schedule-manipulation/matching-path-to-line.cif |
     When I am on the timetable view for service '1F03'
     Then the locations line code matches the path code
       | location        | pathCode |
@@ -17,8 +17,8 @@ Feature: 40656 - Schedule Manipulation - Path To Line
   @tdd
   Scenario: 40656-4 Schedule with location with existing line code
     Given the access plan is received from LINX
-      | path                                                                                 |
-      | access-plan/schedule-manipulation/schedule-with-location-with-existing-line-code.cif |
+      | path                                                                       |
+      | access-plan/schedule-manipulation/matching-path-to-line-line-populated.cif |
     When I am on the timetable view for service '1F04'
     Then the locations line code matches the original line code
       | location        | lineCode |
@@ -27,7 +27,7 @@ Feature: 40656 - Schedule Manipulation - Path To Line
   @tdd
   Scenario: 40656-5 Schedule with location without matching path to line code rules
     Given the access plan is received from LINX
-      | path                                                                                    |
-      | access-plan/schedule-manipulation/schedule-not-path-to-line-line-code-not-populated.cif |
+      | path                                                           |
+      | access-plan/schedule-manipulation/no-matching-path-to-line.cif |
     When I am on the timetable view for service '1F05'
     Then no line code is displayed for location 'Oxford'

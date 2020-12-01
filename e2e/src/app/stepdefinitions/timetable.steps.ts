@@ -75,11 +75,28 @@ Then(/^the locations line code matches the original line code$/, async (location
   }
 });
 
+Then(/^the locations path code matches the original path code$/, async (locationsTable: any) => {
+  const locations: any = locationsTable.hashes();
+  for (const location of locations) {
+    const row = await page.getRowByLocation(location.location);
+    const text = await row.path.getText();
+    assert(location.pathCode === text, `location ${location.location} should have Path Code ${text}`);
+  }
+});
+
+
 Then('no line code is displayed for location {string}', async (location: string) => {
   const row = await page.getRowByLocation(location);
   const text = await row.ln.getText();
   assert('' === text, `location ${location} should have Line Code not set, was ${text}`);
 });
+
+Then('no path code is displayed for location {string}', async (location: string) => {
+  const row = await page.getRowByLocation(location);
+  const text = await row.path.getText();
+  assert('' === text, `location ${location} should have Path Code not set, was ${text}`);
+});
+
 
 Given(/^I generate an access plan request$/, async () => {
   // this is a work in progress, currently blocked by https://resonatevsts.visualstudio.com/illuminati/_workitems/edit/50347
@@ -108,4 +125,15 @@ Given(/^I generate an access plan request$/, async () => {
     .build();
   new LinxRestClient().writeAccessPlan(accessPlan);
   console.log(JSON.stringify(accessPlan));
+});
+Then(/^the path code for the To Location matches the line code for the From Location$/, async (dataTable) => {
+  const rules: any = dataTable.hashes();
+  for (const rule of rules) {
+    const row = await page.getRowByLocation(rule.toLocation);
+    const text = await row.path.getText();
+    assert(rule.lineCode === text, `location ${rule.toLocation} should have path code ${rule.lineCode}`);
+  }
+});
+Then(/^the locations path code matches the original path code$/, function() {
+
 });
