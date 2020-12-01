@@ -1,6 +1,6 @@
 import {After, Before, Given, Then, When} from 'cucumber';
 import {AppPage} from '../pages/app.po';
-import {browser, logging} from 'protractor';
+import {browser, element, logging} from 'protractor';
 import {expect} from 'chai';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {BerthCancel, BerthInterpose, BerthStep, Heartbeat, SignallingUpdate} from '../../../../src/app/api/linx/models';
@@ -15,7 +15,7 @@ Before(() => {
 });
 
 Given(/^I am on the home page$/, async () => {
-  await page.navigateTo();
+  await page.navigateTo('');
 });
 
 When(/^I do nothing$/, () => {
@@ -154,6 +154,32 @@ When(/^the following train running information messages? (?:is|are) sent from LI
 
 Then(/^I should see nothing$/, async () => {
 
+});
+
+Then('a modal displays with title {string}', async (modalTitle: string) => {
+  const displayedTitle: string = await page.getModalWindowTitle();
+  expect(displayedTitle).to.contain(modalTitle);
+});
+
+Then('the modal contains a {string} button', async (buttonName: string) => {
+  const displayedButtons: string = await page.getModalButtons();
+  expect(displayedButtons).to.contain(buttonName);
+});
+
+Given(/^I am on the trains list page$/, async () => {
+  await page.navigateTo('/tmv/trains-list');
+});
+
+Given(/^I am on the log viewer page$/, async () => {
+  await page.navigateTo('/tmv/log-viewer');
+});
+
+Given(/^I am on the admin page$/, async () => {
+  await page.navigateTo('/tmv/administration');
+});
+
+Given(/^I am on the replay page$/, async () => {
+  await page.navigateTo('/tmv/replay');
 });
 
 After(async () => {

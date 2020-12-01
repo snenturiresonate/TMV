@@ -37,6 +37,9 @@ export class NavBarPageObject {
   public statusUnmatched: ElementFinder;
   public signalColumnHeader: ElementFinder;
   public signalContext: ElementFinder;
+  public tmvKeyButton: ElementFinder;
+  public modalWindow: ElementArrayFinder;
+  public helpMenu: ElementFinder;
   constructor() {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
@@ -74,6 +77,9 @@ export class NavBarPageObject {
     this.signalColumnHeader = element(by.css('#signalSearchResults thead'));
     this.signalSearchRow = element.all(by.css('#signalSearchResults tbody>tr'));
     this.signalContext = element(by.id('signalSearchContextMenu'));
+    this.tmvKeyButton = element(by.id('tmv-key-button'));
+    this.modalWindow = element.all(by.css('.modalpopup'));
+    this.helpMenu = element(by.id('help-menu-button'));
   }
 
   public async getNavbarIconNames(): Promise<string> {
@@ -259,6 +265,14 @@ export class NavBarPageObject {
     return this.signalContext.isPresent();
   }
 
+  public async isTMVKeyOptionDisplayed(): Promise<boolean> {
+    return this.tmvKeyButton.isPresent();
+  }
+
+  public async countKeyModelWindows(): Promise<number> {
+    return this.modalWindow.count();
+  }
+
   public async isTimetableContextMenuDisplayed(): Promise<boolean> {
     return this.timeTableContextMenu.isPresent();
   }
@@ -315,4 +329,11 @@ export class NavBarPageObject {
     });
   }
 
+  public async openHelpMenu(): Promise<void> {
+    return this.helpMenu.click();
+  }
+
+  public async openTMVKey(): Promise<void> {
+    await this.tmvKeyButton.click();
+  }
 }

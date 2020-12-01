@@ -265,3 +265,20 @@ When('I invoke the context menu from train {int} on the trains list table', asyn
   await navBarPage.rightClickTrainList(itemNum);
 });
 
+When('I click on the Help icon', async () => {
+  await navBarPage.openHelpMenu();
+});
+
+When('I select the TMV Key option', async () => {
+  await navBarPage.openTMVKey();
+});
+
+Then('the TMV Key option should not be visible', async () => {
+  const isTMVKeyOptionVisible: boolean = await navBarPage.isTMVKeyOptionDisplayed();
+  expect(isTMVKeyOptionVisible).to.equal(false);
+});
+
+Then('there should only be one key model window open', async () => {
+  expect(await navBarPage.countKeyModelWindows()).to.equal(1);
+});
+
