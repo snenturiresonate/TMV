@@ -6,6 +6,7 @@ Feature: 40656 - Schedule Manipulation - Path To Line
 
   @tdd
   Scenario: 40656-3 Schedule with propagated line code
+    #J0053	OXFDNNJ
     Given the access plan is received from LINX
       | path                                                        |
       | access-plan/schedule-manipulation/matching-path-to-line.cif |
@@ -16,6 +17,7 @@ Feature: 40656 - Schedule Manipulation - Path To Line
 
   @tdd
   Scenario: 40656-4 Schedule with location with existing line code
+    #J0053	OXFDNNJ
     Given the access plan is received from LINX
       | path                                                                       |
       | access-plan/schedule-manipulation/matching-path-to-line-line-populated.cif |

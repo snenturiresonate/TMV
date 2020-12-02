@@ -1,6 +1,6 @@
 import {Before, Given, Then, When} from 'cucumber';
 import {TimetablePageObject} from '../pages/timetable.page';
-import {assert, expect} from 'chai';
+import {expect} from 'chai';
 import {Duration, LocalTime} from '@js-joda/core';
 import {ScheduleBuilder} from '../utils/access-plan-requests/schedule-builder';
 import {LocationBuilder} from '../utils/access-plan-requests/location-builder';
@@ -60,43 +60,53 @@ Then(/^the expected arrival time for inserted location (.*) is (.*) percent betw
 Then(/^the locations line code matches the path code$/, async (locationsTable: any) => {
   const locations: any = locationsTable.hashes();
   for (const location of locations) {
-    const row = await page.getRowByLocation(location.location);
-    const text = await row.ln.getText();
-    assert(location.pathCode === text, `location ${location.location} should have Line Code ${text}`);
+    await page.lineTextToEqual(location.location, location.pathCode);
   }
 });
 
 Then(/^the locations line code matches the original line code$/, async (locationsTable: any) => {
-  const locations: any = locationsTable.hashes();
-  for (const location of locations) {
-    const row = await page.getRowByLocation(location.location);
-    const text = await row.ln.getText();
-    assert(location.lineCode === text, `location ${location.location} should have Line Code ${text}`);
+  const rows: any = locationsTable.hashes();
+  for (const row of rows) {
+    await page.lineTextToEqual(row.location, row.lineCode);
   }
 });
 
 Then(/^the locations path code matches the original path code$/, async (locationsTable: any) => {
-  const locations: any = locationsTable.hashes();
-  for (const location of locations) {
-    const row = await page.getRowByLocation(location.location);
-    const text = await row.path.getText();
-    assert(location.pathCode === text, `location ${location.location} should have Path Code ${text}`);
+  const rows: any = locationsTable.hashes();
+  for (const row of rows) {
+    await page.pathTextToEqual(row.location, row.pathCode);
+  }
+});
+
+Then('no line code is displayed for location {string}', async (location: string) => {
+  await page.lineTextToEqual(location, '');
+});
+
+Then('no path code is displayed for location {string}', async (location: string) => {
+  await page.pathTextToEqual(location, '');
+});
+
+Then(/^the path code for Location is correct$/, async (dataTable) => {
+  const rows: any = dataTable.hashes();
+  for (const row of rows) {
+    await page.pathTextToEqual(row.location, row.pathCode);
+  }
+});
+
+Then(/^the line code for Location is correct$/, async (dataTable) => {
+  const rows: any = dataTable.hashes();
+  for (const row of rows) {
+    await page.lineTextToEqual(row.location, row.lineCode);
   }
 });
 
 
-Then('no line code is displayed for location {string}', async (location: string) => {
-  const row = await page.getRowByLocation(location);
-  const text = await row.ln.getText();
-  assert('' === text, `location ${location} should have Line Code not set, was ${text}`);
+Then(/^the path code for the To Location matches the line code for the From Location$/, async (dataTable) => {
+  const rows: any = dataTable.hashes();
+  for (const row of rows) {
+    await page.pathTextToEqual(row.toLocation, row.lineCode);
+  }
 });
-
-Then('no path code is displayed for location {string}', async (location: string) => {
-  const row = await page.getRowByLocation(location);
-  const text = await row.path.getText();
-  assert('' === text, `location ${location} should have Path Code not set, was ${text}`);
-});
-
 
 Given(/^I generate an access plan request$/, async () => {
   // this is a work in progress, currently blocked by https://resonatevsts.visualstudio.com/illuminati/_workitems/edit/50347
@@ -126,14 +136,4 @@ Given(/^I generate an access plan request$/, async () => {
   new LinxRestClient().writeAccessPlan(accessPlan);
   console.log(JSON.stringify(accessPlan));
 });
-Then(/^the path code for the To Location matches the line code for the From Location$/, async (dataTable) => {
-  const rules: any = dataTable.hashes();
-  for (const rule of rules) {
-    const row = await page.getRowByLocation(rule.toLocation);
-    const text = await row.path.getText();
-    assert(rule.lineCode === text, `location ${rule.toLocation} should have path code ${rule.lineCode}`);
-  }
-});
-Then(/^the locations path code matches the original path code$/, function() {
 
-});

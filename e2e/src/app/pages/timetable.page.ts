@@ -46,6 +46,20 @@ export class TimetablePageObject {
     return location;
   }
 
+  async pathTextToEqual(location: string, expectPathText: string): Promise<void> {
+    const row = await this.getRowByLocation(location);
+    const actualPathText = await row.path.getText();
+    assert(expectPathText === actualPathText,
+      `location ${location} should have path code ${expectPathText}, was ${actualPathText}`);
+  }
+
+  async lineTextToEqual(location: string, expectLineText: string): Promise<void> {
+    const row = await this.getRowByLocation(location);
+    const actualLineText = await row.path.getText();
+    assert(expectLineText === actualLineText,
+      `location ${location} should have path code ${expectLineText}, was ${actualLineText}`);
+  }
+
   async getRowByLocation(location: string): Promise<TimetableTableRowPageObject> {
     const rowIndex = await this.getLocationRowIndex(location);
     if (rowIndex === -1)
