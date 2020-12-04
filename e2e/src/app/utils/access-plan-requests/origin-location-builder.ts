@@ -15,6 +15,14 @@ export class OriginLocationBuilder {
   private publicDeparture?: string;
   private scheduledDeparture?: string;
 
+  constructor() {
+    this.activity = new Array<string>();
+    this.locationSpecificNotes = new Array<LocationSpecificNote>();
+    this.withScheduledDeparture('00:00');
+    this.withPublicDeparture('00:00');
+    this.withActivity('TB');
+  }
+
   withLocation(location: Location) {
     this.location = location;
     return this;

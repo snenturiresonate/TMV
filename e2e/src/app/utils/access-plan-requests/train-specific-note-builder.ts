@@ -19,6 +19,6 @@ export class TrainSpecificNoteBuilder {
     return new TrainSpecificNote(
       this.note,
       this.noteType
-    )
+    );
   }
 }

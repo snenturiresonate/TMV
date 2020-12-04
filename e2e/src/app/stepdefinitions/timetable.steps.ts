@@ -9,6 +9,8 @@ import {IntermediateLocationBuilder} from '../utils/access-plan-requests/interme
 import {TerminatingLocationBuilder} from '../utils/access-plan-requests/terminating-location-builder';
 import {AccessPlanRequestBuilder} from '../utils/access-plan-requests/access-plan-request-builder';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
+import {ServiceCharacteristicsBuilder} from '../utils/access-plan-requests/service-characteristics-builder';
+import {CucumberLog} from '../logging/cucumber-log';
 
 let page: TimetablePageObject;
 
@@ -108,32 +110,62 @@ Then(/^the path code for the To Location matches the line code for the From Loca
   }
 });
 
-Given(/^I generate an access plan request$/, async () => {
-  // this is a work in progress, currently blocked by https://resonatevsts.visualstudio.com/illuminati/_workitems/edit/50347
-  const origin = new OriginLocationBuilder()
-    .withLocation(new LocationBuilder().withTiploc('PADTON').build())
-    .withScheduledDeparture('09:58')
-    .build();
-  const int = new IntermediateLocationBuilder()
-    .withLocation(new LocationBuilder().withTiploc('ROYAOJN').build())
-    .withScheduledArrival('10:00')
-    .withLine('LIN')
-    .withPath('PAT')
-    .build();
-  const term = new TerminatingLocationBuilder()
-    .withLocation(new LocationBuilder().withTiploc('OLDOXRS').build())
-    .withScheduledArrival('10:13')
-    .withPath('PAT')
-    .build();
-  const schedule = new ScheduleBuilder()
-    .withOriginLocation(origin)
-    .withIntermediateLocation(int)
-    .withTerminatingLocation(term)
-    .build();
+// No plans for parallel running, should be fine
+let schedule: ScheduleBuilder;
+
+When('there is a Schedule for {string}', (service: string) => {
+  schedule = new ScheduleBuilder()
+    .withServiceCharacteristics(new ServiceCharacteristicsBuilder()
+      .withTrainIdentity(service)
+      .build());
+});
+
+Given(/^it has Origin Details$/, async (table: any) => {
+  const locations: any = table.hashes();
+
+  locations.forEach((location: any) => {
+    const origin = new OriginLocationBuilder()
+      .withLocation(new LocationBuilder().withTiploc(location.tiploc).build())
+      .withScheduledDeparture(location.scheduledDeparture)
+      .withLine(location.line)
+      .build();
+    schedule.withOriginLocation(origin);
+  });
+});
+
+Given(/^it has Intermediate Details$/, async (table: any) => {
+  const locations: any = table.hashes();
+
+  locations.forEach((location: any) => {
+    const int = new IntermediateLocationBuilder()
+      .withLocation(new LocationBuilder().withTiploc(location.tiploc).build())
+      .withScheduledArrival(location.scheduledArrival)
+      .withScheduledDeparture(location.scheduledDeparture)
+      .withPath(location.path)
+      .build();
+    schedule.withIntermediateLocation(int);
+  });
+});
+
+Given(/^it has Terminating Details$/, async (table: any) => {
+  const locations: any = table.hashes();
+
+  locations.forEach((location: any) => {
+    const term = new TerminatingLocationBuilder()
+      .withLocation(new LocationBuilder().withTiploc(location.tiploc).build())
+      .withScheduledArrival(location.scheduledArrival)
+      .withPath(location.path)
+      .build();
+    schedule.withTerminatingLocation(term);
+  });
+});
+
+When('the schedule is received from LINX', () => {
   const accessPlan = new AccessPlanRequestBuilder()
-    .withSchedule(schedule)
+    .full()
+    .withSchedule(schedule.build())
     .build();
+  CucumberLog.addJson(accessPlan);
   new LinxRestClient().writeAccessPlan(accessPlan);
-  console.log(JSON.stringify(accessPlan));
 });
 

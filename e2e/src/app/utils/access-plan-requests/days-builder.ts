@@ -16,16 +16,18 @@ export class DaysBuilder {
     this.wednesday = true;
     this.thursday = true;
     this.friday = true;
+    return this;
   }
 
   weekends() {
     this.saturday = true;
     this.sunday = true;
+    return this;
   }
 
   allDays() {
-    this.weekdays();
-    this.weekends();
+    this.weekdays().weekends();
+    return this;
   }
 
   build() {

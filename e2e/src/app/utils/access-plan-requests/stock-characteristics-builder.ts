@@ -14,6 +14,14 @@ export class StockCharacteristicsBuilder {
   private speed?: number;
   private timingLoad?: string;
 
+  constructor() {
+    this.operatingCharacteristics = new Array<string>();
+    this.withOperatingCharacteristics('Q');
+    this.withPowerType('');
+    this.withTimingLoad('');
+    this.withSpeed(60);
+  }
+
   withCateringCode(cateringCode: Array<string>) {
     this.cateringCode = cateringCode;
     return this;

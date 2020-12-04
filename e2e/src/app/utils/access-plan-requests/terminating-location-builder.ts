@@ -12,6 +12,15 @@ export class TerminatingLocationBuilder {
   private publicArrival?: string;
   private scheduledArrival?: string;
 
+  constructor() {
+    this.activity = new Array<string>();
+    this.locationSpecificNotes = new Array<LocationSpecificNote>();
+
+    this.withScheduledArrival('00:00');
+    this.withPublicArrival('00:00');
+    this.withActivity('TF');
+  }
+
   withActivity(activity: string) {
     this.activity.push(activity);
     return this;

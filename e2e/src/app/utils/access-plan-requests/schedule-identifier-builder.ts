@@ -6,6 +6,12 @@ export class ScheduleIdentifierBuilder {
   private stpIndicator?: string;
   private trainUid?: string;
 
+  constructor() {
+    this.withDateRunsFrom('2020-01-01');
+    this.withStpIndicator('P');
+    this.withTrainUid('H39407');
+  }
+
   withDateRunsFrom(dateRunsFrom: string) {
     this.dateRunsFrom = dateRunsFrom;
     return this;

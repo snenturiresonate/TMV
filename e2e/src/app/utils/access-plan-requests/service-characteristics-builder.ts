@@ -11,6 +11,14 @@ export class ServiceCharacteristicsBuilder {
   private trainServiceCode?: string;
   private uicCode?: string;
 
+  constructor() {
+
+    this.withTrainCategory('H4');
+    this.withTrainIdentity('0A00');
+    this.withCourseIndicator('1');
+    this.withTrainServiceCode('57610310');
+  }
+
   withConnectionIndicator(connectionIndicator: string) {
     this.connectionIndicator = connectionIndicator;
     return this;

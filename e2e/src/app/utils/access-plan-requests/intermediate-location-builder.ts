@@ -21,6 +21,15 @@ export class IntermediateLocationBuilder {
   private scheduledDeparture?: string;
   private scheduledPass?: string;
 
+  constructor() {
+    this.activity = new Array<string>();
+    this.locationSpecificNotes = new Array<LocationSpecificNote>();
+
+    this.withPublicArrival('00:00');
+    this.withPublicDeparture('00:00');
+    this.withActivity('C');
+  }
+
   withActivity(activity: string) {
     this.activity.push(activity);
     return this;
@@ -101,6 +110,4 @@ export class IntermediateLocationBuilder {
       this.scheduledPass
     );
   }
-
-
 }

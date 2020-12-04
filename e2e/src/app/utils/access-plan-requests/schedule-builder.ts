@@ -8,6 +8,10 @@ import {StockCharacteristics} from '../../../../../src/app/api/linx/models/stock
 import {TerminatingLocation} from '../../../../../src/app/api/linx/models/terminating-location';
 import {TrainSpecificNote} from '../../../../../src/app/api/linx/models/train-specific-note';
 import {Schedule} from '../../../../../src/app/api/linx/models/schedule';
+import {DaysBuilder} from './days-builder';
+import {ScheduleIdentifierBuilder} from './schedule-identifier-builder';
+import {ServiceCharacteristicsBuilder} from './service-characteristics-builder';
+import {StockCharacteristicsBuilder} from './stock-characteristics-builder';
 
 export class ScheduleBuilder {
   private applicableTimetableCode?: string;
@@ -25,6 +29,20 @@ export class ScheduleBuilder {
   private trainStatus?: string;
   private transactionType?: string;
 
+  constructor() {
+    this.intermediateLocations = new Array<IntermediateLocation>();
+    this.trainSpecificNotes = new Array<TrainSpecificNote>();
+
+    this.new();
+    this.withApplicableTimetableCode('Y');
+    this.withAtocCode('ZZ');
+    this.withDateRunsTo('2050-01-01');
+    this.withDaysRun(new DaysBuilder().weekdays().build());
+    this.withScheduleIdentifier(new ScheduleIdentifierBuilder().build());
+    this.withServiceCharacteristics( new ServiceCharacteristicsBuilder().build());
+    this.withStockCharacteristics(new StockCharacteristicsBuilder().build());
+    this.withTrainStatus('F');
+  }
 
   withApplicableTimetableCode(applicableTimetableCode: string) {
     this.applicableTimetableCode = applicableTimetableCode;
@@ -95,10 +113,19 @@ export class ScheduleBuilder {
     return this;
   }
 
-  withTransactionType(transactionType: string) {
-    this.transactionType = transactionType;
+  new() {
+    this.transactionType = 'N';
     return this;
   }
+  delete() {
+    this.transactionType = 'D';
+    return this;
+  }
+  revise() {
+    this.transactionType = 'R';
+    return this;
+  }
+
 
   public build(): Schedule {
     return new Schedule(
