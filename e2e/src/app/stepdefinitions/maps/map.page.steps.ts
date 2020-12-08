@@ -5,6 +5,9 @@ import {CssColorConverterService} from '../../services/css-color-converter.servi
 import {browser} from 'protractor';
 import {SignallingUpdate} from '../../../../../src/app/api/linx/models/signalling-update';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
+import {MapLayerPageObject} from '../../pages/maps/map-layer.page';
+import {MapLayerType} from '../../pages/maps/map-layer-type.enum';
+import {MapLayerItem} from '../../pages/maps/map-layer-item.model';
 
 let page: MapPageObject;
 let linxRestClient: LinxRestClient;
@@ -15,13 +18,52 @@ Before(() => {
 });
 
 const mapPageObject: MapPageObject = new MapPageObject();
+const mapLayerPageObject: MapLayerPageObject = new MapLayerPageObject();
 
-const mapObjectColour = {
+const mapColourHex = {
   red: '#ff0000',
   green: '#00ff00',
   white: '#ffffff',
   orange: '#ffa700',
   grey: '#969696'
+};
+
+const mapObjectColourHex = {
+  platform: '#ffa700',
+  WILD_indicator: '#ffffff',
+  OHL_limits: '#ffffff',
+  HABDS: '#ffffff',
+  signal_box: '#ffffff',
+  direction_arrows: '#ffffff',
+  end_of_line_indication: '#ffffff',
+  OHNS: '#ffffff',
+  tripcock: '#ffffff',
+  flight_path: '#ffffff',
+  train_washer_indicator: '#969696',
+  AES_boundaries_line_group: '#ff3cb1',
+  alarm_box: '#ffffff',
+  tunnel_bridge_viaduct: '#969696',
+  cut_bar: '#ffffff',
+  level_crossing: '#ffffff',
+  dashed_track_section: '#ffffff',
+  continuation_button: '#0000ff',
+  limit_of_shunt_static_signal: '#000000',
+  static_signal: '#000000',
+  static_shunt_signal: '#000000',
+  static_markerboard: '#000000',
+  active_track_section: '#ffffff',
+  active_main_signal: '#969696',
+  active_shunters_release: '#ffffff',
+  active_markerboard: '#fffe3c',
+  active_shunt_markerboard: '#0000ff',
+  active_shunt_signal: '#969696',
+  aes_boundaries_text_label: '#ff3cb1',
+  direction_lock_text_label: '#ffb578',
+  connnector_text_label: '#ffffff',
+  other_text_label: '#ffffff',
+  berth: '#e1e1e1',
+  last_berth: '#ffd6b4',
+  manual_trust_berth: '#ffff00'
 };
 
 Given(/^I am viewing the map (.*)$/, async (mapId: string) => {
@@ -133,6 +175,30 @@ Then('there are {int} {word} elements in the {word} layer', async (expectedItemC
   expect(actualLayerItems.length).to.equal(expectedItemCount);
 });
 
+Then ('{int} objects of type {word} are rendered', async (expectedItemCount: number, objectType: string) => {
+  const layerType: MapLayerType = MapLayerType[objectType];
+  const mapLayerItems: MapLayerItem[] = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(layerType);
+  const mapLayerItem: MapLayerItem = mapLayerItems[0];
+  const webElements: any[] = await mapLayerItem.layerItems.getWebElements();
+
+  expect(webElements.length).to.equal(expectedItemCount);
+
+});
+
+Then ('the objects of type {word} are the correct colour', async (objectType: string) => {
+  const layerType: MapLayerType = MapLayerType[objectType];
+  const mapLayerItems: MapLayerItem[] = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(layerType);
+  const mapLayerItem: MapLayerItem = mapLayerItems[0];
+  const expectedObjectColourHex = mapObjectColourHex[objectType];
+  const webElements: any[] = await mapLayerItem.layerItems.getWebElements();
+
+  if (mapLayerItem.styleProperty) {
+    const actualItemColourRgb: string = await webElements[0].getCssValue(mapLayerItem.styleProperty);
+    const actualItemColourHex: string = CssColorConverterService.rgb2Hex(actualItemColourRgb);
+    expect(actualItemColourHex).to.equal(expectedObjectColourHex);
+  }
+});
+
 Then('the {word} elements in the {word} layer have colour {string}',
   async (elementName: string, layer: string, designatedColour: string) => {
   let actualLayerItems: any[];
@@ -214,7 +280,7 @@ Then('berth {string} in train describer {string} contains {string} and is visibl
 
 Then('it is {string} that berth {string} in train describer {string} is present',
   async (isPresent: string, berthId: string, trainDescriber: string) => {
-    const expectedPresent: boolean = (isPresent == 'true');
+    const expectedPresent: boolean = (isPresent === 'true');
     const present: boolean = await mapPageObject.isBerthPresent(berthId, trainDescriber);
     expect(present).equals(Boolean(expectedPresent));
 });
@@ -227,7 +293,7 @@ Then('berth {string} in train describer {string} does not contain {string}',
 
 Then('the signal roundel for signal {string} is {word}',
   async (signalId: string, expectedSignalColour: string) => {
-    const expectedSignalColourHex = mapObjectColour[expectedSignalColour];
+    const expectedSignalColourHex = mapColourHex[expectedSignalColour];
     const actualSignalColourHex = await mapPageObject.getSignalLampRoundColour(signalId);
     expect(actualSignalColourHex).to.equal(expectedSignalColourHex);
   });
