@@ -108,7 +108,7 @@ export class MapLayerPageObject {
     this.mapLayerItems.set(MapLayerType.direction_lock_text_label,
       [new MapLayerItem('fill', element.all(by.cssContainingText('#text-layer-text-elements tspan', 'Dir Lock')))]);
     this.mapLayerItems.set(MapLayerType.connnector_text_label,
-      [new MapLayerItem('fill', element.all(by.css('#continuation-links-layer tspan')))]);
+      [new MapLayerItem('fill', element.all(by.css('#continuation-links-layer text')))]);
     this.mapLayerItems.set(MapLayerType.other_text_label,
       [new MapLayerItem('fill', element.all(by.css('#text-layer-text-elements tspan')))]);
   }

@@ -21,6 +21,7 @@ export class MapPageObject {
   public zoomableLayer: ElementFinder;
   public draggableLayer: ElementFinder;
   public currentlyDraggedLayer: ElementFinder;
+  public lastMapLinkSelectedCode: string;
 
   constructor() {
     this.platformLayer = element(by.id('platform-layer'));
@@ -34,6 +35,7 @@ export class MapPageObject {
     this.zoomableLayer = element(by.css('.zoomable-map'));
     this.draggableLayer = element(by.css('.draggable-map'));
     this.currentlyDraggedLayer = element(by.css('.draggable-map.grabbing'));
+    this.lastMapLinkSelectedCode = '';
   }
 
   navigateTo(mapId: string): Promise<unknown> {

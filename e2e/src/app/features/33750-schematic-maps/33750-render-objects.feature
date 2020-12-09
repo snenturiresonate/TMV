@@ -45,6 +45,13 @@ Feature: 33750 - Schematic Maps - Render Objects
       | manual_trust_berth           | md22hinckleymanton.v     | 35               |
       | aes_boundaries_text_label    | gw15cambrian.v           | 12               |
       | direction_lock_text_label    | gw15cambrian.v           | 11               |
-      | connnector_text_label        | gw15cambrian.v           | 2                |
+      | connnector_text_label        | ne08darlington.v         | 4                |
       | other_text_label             | ne30durhamcoast.v        | 188              |
+
+
+  Scenario: 33750-2 Continuation Button (Primary Click)
+    Given the user is authenticated to use TMV
+    And the user is viewing a schematic that contains a continuation button
+    When the user uses the primary mouse on a continuation button
+    Then the view is refreshed with the linked map
 

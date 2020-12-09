@@ -8,6 +8,7 @@ import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {MapLayerPageObject} from '../../pages/maps/map-layer.page';
 import {MapLayerType} from '../../pages/maps/map-layer-type.enum';
 import {MapLayerItem} from '../../pages/maps/map-layer-item.model';
+import {HomePageObject} from '../../pages/home.page';
 
 let page: MapPageObject;
 let linxRestClient: LinxRestClient;
@@ -17,6 +18,7 @@ Before(() => {
   linxRestClient = new LinxRestClient();
 });
 
+const homePage: HomePageObject = new HomePageObject();
 const mapPageObject: MapPageObject = new MapPageObject();
 const mapLayerPageObject: MapLayerPageObject = new MapLayerPageObject();
 
@@ -70,6 +72,23 @@ Given(/^I am viewing the map (.*)$/, async (mapId: string) => {
   await mapPageObject.navigateTo(mapId);
 });
 
+Given('the user is viewing a schematic map', async () => {
+  const randomMap = await homePage.chooseRandomMap();
+  await mapPageObject.navigateTo(randomMap);
+});
+
+Given('the user is viewing a schematic that contains a continuation button', async () => {
+  const randomMap = await homePage.chooseRandomMap();
+  await mapPageObject.navigateTo(randomMap);
+
+  const continuationTextLayerItems: MapLayerItem[]
+    = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType.connnector_text_label);
+  const continuationTextLayerItem: MapLayerItem = continuationTextLayerItems[0];
+  const continuationTextElements: any[] = await continuationTextLayerItem.layerItems.getWebElements();
+  const numContinuationLinks = continuationTextElements.length;
+  expect(numContinuationLinks).to.be.greaterThan(0);
+});
+
 Given('I set up all signals for address {word} in {word} to be {word}', async (address: string, trainDescriber: string, colour: string) => {
   const redSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, '00', '10:45:00', trainDescriber);
   const greenSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, 'FF', '10:45:00', trainDescriber);
@@ -100,6 +119,17 @@ When('I make a note of the map position and zoom level', async () => {
 When('I pan the map right {int}, down {int}', async (xVal: number, yVal: number) => {
   await browser.actions().mouseDown(mapPageObject.mapArea).perform();
   await browser.actions().mouseMove({x: xVal, y: yVal}).perform();
+});
+
+When('the user uses the primary mouse on a continuation button', async () => {
+  const continuationTextLayerItems: MapLayerItem[]
+    = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType.connnector_text_label);
+  const continuationTextLayerItem: MapLayerItem = continuationTextLayerItems[0];
+  const continuationTextElements: any[] = await continuationTextLayerItem.layerItems.getWebElements();
+  const numContinuationLinks = continuationTextElements.length;
+  const randomIndex = Math.floor(Math.random() * numContinuationLinks);
+  mapPageObject.lastMapLinkSelectedCode  = await continuationTextElements[randomIndex].getText();
+  await continuationTextElements[randomIndex].click();
 });
 
 When('I release the mouse key', async () => {
@@ -308,6 +338,11 @@ Then('berth {string} in train describer {string} contains the train description 
     const berthText = await mapPageObject.getBerthText(berthId, trainDescriber);
     expect(berthText).equals(expectedTrainDescription);
     expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber));
+});
+
+Then('the view is refreshed with the linked map', async () => {
+  const actualTabTitle: string = await browser.getTitle();
+  expect(actualTabTitle).to.contain(mapPageObject.lastMapLinkSelectedCode);
 });
 
 Given('I am on a map showing berth {string} and in train describer {string}', async (berthId: string, trainDescriber: string) => {

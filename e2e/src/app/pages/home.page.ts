@@ -59,6 +59,14 @@ export class HomePageObject {
     await mapItem.click();
   }
 
+  public async chooseRandomMap(): Promise<string> {
+    const numMaps = await this.mapList.count();
+    const randomIndex = Math.floor(Math.random() * numMaps);
+    const mapItem: ElementFinder = this.mapList.get(randomIndex);
+    const mapId = await mapItem.getWebElement().getAttribute('id');
+    return mapId.replace('map-link-', '');
+  }
+
   public async getRecentHistoryMapName(recentHistoryIndex: number): Promise<string> {
     const recentHistoryItemEntries: ElementArrayFinder = element.all(by.css('.recent-history-item-entry'));
     return recentHistoryItemEntries.get(recentHistoryIndex).getText();
