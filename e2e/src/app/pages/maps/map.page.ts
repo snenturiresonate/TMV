@@ -21,6 +21,8 @@ export class MapPageObject {
   public zoomableLayer: ElementFinder;
   public draggableLayer: ElementFinder;
   public currentlyDraggedLayer: ElementFinder;
+  public mapContextMenuItems: ElementArrayFinder;
+  public originallyOpenedMapTitle: string;
   public lastMapLinkSelectedCode: string;
 
   constructor() {
@@ -35,6 +37,8 @@ export class MapPageObject {
     this.zoomableLayer = element(by.css('.zoomable-map'));
     this.draggableLayer = element(by.css('.draggable-map'));
     this.currentlyDraggedLayer = element(by.css('.draggable-map.grabbing'));
+    this.mapContextMenuItems = element.all(by.css('.dropdown-item'));
+    this.originallyOpenedMapTitle = '';
     this.lastMapLinkSelectedCode = '';
   }
 
@@ -115,4 +119,21 @@ export class MapPageObject {
     await CucumberLog.addText(browser.baseUrl + '/tmv/maps/' + filtered[0].map);
     await this.navigateTo(filtered[0].map);
   }
+
+  public async waitForContextMenu(): Promise<boolean> {
+    browser.wait(async () => {
+      return this.mapContextMenuItems.isPresent();
+    }, browser.displayTimeout, 'The context menu should be displayed');
+    return this.mapContextMenuItems.isPresent();
+  }
+
+
+  public async getMapContextMenuItem(rowIndex: number): Promise<string> {
+    return this.mapContextMenuItems.get(rowIndex - 1).getText();
+  }
+
+  public async getMapContextMenuElementByRow(rowIndex: number): Promise<ElementFinder> {
+    return this.mapContextMenuItems.get(rowIndex - 1);
+  }
+
 }

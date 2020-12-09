@@ -2,7 +2,7 @@ import {Before, Given, Then, When} from 'cucumber';
 import {expect} from 'chai';
 import {MapPageObject} from '../../pages/maps/map.page';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
-import {browser} from 'protractor';
+import {browser, ElementFinder, protractor} from 'protractor';
 import {SignallingUpdate} from '../../../../../src/app/api/linx/models/signalling-update';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {MapLayerPageObject} from '../../pages/maps/map-layer.page';
@@ -61,7 +61,7 @@ const mapObjectColourHex = {
   active_shunt_signal: '#969696',
   aes_boundaries_text_label: '#ff3cb1',
   direction_lock_text_label: '#ffb578',
-  connnector_text_label: '#ffffff',
+  connector_text_label: '#ffffff',
   other_text_label: '#ffffff',
   berth: '#e1e1e1',
   last_berth: '#ffd6b4',
@@ -75,14 +75,15 @@ Given(/^I am viewing the map (.*)$/, async (mapId: string) => {
 Given('the user is viewing a schematic map', async () => {
   const randomMap = await homePage.chooseRandomMap();
   await mapPageObject.navigateTo(randomMap);
+  mapPageObject.originallyOpenedMapTitle = await browser.getTitle();
 });
 
 Given('the user is viewing a schematic that contains a continuation button', async () => {
   const randomMap = await homePage.chooseRandomMap();
   await mapPageObject.navigateTo(randomMap);
-
+  mapPageObject.originallyOpenedMapTitle = await browser.getTitle();
   const continuationTextLayerItems: MapLayerItem[]
-    = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType.connnector_text_label);
+    = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType.connector_text_label);
   const continuationTextLayerItem: MapLayerItem = continuationTextLayerItems[0];
   const continuationTextElements: any[] = await continuationTextLayerItem.layerItems.getWebElements();
   const numContinuationLinks = continuationTextElements.length;
@@ -121,15 +122,37 @@ When('I pan the map right {int}, down {int}', async (xVal: number, yVal: number)
   await browser.actions().mouseMove({x: xVal, y: yVal}).perform();
 });
 
-When('the user uses the primary mouse on a continuation button', async () => {
+When('the user uses the primary mouse click on a continuation button', async () => {
   const continuationTextLayerItems: MapLayerItem[]
-    = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType.connnector_text_label);
+    = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType.connector_text_label);
   const continuationTextLayerItem: MapLayerItem = continuationTextLayerItems[0];
   const continuationTextElements: any[] = await continuationTextLayerItem.layerItems.getWebElements();
   const numContinuationLinks = continuationTextElements.length;
   const randomIndex = Math.floor(Math.random() * numContinuationLinks);
   mapPageObject.lastMapLinkSelectedCode  = await continuationTextElements[randomIndex].getText();
   await continuationTextElements[randomIndex].click();
+});
+
+
+When('the user uses the secondary mouse click on a continuation button', async () => {
+  const continuationTextLayerItems: MapLayerItem[]
+    = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType.connector_text_label);
+  const continuationTextLayerItem: MapLayerItem = continuationTextLayerItems[0];
+  const continuationTextElements: any[] = await continuationTextLayerItem.layerItems.getWebElements();
+  const numContinuationLinks = continuationTextElements.length;
+  const randomIndex = Math.floor(Math.random() * numContinuationLinks);
+  mapPageObject.lastMapLinkSelectedCode  = await continuationTextElements[randomIndex].getText();
+  await browser.actions().click(continuationTextElements[randomIndex], protractor.Button.RIGHT).perform();
+});
+
+When('the user selects "Open" map from the menu', async () => {
+  const openMapLink: ElementFinder = await mapPageObject.getMapContextMenuElementByRow(3);
+  await openMapLink.click();
+});
+
+When('the user selects "Open (new tab)" map from the menu', async () => {
+  const openMapLink: ElementFinder = await mapPageObject.getMapContextMenuElementByRow(4);
+  await openMapLink.click();
 });
 
 When('I release the mouse key', async () => {
@@ -344,6 +367,34 @@ Then('the view is refreshed with the linked map', async () => {
   const actualTabTitle: string = await browser.getTitle();
   expect(actualTabTitle).to.contain(mapPageObject.lastMapLinkSelectedCode);
 });
+
+Then ('the user is presented with a menu which they choose to open the map within to the same view or new tab', async () => {
+  await mapPageObject.waitForContextMenu();
+  const actualContextMenuItem2: string = await mapPageObject.getMapContextMenuItem(2);
+  const actualContextMenuItem3: string = await mapPageObject.getMapContextMenuItem(3);
+  const actualContextMenuItem4: string = await mapPageObject.getMapContextMenuItem(4);
+  expect(actualContextMenuItem2).to.contain(mapPageObject.lastMapLinkSelectedCode);
+  expect(actualContextMenuItem3).equals('Open');
+  expect(actualContextMenuItem4).equals('Open (new tab)');
+});
+
+Then('a new tab opens showing the linked map', async () => {
+  const windowHandles: string[] = await browser.getAllWindowHandles();
+  const finalTab: number = windowHandles.length - 1;
+  await browser.driver.switchTo().window(windowHandles[finalTab]);
+  const actualTabTitle: string = await browser.getTitle();
+  expect(actualTabTitle).to.contain(mapPageObject.lastMapLinkSelectedCode);
+});
+
+Then('the previous tab still displays the original map', async () => {
+  const windowHandles: string[] = await browser.getAllWindowHandles();
+  const finalTab: number = windowHandles.length - 1;
+  const penultimateTab: number = finalTab - 1;
+  await browser.driver.switchTo().window(windowHandles[penultimateTab]);
+  const actualTabTitle: string = await browser.getTitle();
+  expect(actualTabTitle).equals(mapPageObject.originallyOpenedMapTitle);
+});
+
 
 Given('I am on a map showing berth {string} and in train describer {string}', async (berthId: string, trainDescriber: string) => {
   await page.navigateToMapWithBerth(berthId, trainDescriber);

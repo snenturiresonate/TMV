@@ -45,13 +45,29 @@ Feature: 33750 - Schematic Maps - Render Objects
       | manual_trust_berth           | md22hinckleymanton.v     | 35               |
       | aes_boundaries_text_label    | gw15cambrian.v           | 12               |
       | direction_lock_text_label    | gw15cambrian.v           | 11               |
-      | connnector_text_label        | ne08darlington.v         | 4                |
+      | connector_text_label         | ne08darlington.v         | 4                |
       | other_text_label             | ne30durhamcoast.v        | 188              |
 
 
   Scenario: 33750-2 Continuation Button (Primary Click)
     Given the user is authenticated to use TMV
     And the user is viewing a schematic that contains a continuation button
-    When the user uses the primary mouse on a continuation button
+    When the user uses the primary mouse click on a continuation button
     Then the view is refreshed with the linked map
 
+  Scenario: 33750-3a Continuation Button (Secondary Click - Open)
+    Given the user is authenticated to use TMV
+    And the user is viewing a schematic that contains a continuation button
+    When the user uses the secondary mouse click on a continuation button
+    Then the user is presented with a menu which they choose to open the map within to the same view or new tab
+    When the user selects "Open" map from the menu
+    Then the view is refreshed with the linked map
+
+  Scenario: 33750-3b Continuation Button (Secondary Click - Open new tab)
+    Given the user is authenticated to use TMV
+    And the user is viewing a schematic that contains a continuation button
+    When the user uses the secondary mouse click on a continuation button
+    And the user is presented with a menu which they choose to open the map within to the same view or new tab
+    And the user selects "Open new tab" map from the menu
+    Then a new tab opens showing the linked map
+    And the previous tab still displays the original map

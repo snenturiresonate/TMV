@@ -32,6 +32,6 @@ export enum MapLayerType {
   manual_trust_berth = 'MANUAL_TRUST_BERTH',
   aes_boundaries_text_label = 'AES_BOUNDARIES_TEXT_LABEL',
   direction_lock_text_label = 'DIRECTION_LOCK_TEXT_LABEL',
-  connnector_text_label = 'CONNECTOR_TEXT_LABEL',
+  connector_text_label = 'CONNECTOR_TEXT_LABEL',
   other_text_label = 'OTHER_TEXT_LABEL'
 }
