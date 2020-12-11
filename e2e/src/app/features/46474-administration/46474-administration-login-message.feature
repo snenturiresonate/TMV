@@ -1,4 +1,3 @@
-@check
 Feature: 46474 - Administration Login Message - full end to end testing
 
   As a tester
