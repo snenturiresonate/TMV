@@ -1,4 +1,5 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
+import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
 
 export class HomePageObject {
   public wecomeMessage: ElementFinder;
@@ -18,6 +19,8 @@ export class HomePageObject {
   public recentHistoryPreviousPageButton: ElementFinder;
   public recentSearchedMap: ElementFinder;
 
+  public adminIcon: ElementFinder;
+
   constructor() {
     this.wecomeMessage = element(by.css('.tmv-container h1'));
     this.mapGroupingIcons = element.all(by.css('app-map-list .material-icons'));
@@ -33,6 +36,7 @@ export class HomePageObject {
     this.mapSearchResults = element.all(by.css('table#searchResultsTable tr'));
     this.searchButton = element(by.id('map-search-submit-button'));
     this.recentSearchedMap = element(by.css('.recent-history-item-entry'));
+    this.adminIcon = element(by.css('.btn-box .app-button-link-text'));
   }
 
   public async getWelcomeMessageText(): Promise<string> {
@@ -112,7 +116,7 @@ export class HomePageObject {
 
   public async clickIcon(iconName: string): Promise<void> {
     const icon: ElementFinder = element(by.id('icon-' + iconName));
-    icon.click();
+    await CommonActions.waitAndClick(icon);
   }
 
   public async clickSearchButton(): Promise<void> {
@@ -153,5 +157,14 @@ export class HomePageObject {
 
   public async openRecentMap(): Promise<void> {
     return this.recentSearchedMap.click();
+  }
+
+  public async adminIconIsPresent(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.appList.last());
+    return this.adminIcon.isPresent();
+  }
+
+  public async clickAdminIcon(): Promise<void> {
+    await CommonActions.waitAndClick(this.adminIcon);
   }
 }

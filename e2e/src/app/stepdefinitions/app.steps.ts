@@ -181,3 +181,8 @@ Given(/^I am on the admin page$/, async () => {
 Given(/^I am on the replay page$/, async () => {
   await page.navigateTo('/tmv/replay');
 });
+
+Then('the tab title is {string}', async (expectedTabTitle: string) => {
+  const actualTabTitle: string = await browser.getTitle();
+  expect(actualTabTitle).to.contains(expectedTabTitle);
+});

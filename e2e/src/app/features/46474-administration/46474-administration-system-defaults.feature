@@ -1,9 +1,14 @@
-@check
 Feature: 46474 - Administration System Defaults - full end to end testing
 
   As a tester
   I want to verify the administration page - login message
   So, that I can identify if the build meets the end to end requirements
+
+  #33767-3 Navigating to Systems Defaults view
+  #Given that I have the admin screen open on a tab other than the Systems Defaults view
+  #When I select the System Defaults option
+  #Then the Systems Default view tab is highlighted
+  #And the Systems Default Setting are displayed (Replay background colour, Max maps per replay session, Max number of Replay sessions, Max number of maps, Max number of trains lists)
 
   Background:
     Given I am on the admin page
@@ -33,6 +38,7 @@ Feature: 46474 - Administration System Defaults - full end to end testing
       | ReplayBackgroundColour | MaxNoOfMapsPerReplay | MaxNoofReplays | MaxNoofSchematicMapDisplayInstances | MaxNoofTrainsListViewInstances |
       | #663377                | 5                    | 15             | 5                                   | 9                              |
 
+    @tdd
   Scenario: Replay system setting values reset
     When I update the system default settings as
       | ReplayBackgroundColour | MaxNoOfMapsPerReplay | MaxNoofReplays | MaxNoofSchematicMapDisplayInstances | MaxNoofTrainsListViewInstances |
