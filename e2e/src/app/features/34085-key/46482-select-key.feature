@@ -14,6 +14,7 @@ Feature: Maps - controls - key
       | Train Describer |
     And the active tab is 'Colour'
 
+  @bug @bug_51585
   Scenario: 34085-1 The TMV Key modal window is launched when a map is displayed in the replay view
     Given I am on the replay page
     And I expand the replay group of maps with name 'Eastern'
