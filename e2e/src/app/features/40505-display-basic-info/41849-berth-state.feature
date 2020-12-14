@@ -3,6 +3,7 @@ Feature: 41849 - Basic UI - Display berth state
   I want to view berth state information in the UI
   So, that I can prove that stepping information is being processed correctly
 
+  @bug @bug_51585
   Scenario: 47116 - Display Berth State - berth interpose is displayed upon the UI
     Given I am viewing the map GW01paddington.v
     When I click on the layers icon in the nav bar
@@ -28,6 +29,7 @@ Feature: 41849 - Basic UI - Display berth state
     And I toggle the 'Berth' toggle 'on'
     Then berth '0099' in train describer 'D3' contains '0099' and is visible
 
+  @bug @bug_51585
   Scenario: 47119 - Display Berth State - berth step causes train description to step to the next berth
     Given I am viewing the map GW01paddington.v
     When I click on the layers icon in the nav bar
@@ -42,6 +44,7 @@ Feature: 41849 - Basic UI - Display berth state
     Then berth '0099' in train describer 'D3' does not contain '1G69'
     And berth '0092' in train describer 'D3' contains '1G69' and is visible
 
+  @bug @bug_51585
   Scenario: 47121 - Display Berth State - berth interpose whilst berth IDs are displayed
     Given I am viewing the map GW01paddington.v
     When I click on the layers icon in the nav bar

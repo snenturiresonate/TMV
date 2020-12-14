@@ -1,3 +1,4 @@
+@bug @bug_51585
 Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
 
   As a tester
