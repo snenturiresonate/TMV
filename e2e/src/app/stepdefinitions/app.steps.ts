@@ -1,6 +1,5 @@
-import {After, Before, Given, Then, When} from 'cucumber';
+import {Before, Given, Then, When} from 'cucumber';
 import {AppPage} from '../pages/app.po';
-import {browser, logging} from 'protractor';
 import {expect} from 'chai';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {BerthCancel, BerthInterpose, BerthStep, Heartbeat, SignallingUpdate} from '../../../../src/app/api/linx/models';
@@ -179,5 +178,5 @@ Given(/^I am on the admin page$/, async () => {
 });
 
 Given(/^I am on the replay page$/, async () => {
-  await page.navigateTo('/tmv/replay');
+  await page.navigateTo('/tmv/replay/replay-session-1');
 });
