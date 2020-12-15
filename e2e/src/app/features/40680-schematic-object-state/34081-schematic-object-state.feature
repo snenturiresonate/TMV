@@ -15,7 +15,6 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     Then the signal roundel for signal 'SN128' is grey
     And the signal roundel for signal 'SN130' is grey
     And the signal roundel for signal 'SN140' is grey
-    And the signal roundel for signal 'SN133' is grey
     And the signal roundel for signal 'SN123' is grey
     And the signal roundel for signal 'SN93' is grey
     And the signal roundel for signal 'SN91' is grey
@@ -29,7 +28,6 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     Then the signal roundel for signal 'SN128' is red
     And the signal roundel for signal 'SN130' is red
     And the signal roundel for signal 'SN140' is red
-    And the signal roundel for signal 'SN133' is red
     And the signal roundel for signal 'SN123' is red
     And the signal roundel for signal 'SN93' is red
     And the signal roundel for signal 'SN91' is red
@@ -40,7 +38,6 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     Then the signal roundel for signal 'SN128' is green
     And the signal roundel for signal 'SN130' is green
     And the signal roundel for signal 'SN140' is green
-    And the signal roundel for signal 'SN133' is green
     And the signal roundel for signal 'SN123' is green
     And the signal roundel for signal 'SN93' is green
     And the signal roundel for signal 'SN91' is green
@@ -52,7 +49,6 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     Then the signal roundel for signal 'SN128' is green
     And the signal roundel for signal 'SN130' is green
     And the signal roundel for signal 'SN140' is green
-    And the signal roundel for signal 'SN133' is green
     And the signal roundel for signal 'SN123' is green
     And the signal roundel for signal 'SN93' is green
     And the signal roundel for signal 'SN91' is green
@@ -63,7 +59,6 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     Then the signal roundel for signal 'SN128' is red
     And the signal roundel for signal 'SN130' is red
     And the signal roundel for signal 'SN140' is red
-    And the signal roundel for signal 'SN133' is red
     And the signal roundel for signal 'SN123' is red
     And the signal roundel for signal 'SN93' is red
     And the signal roundel for signal 'SN91' is red
