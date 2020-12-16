@@ -1,4 +1,4 @@
-import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {of} from 'rxjs';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
 import * as fs from 'fs';
@@ -164,6 +164,24 @@ export class MapPageObject {
 
   public async getMapContextMenuElementByRow(rowIndex: number): Promise<ElementFinder> {
     return this.mapContextMenuItems.get(rowIndex - 1);
+  }
+
+  public async rightClickManualTrustBerth(manualTrustBerthId: string): Promise<void> {
+    const berthLink: ElementFinder = element(by.id('manual-trust-berth-element-text-' + manualTrustBerthId));
+    await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
+  }
+
+  public async rightClickBerth(berthId: string): Promise<void> {
+    const berthLink: ElementFinder = element(by.id('berth-element-text-' + berthId));
+    await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
+  }
+
+  public async getBerthContextInfoText(): Promise<string> {
+    return element(by.id('berthContextMenu')).getText();
+  }
+
+  public async getManualTrustBerthContextInfoText(): Promise<string> {
+    return element(by.id('manualTrustberthContextMenu')).getText();
   }
 
 }

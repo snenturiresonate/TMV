@@ -28,7 +28,6 @@ export enum MapLayerType {
   active_shunt_markerboard = 'ACTIVE_SHUNT_MARKERBOARD',
   active_shunters_release = 'ACTIVE_SHUNTERS_RELEASE',
   berth = 'BERTH',
-  last_berth = 'LAST_BERTH',
   manual_trust_berth = 'MANUAL_TRUST_BERTH',
   aes_boundaries_text_label = 'AES_BOUNDARIES_TEXT_LABEL',
   direction_lock_text_label = 'DIRECTION_LOCK_TEXT_LABEL',

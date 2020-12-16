@@ -37,9 +37,7 @@ export class MapLayerPageObject {
     this.mapLayerItems.set(MapLayerType.active_shunters_release,
       [new MapLayerItem('stroke', element.all(by.css('#shunters-release-layer polygon')))]);
     this.mapLayerItems.set(MapLayerType.berth,
-      [new MapLayerItem('fill', element.all(by.css('[id^=berth-element-rect-bth]')))]);
-    this.mapLayerItems.set(MapLayerType.last_berth,
-      [new MapLayerItem('fill', element.all(by.css('[id^=berth-element-rect-btl]')))]);
+      [new MapLayerItem('fill', element.all(by.css('[id^=berth-element-rect]')))]);
     this.mapLayerItems.set(MapLayerType.manual_trust_berth,
       [new MapLayerItem('stroke', element.all(by.css('#manual-trust-berth-layer circle')))]);
   }

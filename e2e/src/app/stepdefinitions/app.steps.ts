@@ -4,7 +4,9 @@ import {expect} from 'chai';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {BerthCancel, BerthInterpose, BerthStep, Heartbeat, SignallingUpdate} from '../../../../src/app/api/linx/models';
 import {CucumberLog} from '../logging/cucumber-log';
-import {browser} from 'protractor';
+import * as fs from 'fs';
+import * as path from 'path';
+import {ProjectDirectoryUtil} from '../utils/project-directory.util';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
@@ -18,7 +20,7 @@ Given(/^I am on the home page$/, async () => {
   await page.navigateTo('');
 });
 
-Given(/^the user is authenticated to use TMV$/, async () => {
+Given(/^I am authenticated to use TMV$/, async () => {
   await page.navigateTo('');
 });
 
@@ -134,6 +136,13 @@ When(/^the following train activation messages? (?:is|are) sent from LINX$/, asy
   await linxRestClient.waitMaxTransmissionTime();
 });
 
+When('the activation message from location {string} is sent from LINX', async (xmlFilePath: string) => {
+  const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), xmlFilePath));
+  linxRestClient.postTrainActivation(rawData.toString());
+
+  await linxRestClient.waitMaxTransmissionTime();
+});
+
 When(/^the following VSTP messages? (?:is|are) sent from LINX$/, async (vstpMessageTable: any) => {
   const vstpMessages: any = vstpMessageTable.hashes();
 
@@ -168,6 +177,10 @@ Then('the modal contains a {string} button', async (buttonName: string) => {
 
 Given(/^I am on the trains list page$/, async () => {
   await page.navigateTo('/tmv/trains-list');
+});
+
+Given(/^I am on the trains list Config page$/, async () => {
+  await page.navigateTo('/tmv/trains-list-config');
 });
 
 Given(/^I am on the log viewer page$/, async () => {
