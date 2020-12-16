@@ -9,7 +9,7 @@ Feature: 33750 - Schematic Maps - Render Objects
     Then <numberOfElements> objects of type <object> are rendered
     And the objects of type <object> are the correct colour
 
-#@bugs 50740, 51010
+#@bug 51010
     Examples:
       | object                       | map                      | numberOfElements |
       | platform                     | md12birminghamsnowhill.v | 58               |
@@ -33,7 +33,7 @@ Feature: 33750 - Schematic Maps - Render Objects
       | limit_of_shunt_static_signal | ne15shipley.v            | 8                |
       | static_signal                | sc05yoker.v              | 22               |
       | static_shunt_signal          | sc11ayr.v                | 1                |
-#      | static_markerboard           | hs1nhighspeed1north.v    | 7                |
+      | static_markerboard           | hs1nhighspeed1north.v    | 157              |
       | active_track_section         | ne01kingscross.v         | 481              |
       | active_main_signal           | gw03reading.v            | 177              |
       | active_shunters_release      | so38salisbury.v          | 3                |
