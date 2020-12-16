@@ -72,7 +72,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #And the S-Class message is setting the subsidiary signal to proceed
     #When a user is viewing a map that contains the subsidiary signal
     #Then the subsidiary signal will display a proceed aspect (white roundel)
-    And I set up all signals for address 80 in D3 to be red
+    And I set up all signals for address 80 in D3 to be not-proceed
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 92      | 00   | 10:45:00  |
