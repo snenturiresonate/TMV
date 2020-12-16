@@ -399,3 +399,10 @@ Then('the previous tab still displays the original map', async () => {
 Given('I am on a map showing berth {string} and in train describer {string}', async (berthId: string, trainDescriber: string) => {
   await page.navigateToMapWithBerth(berthId, trainDescriber);
 });
+
+Then('the static shunt signal state for signal {string} is {word}',
+  async (signalId: string, expectedSignalColour: string) => {
+    const expectedSignalColourHex = mapColourHex[expectedSignalColour];
+    const actualSignalColourHex = await mapPageObject.getStaticSignalColour(signalId);
+    expect(actualSignalColourHex).to.equal(expectedSignalColourHex);
+  });

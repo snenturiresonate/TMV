@@ -199,3 +199,7 @@ Before(async function() {
 After(async function(scenario){
   await CucumberLog.addScreenshotOnFailure(scenario);
 });
+
+When('I refresh the browser', () => {
+  browser.driver.navigate().refresh();
+});

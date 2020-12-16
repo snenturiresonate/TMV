@@ -99,6 +99,12 @@ export class MapPageObject {
     return CssColorConverterService.rgb2Hex(lampRoundColourRgb);
   }
 
+  public async getStaticSignalColour(signalId: string): Promise<string> {
+    const staticSignalLampRound: ElementFinder = element(by.css('[id^=shunt-element-lamp-round-' + signalId  + ']'));
+    const lampRoundColourRgb: string = await staticSignalLampRound.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(lampRoundColourRgb);
+  }
+
   public async berthTextIsVisible(berthId: string, trainDescriber: string): Promise<boolean> {
     const berth: ElementFinder = await this.getBerthElementFinder(berthId, trainDescriber);
     return berth.isDisplayed();
