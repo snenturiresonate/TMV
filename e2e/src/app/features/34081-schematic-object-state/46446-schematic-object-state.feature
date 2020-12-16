@@ -77,17 +77,17 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       | trainDescriber | address | data | timestamp |
       | D3             | 92      | 00   | 10:45:00  |
     And the maximum amount of time is allowed for end to end transmission
-    Then the signal roundel for signal 'SN212' is red
+    Then the signal roundel for signal 'SN128' is red
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 92      | FF   | 10:45:00  |
     And the maximum amount of time is allowed for end to end transmission
-    Then the signal roundel for signal 'SN212' is green
+    Then the signal roundel for signal 'SN128' is green
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 92      | 08   | 10:45:00  |
     And the maximum amount of time is allowed for end to end transmission
-    Then the signal roundel for signal 'SN212' is white
+    Then the signal roundel for signal 'SN128' is white
 
   Scenario:34081 - 6 Shunt Signal State (Proceed)
     #Given an S-Class message is received and processed
