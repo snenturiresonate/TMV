@@ -7,7 +7,7 @@ Feature: 47417 - Basic UI - Signal State Scenarios
 
   Scenario: 40505-x1 - Display Signal State - signal state message containing 1s turns all related red signals to green, and leaves others untouched
     Given I am viewing the map HDGW01paddington.v
-    And I set up all signals for address 95 in D3 to be red
+    And I set up all signals for address 95 in D3 to be not-proceed
     And the signal roundel for signal 'SN215' is red
     And the signal roundel for signal 'SN213' is red
     And the signal roundel for signal 'SN225' is red
@@ -34,7 +34,7 @@ Feature: 47417 - Basic UI - Signal State Scenarios
     And I switch to the second-newest tab
     And I navigate to the maps view with id gw02heathrow.v
     When I switch to the new tab
-    And I set up all signals for address 29 in D4 to be green
+    And I set up all signals for address 29 in D4 to be proceed
     Then the signal roundel for signal 'SN290' is green
     And the signal roundel for signal 'SN271' is green
     And the signal roundel for signal 'SN300' is green

@@ -6,7 +6,7 @@ Feature: 47417 - Basic UI - Signal State Scenarios
 
   Background:
     Given I am viewing the map HDGW01paddington.v
-    And I set up all signals for address 29 in D4 to be red
+    And I set up all signals for address 29 in D4 to be not-proceed
 
   Scenario: 40505-6a - Display Signal State - signal state message containing 1 turns red main signal (with no subsidiary aspect) to green
     And the signal roundel for signal 'SN290' is red
