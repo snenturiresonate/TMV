@@ -4,6 +4,7 @@ import {expect} from 'chai';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {BerthCancel, BerthInterpose, BerthStep, Heartbeat, SignallingUpdate} from '../../../../src/app/api/linx/models';
 import {CucumberLog} from '../logging/cucumber-log';
+import {browser} from 'protractor';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
@@ -179,8 +180,4 @@ Given(/^I am on the admin page$/, async () => {
 
 Given(/^I am on the replay page$/, async () => {
   await page.navigateTo('/tmv/replay/replay-session-1');
-});
-
-When('I refresh the browser', () => {
-  browser.driver.navigate().refresh();
 });
