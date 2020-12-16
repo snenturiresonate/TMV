@@ -72,22 +72,17 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #And the S-Class message is setting the subsidiary signal to proceed
     #When a user is viewing a map that contains the subsidiary signal
     #Then the subsidiary signal will display a proceed aspect (white roundel)
-    And I set up all signals for address 80 in D3 to be not-proceed
+    And I set up all signals for address 29 in D4 to be not-proceed
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 92      | 00   | 10:45:00  |
+      | D4             | 29      | 00   | 10:45:00  |
     And the maximum amount of time is allowed for end to end transmission
-    Then the signal roundel for signal 'SN128' is red
+    Then the signal roundel for signal 'SN271' is red
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 92      | FF   | 10:45:00  |
+      | D4             | 29      | 08   | 10:45:00  |
     And the maximum amount of time is allowed for end to end transmission
-    Then the signal roundel for signal 'SN202' is green
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 92      | 08   | 10:45:00  |
-    And the maximum amount of time is allowed for end to end transmission
-    Then the signal roundel for signal 'SN202' is white
+    Then the signal roundel for signal 'SN271' is white
 
   Scenario:34081 - 6 Shunt Signal State (Proceed)
     #Given an S-Class message is received and processed
