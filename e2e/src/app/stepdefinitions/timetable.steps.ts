@@ -120,6 +120,10 @@ When('there is a Schedule for {string}', (service: string) => {
       .build());
 });
 
+When('that service has the cancellation status {string}', (service: string) => {
+  schedule.withTrainStatus(service);
+});
+
 Given(/^it has Origin Details$/, async (table: any) => {
   const locations: any = table.hashes();
 
