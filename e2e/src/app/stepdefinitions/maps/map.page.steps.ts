@@ -461,9 +461,9 @@ Given('I am on a map showing berth {string} and in train describer {string}', as
   await page.navigateToMapWithBerth(berthId, trainDescriber);
 });
 
-Then('the static shunt signal state for signal {string} is {word}',
+Then('the shunt signal state for signal {string} is {word}',
   async (signalId: string, expectedSignalColour: string) => {
     const expectedSignalColourHex = mapColourHex[expectedSignalColour];
-    const actualSignalColourHex = await mapPageObject.getStaticSignalColour(signalId);
+    const actualSignalColourHex = await mapPageObject.getShuntSignalColour(signalId);
     expect(actualSignalColourHex).to.equal(expectedSignalColourHex);
   });

@@ -94,12 +94,12 @@ export class MapPageObject {
   }
 
   public async getSignalLampRoundColour(signalId: string): Promise<string> {
-    const signalLampRound: ElementFinder = element(by.css('[id^=shunt-element-lamp-round-' + signalId  + ']'));
+    const signalLampRound: ElementFinder = element(by.css('[id^=signal-element-lamp-round-' + signalId  + ']'));
     const lampRoundColourRgb: string = await signalLampRound.getCssValue('fill');
     return CssColorConverterService.rgb2Hex(lampRoundColourRgb);
   }
 
-  public async getStaticSignalColour(signalId: string): Promise<string> {
+  public async getShuntSignalColour(signalId: string): Promise<string> {
     const staticSignalLampRound: ElementFinder = element(by.css('[id^=shunt-element-lamp-round-' + signalId  + ']'));
     const lampRoundColourRgb: string = await staticSignalLampRound.getCssValue('fill');
     return CssColorConverterService.rgb2Hex(lampRoundColourRgb);
