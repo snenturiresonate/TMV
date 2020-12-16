@@ -1,7 +1,9 @@
-Feature: Maps - controls - key
-  Verify the presence and behaviour of the symbol key
+Feature: 46482 - TMV Key - select key
+  As a TMV User
+  I want to view a symbol key
+  So that I can understand what the schematic objects mean
 
-  Scenario: 34085-1 The TMV Key modal window is launched when a map is displayed
+  Scenario: 34085-1a The TMV Key modal window is launched when a map is displayed
     Given I am viewing the map GW01paddington.v
     When I click on the Help icon
     And I select the TMV Key option
@@ -14,7 +16,7 @@ Feature: Maps - controls - key
       | Train Describer |
     And the active tab is 'Colour'
 
-  Scenario: 34085-1 The TMV Key modal window is launched when a map is displayed in the replay view
+  Scenario: 34085-1b The TMV Key modal window is launched when a map is displayed in the replay view
     Given I am on the replay page
     And I expand the replay group of maps with name 'Eastern'
     And I select the map 'ea01liverpoolst.v'
@@ -30,27 +32,27 @@ Feature: Maps - controls - key
       | Train Describer |
     And the active tab is 'Colour'
 
-  Scenario: 34085-1 The TMV Key modal window is not displayed in the help menu for the home page
+  Scenario: 34085-1c The TMV Key modal window is not displayed in the help menu for the home page
     Given I am on the home page
     When I click on the Help icon
     Then the TMV Key option should not be visible
 
-  Scenario: 34085-1 The TMV Key modal window is not displayed in the help menu for the trains list
+  Scenario: 34085-1d The TMV Key modal window is not displayed in the help menu for the trains list
     Given I am on the trains list page
     When I click on the Help icon
     Then the TMV Key option should not be visible
 
-  Scenario: 34085-1 The TMV Key modal window is not displayed in the help menu for the log viewer page
+  Scenario: 34085-1e The TMV Key modal window is not displayed in the help menu for the log viewer page
     Given I am on the log viewer page
     When I click on the Help icon
     Then the TMV Key option should not be visible
 
-  Scenario: 34085-1 The TMV Key modal window is not displayed in the help menu for the admin page
+  Scenario: 34085-1f The TMV Key modal window is not displayed in the help menu for the admin page
     Given I am on the admin page
     When I click on the Help icon
     Then the TMV Key option should not be visible
 
-  Scenario: 34085-1 Verify still possible to interact with map whilst the TMV Modal Key window is open
+  Scenario: 34085-1g Verify still possible to interact with map whilst the TMV Modal Key window is open
     Given I am viewing the map GW01paddington.v
     And I click on the Help icon
     And I select the TMV Key option
@@ -60,7 +62,8 @@ Feature: Maps - controls - key
     Then the platform layer is shown
     And a modal displays with title 'Key'
 
-  Scenario: 34085-1 Verify the map still updates whilst the TMV Modal Key is open
+  @bug @bug_51585
+  Scenario: 34085-1h Verify the map still updates whilst the TMV Modal Key is open
     Given I am viewing the map GW01paddington.v
     When I click on the Help icon
     And I select the TMV Key option
@@ -79,7 +82,7 @@ Feature: Maps - controls - key
     And berth '0092' in train describer 'D3' contains '1G70' and is visible
     And a modal displays with title 'Key'
 
-  Scenario: 34085-1 The TMV Key modal window can only be opened one key at a time
+  Scenario: 34085-1i The TMV Key modal window can only be opened one key at a time
     Given I am viewing the map GW01paddington.v
     And I click on the Help icon
     And I select the TMV Key option

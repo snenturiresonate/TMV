@@ -33,6 +33,8 @@
     "@types/jasmine": "3.5.11",
     "@types/jasminewd2": "2.0.8",
     "@types/node": "12.12.48",
+    "@types/chai-datetime": "0.0.36",
+    "chai-datetime": "1.7.0",
     "chai": "4.2.0",
     "codelyzer": "6.0.0",
     "cucumber": "6.0.5",
@@ -51,6 +53,7 @@
     "protractor-multiple-cucumber-html-reporter-plugin": "1.8.1",
     "ts-node": "8.3.0",
     "tslint": "6.1.2",
-    "typescript": "3.9.6"
+    "typescript": "3.9.6",
+    "moment": "2.27.0"
   }
 }

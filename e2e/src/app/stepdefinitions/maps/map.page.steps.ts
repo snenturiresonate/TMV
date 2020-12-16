@@ -24,7 +24,9 @@ const mapLayerPageObject: MapLayerPageObject = new MapLayerPageObject();
 
 const mapColourHex = {
   red: '#ff0000',
+  blue: '#0000ff',
   green: '#00ff00',
+  yellow: '#fffe3c',
   white: '#ffffff',
   orange: '#ffa700',
   grey: '#969696'
@@ -90,16 +92,16 @@ Given('the user is viewing a schematic that contains a continuation button', asy
   expect(numContinuationLinks).to.be.greaterThan(0);
 });
 
-Given('I set up all signals for address {word} in {word} to be {word}', async (address: string, trainDescriber: string, colour: string) => {
+Given('I set up all signals for address {word} in {word} to be {word}', async (address: string, trainDescriber: string, state: string) => {
   const redSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, '00', '10:45:00', trainDescriber);
   const greenSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, 'FF', '10:45:00', trainDescriber);
-  if (colour === 'red') {
+  if (state === 'not-proceed') {
     linxRestClient.postSignallingUpdate(greenSignallingUpdate);
     await linxRestClient.waitMaxTransmissionTime();
     linxRestClient.postSignallingUpdate(redSignallingUpdate);
     await linxRestClient.waitMaxTransmissionTime();
   }
-  if (colour === 'green') {
+  if (state === 'proceed') {
     linxRestClient.postSignallingUpdate(redSignallingUpdate);
     await linxRestClient.waitMaxTransmissionTime();
     linxRestClient.postSignallingUpdate(greenSignallingUpdate);
@@ -349,6 +351,38 @@ Then('the signal roundel for signal {string} is {word}',
     const expectedSignalColourHex = mapColourHex[expectedSignalColour];
     const actualSignalColourHex = await mapPageObject.getSignalLampRoundColour(signalId);
     expect(actualSignalColourHex).to.equal(expectedSignalColourHex);
+  });
+
+Then('the marker board triangle for marker board {string} is {word}',
+  async (markerBoardId: string, expectedMarkerBoardColour: string) => {
+    const expectedMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];
+    const actualMarkerBoardColourHex = await mapPageObject.getMarkerBoardTriangleColour(markerBoardId);
+    expect(actualMarkerBoardColourHex).to.equal(expectedMarkerBoardColourHex);
+  });
+
+Then('the shunt marker board triangle for shunt marker board {string} is {word}',
+  async (markerBoardId: string, expectedShuntMarkerBoardColour: string) => {
+    const expectedShuntMarkerBoardColourHex = mapColourHex[expectedShuntMarkerBoardColour];
+    const actualShuntMarkerBoardColourHex = await mapPageObject.getShuntMarkerBoardTriangleColour(markerBoardId);
+    expect(actualShuntMarkerBoardColourHex).to.equal(expectedShuntMarkerBoardColourHex);
+  });
+
+Then('the marker board {string} will display a Movement Authority {word} [{word} triangle on blue background]',
+  async (markerBoardId: string, authorityType: string, expectedMarkerBoardColour: string) => {
+    const expectedMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];
+    const actualMarkerBoardColourHex = await mapPageObject.getMarkerBoardTriangleColour(markerBoardId);
+    const actualMarkerBoardBackgroundColourHex = await mapPageObject.getMarkerBoardBackgroundColour(markerBoardId);
+    expect(actualMarkerBoardColourHex).to.equal(expectedMarkerBoardColourHex);
+    expect(actualMarkerBoardBackgroundColourHex).to.equal(mapColourHex.blue);
+  });
+
+Then('the shunt marker board {string} will display a Movement Authority {word} [{word} triangle with blue inner triangle]',
+  async (markerBoardId: string, authorityType: string, expectedMarkerBoardColour: string) => {
+    const expectedShuntMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];
+    const actualShuntMarkerBoardTriangleColourHex = await mapPageObject.getShuntMarkerBoardTriangleColour(markerBoardId);
+    const actualShuntMarkerBoardSmallTriangleColourHex = await mapPageObject.getShuntMarkerBoardSmallTriangleColour(markerBoardId);
+    expect(actualShuntMarkerBoardTriangleColourHex).to.equal(expectedShuntMarkerBoardColourHex);
+    expect(actualShuntMarkerBoardSmallTriangleColourHex).to.equal(mapColourHex.blue);
   });
 
 Then('berth {string} in train describer {string} contains the train description {string} but the first 2 characters have been swapped',
