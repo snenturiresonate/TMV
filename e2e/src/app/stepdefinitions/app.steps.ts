@@ -17,7 +17,7 @@ Given(/^I am on the home page$/, async () => {
   await page.navigateTo('');
 });
 
-Given(/^the user is authenticated to use TMV$/, async () => {
+Given(/^I am authenticated to use TMV$/, async () => {
   await page.navigateTo('');
 });
 
