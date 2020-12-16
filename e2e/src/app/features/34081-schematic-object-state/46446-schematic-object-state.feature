@@ -12,10 +12,10 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
 
   Scenario: 34081-1 Validating the display of Current Signal State
     Then the signal roundel for signal 'SN128' is grey
-    And the static shunt signal state for signal 'SN6142' is grey
+    And the shunt signal state for signal 'SN6142' is grey
     And I refresh the browser
     Then the signal roundel for signal 'SN128' is grey
-    And the static shunt signal state for signal 'SN6142' is grey
+    And the shunt signal state for signal 'SN6142' is grey
 
   Scenario: 34081-2 Validating the display of Unknown Main Signal state
     #Given I am viewing the map HDGW01paddington.v
