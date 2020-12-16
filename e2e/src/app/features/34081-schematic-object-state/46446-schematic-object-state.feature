@@ -27,7 +27,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #And the S-Class message is setting the main signal to proceed
     #When a user is viewing a map that contains the main signal
     #Then the main signal will display a proceed aspect (green roundel)
-    And I set up all signals for address 80 in D3 to be red
+    And I set up all signals for address 80 in D3 to be not-proceed
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 80      | 00   | 10:45:00  |
@@ -45,7 +45,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #And the S-Class message is setting the main signal to not proceed
     #When a user is viewing a map that contains the main signal
     #Then the main signal will display a not proceed aspect (red roundel)
-    And I set up all signals for address 80 in D3 to be green
+    And I set up all signals for address 80 in D3 to be proceed
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 80      | FF   | 10:45:00  |
@@ -98,9 +98,9 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And the shunt signal state for signal 'SN6142' is grey
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 8F      | FF   | 10:02:06  |
+      | D3             | 8F      | 03   | 10:02:06  |
     And the maximum amount of time is allowed for end to end transmission
-    Then the shunt signal state for signal 'SN6142' is green
+    Then the shunt signal state for signal 'SN6142' is white
 
   Scenario: 34081 - 7 Shunt Signal State (Not Proceed)
     #Given an S-Class message is received and processed
