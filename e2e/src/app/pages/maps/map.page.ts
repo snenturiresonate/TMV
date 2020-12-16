@@ -94,7 +94,7 @@ export class MapPageObject {
   }
 
   public async getSignalLampRoundColour(signalId: string): Promise<string> {
-    const signalLampRound: ElementFinder = element(by.css('[id^=signal-element-lamp-round-' + signalId  + ']'));
+    const signalLampRound: ElementFinder = element(by.css('[id^=shunt-element-lamp-round-' + signalId  + ']'));
     const lampRoundColourRgb: string = await signalLampRound.getCssValue('fill');
     return CssColorConverterService.rgb2Hex(lampRoundColourRgb);
   }

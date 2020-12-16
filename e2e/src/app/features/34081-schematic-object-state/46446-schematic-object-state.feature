@@ -12,10 +12,10 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
 
   Scenario: 34081-1 Validating the display of Current Signal State
     Then the signal roundel for signal 'SN128' is grey
-    And the static shunt signal state for signal 'SN6208' is grey
+    And the static shunt signal state for signal 'SN6142' is grey
     And I refresh the browser
     Then the signal roundel for signal 'SN128' is grey
-    And the static shunt signal state for signal 'SN6208' is grey
+    And the static shunt signal state for signal 'SN6142' is grey
 
   Scenario: 34081-2 Validating the display of Unknown Main Signal state
     #Given I am viewing the map HDGW01paddington.v
@@ -25,6 +25,9 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #Given I am viewing the map HDGW01paddington.v
     #And I set up all signals for address 80 in D3 to be red
     And I set up all signals for address 80 in D3 to be red
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 80      | 00   | 10:45:00  |
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN128' is red
     When the following signalling update message is sent from LINX
@@ -33,10 +36,13 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN128' is green
 
-  Scenario: Validating the display of Not Proceed Signal state
+  Scenario: 34081-4 Validating the display of Not Proceed Signal state
     #Given I am viewing the map HDGW01paddington.v
     #And I set up all signals for address 80 in D3 to be red
     And I set up all signals for address 80 in D3 to be green
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 80      | FF   | 10:45:00  |
     Then the signal roundel for signal 'SN128' is green
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
@@ -44,7 +50,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN128' is red
 
-  Scenario: 34081-5 Validating the display of Main Proceed Signal state
+  Scenario: 34081-5 Validating the display of white Signal state
     #Given I am viewing the map HDGW01paddington.v
     #And I set up all signals for address 80 in D3 to be red
     And I set up all signals for address 80 in D3 to be red
