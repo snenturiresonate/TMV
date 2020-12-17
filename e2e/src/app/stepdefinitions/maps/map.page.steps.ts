@@ -467,3 +467,10 @@ Then('the shunt signal state for signal {string} is {word}',
     const actualSignalColourHex = await mapPageObject.getShuntSignalColour(signalId);
     expect(actualSignalColourHex).to.equal(expectedSignalColourHex);
   });
+
+
+When('I launch a new map {string} the new map should have start time from the moment it was opened', async (mapName: string) => {
+  await mapPageObject.clickMapName();
+  await mapPageObject.enterMapSearchString(mapName);
+  await mapPageObject.launchMap();
+});

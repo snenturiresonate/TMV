@@ -10,16 +10,22 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And I navigate to the maps view with id hdgw01paddington.v
     And I switch to the new tab
 
-  Scenario: 34081-1 Current Signal State
-    #Given the existing state of the signals
-    #And at least one signal has a known state
-    #When the user opens a new map that contains the signals
-    #Then the signal state align with the underlying signal state model
-    Then the signal roundel for signal 'SN128' is grey
-    And the shunt signal state for signal 'SN6142' is grey
+  Scenario Outline: 34081-1 Current Signal State
+      #Given the existing state of the signals
+      #And at least one signal has a known state
+      #When the user opens a new map that contains the signals
+      #Then the signal state align with the underlying signal state model
+    @tdd
+    Given I set up all signals for address 80 in D3 to be red
+    And the maximum amount of time is allowed for end to end transmission
+    And I am viewing the map HDGW01paddington.v
+    And the signal roundel for signal 'SN208' is red
+    When I launch a new map 'HDGW02' the new map should have start time from the moment it was opened
+    And I switch to the new tab
+    Then the signal roundel for signal 'SN200' is red
     And I refresh the browser
-    Then the signal roundel for signal 'SN128' is grey
-    And the shunt signal state for signal 'SN6142' is grey
+    And the signal roundel for signal 'SN200' is red
+
 
   Scenario:34081 - 2  Main Signal State (Proceed
     #Given an S-Class message is received and processed

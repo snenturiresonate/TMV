@@ -19,7 +19,7 @@ exports.config = {
     }
   },
   directConnect: true,
-  baseUrl: 'http://localhost:4200/',
+  baseUrl: '',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
