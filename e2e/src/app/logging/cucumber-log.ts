@@ -3,7 +3,7 @@ import {browser} from 'protractor';
 
 export class CucumberLog
 {
-  public static cucumberLog;
+  public static cucumberLog: any;
   public static async attachLog(log: any): Promise<void> {
     CucumberLog.cucumberLog = log;
   }

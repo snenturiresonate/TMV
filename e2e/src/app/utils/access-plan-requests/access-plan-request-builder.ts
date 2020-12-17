@@ -5,6 +5,7 @@ import {AccessPlanRequest} from '../../../../../src/app/api/linx/models/access-p
 import {Header} from '../../../../../src/app/api/linx/models/header';
 import {HeaderBuilder} from './header-builder';
 
+
 export class AccessPlanRequestBuilder {
   private associations?: Array<Association>;
   private schedules?: Array<Schedule>;

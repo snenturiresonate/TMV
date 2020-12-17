@@ -1,5 +1,6 @@
 /* tslint:disable */
 import {ScheduleIdentifier} from '../../../../../src/app/api/linx/models/schedule-identifier';
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 export class ScheduleIdentifierBuilder {
   private dateRunsFrom?: string;
@@ -13,7 +14,7 @@ export class ScheduleIdentifierBuilder {
   }
 
   withDateRunsFrom(dateRunsFrom: string) {
-    this.dateRunsFrom = dateRunsFrom;
+    this.dateRunsFrom = DateAndTimeUtils.convertToDesiredDateAndFormat(dateRunsFrom, 'yyyy-MM-dd');
     return this;
   }
 
