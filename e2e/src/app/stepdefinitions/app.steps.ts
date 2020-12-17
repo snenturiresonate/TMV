@@ -16,7 +16,7 @@ Before(() => {
   linxRestClient = new LinxRestClient();
 });
 
-Given(/^I am on the home page$/, async () => {
+Given(/^I am on the home page$/, {timeout: 15 * 1000}, async () => {
   await page.navigateTo('');
 });
 
