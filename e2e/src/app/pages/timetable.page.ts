@@ -20,7 +20,7 @@ export class TimetablePageObject {
   async getTableRows(): Promise<TimetableTableRowPageObject[]> {
     await browser.wait(ExpectedConditions.visibilityOf(this.rows.first()), 4000, 'wait for timetable to load');
     return this.rows.map(row => row.getAttribute('id'))
-      .then(list => list.map(id => new TimetableTableRowPageObject(id.toString())));
+      .then(list => list.map(id => new TimetableTableRowPageObject(element(by.id(id.toString())))));
   }
 
   async toggleInserted(status: string): Promise<void> {

@@ -100,6 +100,13 @@ When('I click on the Search icon', async () => {
   await navBarPage.clickSearchIcon();
 });
 
+
+When(/^I search (Train|Signal|Timetable) for '(.*)'$/, async (filter: string, searchFor: string) => {
+  await navBarPage.setSearchFilter(filter);
+  await navBarPage.enterSearchValue(searchFor);
+  await navBarPage.clickSearchIcon();
+});
+
 Then('the option in the train search is displayed as {string}', async (expectedValue: string) => {
   const actualDropdownValue: string = await navBarPage.getTrainSearchValue();
   expect(actualDropdownValue).to.equal(expectedValue);
@@ -281,4 +288,3 @@ Then('the TMV Key option should not be visible', async () => {
 Then('there should only be one key model window open', async () => {
   expect(await navBarPage.countKeyModelWindows()).to.equal(1);
 });
-

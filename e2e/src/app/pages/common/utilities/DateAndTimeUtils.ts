@@ -1,6 +1,28 @@
 import * as moment from 'moment';
+import {DateTimeFormatter, LocalDate} from '@js-joda/core';
 
 export class DateAndTimeUtils {
+
+  public static dayOfWeek(): string {
+    return LocalDate.now().dayOfWeek().name();
+  }
+  /**
+   * Returns a parsed date from the string input in the format specified.
+   * Input: date, a date string or one of 'today', 'yesterday' & 'tomorrow' and the date will be calculated
+   * Input: dateFormat, string of format to return the date in eg dd/MM/YYYY, yyyy-MM-dd etc
+   */
+  public static convertToDesiredDateAndFormat(date: string, dateFormat: string): string {
+    switch (date.toLowerCase()) {
+      case 'today':
+        return LocalDate.now().format(DateTimeFormatter.ofPattern(dateFormat));
+      case 'tomorrow':
+        return LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern(dateFormat));
+      case 'yesterday':
+        return LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern(dateFormat));
+      default:
+        return LocalDate.parse(date).format(DateTimeFormatter.ofPattern(dateFormat));
+    }
+  }
   /**
    * Returns a parsed date from the string input of date & time. Not to be used for assertions with tolerance
    * Input: DateTime of type string

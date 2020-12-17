@@ -24,7 +24,9 @@ const mapLayerPageObject: MapLayerPageObject = new MapLayerPageObject();
 
 const mapColourHex = {
   red: '#ff0000',
+  blue: '#0000ff',
   green: '#00ff00',
+  yellow: '#fffe3c',
   white: '#ffffff',
   orange: '#ffa700',
   grey: '#969696'
@@ -64,7 +66,6 @@ const mapObjectColourHex = {
   connector_text_label: '#ffffff',
   other_text_label: '#ffffff',
   berth: '#e1e1e1',
-  last_berth: '#ffd6b4',
   manual_trust_berth: '#ffff00'
 };
 
@@ -72,13 +73,13 @@ Given(/^I am viewing the map (.*)$/, async (mapId: string) => {
   await mapPageObject.navigateTo(mapId);
 });
 
-Given('the user is viewing a schematic map', async () => {
+Given('I am viewing a schematic map', async () => {
   const randomMap = await homePage.chooseRandomMap();
   await mapPageObject.navigateTo(randomMap);
   mapPageObject.originallyOpenedMapTitle = await browser.getTitle();
 });
 
-Given('the user is viewing a schematic that contains a continuation button', async () => {
+Given('I view a schematic that contains a continuation button', async () => {
   const randomMap = await homePage.chooseRandomMap();
   await mapPageObject.navigateTo(randomMap);
   mapPageObject.originallyOpenedMapTitle = await browser.getTitle();
@@ -90,16 +91,16 @@ Given('the user is viewing a schematic that contains a continuation button', asy
   expect(numContinuationLinks).to.be.greaterThan(0);
 });
 
-Given('I set up all signals for address {word} in {word} to be {word}', async (address: string, trainDescriber: string, colour: string) => {
+Given('I set up all signals for address {word} in {word} to be {word}', async (address: string, trainDescriber: string, state: string) => {
   const redSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, '00', '10:45:00', trainDescriber);
   const greenSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, 'FF', '10:45:00', trainDescriber);
-  if (colour === 'red') {
+  if (state === 'not-proceed') {
     linxRestClient.postSignallingUpdate(greenSignallingUpdate);
     await linxRestClient.waitMaxTransmissionTime();
     linxRestClient.postSignallingUpdate(redSignallingUpdate);
     await linxRestClient.waitMaxTransmissionTime();
   }
-  if (colour === 'green') {
+  if (state === 'proceed') {
     linxRestClient.postSignallingUpdate(redSignallingUpdate);
     await linxRestClient.waitMaxTransmissionTime();
     linxRestClient.postSignallingUpdate(greenSignallingUpdate);
@@ -122,7 +123,7 @@ When('I pan the map right {int}, down {int}', async (xVal: number, yVal: number)
   await browser.actions().mouseMove({x: xVal, y: yVal}).perform();
 });
 
-When('the user uses the primary mouse click on a continuation button', async () => {
+When('I use the primary mouse click on a continuation button', async () => {
   const continuationTextLayerItems: MapLayerItem[]
     = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType.connector_text_label);
   const continuationTextLayerItem: MapLayerItem = continuationTextLayerItems[0];
@@ -134,7 +135,7 @@ When('the user uses the primary mouse click on a continuation button', async () 
 });
 
 
-When('the user uses the secondary mouse click on a continuation button', async () => {
+When('I use the secondary mouse click on a continuation button', async () => {
   const continuationTextLayerItems: MapLayerItem[]
     = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType.connector_text_label);
   const continuationTextLayerItem: MapLayerItem = continuationTextLayerItems[0];
@@ -145,18 +146,27 @@ When('the user uses the secondary mouse click on a continuation button', async (
   await browser.actions().click(continuationTextElements[randomIndex], protractor.Button.RIGHT).perform();
 });
 
-When('the user selects "Open" map from the menu', async () => {
+When('I select "Open" map from the menu', async () => {
   const openMapLink: ElementFinder = await mapPageObject.getMapContextMenuElementByRow(3);
   await openMapLink.click();
 });
 
-When('the user selects "Open (new tab)" map from the menu', async () => {
+When('I select "Open (new tab)" map from the menu', async () => {
   const openMapLink: ElementFinder = await mapPageObject.getMapContextMenuElementByRow(4);
   await openMapLink.click();
 });
 
 When('I release the mouse key', async () => {
   await browser.actions().mouseUp().perform();
+});
+
+When('I use the secondary mouse on {word} berth {word}', async (berthType: string, berthId: string) => {
+  if (berthType === 'normal') {
+    await mapPageObject.rightClickBerth(berthId);
+  }
+  if (berthType === 'manual-trust') {
+    await mapPageObject.rightClickManualTrustBerth(berthId);
+  }
 });
 
 Then('the zoom level is the same as previously noted', async () => {
@@ -351,6 +361,38 @@ Then('the signal roundel for signal {string} is {word}',
     expect(actualSignalColourHex).to.equal(expectedSignalColourHex);
   });
 
+Then('the marker board triangle for marker board {string} is {word}',
+  async (markerBoardId: string, expectedMarkerBoardColour: string) => {
+    const expectedMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];
+    const actualMarkerBoardColourHex = await mapPageObject.getMarkerBoardTriangleColour(markerBoardId);
+    expect(actualMarkerBoardColourHex).to.equal(expectedMarkerBoardColourHex);
+  });
+
+Then('the shunt marker board triangle for shunt marker board {string} is {word}',
+  async (markerBoardId: string, expectedShuntMarkerBoardColour: string) => {
+    const expectedShuntMarkerBoardColourHex = mapColourHex[expectedShuntMarkerBoardColour];
+    const actualShuntMarkerBoardColourHex = await mapPageObject.getShuntMarkerBoardTriangleColour(markerBoardId);
+    expect(actualShuntMarkerBoardColourHex).to.equal(expectedShuntMarkerBoardColourHex);
+  });
+
+Then('the marker board {string} will display a Movement Authority {word} [{word} triangle on blue background]',
+  async (markerBoardId: string, authorityType: string, expectedMarkerBoardColour: string) => {
+    const expectedMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];
+    const actualMarkerBoardColourHex = await mapPageObject.getMarkerBoardTriangleColour(markerBoardId);
+    const actualMarkerBoardBackgroundColourHex = await mapPageObject.getMarkerBoardBackgroundColour(markerBoardId);
+    expect(actualMarkerBoardColourHex).to.equal(expectedMarkerBoardColourHex);
+    expect(actualMarkerBoardBackgroundColourHex).to.equal(mapColourHex.blue);
+  });
+
+Then('the shunt marker board {string} will display a Movement Authority {word} [{word} triangle with blue inner triangle]',
+  async (markerBoardId: string, authorityType: string, expectedMarkerBoardColour: string) => {
+    const expectedShuntMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];
+    const actualShuntMarkerBoardTriangleColourHex = await mapPageObject.getShuntMarkerBoardTriangleColour(markerBoardId);
+    const actualShuntMarkerBoardSmallTriangleColourHex = await mapPageObject.getShuntMarkerBoardSmallTriangleColour(markerBoardId);
+    expect(actualShuntMarkerBoardTriangleColourHex).to.equal(expectedShuntMarkerBoardColourHex);
+    expect(actualShuntMarkerBoardSmallTriangleColourHex).to.equal(mapColourHex.blue);
+  });
+
 Then('berth {string} in train describer {string} contains the train description {string} but the first 2 characters have been swapped',
   async (berthId: string, trainDescriber: string, trainDescription: string) => {
     await page.navigateToMapWithBerth(berthId, trainDescriber);
@@ -368,7 +410,7 @@ Then('the view is refreshed with the linked map', async () => {
   expect(actualTabTitle).to.contain(mapPageObject.lastMapLinkSelectedCode);
 });
 
-Then ('the user is presented with a menu which they choose to open the map within to the same view or new tab', async () => {
+Then ('I am presented with a menu which I choose to open the map within to the same view or new tab', async () => {
   await mapPageObject.waitForContextMenu();
   const actualContextMenuItem2: string = await mapPageObject.getMapContextMenuItem(2);
   const actualContextMenuItem3: string = await mapPageObject.getMapContextMenuItem(3);
@@ -395,6 +437,25 @@ Then('the previous tab still displays the original map', async () => {
   expect(actualTabTitle).equals(mapPageObject.originallyOpenedMapTitle);
 });
 
+Then('I am presented with a set of information about the berth', async () => {
+  const contextMenuAppears = await mapPageObject.waitForContextMenu();
+  expect(contextMenuAppears).equals(true);
+});
+
+Then('the berth information for {word} contains {word}', async (berthId: string, expectedBerthInfo: string) => {
+  const infoString: string = await mapPageObject.getBerthContextInfoText();
+  expect(infoString).to.contain(expectedBerthInfo);
+});
+
+Then('the berth information for {word} only contains {word}', async (berthId: string, expectedBerthInfo: string) => {
+  const infoString: string = await mapPageObject.getBerthContextInfoText();
+  expect(infoString).to.equal(expectedBerthInfo);
+});
+
+Then('the manual trust berth information for {word} only contains {word}', async (berthId: string, expectedBerthInfo: string) => {
+  const infoString: string = await mapPageObject.getManualTrustBerthContextInfoText();
+  expect(infoString).to.equal(expectedBerthInfo);
+});
 
 Given('I am on a map showing berth {string} and in train describer {string}', async (berthId: string, trainDescriber: string) => {
   await page.navigateToMapWithBerth(berthId, trainDescriber);

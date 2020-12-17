@@ -40,6 +40,7 @@ export class NavBarPageObject {
   public tmvKeyButton: ElementFinder;
   public modalWindow: ElementArrayFinder;
   public helpMenu: ElementFinder;
+  public searchFilterToggle: ElementFinder;
   constructor() {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
@@ -53,6 +54,7 @@ export class NavBarPageObject {
     this.trainSearchBox = element(by.id('national-search-box'));
     this.trainSearchBtn = element(by.css('#national-search-submit >span'));
     this.trainSearchOption = element(by.css('#national-search-dropdown >button'));
+    this.searchFilterToggle = element(by.id('national-search-dropdown-toggle'));
     this.signalOption = element(by.css('#national-search-dropdown-menu >button:nth-child(1)'));
     this.timeTableOption = element(by.css('#national-search-dropdown-menu >button:nth-child(2)'));
     this.navBar = element(by.id('collapsibleNavbar'));
@@ -80,6 +82,7 @@ export class NavBarPageObject {
     this.tmvKeyButton = element(by.id('tmv-key-button'));
     this.modalWindow = element.all(by.css('.modalpopup'));
     this.helpMenu = element(by.id('help-menu-button'));
+
   }
 
   public async getNavbarIconNames(): Promise<string> {
@@ -335,5 +338,12 @@ export class NavBarPageObject {
 
   public async openTMVKey(): Promise<void> {
     await this.tmvKeyButton.click();
+  }
+
+  public async setSearchFilter(filter: string): Promise<void> {
+    if (filter !== (await this.searchFilterToggle.getText())) {
+      await this.searchFilterToggle.click();
+      await element(by.buttonText(filter)).click();
+    }
   }
 }

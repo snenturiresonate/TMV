@@ -1,4 +1,4 @@
-import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {of} from 'rxjs';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
 import * as fs from 'fs';
@@ -99,6 +99,30 @@ export class MapPageObject {
     return CssColorConverterService.rgb2Hex(lampRoundColourRgb);
   }
 
+  public async getMarkerBoardTriangleColour(markerBoardId: string): Promise<string> {
+    const markerBoardTriangle: ElementFinder = element(by.css('[id^=marker-boards-element-triangle-' + markerBoardId  + ']'));
+    const triangleColourRgb: string = await markerBoardTriangle.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(triangleColourRgb);
+  }
+
+  public async getMarkerBoardBackgroundColour(markerBoardId: string): Promise<string> {
+    const markerBrdRect: ElementFinder = element(by.css('[id^=marker-boards-element-rect-' + markerBoardId  + ']'));
+    const rectColourRgb: string = await markerBrdRect.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(rectColourRgb);
+  }
+
+  public async getShuntMarkerBoardTriangleColour(markerBoardId: string): Promise<string> {
+    const markerBrdTriangle: ElementFinder = element(by.css('[id^=shunt-marker-boards-element-triangle-' + markerBoardId  + ']'));
+    const triangleColourRgb: string = await markerBrdTriangle.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(triangleColourRgb);
+  }
+
+  public async getShuntMarkerBoardSmallTriangleColour(markerBoardId: string): Promise<string> {
+    const markerBrdSmallTri: ElementFinder = element(by.css('[id^=shunt-marker-boards-element-small-triangle-' + markerBoardId  + ']'));
+    const smallTriangleColourRgb: string = await markerBrdSmallTri.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(smallTriangleColourRgb);
+  }
+
   public async berthTextIsVisible(berthId: string, trainDescriber: string): Promise<boolean> {
     const berth: ElementFinder = await this.getBerthElementFinder(berthId, trainDescriber);
     return berth.isDisplayed();
@@ -134,6 +158,24 @@ export class MapPageObject {
 
   public async getMapContextMenuElementByRow(rowIndex: number): Promise<ElementFinder> {
     return this.mapContextMenuItems.get(rowIndex - 1);
+  }
+
+  public async rightClickManualTrustBerth(manualTrustBerthId: string): Promise<void> {
+    const berthLink: ElementFinder = element(by.id('manual-trust-berth-element-text-' + manualTrustBerthId));
+    await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
+  }
+
+  public async rightClickBerth(berthId: string): Promise<void> {
+    const berthLink: ElementFinder = element(by.id('berth-element-text-' + berthId));
+    await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
+  }
+
+  public async getBerthContextInfoText(): Promise<string> {
+    return element(by.id('berthContextMenu')).getText();
+  }
+
+  public async getManualTrustBerthContextInfoText(): Promise<string> {
+    return element(by.id('manualTrustberthContextMenu')).getText();
   }
 
 }

@@ -12,6 +12,7 @@ import {DaysBuilder} from './days-builder';
 import {ScheduleIdentifierBuilder} from './schedule-identifier-builder';
 import {ServiceCharacteristicsBuilder} from './service-characteristics-builder';
 import {StockCharacteristicsBuilder} from './stock-characteristics-builder';
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 export class ScheduleBuilder {
   private applicableTimetableCode?: string;
@@ -39,7 +40,7 @@ export class ScheduleBuilder {
     this.withDateRunsTo('2050-01-01');
     this.withDaysRun(new DaysBuilder().weekdays().build());
     this.withScheduleIdentifier(new ScheduleIdentifierBuilder().build());
-    this.withServiceCharacteristics( new ServiceCharacteristicsBuilder().build());
+    this.withServiceCharacteristics(new ServiceCharacteristicsBuilder().build());
     this.withStockCharacteristics(new StockCharacteristicsBuilder().build());
     this.withTrainStatus('F');
   }
@@ -60,7 +61,7 @@ export class ScheduleBuilder {
   }
 
   withDateRunsTo(dateRunsTo: string) {
-    this.dateRunsTo = dateRunsTo;
+    this.dateRunsTo = DateAndTimeUtils.convertToDesiredDateAndFormat(dateRunsTo, 'yyyy-MM-dd');
     return this;
   }
 
@@ -124,6 +125,28 @@ export class ScheduleBuilder {
   revise() {
     this.transactionType = 'R';
     return this;
+  }
+
+  monday(isRunning: boolean) {
+    this.daysRun.monday = isRunning;
+  }
+  tuesday(isRunning: boolean) {
+    this.daysRun.tuesday = isRunning;
+  }
+  wednesday(isRunning: boolean) {
+    this.daysRun.wednesday = isRunning;
+  }
+  thursday(isRunning: boolean) {
+    this.daysRun.thursday = isRunning;
+  }
+  friday(isRunning: boolean) {
+    this.daysRun.friday = isRunning;
+  }
+  saturday(isRunning: boolean) {
+    this.daysRun.saturday = isRunning;
+  }
+  sunday(isRunning: boolean) {
+    this.daysRun.sunday = isRunning;
   }
 
 
