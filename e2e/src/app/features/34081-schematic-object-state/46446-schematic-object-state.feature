@@ -10,7 +10,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And I navigate to the maps view with id hdgw01paddington.v
     And I switch to the new tab
 
-  Scenario Outline: 34081-1 Current Signal State
+  Scenario: 34081-1 Current Signal State
       #Given the existing state of the signals
       #And at least one signal has a known state
       #When the user opens a new map that contains the signals
