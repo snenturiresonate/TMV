@@ -10,12 +10,12 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And I navigate to the maps view with id hdgw01paddington.v
     And I switch to the new tab
 
+  @tdd
   Scenario: 34081-1 Current Signal State
       #Given the existing state of the signals
       #And at least one signal has a known state
       #When the user opens a new map that contains the signals
       #Then the signal state align with the underlying signal state model
-    @tdd
     Given I set up all signals for address 80 in D3 to be red
     And the maximum amount of time is allowed for end to end transmission
     And I am viewing the map HDGW01paddington.v
