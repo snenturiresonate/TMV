@@ -54,7 +54,7 @@ Feature: 33761-2 Train activation for a valid service
     And it has Terminating Details
       | tiploc  | scheduledArrival | path |
       | OLDOXRS | 10:14            |      |
-    And that service has the cancellation status 'F'
+    And that service has the cancellation status 'T'
     When the schedule is received from LINX
     And the activation message from location 'linx/0a00_train_activation.xml' is sent from LINX
     Then The trains list table is visible
