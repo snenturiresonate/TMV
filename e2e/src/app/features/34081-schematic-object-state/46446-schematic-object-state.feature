@@ -95,7 +95,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #And the S-Class message is associated with a shunt signal
     #And the S-Class message is setting the shunt signal to proceed
     #When a user is viewing a map that contains the shunt signal
-    #Then the shunt signal will display a proceed aspect (green quadrant)
+    #Then the shunt signal will display a proceed aspect (white quadrant)
     And the shunt signal state for signal 'SN6142' is grey
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
