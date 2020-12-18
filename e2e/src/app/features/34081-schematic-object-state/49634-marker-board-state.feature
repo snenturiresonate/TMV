@@ -33,16 +33,16 @@ Feature: 49634 - Schematic State - marker-board state
       | MH             | 31      | FC   | 10:45:00  |
     Then the marker board 'MH1201' will display a Movement Authority not-given [red triangle on blue background]
 
-  Scenario: 34081-11 - Marker Board State (Movement Authority Never Included)
-    #    Given an S-Class message is received and processed
-    #    And the S-Class message is associated with a marker board
-    #    And the S-Class message is setting for the marker board is never included
-    #    When a user is viewing a map that contains the marker board
-    #    Then the marker board will display a never included state (yellow triangle on blue background)
+  Scenario: 34081-10 - Marker Board State (Movement Authority Unknown)
+#    Given an S-Class message is received and processed
+#    And the S-Class message is associated with a marker board
+#    And the S-Class message is setting the marker board to Movement Authority unknown
+#    When a user is viewing a map that contains the marker board
+#    Then the marker board will display a Movement Authority unknown (grey triangle on blue background)
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | MH             | 31      | 01   | 10:45:00  |
-    Then the marker board 'MH1201' will display a Movement Authority never-included-state [yellow triangle on blue background]
+    Then the marker board 'MH1201' will display a Movement Authority unknown [grey triangle on blue background]
 
   Scenario: 34081-12 - Shunt Marker Board State (Movement Authority Given)
     #    Given an S-Class message is received and processed
