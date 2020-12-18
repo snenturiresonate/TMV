@@ -5,10 +5,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
   So that I have a live view of the railway
 
   Background:
-    Given I am on the home page
-    And I expand the group of maps with name 'Wales & Western'
-    And I navigate to the maps view with id hdgw01paddington.v
-    And I switch to the new tab
+    Given I am viewing the map hdgw01paddington.v
 
   @tdd
   Scenario: 34081-1 Current Signal State
@@ -18,7 +15,6 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       #Then the signal state align with the underlying signal state model
     Given I set up all signals for address 80 in D3 to be red
     And the maximum amount of time is allowed for end to end transmission
-    And I am viewing the map HDGW01paddington.v
     And the signal roundel for signal 'SN208' is red
     When I launch a new map 'HDGW02' the new map should have start time from the moment it was opened
     And I switch to the new tab
