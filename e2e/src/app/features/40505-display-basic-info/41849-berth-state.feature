@@ -1,4 +1,3 @@
-@bug @bug_51585
 Feature: 41849 - Basic UI - Display berth state
   As a user
   I want to view berth state information in the UI

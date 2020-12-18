@@ -58,7 +58,7 @@ const mapObjectColourHex = {
   active_track_section: '#ffffff',
   active_main_signal: '#969696',
   active_shunters_release: '#ffffff',
-  active_markerboard: '#fffe3c',
+  active_markerboard: '#969696',
   active_shunt_markerboard: '#0000ff',
   active_shunt_signal: '#969696',
   aes_boundaries_text_label: '#ff3cb1',
