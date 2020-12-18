@@ -24,7 +24,9 @@ export class MapPageObject {
   public mapContextMenuItems: ElementArrayFinder;
   public originallyOpenedMapTitle: string;
   public lastMapLinkSelectedCode: string;
-
+  public mapNameDropdown: ElementFinder;
+  public mapSearch: ElementFinder;
+  public liveMap: ElementFinder;
   constructor() {
     this.platformLayer = element(by.id('platform-layer'));
     this.berthElements = element(by.id('berth-elements'));
@@ -40,6 +42,10 @@ export class MapPageObject {
     this.mapContextMenuItems = element.all(by.css('.dropdown-item'));
     this.originallyOpenedMapTitle = '';
     this.lastMapLinkSelectedCode = '';
+    this.mapNameDropdown = element(by.css('.map-dropdown-button:nth-child(1)'));
+    this.mapSearch = element(by.id('map-search-box'));
+    this.liveMap = element(by.css('#live-map'));
+
   }
 
   navigateTo(mapId: string): Promise<unknown> {
@@ -96,6 +102,12 @@ export class MapPageObject {
   public async getSignalLampRoundColour(signalId: string): Promise<string> {
     const signalLampRound: ElementFinder = element(by.css('[id^=signal-element-lamp-round-' + signalId  + ']'));
     const lampRoundColourRgb: string = await signalLampRound.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(lampRoundColourRgb);
+  }
+
+  public async getShuntSignalColour(signalId: string): Promise<string> {
+    const staticSignalLampRound: ElementFinder = element(by.css('[id^=shunt-element-lamp-round-' + signalId  + ']'));
+    const lampRoundColourRgb: string = await staticSignalLampRound.getCssValue('fill');
     return CssColorConverterService.rgb2Hex(lampRoundColourRgb);
   }
 
@@ -178,4 +190,15 @@ export class MapPageObject {
     return element(by.id('manualTrustberthContextMenu')).getText();
   }
 
+  public async clickMapName(): Promise<void> {
+    return this.mapNameDropdown.click();
+  }
+  public async enterMapSearchString(searchMap: string): Promise<void> {
+    this.mapSearch.clear();
+    return this.mapSearch.sendKeys(searchMap);
+  }
+  public async launchMap(): Promise<any> {
+    browser.actions().mouseMove(element(by.css('li[id*=map-link]'))).perform();
+    await element(by.css('li[id*=map-link] .new-tab-button')).click();
+  }
 }
