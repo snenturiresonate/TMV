@@ -518,3 +518,9 @@ When('I launch a new map {string} the new map should have start time from the mo
   await mapPageObject.enterMapSearchString(mapName);
   await mapPageObject.launchMap();
 });
+
+Then('the TRTS status for signal {string} is {word}',
+  async (signalId: string, expectedSignalStatus: string) => {
+    const actualPageNumber: string = await mapPageObject.getTrtsStatus(signalId);
+    expect(actualPageNumber).to.equal(expectedSignalStatus);
+  });

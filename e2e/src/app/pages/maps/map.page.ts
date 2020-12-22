@@ -45,7 +45,6 @@ export class MapPageObject {
     this.mapNameDropdown = element(by.css('.map-dropdown-button:nth-child(1)'));
     this.mapSearch = element(by.id('map-search-box'));
     this.liveMap = element(by.css('#live-map'));
-
   }
 
   navigateTo(mapId: string): Promise<unknown> {
@@ -236,5 +235,10 @@ export class MapPageObject {
   public async launchMap(): Promise<any> {
     browser.actions().mouseMove(element(by.css('li[id*=map-link]'))).perform();
     await element(by.css('li[id*=map-link] .new-tab-button')).click();
+  }
+
+  public async getTrtsStatus(signalId: string): Promise<string> {
+    const signalLatchElement: ElementFinder = element(by.css('[id^=signal-latch-cross-element-' + signalId  + ']'));
+    return signalLatchElement.getAttribute('visibility');
   }
 }
