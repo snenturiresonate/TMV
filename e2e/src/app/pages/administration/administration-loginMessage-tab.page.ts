@@ -6,11 +6,13 @@ export class AdministrationLoginMessageTab {
   public loginSettingsContainer: ElementFinder;
   public saveBtn: ElementFinder;
   public resetBtn: ElementFinder;
+  public unsavedIndicator: ElementFinder;
 
   constructor() {
     this.loginSettingsContainer = element(by.css('app-login-settings login-settings-container'));
     this.saveBtn = element(by.css('#saveLoginConfig'));
     this.resetBtn = element(by.css('#resetLoginConfig'));
+    this.unsavedIndicator = element(by.xpath('//*[@id="Login Message"]/span'));
   }
 
   public async componentLoad(): Promise<void> {
@@ -40,5 +42,9 @@ export class AdministrationLoginMessageTab {
 
   public async clickResetButton(): Promise<void> {
     await CommonActions.waitAndClick(this.resetBtn);
+  }
+
+  public async isUnsavedIndicatorPresent(): Promise<boolean> {
+    return browser.isElementPresent(this.unsavedIndicator);
   }
 }
