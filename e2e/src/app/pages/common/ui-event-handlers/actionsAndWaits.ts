@@ -1,4 +1,5 @@
 import {browser, ElementFinder, protractor} from 'protractor';
+import {GeneralUtils} from '../utilities/generalUtils';
 
 export class CommonActions {
   /**
@@ -7,6 +8,7 @@ export class CommonActions {
    */
   public static async waitAndClick(elm: ElementFinder): Promise<void> {
     await this.waitForElementInteraction(elm);
+    await GeneralUtils.scrollToElement(elm);
     await elm.click();
   }
 
@@ -17,6 +19,7 @@ export class CommonActions {
    */
   public static async waitAndGetText(elm: ElementFinder): Promise<string> {
     await this.waitForElementInteraction(elm);
+    await GeneralUtils.scrollToElement(elm);
     return elm.getText();
   }
 

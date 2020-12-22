@@ -9,6 +9,7 @@ import {MapLayerPageObject} from '../../pages/maps/map-layer.page';
 import {MapLayerType} from '../../pages/maps/map-layer-type.enum';
 import {MapLayerItem} from '../../pages/maps/map-layer-item.model';
 import {HomePageObject} from '../../pages/home.page';
+import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
 
 let page: MapPageObject;
 let linxRestClient: LinxRestClient;
@@ -239,6 +240,7 @@ Then('there are {int} {word} elements in the {word} layer', async (expectedItemC
 });
 
 Then ('{int} objects of type {word} are rendered', async (expectedItemCount: number, objectType: string) => {
+  await CommonActions.waitForElementInteraction(mapPageObject.zoomableLayer);
   const layerType: MapLayerType = MapLayerType[objectType];
   const mapLayerItems: MapLayerItem[] = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(layerType);
   const mapLayerItem: MapLayerItem = mapLayerItems[0];
@@ -391,6 +393,48 @@ Then('the shunt marker board {string} will display a Movement Authority {word} [
     const actualShuntMarkerBoardSmallTriangleColourHex = await mapPageObject.getShuntMarkerBoardSmallTriangleColour(markerBoardId);
     expect(actualShuntMarkerBoardTriangleColourHex).to.equal(expectedShuntMarkerBoardColourHex);
     expect(actualShuntMarkerBoardSmallTriangleColourHex).to.equal(mapColourHex.blue);
+  });
+
+
+Then('there is no text indication for {word} {string}', async (sClassBerthType: string, sClassBerthId: string) => {
+  expect(! await mapPageObject.isSClassBerthElementPresent(sClassBerthId));
+});
+
+Then('there is a text indication for {word} {string}', async (sClassBerthType: string, sClassBerthId: string) => {
+  expect(await mapPageObject.isSClassBerthElementPresent(sClassBerthId));
+});
+
+Then('the shunt-marker-board {string} will display a Node Proven {word} [{word} green cross next to the shunt marker board]',
+  async (markerBoardId: string, authorityType: string, expectedIndicationCount: string) => {
+    if (expectedIndicationCount === 'no') {
+      expect(! await mapPageObject.isSClassBerthElementPresent(markerBoardId));
+    }
+    else {
+      const actualIndicationText = await mapPageObject.getSClassBerthElementText(markerBoardId);
+      const actualIndicationTextColourHex = await mapPageObject.getSClassBerthElementTextColour(markerBoardId);
+      expect(actualIndicationTextColourHex).to.equal(mapColourHex.green);
+      expect(actualIndicationText).to.equal('+');
+    }
+  });
+
+Then('the cross indication for shunters-release {string} is not visible', async (releaseId: string) => {
+  expect(! await mapPageObject.releaseElementIsVisible(releaseId));
+});
+
+Then('the cross indication for shunters-release {string} is visible', async (releaseId: string) => {
+  expect(await mapPageObject.releaseElementIsVisible(releaseId));
+});
+
+Then('the shunters-release {string} will display a {word} state [{word} white cross in the white box]',
+  async (releaseId: string, authorityType: string, expectedIndicationCount: string) => {
+    if (expectedIndicationCount === 'no') {
+      expect(! await mapPageObject.releaseElementIsVisible(releaseId));
+    }
+    else {
+      expect(await mapPageObject.releaseElementIsVisible(releaseId));
+      const actualIndicationTextColourHex = await mapPageObject.getReleaseElementColour(releaseId);
+      expect(actualIndicationTextColourHex).to.equal(mapColourHex.white);
+    }
   });
 
 Then('berth {string} in train describer {string} contains the train description {string} but the first 2 characters have been swapped',

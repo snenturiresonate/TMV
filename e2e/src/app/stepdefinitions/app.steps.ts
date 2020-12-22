@@ -7,6 +7,7 @@ import {CucumberLog} from '../logging/cucumber-log';
 import * as fs from 'fs';
 import * as path from 'path';
 import {ProjectDirectoryUtil} from '../utils/project-directory.util';
+import {browser} from 'protractor';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
@@ -188,9 +189,24 @@ Given(/^I am on the log viewer page$/, async () => {
 });
 
 Given(/^I am on the admin page$/, async () => {
-  await page.navigateTo('/tmv/administration');
+  try {
+    await page.navigateTo('/tmv/administration');
+  } catch (UnexpectedAlertOpenError) {
+    await handleUnexpectedAlertAndNavigateTo('/tmv/administration');
+  }
 });
 
 Given(/^I am on the replay page$/, async () => {
   await page.navigateTo('/tmv/replay/replay-session-1');
 });
+
+Then('the tab title is {string}', async (expectedTabTitle: string) => {
+  const actualTabTitle: string = await browser.getTitle();
+  expect(actualTabTitle).to.contains(expectedTabTitle);
+});
+
+async function handleUnexpectedAlertAndNavigateTo(url: string): Promise<any> {
+    const alert = await browser.switchTo().alert();
+    await alert.accept();
+    await page.navigateTo(url);
+}

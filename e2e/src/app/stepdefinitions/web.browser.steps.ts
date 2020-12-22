@@ -39,6 +39,10 @@ When('I close the last tab', async () => {
   await closeLastTab();
 });
 
+When('I close the browser', async () => {
+  await browser.driver.close();
+});
+
 When('I resize the browser to {int} by {int}', async (width: number, height: number) => {
   await browser.driver.manage().window().setSize(width, height);
 });

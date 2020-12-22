@@ -99,6 +99,16 @@ export class MapPageObject {
     return berth.isPresent();
   }
 
+  public async isSClassBerthElementPresent(berthId: string): Promise<boolean> {
+    const sClassBerth: ElementFinder = await this.getSClassBerthElementFinder(berthId);
+    return sClassBerth.isPresent();
+  }
+
+  public async isReleaseIndicationPresent(releaseId: string): Promise<boolean> {
+    const release: ElementFinder = await this.getSClassBerthElementFinder(releaseId);
+    return release.isPresent();
+  }
+
   public async getSignalLampRoundColour(signalId: string): Promise<string> {
     const signalLampRound: ElementFinder = element(by.css('[id^=signal-element-lamp-round-' + signalId  + ']'));
     const lampRoundColourRgb: string = await signalLampRound.getCssValue('fill');
@@ -129,6 +139,23 @@ export class MapPageObject {
     return CssColorConverterService.rgb2Hex(triangleColourRgb);
   }
 
+  public async getSClassBerthElementTextColour(elementId: string): Promise<string> {
+    const textElement: ElementFinder = await this.getSClassBerthElementFinder(elementId);
+    const textElementRgb: string = await textElement.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(textElementRgb);
+  }
+
+  public async getSClassBerthElementText(elementId: string): Promise<string> {
+    const textElement: ElementFinder = await this.getSClassBerthElementFinder(elementId);
+    return textElement.getText();
+  }
+
+  public async getReleaseElementColour(releaseId: string): Promise<string> {
+    const release: ElementFinder = element(by.css('[id=shunters-release-rect-element-' + releaseId + ']'));
+    const elementRgb: string = await release.getCssValue('stroke');
+    return CssColorConverterService.rgb2Hex(elementRgb);
+  }
+
   public async getShuntMarkerBoardSmallTriangleColour(markerBoardId: string): Promise<string> {
     const markerBrdSmallTri: ElementFinder = element(by.css('[id^=shunt-marker-boards-element-small-triangle-' + markerBoardId  + ']'));
     const smallTriangleColourRgb: string = await markerBrdSmallTri.getCssValue('fill');
@@ -145,6 +172,15 @@ export class MapPageObject {
     // using $= to get element based on just train_id
     const berth: ElementFinder = element(by.css('text[id$=' + trainDescriber + berthId + ']'));
     return berth;
+  }
+
+  public async getSClassBerthElementFinder(berthId: string): Promise<ElementFinder> {
+    return element(by.css('[id=s-class-berth-element-text-' + berthId + ']'));
+  }
+
+  public async releaseElementIsVisible(releaseId: string): Promise<ElementFinder> {
+    const release: ElementFinder = element(by.css('[id=shunters-release-rect-element-' + releaseId + ']'));
+    return release.isDisplayed();
   }
 
   public async navigateToMapWithBerth(berthId: string, trainDescriber: string): Promise<void> {
