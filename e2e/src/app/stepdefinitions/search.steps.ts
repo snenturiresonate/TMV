@@ -9,3 +9,8 @@ Then(/^no results are returned with that planning UID '(.*)'$/, async (planningU
   const row = await searchResultsPage.getRowByPlanningUID(planningUID);
   expect(await row.isPresent()).to.equal(false);
 });
+
+Then(/^results are returned with that planning UID '(.*)'$/, async (planningUID: string) => {
+  const row = await searchResultsPage.getRowByPlanningUID(planningUID);
+  expect(await row.isPresent()).to.equal(true);
+});
