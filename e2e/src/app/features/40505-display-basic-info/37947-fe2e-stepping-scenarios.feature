@@ -17,7 +17,6 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
       | 09:59:00  | 0129      | D3            | 1G69             |
 
   # 47656 - getting initial state (for second map)
-  @tdd
   Scenario: 40505-1 - interpose is displayed in the berth, which is not a Q berth
     # a berth that exists on the map is empty
     #  it is not a Q berth
