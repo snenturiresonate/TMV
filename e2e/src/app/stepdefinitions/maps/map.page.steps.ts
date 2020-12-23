@@ -518,3 +518,31 @@ When('I launch a new map {string} the new map should have start time from the mo
   await mapPageObject.enterMapSearchString(mapName);
   await mapPageObject.launchMap();
 });
+
+Then('the level crossing barrier status of {string} is {word}',
+  async (lvlCrossingId: string, expectedStatus: string) => {
+    const actualBarrierStatus = await mapPageObject.getLvlCrossingBarrierState(lvlCrossingId);
+    expect(actualBarrierStatus).to.equal(expectedStatus);
+  });
+
+Then('the direction lock chevron of {string} is {word}',
+  async (directionLockId: string, expectedStatus: string) => {
+    const actualBarrierStatus = await mapPageObject.getLvlCrossingBarrierState(directionLockId);
+    expect(actualBarrierStatus).to.equal(expectedStatus);
+  });
+
+Then('the direction lock chevrons are not displayed',
+  async () => {
+    const chevronsDisplayed = await mapPageObject.isDirectionChevronDisplayed();
+    expect(chevronsDisplayed).to.equal(false);
+  });
+
+Then('I should see the AES boundary elements', async () => {
+    const aesDisplayed = await mapPageObject.aesElementsAreDisplayed();
+    expect(aesDisplayed).to.equal(true);
+  });
+
+Then('I should not see the AES boundary elements', async () => {
+  const aesDisplayed = await mapPageObject.aesElementsAreDisplayed();
+  expect(aesDisplayed).to.equal(false);
+});
