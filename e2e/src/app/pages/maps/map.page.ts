@@ -6,6 +6,7 @@ import {CucumberLog} from '../../logging/cucumber-log';
 import {ProjectDirectoryUtil} from '../../utils/project-directory.util';
 import assert = require('assert');
 import path = require('path');
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 const SCALEFACTORX_START = 7;
 
@@ -27,6 +28,8 @@ export class MapPageObject {
   public mapNameDropdown: ElementFinder;
   public mapSearch: ElementFinder;
   public liveMap: ElementFinder;
+  public sClassBerthTextElements: ElementFinder;
+  public aesBoundaryElements: ElementFinder;
   constructor() {
     this.platformLayer = element(by.id('platform-layer'));
     this.berthElements = element(by.id('berth-elements'));
@@ -45,6 +48,8 @@ export class MapPageObject {
     this.mapNameDropdown = element(by.css('.map-dropdown-button:nth-child(1)'));
     this.mapSearch = element(by.id('map-search-box'));
     this.liveMap = element(by.css('#live-map'));
+    this.sClassBerthTextElements = element(by.css('#s-class-berth-text-elements'));
+    this.aesBoundaryElements = element(by.css('#aes-boundaries-elements'));
   }
 
   navigateTo(mapId: string): Promise<unknown> {
@@ -240,5 +245,18 @@ export class MapPageObject {
   public async getTrtsStatus(signalId: string): Promise<string> {
     const signalLatchElement: ElementFinder = element(by.css('[id^=signal-latch-cross-element-' + signalId  + ']'));
     return signalLatchElement.getAttribute('visibility');
+  }
+  public async getLvlCrossingBarrierState(lvlCrossingId: string): Promise<string> {
+    await CommonActions.waitForElementToBeVisible(this.liveMap);
+    return this.sClassBerthTextElements.element(by.css('[id^=s-class-berth-element-text-' + lvlCrossingId  + ']')).getText();
+  }
+  public async isDirectionChevronDisplayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.liveMap);
+    return element(by.css(`[id^='s-class-berth-element-text-']`)).isPresent();
+  }
+  public async aesElementsAreDisplayed(): Promise<boolean> {
+    const elm = this.aesBoundaryElements.element(by.css('[id^=aes-boundaries-element]'));
+    await CommonActions.waitForElementToBeVisible(this.liveMap);
+    return elm.isPresent();
   }
 }

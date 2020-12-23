@@ -13,6 +13,7 @@ import {ServiceCharacteristicsBuilder} from '../utils/access-plan-requests/servi
 import {CucumberLog} from '../logging/cucumber-log';
 import {ScheduleIdentifierBuilder} from '../utils/access-plan-requests/schedule-identifier-builder';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
+import {DaysBuilder} from '../utils/access-plan-requests/days-builder';
 
 let page: TimetablePageObject;
 
@@ -208,6 +209,11 @@ Given(/^the schedule has schedule identifier characteristics$/, async (table: an
 Given(/^the schedule has a Date Run to of '(.*)'$/, (runToDate: string) => {
   schedule.withDateRunsTo(runToDate);
 });
+
+Given(/^the schedule has a Days Run of all Days$/, () => {
+  schedule.withDaysRun(new DaysBuilder().allDays().build());
+});
+
 Given(/^the schedule does not run on a day that is today$/, () => {
   const today = DateAndTimeUtils.dayOfWeek();
   switch (today.toLowerCase()) {

@@ -20,3 +20,13 @@ Then('I should see the login settings {string} as {string}', async (setting: str
   const actualText = await adminLoginMessage.getLoginMessage(setting);
   return expect(actualText).to.contain(expectedText);
 });
+
+Then('the unsaved indicator is displayed on the sign in message tab', async () => {
+  const unsavedIndicator = await adminLoginMessage.isUnsavedIndicatorPresent();
+  expect(unsavedIndicator).to.equal(true);
+});
+
+Then('the unsaved indicator is not displayed on the sign in message tab', async () => {
+  const unsavedIndicator = await adminLoginMessage.isUnsavedIndicatorPresent();
+  expect(unsavedIndicator).to.equal(false);
+});

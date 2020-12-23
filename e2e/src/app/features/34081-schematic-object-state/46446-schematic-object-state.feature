@@ -58,6 +58,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN128' is red
 
+  @bug @bug_51929
   Scenario: 34081 - 4  Main Signal State (Unknown)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a main signal
@@ -86,6 +87,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN271' is white
 
+  @bug @bug_51929
   Scenario:34081 - 6 Shunt Signal State (Proceed)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a shunt signal
@@ -99,6 +101,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And the maximum amount of time is allowed for end to end transmission
     Then the shunt signal state for signal 'SN6142' is white
 
+  @bug @bug_51929
   Scenario: 34081 - 7 Shunt Signal State (Not Proceed)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a shunt signal

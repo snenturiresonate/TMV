@@ -62,6 +62,15 @@ When('I confirm on browser popup', async () => {
   }
 });
 
+Then('The browser popup does not appear', async () => {
+  const isAlertPresent: boolean = await browser.wait(protractor.ExpectedConditions.alertIsPresent());
+  expect(isAlertPresent).to.equal(false);
+});
+
+Then('The admin view is closed', async () => {
+
+});
+
 When('I cancel on browser popup', async () => {
   await browser.wait(protractor.ExpectedConditions.alertIsPresent());
   const alertBox = await browser.switchTo().alert();
@@ -74,6 +83,10 @@ When('I cancel on browser popup', async () => {
 
 When('I refresh the browser', () => {
   return browser.driver.navigate().refresh();
+});
+
+When('I close the current tab', async () => {
+  await browser.driver.close();
 });
 
 async function closeAllButTheFirstTab(): Promise<void> {
