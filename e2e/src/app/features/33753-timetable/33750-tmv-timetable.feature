@@ -13,7 +13,6 @@ Feature: 33750 - TMV Timetable
      #Then the train's timetable is opened in a new browser tab
     Given I am on the trains list page
     And The trains list table is visible
-    And the trains list context menu is not displayed
     When I invoke the context menu from train <trainNum> on the trains list
     And I wait for the context menu to display
     And I open timetable from the context menu
