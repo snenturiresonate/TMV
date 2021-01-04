@@ -30,7 +30,8 @@ const mapColourHex = {
   yellow: '#fffe3c',
   white: '#ffffff',
   orange: '#ffa700',
-  grey: '#969696'
+  grey: '#969696',
+  paleblue: '#00d2ff'
 };
 
 const mapObjectColourHex = {
@@ -394,6 +395,19 @@ Then('the shunt marker board {string} will display a Movement Authority {word} [
     expect(actualShuntMarkerBoardTriangleColourHex).to.equal(expectedShuntMarkerBoardColourHex);
     expect(actualShuntMarkerBoardSmallTriangleColourHex).to.equal(mapColourHex.blue);
   });
+
+Then('the s-class-berth {string} will display {word} Route indication of {string}',
+  async (sClassBerthId: string, expectedIndicationCount: string, lineCode: string) => {
+  if (expectedIndicationCount === 'no') {
+    expect(! await mapPageObject.isSClassBerthElementPresent(sClassBerthId));
+  }
+  else {
+    const actualIndicationText = await mapPageObject.getSClassBerthElementText(sClassBerthId);
+    const actualIndicationTextColourHex = await mapPageObject.getSClassBerthElementTextColour(sClassBerthId);
+    expect(actualIndicationTextColourHex).to.equal(mapColourHex.paleblue);
+    expect(actualIndicationText).to.equal(lineCode);
+  }
+});
 
 
 Then('there is no text indication for {word} {string}', async (sClassBerthType: string, sClassBerthId: string) => {
