@@ -211,12 +211,6 @@ Then('the tab title is {string}', async (expectedTabTitle: string) => {
   expect(actualTabTitle).to.contains(expectedTabTitle);
 });
 
-After(async () => {
-  // Assert that there are no errors emitted from the browser
-  const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-  expect(logs).not.have.deep.property('level', logging.Level.SEVERE);
-});
-
 Then('the tab title is {string}', async (expectedTabTitle: string) => {
   const actualTabTitle: string = await browser.getTitle();
   expect(actualTabTitle).to.contains(expectedTabTitle);
