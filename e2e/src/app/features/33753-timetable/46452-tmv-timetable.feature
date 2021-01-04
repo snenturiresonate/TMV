@@ -1,4 +1,4 @@
-Feature: 33750 - TMV Timetable
+Feature: 33753 - TMV Timetable
 
   As a TMV dev team member
   I want end to end tests to be created for the Timetable functionality
@@ -23,8 +23,7 @@ Feature: 33750 - TMV Timetable
       | trainNum |
       | 1        |
 
-  #Scenario Outline: Scenario 2 -Open Timetable (Trains List)
-    #Open Timetable (Map)
+  #Scenario Outline: Scenario 2 -#Open Timetable (Map)
     #Given the user is authenticated to use TMV
     #And the user is viewing a map
     #When the user selects a train (occupied berth) from the map using the secondary click
@@ -39,3 +38,26 @@ Feature: 33750 - TMV Timetable
     #Examples:
      # | trainNum |
      # | 1        |
+
+  Scenario Outline: Scenario - 3 Open Timetable (Search Result - Train, Timetable & Manual Match Search Results)
+    #Given the user is authenticated to use TMV
+    #And the user is viewing a search results list
+    #When the user selects a train search result using the secondary click
+    #And selects the "open timetable" option from the menu
+    #Then the train's timetable is opened in a new browser tab
+    Given I am on the home page
+    When I click on the Train search
+    When the user enter the value 'IT55'
+    And I click on the Search icon
+    Then the Train search table is shown
+    And I invoke the context menu from trains <trainNum>
+    And I wait for the train search context menu to display
+    And the trains context menu is displayed
+    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Select maps' on line 2
+    And I open timetable from the context menu
+    And I switch to the new tab
+    And the tab title is 'TMV Timetable'
+    Examples:
+      |trainNum|
+      | 1      |
