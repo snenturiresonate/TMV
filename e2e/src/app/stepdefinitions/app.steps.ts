@@ -198,7 +198,6 @@ Given(/^I am on the admin page$/, async () => {
 
 Given(/^I am on the replay page$/, async () => {
   await page.navigateTo('/tmv/replay/replay-session-1');
-  await page.navigateTo('/tmv/replay');
 });
 
 Given('I am on the live timetable page with schedule id {string}', async (scheduleId: string) => {
