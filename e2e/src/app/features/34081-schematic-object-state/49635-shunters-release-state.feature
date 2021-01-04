@@ -1,4 +1,4 @@
-Feature: 49634 - Schematic State - shunters release state
+Feature: 49635 - Schematic State - shunters release state
   (From Gherkin for Feature 34081)
   As a TMV User
   I want to schematic objects displayed with the latest state
