@@ -30,7 +30,7 @@ Feature: 46474 - Administration System Defaults - full end to end testing
   Scenario: Replay system setting values display
     Then I should see the system default settings as
       | ReplayBackgroundColour | MaxNoOfMapsPerReplay | MaxNoofReplays | MaxNoofSchematicMapDisplayInstances | MaxNoofTrainsListViewInstances |
-      | #2b78e4                | 2                    | 5             | 4                                   | 8                              |
+      | #2b78e4                | 5                    | 2              | 4                                   | 8                              |
 
   Scenario: Replay system setting values update and save
     When I update the system default settings as
