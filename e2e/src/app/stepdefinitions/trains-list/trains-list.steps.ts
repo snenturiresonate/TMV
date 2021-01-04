@@ -21,3 +21,8 @@ Then('The trains list table is visible', async () => {
 Then('I open timetable from the context menu', async () => {
   await trainsListPage.timeTableLink.click();
 });
+
+Then('the trains list context menu is displayed', async () => {
+  const isTrainsContextMenuVisible: boolean = await trainsListPage.isTrainsListContextMenuDisplayed();
+  expect(isTrainsContextMenuVisible).to.equal(true);
+});

@@ -9,8 +9,7 @@ export class TrainsListPageObject {
   constructor() {
     this.trainsListItems = element.all(by.css('#train-tbody tr'));
     this.trainsListContextMenu = element(by.id('trainlistcontextmenu'));
-    this.timeTableLink = element(by.cssContainingText('#trainlistcontextmenu', 'Open timetable'));
-
+    this.timeTableLink = element(by.css('#trainlistcontextmenu >li:nth-child(2)'));
   }
   public async isTrainsListTableVisible(): Promise<boolean> {
     browser.wait(async () => {
@@ -29,5 +28,8 @@ export class TrainsListPageObject {
     const rows = this.trainsListItems;
     const targetRow = rows.get(position - 1);
     browser.actions().click(targetRow, protractor.Button.RIGHT).perform();
+  }
+  public async isTrainsListContextMenuDisplayed(): Promise<boolean> {
+    return this.trainsListContextMenu.isPresent();
   }
 }

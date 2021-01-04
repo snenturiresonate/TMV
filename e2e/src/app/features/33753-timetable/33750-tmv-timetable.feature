@@ -15,6 +15,7 @@ Feature: 33750 - TMV Timetable
     And The trains list table is visible
     When I invoke the context menu from train <trainNum> on the trains list
     And I wait for the context menu to display
+    And the trains list context menu is displayed
     And I open timetable from the context menu
     And I switch to the new tab
     And the tab title is 'TMV Timetable'
