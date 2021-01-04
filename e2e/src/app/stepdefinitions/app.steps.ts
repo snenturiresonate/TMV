@@ -211,11 +211,6 @@ Then('the tab title is {string}', async (expectedTabTitle: string) => {
   expect(actualTabTitle).to.contains(expectedTabTitle);
 });
 
-Then('the tab title is {string}', async (expectedTabTitle: string) => {
-  const actualTabTitle: string = await browser.getTitle();
-  expect(actualTabTitle).to.contains(expectedTabTitle);
-});
-
 async function handleUnexpectedAlertAndNavigateTo(url: string): Promise<any> {
     const alert = await browser.switchTo().alert();
     await alert.accept();
