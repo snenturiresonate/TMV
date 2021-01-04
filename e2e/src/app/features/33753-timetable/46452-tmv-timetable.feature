@@ -23,21 +23,22 @@ Feature: 33753 - TMV Timetable
       | trainNum |
       | 1        |
 
-  #Scenario Outline: Scenario 2 -#Open Timetable (Map)
+@tdd
+  Scenario Outline: Scenario 2 -#Open Timetable (Map)
     #Given the user is authenticated to use TMV
     #And the user is viewing a map
     #When the user selects a train (occupied berth) from the map using the secondary click
     #And selects the "open timetable" option from the menu
     #Then the train's timetable is opened in a new browser tab
-    #Given I am viewing the map HDGW01paddington.v
+    Given I am viewing the map HDGW01paddington.v
     #When I invoke the context menu from train <trainNum> on the map
-    #And I wait for the context menu to display
-    #And I open timetable from the context menu
-    #And I switch to the new tab
-    #And the tab title is 'TMV Timetable'
-    #Examples:
-     # | trainNum |
-     # | 1        |
+    And I wait for the context menu to display
+    And I open timetable from the context menu
+    And I switch to the new tab
+    And the tab title is 'TMV Timetable'
+    Examples:
+      | trainNum |
+      | 1        |
 
   Scenario Outline: Scenario - 3 Open Timetable (Search Result - Train, Timetable & Manual Match Search Results)
     #Given the user is authenticated to use TMV
