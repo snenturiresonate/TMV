@@ -16,21 +16,21 @@ Feature: 46482 - TMV Key - select key
       | Train Describer |
     And the active tab is 'Colour'
 
-  #Scenario: 34085-1b The TMV Key modal window is launched when a map is displayed in the replay view
-    #Given I am on the replay page
-    #And I expand the replay group of maps with name 'Eastern'
-    #And I select the map 'ea01liverpoolst.v'
-    #And I select Start
-    #When I click on the Help icon
-    #And I select the TMV Key option
-    #Then a modal displays with title 'Key'
-    #And the modal contains a 'Close' button
-    #And the following tabs can be seen on the modal
-     # | tabName         |
-     # | Colour          |
-     # | Symbol          |
-     # | Train Describer |
-    #And the active tab is 'Colour'
+  Scenario: 34085-1b The TMV Key modal window is launched when a map is displayed in the replay view
+    Given I am on the replay page
+    And I expand the replay group of maps with name 'Eastern'
+    And I select the map 'ea01liverpoolst.v'
+    And I select Start
+    When I click on the Help icon
+    And I select the TMV Key option
+    Then a modal displays with title 'Key'
+    And the modal contains a 'Close' button
+    And the following tabs can be seen on the modal
+      | tabName         |
+      | Colour          |
+      | Symbol          |
+      | Train Describer |
+    And the active tab is 'Colour'
 
   Scenario: 34085-1c The TMV Key modal window is not displayed in the help menu for the home page
     Given I am on the home page
