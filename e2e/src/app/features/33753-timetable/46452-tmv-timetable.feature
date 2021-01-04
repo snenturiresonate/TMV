@@ -55,7 +55,7 @@ Feature: 33753 - TMV Timetable
     And the trains context menu is displayed
     And the train search context menu contains 'Open timetable' on line 1
     And the train search context menu contains 'Select maps' on line 2
-    And I open timetable from the context menu
+    And I click on timetable link
     And I switch to the new tab
     And the tab title is 'TMV Timetable'
     Examples:
