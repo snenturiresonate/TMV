@@ -11,6 +11,9 @@ import {AccessPlanRequestBuilder} from '../utils/access-plan-requests/access-pla
 import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {ServiceCharacteristicsBuilder} from '../utils/access-plan-requests/service-characteristics-builder';
 import {CucumberLog} from '../logging/cucumber-log';
+import {ScheduleIdentifierBuilder} from '../utils/access-plan-requests/schedule-identifier-builder';
+import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
+import {DaysBuilder} from '../utils/access-plan-requests/days-builder';
 
 let page: TimetablePageObject;
 
@@ -47,7 +50,7 @@ Then(/^the inserted location (.*) is (before|after) (.*)$/,
     (beforeAfter === 'before') ?
       expect(locations[rowOfInserted + 1]).to.equal(otherLocation) :
       expect(locations[rowOfInserted - 1]).to.equal(otherLocation);
-});
+  });
 
 Then(/^the expected arrival time for inserted location (.*) is (.*) percent between (.*) and (.*)$/, async (
   location: string, percentage: number, departure: string, arrival: string) => {
@@ -120,6 +123,10 @@ When('there is a Schedule for {string}', (service: string) => {
       .build());
 });
 
+When('that service has the cancellation status {string}', (service: string) => {
+  schedule.withTrainStatus(service);
+});
+
 Given(/^it has Origin Details$/, async (table: any) => {
   const locations: any = table.hashes();
 
@@ -160,6 +167,23 @@ Given(/^it has Terminating Details$/, async (table: any) => {
   });
 });
 
+Given(/^the schedule has a basic timetable$/, async (table: any) => {
+
+  const origin = new OriginLocationBuilder()
+    .withLocation(new LocationBuilder().withTiploc('OLDOXRS').build())
+    .withScheduledDeparture('12:00')
+    .withLine('')
+    .build();
+  schedule.withOriginLocation(origin);
+
+  const term = new TerminatingLocationBuilder()
+    .withLocation(new LocationBuilder().withTiploc('OLDOXRS').build())
+    .withScheduledArrival('12:30')
+    .withPath('')
+    .build();
+  schedule.withTerminatingLocation(term);
+});
+
 When('the schedule is received from LINX', () => {
   const accessPlan = new AccessPlanRequestBuilder()
     .full()
@@ -169,3 +193,50 @@ When('the schedule is received from LINX', () => {
   new LinxRestClient().writeAccessPlan(accessPlan);
 });
 
+Given(/^the schedule has schedule identifier characteristics$/, async (table: any) => {
+  const characteristics: any = table.hashes();
+
+  characteristics.forEach((characteristic: any) => {
+    const scheduleIdentifier = new ScheduleIdentifierBuilder()
+      .withTrainUid(characteristic.trainUid)
+      .withStpIndicator(characteristic.stpIndicator)
+      .withDateRunsFrom(characteristic.dateRunsFrom)
+      .build();
+    schedule.withScheduleIdentifier(scheduleIdentifier);
+  });
+});
+
+Given(/^the schedule has a Date Run to of '(.*)'$/, (runToDate: string) => {
+  schedule.withDateRunsTo(runToDate);
+});
+
+Given(/^the schedule has a Days Run of all Days$/, () => {
+  schedule.withDaysRun(new DaysBuilder().allDays().build());
+});
+
+Given(/^the schedule does not run on a day that is today$/, () => {
+  const today = DateAndTimeUtils.dayOfWeek();
+  switch (today.toLowerCase()) {
+    case 'monday':
+      schedule.monday(false);
+      break;
+    case 'tuesday':
+      schedule.tuesday(false);
+      break;
+    case 'wednesday':
+      schedule.wednesday(false);
+      break;
+    case 'thursday':
+      schedule.thursday(false);
+      break;
+    case 'friday':
+      schedule.friday(false);
+      break;
+    case 'saturday':
+      schedule.saturday(false);
+      break;
+    case 'sunday':
+      schedule.sunday(false);
+      break;
+  }
+});

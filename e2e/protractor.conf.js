@@ -18,12 +18,15 @@ exports.config = {
       args: [ "--headless", "--disable-gpu", "--window-size=1980,1080" ]
     }
   },
+  suites: {
+    administration: ['./src/**/features/46474-administration/*.feature']
+  },
   directConnect: true,
   baseUrl: '',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
-    require: ['./src/**/*.steps.ts'],
+    require: ['./src/**/*.steps.ts','./src/**/*.hooks.ts'],
     // Tell CucumberJS to save the JSON report
     format: 'json:.tmp/results.json',
     // To run specific Scenarios marked with the tag @test (for example), uncomment the next line
@@ -37,7 +40,7 @@ exports.config = {
     });
   },
   plugins: [{
-    package: 'protractor-multiple-cucumber-html-reporter-plugin',
+    package: require.resolve('protractor-multiple-cucumber-html-reporter-plugin'),
     options:{
       automaticallyGenerateReport: true,
       removeExistingJsonReportFile: true,

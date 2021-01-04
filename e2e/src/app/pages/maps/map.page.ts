@@ -1,4 +1,4 @@
-import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {of} from 'rxjs';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
 import * as fs from 'fs';
@@ -6,6 +6,7 @@ import {CucumberLog} from '../../logging/cucumber-log';
 import {ProjectDirectoryUtil} from '../../utils/project-directory.util';
 import assert = require('assert');
 import path = require('path');
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 const SCALEFACTORX_START = 7;
 
@@ -24,7 +25,11 @@ export class MapPageObject {
   public mapContextMenuItems: ElementArrayFinder;
   public originallyOpenedMapTitle: string;
   public lastMapLinkSelectedCode: string;
-
+  public mapNameDropdown: ElementFinder;
+  public mapSearch: ElementFinder;
+  public liveMap: ElementFinder;
+  public sClassBerthTextElements: ElementFinder;
+  public aesBoundaryElements: ElementFinder;
   constructor() {
     this.platformLayer = element(by.id('platform-layer'));
     this.berthElements = element(by.id('berth-elements'));
@@ -40,6 +45,11 @@ export class MapPageObject {
     this.mapContextMenuItems = element.all(by.css('.dropdown-item'));
     this.originallyOpenedMapTitle = '';
     this.lastMapLinkSelectedCode = '';
+    this.mapNameDropdown = element(by.css('.map-dropdown-button:nth-child(1)'));
+    this.mapSearch = element(by.id('map-search-box'));
+    this.liveMap = element(by.css('#live-map'));
+    this.sClassBerthTextElements = element(by.css('#s-class-berth-text-elements'));
+    this.aesBoundaryElements = element(by.css('#aes-boundaries-elements'));
   }
 
   navigateTo(mapId: string): Promise<unknown> {
@@ -93,10 +103,67 @@ export class MapPageObject {
     return berth.isPresent();
   }
 
+  public async isSClassBerthElementPresent(berthId: string): Promise<boolean> {
+    const sClassBerth: ElementFinder = await this.getSClassBerthElementFinder(berthId);
+    return sClassBerth.isPresent();
+  }
+
+  public async isReleaseIndicationPresent(releaseId: string): Promise<boolean> {
+    const release: ElementFinder = await this.getSClassBerthElementFinder(releaseId);
+    return release.isPresent();
+  }
+
   public async getSignalLampRoundColour(signalId: string): Promise<string> {
     const signalLampRound: ElementFinder = element(by.css('[id^=signal-element-lamp-round-' + signalId  + ']'));
     const lampRoundColourRgb: string = await signalLampRound.getCssValue('fill');
     return CssColorConverterService.rgb2Hex(lampRoundColourRgb);
+  }
+
+  public async getShuntSignalColour(signalId: string): Promise<string> {
+    const staticSignalLampRound: ElementFinder = element(by.css('[id^=shunt-element-lamp-round-' + signalId  + ']'));
+    const lampRoundColourRgb: string = await staticSignalLampRound.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(lampRoundColourRgb);
+  }
+
+  public async getMarkerBoardTriangleColour(markerBoardId: string): Promise<string> {
+    const markerBoardTriangle: ElementFinder = element(by.css('[id^=marker-boards-element-triangle-' + markerBoardId  + ']'));
+    const triangleColourRgb: string = await markerBoardTriangle.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(triangleColourRgb);
+  }
+
+  public async getMarkerBoardBackgroundColour(markerBoardId: string): Promise<string> {
+    const markerBrdRect: ElementFinder = element(by.css('[id^=marker-boards-element-rect-' + markerBoardId  + ']'));
+    const rectColourRgb: string = await markerBrdRect.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(rectColourRgb);
+  }
+
+  public async getShuntMarkerBoardTriangleColour(markerBoardId: string): Promise<string> {
+    const markerBrdTriangle: ElementFinder = element(by.css('[id^=shunt-marker-boards-element-triangle-' + markerBoardId  + ']'));
+    const triangleColourRgb: string = await markerBrdTriangle.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(triangleColourRgb);
+  }
+
+  public async getSClassBerthElementTextColour(elementId: string): Promise<string> {
+    const textElement: ElementFinder = await this.getSClassBerthElementFinder(elementId);
+    const textElementRgb: string = await textElement.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(textElementRgb);
+  }
+
+  public async getSClassBerthElementText(elementId: string): Promise<string> {
+    const textElement: ElementFinder = await this.getSClassBerthElementFinder(elementId);
+    return textElement.getText();
+  }
+
+  public async getReleaseElementColour(releaseId: string): Promise<string> {
+    const release: ElementFinder = element(by.css('[id=shunters-release-rect-element-' + releaseId + ']'));
+    const elementRgb: string = await release.getCssValue('stroke');
+    return CssColorConverterService.rgb2Hex(elementRgb);
+  }
+
+  public async getShuntMarkerBoardSmallTriangleColour(markerBoardId: string): Promise<string> {
+    const markerBrdSmallTri: ElementFinder = element(by.css('[id^=shunt-marker-boards-element-small-triangle-' + markerBoardId  + ']'));
+    const smallTriangleColourRgb: string = await markerBrdSmallTri.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(smallTriangleColourRgb);
   }
 
   public async berthTextIsVisible(berthId: string, trainDescriber: string): Promise<boolean> {
@@ -109,6 +176,15 @@ export class MapPageObject {
     // using $= to get element based on just train_id
     const berth: ElementFinder = element(by.css('text[id$=' + trainDescriber + berthId + ']'));
     return berth;
+  }
+
+  public async getSClassBerthElementFinder(berthId: string): Promise<ElementFinder> {
+    return element(by.css('[id=s-class-berth-element-text-' + berthId + ']'));
+  }
+
+  public async releaseElementIsVisible(releaseId: string): Promise<ElementFinder> {
+    const release: ElementFinder = element(by.css('[id=shunters-release-rect-element-' + releaseId + ']'));
+    return release.isDisplayed();
   }
 
   public async navigateToMapWithBerth(berthId: string, trainDescriber: string): Promise<void> {
@@ -136,4 +212,46 @@ export class MapPageObject {
     return this.mapContextMenuItems.get(rowIndex - 1);
   }
 
+  public async rightClickManualTrustBerth(manualTrustBerthId: string): Promise<void> {
+    const berthLink: ElementFinder = element(by.id('manual-trust-berth-element-text-' + manualTrustBerthId));
+    await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
+  }
+
+  public async rightClickBerth(berthId: string): Promise<void> {
+    const berthLink: ElementFinder = element(by.id('berth-element-text-' + berthId));
+    await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
+  }
+
+  public async getBerthContextInfoText(): Promise<string> {
+    return element(by.id('berthContextMenu')).getText();
+  }
+
+  public async getManualTrustBerthContextInfoText(): Promise<string> {
+    return element(by.id('manualTrustberthContextMenu')).getText();
+  }
+
+  public async clickMapName(): Promise<void> {
+    return this.mapNameDropdown.click();
+  }
+  public async enterMapSearchString(searchMap: string): Promise<void> {
+    this.mapSearch.clear();
+    return this.mapSearch.sendKeys(searchMap);
+  }
+  public async launchMap(): Promise<any> {
+    browser.actions().mouseMove(element(by.css('li[id*=map-link]'))).perform();
+    await element(by.css('li[id*=map-link] .new-tab-button')).click();
+  }
+  public async getLvlCrossingBarrierState(lvlCrossingId: string): Promise<string> {
+    await CommonActions.waitForElementToBeVisible(this.liveMap);
+    return this.sClassBerthTextElements.element(by.css('[id^=s-class-berth-element-text-' + lvlCrossingId  + ']')).getText();
+  }
+  public async isDirectionChevronDisplayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.liveMap);
+    return element(by.css(`[id^='s-class-berth-element-text-']`)).isPresent();
+  }
+  public async aesElementsAreDisplayed(): Promise<boolean> {
+    const elm = this.aesBoundaryElements.element(by.css('[id^=aes-boundaries-element]'));
+    await CommonActions.waitForElementToBeVisible(this.liveMap);
+    return elm.isPresent();
+  }
 }

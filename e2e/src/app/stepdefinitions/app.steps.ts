@@ -1,10 +1,13 @@
-import {After, Before, Given, Then, When} from 'cucumber';
+import {Before, Given, Then, When} from 'cucumber';
 import {AppPage} from '../pages/app.po';
-import {browser, logging} from 'protractor';
 import {expect} from 'chai';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {BerthCancel, BerthInterpose, BerthStep, Heartbeat, SignallingUpdate} from '../../../../src/app/api/linx/models';
 import {CucumberLog} from '../logging/cucumber-log';
+import * as fs from 'fs';
+import * as path from 'path';
+import {ProjectDirectoryUtil} from '../utils/project-directory.util';
+import {browser} from 'protractor';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
@@ -14,11 +17,11 @@ Before(() => {
   linxRestClient = new LinxRestClient();
 });
 
-Given(/^I am on the home page$/, async () => {
+Given(/^I am on the home page$/, {timeout: 15 * 1000}, async () => {
   await page.navigateTo('');
 });
 
-Given(/^the user is authenticated to use TMV$/, async () => {
+Given(/^I am authenticated to use TMV$/, async () => {
   await page.navigateTo('');
 });
 
@@ -134,6 +137,13 @@ When(/^the following train activation messages? (?:is|are) sent from LINX$/, asy
   await linxRestClient.waitMaxTransmissionTime();
 });
 
+When('the activation message from location {string} is sent from LINX', async (xmlFilePath: string) => {
+  const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), xmlFilePath));
+  linxRestClient.postTrainActivation(rawData.toString());
+
+  await linxRestClient.waitMaxTransmissionTime();
+});
+
 When(/^the following VSTP messages? (?:is|are) sent from LINX$/, async (vstpMessageTable: any) => {
   const vstpMessages: any = vstpMessageTable.hashes();
 
@@ -170,15 +180,24 @@ Given(/^I am on the trains list page$/, async () => {
   await page.navigateTo('/tmv/trains-list');
 });
 
+Given(/^I am on the trains list Config page$/, async () => {
+  await page.navigateTo('/tmv/trains-list-config');
+});
+
 Given(/^I am on the log viewer page$/, async () => {
   await page.navigateTo('/tmv/log-viewer');
 });
 
 Given(/^I am on the admin page$/, async () => {
-  await page.navigateTo('/tmv/administration');
+  try {
+    await page.navigateTo('/tmv/administration');
+  } catch (UnexpectedAlertOpenError) {
+    await handleUnexpectedAlertAndNavigateTo('/tmv/administration');
+  }
 });
 
 Given(/^I am on the replay page$/, async () => {
+  await page.navigateTo('/tmv/replay/replay-session-1');
   await page.navigateTo('/tmv/replay');
 });
 
@@ -198,14 +217,13 @@ After(async () => {
   expect(logs).not.have.deep.property('level', logging.Level.SEVERE);
 });
 
-// None arrow methods required to avoid the binding of keyword this
-// tslint:disable-next-line:typedef
-Before(async function() {
-  await CucumberLog.attachLog(this);
+Then('the tab title is {string}', async (expectedTabTitle: string) => {
+  const actualTabTitle: string = await browser.getTitle();
+  expect(actualTabTitle).to.contains(expectedTabTitle);
 });
 
-// None arrow methods required to avoid the binding of keyword this
-// tslint:disable-next-line:typedef only-arrow-functions
-After(async function(scenario){
-  await CucumberLog.addScreenshotOnFailure(scenario);
-});
+async function handleUnexpectedAlertAndNavigateTo(url: string): Promise<any> {
+    const alert = await browser.switchTo().alert();
+    await alert.accept();
+    await page.navigateTo(url);
+}

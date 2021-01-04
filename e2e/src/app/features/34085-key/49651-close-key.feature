@@ -1,7 +1,9 @@
-Feature: Maps - controls - key
-  Verify the presence and behaviour of the symbol key
+Feature: 46482 - TMV Key - close key
+  As a TMV User
+  I want to view a symbol key
+  So that I can understand what the schematic objects mean
 
-  Scenario: 34085-5 The TMV Key modal can be closed via the close button
+  Scenario: 34085-5a The TMV Key modal can be closed via the close button
     Given I am viewing the map GW01paddington.v
     When I click on the Help icon
     And I select the TMV Key option
@@ -9,7 +11,7 @@ Feature: Maps - controls - key
     When I close the TMV key
     Then The TMV Key is no longer displayed
 
-  Scenario: 34085-5 The TMV Key modal can be closed via the X button
+  Scenario: 34085-5b The TMV Key modal can be closed via the X button
     Given I am viewing the map GW01paddington.v
     When I click on the Help icon
     And I select the TMV Key option

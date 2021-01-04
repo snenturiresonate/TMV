@@ -7,6 +7,7 @@ import {BerthStep} from '../../../../../src/app/api/linx/models/berth-step';
 import {Heartbeat} from '../../../../../src/app/api/linx/models/heartbeat';
 import {AccessPlanRequest} from '../../../../../src/app/api/linx/models/access-plan-request';
 import {NFRConfig} from '../../config/nfr-config';
+import {SignallingUpdate} from '../../../../../src/app/api/linx/models/signalling-update';
 
 export class LinxRestClient {
   public httpClient: HttpClient;
@@ -27,7 +28,7 @@ export class LinxRestClient {
     return this.httpClient.post('/traindescriberupdates/berthstep', body);
   }
 
-  public postSignallingUpdate(body: BerthCancel): ResponsePromise {
+  public postSignallingUpdate(body: SignallingUpdate): ResponsePromise {
     return this.httpClient.post('/traindescriberupdates/signallingupdate', body);
   }
 

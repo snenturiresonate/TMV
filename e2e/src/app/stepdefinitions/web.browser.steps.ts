@@ -1,5 +1,5 @@
 import {After, Given, Then, When} from 'cucumber';
-import { browser } from 'protractor';
+import {browser, protractor} from 'protractor';
 import { expect } from 'chai';
 
 const TAB_CREATION_TIMEOUT = 1000;
@@ -39,6 +39,10 @@ When('I close the last tab', async () => {
   await closeLastTab();
 });
 
+When('I close the browser', async () => {
+  await browser.driver.close();
+});
+
 When('I resize the browser to {int} by {int}', async (width: number, height: number) => {
   await browser.driver.manage().window().setSize(width, height);
 });
@@ -46,6 +50,43 @@ When('I resize the browser to {int} by {int}', async (width: number, height: num
 Then('the url contains {string}', async (appUrlParameter: string) => {
   const appUrl: string = await browser.driver.getCurrentUrl();
   expect(appUrl).to.contain(appUrlParameter);
+});
+
+When('I confirm on browser popup', async () => {
+  await browser.wait(protractor.ExpectedConditions.alertIsPresent());
+  const alertBox = await browser.switchTo().alert();
+  try {
+    await alertBox.accept();
+  } catch (err) {
+    browser.executeScript('window.onbeforeunload = ()=>{}');
+  }
+});
+
+Then('The browser popup does not appear', async () => {
+  const isAlertPresent: boolean = await browser.wait(protractor.ExpectedConditions.alertIsPresent());
+  expect(isAlertPresent).to.equal(false);
+});
+
+Then('The admin view is closed', async () => {
+
+});
+
+When('I cancel on browser popup', async () => {
+  await browser.wait(protractor.ExpectedConditions.alertIsPresent());
+  const alertBox = await browser.switchTo().alert();
+  try {
+    await alertBox.dismiss();
+  } catch (err) {
+    browser.executeScript('window.onbeforeunload = ()=>{}');
+  }
+});
+
+When('I refresh the browser', () => {
+  return browser.driver.navigate().refresh();
+});
+
+When('I close the current tab', async () => {
+  await browser.driver.close();
 });
 
 async function closeAllButTheFirstTab(): Promise<void> {

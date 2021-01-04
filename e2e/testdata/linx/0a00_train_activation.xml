@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathDetailsMessage
+  xmlns="http://www.era.europa.eu/schemes/TAFTSI/5.3"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:n1="http://www.era.europa.eu/schemes/TAFTSI/5.3" xsi:schemaLocation="http://www.era.europa.eu/schemes/TAFTSI/5.3 taf_cat_complete.xsd">
+  <MessageHeader>
+    <MessageReference>
+      <MessageType>2003</MessageType>
+      <MessageTypeVersion>5.3.1.GB</MessageTypeVersion>
+      <MessageIdentifier>414d51204e52504230303920202020205e504839249a2a40</MessageIdentifier>
+      <MessageDateTime>2020-02-24T05:59:35-00:00</MessageDateTime>
+    </MessageReference>
+    <SenderReference>5J09M2hi6N3J</SenderReference>
+    <Sender n1:CI_InstanceNumber="01">0070</Sender>
+    <Recipient n1:CI_InstanceNumber="99">0070</Recipient>
+  </MessageHeader>
+  <AdministrativeContactInformation>
+    <Name>Network Rail</Name>
+  </AdministrativeContactInformation>
+  <MessageStatus>1</MessageStatus>
+  <TypeOfRequest>3</TypeOfRequest>
+  <TypeOfInformation>50</TypeOfInformation>
+  <PathInformation>
+    <PlannedJourneyLocation JourneyLocationTypeCode="01">
+      <CountryCodeISO>GB</CountryCodeISO>
+      <LocationPrimaryCode>55452</LocationPrimaryCode>
+      <LocationSubsidiaryIdentification>
+        <LocationSubsidiaryCode n1:LocationSubsidiaryTypeCode="0">PADTON</LocationSubsidiaryCode>
+        <AllocationCompany>0070</AllocationCompany>
+      </LocationSubsidiaryIdentification>
+      <TimingAtLocation>
+        <Timing TimingQualifierCode="ALD">
+          <Time>09:58:00</Time>
+          <Offset>0</Offset>
+        </Timing>
+      </TimingAtLocation>
+      <ResponsibleRU>9984</ResponsibleRU>
+      <ResponsibleIM>0070</ResponsibleIM>
+      <TrainActivity>
+        <TrainActivityType>GBTB</TrainActivityType>
+      </TrainActivity>
+      <OperationalTrainNumber>0A00</OperationalTrainNumber>
+      <NetworkSpecificParameter>
+        <Name>ASM</Name>
+        <Value>0</Value>
+      </NetworkSpecificParameter>
+      <NetworkSpecificParameter>
+        <Name>UID</Name>
+        <Value>W15214</Value>
+      </NetworkSpecificParameter>
+      <NetworkSpecificParameter>
+        <Name>SER</Name>
+        <Value>24676004</Value>
+      </NetworkSpecificParameter>
+    </PlannedJourneyLocation>
+    <PlannedJourneyLocation JourneyLocationTypeCode="01">
+      <CountryCodeISO>GB</CountryCodeISO>
+      <LocationPrimaryCode>99999</LocationPrimaryCode>
+    </PlannedJourneyLocation>
+    <PlannedCalendar>
+      <BitmapDays>1</BitmapDays>
+      <ValidityPeriod>
+        <StartDateTime>2020-02-24T07:59:00-00:00</StartDateTime>
+      </ValidityPeriod>
+    </PlannedCalendar>
+  </PathInformation>
+</PathDetailsMessage>
