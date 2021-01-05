@@ -63,13 +63,20 @@ Feature: 33753 - TMV Timetable
       |trainNum|
       | 1      |
 
-  Scenario: Scenario 4 - View Timetable (Schedule Matched)
+  Scenario Outline: Scenario 4 - View Timetable (Schedule Matched)
     #Given the user is authenticated to use TMV
     #And the user has opened a timetable
     #And the train is schedule matched
     #When the user is viewing the timetable
     #Then the train's schedule is displayed with any predicted and live running information and header information
-    Given I am on the live timetable page with schedule id '2C34'
+    Given I am on the trains list page
+    And The trains list table is visible
+    When I invoke the context menu from train <trainNum> on the trains list
+    And I wait for the context menu to display
+    And the trains list context menu is displayed
+    And I open timetable from the context menu
+    And I switch to the new tab
+    And the tab title is 'TMV Timetable'
     When The timetable table tab is visible
     And The timetable entries contains the following data
       | entryId | location               | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
@@ -86,14 +93,24 @@ Feature: 33753 - TMV Timetable
       | 10      | [Marylebone]           |                    |                 |                   |                |                   |                  |                  |            |            | 11:31:30        | 11:32:30     | 2         | D2       | RL       |             |
       | 13      | Oxford                 | 11:33:30           | 11:35:30        | 11:33             | 11:35          | 2                 | D2               | RL               | [2] <1>    | T          | 11:33:30        | 11:35:30     | 2         | D2       | RL       | +1m         |
       | 16      | [Reading]              |                    |                 |                   |                |                   |                  |                  |            |            | (11:43:30)      | (11:44:30)   | 2         | D2       | RL       |             |
+    Examples:
+      |trainNum|
+      | 1      |
 
-  Scenario: Scenario - 5 View Timetable (Not Schedule Matched)
+  Scenario Outline: Scenario - 5 View Timetable (Not Schedule Matched)
     #Given the user is authenticated to use TMV
     #And the user has opened a timetable
     #And the train is not schedule matched
     #When the user is viewing the timetable
     #Then the train's blank schedule is displayed with basic header information
-    Given I am on the live timetable page with schedule id '2C34'
+    Given I am on the trains list page
+    And The trains list table is visible
+    When I invoke the context menu from train <trainNum> on the trains list
+    And I wait for the context menu to display
+    And the trains list context menu is displayed
+    And I open timetable from the context menu
+    And I switch to the new tab
+    And the tab title is 'TMV Timetable'
     When The timetable table tab is visible
     And The timetable header contains the following property labels:
       | property       |
@@ -125,4 +142,6 @@ Feature: 33753 - TMV Timetable
       | 4       | Rugby Trent Valley Jn  |                    | 11:21:30        |                   |                |                   |                  |                  | [2] <1>    |            |                 |              |           |          |          | +1m 3s      |
       | 7       | Rugby\nChange-en-Route | 11:23:30           | 11:25:30        | 11:23             | 11:25          | 2                 | D2               | RL               | [2] <1>    | T          | 11:23:30        | 11:25:30     | 2         | D2       | RL       | +1m         |
       | 13      | Oxford                 | 11:33:30           | 11:35:30        | 11:33             | 11:35          | 2                 | D2               | RL               | [2] <1>    | T          | 11:33:30        | 11:35:30     | 2         | D2       | RL       | +1m         |
-
+    Examples:
+      |trainNum|
+      | 1      |
