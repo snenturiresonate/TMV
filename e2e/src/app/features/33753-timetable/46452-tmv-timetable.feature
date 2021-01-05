@@ -69,7 +69,7 @@ Feature: 33753 - TMV Timetable
     #And the train is schedule matched
     #When the user is viewing the timetable
     #Then the train's schedule is displayed with any predicted and live running information and header information
-    Given I am on the live timetable page with schedule id '1'
+    Given I am on the live timetable page with schedule id '2C34'
     When The timetable table tab is visible
     And The timetable entries contains the following data
       | entryId | location               | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
@@ -93,7 +93,7 @@ Feature: 33753 - TMV Timetable
     #And the train is not schedule matched
     #When the user is viewing the timetable
     #Then the train's blank schedule is displayed with basic header information
-    Given I am on the live timetable page with schedule id '1'
+    Given I am on the live timetable page with schedule id '2C34'
     When The timetable table tab is visible
     And The timetable header contains the following property labels:
       | property       |
