@@ -3,13 +3,12 @@ Feature: 33750 - Schematic Maps - Render Objects
   As a TMV User
   I want to view a schematic representation of the railway
   So that I can see the signalling infrastructure of the railway nationally
-
+#@bug 51010, 52205
   Scenario Outline: 33750-1 Render specific objects
     When I am viewing the map <map>
     Then <numberOfElements> objects of type <object> are rendered
     And the objects of type <object> are the correct colour
 
-#@bug 51010
     Examples:
       | object                       | map                      | numberOfElements |
       | platform                     | md12birminghamsnowhill.v | 58               |
@@ -35,7 +34,7 @@ Feature: 33750 - Schematic Maps - Render Objects
       | static_shunt_signal          | sc11ayr.v                | 1                |
       | static_markerboard           | hs1nhighspeed1north.v    | 157              |
       | active_track_section         | ne01kingscross.v         | 481              |
-      | active_main_signal           | gw03reading.v            | 177              |
+      #| active_main_signal           | gw03reading.v            | 177              |
       | active_shunters_release      | so38salisbury.v          | 3                |
       | active_markerboard           | so2astrood.v             | 2                |
       | active_shunt_markerboard     | gw15cambrian.v           | 17               |

@@ -200,6 +200,11 @@ Given(/^I am on the replay page$/, async () => {
   await page.navigateTo('/tmv/replay/replay-session-1');
 });
 
+Given('I am on the live timetable page with schedule id {string}', async (scheduleId: string) => {
+  await page.navigateTo(`tmv/live-timetable/${scheduleId}`);
+});
+
+
 Then('the tab title is {string}', async (expectedTabTitle: string) => {
   const actualTabTitle: string = await browser.getTitle();
   expect(actualTabTitle).to.contains(expectedTabTitle);
