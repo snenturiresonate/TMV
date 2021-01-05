@@ -1,4 +1,4 @@
-import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 
 export class TimeTablePageObject {
   public timetableTab: ElementFinder;
