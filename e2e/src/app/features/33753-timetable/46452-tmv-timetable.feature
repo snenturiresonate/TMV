@@ -62,3 +62,67 @@ Feature: 33753 - TMV Timetable
     Examples:
       |trainNum|
       | 1      |
+
+  Scenario: Scenario 4 - View Timetable (Schedule Matched)
+    #Given the user is authenticated to use TMV
+    #And the user has opened a timetable
+    #And the train is schedule matched
+    #When the user is viewing the timetable
+    #Then the train's schedule is displayed with any predicted and live running information and header information
+    Given I am on the live timetable page with schedule id '1'
+    When The timetable table tab is visible
+    And The timetable entries contains the following data
+      | entryId | location               | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
+      | 1       | NuneatonTest           |                    | 11:11:30        |                   |                | 2                 | D2               | RL               | [2] <1>    |            |                 |              |           | D2       |          | +1m 40s     |
+      | 4       | Rugby Trent Valley Jn  |                    | 11:21:30        |                   |                |                   |                  |                  | [2] <1>    |            |                 |              |           |          |          | +1m 3s      |
+      | 7       | Rugby\nChange-en-Route | 11:23:30           | 11:25:30        | 11:23             | 11:25          | 2                 | D2               | RL               | [2] <1>    | T          | 11:23:30        | 11:25:30     | 2         | D2       | RL       | +1m         |
+      | 13      | Oxford                 | 11:33:30           | 11:35:30        | 11:33             | 11:35          | 2                 | D2               | RL               | [2] <1>    | T          | 11:33:30        | 11:35:30     | 2         | D2       | RL       | +1m         |
+    When I toggle the inserted locations on
+    Then The timetable entries contains the following data
+      | entryId | location               | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
+      | 1       | NuneatonTest           |                    | 11:11:30        |                   |                | 2                 | D2               | RL               | [2] <1>    |            |                 |              |           | D2       |          | +1m 40s     |
+      | 4       | Rugby Trent Valley Jn  |                    | 11:21:30        |                   |                |                   |                  |                  | [2] <1>    |            |                 |              |           |          |          | +1m 3s      |
+      | 7       | Rugby\nChange-en-Route | 11:23:30           | 11:25:30        | 11:23             | 11:25          | 2                 | D2               | RL               | [2] <1>    | T          | 11:23:30        | 11:25:30     | 2         | D2       | RL       | +1m         |
+      | 10      | [Marylebone]           |                    |                 |                   |                |                   |                  |                  |            |            | 11:31:30        | 11:32:30     | 2         | D2       | RL       |             |
+      | 13      | Oxford                 | 11:33:30           | 11:35:30        | 11:33             | 11:35          | 2                 | D2               | RL               | [2] <1>    | T          | 11:33:30        | 11:35:30     | 2         | D2       | RL       | +1m         |
+      | 16      | [Reading]              |                    |                 |                   |                |                   |                  |                  |            |            | (11:43:30)      | (11:44:30)   | 2         | D2       | RL       |             |
+
+  Scenario: Scenario - 5 View Timetable (Not Schedule Matched)
+    #Given the user is authenticated to use TMV
+    #And the user has opened a timetable
+    #And the train is not schedule matched
+    #When the user is viewing the timetable
+    #Then the train's blank schedule is displayed with basic header information
+    Given I am on the live timetable page with schedule id '1'
+    When The timetable table tab is visible
+    And The timetable header contains the following property labels:
+      | property       |
+      | Schedule Type: |
+      | Train UID:     |
+      | Signal:        |
+      | Trust ID:      |
+      | Last Reported: |
+      | Last TJM:      |
+    And The timetable entries contains the following data
+      | entryId | location               | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
+      | 1       | NuneatonTest           |                    | 11:11:30        |                   |                | 2                 | D2               | RL               | [2] <1>    |            |                 |              |           | D2       |          | +1m 40s     |
+      | 4       | Rugby Trent Valley Jn  |                    | 11:21:30        |                   |                |                   |                  |                  | [2] <1>    |            |                 |              |           |          |          | +1m 3s      |
+      | 7       | Rugby\nChange-en-Route | 11:23:30           | 11:25:30        | 11:23             | 11:25          | 2                 | D2               | RL               | [2] <1>    | T          | 11:23:30        | 11:25:30     | 2         | D2       | RL       | +1m         |
+      | 13      | Oxford                 | 11:33:30           | 11:35:30        | 11:33             | 11:35          | 2                 | D2               | RL               | [2] <1>    | T          | 11:33:30        | 11:35:30     | 2         | D2       | RL       | +1m         |
+    When I toggle the inserted locations on
+    Then The timetable entries contains the following data
+      | entryId | location               | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
+      | 1       | NuneatonTest           |                    | 11:11:30        |                   |                | 2                 | D2               | RL               | [2] <1>    |            |                 |              |           | D2       |          | +1m 40s     |
+      | 4       | Rugby Trent Valley Jn  |                    | 11:21:30        |                   |                |                   |                  |                  | [2] <1>    |            |                 |              |           |          |          | +1m 3s      |
+      | 7       | Rugby\nChange-en-Route | 11:23:30           | 11:25:30        | 11:23             | 11:25          | 2                 | D2               | RL               | [2] <1>    | T          | 11:23:30        | 11:25:30     | 2         | D2       | RL       | +1m         |
+      | 10      | [Marylebone]           |                    |                 |                   |                |                   |                  |                  |            |            | 11:31:30        | 11:32:30     | 2         | D2       | RL       |             |
+      | 13      | Oxford                 | 11:33:30           | 11:35:30        | 11:33             | 11:35          | 2                 | D2               | RL               | [2] <1>    | T          | 11:33:30        | 11:35:30     | 2         | D2       | RL       | +1m         |
+      | 16      | [Reading]              |                    |                 |                   |                |                   |                  |                  |            |            | (11:43:30)      | (11:44:30)   | 2         | D2       | RL       |             |
+    When I toggle the inserted locations off
+    Then The timetable entries contains the following data
+      | entryId | location               | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
+      | 1       | NuneatonTest           |                    | 11:11:30        |                   |                | 2                 | D2               | RL               | [2] <1>    |            |                 |              |           | D2       |          | +1m 40s     |
+      | 4       | Rugby Trent Valley Jn  |                    | 11:21:30        |                   |                |                   |                  |                  | [2] <1>    |            |                 |              |           |          |          | +1m 3s      |
+      | 7       | Rugby\nChange-en-Route | 11:23:30           | 11:25:30        | 11:23             | 11:25          | 2                 | D2               | RL               | [2] <1>    | T          | 11:23:30        | 11:25:30     | 2         | D2       | RL       | +1m         |
+      | 13      | Oxford                 | 11:33:30           | 11:35:30        | 11:33             | 11:35          | 2                 | D2               | RL               | [2] <1>    | T          | 11:33:30        | 11:35:30     | 2         | D2       | RL       | +1m         |
+
