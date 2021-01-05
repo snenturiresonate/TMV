@@ -3,7 +3,7 @@ Feature: 33750 - Schematic Maps - Render Objects
   As a TMV User
   I want to view a schematic representation of the railway
   So that I can see the signalling infrastructure of the railway nationally
-@bug
+@bug #52205
   Scenario Outline: 33750-1 Render specific objects
     When I am viewing the map <map>
     Then <numberOfElements> objects of type <object> are rendered
