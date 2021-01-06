@@ -3,7 +3,6 @@ Feature: 33750 - Schematic Maps - Render Objects
   As a TMV User
   I want to view a schematic representation of the railway
   So that I can see the signalling infrastructure of the railway nationally
-#@bug 51010, 52205
   Scenario Outline: 33750-1 Render specific objects
     When I am viewing the map <map>
     Then <numberOfElements> objects of type <object> are rendered
@@ -14,7 +13,7 @@ Feature: 33750 - Schematic Maps - Render Objects
       | platform                     | md12birminghamsnowhill.v | 58               |
       | WILD_indicator               | nw14eastmanchester.v     | 2                |
       | OHL_limits                   | md03watford.v            | 1                |
-#      | HABDS                        | hdhs1boverviewb.v        | 4                |
+      | HABDS                        | hs1bhdoverviewb.v        | 4                |
       | signal_box                   | gw21hereford.v           | 14               |
       | direction_arrows             | ea04norwich.v            | 91               |
       | end_of_line_indication       | gw15cambrian.v           | 2                |
@@ -34,7 +33,7 @@ Feature: 33750 - Schematic Maps - Render Objects
       | static_shunt_signal          | sc11ayr.v                | 1                |
       | static_markerboard           | hs1nhighspeed1north.v    | 157              |
       | active_track_section         | ne01kingscross.v         | 481              |
-      #| active_main_signal           | gw03reading.v            | 177              |
+      | active_main_signal           | gw03reading.v            | 177              |
       | active_shunters_release      | so38salisbury.v          | 3                |
       | active_markerboard           | so2astrood.v             | 2                |
       | active_shunt_markerboard     | gw15cambrian.v           | 17               |
@@ -70,7 +69,6 @@ Feature: 33750 - Schematic Maps - Render Objects
     Then a new tab opens showing the linked map
     And the previous tab still displays the original map
 
-  @bug @bug_51861
   Scenario Outline: 33750-4a Berth Menu (Secondary Click - berths with main signals)
     Given I am authenticated to use TMV
     And I am viewing the map gw16shrewsbury.v
@@ -87,7 +85,6 @@ Feature: 33750 - Schematic Maps - Render Objects
       | C38466  | C38466       | SC8475           |
       | C38410  | C38410       | SC8410           |
 
-  @bug @bug_51861
   Scenario Outline: 33750-4b Berth Menu (Secondary Click - berths with static signals)
     Given I am authenticated to use TMV
     And I am viewing the map gw16shrewsbury.v
@@ -102,7 +99,6 @@ Feature: 33750 - Schematic Maps - Render Objects
       | CSCNUW  | CSCNUW       |
       | MHSB11  | MHSB11       |
 
-  @bug @bug_51861
   Scenario Outline: 33750-4c Berth Menu (Secondary Click - manual berths)
     Given I am authenticated to use TMV
     And I am viewing the map gw13exeter.v

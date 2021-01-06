@@ -33,7 +33,7 @@ export class MapLayerPageObject {
     this.mapLayerItems.set(MapLayerType.active_markerboard,
       [new MapLayerItem('fill', element.all(by.css('[id^=marker-boards-element-triangle]')))]);
     this.mapLayerItems.set(MapLayerType.active_shunt_markerboard,
-      [new MapLayerItem('fill', element.all(by.css('[id^=shunt-marker-boards-element-small-triangle]')))]);
+      [new MapLayerItem('fill', element.all(by.css('[id^=shunt-marker-boards-element-triangle]')))]);
     this.mapLayerItems.set(MapLayerType.active_shunters_release,
       [new MapLayerItem('stroke', element.all(by.css('#shunters-release-layer polygon')))]);
     this.mapLayerItems.set(MapLayerType.berth,
