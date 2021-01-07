@@ -243,13 +243,10 @@ export class MapPageObject {
   }
 
   public async getTrtsStatus(signalId: string): Promise<string> {
-    const signalLatchElement: ElementFinder = element(by.css('[id^=signal-element-lamp-round-' + signalId  + ']'));
+    const signalLatchElement: ElementFinder = element(by.css('[id^=signal-element-' + signalId  + ']'));
     return signalLatchElement.getAttribute('visibility');
   }
-  public async getTrtsClassStatus(signalId: string): Promise<string> {
-    const signalLatchElement: ElementFinder = element(by.css('[id^=signal-latch-cross-element-' + signalId  + ']'));
-    return signalLatchElement.getAttribute('class');
-  }
+
   public async getLvlCrossingBarrierState(lvlCrossingId: string): Promise<string> {
     await CommonActions.waitForElementToBeVisible(this.liveMap);
     return this.sClassBerthTextElements.element(by.css('[id^=s-class-berth-element-text-' + lvlCrossingId  + ']')).getText();

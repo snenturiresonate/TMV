@@ -30,8 +30,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 01   | 10:45:00  |
     And the maximum amount of time is allowed for end to end transmission
-    Then the signal roundel for signal 'SN1' is grey
-    And the TRTS status for signal 'SN1' is hidden
+    Then the signal roundel for signal 'SN1' is white
 
   Scenario:34081 - 33 TRTS (Not Set)
     #Given a TRTS exists on a map
@@ -43,4 +42,3 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       | D3             | 50      | 00   | 10:45:00  |
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN1' is grey
-    And the TRTS status for signal 'SN1' is visible
