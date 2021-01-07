@@ -244,7 +244,7 @@ export class MapPageObject {
 
   public async getTrtsStatus(signalId: string): Promise<string> {
     const signalLatchElement: ElementFinder = element(by.css('[id^=signal-element-' + signalId  + ']'));
-    return signalLatchElement.getAttribute('visibility');
+    return signalLatchElement.getCssValue('fill');
   }
 
   public async getLvlCrossingBarrierState(lvlCrossingId: string): Promise<string> {
