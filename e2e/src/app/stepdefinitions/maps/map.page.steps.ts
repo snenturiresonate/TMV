@@ -539,6 +539,12 @@ Then('the TRTS status for signal {string} is {word}',
     expect(actualPageNumber).to.equal(expectedSignalStatus);
   });
 
+Then('the TRTS class status for signal {string} is {word}',
+  async (signalId: string, expectedSignalStatus: string) => {
+    const actualPageNumber: string = await mapPageObject.getTrtsClassStatus(signalId);
+    expect(actualPageNumber).to.equal(expectedSignalStatus);
+  });
+
 Then('the level crossing barrier status of {string} is {word}',
   async (lvlCrossingId: string, expectedStatus: string) => {
     const actualBarrierStatus = await mapPageObject.getLvlCrossingBarrierState(lvlCrossingId);
