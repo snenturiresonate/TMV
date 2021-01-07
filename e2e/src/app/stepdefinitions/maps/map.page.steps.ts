@@ -560,3 +560,11 @@ Then('I should not see the AES boundary elements', async () => {
   const aesDisplayed = await mapPageObject.aesElementsAreDisplayed();
   expect(aesDisplayed).to.equal(false);
 });
+
+When(/^I invoke the context menu on the map for train (.*)$/, async (trainDescription: string) => {
+  await mapPageObject.openContextMenuForTrainDescription(trainDescription);
+});
+
+When('I open timetable from the map context menu', async () => {
+  mapPageObject.mapContextMenuItems.get(1).click();
+});

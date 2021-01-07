@@ -4,9 +4,9 @@ import {CssColorConverterService} from '../../services/css-color-converter.servi
 import * as fs from 'fs';
 import {CucumberLog} from '../../logging/cucumber-log';
 import {ProjectDirectoryUtil} from '../../utils/project-directory.util';
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import assert = require('assert');
 import path = require('path');
-import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 const SCALEFACTORX_START = 7;
 
@@ -203,7 +203,11 @@ export class MapPageObject {
     return this.mapContextMenuItems.isPresent();
   }
 
-
+  public async openContextMenuForTrainDescription(trainDescription: string): Promise<void> {
+    const berth: ElementFinder = element(by.xpath(`//*[@data-train-description=\'${trainDescription}\']`));
+    browser.actions().click(berth, protractor.Button.RIGHT).perform();
+    await this.waitForContextMenu();
+  }
   public async getMapContextMenuItem(rowIndex: number): Promise<string> {
     return this.mapContextMenuItems.get(rowIndex - 1).getText();
   }
