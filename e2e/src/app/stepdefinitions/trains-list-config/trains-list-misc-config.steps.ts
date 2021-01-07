@@ -54,3 +54,14 @@ Then('the time to remain on list displayed as {string}', async (expectedHeader: 
 When('I click on the time to remain', async () => {
   await trainsListMisc.clickTimeToRemain();
 });
+Then('I should see the trains list configuration tabs as', async (table: any) => {
+  const expectedTabs = table.hashes();
+  const actualColHeader = await trainsListMisc.getTrainsListConfigTabNames();
+  expectedTabs.forEach((expectedTabName: any) => {
+    expect(actualColHeader).to.contain(expectedTabName.tabs);
+  });
+});
+Then('I see the train list config tab title as {string}', async (title: string) => {
+  const actualTitle: string = await trainsListMisc.getTabSectionHeader();
+  expect(actualTitle).to.contain(title);
+});

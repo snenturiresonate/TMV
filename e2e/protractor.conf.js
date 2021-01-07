@@ -19,7 +19,8 @@ exports.config = {
     }
   },
   suites: {
-    administration: ['./src/**/features/46474-administration/*.feature']
+    administration: ['./src/**/features/46474-administration/*.feature', './src/**/features/51351-administration/*.feature'],
+    trainsList: ['./src/**/features/33806-trains-list/*.feature']
   },
   directConnect: true,
   baseUrl: '',

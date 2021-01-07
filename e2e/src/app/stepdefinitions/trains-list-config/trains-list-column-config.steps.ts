@@ -56,6 +56,25 @@ Then('the following appear first in the selected column config', async (selected
   });
 });
 
+Then('the following can be seen in the selected column config', async (selectedEntriesDataTable: any) => {
+  const expectedSelectedEntries = selectedEntriesDataTable.hashes();
+  const actualSelectedEntriesFirstCol = await trainsListColumnConfigPage.getFirstElementsInSelectedGrid();
+  const actualSelectedEntriesSecondCol = await trainsListColumnConfigPage.getSecondElementsInSelectedGrid();
+  expectedSelectedEntries.forEach((expectedSelectedEntry: any) => {
+    if (expectedSelectedEntry.arrowType !== '') {
+      expect(actualSelectedEntriesFirstCol).to.contain(expectedSelectedEntry.arrowType);
+      expect(actualSelectedEntriesSecondCol).to.contain(expectedSelectedEntry.ColumnName);
+    } else {
+      expect(actualSelectedEntriesFirstCol).to.contain(expectedSelectedEntry.ColumnName);
+    }
+  });
+});
+
+Then('the unselected column entries should be empty', async () => {
+  const unselectedColEntries: boolean = await trainsListColumnConfigPage.trainListConfigUnselected.isPresent();
+  expect(unselectedColEntries).to.equal(false);
+});
+
 Then('I click on all the unselected column entries', async () => {
   await trainsListColumnConfigPage.trainListConfigUnselected.click();
 });

@@ -1,4 +1,5 @@
 import { by, element, ElementArrayFinder, ElementFinder} from 'protractor';
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export class TrainsListMiscConfigTab {
   public classHeader: ElementFinder;
@@ -9,6 +10,8 @@ export class TrainsListMiscConfigTab {
   public miscClassRight: ElementArrayFinder;
   public ignoreToggleButton: ElementFinder;
   public timeToRemainBox: ElementFinder;
+  public trainsListConfigTabs: ElementArrayFinder;
+  public tabSectionHeader: ElementFinder;
   constructor() {
     this.classHeader = element(by.id('class-header'));
     this.classToggle = element.all(by.css('.misc-table .toggle-switch >span:nth-child(3)'));
@@ -18,6 +21,8 @@ export class TrainsListMiscConfigTab {
     this.miscClassRight = element.all(by.css('.misc-div-container>div>div:nth-child(1)'));
     this.ignoreToggleButton = element(by.css('#ignorePdCancel-toggle-menu>label>span:nth-child(3)'));
     this.timeToRemainBox = element(by.id('timeToRemain'));
+    this.trainsListConfigTabs = element.all(by.css('#v-pills-tab li'));
+    this.tabSectionHeader = element(by.css('.column-header.section-name'));
   }
 
   public async getTrainMiscClassHeader(): Promise<string> {
@@ -51,5 +56,12 @@ export class TrainsListMiscConfigTab {
   }
   public async clickTimeToRemain(): Promise<void> {
     return this.timeToRemainBox.click();
+  }
+  public async getTrainsListConfigTabNames(): Promise<any> {
+    await CommonActions.waitForElementToBeVisible(this.trainsListConfigTabs.first());
+    return this.trainsListConfigTabs.getText();
+  }
+  public async getTabSectionHeader(): Promise<string> {
+    return CommonActions.waitAndGetText(this.tabSectionHeader);
   }
 }
