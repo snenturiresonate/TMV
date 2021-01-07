@@ -70,6 +70,9 @@ Feature: 33753 - TMV Timetable
     #When the user is viewing the timetable
     #Then the train's schedule is displayed with any predicted and live running information and header information
     Given I am on the trains list page
+    And there is a Schedule for '<trainDescription>'
+    And the schedule has a basic timetable
+    And the schedule is received from LINX
     And The trains list table is visible
     When I invoke the context menu from train <trainNum> on the trains list
     And I wait for the context menu to display
@@ -94,8 +97,8 @@ Feature: 33753 - TMV Timetable
       | 13      | Oxford                 | 11:33:30           | 11:35:30        | 11:33             | 11:35          | 2                 | D2               | RL               | [2] <1>    | T          | 11:33:30        | 11:35:30     | 2         | D2       | RL       | +1m         |
       | 16      | [Reading]              |                    |                 |                   |                |                   |                  |                  |            |            | (11:43:30)      | (11:44:30)   | 2         | D2       | RL       |             |
     Examples:
-      |trainNum|
-      | 1      |
+      |trainNum| trainDescription |
+      | 1      | 1C82             |
 
   Scenario Outline: Scenario - 5 View Timetable (Not Schedule Matched)
     #Given the user is authenticated to use TMV
@@ -145,3 +148,55 @@ Feature: 33753 - TMV Timetable
     Examples:
       |trainNum|
       | 1      |
+
+  Scenario Outline: Scenario -6 View Timetable Detail (Schedule Matched)
+    #Given the user is authenticated to use TMV
+    #And the user has opened a timetable
+    #And the train is schedule matched
+    #When the user selects the details tab of the timetable
+    #Then the train's CIF information and header information with any TJM, Association and Change-en-route is displayed
+    Given I am on the trains list page
+    And there is a Schedule for '<trainDescription>'
+    And the schedule has a basic timetable
+    And the schedule is received from LINX
+    And The trains list table is visible
+    When I invoke the context menu from train <trainNum> on the trains list
+    And I wait for the context menu to display
+    And the trains list context menu is displayed
+    And I open timetable from the context menu
+    And I switch to the new tab
+    When The timetable table tab is visible
+    When I switch to the timetable details tab
+    Then The timetable details tab is visible
+    And The entry 1 of the timetable modifications table contains the following data in each column
+      | column                |
+      | Change Of Location    |
+      | Rugby Trent Valley Jn |
+      | 30/11/2019 09:39      |
+      | 11                    |
+    And The entry 2 of the timetable modifications table contains the following data in each column
+      | column                |
+      | Change Of Location    |
+      | Rugby                 |
+      | 04/02/2020 06:59      |
+      | 12                    |
+    And The entry 1 of the timetable associations table contains the following data in each column
+      | column                |
+      | Paddington            |
+      | Previous Working      |
+      | 1C80                  |
+    And The entry 2 of the timetable associations table contains the following data in each column
+      | column                |
+      | Sheffield             |
+      | Previous Working      |
+      | 1T55                  |
+    And The entry of the change en route table contains the following data
+      | columnName |
+      | Rugby      |
+      | AMU        |
+      | D2         |
+      | 60mph      |
+      | FGHIJ      |
+    Examples:
+      |trainNum| trainDescription |
+      | 1      | 1C82             |

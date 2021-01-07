@@ -9,6 +9,7 @@ export class TimeTablePageObject {
   public headerTrainUid: ElementFinder;
   public headerTrustId: ElementFinder;
   public headerTJM: ElementFinder;
+  public changeEnRoute: ElementArrayFinder;
   constructor() {
     this.headerLabels = element.all(by.css('.tmv-header-content [id$=Label]'));
     this.timetableTab = element(by.id('timetable-table-tab'));
@@ -18,6 +19,8 @@ export class TimeTablePageObject {
     this.headerTrainUid = element(by.id('timetableHeaderPlanningUid'));
     this.headerTrustId = element(by.id('timetableHeaderTrustTrainId'));
     this.headerTJM = element(by.id('timetableHeaderTrainJourneyModification'));
+    this.changeEnRoute = element.all(by.css('.change-en-route-table >tbody >div >tr>td'));
+
   }
   public async isTimetableTableTabVisible(): Promise<boolean> {
     const timetableTabClasses: string = await element(by.id('timetable-table-tab')).getAttribute('class');
@@ -62,5 +65,31 @@ export class TimeTablePageObject {
     return this.headerLabels.map((labelValue: ElementFinder) => {
       return labelValue.getText();
     });
+  }
+
+  public async isTimetableDetailsTabVisible(): Promise<boolean> {
+    browser.wait(async () => {
+      return element(by.id('timetable-details-table')).isPresent();
+    }, browser.displayTimeout, 'The timetable details table should be displayed');
+
+    const timetableTabClasses: string = await element(by.id('timetable-details-tab')).getAttribute('class');
+    return timetableTabClasses.indexOf('tmv-tab-timetable-active') > -1;
+  }
+
+  public async getTimetableModificationColValues(index: number): Promise<string[]> {
+    const entryColValues: ElementArrayFinder = element.all(by.css('#timetable-modifications-' + (index - 1).toString() + ' td'));
+    return entryColValues.map((colValue: ElementFinder) => {
+      return colValue.getText();
+    });
+  }
+  public async getTimetableAssociationsColValues(index: number): Promise<string[]> {
+    const entryColValues: ElementArrayFinder = element.all(by.css('#timetable-associations-' + (index - 1).toString() + ' td'));
+    return entryColValues.map((colValue: ElementFinder) => {
+      return colValue.getText();
+    });
+  }
+
+  public async getChangeEnRouteValues(): Promise<string> {
+    return this.changeEnRoute.getText();
   }
 }

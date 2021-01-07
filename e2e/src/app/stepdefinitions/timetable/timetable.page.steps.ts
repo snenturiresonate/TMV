@@ -109,3 +109,36 @@ Then('The timetable header contains the following property labels:',
       expect(actualHeaderPropertyLabels[i]).contains(expectedPropertyValue.property);
     });
   });
+
+Then('The timetable details tab is visible', async () => {
+  const isTimetableDetailsTabVisible: boolean = await timetablePage.isTimetableDetailsTabVisible();
+  expect(isTimetableDetailsTabVisible).to.equal(true);
+});
+
+Then('The entry {int} of the timetable modifications table contains the following data in each column',
+  async (index: number, timetableModificationsDataTable: any) => {
+    const expectedTimetableModificationsColValues: any[] = timetableModificationsDataTable.hashes();
+    const actualTimetableModificationColValues: string[] = await timetablePage.getTimetableModificationColValues(index);
+
+    expectedTimetableModificationsColValues.forEach((expectedAppName: any, i: number) => {
+      expect(actualTimetableModificationColValues[i]).to.equal(expectedAppName.column);
+    });
+  });
+
+Then('The entry {int} of the timetable associations table contains the following data in each column',
+  async (index: number, timetableAssociationsDataTable: any) => {
+    const expectedTimetableAssociationsColValues: any[] = timetableAssociationsDataTable.hashes();
+    const actualTimetableAssociationsColValues: string[] = await timetablePage.getTimetableAssociationsColValues(index);
+
+    expectedTimetableAssociationsColValues.forEach((expectedAppName: any, i: number) => {
+      expect(actualTimetableAssociationsColValues[i]).to.equal(expectedAppName.column);
+    });
+  });
+
+Then('The entry of the change en route table contains the following data', async (changeEnRouteDataTable: any) => {
+  const expectedChangeEnRouteColValues = changeEnRouteDataTable.hashes();
+  const actualChangeEnRouteColValues = await timetablePage.getChangeEnRouteValues();
+  expectedChangeEnRouteColValues.forEach((expectedChangeEnRouteColValue: any) => {
+    expect(actualChangeEnRouteColValues).to.contain(expectedChangeEnRouteColValue.columnName);
+  });
+});
