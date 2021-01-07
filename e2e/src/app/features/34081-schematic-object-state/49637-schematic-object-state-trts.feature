@@ -21,7 +21,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN212' is green
 
-    @bug #52656
+    @tdd @bug #52656
   Scenario: 34081 - 32 TRTS (Set)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
