@@ -13,7 +13,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #When a message is received setting any of those bits to 1
     #Then the signal roundel displays green
     And I set up all signals for address 92 in D3 to be not-proceed
-    And the signal roundel for signal 'SN212' is grey
+    And the signal roundel for signal 'SN212' is red
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 92      | 04   | 10:03:00  |
@@ -31,7 +31,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       | D3             | 50      | 01   | 10:45:00  |
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN1' is grey
-    And the TRTS class status for signal 'SN1' is latch_active
+    And the TRTS status for signal 'SN1' is hidden
 
   Scenario:34081 - 33 TRTS (Not Set)
     #Given a TRTS exists on a map
@@ -43,4 +43,4 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       | D3             | 50      | 00   | 10:45:00  |
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN1' is grey
-    And the TRTS status for signal 'SN1' is hidden
+    And the TRTS status for signal 'SN1' is visible

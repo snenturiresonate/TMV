@@ -243,7 +243,7 @@ export class MapPageObject {
   }
 
   public async getTrtsStatus(signalId: string): Promise<string> {
-    const signalLatchElement: ElementFinder = element(by.css('[id^=signal-latch-cross-element-' + signalId  + ']'));
+    const signalLatchElement: ElementFinder = element(by.css('[id^=signal-element-lamp-round-' + signalId  + ']'));
     return signalLatchElement.getAttribute('visibility');
   }
   public async getTrtsClassStatus(signalId: string): Promise<string> {
