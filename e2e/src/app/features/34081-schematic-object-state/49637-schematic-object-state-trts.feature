@@ -12,7 +12,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #And that signal has multiple bits that are configured for the main signal
     #When a message is received setting any of those bits to 1
     #Then the signal roundel displays green
-    And I set up all signals for address 50 in D3 to be not-proceed
+    And I set up all signals for address 92 in D3 to be not-proceed
     And the signal roundel for signal 'SN212' is grey
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
@@ -25,7 +25,6 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
     #Then the TRTS is  displayed for the signal
-    And I set up all signals for address 50 in D3 to be not-proceed
     And the signal roundel for signal 'SN1' is grey
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
@@ -38,7 +37,6 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
     #Then the TRTS is not displayed for the signal
-    And I set up all signals for address 80 in D3 to be not-proceed
     And the signal roundel for signal 'SN1' is grey
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
