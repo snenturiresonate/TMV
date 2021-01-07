@@ -71,7 +71,7 @@ Feature: 33753 - TMV Timetable
     #Then the train's schedule is displayed with any predicted and live running information and header information
     Given I am on the trains list page
     And there is a Schedule for '<trainDescription>'
-    And the schedule has a basic timetable
+    #And the schedule has a basic timetable
     And the schedule is received from LINX
     And The trains list table is visible
     When I invoke the context menu from train <trainNum> on the trains list
