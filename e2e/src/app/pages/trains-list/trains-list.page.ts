@@ -74,6 +74,12 @@ export class TrainsListPageObject {
     return this.trainsListTableCols.getText();
   }
 
+  public async getTrainsListColHeaderByIndex(index: number): Promise<string> {
+    const indexForCss = index + 1;
+    const elm: ElementFinder = element(by.css(`#trainList th:nth-child(${indexForCss})[id^=tmv-train-table-header] span:nth-child(1)`));
+    return CommonActions.waitAndGetText(elm);
+  }
+
   public async getTrainsListColHeaderCount(): Promise<any> {
     await CommonActions.waitForElementToBeVisible(this.trainsListTableCols.first());
     return this.trainsListTableCols.count();

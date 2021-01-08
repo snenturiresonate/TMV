@@ -34,7 +34,7 @@ Feature: 49635 - Schematic State - route indication state
       | D3             | 10      | 02   | 10:45:00  |
     Then the s-class-berth 'D36003' will display a Route indication of 'A'
 
-
+@bug @bug_52750
   Scenario: 34081-19c - Route Indication State (Set - Main Signal into platforms with several different indications possible 1-3 alphanumeric)
 #    Given an S-Class message is received and processed
 #    And the S-Class message is associated with an S-Class berth of type Route Indication

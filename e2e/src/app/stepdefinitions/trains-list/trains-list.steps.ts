@@ -1,6 +1,7 @@
 import {Then, When} from 'cucumber';
 import {TrainsListPageObject} from '../../pages/trains-list/trains-list.page';
 import { expect } from 'chai';
+import {protractor} from 'protractor';
 
 const trainsListPage: TrainsListPageObject = new TrainsListPageObject();
 
@@ -52,6 +53,19 @@ Then('I should see the trains list columns as', async (table: any) => {
     expect(actualColHeader).to.contain(expectedColHeaderName.header);
   });
   expect(actualNoOfCols).to.equal(expectedNoOfCols);
+});
+
+Then('I should see the trains list columns as in the below order', async (table: any) => {
+  const results: any[] = [];
+  const expectedColHeaders = table.hashes();
+  const expectedNoOfCols = table.hashes().length;
+  const actualNoOfCols = await trainsListPage.getTrainsListColHeaderCount();
+  for (let i = 0; i < table.hashes.length; i++) {
+    const actualColHeader = await trainsListPage.getTrainsListColHeaderByIndex(i);
+    results.push(expect(actualColHeader).to.contain(expectedColHeaders[i].header));
+  }
+  results.push(expect(actualNoOfCols).to.equal(expectedNoOfCols));
+  return protractor.promise.all(results);
 });
 
 When('I navigate to train list configuration', async () => {
