@@ -39,29 +39,6 @@ export class TrainsListPageObject {
     });
   }
 
-  public async isScheduleVisible(scheduleId: string): Promise<boolean> {
-    browser.wait(async () => {
-      return element(by.css('#trains-list-row-' + scheduleId)).isPresent();
-    }, browser.displayTimeout, 'The schedule should be displayed');
-    const trainScheduleId: ElementFinder = element(by.css('#trains-list-row-' + scheduleId));
-    return trainScheduleId.isPresent();
-  }
-
-  public async getTrainsListRowColFill(scheduleId: string): Promise<string> {
-    const trainDescriptionEntry: ElementFinder = element(by.css('#trains-list-row-' + scheduleId));
-    const backgroundColour: string = await trainDescriptionEntry.getCssValue('background-color');
-
-    const oddRowDefaultBackgroundColour = 'rgb(44,44,44)';
-    const evenRowDefaultBackgroundColour = 'rgba(0, 0, 0, 0)';
-    return of(backgroundColour !== oddRowDefaultBackgroundColour && backgroundColour !== evenRowDefaultBackgroundColour
-      ? backgroundColour : '').toPromise();
-  }
-
-  public async getTrainsListTrainDescriptionEntryColFill(scheduleId: string): Promise<string> {
-    const trainDescriptionEntry: ElementFinder = element(by.css('#trains-list-row-entry-train-description-' + scheduleId));
-    return trainDescriptionEntry.getCssValue('background-color');
-  }
-
   public async getTrainsListCols(): Promise<string[]> {
     const colValues: ElementArrayFinder = element.all(by.css('.trains-list-table-header > th'));
     return colValues.map((colValue: ElementFinder) => {
@@ -109,5 +86,26 @@ export class TrainsListPageObject {
 
   public async clickTrainListSettingsBtn(): Promise<void> {
     return CommonActions.waitAndClick(this.trainListSettingsBtn);
+  }
+  public async isScheduleVisible(scheduleId: string): Promise<boolean> {
+    browser.wait(async () => {
+      return element(by.css('#trains-list-row-' + scheduleId)).isPresent();
+    }, browser.displayTimeout, 'The schedule should be displayed');
+    const trainScheduleId: ElementFinder = element(by.css('#trains-list-row-' + scheduleId));
+    return trainScheduleId.isPresent();
+  }
+  public async getTrainsListRowColFill(scheduleId: string): Promise<string> {
+    const trainDescriptionEntry: ElementFinder = element(by.css('#trains-list-row-' + scheduleId));
+    const backgroundColour: string = await trainDescriptionEntry.getCssValue('background-color');
+
+    const oddRowDefaultBackgroundColour = 'rgba(44, 44, 44, 1)';
+    const evenRowDefaultBackgroundColour = 'rgba(0, 0, 0, 0)';
+    return of(backgroundColour !== oddRowDefaultBackgroundColour && backgroundColour !== evenRowDefaultBackgroundColour
+      ? backgroundColour : '').toPromise();
+  }
+
+  public async getTrainsListTrainDescriptionEntryColFill(scheduleId: string): Promise<string> {
+    const trainDescriptionEntry: ElementFinder = element(by.css('#trains-list-row-entry-train-description-' + scheduleId));
+    return trainDescriptionEntry.getCssValue('background-color');
   }
 }

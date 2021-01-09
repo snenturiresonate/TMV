@@ -19,6 +19,16 @@ Then('The trains list table is visible', async () => {
   expect(isTrainsListPageVisible).to.equal(true);
 });
 
+When('the service {string} is not active', async (serviceId: string) => {
+  const isScheduleVisible: boolean = await trainsListPage.isScheduleVisible(serviceId);
+  expect(isScheduleVisible).to.equal(false);
+});
+
+When('the service {string} is active', async (serviceId: string) => {
+  const isScheduleVisible: boolean = await trainsListPage.isScheduleVisible(serviceId);
+  expect(isScheduleVisible).to.equal(true);
+});
+
 Then('I open timetable from the context menu', async () => {
   await trainsListPage.timeTableLink.click();
 });
@@ -70,4 +80,16 @@ Then('I should see the trains list columns as in the below order', async (table:
 
 When('I navigate to train list configuration', async () => {
   await trainsListPage.clickTrainListSettingsBtn();
+});
+
+Then('the service is displayed in the trains list with the following indication', async (trainsListRowsDataTable: any) => {
+  const trainsListRowValues: any[] = trainsListRowsDataTable.hashes();
+
+  for (const expectedTrainsListRow of trainsListRowValues) {
+    const actualRowColFill: string = await trainsListPage.getTrainsListRowColFill(expectedTrainsListRow.rowId);
+    const actualTrainDescriptionFill: string = await trainsListPage.getTrainsListTrainDescriptionEntryColFill(expectedTrainsListRow.rowId);
+
+    expect(actualRowColFill).to.equal(expectedTrainsListRow.rowColFill);
+    expect(actualTrainDescriptionFill).to.equal(expectedTrainsListRow.trainDescriptionFill);
+  }
 });
