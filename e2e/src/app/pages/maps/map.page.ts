@@ -243,7 +243,7 @@ export class MapPageObject {
   }
 
   public async getTrtsStatus(signalId: string): Promise<string> {
-    const signalLatchElement: ElementFinder = element(by.css('[id^=signal-element-lamp-round-' + signalId  + ']'));
+    const signalLatchElement: ElementFinder = element(by.css('[id^=signal-latch-cross-element-line-1-' + signalId  + ']'));
     const latchColourRgb: string = await signalLatchElement.getCssValue('fill');
     return CssColorConverterService.rgb2Hex(latchColourRgb);
   }

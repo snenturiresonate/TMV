@@ -51,4 +51,4 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 00   | 10:45:00  |
-    Then the TRTS status for signal 'SN1' is grey
+    Then the signal roundel for signal 'SN1' is grey
