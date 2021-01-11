@@ -535,8 +535,9 @@ When('I launch a new map {string} the new map should have start time from the mo
 
 Then('the TRTS status for signal {string} is {word}',
   async (signalId: string, expectedSignalStatus: string) => {
+    const expectedSignalStatusHex = mapColourHex[expectedSignalStatus];
     const actualSignalStatus: string = await mapPageObject.getTrtsStatus(signalId);
-    expect(actualSignalStatus).to.equal(expectedSignalStatus);
+    expect(actualSignalStatus).to.equal(expectedSignalStatusHex);
   });
 
 Then('the level crossing barrier status of {string} is {word}',
