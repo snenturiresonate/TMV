@@ -1,6 +1,7 @@
 import {Then, When} from 'cucumber';
 import { expect } from 'chai';
 import {TrainsListColumnConfigTabPageObject} from '../../pages/trains-list-config/trains.list.column.config.tab.page';
+import {protractor} from 'protractor';
 
 const trainsListColumnConfigPage: TrainsListColumnConfigTabPageObject = new TrainsListColumnConfigTabPageObject();
 
@@ -56,6 +57,42 @@ Then('the following appear first in the selected column config', async (selected
   });
 });
 
+Then('the following can be seen in the selected column config', async (selectedEntriesDataTable: any) => {
+  const expectedSelectedEntries = selectedEntriesDataTable.hashes();
+  const actualSelectedEntriesFirstCol = await trainsListColumnConfigPage.getFirstElementsInSelectedGrid();
+  const actualSelectedEntriesSecondCol = await trainsListColumnConfigPage.getSecondElementsInSelectedGrid();
+  expectedSelectedEntries.forEach((expectedSelectedEntry: any) => {
+    if (expectedSelectedEntry.arrowType !== '') {
+      expect(actualSelectedEntriesFirstCol).to.contain(expectedSelectedEntry.arrowType);
+      expect(actualSelectedEntriesSecondCol).to.contain(expectedSelectedEntry.ColumnName);
+    } else {
+      expect(actualSelectedEntriesFirstCol).to.contain(expectedSelectedEntry.ColumnName);
+    }
+  });
+});
+
+Then('the following can be seen in the selected column config in the given order', {timeout: 6 * 5000}, async (selectedEntriesDataTable: any) => {
+  const results: any[] = [];
+  const expectedSelectedEntries = selectedEntriesDataTable.hashes();
+  for (let i = 0; i < selectedEntriesDataTable.hashes().length; i++) {
+    if (expectedSelectedEntries[i].arrowType !== '') {
+      const actualSelectedEntriesFirstCol = await trainsListColumnConfigPage.getFirstElementInSelectedGridByIndex(i);
+      const actualSelectedEntriesSecondCol = await trainsListColumnConfigPage.getSecondElementInSelectedByIndex(i);
+      results.push(expect(actualSelectedEntriesFirstCol).to.contain(expectedSelectedEntries[i].arrowType));
+      results.push(expect(actualSelectedEntriesSecondCol).to.contain(expectedSelectedEntries[i].ColumnName));
+    } else {
+      const actualSelectedEntriesFirstCol = await trainsListColumnConfigPage.getFirstElementInSelectedGridByIndex(i);
+      results.push(expect(actualSelectedEntriesFirstCol).to.contain(expectedSelectedEntries[i].ColumnName));
+    }
+  }
+  return protractor.promise.all(results);
+});
+
+Then('the unselected column entries should be empty', async () => {
+  const unselectedColEntries: boolean = await trainsListColumnConfigPage.trainListConfigUnselected.isPresent();
+  expect(unselectedColEntries).to.equal(false);
+});
+
 Then('I click on all the unselected column entries', async () => {
   await trainsListColumnConfigPage.trainListConfigUnselected.click();
 });
@@ -67,6 +104,10 @@ Then('I click on all the selected column entries', async () => {
 
 When('I select the arrow up down at position {int}', async (position: number) => {
   await trainsListColumnConfigPage.clickArrowUpDown(position);
+});
+
+When('I move {string} the selected column item {string}', async (arrowDir: string, itemName: string) => {
+    await trainsListColumnConfigPage.clickArrow(arrowDir, itemName);
 });
 
 When('I select the left arrow position {int}', async (position: number) => {

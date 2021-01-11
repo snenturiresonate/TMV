@@ -180,7 +180,7 @@ Given(/^I am on the trains list page$/, async () => {
   await page.navigateTo('/tmv/trains-list');
 });
 
-Given(/^I am on the trains list Config page$/, async () => {
+Given(/^I am on the trains list Config page$/, {timeout: 2 * 5000}, async () => {
   await page.navigateTo('/tmv/trains-list-config');
 });
 
@@ -200,13 +200,57 @@ Given(/^I am on the replay page$/, async () => {
   await page.navigateTo('/tmv/replay/replay-session-1');
 });
 
+Given('I am on the live timetable page with schedule id {string}', async (scheduleId: string) => {
+  await page.navigateTo(`tmv/live-timetable/${scheduleId}`);
+});
+
+
 Then('the tab title is {string}', async (expectedTabTitle: string) => {
   const actualTabTitle: string = await browser.getTitle();
   expect(actualTabTitle).to.contains(expectedTabTitle);
+});
+
+When('I open {string} page in a new tab', async (pageName: string) => {
+  try {
+    await OpenNewTab();
+  }catch (UnexpectedAlertOpenError) {
+    await acceptUnexpectedAlert();
+  }
+  switch (pageName) {
+    case 'admin': {
+      await page.navigateTo('/tmv/administration');
+      break;
+    }
+    case 'trains list Config': {
+      await page.navigateTo('/tmv/trains-list-config');
+      break;
+    }
+    case 'trains list config': {
+      await page.navigateTo('/tmv/trains-list-config');
+      break;
+    }
+    case 'trains list': {
+      await page.navigateTo('/tmv/trains-list');
+      break;
+    }
+    case 'home': {
+      await page.navigateTo('');
+      break;
+    }
+  }
 });
 
 async function handleUnexpectedAlertAndNavigateTo(url: string): Promise<any> {
     const alert = await browser.switchTo().alert();
     await alert.accept();
     await page.navigateTo(url);
+}
+
+async function acceptUnexpectedAlert(): Promise<any> {
+  const alert = await browser.switchTo().alert();
+  await alert.accept();
+}
+
+async function OpenNewTab(): Promise<any> {
+  return browser.executeScript('window.open()');
 }

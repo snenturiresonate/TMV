@@ -3,7 +3,7 @@ Feature: 49634 - Schematic State - Level Crossing state
   As a TMV User
   I want to schematic objects displayed with the latest state
   So that I have a live view of the railway
-@bug @bug_51992
+
   Scenario: 34081 - 21 Level Crossing State (Up)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type Level Crossing
@@ -17,21 +17,22 @@ Feature: 49634 - Schematic State - Level Crossing state
       | C2             | 7D      | 22   | 10:45:00  |
     Then the level crossing barrier status of 'C2LXSF' is Up
     And the level crossing barrier status of 'C2PNWK' is Wk
-  @bug @bug_51992
+
   Scenario: 34081 - 22 Level Crossing State (Down)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type Level Crossing
     #And the S-Class message is setting the Level Crossing to "Down"
     #When a user is viewing a map that contains the Level Crossing
     #Then the Level Crossing will display a "Dn" on the left side and a "Wk" for the working on the right side
-    Given I am viewing the map gw08cardiffswml.v
-    And I set up all signals for address 7D in C2 to be not-proceed
+    Given I am viewing the map md19marstonvale.v
+    And I set up all signals for address 1E in RT to be not-proceed
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | C2             | 7D      | 03   | 10:45:00  |
-    Then the level crossing barrier status of 'C2LXSF' is Dn
-  @bug @bug_51992
-  Scenario: 34081 - 23 Level Crossing State (Failed)
+      | RT             | 1E      | FF   | 10:45:00  |
+    Then the level crossing barrier status of 'RTFSUD' is Dn
+    And the level crossing barrier status of 'RTFSFL' is Fal
+
+  Scenario: 34081 - 23 Level Crossing State - verification of non-working state display
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type Level Crossing
     #And the S-Class message is setting the Level Crossing to "Failed"
@@ -43,7 +44,7 @@ Feature: 49634 - Schematic State - Level Crossing state
       | trainDescriber | address | data | timestamp |
       | RT             | 26      | FF   | 10:45:00  |
     Then the level crossing barrier status of 'RTMKFL' is Fal
-  @bug @bug_51992
+
   Scenario: 34081 - 24 Direction Lock State (Locked)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type Direction Lock
@@ -56,7 +57,7 @@ Feature: 49634 - Schematic State - Level Crossing state
       | trainDescriber | address | data       | timestamp |
       | MH             | 36      | 22222222   | 10:45:00  |
     Then the direction lock chevron of 'MHSBWP' is <
-  @bug @bug_51992
+
   Scenario: 34081 - 24 Direction Lock State (Locked) both directions
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type Direction Lock
@@ -69,7 +70,7 @@ Feature: 49634 - Schematic State - Level Crossing state
       | trainDescriber | address | data       | timestamp |
       | MH             | 36      | 11111111   | 10:45:00  |
     Then the direction lock chevron of 'MHWPSB' is >
-  @bug @bug_51992
+
   Scenario: 34081 - 25 Direction Lock State (Not Locked)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type Direction Lock

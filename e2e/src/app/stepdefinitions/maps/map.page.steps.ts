@@ -35,40 +35,40 @@ const mapColourHex = {
 };
 
 const mapObjectColourHex = {
-  platform: '#ffa700',
-  WILD_indicator: '#ffffff',
-  OHL_limits: '#ffffff',
-  HABDS: '#ffffff',
-  signal_box: '#ffffff',
-  direction_arrows: '#ffffff',
-  end_of_line_indication: '#ffffff',
-  OHNS: '#ffffff',
-  tripcock: '#ffffff',
-  flight_path: '#ffffff',
-  train_washer_indicator: '#969696',
-  AES_boundaries_line_group: '#ff3cb1',
-  alarm_box: '#ffffff',
-  tunnel_bridge_viaduct: '#969696',
-  cut_bar: '#ffffff',
-  level_crossing: '#ffffff',
-  dashed_track_section: '#ffffff',
-  continuation_button: '#0000ff',
-  limit_of_shunt_static_signal: '#000000',
-  static_signal: '#000000',
-  static_shunt_signal: '#000000',
-  static_markerboard: '#000000',
-  active_track_section: '#ffffff',
-  active_main_signal: '#969696',
-  active_shunters_release: '#ffffff',
-  active_markerboard: '#969696',
-  active_shunt_markerboard: '#0000ff',
-  active_shunt_signal: '#969696',
-  aes_boundaries_text_label: '#ff3cb1',
-  direction_lock_text_label: '#ffb578',
-  connector_text_label: '#ffffff',
-  other_text_label: '#ffffff',
-  berth: '#e1e1e1',
-  manual_trust_berth: '#ffff00'
+  platform: ['#ffa700', '#ffffff00'],
+  WILD_indicator: ['#ffffff'],
+  OHL_limits: ['#ffffff'],
+  HABDS: ['#ffffff'],
+  signal_box: ['#ffffff'],
+  direction_arrows: ['#ffffff'],
+  end_of_line_indication: ['#ffffff'],
+  OHNS: ['#ffffff'],
+  tripcock: ['#ffffff'],
+  flight_path: ['#ffffff'],
+  train_washer_indicator: ['#969696'],
+  AES_boundaries_line_group: ['#ff3cb1'],
+  alarm_box: ['#ffffff'],
+  tunnel_bridge_viaduct: ['#969696'],
+  cut_bar: ['#ffffff'],
+  level_crossing: ['#ffffff'],
+  dashed_track_section: ['#ffffff'],
+  continuation_button: ['#0000ff'],
+  limit_of_shunt_static_signal: ['#000000'],
+  static_signal: ['#000000'],
+  static_shunt_signal: ['#000000'],
+  static_markerboard: ['#000000'],
+  active_track_section: ['#ffffff'],
+  active_main_signal: ['#ff0000', '#00ff00', '#969696'],
+  active_shunters_release: ['#ffffff'],
+  active_markerboard: ['#ff0000', '#00ff00', '#969696'],
+  active_shunt_markerboard: ['#ff0000', '#ffffff', '#969696'],
+  active_shunt_signal: ['#ff0000', '#ffffff', '#969696'],
+  aes_boundaries_text_label: ['#ff3cb1'],
+  direction_lock_text_label: ['#ffb578'],
+  connector_text_label: ['#ffffff'],
+  other_text_label: ['#ffffff'],
+  berth: ['#e1e1e1', '#ffd6b6'],
+  manual_trust_berth: ['#ffff00']
 };
 
 Given(/^I am viewing the map (.*)$/, async (mapId: string) => {
@@ -261,7 +261,7 @@ Then ('the objects of type {word} are the correct colour', async (objectType: st
   if (mapLayerItem.styleProperty) {
     const actualItemColourRgb: string = await webElements[0].getCssValue(mapLayerItem.styleProperty);
     const actualItemColourHex: string = CssColorConverterService.rgb2Hex(actualItemColourRgb);
-    expect(actualItemColourHex).to.equal(expectedObjectColourHex);
+    expect(actualItemColourHex).oneOf(expectedObjectColourHex);
   }
 });
 
@@ -368,18 +368,6 @@ Then('the TRTS visibility status for {string} is {word}',
   async (signalId: string, expectedStatus: string) => {
     const actualStatus = await mapPageObject.getVisibilityStatus(signalId);
     expect(actualStatus).to.equal(expectedStatus);
-  });
-
-Then('the track state width for track {string} is {string}',
-  async (trackId: string, expectedWidth: string) => {
-    const actualWidth = await mapPageObject.getTrackWidth(trackId);
-    expect(actualWidth).to.equal(expectedWidth);
-  });
-
-Then('the track state class is for track {string} is {string}',
-  async (trackId: string, expectedClass: string) => {
-    const actualClass = await mapPageObject.getTrackStateClass(trackId);
-    expect(actualClass).to.equal(expectedClass);
   });
 
 Then('the marker board triangle for marker board {string} is {word}',
@@ -584,4 +572,12 @@ Then('I should see the AES boundary elements', async () => {
 Then('I should not see the AES boundary elements', async () => {
   const aesDisplayed = await mapPageObject.aesElementsAreDisplayed();
   expect(aesDisplayed).to.equal(false);
+});
+
+When(/^I invoke the context menu on the map for train (.*)$/, async (trainDescription: string) => {
+  await mapPageObject.openContextMenuForTrainDescription(trainDescription);
+});
+
+When('I open timetable from the map context menu', async () => {
+  mapPageObject.mapContextMenuItems.get(1).click();
 });
