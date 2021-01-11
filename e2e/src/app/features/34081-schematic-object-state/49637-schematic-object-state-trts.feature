@@ -32,8 +32,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 01   | 10:45:00  |
     Then the TRTS status for signal 'SN1' is white
-
-
+    And the TRTS visibility status for 'SN1' is visible
 
   @bug @bug_52196
   Scenario: 34081 - 32b TRTS (Set - from green)
@@ -47,26 +46,23 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 01   | 10:45:00  |
     Then the TRTS status for signal 'SN1' is white
+    And the TRTS visibility status for 'SN1' is visible
+
 
   @bug @bug_52196
-  Scenario:34081 - 33a TRTS (Not Set back to red)
+  Scenario:34081 - 33a TRTS (Not Set from Not proceed)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
     #Then the TRTS is not displayed for the signal
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be not-proceed
-    And the signal roundel for signal 'SN1' is red
-    And the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 01   | 10:45:00  |
-    And the TRTS status for signal 'SN1' is white
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 00   | 10:45:00  |
-    Then the TRTS status for signal 'SN1' is red
+    Then the TRTS visibility status for 'SN1' is hidden
 
   @bug @bug_52196
-  Scenario:34081 - 33b TRTS (Not Set back to green)
+  Scenario:34081 - 33b TRTS (Not Set from Proceed)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
     #Then the TRTS is not displayed for the signal
@@ -75,9 +71,5 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And the signal roundel for signal 'SN1' is green
     And the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 01   | 10:45:00  |
-    And the TRTS status for signal 'SN1' is white
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
       | D3             | 50      | 00   | 10:45:00  |
-    Then the TRTS status for signal 'SN1' is green
+    Then the TRTS visibility status for 'SN1' is hidden

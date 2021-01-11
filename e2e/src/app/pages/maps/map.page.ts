@@ -248,6 +248,11 @@ export class MapPageObject {
     return CssColorConverterService.rgb2Hex(latchColourRgb);
   }
 
+  public async getVisibilityStatus(signalId: string): Promise<string> {
+    const signalVisibility: ElementFinder = element(by.css('[id^=signal-latch-cross-element-' + signalId  + ']'));
+    return signalVisibility.getCssValue('visibility');
+  }
+
   public async getLvlCrossingBarrierState(lvlCrossingId: string): Promise<string> {
     await CommonActions.waitForElementToBeVisible(this.liveMap);
     return this.sClassBerthTextElements.element(by.css('[id^=s-class-berth-element-text-' + lvlCrossingId  + ']')).getText();
