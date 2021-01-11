@@ -7,6 +7,40 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
   Background:
     Given I am viewing the map hdgw01paddington.v
 
+  Scenario:34081 - 28 Track State (Route Set)
+    #Given an S-Class message is received and processed
+    #And the S-Class message is a Route Expression Signalling function
+    #And the S-Class message is setting the track(s) to route set
+    #When a user is viewing a map that contains the track(s)
+    #Then the track(s) will be displayed in solid white
+    And I set up all signals for address 50 in D3 to be not-proceed
+    And the track state width for 'PNPNBD' is '2'
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 06      | 08   | 10:45:00  |
+    Then the track state width for 'PNPNBD' is '3'
+    And the track state class for 'PNPNBD' is 'track_active'
+
+
+  Scenario:34081 - 29 Track State (Route Not Set)
+    #Given an S-Class message is received and processed
+    #And the S-Class message is a Route Expression Signalling function
+    #And the route is set for that track(s)
+    #And the S-Class message is setting the track(s) to route not set
+    #When a user is viewing a map that contains the track(s)
+    #Then the track(s) will be displayed in thin white
+    And I set up all signals for address 50 in D3 to be not-proceed
+    And the track state width for 'PNPNBD' is '2'
+    And the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 06      | 08   | 10:45:00  |
+    And  the track state width for 'PNPNBD' is '3'
+    And the track state class for 'PNPNBD' is 'track_active'
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 06      | 00   | 10:45:00  |
+    And  the track state width for 'PNPNBD' is '3'
+
   @bug @bug_52196
   Scenario: 34081 - 32a TRTS (Set - from red)
     #Given a TRTS exists on a map
