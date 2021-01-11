@@ -7,19 +7,6 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
   Background:
     Given I am viewing the map hdgw01paddington.v
 
-    @tdd
-  Scenario:34081 - 28 Track State (Route Set)
-    #Given an S-Class message is received and processed
-    #And the S-Class message is a Route Expression Signalling function
-    #And the S-Class message is setting the track(s) to route set
-    #When a user is viewing a map that contains the track(s)
-    #Then the track(s) will be displayed in solid white
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 06      | 08   | 10:03:00  |
-    #Then the track for signal 'SN1' is solid white
-
-
   Scenario: 34081 - 30 Dual Signals
     #Given a signal exists on a map
     #And that signal has multiple bits that are configured for the main signal
@@ -27,28 +14,70 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #Then the signal roundel displays green
     And I set up all signals for address 92 in D3 to be not-proceed
     And the signal roundel for signal 'SN212' is red
-    When the following signalling update message is sent from LINX
+    When the following signalling update messages are sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 92      | 04   | 10:03:00  |
       | D3             | 92      | 08   | 10:03:00  |
     Then the signal roundel for signal 'SN212' is green
 
-  Scenario: 34081 - 32 TRTS (Set)
+  @bug @bug_52196
+  Scenario: 34081 - 32a TRTS (Set - from red)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
     #Then the TRTS is  displayed for the signal
-      When I set up all signals for address 50 in D3 to be not-proceed
+    When I set up all signals for address 50 in D3 to be not-proceed
+    And I set up all signals for address 78 in D3 to be not-proceed
+    Then the signal roundel for signal 'SN1' is red
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 01   | 10:45:00  |
-      Then the TRTS status for signal 'SN1' is white
+    Then the TRTS status for signal 'SN1' is white
 
-  Scenario:34081 - 33 TRTS (Not Set)
+
+
+  @bug @bug_52196
+  Scenario: 34081 - 32b TRTS (Set - from green)
+    #Given a TRTS exists on a map
+    #When a message is received setting the corresponding bit to 1
+    #Then the TRTS is  displayed for the signal
+    When I set up all signals for address 50 in D3 to be not-proceed
+    And I set up all signals for address 78 in D3 to be proceed
+    Then the signal roundel for signal 'SN1' is green
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 50      | 01   | 10:45:00  |
+    Then the TRTS status for signal 'SN1' is white
+
+  @bug @bug_52196
+  Scenario:34081 - 33a TRTS (Not Set back to red)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
     #Then the TRTS is not displayed for the signal
-    When I set up all signals for address 50 in D3 to be proceed
+    When I set up all signals for address 50 in D3 to be not-proceed
+    And I set up all signals for address 78 in D3 to be not-proceed
+    And the signal roundel for signal 'SN1' is red
+    And the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 50      | 01   | 10:45:00  |
+    And the TRTS status for signal 'SN1' is white
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 00   | 10:45:00  |
-    Then the signal roundel for signal 'SN1' is grey
+    Then the TRTS status for signal 'SN1' is red
+
+  @bug @bug_52196
+  Scenario:34081 - 33b TRTS (Not Set back to green)
+    #Given a TRTS exists on a map
+    #When a message is received setting the corresponding bit to 0
+    #Then the TRTS is not displayed for the signal
+    When I set up all signals for address 50 in D3 to be not-proceed
+    And I set up all signals for address 78 in D3 to be proceed
+    And the signal roundel for signal 'SN1' is green
+    And the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 50      | 01   | 10:45:00  |
+    And the TRTS status for signal 'SN1' is white
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 50      | 00   | 10:45:00  |
+    Then the TRTS status for signal 'SN1' is green
