@@ -14,11 +14,11 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #When a user is viewing a map that contains the track(s)
     #Then the track(s) will be displayed in solid white
     And I set up all signals for address 50 in D3 to be not-proceed
-    And the track state width for 'PNPNBD' is '2'
+    And the track state width for 'PNPNBD' is '2px'
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 06      | 08   | 10:45:00  |
-    Then the track state width for 'PNPNBD' is '3'
+    Then the track state width for 'PNPNBD' is '3px'
     And the track state class for 'PNPNBD' is 'track_active'
 
 
@@ -30,16 +30,16 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #When a user is viewing a map that contains the track(s)
     #Then the track(s) will be displayed in thin white
     And I set up all signals for address 50 in D3 to be not-proceed
-    And the track state width for 'PNPNBD' is '2'
+    And the track state width for 'PNPNBD' is '2px'
     And the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 06      | 08   | 10:45:00  |
-    And  the track state width for 'PNPNBD' is '3'
+    And  the track state width for 'PNPNBD' is '3px'
     And the track state class for 'PNPNBD' is 'track_active'
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 06      | 00   | 10:45:00  |
-    And  the track state width for 'PNPNBD' is '3'
+    And  the track state width for 'PNPNBD' is '3px'
 
   @bug @bug_52196
   Scenario: 34081 - 32a TRTS (Set - from red)
