@@ -370,6 +370,18 @@ Then('the TRTS visibility status for {string} is {word}',
     expect(actualStatus).to.equal(expectedStatus);
   });
 
+Then('the track state width for track {string} is {string}',
+  async (trackId: string, expectedWidth: string) => {
+    const actualWidth = await mapPageObject.getTrackWidth(trackId);
+    expect(actualWidth).to.equal(expectedWidth);
+  });
+
+Then('the track state class is for track {string} is {string}',
+  async (trackId: string, expectedClass: string) => {
+    const actualClass = await mapPageObject.getTrackStateClass(trackId);
+    expect(actualClass).to.equal(expectedClass);
+  });
+
 Then('the marker board triangle for marker board {string} is {word}',
   async (markerBoardId: string, expectedMarkerBoardColour: string) => {
     const expectedMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];

@@ -253,6 +253,16 @@ export class MapPageObject {
     return signalVisibility.getCssValue('visibility');
   }
 
+  public async getTrackWidth(trackId: string): Promise<string> {
+    const trackWidth: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
+    return trackWidth.getCssValue('stroke-width');
+  }
+
+  public async getTrackStateClass(trackId: string): Promise<string> {
+    const trackClass: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
+    return trackClass.getCssValue('class');
+  }
+
   public async getLvlCrossingBarrierState(lvlCrossingId: string): Promise<string> {
     await CommonActions.waitForElementToBeVisible(this.liveMap);
     return this.sClassBerthTextElements.element(by.css('[id^=s-class-berth-element-text-' + lvlCrossingId  + ']')).getText();
