@@ -364,6 +364,12 @@ Then('the signal roundel for signal {string} is {word}',
     expect(actualSignalColourHex).to.equal(expectedSignalColourHex);
   });
 
+Then('the TRTS visibility status for {string} is {word}',
+  async (signalId: string, expectedStatus: string) => {
+    const actualStatus = await mapPageObject.getVisibilityStatus(signalId);
+    expect(actualStatus).to.equal(expectedStatus);
+  });
+
 Then('the marker board triangle for marker board {string} is {word}',
   async (markerBoardId: string, expectedMarkerBoardColour: string) => {
     const expectedMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];
@@ -532,6 +538,13 @@ When('I launch a new map {string} the new map should have start time from the mo
   await mapPageObject.enterMapSearchString(mapName);
   await mapPageObject.launchMap();
 });
+
+Then('the TRTS status for signal {string} is {word}',
+  async (signalId: string, expectedSignalStatus: string) => {
+    const expectedSignalStatusHex = mapColourHex[expectedSignalStatus];
+    const actualSignalStatus: string = await mapPageObject.getTrtsStatus(signalId);
+    expect(actualSignalStatus).to.equal(expectedSignalStatusHex);
+  });
 
 Then('the level crossing barrier status of {string} is {word}',
   async (lvlCrossingId: string, expectedStatus: string) => {

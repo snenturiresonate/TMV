@@ -245,6 +245,18 @@ export class MapPageObject {
     browser.actions().mouseMove(element(by.css('li[id*=map-link]'))).perform();
     await element(by.css('li[id*=map-link] .new-tab-button')).click();
   }
+
+  public async getTrtsStatus(signalId: string): Promise<string> {
+    const signalLatchElement: ElementFinder = element(by.css('[id^=signal-latch-cross-element-line-1-' + signalId  + ']'));
+    const latchColourRgb: string = await signalLatchElement.getCssValue('stroke');
+    return CssColorConverterService.rgb2Hex(latchColourRgb);
+  }
+
+  public async getVisibilityStatus(signalId: string): Promise<string> {
+    const signalVisibility: ElementFinder = element(by.css('[id^=signal-latch-cross-element-' + signalId  + ']'));
+    return signalVisibility.getCssValue('visibility');
+  }
+
   public async getLvlCrossingBarrierState(lvlCrossingId: string): Promise<string> {
     await CommonActions.waitForElementToBeVisible(this.liveMap);
     return this.sClassBerthTextElements.element(by.css('[id^=s-class-berth-element-text-' + lvlCrossingId  + ']')).getText();
