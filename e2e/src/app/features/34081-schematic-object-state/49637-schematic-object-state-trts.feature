@@ -38,7 +38,6 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #When a message is received setting the corresponding bit to 1
     #Then the TRTS is  displayed for the signal
       When I set up all signals for address 50 in D3 to be not-proceed
-    And the TRTS status for signal 'SN1' is red
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 01   | 10:45:00  |
@@ -49,7 +48,6 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #When a message is received setting the corresponding bit to 0
     #Then the TRTS is not displayed for the signal
     When I set up all signals for address 50 in D3 to be proceed
-    And the TRTS status for signal 'SN1' is red
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 00   | 10:45:00  |
