@@ -6,7 +6,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
 
   Background:
     Given I am viewing the map hdgw01paddington.v
-
+  @tdd @bug #52832
   Scenario:34081 - 28 Track State (Route Set)
     #Given an S-Class message is received and processed
     #And the S-Class message is a Route Expression Signalling function
@@ -21,7 +21,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     Then the track state width for 'PNPNBD' is '3px'
     And the track state class for 'PNPNBD' is 'track_active'
 
-
+  @tdd @bug #52832
   Scenario:34081 - 29 Track State (Route Not Set)
     #Given an S-Class message is received and processed
     #And the S-Class message is a Route Expression Signalling function
@@ -40,6 +40,19 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       | trainDescriber | address | data | timestamp |
       | D3             | 06      | 00   | 10:45:00  |
     And  the track state width for 'PNPNBD' is '3px'
+
+  Scenario: 34081 - 30 Dual Signals
+    #Given a signal exists on a map
+    #And that signal has multiple bits that are configured for the main signal
+    #When a message is received setting any of those bits to 1
+    #Then the signal roundel displays green
+    And I set up all signals for address 92 in D3 to be not-proceed
+    And the signal roundel for signal 'SN212' is red
+    When the following signalling update messages are sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 92      | 04   | 10:03:00  |
+      | D3             | 92      | 08   | 10:03:00  |
+    Then the signal roundel for signal 'SN212' is green
 
   @bug @bug_52196
   Scenario: 34081 - 32a TRTS (Set - from red)
