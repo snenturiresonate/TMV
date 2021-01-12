@@ -54,6 +54,20 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       | D3             | 92      | 08   | 10:03:00  |
     Then the signal roundel for signal 'SN212' is green
 
+    @tdd
+ Scenario Outline: 34081 - 31 Q Berth
+    #Given An S-Class display berth exists in the Q berth configuration data
+    #When a Q berth message is received
+    #Then the S Class display code is displayed corresponding to the headcode provided
+  # Has type I
+    When the following berth interpose message is sent from LINX
+      | timestamp | toBerth   | trainDescriber     | trainDescription   |
+      | 10:02:06  | <toBerth> | <toTrainDescriber> | <trainDescription> |
+     Then the display code for track 'PHPHBK' is 'D4'
+    Examples:
+      | trainDescription | toTrainDescriber | toBerth |
+      | DOC4             | PH               | Q015    |
+
   @bug @bug_52196
   Scenario: 34081 - 32a TRTS (Set - from red)
     #Given a TRTS exists on a map
