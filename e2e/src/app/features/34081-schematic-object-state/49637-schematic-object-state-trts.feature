@@ -39,7 +39,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 06      | 00   | 10:45:00  |
-    And  the track state width for 'PNPNBD' is '3px'
+    And  the track state width for 'PNPNBD' is '2px'
 
   Scenario: 34081 - 30 Dual Signals
     #Given a signal exists on a map
