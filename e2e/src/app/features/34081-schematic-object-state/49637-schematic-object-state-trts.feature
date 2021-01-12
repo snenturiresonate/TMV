@@ -4,8 +4,6 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
   I want to schematic objects displayed with the latest state
   So that I have a live view of the railway
 
-  Background:
-    Given I am viewing the map hdgw01paddington.v
   @tdd @bug #52832
   Scenario:34081 - 28 Track State (Route Set)
     #Given an S-Class message is received and processed
@@ -13,6 +11,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #And the S-Class message is setting the track(s) to route set
     #When a user is viewing a map that contains the track(s)
     #Then the track(s) will be displayed in solid white
+    Given I am viewing the map hdgw01paddington.v
     And I set up all signals for address 50 in D3 to be not-proceed
     And the track state width for 'PNPNBD' is '2px'
     When the following signalling update message is sent from LINX
@@ -29,6 +28,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #And the S-Class message is setting the track(s) to route not set
     #When a user is viewing a map that contains the track(s)
     #Then the track(s) will be displayed in thin white
+    Given I am viewing the map hdgw01paddington.v
     And I set up all signals for address 50 in D3 to be not-proceed
     And the track state width for 'PNPNBD' is '2px'
     And the following signalling update message is sent from LINX
@@ -46,6 +46,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #And that signal has multiple bits that are configured for the main signal
     #When a message is received setting any of those bits to 1
     #Then the signal roundel displays green
+    Given I am viewing the map hdgw01paddington.v
     And I set up all signals for address 92 in D3 to be not-proceed
     And the signal roundel for signal 'SN212' is red
     When the following signalling update messages are sent from LINX
@@ -59,6 +60,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #When a Q berth message is received
     #Then the S Class display code is displayed corresponding to the headcode provided
   # Has type I
+    Given I am viewing the map hdgw06gloucester.v
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 10:02:06  | <toBerth> | <toTrainDescriber> | <trainDescription> |
@@ -73,6 +75,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
     #Then the TRTS is  displayed for the signal
+    Given I am viewing the map hdgw01paddington.v
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be not-proceed
     Then the signal roundel for signal 'SN1' is red
@@ -87,6 +90,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
     #Then the TRTS is  displayed for the signal
+    Given I am viewing the map hdgw01paddington.v
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be proceed
     Then the signal roundel for signal 'SN1' is green
@@ -101,6 +105,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
     #Then the TRTS is not displayed for the signal
+    Given I am viewing the map hdgw01paddington.v
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be not-proceed
     And the signal roundel for signal 'SN1' is red
@@ -121,6 +126,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
     #Then the TRTS is not displayed for the signal
+    Given I am viewing the map hdgw01paddington.v
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be proceed
     And the signal roundel for signal 'SN1' is green
