@@ -266,6 +266,10 @@ export class MapPageObject {
     const trackClass: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
     return trackClass.getCssValue('class');
   }
+  public async getTrackData(trackId: string): Promise<string> {
+    const trackData: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
+    return trackData.getCssValue('class');
+  }
 
   public async getLvlCrossingBarrierState(lvlCrossingId: string): Promise<string> {
     await CommonActions.waitForElementToBeVisible(this.liveMap);

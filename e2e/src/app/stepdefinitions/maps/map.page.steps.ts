@@ -594,3 +594,8 @@ Then('the track state class for {string} is {string}',
     expect(actualClass).to.equal(expectedClass);
   });
 
+Then('the display code for track {string} is {string}',
+  async (trackId: string, expectedText: string) => {
+    const actualText = await mapPageObject.getTrackData(trackId);
+    expect(actualText).to.equal(expectedText);
+  });
