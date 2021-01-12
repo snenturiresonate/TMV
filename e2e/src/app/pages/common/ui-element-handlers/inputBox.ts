@@ -66,4 +66,15 @@ export class InputBox {
     await GeneralUtils.scrollToElement(elm);
     return elm.isEnabled();
   }
+
+  /**
+   * Returns the background colour of a colour picker input box.
+   * Input: Location of <input> tag, Text to input
+   * Return: Background colour CSS property
+   */
+  public static async getBackgroundColour(elm: ElementFinder): Promise<any> {
+    await CommonActions.waitForElementInteraction(elm);
+    await GeneralUtils.scrollToElement(elm);
+    return elm.getCssValue('background-color');
+  }
 }
