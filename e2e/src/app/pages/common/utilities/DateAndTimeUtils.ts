@@ -6,6 +6,15 @@ export class DateAndTimeUtils {
   public static dayOfWeek(): string {
     return LocalDate.now().dayOfWeek().name();
   }
+
+  /**
+   * Returns a day from current day with no days incremented.
+   * Input: plusDays, a number indicating days to increment
+   */
+  public static dayOfWeekPlusDays(plusDays): string {
+    return LocalDate.now().plusDays(plusDays).dayOfWeek().name();
+  }
+
   /**
    * Returns a parsed date from the string input in the format specified.
    * Input: date, a date string or one of 'today', 'yesterday' & 'tomorrow' and the date will be calculated

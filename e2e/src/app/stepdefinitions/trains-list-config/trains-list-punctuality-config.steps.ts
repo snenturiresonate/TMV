@@ -1,16 +1,18 @@
 import {Then, When} from 'cucumber';
 import { expect } from 'chai';
 import {TrainsListPunctualityConfigTab} from '../../pages/trains-list-config/trains.list.punctuality.config.tab';
-import {protractor} from 'protractor';
+import {ElementArrayFinder, ElementFinder, protractor} from 'protractor';
+import {TrainsListTableColumnsPage} from '../../pages/trains-list/trains-list.tablecolumns.page';
 
 const trainsListPunctuality: TrainsListPunctualityConfigTab = new TrainsListPunctualityConfigTab();
+const trainsListTable: TrainsListTableColumnsPage = new TrainsListTableColumnsPage();
 
 Then('the punctuality header is displayed as {string}', async (expectedHeader: string) => {
   const actualHeader: string = await trainsListPunctuality.getTrainPunctualityHeader();
   expect(actualHeader).to.equal(expectedHeader);
 });
 
-Then('the following can be seen on the punctuality table', {timeout: 6 * 5000}, async (table: any) => {
+Then('the following can be seen on the punctuality table', {timeout: 8 * 5000}, async (table: any) => {
   const results: any[] = [];
   const expectedValues = table.hashes();
   for (let i = 0; i < table.hashes().length; i++) {
@@ -43,4 +45,59 @@ Then('the following settings are displayed', async (newEntries: any) => {
     const actualDisplayName = await trainsListPunctuality.getTrainDisplayNameText('display-name-' + i.toString());
     expect(actualDisplayName).to.contain(newEntry.displayName);
   }
+});
+
+When('I update the trains list punctuality settings as', {timeout: 8 * 5000}, async (table: any) => {
+  const results: any[] = [];
+  const updateValues = table.hashes();
+  for (let i = 0; i < table.hashes().length; i++) {
+    const updatePunctualityColors = await trainsListPunctuality.updatePunctualityColor(i, updateValues[i].punctualityColorText);
+    const updatePunctualityEntries = await trainsListPunctuality.updatePunctualityText(i, updateValues[i].entryValue);
+    const updateFromPunctualityTime = await trainsListPunctuality.updatePunctualityFromTime(i, updateValues[i].fromTime);
+    const updateToPunctualityTime = await trainsListPunctuality.updatePunctualityToTime(i, updateValues[i].toTime);
+
+    results.push(updatePunctualityColors);
+    results.push(updatePunctualityEntries);
+    results.push(updateFromPunctualityTime);
+    results.push(updateToPunctualityTime);
+  }
+  return protractor.promise.all(results);
+});
+
+Then('I should see the colour picker when any punctuality colour box is clicked', {timeout: 4 * 5000}, async () => {
+  const punctualityColourTextBoxes = await trainsListPunctuality.punctualityColor.count();
+  const results: any[] = [];
+  for (let i = 0; i < punctualityColourTextBoxes; i++) {
+    await trainsListPunctuality.clickPunctualityColourElement(i);
+    const colourPickerIsDisplayed: boolean = await trainsListPunctuality.punctualityColourPickerIsDisplayed();
+    expect(colourPickerIsDisplayed).to.equal(true);
+  }
+});
+
+Then('I should see the colour picker is defaulted with the colour for the selected time-band', {timeout: 6 * 5000}, async () => {
+  const punctualityColourTextBoxes = await trainsListPunctuality.punctualityColor.count();
+  const results: any[] = [];
+  for (let i = 0; i < punctualityColourTextBoxes; i++) {
+    const defaultColour: string = await trainsListPunctuality.getTrainPunctualityColor(i);
+    await trainsListPunctuality.clickPunctualityColourElement(i);
+    const colourFrmPicker: string = await trainsListPunctuality.getTrainPunctualityColorFrmColourPicker();
+    expect(defaultColour).to.equal(colourFrmPicker);
+  }
+});
+
+Then('I should see the punctuality colour for the time-bands as', async (table: any) => {
+  const tableValues = table.hashes();
+  const results: any[] = [];
+  for (let i = 0; i < table.length; i++) {
+    const punctualityFromTime = (tableValues[i].fromTime !== '') ? tableValues[i].fromTime : -1000;
+    const punctualityToTime = (tableValues[i].toTime !== '') ? tableValues[i].toTime : 1000;
+    const punctualityColour = tableValues[i].punctualityColor;
+    const punctualityColumn: ElementArrayFinder = trainsListTable.punctuality;
+    const backgroundColour = await
+      trainsListTable.getBackgroundColourOfValuesWithinRange(punctualityColumn, punctualityFromTime, punctualityToTime);
+    backgroundColour.forEach((item: string) => {
+      results.push(expect(item).to.contain(punctualityColour));
+    });
+  }
+  return protractor.promise.all(results);
 });

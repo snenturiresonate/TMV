@@ -216,27 +216,13 @@ Given(/^the schedule has a Days Run of all Days$/, () => {
 
 Given(/^the schedule does not run on a day that is today$/, () => {
   const today = DateAndTimeUtils.dayOfWeek();
-  switch (today.toLowerCase()) {
-    case 'monday':
-      schedule.monday(false);
-      break;
-    case 'tuesday':
-      schedule.tuesday(false);
-      break;
-    case 'wednesday':
-      schedule.wednesday(false);
-      break;
-    case 'thursday':
-      schedule.thursday(false);
-      break;
-    case 'friday':
-      schedule.friday(false);
-      break;
-    case 'saturday':
-      schedule.saturday(false);
-      break;
-    case 'sunday':
-      schedule.sunday(false);
-      break;
-  }
+  schedule.noRunDay(today, schedule);
 });
+
+
+Given(/^the schedule does not run on a day that is tommorow$/, () => {
+  const tommorow = DateAndTimeUtils.dayOfWeekPlusDays(1);
+  schedule.noRunDay(tommorow, schedule);
+});
+
+
