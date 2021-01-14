@@ -65,11 +65,11 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 10:02:06  | <toBerth> | <toTrainDescriber> | <trainDescription> |
-    Then the display code for track 'PHPHBK' is 'D3'
+    Then the route indication for 'PHPHBK' is '1'
 
     Examples:
       | trainDescription | toTrainDescriber | toBerth |
-      | DOC4             | PH               | Q015    |
+      | P1_1             | GL               | Q152    |
 
   @bug @bug_52196
   Scenario: 34081 - 32a TRTS (Set - from red)
