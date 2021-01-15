@@ -7,7 +7,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
   Background:
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
-    And I select the map 'HDGW01 Paddington'
+    And I select the map 'hdgw01paddington.v'
     And I select Start
 
   @tdd
