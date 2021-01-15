@@ -10,7 +10,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'hdgw01paddington.v'
     And I select Start
 
-  @tdd
+  @tdd @ReplaySetup @ReplayTest
   Scenario: 34393-7 Current Signal State
     #Given the existing state of the signals
     #And at least one signal has a known state
@@ -25,7 +25,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I refresh the browser
     And the signal roundel for signal 'SN200' is red
 
-
+  @tdd @ReplaySetup @ReplayTest
   Scenario:34393-8 Main Signal State (Proceed)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a main signal
@@ -44,6 +44,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN128' is green
 
+  @tdd @ReplaySetup @ReplayTest
   Scenario:34393-9 Main Signal State (Not Proceed)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a main signal
@@ -61,6 +62,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN128' is red
 
+  @tdd @ReplaySetup @ReplayTest
   Scenario:34393-10 Main Signal State (Unknown)
     #Given an S-Class message has not ever been received and processed for the main signal
     #When a user is viewing a map that contains the main signal
