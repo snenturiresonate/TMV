@@ -47,4 +47,10 @@ export class SearchResultsPageObject {
     const activeTable: ElementFinder = await this.getActiveTable();
     return new SearchResultsTableRowPage(activeTable.element(by.xpath(`//tr[descendant::td[text()='${service}']]`)));
   }
+
+  async getRowByPlanningUIDAndScheduleType(planningUID: string, scheduleType: string): Promise<SearchResultsTableRowPage> {
+    const activeTable: ElementFinder = await this.getActiveTable();
+    return new SearchResultsTableRowPage(activeTable.element(by.xpath(`//tr[descendant::td[text()='${planningUID}'] and td[text()='${scheduleType}']]`)));
+  }
+
 }
