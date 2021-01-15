@@ -108,4 +108,18 @@ export class TrainsListPageObject {
     const trainDescriptionEntry: ElementFinder = element(by.css('#trains-list-row-entry-train-description-' + scheduleId));
     return trainDescriptionEntry.getCssValue('background-color');
   }
+
+  public async getTrainsListValuesForColumn(column: string): Promise<string[]> {
+    const entryColValues: ElementArrayFinder = element.all(by.css('.trains-list-row-entry-' + column));
+    return entryColValues.map((colValue: ElementFinder) => {
+      return colValue.getText();
+    });
+  }
+  public async getTrainsListIndicationColoursRgb(): Promise<string[]> {
+    const rowEntries: ElementArrayFinder = element.all(by.css('tr[id^=trains-list-row]'));
+    return rowEntries.map((colValue: ElementFinder) => {
+      return colValue.getCssValue('background-color');
+    });
+  }
+
 }

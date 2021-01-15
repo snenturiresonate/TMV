@@ -25,6 +25,10 @@ Given(/^I am authenticated to use TMV$/, async () => {
   await page.navigateTo('');
 });
 
+Given(/^I have not opened the trains list before$/, async () => {
+// something here about resetting to the defaults
+});
+
 When(/^I do nothing$/, () => {
 });
 
