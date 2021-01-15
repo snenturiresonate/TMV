@@ -60,3 +60,9 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
       | D3             | 80      | 00   | 10:45:00  |
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN128' is red
+
+  Scenario:34393-10 Main Signal State (Unknown)
+    #Given an S-Class message has not ever been received and processed for the main signal
+    #When a user is viewing a map that contains the main signal
+    #Then the main signal will display an unknown aspect (grey roundel)
+    Then the signal roundel for signal 'SN128' is grey
