@@ -1,9 +1,29 @@
 import {Then, When} from 'cucumber';
 import { expect } from 'chai';
 import {TrainsListColumnConfigTabPageObject} from '../../pages/trains-list-config/trains.list.column.config.tab.page';
-import {protractor} from 'protractor';
+import {browser, protractor} from 'protractor';
 
 const trainsListColumnConfigPage: TrainsListColumnConfigTabPageObject = new TrainsListColumnConfigTabPageObject();
+
+const mapTLColumns = new Map([
+  ['Schedule', ['SCHED.']],
+  ['Service', ['SERVICE']],
+  ['Time', ['TIME']],
+  ['Report', ['REPORT']],
+  ['Punctuality', ['PUNCT.']],
+  ['Origin', ['ORIGIN.', 'PLANNED', 'ACTUAL / PREDICTED']],
+  ['Destination', ['DEST.', 'PLANNED', 'ACTUAL / PREDICTED']],
+  ['Next location', ['NEXTLOC.']],
+  ['TOC/FOC', ['TOC/FOC.']],
+  ['TRUST UID', ['TRUST UID']],
+  ['Schedule UID', ['SCHEDULE UID']],
+  ['Cancellation Reason Code', ['CANCELLATION REASON CODE']],
+  ['Cancellation Type', ['CANCELLATION TYPE']],
+  ['Last Reported', ['LAST REPORTED', 'LAST REPORTED LINE', 'LAST REPORTED PLATFORM']],
+  ['Train Category', ['TRAIN CATEGORY']],
+  ['Train Service Code', ['TRAIN SERVICE CODE']]
+]);
+
 
 When('I have navigated to the {string} configuration tab', async (tabId: string) => {
   await trainsListColumnConfigPage.openTab(tabId);
@@ -71,7 +91,8 @@ Then('the following can be seen in the selected column config', async (selectedE
   });
 });
 
-Then('the following can be seen in the selected column config in the given order', {timeout: 6 * 5000}, async (selectedEntriesDataTable: any) => {
+Then('the following can be seen in the selected column config in the given order',
+  {timeout: 6 * 5000}, async (selectedEntriesDataTable: any) => {
   const results: any[] = [];
   const expectedSelectedEntries = selectedEntriesDataTable.hashes();
   for (let i = 0; i < selectedEntriesDataTable.hashes().length; i++) {
@@ -101,6 +122,18 @@ Then('I click on all the selected column entries', async () => {
   await trainsListColumnConfigPage.trainListConfigSelectedSecondElements.click();
 });
 
+When('I set trains list columns to be {string}', {timeout: 15 * 1000}, async (wantedColumns: string) => {
+  await trainsListColumnConfigPage.trainListConfigSelectedSecondElements.click();
+  const userTLColumns = wantedColumns.split(',', 16).map(item => item.trim());
+  for (let i = 0; i < userTLColumns.length; i++) {
+    await trainsListColumnConfigPage.moveToSelectedList(userTLColumns[i], i);
+  }
+  // Store the selections, saving the actual column names that will appear in the TL using the relevant mappings from mapTLColumns
+  // This includes the sub-columns for origin, destination, and last reported
+  // need to flatten the array
+  // used an alternative to flatMap https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap
+  browser.userTLColumns = userTLColumns.reduce((acc: string[], item) => acc.concat(mapTLColumns.get(item)), []);
+});
 
 When('I select the arrow up down at position {int}', async (position: number) => {
   await trainsListColumnConfigPage.clickArrowUpDown(position);
