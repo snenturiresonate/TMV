@@ -8,6 +8,13 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {ProjectDirectoryUtil} from '../utils/project-directory.util';
 import {browser} from 'protractor';
+import {TrainJourneyModificationMessageBuilder} from '../utils/train-journey-modifications/train-journey-modification-message';
+import {TrainJourneyModificationBuilder} from '../utils/train-journey-modifications/train-journey-modification';
+import {OperationalTrainNumberIdentifierBuilder} from '../utils/train-journey-modifications/operational-train-number-identifier';
+import {ReferenceOTNBuilder} from '../utils/train-journey-modifications/reference-otn';
+import {LocationModifiedBuilder} from '../utils/train-journey-modifications/location-modified';
+import {TimingBuilder} from '../utils/train-journey-modifications/timing';
+import {TimingAtLocationBuilder} from '../utils/train-journey-modifications/timing-at-location';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
@@ -217,7 +224,7 @@ Then('the tab title is {string}', async (expectedTabTitle: string) => {
 When('I open {string} page in a new tab', async (pageName: string) => {
   try {
     await OpenNewTab();
-  }catch (UnexpectedAlertOpenError) {
+  } catch (UnexpectedAlertOpenError) {
     await acceptUnexpectedAlert();
   }
   switch (pageName) {
@@ -245,9 +252,9 @@ When('I open {string} page in a new tab', async (pageName: string) => {
 });
 
 async function handleUnexpectedAlertAndNavigateTo(url: string): Promise<any> {
-    const alert = await browser.switchTo().alert();
-    await alert.accept();
-    await page.navigateTo(url);
+  const alert = await browser.switchTo().alert();
+  await alert.accept();
+  await page.navigateTo(url);
 }
 
 async function acceptUnexpectedAlert(): Promise<any> {
@@ -258,3 +265,61 @@ async function acceptUnexpectedAlert(): Promise<any> {
 async function OpenNewTab(): Promise<any> {
   return browser.executeScript('window.open()');
 }
+
+When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
+  const messages: any = table.hashes();
+
+  messages.forEach((message: any) => {
+    const tjmBuilder = new TrainJourneyModificationMessageBuilder()
+      .create()
+      .withOperationalTrainNumberIdentifier(new OperationalTrainNumberIdentifierBuilder()
+        .withOperationalTrainNumber(message.trainNumber)
+        .build())
+      .withTrainJourneyModification(new TrainJourneyModificationBuilder()
+        .withTrainJourneyModificationIndicator(message.type)
+        .withLocationModified(new LocationModifiedBuilder()
+          .withModificationStatusIndicator(message.type)
+          .withLocation(message.locationPrimaryCode)
+          .withTimingAtLocation(new TimingAtLocationBuilder()
+            .withTiming(new TimingBuilder()
+              .withTime(message.time)
+              .build())
+            .build())
+          .build())
+        .build())
+      .build();
+    linxRestClient.postTrainJourneyModification(tjmBuilder.toXML());
+  });
+  await linxRestClient.waitMaxTransmissionTime();
+});
+When(/^the following change of ID TJM is received$/, async (table: any) => {
+  const messages: any = table.hashes();
+
+  messages.forEach((message: any) => {
+    const tjmBuilder = new TrainJourneyModificationMessageBuilder()
+      .create()
+      .withOperationalTrainNumberIdentifier(new OperationalTrainNumberIdentifierBuilder()
+        .withOperationalTrainNumber(message.newTrainNumber)
+        .build())
+      .withReferenceOTN(new ReferenceOTNBuilder()
+        .withOperationalTrainNumberIdentifier(new OperationalTrainNumberIdentifierBuilder()
+          .withOperationalTrainNumber(message.oldTrainNumber)
+          .build())
+        .build())
+      .withTrainJourneyModification(new TrainJourneyModificationBuilder()
+        .withTrainJourneyModificationIndicator('7')
+        .withLocationModified(new LocationModifiedBuilder()
+          .withModificationStatusIndicator('7')
+          .withLocation(message.locationPrimaryCode)
+          .withTimingAtLocation(new TimingAtLocationBuilder()
+            .withTiming(new TimingBuilder()
+              .withTime(message.time)
+              .build())
+            .build())
+          .build())
+        .build())
+      .build();
+    linxRestClient.postTrainJourneyModification(tjmBuilder.toXML());
+  });
+  await linxRestClient.waitMaxTransmissionTime();
+});

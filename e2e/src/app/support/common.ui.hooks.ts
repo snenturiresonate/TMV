@@ -4,8 +4,9 @@ import {LocalStorage} from '../../../local-storage/local-storage';
 import {CucumberLog} from '../logging/cucumber-log';
 import {expect} from 'chai';
 
-
 BeforeAll(async () => {
+  const {setDefaultTimeout} = require('cucumber');
+  setDefaultTimeout(20 * 1000);
   browser.driver.manage().window().maximize();
 });
 
@@ -17,7 +18,7 @@ Before(async function() {
 
 Before('@newSession', async () => {
   LocalStorage.reset();
-  browser.manage().deleteAllCookies();
+  browser.manage().deleteAllCookies().catch(() => console.log('cannot delete browser cookies'));
 });
 
 // tslint:disable-next-line:typedef only-arrow-functions
@@ -25,17 +26,14 @@ Before(async () => {
   await handleUnexpectedAlert();
 });
 
-After(async () => {
-  // Assert that there are no errors emitted from the browser
-  const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-  expect(logs).not.have.deep.property('level', logging.Level.SEVERE);
-});
-
 // None arrow methods required to avoid the binding of keyword this
 // tslint:disable-next-line:typedef only-arrow-functions
 After(async function(scenario){
-  await CucumberLog.addScreenshotOnFailure(scenario);
   await handleUnexpectedAlert();
+  await CucumberLog.addScreenshotOnFailure(scenario);
+  browser.manage().logs().get(logging.Type.BROWSER)
+    .then( logs => expect(logs).not.have.deep.property('level', logging.Level.SEVERE))
+    .catch(reason => console.log(scenario.name + ' : ' + reason));
 });
 
 AfterAll(async () => {

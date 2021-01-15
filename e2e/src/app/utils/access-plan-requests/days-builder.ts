@@ -10,6 +10,18 @@ export class DaysBuilder {
   private tuesday?: boolean;
   private wednesday?: boolean;
 
+  withDayBits(daysRun: any) {
+    const dayBits = daysRun.split('');
+    this.monday = Boolean(Number(dayBits[0]));
+    this.tuesday = Boolean(Number(dayBits[1]));
+    this.wednesday = Boolean(Number(dayBits[2]));
+    this.thursday = Boolean(Number(dayBits[3]));
+    this.friday = Boolean(Number(dayBits[4]));
+    this.saturday = Boolean(Number(dayBits[5]));
+    this.sunday = Boolean(Number(dayBits[6]));
+    return this;
+  }
+
   weekdays() {
     this.monday = true;
     this.tuesday = true;
@@ -41,4 +53,6 @@ export class DaysBuilder {
       this.wednesday
     );
   }
+
+
 }

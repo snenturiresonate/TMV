@@ -198,8 +198,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | #ff0000              | 10       | 19     | 10 to 19 minutes late   |
       | #ff009c              | 20       |        | 20 minutes or more late |
     And I reset the punctuality settings
-
-  @bug
+  @bug @defaultValues
   Scenario: User should see the unsaved dialogue when closing the page without saving the changes
     When I add a punctuality time-band
     And I edit the display name of the added time band as "Time band Added"
@@ -233,7 +232,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | Next report overdue      | #ffff00 | 10      | off         |
       | Origin Called            | #9999ff | 50      | on          |
       | Origin Departure Overdue | #339966 | 20      | on          |
-
+  @bug @defaultValues
   Scenario: Trains indication table - Update and Save
     When I update the train list indication table as
       | name                     | colour | minutes | toggleValue |

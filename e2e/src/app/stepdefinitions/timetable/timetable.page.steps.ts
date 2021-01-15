@@ -1,4 +1,4 @@
-import { When, Then} from 'cucumber';
+import {Then, When} from 'cucumber';
 import {expect} from 'chai';
 import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
 
@@ -44,4 +44,31 @@ When('I switch to the timetable details tab', async () => {
 Then('The timetable service description is visible', async () => {
   const isTimetableServiceDescriptionVisible: boolean = await timetablePage.isTimetableServiceDescriptionVisible();
   expect(isTimetableServiceDescriptionVisible).to.equal(true);
+});
+
+Then(/^the headcode in the header row is '(.*)'$/, async (header: string) => {
+  const headerHeadcode = await timetablePage.headerHeadcode.getText();
+  expect(headerHeadcode).to.equal(header);
+});
+
+Then(/^there is a record in the modifications table$/, async (table: any) => {
+  const modificationsTable = await timetablePage.getModificationsTableRows();
+  const expectedRecords = table.hashes();
+  for (const expectedRecord of expectedRecords) {
+    let found = false;
+    for (const row of modificationsTable) {
+      const reason = await row.getTypeOfModification() === expectedRecord.description;
+      const location = await row.getLocation() === expectedRecord.location;
+      const time = await row.getTime() === expectedRecord.time;
+      const type = await row.getModificationReason() === expectedRecord.type;
+      found = (reason && location && time && type);
+    }
+    expect(found).to.equal(true, 'No record with value found in the modifications table');
+  }
+});
+
+Then(/^the last TJM is$/, async (table: any) => {
+  const lastTjm = await timetablePage.headerTJM.getText();
+  const expected = table.hashes()[0];
+  expect(lastTjm).to.equal(`${expected.description}, ${expected.location}, ${expected.time}`);
 });
