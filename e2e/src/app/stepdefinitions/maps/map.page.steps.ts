@@ -594,3 +594,8 @@ Then('the track state class for {string} is {string}',
     expect(actualClass).to.equal(expectedClass);
   });
 
+Then('the route indication for {string} is {string}',
+  async (trackId: string, expectedValue: string) => {
+    const actualValue = await mapPageObject.getRouteIndication(trackId);
+    expect(actualValue).to.equal(expectedValue);
+  });
