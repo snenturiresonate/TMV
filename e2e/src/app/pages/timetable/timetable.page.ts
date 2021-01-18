@@ -1,4 +1,5 @@
-import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
+import {browser, by, element, ElementFinder, ExpectedConditions} from 'protractor';
+import {ModificationsTablerowPage} from './modifications.tablerow.page';
 
 export class TimeTablePageObject {
   public timetableTab: ElementFinder;
@@ -8,9 +9,11 @@ export class TimeTablePageObject {
   public headerTrainUid: ElementFinder;
   public headerTrustId: ElementFinder;
   public headerTJM: ElementFinder;
+  public headerHeadcode: ElementFinder;
   constructor() {
     this.timetableTab = element(by.id('timetable-table-tab'));
     this.headerScheduleType = element(by.id('timetableHeaderScheduleType'));
+    this.headerHeadcode = element(by.id('timetable-header-service-information-current-train-description'));
     this.headerSignal = element(by.id('timetableHeaderSignalPlatedName'));
     this.headerLastReported = element(by.id('timetableHeaderTrainRunningInformation'));
     this.headerTrainUid = element(by.id('timetableHeaderPlanningUid'));
@@ -31,5 +34,15 @@ export class TimeTablePageObject {
 
   public async openDetailsTab(): Promise<void> {
     await element(by.id('timetable-details-tab')).click();
+  }
+
+  public async getModificationsTableRows(): Promise<ModificationsTablerowPage[]> {
+    browser.wait(ExpectedConditions.visibilityOf(element(by.css('table.modification-table tbody tr'))));
+    const array = new Array<ModificationsTablerowPage>();
+    await element.all(by.css('table.modification-table tbody tr'))
+      .each((row, index) => {
+        array.push(new ModificationsTablerowPage(element(by.css(`table.modification-table tbody tr:nth-child(${index + 1})`))));
+      });
+    return array;
   }
 }

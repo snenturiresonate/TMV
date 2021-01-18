@@ -57,7 +57,7 @@ When(/^the following VSTP update messages? (?:is|are) sent from LINX$/, async (v
           });
 
           // To handle multiple STP indicators
-          if (stpIndicatorArr !== 'undefined') {
+          if (stpIndicatorArr !== undefined) {
               for (const stpIndicator of stpIndicatorArr){
                 const replacementValue = ' CIF_stp_indicator=" ' + stpIndicator + '"';
                 updatedVstpMessage = vstpUpdates.updateVSTPXMLRegEx(/CIF_stp_indicator=".*"/g, replacementValue , updatedVstpMessage);

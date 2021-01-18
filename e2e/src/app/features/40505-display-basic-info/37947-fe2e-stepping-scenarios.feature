@@ -40,6 +40,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
   # Negative test - interpose into a Q-berth
   # Q-berth Q070 is translated to become berth DC
   # expect message to be treated as an S class message. s class display would show DC
+  @bug @53318
   Scenario: 40505-1 - interpose is not displayed in the berth, which is a Q berth
     Given I am viewing the map hdgw06gloucester.v
     When I click on the layers icon in the nav bar

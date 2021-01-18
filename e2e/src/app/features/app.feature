@@ -1,5 +1,5 @@
 Feature: Example Scenarios
-  Navigate to the homepage and recieve LINX messages
+  Navigate to the homepage and receive LINX messages
 
   Scenario: Example - Receive berth interpose message from LINX
     Given I am on the home page
