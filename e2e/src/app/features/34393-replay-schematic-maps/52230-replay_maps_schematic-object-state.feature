@@ -81,4 +81,8 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Given an S-Class message has not ever been received and processed for the main signal
     #When a user is viewing a map that contains the main signal
     #Then the main signal will display an unknown aspect (grey roundel)
+    Given I am on the replay page
+    When I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I select Start
     Then the signal roundel for signal 'SN128' is grey
