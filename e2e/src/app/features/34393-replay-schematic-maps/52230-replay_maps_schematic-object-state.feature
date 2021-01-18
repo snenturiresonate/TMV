@@ -4,14 +4,13 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
   I want the view schematic maps in replay mode
   So that I can view the historic running railway
 
-  @ReplaySetup
   Background:
     Given I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     And I select Start
 
-  @tdd @ReplayTest
+  @tdd @ReplaySetup
   Scenario: 34393-7 Current Signal State
     #Given the existing state of the signals
     #And at least one signal has a known state
