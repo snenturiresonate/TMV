@@ -14,3 +14,10 @@ Then(/^results are returned with that planning UID '(.*)'$/, async (planningUID:
   const row = await searchResultsPage.getRowByPlanningUID(planningUID);
   expect(await row.isPresent()).to.equal(true);
 });
+
+Then('results are returned with planning UID {string} and schedule type {string}', async (planningUID: string, scheduleType: string) =>
+{
+  const row = await searchResultsPage.getRowByPlanningUIDAndScheduleType(planningUID, scheduleType.toUpperCase());
+  expect(await row.isPresent()).to.equal(true);
+});
+

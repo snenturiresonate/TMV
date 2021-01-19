@@ -23,22 +23,24 @@ Feature: 33753 - TMV Timetable
       | trainNum |
       | 1        |
 
-@tdd
-  Scenario Outline: Scenario 2 -#Open Timetable (Map)
+  @tdd
+  Scenario Outline: Scenario 2 -Open Timetable (Map)
     #Given the user is authenticated to use TMV
     #And the user is viewing a map
     #When the user selects a train (occupied berth) from the map using the secondary click
     #And selects the "open timetable" option from the menu
     #Then the train's timetable is opened in a new browser tab
     Given I am viewing the map HDGW01paddington.v
-    #When I invoke the context menu from train <trainNum> on the map
-    And I wait for the context menu to display
-    And I open timetable from the context menu
+    And the following berth interpose message is sent from LINX
+      | timestamp | toBerth | trainDescriber | trainDescription |
+      | 09:59:00  | 0099    | D3             | <trainNum>       |
+    When I invoke the context menu on the map for train <trainNum>
+    And I open timetable from the map context menu
     And I switch to the new tab
     And the tab title is 'TMV Timetable'
     Examples:
       | trainNum |
-      | 1        |
+      | 1G69     |
 
   Scenario Outline: Scenario - 3 Open Timetable (Search Result - Train, Timetable & Manual Match Search Results)
     #Given the user is authenticated to use TMV
@@ -60,8 +62,8 @@ Feature: 33753 - TMV Timetable
     And I switch to the new tab
     And the tab title is 'TMV Timetable'
     Examples:
-      |trainNum|
-      | 1      |
+      | trainNum |
+      | 1        |
 
   Scenario Outline: Scenario 4 - View Timetable (Schedule Matched)
     #Given the user is authenticated to use TMV

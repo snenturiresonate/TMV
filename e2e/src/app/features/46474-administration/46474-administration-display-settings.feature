@@ -23,6 +23,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
   Scenario: Admin punctuality settings table header
     Then the admin punctuality header is displayed as 'Punctuality'
 
+    @bug @defaultValues
   Scenario: Admin punctuality settings default color and entries
     And I refresh the browser
     And I have navigated to the 'Display Settings' admin tab
@@ -37,7 +38,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | #ffa700              | 5        | 9      | 5 to 9 minutes late      |
       | #ff0000              | 10       | 19     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
-
+  @bug @defaultValues
   Scenario: Admin punctuality settings default color and entries updated and reset
     And I refresh the browser
     And I have navigated to the 'Display Settings' admin tab
@@ -78,7 +79,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | #ffa700              | 5        | 9      | 5 to 9 minutes late      |
       | #ff0000              | 10       | 19     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
-
+  @bug @defaultValues
   Scenario: User should be able to add a punctuality time-band
     When I add a punctuality time-band
     And I save the punctuality settings
@@ -94,7 +95,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | #ffa700              | 5        | 9      | 5 to 9 minutes late      |
       | #ff0000              | 10       | 19     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
-
+  @bug @defaultValues
   Scenario: User should be able to update punctuality settings and save
     When I update the admin punctuality settings as
       | punctualityColorText | fromTime | toTime | entryValue                   |
@@ -128,7 +129,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
     When I save the punctuality settings
     Then I should not be able to add any more punctuality time-bands
 
-
+  @bug @defaultValues
   Scenario: User should be able to add, edit and save a punctuality time-band
     When I add a punctuality time-band
     And I edit the display name of the added time band as "Time band Added"
@@ -147,7 +148,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | #ffa700              | 5        | 9      | 5 to 9 minutes late     |
       | #ff0000              | 10       | 19     | 10 to 19 minutes late   |
       | #ff009c              | 20       |        | 20 minutes or more late |
-
+  @bug @defaultValues
   Scenario: User should be able to delete, edit and save a punctuality time-band
     When I delete the first punctuality time-band
     And I save the punctuality settings
@@ -161,7 +162,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | #ffa700              | 5        | 9      | 5 to 9 minutes late     |
       | #ff0000              | 10       | 19     | 10 to 19 minutes late   |
       | #ff009c              | 20       |        | 20 minutes or more late |
-
+  @bug @defaultValues
   Scenario: User should see the unsaved dialogue when refreshing the page without saving the changes
     When I add a punctuality time-band
     And I edit the display name of the added time band as "Time band Added"
@@ -178,7 +179,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | #ffa700              | 5        | 9      | 5 to 9 minutes late      |
       | #ff0000              | 10       | 19     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
-
+  @bug @defaultValues
   Scenario: User should see the unsaved dialogue when closing the page without saving the changes
     When I add a punctuality time-band
     And I edit the display name of the added time band as "Time band Added"
@@ -197,8 +198,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | #ff0000              | 10       | 19     | 10 to 19 minutes late   |
       | #ff009c              | 20       |        | 20 minutes or more late |
     And I reset the punctuality settings
-
-  @bug
+  @bug @defaultValues
   Scenario: User should see the unsaved dialogue when closing the page without saving the changes
     When I add a punctuality time-band
     And I edit the display name of the added time band as "Time band Added"
@@ -220,7 +220,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
     #Trains Indication
   Scenario: Trains indication table header
     Then the train indication header is displayed as 'Trains List Indication'
-
+  @bug @defaultValues
   Scenario: Trains indication table
     Then the following can be seen on the trains list indication table
       | name                     | colour  | minutes | toggleValue |
@@ -232,7 +232,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | Next report overdue      | #ffff00 | 10      | off         |
       | Origin Called            | #9999ff | 50      | on          |
       | Origin Departure Overdue | #339966 | 20      | on          |
-
+  @bug @defaultValues
   Scenario: Trains indication table - Update and Save
     When I update the train list indication table as
       | name                     | colour | minutes | toggleValue |
@@ -261,7 +261,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
     #Berth Settings
   Scenario: Berth settings header
     Then the berth settings header is displayed as 'Berth Colours'
-
+  @bug @defaultValues
   Scenario: Berth colour settings default color and entries
     Then the following can be seen on the berth color settings table
       | name          | colour  | toggleState |
@@ -270,7 +270,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | No Timetable  | #dddddd | On          |
       | Left Behind   | #999999 | On          |
       | Last Berth    | #f9cb9c | On          |
-
+  @bug @defaultValues
   Scenario: Berth colour settings - Update and Save
     When I update the Berth settings table as
       | name          | colour | toggleState |
@@ -293,7 +293,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
     #Line Status Settings
   Scenario: Line Status settings header
     Then the line settings header is displayed as 'Line Status'
-
+  @bug @defaultValues
   Scenario: Line Status -Restriction type settings default color and entries
     Then the following can be seen on the Line Status restriction type settings table
       | name       | colour  |
@@ -302,24 +302,24 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | ESR        | #ffff00 |
       | TSR        | #00ff00 |
       | Possession | #ffa700 |
-
+  @bug @defaultValues
   Scenario: Line Status -Route type settings default color and entries
     Then the following can be seen on the Line Status route type settings table
       | name      | colour  | lineWidth | lineStyle |
       | Route On  | #e5b4ff | 1         | Dashed    |
       | Route Off | #ffb4b4 | 2         | Solid     |
-
+  @bug @defaultValues
   Scenario: Line Status -Path type settings default color and entries
     Then the following can be seen on the Line Status path type settings table
       | name     | colour  | lineWidth | lineStyle |
       | Path On  | #78e7ff | 4         | Solid     |
       | Path Off | #ffb4b4 | 2         | Dashed    |
-
+  @bug @defaultValues
   Scenario: Line Status -Note settings default color and entries
     Then the following can be seen on the Line Status note settings table
       | name         | colour  | lineWidth | lineStyle |
       | Note applied | #78e7ff | 2         | Solid    |
-
+  @bug @defaultValues
   Scenario: Line Status -Restriction type settings reset to default color and entries
     When I update the Line Status restriction type settings table as
       | name       | colour  |
@@ -336,7 +336,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | ESR        | #ffff00 |
       | TSR        | #00ff00 |
       | Possession | #ffa700 |
-
+  @bug @defaultValues
   Scenario: User should see the unsaved dialogue when refreshing the page without saving the changes
     When I update the Line Status note settings table as
       | name         | colour  | lineWidth | lineStyle |
@@ -346,7 +346,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
     Then the following can be seen on the Line Status note settings table
       | name         | colour  | lineWidth | lineStyle |
       | Note applied | #78e7ff | 2         | Solid    |
-
+  @bug @defaultValues
   Scenario: Update Line Status -Restriction type settings
     When I update the Line Status restriction type settings table as
       | name       | colour  |
@@ -365,7 +365,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | ESR        | #ddddee |
       | TSR        | #ffff77 |
       | Possession | #335566 |
-
+  @bug @defaultValues
   Scenario: Update Line Status -Route type settings
     When I update the Line Status route type settings table as
       | name      | colour  | lineWidth | lineStyle |
@@ -378,7 +378,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | name      | colour  | lineWidth | lineStyle |
       | Route On  | #bbbb22 | 5         | Dashed    |
       | Route Off | #cccc33 | 6         | Solid     |
-
+  @bug @defaultValues
   Scenario: Update Line Status -Path type settings
     When I update the Line Status path type settings table as
       | name      | colour  | lineWidth | lineStyle |
@@ -391,7 +391,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing
       | name     | colour  | lineWidth | lineStyle |
       | Path On  | #bbbb22 | 5         | Dashed     |
       | Path Off | #cccc33 | 6         | Solid    |
-
+  @bug @defaultValues
   Scenario: Update Line Status -Note settings
     When I update the Line Status note settings table as
       | name         | colour  | lineWidth | lineStyle |

@@ -4,35 +4,16 @@ import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
 
 const timetablePage: TimeTablePageObject = new TimeTablePageObject();
 
-const timetableColumnIndexes = {
-  location: 0,
-  workingArrivalTime: 1,
-  workingDeptTime: 2,
-  publicArrivalTime: 3,
-  publicDeptTime: 4,
-  originalAssetCode: 5,
-  originalPathCode: 6,
-  originalLineCode: 7,
-  allowances: 8,
-  activities: 9,
-  arrivalDateTime: 10,
-  deptDateTime: 11,
-  assetCode: 12,
-  pathCode: 13,
-  lineCode: 14,
-  punctuality: 15
-};
-
-Then('The timetable table tab is visible', async () => {
-  const isTimetableTableTabVisible: boolean = await timetablePage.isTimetableTableTabVisible();
-  expect(isTimetableTableTabVisible).to.equal(true);
-});
 
 Then('The timetable service description is visible', async () => {
   const isTimetableServiceDescriptionVisible: boolean = await timetablePage.isTimetableServiceDescriptionVisible();
   expect(isTimetableServiceDescriptionVisible).to.equal(true);
 });
 
+Then('the timetable header train description is {string}', async (expectedTrainDescription: string) => {
+  const trainDescription: string = await timetablePage.getHeaderTrainDescription();
+  expect(trainDescription).to.equal(expectedTrainDescription);
+});
 
 Then('The live timetable tab will be titled {string}', async (expectedTabName: string) => {
   const actualTimetableTabName: string = await timetablePage.getLiveTimetableTabName();
@@ -40,30 +21,6 @@ Then('The live timetable tab will be titled {string}', async (expectedTabName: s
   expect(actualTimetableTabName).to.equal(expectedTabName);
 
 });
-
-Then('The timetable entries contains the following data',
-  async (timetableEntryDataTable: any) => {
-    const expectedTimetableEntryColValues: any[] = timetableEntryDataTable.hashes();
-    for (const expectedTimetableEntryCol of expectedTimetableEntryColValues) {
-      const actualTimetableEntryValues: string[] = await timetablePage.getTimetableEntryColValues(expectedTimetableEntryCol.entryId);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.location]).to.equal(expectedTimetableEntryCol.location);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.workingArrivalTime]).to.equal(expectedTimetableEntryCol.workingArrivalTime);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.workingDeptTime]).to.equal(expectedTimetableEntryCol.workingDeptTime);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.publicArrivalTime]).to.equal(expectedTimetableEntryCol.publicArrivalTime);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.publicDeptTime]).to.equal(expectedTimetableEntryCol.publicDeptTime);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.originalAssetCode]).to.equal(expectedTimetableEntryCol.originalAssetCode);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.originalPathCode]).to.equal(expectedTimetableEntryCol.originalPathCode);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.originalLineCode]).to.equal(expectedTimetableEntryCol.originalLineCode);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.allowances]).to.equal(expectedTimetableEntryCol.allowances);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.activities]).to.equal(expectedTimetableEntryCol.activities);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.arrivalDateTime]).to.equal(expectedTimetableEntryCol.arrivalDateTime);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.deptDateTime]).to.equal(expectedTimetableEntryCol.deptDateTime);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.assetCode]).to.equal(expectedTimetableEntryCol.assetCode);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.pathCode]).to.equal(expectedTimetableEntryCol.pathCode);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.lineCode]).to.equal(expectedTimetableEntryCol.lineCode);
-      expect(actualTimetableEntryValues[timetableColumnIndexes.punctuality]).to.equal(expectedTimetableEntryCol.punctuality);
-    }
-  });
 
 
 Then('The values for the header properties are as follows',
@@ -91,6 +48,33 @@ When('I switch to the timetable details tab', async () => {
 Then('The timetable service description is visible', async () => {
   const isTimetableServiceDescriptionVisible: boolean = await timetablePage.isTimetableServiceDescriptionVisible();
   expect(isTimetableServiceDescriptionVisible).to.equal(true);
+});
+
+Then(/^the headcode in the header row is '(.*)'$/, async (header: string) => {
+  const headerHeadcode = await timetablePage.headerHeadcode.getText();
+  expect(headerHeadcode).to.equal(header);
+});
+
+Then(/^there is a record in the modifications table$/, async (table: any) => {
+  const modificationsTable = await timetablePage.getModificationsTableRows();
+  const expectedRecords = table.hashes();
+  for (const expectedRecord of expectedRecords) {
+    let found = false;
+    for (const row of modificationsTable) {
+      const reason = await row.getTypeOfModification() === expectedRecord.description;
+      const location = await row.getLocation() === expectedRecord.location;
+      const time = await row.getTime() === expectedRecord.time;
+      const type = await row.getModificationReason() === expectedRecord.type;
+      found = (reason && location && time && type);
+    }
+    expect(found).to.equal(true, 'No record with value found in the modifications table');
+  }
+});
+
+Then(/^the last TJM is$/, async (table: any) => {
+  const lastTjm = await timetablePage.headerTJM.getText();
+  const expected = table.hashes()[0];
+  expect(lastTjm).to.equal(`${expected.description}, ${expected.location}, ${expected.time}`);
 });
 
 When('I toggle the inserted locations on', async () => {

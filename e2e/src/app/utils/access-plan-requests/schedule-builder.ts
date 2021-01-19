@@ -149,6 +149,32 @@ export class ScheduleBuilder {
     this.daysRun.sunday = isRunning;
   }
 
+noRunDay(day : String, schedule : ScheduleBuilder){
+
+      switch (day.toLowerCase()) {
+        case 'monday':
+          schedule.monday(false);
+          break;
+        case 'tuesday':
+          schedule.tuesday(false);
+          break;
+        case 'wednesday':
+          schedule.wednesday(false);
+          break;
+        case 'thursday':
+          schedule.thursday(false);
+          break;
+        case 'friday':
+          schedule.friday(false);
+          break;
+        case 'saturday':
+          schedule.saturday(false);
+          break;
+        case 'sunday':
+          schedule.sunday(false);
+          break;
+      }
+}
 
   public build(): Schedule {
     return new Schedule(

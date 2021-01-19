@@ -16,12 +16,14 @@ import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 import {DaysBuilder} from '../utils/access-plan-requests/days-builder';
 
 let page: TimetablePageObject;
+// No plans for parallel running, should be fine
+let schedule: ScheduleBuilder;
 
 Before(() => {
   page = new TimetablePageObject();
 });
 
-When('I am on the timetable view for service {string}', async (service: string) => {
+When('I am on the timetable view for service {string}', {timeout: 15 * 1000}, async (service: string) => {
   await page.navigateTo(service);
 });
 
@@ -113,9 +115,6 @@ Then(/^the path code for the To Location matches the line code for the From Loca
   }
 });
 
-// No plans for parallel running, should be fine
-let schedule: ScheduleBuilder;
-
 When('there is a Schedule for {string}', (service: string) => {
   schedule = new ScheduleBuilder()
     .withServiceCharacteristics(new ServiceCharacteristicsBuilder()
@@ -128,21 +127,16 @@ When('that service has the cancellation status {string}', (service: string) => {
 });
 
 Given(/^it has Origin Details$/, async (table: any) => {
-  const locations: any = table.hashes();
-
-  locations.forEach((location: any) => {
-    const origin = new OriginLocationBuilder()
-      .withLocation(new LocationBuilder().withTiploc(location.tiploc).build())
-      .withScheduledDeparture(location.scheduledDeparture)
-      .withLine(location.line)
-      .build();
-    schedule.withOriginLocation(origin);
-  });
+  const location: any = table.hashes()[0];
+  schedule.withOriginLocation(new OriginLocationBuilder()
+    .withLocation(new LocationBuilder().withTiploc(location.tiploc).build())
+    .withScheduledDeparture(location.scheduledDeparture)
+    .withLine(location.line)
+    .build());
 });
 
 Given(/^it has Intermediate Details$/, async (table: any) => {
   const locations: any = table.hashes();
-
   locations.forEach((location: any) => {
     const int = new IntermediateLocationBuilder()
       .withLocation(new LocationBuilder().withTiploc(location.tiploc).build())
@@ -155,33 +149,25 @@ Given(/^it has Intermediate Details$/, async (table: any) => {
 });
 
 Given(/^it has Terminating Details$/, async (table: any) => {
-  const locations: any = table.hashes();
-
-  locations.forEach((location: any) => {
-    const term = new TerminatingLocationBuilder()
-      .withLocation(new LocationBuilder().withTiploc(location.tiploc).build())
-      .withScheduledArrival(location.scheduledArrival)
-      .withPath(location.path)
-      .build();
-    schedule.withTerminatingLocation(term);
-  });
+  const location: any = table.hashes()[0];
+  schedule.withTerminatingLocation(new TerminatingLocationBuilder()
+    .withLocation(new LocationBuilder().withTiploc(location.tiploc).build())
+    .withScheduledArrival(location.scheduledArrival)
+    .withPath(location.path)
+    .build());
 });
 
-Given(/^the schedule has a basic timetable$/, async (table: any) => {
-
-  const origin = new OriginLocationBuilder()
+Given(/^the schedule has a basic timetable$/, () => {
+  schedule.withOriginLocation(new OriginLocationBuilder()
     .withLocation(new LocationBuilder().withTiploc('OLDOXRS').build())
     .withScheduledDeparture('12:00')
     .withLine('')
-    .build();
-  schedule.withOriginLocation(origin);
-
-  const term = new TerminatingLocationBuilder()
+    .build());
+  schedule.withTerminatingLocation(new TerminatingLocationBuilder()
     .withLocation(new LocationBuilder().withTiploc('OLDOXRS').build())
     .withScheduledArrival('12:30')
     .withPath('')
-    .build();
-  schedule.withTerminatingLocation(term);
+    .build());
 });
 
 When('the schedule is received from LINX', () => {
@@ -216,27 +202,49 @@ Given(/^the schedule has a Days Run of all Days$/, () => {
 
 Given(/^the schedule does not run on a day that is today$/, () => {
   const today = DateAndTimeUtils.dayOfWeek();
-  switch (today.toLowerCase()) {
-    case 'monday':
-      schedule.monday(false);
-      break;
-    case 'tuesday':
-      schedule.tuesday(false);
-      break;
-    case 'wednesday':
-      schedule.wednesday(false);
-      break;
-    case 'thursday':
-      schedule.thursday(false);
-      break;
-    case 'friday':
-      schedule.friday(false);
-      break;
-    case 'saturday':
-      schedule.saturday(false);
-      break;
-    case 'sunday':
-      schedule.sunday(false);
-      break;
-  }
+  schedule.noRunDay(today, schedule);
 });
+
+
+Given(/^the schedule does not run on a day that is tommorow$/, () => {
+  const tommorow = DateAndTimeUtils.dayOfWeekPlusDays(1);
+  schedule.noRunDay(tommorow, schedule);
+});
+
+
+
+Given(/^the following basic schedules? (?:is|are) received from LINX$/, async (table: any) => {
+  const messages: any = table.hashes();
+  messages.forEach(message => {
+    const accessPlan = new AccessPlanRequestBuilder()
+      .full()
+      .withSchedule(new ScheduleBuilder()
+        .withServiceCharacteristics(new ServiceCharacteristicsBuilder()
+          .withTrainIdentity(message.trainDescription)
+          .build())
+        .withScheduleIdentifier(new ScheduleIdentifierBuilder()
+          .withTrainUid(message.trainUid)
+          .withStpIndicator(message.stpIndicator)
+          .withDateRunsFrom(message.dateRunsFrom)
+          .build())
+        .withDateRunsTo(message.dateRunsTo)
+        .withDaysRun(new DaysBuilder()
+          .withDayBits(message.daysRun)
+          .build())
+        .withOriginLocation(new OriginLocationBuilder()
+          .withLocation(new LocationBuilder().withTiploc(message.origin).build())
+          .withScheduledDeparture(message.departure)
+          .withLine('')
+          .build())
+        .withTerminatingLocation(new TerminatingLocationBuilder()
+          .withLocation(new LocationBuilder().withTiploc(message.termination).build())
+          .withScheduledArrival(message.arrival)
+          .withPath('')
+          .build())
+        .build())
+      .build();
+    CucumberLog.addJson(accessPlan);
+    new LinxRestClient().writeAccessPlan(accessPlan);
+  });
+});
+

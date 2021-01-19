@@ -4,9 +4,9 @@ import {CssColorConverterService} from '../../services/css-color-converter.servi
 import * as fs from 'fs';
 import {CucumberLog} from '../../logging/cucumber-log';
 import {ProjectDirectoryUtil} from '../../utils/project-directory.util';
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import assert = require('assert');
 import path = require('path');
-import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 const SCALEFACTORX_START = 7;
 
@@ -203,7 +203,11 @@ export class MapPageObject {
     return this.mapContextMenuItems.isPresent();
   }
 
-
+  public async openContextMenuForTrainDescription(trainDescription: string): Promise<void> {
+    const berth: ElementFinder = element(by.xpath(`//*[@data-train-description=\'${trainDescription}\']`));
+    browser.actions().click(berth, protractor.Button.RIGHT).perform();
+    await this.waitForContextMenu();
+  }
   public async getMapContextMenuItem(rowIndex: number): Promise<string> {
     return this.mapContextMenuItems.get(rowIndex - 1).getText();
   }
@@ -241,6 +245,32 @@ export class MapPageObject {
     browser.actions().mouseMove(element(by.css('li[id*=map-link]'))).perform();
     await element(by.css('li[id*=map-link] .new-tab-button')).click();
   }
+
+  public async getTrtsStatus(signalId: string): Promise<string> {
+    const signalLatchElement: ElementFinder = element(by.css('[id^=signal-latch-cross-element-line-1-' + signalId  + ']'));
+    const latchColourRgb: string = await signalLatchElement.getCssValue('stroke');
+    return CssColorConverterService.rgb2Hex(latchColourRgb);
+  }
+
+  public async getVisibilityStatus(signalId: string): Promise<string> {
+    const signalVisibility: ElementFinder = element(by.css('[id^=signal-latch-cross-element-' + signalId  + ']'));
+    return signalVisibility.getCssValue('visibility');
+  }
+
+  public async getTrackWidth(trackId: string): Promise<string> {
+    const trackWidth: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
+    return trackWidth.getCssValue('stroke-width');
+  }
+
+  public async getTrackClass(trackId: string): Promise<string> {
+    const trackClass: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
+    return trackClass.getCssValue('class');
+  }
+  public async getRouteIndication(trackId: string): Promise<string> {
+    const routeIndication: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
+    return routeIndication.getCssValue('class');
+  }
+
   public async getLvlCrossingBarrierState(lvlCrossingId: string): Promise<string> {
     await CommonActions.waitForElementToBeVisible(this.liveMap);
     return this.sClassBerthTextElements.element(by.css('[id^=s-class-berth-element-text-' + lvlCrossingId  + ']')).getText();

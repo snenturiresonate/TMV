@@ -1,6 +1,6 @@
 import {After, Given, Then, When} from 'cucumber';
 import {browser, protractor} from 'protractor';
-import { expect } from 'chai';
+import {expect} from 'chai';
 
 const TAB_CREATION_TIMEOUT = 1000;
 const TAB_CLOSE_DOWN_TIMEOUT = 10000;
@@ -93,7 +93,6 @@ async function closeAllButTheFirstTab(): Promise<void> {
   while ((await browser.getAllWindowHandles()).length > 1) {
     await closeLastTab();
   }
-
 }
 
 async function closeLastTab(): Promise<void> {

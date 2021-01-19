@@ -19,7 +19,8 @@ exports.config = {
     }
   },
   suites: {
-    administration: ['./src/**/features/46474-administration/*.feature']
+    administration: ['./src/**/features/46474-administration/*.feature', './src/**/features/51351-administration/*.feature'],
+    trainsList: ['./src/**/features/33806-trains-list/*.feature']
   },
   directConnect: true,
   baseUrl: '',
@@ -34,6 +35,7 @@ exports.config = {
     // To run all scenarios not marked @bug or @tdd, uncomment the next line
     tags: ['not (@bug or @tdd)']
   },
+  ignoreUncaughtExceptions: true,
   async onPrepare() {
     require('ts-node').register({
       project: require('path').join(__dirname, './tsconfig.json')
