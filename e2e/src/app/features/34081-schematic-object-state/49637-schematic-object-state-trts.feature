@@ -55,21 +55,19 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       | D3             | 92      | 08   | 10:03:00  |
     Then the signal roundel for signal 'SN212' is green
 
-  @tdd
   Scenario Outline: 34081 - 31 Q Berth
     #Given An S-Class display berth exists in the Q berth configuration data
     #When a Q berth message is received
     #Then the S Class display code is displayed corresponding to the headcode provided
   # Has type I
-    Given I am viewing the map hdgw06gloucester.v
+    Given I am viewing the map <map>
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | <toBerth> | <toTrainDescriber> | <trainDescription> |
-    Then the route indication for 'PHPHBK' is '1'
-
+      | <timestamp>  | <toBerth> | <toTrainDescriber> | <trainDescription> |
+    Then the s-class-berth '<sClassBerth>' will display '1' Route indication of '<sclassDisplayCode>'
     Examples:
-      | trainDescription | toTrainDescriber | toBerth |
-      | P1_1             | GL               | Q152    |
+      |map                | trainDescription | toTrainDescriber | toBerth | timestamp | sClassBerth | sclassDisplayCode  |
+      |hdgw06gloucester.v | DnDC             | GL               | Q070    | 10:02:06  | GLQ070      | DC                 |
 
   @bug @bug_52196
   Scenario: 34081 - 32a TRTS (Set - from red)
