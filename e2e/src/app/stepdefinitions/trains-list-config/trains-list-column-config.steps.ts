@@ -11,8 +11,8 @@ const mapTLColumns = new Map([
   ['Time', ['TIME']],
   ['Report', ['REPORT']],
   ['Punctuality', ['PUNCT.']],
-  ['Origin', ['ORIGIN.', 'PLANNED', 'ACTUAL / PREDICTED']],
-  ['Destination', ['DEST.', 'PLANNED', 'ACTUAL / PREDICTED']],
+  ['Origin', ['ORIGIN.', 'PLANNED', 'ACTUAL / PREDICT']],
+  ['Destination', ['DEST.', 'PLANNED', 'ACTUAL / PREDICT']],
   ['Next location', ['NEXTLOC.']],
   ['TOC/FOC', ['TOC/FOC.']],
   ['TRUST UID', ['TRUST UID']],
@@ -150,3 +150,11 @@ When('I select the left arrow position {int}', async (position: number) => {
 When('I select the right arrow position {int}', async (position: number) => {
   await trainsListColumnConfigPage.clickArrowRight(position);
 });
+
+When('I set trains list columns to include {string}', {timeout: 15 * 1000}, async (wantedColumns: string) => {
+  const colsToAdd = wantedColumns.split(',', 16).map(item => item.trim());
+  for (const item of colsToAdd) {
+    await trainsListColumnConfigPage.moveToSelectedList(item, -1);
+  }
+});
+
