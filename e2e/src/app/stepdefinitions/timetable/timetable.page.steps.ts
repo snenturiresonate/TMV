@@ -10,6 +10,10 @@ Then('The timetable service description is visible', async () => {
   expect(isTimetableServiceDescriptionVisible).to.equal(true);
 });
 
+Then('the timetable header train description is {string}', async (expectedTrainDescription: string) => {
+  const trainDescription: string = await timetablePage.getHeaderTrainDescription();
+  expect(trainDescription).to.equal(expectedTrainDescription);
+});
 
 Then('The live timetable tab will be titled {string}', async (expectedTabName: string) => {
   const actualTimetableTabName: string = await timetablePage.getLiveTimetableTabName();

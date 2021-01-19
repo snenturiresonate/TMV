@@ -35,6 +35,11 @@ When('I invoke the context menu from train {int} on the trains list', async (ite
   await trainsListPage.rightClickTrainListItem(itemNum);
 });
 
+When('I invoke the context menu from train {string} on the trains list', async (scheduleNum: string) => {
+  const itemNum = await trainsListPage.getRowForSchedule(scheduleNum);
+  await trainsListPage.rightClickTrainListItem(itemNum);
+});
+
 When('I wait for the context menu to display', async () => {
   await trainsListPage.waitForContextMenu();
 });
@@ -54,6 +59,10 @@ When('the service {string} is active', async (serviceId: string) => {
   expect(isScheduleVisible).to.equal(true);
 });
 
+When(/^I click on (?:Unmatch|Match) in the context menu$/, async () => {
+  await trainsListPage.openManualMatch();
+});
+
 Then('I open timetable from the context menu', async () => {
   await trainsListPage.timeTableLink.click();
 });
@@ -61,6 +70,40 @@ Then('I open timetable from the context menu', async () => {
 Then('the trains list context menu is displayed', async () => {
   const isTrainsContextMenuVisible: boolean = await trainsListPage.isTrainsListContextMenuDisplayed();
   expect(isTrainsContextMenuVisible).to.equal(true);
+});
+
+Then('the context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
+  const actualContextMenuItem: string = await trainsListPage.getTrainsListContextMenuItem(rowNum);
+  expect(actualContextMenuItem).to.contain(expectedText);
+});
+
+Then('the context menu contains the {word} {string} of train {int} on line {int}',
+  async (occurence: string, colName: string, trainRow: number, menuRow: number) => {
+  const actualTrainsListEntryRowValues: string[] = await trainsListPage.getTrainsListValuesForRow(trainRow);
+  const cols = await trainsListPage.getTrainsListCols();
+  const colsNoArrows = cols.map(item => item.replace('arrow_downward', '')
+    .replace('arrow_upward', ''));
+  let testColIndex = colsNoArrows.indexOf(colName);
+  if (occurence === 'second') {
+    testColIndex = cols.indexOf(colName, testColIndex + 1);
+  }
+  let expectedValue: string = actualTrainsListEntryRowValues[testColIndex];
+  if (colName === 'TOC/FOC') {
+    expectedValue = '(' + expectedValue + ')';
+  }
+  if (expectedValue === '+0m') {
+    expectedValue = 'On time';
+  }
+  const actualContextMenuItem = await trainsListPage.getTrainsListContextMenuItem(menuRow);
+
+  expect(actualContextMenuItem).to.contain(expectedValue);
+});
+
+Then('the number of predicted times for train {int} tallies', async (trainRow: number) => {
+  const numberPredictedTimesInTrainRow: number = await trainsListPage.getCountOfPredictedTimesForRow(trainRow);
+  const numberPredictedTimesInContextMenu: number = await trainsListPage.getCountOfPredictedTimesForContext();
+
+  expect(numberPredictedTimesInContextMenu).to.equal(numberPredictedTimesInTrainRow);
 });
 
 Then('I can click away to clear the menu', async () => {
@@ -107,6 +150,12 @@ When('I navigate to train list configuration', async () => {
   await trainsListPage.clickTrainListSettingsBtn();
 });
 
+When('I perform a secondary click on a random service using the mouse', async () => {
+  const tableRowCount = await trainsListPage.trainsListItems.count();
+  const randomIndex = Math.floor(Math.random() * tableRowCount);
+  await trainsListPage.rightClickTrainListItem(randomIndex);
+});
+
 Then('The {word} trains list columns are displayed in order', async (filterType: string) => {
   let expectedTrainsListColumns = defaultColumns;
   if (filterType === 'configured') {
@@ -120,6 +169,11 @@ Then('The {word} trains list columns are displayed in order', async (filterType:
       .replace('arrow_upward', '');
     expect(actualColName).to.equal(expectedTrainsListColumns[col].toUpperCase());
   }
+});
+
+Then('there are train entries present on the trains list', async () => {
+  const actualTrainsListRows = await trainsListPage.trainsListItems;
+  expect(actualTrainsListRows.length).greaterThan(0);
 });
 
 Then('A selection of services are shown which match the {word} filters and settings', async (filterType: string) => {
