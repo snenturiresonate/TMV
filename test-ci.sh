@@ -28,7 +28,7 @@ then
   exit 1;
 fi
 
-HOST=$(echo "$STACK_DETAILS" | grep -A 4 Outputs | grep OutputValue | cut -d'"' -f 4)
+HOST=${HOST:-$(echo "$STACK_DETAILS" | grep -A 4 Outputs | grep OutputValue | cut -d'"' -f 4)}
 CREATION_TIME=$(echo "$STACK_DETAILS" | grep CreationTime | cut -d'"' -f 4)
 
 if [[ -z "$HOST" ]] || [[ -z "$CREATION_TIME" ]]

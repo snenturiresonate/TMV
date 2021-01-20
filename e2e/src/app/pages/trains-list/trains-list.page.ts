@@ -17,6 +17,8 @@ export class TrainsListPageObject {
   public trainsListTableCols: ElementArrayFinder;
   public trainListSettingsBtn: ElementFinder;
   public matchUnmatchLink: ElementFinder;
+  public primarySortCol: ElementFinder;
+  public secondarySortCol: ElementFinder;
 
   constructor() {
     this.trainsListItems = element.all(by.css('#train-tbody tr'));
@@ -33,6 +35,8 @@ export class TrainsListPageObject {
     this.trainListSettingsBtn = element(by.css('#settings-menu-button'));
     this.matchUnmatchLink = element(by.css('#match-unmatch-selection-item'));
 
+    this.primarySortCol = element(by.css('.primary-sort-header'));
+    this.secondarySortCol = element(by.css('.secondary-sort-header'));
   }
 
   public async getTrainsListEntryColValues(scheduleId: string): Promise<string[]> {
@@ -67,6 +71,21 @@ export class TrainsListPageObject {
     const indexForCss = index + 1;
     const elm: ElementFinder = element(by.css(`#trainList th:nth-child(${indexForCss})[id^=tmv-train-table-header] span:nth-child(1)`));
     return CommonActions.waitAndGetText(elm);
+  }
+
+  public async getColIndex(colText: string): Promise<number> {
+    const cols = await this.getTrainsListCols();
+    const colsNoArrows = cols.map(item => item.replace('arrow_downward', '')
+      .replace('arrow_upward', ''));
+
+    const colStructure = colText.split('>', 2).map(item => item.trim());
+    if (colStructure.length === 1) {
+      return colsNoArrows.indexOf(colStructure[0]);
+    }
+    else {
+      const parentColIndex = colsNoArrows.indexOf(colStructure[0]);
+      return colsNoArrows.indexOf(colStructure[1], parentColIndex);
+    }
   }
 
   public async getTrainsListColHeaderCount(): Promise<any> {
@@ -156,6 +175,24 @@ export class TrainsListPageObject {
     return rowEntries.map((colValue: ElementFinder) => {
       return colValue.getCssValue('background-color');
     });
+  }
+  public async getPrimarySortColumnNameAndArrow(): Promise<string> {
+    return this.primarySortCol.getText();
+  }
+  public async getSecondarySortColumnNameAndArrow(): Promise<string> {
+    return this.secondarySortCol.getText();
+  }
+  public async clickHeaderText(header: string): Promise<void> {
+    const testColIndex = await this.getColIndex(header) + 1;
+    const testColString = testColIndex.toString();
+    const elm: ElementFinder = element(by.css('#tmv-train-table-header-config-' + testColString + ' span:nth-child(1)'));
+    return CommonActions.waitAndClick(elm);
+  }
+  public async clickHeaderArrow(header: string): Promise<void> {
+    const testColIndex = await this.getColIndex(header) + 1;
+    const testColString = testColIndex.toString();
+    const elm: ElementFinder = element(by.css('#tmv-train-table-header-config-' + testColString + ' span:nth-child(2))'));
+    return CommonActions.waitAndClick(elm);
   }
 
 }
