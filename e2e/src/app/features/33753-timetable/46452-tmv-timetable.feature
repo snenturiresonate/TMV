@@ -83,7 +83,7 @@ Feature: 33753 - TMV Timetable
     And I click on Unmatch in the context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching 2P77'
-    Then a matched service is visible
+    #Then a matched service is visible
     And The timetable entries contains the following data
      | location   | workingArrivalTime | workingDeptTime  | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode   | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
      | RDNGSTN    |                    | 21:30:00	        |                   | 21:30:00	     | 15A               |                  | URL                |            |            |                 |              |           |          |          |             |
@@ -156,6 +156,6 @@ Feature: 33753 - TMV Timetable
     When I click on Match in the context menu
     And I switch to the new tab
     Then the tab title is 'TMV Schedule Matching 5N68'
-    And no matched service is visible
+    #And no matched service is visible
     And The timetable entries contains the following data
       | location   | workingArrivalTime | workingDeptTime  | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode   | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
