@@ -134,3 +134,28 @@ Feature: 33753 - TMV Timetable
       | PRTOBJP    |                    | 22:18:30	       | 00:00:00	         | 00:00:00	      |                   |                  | 5                  | [1](0.5)   |            |                 |              |           |          |          |             |
       | ROYAOJN    |                    | 22:21:00	       | 00:00:00	         | 00:00:00	      |                   |                  |                    |            |            |                 |              |           |          |          |             |
       | PADTON     | 22:23:00           |                  | 22:23:00		       |                | 10                |                  |                    |            |            |                 |              |           |          |          |             |
+
+  Scenario: Scenario 6 - View Timetable (Schedule Not Matched)
+    #Given the user is authenticated to use TMV
+    #And the user has opened a timetable
+    #And the train is not schedule matched
+    #When the user is viewing the timetable
+    #Then the train's blank schedule is displayed with basic header information
+    Given the following live berth interpose message is sent from LINX
+      | toBerth | trainDescriber | trainDescription |
+      | 0535    | 5N68           | D6               |
+    And I am on the trains list page
+    And The trains list table is visible
+    When I invoke the context menu from train '5N68' on the trains list
+    And I wait for the context menu to display
+    Then the context menu contains '5N68' on line 1
+    And the context menu contains 'Match' on line 3
+    And the context menu contains 'D60535' on line 6
+    And the context menu contains 'T535' on line 7
+    And the context menu contains 'T6284' on line 7
+    When I click on Match in the context menu
+    And I switch to the new tab
+    Then the tab title is 'TMV Schedule Matching 5N68'
+    And no matched service is visible
+    And The timetable entries contains the following data
+      | location   | workingArrivalTime | workingDeptTime  | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode   | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
