@@ -65,140 +65,72 @@ Feature: 33753 - TMV Timetable
       | trainNum |
       | 1        |
 
-  Scenario Outline: Scenario 4 - View Timetable (Schedule Matched)
+  Scenario: Scenario 4 - View Timetable (Schedule Matched)
     #Given the user is authenticated to use TMV
     #And the user has opened a timetable
     #And the train is schedule matched
     #When the user is viewing the timetable
     #Then the train's schedule is displayed with any predicted and live running information and header information
-    Given I am on the trains list page
-    And there is a Schedule for '<trainDescription>'
-    #And the schedule has a basic timetable
-    And the schedule is received from LINX
+    Given the access plan located in CIF file 'access-plan/2P77_RDNGSTN_PADTON.cif' is amended so that all services start within the next hour and then received from LINX
+    And the following live berth step message is sent from LINX
+      | fromBerth | toBerth | trainDescriber | trainDescription |
+      | 1668      | 1664    | D1             | 2P77             |
+    And I am on the trains list page
     And The trains list table is visible
-    When I invoke the context menu from train <trainNum> on the trains list
+    When I invoke the context menu from train '2P77' on the trains list
     And I wait for the context menu to display
-    And the trains list context menu is displayed
-    And I open timetable from the context menu
+    And the context menu contains 'Unmatch' on line 3
+    And I click on Unmatch in the context menu
     And I switch to the new tab
-    And the tab title is 'TMV Timetable'
-    When The timetable table tab is visible
+    And the tab title is 'TMV Schedule Matching 2P77'
+    And a matched service is visible
     And The timetable entries contains the following data
-      | entryId | location               | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
-      | 1       | NuneatonTest           |                    | 11:11:30        |                   |                | 2                 | D2               | RL               | [2] <1>    |            |                 |              |           | D2       |          | +1m 40s     |
-      | 4       | Rugby Trent Valley Jn  |                    | 11:21:30        |                   |                |                   |                  |                  | [2] <1>    |            |                 |              |           |          |          | +1m 3s      |
-      | 7       | Rugby\nChange-en-Route | 11:23:30           | 11:25:30        | 11:23             | 11:25          | 2                 | D2               | RL               | [2] <1>    | T          | 11:23:30        | 11:25:30     | 2         | D2       | RL       | +1m         |
-      | 13      | Oxford                 | 11:33:30           | 11:35:30        | 11:33             | 11:35          | 2                 | D2               | RL               | [2] <1>    | T          | 11:33:30        | 11:35:30     | 2         | D2       | RL       | +1m         |
-    When I toggle the inserted locations on
+     | location   | workingArrivalTime | workingDeptTime  | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode   | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
+     | RDNGSTN    |                    | 21:30:00	        |                   | 21:30:00	     | 15A               |                  | URL                |            |            |                 |              |           |          |          |             |
+     | RDNGKBJ    |                    | 21:32:00	        | 00:00:00	        | 00:00:00	     |                   |                  | RL                 |            |            |                 |              |           |          |          |             |
+     | TWYFORD    | 21:35:30	         | 21:36:30         | 21:36:00	        | 21:36:00	     | 4                 |                  | RL                 |            |            |                 |              |           |          |          |             |
+     | MDNHEAD    | 21:43:30	         | 21:44:30	        | 21:44:00          | 21:44:00	     | 4                 |                  | RL                 |            |            |                 |              |           |          |          |             |
+     | SLOUGH     | 21:51:00	         | 21:52:00	        | 21:51:00	        | 21:52:00	     | 5                 |                  | RL                 | (0.5)      |            |                 |              |           |          |          |             |
+     | HTRWAJN    |                    | 21:59:30	        | 00:00:00	        | 00:00:00	     |                   |                  | RL                 |            |            |                 |              |           |          |          |             |
+     | HAYESAH    | 22:00:30	         | 22:01:30	        | 22:01:00	        | 22:01:00	     | 4                 | RL               |                    | (1)        |            |                 |              |           |          |          |             |
+     | STHALL     |                    | 22:05:00	        | 00:00:00	        | 00:00:00	     | 4                 |                  | RL                 | (1)        |            |                 |              |           |          |          |             |
+     | WEALING    |                    | 22:08:00	        | 00:00:00	        | 00:00:00	     | 4                 |                  | RL                 | (1.5)      |            |                 |              |           |          |          |             |
+     | EALINGB    | 22:11:00	         | 22:12:00         | 22:11:00	        | 22:12:00	     | 4                 |                  | RL                 |            |            |                 |              |           |          |          |             |
+     | ACTONW     |                    | 22:13:30         | 00:00:00	        | 00:00:00	     |                   | RL               | RL                 | (1)        |            |                 |              |           |          |          |             |
+     | LDBRKJ     |                    | 22:17:30	        | 00:00:00	        | 00:00:00	     |                   | RL               | 6                  |            |            |                 |              |           |          |          |             |
+     | PRTOBJP    |                    | 22:18:30	        | 00:00:00	        | 00:00:00	     |                   |                  | 5                  | [1](0.5)   |            |                 |              |           |          |          |             |
+     | ROYAOJN    |                    | 22:21:00	        | 00:00:00	        | 00:00:00	     |                   |                  |                    |            |            |                 |              |           |          |          |             |
+     | PADTON     | 22:23:00           |                  | 22:23:00		      | 11:25          | 10                |                  |                    |            |            |                 |              |           |          |          |             |
+    And I toggle the inserted locations on
     Then The timetable entries contains the following data
-      | entryId | location               | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
-      | 1       | NuneatonTest           |                    | 11:11:30        |                   |                | 2                 | D2               | RL               | [2] <1>    |            |                 |              |           | D2       |          | +1m 40s     |
-      | 4       | Rugby Trent Valley Jn  |                    | 11:21:30        |                   |                |                   |                  |                  | [2] <1>    |            |                 |              |           |          |          | +1m 3s      |
-      | 7       | Rugby\nChange-en-Route | 11:23:30           | 11:25:30        | 11:23             | 11:25          | 2                 | D2               | RL               | [2] <1>    | T          | 11:23:30        | 11:25:30     | 2         | D2       | RL       | +1m         |
-      | 10      | [Marylebone]           |                    |                 |                   |                |                   |                  |                  |            |            | 11:31:30        | 11:32:30     | 2         | D2       | RL       |             |
-      | 13      | Oxford                 | 11:33:30           | 11:35:30        | 11:33             | 11:35          | 2                 | D2               | RL               | [2] <1>    | T          | 11:33:30        | 11:35:30     | 2         | D2       | RL       | +1m         |
-      | 16      | [Reading]              |                    |                 |                   |                |                   |                  |                  |            |            | (11:43:30)      | (11:44:30)   | 2         | D2       | RL       |             |
-    Examples:
-      |trainNum| trainDescription |
-      | 1      | 1C82             |
-
-  Scenario Outline: Scenario - 5 View Timetable (Not Schedule Matched)
-    #Given the user is authenticated to use TMV
-    #And the user has opened a timetable
-    #And the train is not schedule matched
-    #When the user is viewing the timetable
-    #Then the train's blank schedule is displayed with basic header information
-    Given I am on the trains list page
-    And The trains list table is visible
-    When I invoke the context menu from train <trainNum> on the trains list
-    And I wait for the context menu to display
-    And the trains list context menu is displayed
-    And I open timetable from the context menu
-    And I switch to the new tab
-    And the tab title is 'TMV Timetable'
-    When The timetable table tab is visible
-    And The timetable header contains the following property labels:
-      | property       |
-      | Schedule Type: |
-      | Train UID:     |
-      | Signal:        |
-      | Trust ID:      |
-      | Last Reported: |
-      | Last TJM:      |
-    And The timetable entries contains the following data
-      | entryId | location               | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
-      | 1       | NuneatonTest           |                    | 11:11:30        |                   |                | 2                 | D2               | RL               | [2] <1>    |            |                 |              |           | D2       |          | +1m 40s     |
-      | 4       | Rugby Trent Valley Jn  |                    | 11:21:30        |                   |                |                   |                  |                  | [2] <1>    |            |                 |              |           |          |          | +1m 3s      |
-      | 7       | Rugby\nChange-en-Route | 11:23:30           | 11:25:30        | 11:23             | 11:25          | 2                 | D2               | RL               | [2] <1>    | T          | 11:23:30        | 11:25:30     | 2         | D2       | RL       | +1m         |
-      | 13      | Oxford                 | 11:33:30           | 11:35:30        | 11:33             | 11:35          | 2                 | D2               | RL               | [2] <1>    | T          | 11:33:30        | 11:35:30     | 2         | D2       | RL       | +1m         |
-    When I toggle the inserted locations on
-    Then The timetable entries contains the following data
-      | entryId | location               | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
-      | 1       | NuneatonTest           |                    | 11:11:30        |                   |                | 2                 | D2               | RL               | [2] <1>    |            |                 |              |           | D2       |          | +1m 40s     |
-      | 4       | Rugby Trent Valley Jn  |                    | 11:21:30        |                   |                |                   |                  |                  | [2] <1>    |            |                 |              |           |          |          | +1m 3s      |
-      | 7       | Rugby\nChange-en-Route | 11:23:30           | 11:25:30        | 11:23             | 11:25          | 2                 | D2               | RL               | [2] <1>    | T          | 11:23:30        | 11:25:30     | 2         | D2       | RL       | +1m         |
-      | 10      | [Marylebone]           |                    |                 |                   |                |                   |                  |                  |            |            | 11:31:30        | 11:32:30     | 2         | D2       | RL       |             |
-      | 13      | Oxford                 | 11:33:30           | 11:35:30        | 11:33             | 11:35          | 2                 | D2               | RL               | [2] <1>    | T          | 11:33:30        | 11:35:30     | 2         | D2       | RL       | +1m         |
-      | 16      | [Reading]              |                    |                 |                   |                |                   |                  |                  |            |            | (11:43:30)      | (11:44:30)   | 2         | D2       | RL       |             |
-    When I toggle the inserted locations off
-    Then The timetable entries contains the following data
-      | entryId | location               | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
-      | 1       | NuneatonTest           |                    | 11:11:30        |                   |                | 2                 | D2               | RL               | [2] <1>    |            |                 |              |           | D2       |          | +1m 40s     |
-      | 4       | Rugby Trent Valley Jn  |                    | 11:21:30        |                   |                |                   |                  |                  | [2] <1>    |            |                 |              |           |          |          | +1m 3s      |
-      | 7       | Rugby\nChange-en-Route | 11:23:30           | 11:25:30        | 11:23             | 11:25          | 2                 | D2               | RL               | [2] <1>    | T          | 11:23:30        | 11:25:30     | 2         | D2       | RL       | +1m         |
-      | 13      | Oxford                 | 11:33:30           | 11:35:30        | 11:33             | 11:35          | 2                 | D2               | RL               | [2] <1>    | T          | 11:33:30        | 11:35:30     | 2         | D2       | RL       | +1m         |
-    Examples:
-      |trainNum|
-      | 1      |
-
-  Scenario Outline: Scenario -6 View Timetable Detail (Schedule Matched)
-    #Given the user is authenticated to use TMV
-    #And the user has opened a timetable
-    #And the train is schedule matched
-    #When the user selects the details tab of the timetable
-    #Then the train's CIF information and header information with any TJM, Association and Change-en-route is displayed
-    Given I am on the trains list page
-    And there is a Schedule for '<trainDescription>'
-    #And the schedule has a basic timetable
-    And the schedule is received from LINX
-    And The trains list table is visible
-    When I invoke the context menu from train <trainNum> on the trains list
-    And I wait for the context menu to display
-    And the trains list context menu is displayed
-    And I open timetable from the context menu
-    And I switch to the new tab
-    When The timetable table tab is visible
-    When I switch to the timetable details tab
-    Then The timetable details tab is visible
-    And The entry 1 of the timetable modifications table contains the following data in each column
-      | column                |
-      | Change Of Location    |
-      | Rugby Trent Valley Jn |
-      | 30/11/2019 09:39      |
-      | 11                    |
-    And The entry 2 of the timetable modifications table contains the following data in each column
-      | column                |
-      | Change Of Location    |
-      | Rugby                 |
-      | 04/02/2020 06:59      |
-      | 12                    |
-    And The entry 1 of the timetable associations table contains the following data in each column
-      | column                |
-      | Paddington            |
-      | Previous Working      |
-      | 1C80                  |
-    And The entry 2 of the timetable associations table contains the following data in each column
-      | column                |
-      | Sheffield             |
-      | Previous Working      |
-      | 1T55                  |
-    And The entry of the change en route table contains the following data
-      | columnName |
-      | Rugby      |
-      | AMU        |
-      | D2         |
-      | 60mph      |
-      | FGHIJ      |
-    Examples:
-      |trainNum| trainDescription |
-      | 1      | 1C82             |
+      | location   | workingArrivalTime | workingDeptTime  | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode   | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
+      | RDNGSTN    |                    | 21:30:00	       |                   | 21:30:00	      | 15A               |                  | URL                |            |            |                 |              |           |          |          |             |
+      | RDNGKBJ    |                    | 21:32:00	       | 00:00:00	         | 00:00:00	      |                   |                  | RL                 |            |            |                 |              |           |          |          |             |
+      | [TWYFDW]   |                    | 21:34:51         |                   |                |                   |                  |                    |            |            |                 |              |           |          |          |             |
+      | TWYFORD    | 21:35:30	          | 21:36:30         | 21:36:00	         | 21:36:00	      | 4                 |                  | RL                 |            |            |                 |              |           |          |          |             |
+      | [RUSCOMB]  |                    | 21:37:56	       |                   |                |                   |                  |                    |            |            |                 |              |           |          |          |             |
+      | MDNHEAD    | 21:43:30	          | 21:44:30	       | 21:44:00          | 21:44:00	      | 4                 |                  | RL                 |            |            |                 |              |           |          |          |             |
+      | [MDNHDE]	 |                    | 21:44:53         |                   |                |                   |                  |                    |            |            |                 |              |           |          |          |             |
+      | [TAPLOW]   |                    | 21:46:29         |                   |                |                   |                  |                    |            |            |                 |              |           |          |          |             |
+      | [BNHAM]    |                    | 21:48:10         |                   |                |                   |                  |                    |            |            |                 |              |           |          |          |             |
+      | [SLOUGHW]  |                    | 21:50:06	       |                   |                |                   |                  |                    |            |            |                 |              |           |          |          |             |
+      | SLOUGH     | 21:51:00	          | 21:52:00	       | 21:51:00	         | 21:52:00	      | 5                 |                  | RL                 | (0.5)      |            |                 |              |           |          |          |             |
+      | [DOLPHNJ]	 |                    | 21:53:15         |                   |                |                   |                  |                    | (0.5)      |            |                 |              |           |          |          |             |
+      | [LANGLEY]  |                    | 21:54:14         |                   |                |                   |                  |                    | (0.5)      |            |                 |              |           |          |          |             |
+      | [IVER]     |                    | 21:55:48         |                   |                |                   |                  |                    | (0.5)      |            |                 |              |           |          |          |             |
+      | [WDRYTON]  |                    | 21:57:28	       |                   |                |                   |                  |                    | (0.5)      |            |                 |              |           |          |          |             |
+      | [STKYJN]   |                    | 21:58:51	       |                   |                |                   |                  |                    | (0.5)      |            |                 |              |           |          |          |             |
+      | HTRWAJN    |                    | 21:59:30	       | 00:00:00	         | 00:00:00	      |                   |                  | RL                 |            |            |                 |              |           |          |          |             |
+      | HAYESAH    | 22:00:30	          | 22:01:30	       | 22:01:00	         | 22:01:00	      | 4                 | RL               |                    | (1)        |            |                 |              |           |          |          |             |
+      | [STHALWJ]  |                    | 22:03:12	       |                   |                |                   |                  |                    | (1)        |            |                 |              |           |          |          |             |
+      | STHALL     |                    | 22:05:00	       | 00:00:00	         | 00:00:00	      | 4                 |                  | RL                 | (1)        |            |                 |              |           |          |          |             |
+      | [STHALEJ]  |                    | 22:05:19	       |                   |                |                   |                  |                    | (1)        |            |                 |              |           |          |          |             |
+      | [HANWELL]  |                    | 22:06:57	       |                   |                |                   |                  |                    | (1)        |            |                 |              |           |          |          |             |
+      | WEALING    |                    | 22:08:00	       | 00:00:00	         | 00:00:00	      | 4                 |                  | RL                 | (1.5)      |            |                 |              |           |          |          |             |
+      | EALINGB    | 22:11:00	          | 22:12:00         | 22:11:00	         | 22:12:00	      | 4                 |                  | RL                 |            |            |                 |              |           |          |          |             |
+      | ACTONW     |                    | 22:13:30         | 00:00:00	         | 00:00:00	      |                   | RL               | RL                 | (1)        |            |                 |              |           |          |          |             |
+      | [ACTONML]  |                    | 22:14:37	       |                   |                |                   |                  |                    | (1)        |            |                 |              |           |          |          |             |
+      | LDBRKJ     |                    | 22:17:30	       | 00:00:00	         | 00:00:00	      |                   | RL               | 6                  |            |            |                 |              |           |          |          |             |
+      | PRTOBJP    |                    | 22:18:30	       | 00:00:00	         | 00:00:00	      |                   |                  | 5                  | [1](0.5)   |            |                 |              |           |          |          |             |
+      | ROYAOJN    |                    | 22:21:00	       | 00:00:00	         | 00:00:00	      |                   |                  |                    |            |            |                 |              |           |          |          |             |
+      | PADTON     | 22:23:00           |                  | 22:23:00		       |                | 10                |                  |                    |            |            |                 |              |           |          |          |             |

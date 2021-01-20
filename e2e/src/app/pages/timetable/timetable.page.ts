@@ -1,6 +1,6 @@
 import {ModificationsTablerowPage} from './modifications.tablerow.page';
 import {of} from 'rxjs';
-import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder, ExpectedConditions} from 'protractor';
 
 export class TimeTablePageObject {
   public timetableTab: ElementFinder;

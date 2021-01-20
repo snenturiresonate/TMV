@@ -4,6 +4,24 @@ import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
 
 const timetablePage: TimeTablePageObject = new TimeTablePageObject();
 
+const timetableColumnIndexes = {
+  location: 0,
+  workingArrivalTime: 1,
+  workingDeptTime: 2,
+  publicArrivalTime: 3,
+  publicDeptTime: 4,
+  originalAssetCode: 5,
+  originalPathCode: 6,
+  originalLineCode: 7,
+  allowances: 8,
+  activities: 9,
+  arrivalDateTime: 10,
+  deptDateTime: 11,
+  assetCode: 12,
+  pathCode: 13,
+  lineCode: 14,
+  punctuality: 15
+};
 
 Then('The timetable service description is visible', async () => {
   const isTimetableServiceDescriptionVisible: boolean = await timetablePage.isTimetableServiceDescriptionVisible();
@@ -126,3 +144,27 @@ Then('The entry of the change en route table contains the following data', async
     expect(actualChangeEnRouteColValues).to.contain(expectedChangeEnRouteColValue.columnName);
   });
 });
+
+Then('The timetable entries contains the following data',
+  async (timetableEntryDataTable: any) => {
+    const expectedTimetableEntryColValues: any[] = timetableEntryDataTable.hashes();
+    for (const expectedTimetableEntryCol of expectedTimetableEntryColValues) {
+      const actualTimetableEntryColValues: string[] = await timetablePage.getTimetableEntryColValues(expectedTimetableEntryCol.entryId);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.location]).to.equal(expectedTimetableEntryCol.location);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.workingArrivalTime]).to.equal(expectedTimetableEntryCol.workingArrivalTime);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.workingDeptTime]).to.equal(expectedTimetableEntryCol.workingDeptTime);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.publicArrivalTime]).to.equal(expectedTimetableEntryCol.publicArrivalTime);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.publicDeptTime]).to.equal(expectedTimetableEntryCol.publicDeptTime);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalAssetCode]).to.equal(expectedTimetableEntryCol.originalAssetCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalPathCode]).to.equal(expectedTimetableEntryCol.originalPathCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalLineCode]).to.equal(expectedTimetableEntryCol.originalLineCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.allowances]).to.equal(expectedTimetableEntryCol.allowances);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.activities]).to.equal(expectedTimetableEntryCol.activities);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.arrivalDateTime]).to.equal(expectedTimetableEntryCol.arrivalDateTime);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.deptDateTime]).to.equal(expectedTimetableEntryCol.deptDateTime);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.assetCode]).to.equal(expectedTimetableEntryCol.assetCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.pathCode]).to.equal(expectedTimetableEntryCol.pathCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.lineCode]).to.equal(expectedTimetableEntryCol.lineCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.punctuality]).to.equal(expectedTimetableEntryCol.punctuality);
+    }
+  });
