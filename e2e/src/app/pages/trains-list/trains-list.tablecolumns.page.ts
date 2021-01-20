@@ -56,4 +56,10 @@ export class TrainsListTableColumnsPage {
     return colourOfEachElementArray;
   }
 
+  public async getTocValues(): Promise<string[]> {
+    const valueArr: any[] = [];
+    await CommonActions.waitForElementToBeVisible(this.toc.first());
+    await this.toc.each(elm => elm.getText().then(text => valueArr.push(text.toString())));
+    return valueArr;
+  }
 }
