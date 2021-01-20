@@ -19,6 +19,7 @@ export class TrainsListLocationSelectionTab {
     public originateCheckbox: ElementFinder;
     public locationTabHeader: ElementFinder;
     public locationTableRow: ElementArrayFinder;
+    public locationTableArrows: ElementArrayFinder;
     constructor() {
         this.locationSearchBox = element(by.id('map-search-box'));
         this.locationSuggestSearchResultList = element(by.id('searchResults'));
@@ -35,6 +36,7 @@ export class TrainsListLocationSelectionTab {
         this.originateCheckbox = element(by.id('PADTON-ORIGINATE'));
         this.locationTabHeader = element(by.css('#locationSelectionTabContent .punctuality-header'));
         this.locationTableRow = element.all(by.css('#location-selection-table tr'));
+        this.locationTableArrows = element.all(by.cssContainingText('#location-selection-table tr span.material-icons', 'keyboard_arrow'));
     }
 
     public async getLocationSearchBoxText(): Promise<string> {
@@ -129,6 +131,9 @@ export class TrainsListLocationSelectionTab {
   public async getStopTypeCheckedState(type: string, locationName: string): Promise<boolean> {
       await CommonActions.waitForElementToBeVisible(this.locationTableRow.first());
       return this.getStopTypeOfLocation(type, locationName).isSelected();
+  }
+  public async locationTableArrowsDisplay(): Promise<any> {
+      return this.locationTableArrows.isDisplayed();
   }
 
   public getStopTypeOfLocation(type: string, locationName: string): ElementFinder {

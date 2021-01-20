@@ -67,8 +67,29 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       | Pass      |
       | Terminate |
 
+  #33806 -16 Trains List Config (Location Ordering Selection)
+    #Given the user is viewing the trains list config
+    #And the user is viewing the Location config tab
+    #And the user has at least two location in the list
+    #And the user has opted to enforce ordering
+    #When the user selects the ordering up/down
+    #Then the location moved up or down in the list
+
+  Scenario Outline: Ability to re-order location should be available only for All Locations, order applied
+    When I choose the location filter as '<filters>'
+    Then I should not see the location re-ordering arrows
+    Examples:
+      | filters               |
+      | All locations         |
+      | At least one location |
+
+  #33806 -17 Trains List Config (Location Removed)
+    #Given the user has locations in the list
+    #When the user removes a location
+    #Then the location is removed from the list
 @tdd
 Scenario: Trains location list ability to remove location and move the location elements to desired order
+  #Below scenario covers both 33806 -16 & 33806 -17. They have been made as single scenario to avoid any data related false failures due to removing locations in different scenarios
   When I choose the location filter as 'All locations, order applied'
   And I move 'up' the location 'Slough'
   And I move 'down' the location 'Reading Lane Junction'
