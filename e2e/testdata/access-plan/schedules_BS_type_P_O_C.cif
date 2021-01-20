@@ -1,4 +1,4 @@
-HDTPS.UCFT1LX.PD111POC0112182000CFT1LXQCFT1LXPFA010120010150
+HDTPS.UCFT1LX.PD111POC0112182000CFT1LXQCFT1LXPFA010120010150                    
 BSNA123452001015001011111111 PXX1L23    124749000 E  345 090D     S            P
 BX         XRY                                                                  
 LOPADTON  0933 093312 4      TB                                                 
@@ -63,4 +63,4 @@ LITWYFORD 1023H1023H     102310233  RL    T           1
 LIRDNGKBJ           1028H00000000   DRL                                         
 LTRDNGSTN 1031 103114    TF                                                     
 BSDA12345200101500101                   1                                      N
-ZZ
+ZZ                                                                              

@@ -1,8 +1,8 @@
-HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010150
+HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010150                    
 BSNV306032004062104101111100 1EE1F10    121381008 EMU345 090D                  N
-BX         XRY
-LOPADTON  0958 000010 5      TB
-LIDIDCOTP           1001 00000000      PAT
-LIDIDCWCJ           1003 00000000
-LTOLDOXRS 1013 0000      TF
-ZZ
+BX         XRY                                                                  
+LOPADTON  0958 000010 5      TB                                                 
+LIDIDCOTP           1001 00000000      PAT                                      
+LIDIDCWCJ           1003 00000000                                               
+LTOLDOXRS 1013 0000      TF                                                     
+ZZ                                                                              
