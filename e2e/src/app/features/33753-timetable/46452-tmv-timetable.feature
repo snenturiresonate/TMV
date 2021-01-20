@@ -79,8 +79,8 @@ Feature: 33753 - TMV Timetable
     And The trains list table is visible
     When I invoke the context menu from train '2P77' on the trains list
     And I wait for the context menu to display
-    And the context menu contains 'Unmatch' on line 3
-    And I click on Unmatch in the context menu
+    And the context menu contains 'Match' on line 3
+    And I click on Match in the context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching 2P77'
     #Then a matched service is visible
