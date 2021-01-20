@@ -83,7 +83,7 @@ Feature: 33753 - TMV Timetable
     And I click on Unmatch in the context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching 2P77'
-    And a matched service is visible
+    Then a matched service is visible
     And The timetable entries contains the following data
      | location   | workingArrivalTime | workingDeptTime  | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode   | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
      | RDNGSTN    |                    | 21:30:00	        |                   | 21:30:00	     | 15A               |                  | URL                |            |            |                 |              |           |          |          |             |
@@ -102,7 +102,7 @@ Feature: 33753 - TMV Timetable
      | ROYAOJN    |                    | 22:21:00	        | 00:00:00	        | 00:00:00	     |                   |                  |                    |            |            |                 |              |           |          |          |             |
      | PADTON     | 22:23:00           |                  | 22:23:00		      | 11:25          | 10                |                  |                    |            |            |                 |              |           |          |          |             |
     And I toggle the inserted locations on
-    Then The timetable entries contains the following data
+    And The timetable entries contains the following data
       | location   | workingArrivalTime | workingDeptTime  | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode   | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
       | RDNGSTN    |                    | 21:30:00	       |                   | 21:30:00	      | 15A               |                  | URL                |            |            |                 |              |           |          |          |             |
       | RDNGKBJ    |                    | 21:32:00	       | 00:00:00	         | 00:00:00	      |                   |                  | RL                 |            |            |                 |              |           |          |          |             |
