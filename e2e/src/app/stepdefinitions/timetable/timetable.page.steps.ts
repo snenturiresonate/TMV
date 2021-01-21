@@ -178,3 +178,26 @@ Then('the punctuality is displayed as {string}', async (expectedText: string) =>
   const actualText: string = await timetablePage.getNavBarIndicatorText();
   expect(actualText).to.equal(expectedText);
 });
+
+Then('The timetable details table contains the following data in each row', async (detailsDataTable: any) => {
+  const expectedDetailsRowValues: any = detailsDataTable.hashes()[0];
+
+  expect(await timetablePage.getTimetableDetailsRowValueDaysRun()).to.equal(expectedDetailsRowValues.daysRun);
+  expect(await timetablePage.getTimetableDetailsRowValueRuns()).to.equal(expectedDetailsRowValues.runs);
+  expect(await timetablePage.getTimetableDetailsRowValueBankHoliday()).to.equal(expectedDetailsRowValues.bankHoliday);
+  expect(await timetablePage.getTimetableDetailsRowValueBerthId()).to.equal(expectedDetailsRowValues.berthId);
+  expect(await timetablePage.getTimetableDetailsRowValueOperator()).to.equal(expectedDetailsRowValues.operator);
+  expect(await timetablePage.getTimetableDetailsRowValueTrainServiceCode()).to.equal(expectedDetailsRowValues.trainServiceCode);
+  expect(await timetablePage.getTimetableDetailsRowValueTrainCategory()).to.equal(expectedDetailsRowValues.trainCategory);
+  expect(await timetablePage.getTimetableDetailsRowValueDirection()).to.equal(expectedDetailsRowValues.direction);
+  expect(await timetablePage.getTimetableDetailsRowValueCateringCode()).to.equal(expectedDetailsRowValues.cateringCode);
+  expect(await timetablePage.getTimetableDetailsRowValueClass()).to.equal(expectedDetailsRowValues.class);
+  expect(await timetablePage.getTimetableDetailsRowValueReservations()).to.equal(expectedDetailsRowValues.reservations);
+  expect(await timetablePage.getTimetableDetailsRowValueTimingLoad()).to.equal(expectedDetailsRowValues.timingLoad);
+  expect(await timetablePage.getTimetableDetailsRowValuePowerType()).to.equal(expectedDetailsRowValues.powerType);
+  expect(await timetablePage.getTimetableDetailsRowValueSpeed()).to.equal(expectedDetailsRowValues.speed);
+  expect(await timetablePage.getTimetableDetailsRowValuePortionId()).to.equal(expectedDetailsRowValues.portionId);
+  expect(await timetablePage.getTimetableDetailsRowValueTrainLength()).to.equal(expectedDetailsRowValues.trainLength);
+  expect(await timetablePage.getTimetableDetailsRowValueTrainOperatingCharacteristcs()).to.equal(expectedDetailsRowValues.trainOperatingCharacteristcs);
+  expect(await timetablePage.getTimetableDetailsRowValueServiceBranding()).to.equal(expectedDetailsRowValues.serviceBranding);
+});

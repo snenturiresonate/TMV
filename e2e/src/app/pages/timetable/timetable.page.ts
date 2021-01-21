@@ -132,4 +132,64 @@ export class TimeTablePageObject {
     return this.navBarIndicatorText.getText();
   }
 
+
+  public async getTimetableDetailsRowValueDaysRun(): Promise<string> {
+    return this.getTimetableDetailsRowValue('daysRun');
+  }
+  public async getTimetableDetailsRowValueRuns(): Promise<string> {
+    return this.getTimetableDetailsRowValue('runs');
+  }
+  public async getTimetableDetailsRowValueBankHoliday(): Promise<string> {
+    return this.getTimetableDetailsRowValue('bankHoliday');
+  }
+  public async getTimetableDetailsRowValueBerthId(): Promise<string> {
+    return this.getTimetableDetailsRowValue('berthId');
+  }
+  public async getTimetableDetailsRowValueOperator(): Promise<string> {
+    return this.getTimetableDetailsRowValue('operator');
+  }
+  public async getTimetableDetailsRowValueTrainServiceCode(): Promise<string> {
+    return this.getTimetableDetailsRowValue('trainServiceCode');
+  }
+  public async getTimetableDetailsRowValueTrainCategory(): Promise<string> {
+    return this.getTimetableDetailsRowValue('trainCategory');
+  }
+  public async getTimetableDetailsRowValueDirection(): Promise<string> {
+    return this.getTimetableDetailsRowValue('direction');
+  }
+  public async getTimetableDetailsRowValueCateringCode(): Promise<string> {
+    return this.getTimetableDetailsRowValue('cateringCode');
+  }
+  public async getTimetableDetailsRowValueClass(): Promise<string> {
+    return this.getTimetableDetailsRowValue('class');
+  }
+  public async getTimetableDetailsRowValueReservations(): Promise<string> {
+    return this.getTimetableDetailsRowValue('reservations');
+  }
+  public async getTimetableDetailsRowValueTimingLoad(): Promise<string> {
+    return this.getTimetableDetailsRowValue('timingLoad');
+  }
+  public async getTimetableDetailsRowValuePowerType(): Promise<string> {
+    return this.getTimetableDetailsRowValue('powerType');
+  }
+  public async getTimetableDetailsRowValueSpeed(): Promise<string> {
+    return this.getTimetableDetailsRowValue('speed');
+  }
+  public async getTimetableDetailsRowValuePortionId(): Promise<string> {
+    return this.getTimetableDetailsRowValue('portionId');
+  }
+  public async getTimetableDetailsRowValueTrainLength(): Promise<string> {
+    return this.getTimetableDetailsRowValue('trainLength');
+  }
+  public async getTimetableDetailsRowValueTrainOperatingCharacteristcs(): Promise<string> {
+    return this.getTimetableDetailsRowValue('trainOperatingCharacteristcs');
+  }
+  public async getTimetableDetailsRowValueServiceBranding(): Promise<string> {
+    return this.getTimetableDetailsRowValue('serviceBranding');
+  }
+
+  private async getTimetableDetailsRowValue(attrId: string): Promise<string> {
+    return element(by.id(attrId)).getText();
+  }
+
 }
