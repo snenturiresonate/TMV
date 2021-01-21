@@ -14,6 +14,8 @@ export class TimeTablePageObject {
   public changeEnRoute: ElementArrayFinder;
   public headerHeadcode: ElementFinder;
   public headerOldHeadcode: ElementFinder;
+  public navBarIndicatorColor: ElementFinder;
+  public navBarIndicatorText: ElementFinder;
   constructor() {
     this.headerLabels = element.all(by.css('.tmv-header-content [id$=Label]'));
     this.timetableTab = element(by.id('timetable-table-tab'));
@@ -26,7 +28,8 @@ export class TimeTablePageObject {
     this.headerTrustId = element(by.id('timetableHeaderTrustTrainId'));
     this.headerTJM = element(by.id('timetableHeaderTrainJourneyModification'));
     this.changeEnRoute = element.all(by.css('.change-en-route-table >tbody >div >tr>td'));
-
+    this.navBarIndicatorColor = element(by.css('.dot-punctuality-text:nth-child(1)'));
+    this.navBarIndicatorText = element(by.css('.punctuality-text:nth-child(2)'));
   }
   public async isTimetableTableTabVisible(): Promise<boolean> {
     const timetableTabClasses: string = await element(by.id('timetable-table-tab')).getAttribute('class');
@@ -120,4 +123,13 @@ export class TimeTablePageObject {
   public async getChangeEnRouteValues(): Promise<string> {
     return this.changeEnRoute.getText();
   }
+
+  public async getNavBarIndicatorColor(): Promise<string> {
+    return this.navBarIndicatorColor.getCssValue('background-color');
+  }
+
+  public async getNavBarIndicatorText(): Promise<string> {
+    return this.navBarIndicatorText.getText();
+  }
+
 }

@@ -168,3 +168,13 @@ Then('The timetable entries contains the following data',
       expect(actualTimetableEntryColValues[timetableColumnIndexes.punctuality]).to.equal(expectedTimetableEntryCol.punctuality);
     }
   });
+
+Then('the navbar punctuality indicator is displayed as {string}', async (expectedColor: string) => {
+  const actualColor: string = await timetablePage.getNavBarIndicatorColor();
+  expect(actualColor).to.equal(expectedColor);
+});
+
+Then('the punctuality is displayed as {string}', async (expectedText: string) => {
+  const actualText: string = await timetablePage.getNavBarIndicatorText();
+  expect(actualText).to.equal(expectedText);
+});
