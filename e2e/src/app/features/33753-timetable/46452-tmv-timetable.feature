@@ -80,10 +80,8 @@ Feature: 33753 - TMV Timetable
       And The trains list table is visible
       When I invoke the context menu from train '2P77' on the trains list
       And I wait for the context menu to display
-      And the context menu contains 'Match' on line 3
-      And I click on Match in the context menu
+      And I open timetable from the context menu
       And I switch to the new tab
-      And the tab title is 'TMV Schedule Matching 2P77'
       And The values for the header properties are as follows
         | schedType | lastSignal | lastReport                  | trainUid | trustId       | lastTJM                                             |
         | STP       | TK3210     | 14:42 Arrival at Paddington | D643563  | 1T55D64356309 |          |
@@ -142,7 +140,7 @@ Feature: 33753 - TMV Timetable
         | PADTON     | 22:23:00           |                  | 22:23:00		       |                | 10                |                  |                    |            |            |                 |              |           |          |          |             |
 
   @tdd
-  Scenario: Scenario 6 - View Timetable (Schedule Not Matched)
+  Scenario: Scenario 5 - View Timetable (Schedule Not Matched)
     #Given the user is authenticated to use TMV
     #And the user has opened a timetable
     #And the train is not schedule matched
@@ -155,15 +153,70 @@ Feature: 33753 - TMV Timetable
     And The trains list table is visible
     When I invoke the context menu from train '5N68' on the trains list
     And I wait for the context menu to display
-    Then the context menu contains '5N68' on line 1
-    And the context menu contains 'Match' on line 3
-    And the context menu contains 'D60535' on line 6
-    And the context menu contains 'T535' on line 7
-    And the context menu contains 'T6284' on line 7
-    When I click on Match in the context menu
+    And I open timetable from the context menu
     And I switch to the new tab
     Then the tab title is 'TMV Schedule Matching 5N68'
     And the punctuality is displayed as 'No Matching Services'
     And no matched service is visible
+    And The timetable entries contains the following data
+      | location   | workingArrivalTime | workingDeptTime  | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode   | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
+
+  @tdd
+  Scenario: Scenario 7 - View Timetable (Schedule Matched)
+    #Given the user is authenticated to use TMV
+    #And the user has opened a timetable
+    #And the train is schedule matched
+    #When the user selects the details tab of the timetable
+    #Then the train's CIF information and header information with any TJM, Association and Change-en-route is displayed
+    Given the access plan located in CIF file 'access-plan/2P77_RDNGSTN_PADTON.cif' is amended so that all services start within the next hour and then received from LINX
+    And the following live berth step message is sent from LINX
+      | fromBerth | toBerth | trainDescriber | trainDescription |
+      | 1668      | 1664    | D1             | 2P77             |
+    And I am on the trains list page
+    And The trains list table is visible
+    When I invoke the context menu from train '2P77' on the trains list
+    And I wait for the context menu to display
+    And I open timetable from the context menu
+    And I switch to the new tab
+    And the navbar punctuality indicator is displayed as 'rgba(0, 255, 0, 1)'
+    And the punctuality is displayed as 'On Time'
+    Then a matched service is visible
+    When I switch to the timetable details tab
+    Then The timetable details tab is visible
+    And The entry 1 of the timetable modifications table contains the following data in each column
+      | column                |
+      | Change Of Location    |
+      | Rugby Trent Valley Jn |
+      | 30/11/2019 09:39      |
+      | 11                    |
+    And The entry of the change en route table contains the following data
+      | columnName |
+      | Rugby      |
+      | AMU        |
+      | D2         |
+      | 60mph      |
+      | FGHIJ      |
+
+
+  @tdd
+  Scenario: Scenario 8 - View Timetable Detail (Not Schedule Matched)
+    #Given the user is authenticated to use TMV
+    #And the user has opened a timetable
+    #And the train is not schedule matched
+    #When the user selects the details tab of the timetable
+    #Then the train's basic header information is displayed
+    Given the following live berth interpose message is sent from LINX
+      | toBerth | trainDescriber | trainDescription |
+      | 0535    | 5N68           | D6               |
+    And I am on the trains list page
+    And The trains list table is visible
+    When I invoke the context menu from train '5N68' on the trains list
+    And I wait for the context menu to display
+    And I open timetable from the context menu
+    And I switch to the new tab
+    And the punctuality is displayed as 'No Matching Services'
+    And no matched service is visible
+    When I switch to the timetable details tab
+    Then The timetable details tab is visible
     And The timetable entries contains the following data
       | location   | workingArrivalTime | workingDeptTime  | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode   | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
