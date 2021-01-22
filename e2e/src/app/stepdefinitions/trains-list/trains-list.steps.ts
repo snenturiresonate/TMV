@@ -17,6 +17,35 @@ const defaultColumns = ['Sched.', 'Service', 'time', 'Report', 'Punct.', 'Origin
 // const defaultShowUnmatched = 'on';
 // const defaultShowUncalled = 'off';
 
+const colTextColourHex = {
+  green: '#28a745',
+  orange: '#ffc107'
+};
+
+const mapTLColIds = new Map([
+  ['SCHED.', 'schedule-type'],
+  ['SERVICE', 'train-description'],
+  ['TIME', 'time'],
+  ['REPORT', 'report'],
+  ['PUNCT.', 'punctuality'],
+  ['ORIGIN.', 'origin-location-id'],
+  ['ORIGIN.>PLANNED', 'origin-current-time'],
+  ['ORIGIN.>ACTUAL / PREDICT', 'origin-actual-predicted-time'],
+  ['DEST.', 'destination-location-id'],
+  ['DEST.>PLANNED', 'destination-current-time'],
+  ['DEST.>ACTUAL / PREDICT', 'destination-actual-predicted-time'],
+  ['NEXTLOC.', 'next-location'],
+  ['TOC/FOC.', 'operator'],
+  ['TRUST UID', 'trust-uid'],
+  ['SCHEDULE UID', 'schedule-uid'],
+  ['CANCELLATION REASON CODE', 'modification-reason'],
+  ['CANCELLATION TYPE', 'modification-type'],
+  ['LAST REPORTED>LAST REPORTED LINE', 'last-reported-line'],
+  ['LAST REPORTED>LAST REPORTED PLATFORM', 'last-reported-platform'],
+  ['TRAIN CATEGORY', 'train-category'],
+  ['TRAIN SERVICE CODE', 'train-service-code']
+]);
+
 enum DefaultTrainsListIndicationColours {
   changeOfOrigin = '#cccc00',
   changeOfIdentity = '#ccff66',
@@ -32,6 +61,11 @@ enum DefaultTrainsListIndicationColours {
 }
 
 When('I invoke the context menu from train {int} on the trains list', async (itemNum: number) => {
+  await trainsListPage.rightClickTrainListItem(itemNum);
+});
+
+When('I invoke the context menu from train {string} on the trains list', async (scheduleNum: string) => {
+  const itemNum = await trainsListPage.getRowForSchedule(scheduleNum);
   await trainsListPage.rightClickTrainListItem(itemNum);
 });
 
@@ -54,6 +88,10 @@ When('the service {string} is active', async (serviceId: string) => {
   expect(isScheduleVisible).to.equal(true);
 });
 
+When(/^I click on (?:Unmatch|Match) in the context menu$/, async () => {
+  await trainsListPage.openManualMatch();
+});
+
 Then('I open timetable from the context menu', async () => {
   await trainsListPage.timeTableLink.click();
 });
@@ -61,6 +99,40 @@ Then('I open timetable from the context menu', async () => {
 Then('the trains list context menu is displayed', async () => {
   const isTrainsContextMenuVisible: boolean = await trainsListPage.isTrainsListContextMenuDisplayed();
   expect(isTrainsContextMenuVisible).to.equal(true);
+});
+
+Then('the context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
+  const actualContextMenuItem: string = await trainsListPage.getTrainsListContextMenuItem(rowNum);
+  expect(actualContextMenuItem).to.contain(expectedText);
+});
+
+Then('the context menu contains the {word} {string} of train {int} on line {int}',
+  async (occurence: string, colName: string, trainRow: number, menuRow: number) => {
+  const actualTrainsListEntryRowValues: string[] = await trainsListPage.getTrainsListValuesForRow(trainRow);
+  const cols = await trainsListPage.getTrainsListCols();
+  const colsNoArrows = cols.map(item => item.replace('arrow_downward', '')
+    .replace('arrow_upward', ''));
+  let testColIndex = colsNoArrows.indexOf(colName);
+  if (occurence === 'second') {
+    testColIndex = cols.indexOf(colName, testColIndex + 1);
+  }
+  let expectedValue: string = actualTrainsListEntryRowValues[testColIndex];
+  if (colName === 'TOC/FOC') {
+    expectedValue = '(' + expectedValue + ')';
+  }
+  if (expectedValue === '+0m') {
+    expectedValue = 'On time';
+  }
+  const actualContextMenuItem = await trainsListPage.getTrainsListContextMenuItem(menuRow);
+
+  expect(actualContextMenuItem).to.contain(expectedValue);
+});
+
+Then('the number of predicted times for train {int} tallies', async (trainRow: number) => {
+  const numberPredictedTimesInTrainRow: number = await trainsListPage.getCountOfPredictedTimesForRow(trainRow);
+  const numberPredictedTimesInContextMenu: number = await trainsListPage.getCountOfPredictedTimesForContext();
+
+  expect(numberPredictedTimesInContextMenu).to.equal(numberPredictedTimesInTrainRow);
 });
 
 Then('I can click away to clear the menu', async () => {
@@ -103,8 +175,80 @@ Then('I should see the trains list columns as in the below order', async (table:
   return protractor.promise.all(results);
 });
 
+Then(/^the columns have a sort \(primary and secondary\)$/, async () => {
+  const primColText = await trainsListPage.getPrimarySortColumnNameAndArrow();
+  const secColText = await trainsListPage.getSecondarySortColumnNameAndArrow();
+  expect(primColText.length).greaterThan(0);
+  expect(secColText.length).greaterThan(0);
+});
+
+When(/^I select (.*) text$/, async (colName: string) => {
+  await trainsListPage.clickHeaderText(colName);
+});
+
+When(/^I select (.*) arrow$/, async (colName: string) => {
+  await trainsListPage.clickHeaderArrow(colName);
+});
+
+Then(/^(.*) is the (primary|secondary) sort column with (green|orange) text and an? (downward|upward) arrow$/,
+  async (expectedColText: string, primOrSec: string, expectedTextColour: string, expectedArrowDirection: string) => {
+    let expectedColName: string;
+    let actualColText: string;
+    const colStructure = expectedColText.split('>', 2).map(item => item.trim());
+    if (colStructure.length === 1) {
+      expectedColName = colStructure[0];
+    }
+    else {
+      expectedColName = colStructure[1];
+    }
+    let actualColTextRgbColour: string;
+    if (primOrSec === 'primary') {
+      actualColText = await trainsListPage.getPrimarySortColumnNameAndArrow();
+      actualColTextRgbColour = await trainsListPage.primarySortCol.getCssValue('color');
+
+    }
+    else if (primOrSec === 'secondary') {
+      actualColText = await trainsListPage.getSecondarySortColumnNameAndArrow();
+      actualColTextRgbColour = await trainsListPage.secondarySortCol.getCssValue('color');
+    }
+
+    const actualColTextHexColour = CssColorConverterService.rgb2Hex(actualColTextRgbColour);
+    const actualColArrowDirection = actualColText.substring(actualColText.indexOf('arrow')).replace('arrow_', '');
+    const actualColName = actualColText.replace('arrow_' + actualColArrowDirection, '');
+    expect(actualColName).to.equal(expectedColName);
+    expect(actualColArrowDirection).to.equal(expectedArrowDirection);
+    expect(actualColTextHexColour).to.equal(colTextColourHex[expectedTextColour]);
+  });
+
+Then(/^the entries in (.*) column are in (ascending|descending) order$/, async (colName: string, sortDirection: string) => {
+  const colIdentifier = mapTLColIds.get(colName);
+  const colValues = await trainsListPage.getTrainsListValuesForColumn(colIdentifier);
+  for (let i = 0; i < colValues.length; i++) {
+    checkOrdering(colValues[i], colValues[i + 1], colName, sortDirection);
+  }
+});
+
+Then(/^the entries in (.*) column are in (ascending|descending) order within each value in (.*) column$/,
+  async (secColName: string, sortDirection: string, primColName: string) => {
+    const colIdentifierPrim = mapTLColIds.get(primColName);
+    const colIdentifierSec = mapTLColIds.get(secColName);
+    const colValuesPrim = await trainsListPage.getTrainsListValuesForColumn(colIdentifierPrim);
+    const colValuesSec = await trainsListPage.getTrainsListValuesForColumn(colIdentifierSec);
+    for (let i = 0; i < colValuesPrim.length; i++) {
+      if (colValuesPrim[i] === colValuesPrim[i + 1]) {
+        checkOrdering(colValuesSec[i], colValuesSec[i + 1], secColName, sortDirection);
+      }
+    }
+  });
+
 When('I navigate to train list configuration', async () => {
   await trainsListPage.clickTrainListSettingsBtn();
+});
+
+When('I perform a secondary click on a random service using the mouse', async () => {
+  const tableRowCount = await trainsListPage.trainsListItems.count();
+  const randomIndex = Math.floor(Math.random() * tableRowCount);
+  await trainsListPage.rightClickTrainListItem(randomIndex);
 });
 
 Then('The {word} trains list columns are displayed in order', async (filterType: string) => {
@@ -120,6 +264,11 @@ Then('The {word} trains list columns are displayed in order', async (filterType:
       .replace('arrow_upward', '');
     expect(actualColName).to.equal(expectedTrainsListColumns[col].toUpperCase());
   }
+});
+
+Then('there are train entries present on the trains list', async () => {
+  const actualTrainsListRows = await trainsListPage.trainsListItems;
+  expect(actualTrainsListRows.length).greaterThan(0);
 });
 
 Then('A selection of services are shown which match the {word} filters and settings', async (filterType: string) => {
@@ -160,8 +309,6 @@ Then('{string} are {word} displayed', async (expectedTrainDescriptions: string, 
   const expectedTLServiceValues = expectedTrainDescriptions.split(',', 10).map(item => item.trim());
 
   if (isDisplayed === 'not') {
-    // for (let i = 0; i < expectedTLServiceValues.length; i++) {
-    //   expect(actualTLServiceValues).not.contains(expectedTLServiceValues[i]);
       for (const item of expectedTLServiceValues) {
         expect(actualTLServiceValues).not.contains(item);
     }
@@ -173,3 +320,48 @@ Then('{string} are {word} displayed', async (expectedTrainDescriptions: string, 
 
   }
 });
+
+function checkOrdering(thisString: string, nextString: string, colName: string, direction: string): void {
+
+  let orderCheck = thisString.localeCompare(nextString);
+  if (colName.endsWith('PREDICT')) {
+    const thisStringTrimmed = thisString.replace('(', '').replace(')', '');
+    const nextStringTrimmed = nextString.replace('(', '').replace(')', '');
+    orderCheck = thisStringTrimmed.localeCompare(nextStringTrimmed);
+  }
+  else if (colName === 'PUNCT.') {
+    const thisVal = convertPunctTextToSec(thisString);
+    const nextVal = convertPunctTextToSec(nextString);
+    orderCheck = thisVal - nextVal;
+  }
+  if (direction === 'descending') {
+    expect(orderCheck).to.be.greaterThan(-1, 'expected ' + thisString + ' to be greater than or equal to ' + nextString);
+  }
+  else  {
+    expect(orderCheck).to.be.lessThan(1, 'expected ' + thisString + ' to be less than or equal to ' + nextString);
+  }
+}
+
+function convertPunctTextToSec(punctualityString: string): number {
+  let punctualityStringMinutes = '0';
+  let punctualityStringSeconds = '0';
+  if (punctualityString.includes('m')) {
+    punctualityStringMinutes = punctualityString.substr(1, punctualityString.indexOf('m'));
+    if (punctualityString.includes('s')) {
+      punctualityStringSeconds = punctualityString.substr(punctualityString.indexOf('m') + 2,
+        punctualityString.length - punctualityString.indexOf('m') - 3);
+    }
+  }
+  else if (punctualityString.includes('s')) {
+    punctualityStringSeconds = punctualityString.substr(1, punctualityString.length - 2);
+  }
+  const punctualitySeconds = (60 * parseFloat(punctualityStringMinutes)) + parseFloat(punctualityStringSeconds);
+  if (punctualityString[0] === '+') {
+    return punctualitySeconds;
+  }
+  else {
+    return 0 - punctualitySeconds;
+  }
+}
+
+

@@ -1,5 +1,6 @@
 import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
+import {GeneralUtils} from '../common/utilities/generalUtils';
 
 export abstract class TrainsListConfigMultiSelectListPageObject {
 
@@ -34,6 +35,9 @@ export abstract class TrainsListConfigMultiSelectListPageObject {
   }
   public async getSecondElementsInSelectedGrid(): Promise<string> {
     return this.trainListConfigSelectedSecondElements.getText();
+  }
+  public async selectedGridElementsDisplay(): Promise<boolean> {
+    return this.trainListConfigSelectedSecondElements.first().isPresent();
   }
   public async getSecondElementInSelectedByIndex(index): Promise<string> {
     const indexForCss = index + 2;
@@ -75,6 +79,11 @@ public async clickArrow(arrowDir: string, itemName: string): Promise<void> {
   public async clickArrowLeft(position: number): Promise<void> {
     const arrows = this.trainListConfigSelectedFirstElements;
     await arrows.get(position - 1).click();
+  }
+  public async selectTrainConfigUnselectedItem(item: string): Promise<void> {
+    await CommonActions.waitForElementToBeVisible(this.trainListConfigUnselected.first());
+    const filteredElm: ElementFinder = await GeneralUtils.filterItemUsingMatchingText(this.trainListConfigUnselected, item);
+    return filteredElm.click();
   }
 
   public async moveToSelectedList(entry: string, endPosition: number): Promise<void> {

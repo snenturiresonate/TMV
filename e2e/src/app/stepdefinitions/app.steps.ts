@@ -55,6 +55,24 @@ When(/^the following berth interpose messages? (?:is|are) sent from LINX$/, asyn
   await linxRestClient.waitMaxTransmissionTime();
 });
 
+When(/^the following live berth interpose messages? (?:is|are) sent from LINX$/, async (berthInterposeMessageTable: any) => {
+  const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
+  const now = new Date();
+
+  berthInterposeMessages.forEach((berthInterposeMessage: any) => {
+    const berthInterpose: BerthInterpose = new BerthInterpose(
+      now.toTimeString().substr(0, 8),
+      berthInterposeMessage.toBerth,
+      berthInterposeMessage.trainDescriber,
+      berthInterposeMessage.trainDescription
+    );
+    CucumberLog.addJson(berthInterpose);
+    linxRestClient.postBerthInterpose(berthInterpose);
+  });
+  await linxRestClient.waitMaxTransmissionTime();
+});
+
+
 When(/^the following berth step messages? (?:is|are) sent from LINX$/, async (berthStepMessageTable: any) => {
   const berthStepMessages: any = berthStepMessageTable.hashes();
 
@@ -62,6 +80,24 @@ When(/^the following berth step messages? (?:is|are) sent from LINX$/, async (be
     const berthStep: BerthStep = new BerthStep(
       berthStepMessage.fromBerth,
       berthStepMessage.timestamp,
+      berthStepMessage.toBerth,
+      berthStepMessage.trainDescriber,
+      berthStepMessage.trainDescription
+    );
+    CucumberLog.addJson(berthStep);
+    linxRestClient.postBerthStep(berthStep);
+  });
+  await linxRestClient.waitMaxTransmissionTime();
+});
+
+When(/^the following live berth step messages? (?:is|are) sent from LINX$/, async (berthStepMessageTable: any) => {
+  const berthStepMessages: any = berthStepMessageTable.hashes();
+  const now = new Date();
+
+  berthStepMessages.forEach((berthStepMessage: any) => {
+    const berthStep: BerthStep = new BerthStep(
+      berthStepMessage.fromBerth,
+      now.toTimeString().substr(0, 8),
       berthStepMessage.toBerth,
       berthStepMessage.trainDescriber,
       berthStepMessage.trainDescription
