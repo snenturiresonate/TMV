@@ -8,7 +8,7 @@ export class InputBox {
    * Updates an input box when the locator and update text are passed in.
    * Input: Location of <input> tag, Text to input
    */
-  public static async updateInputBox(elm: ElementFinder, text: string): Promise <void> {
+  public static async updateInputBox(elm: ElementFinder, text: string): Promise<void> {
     await CommonActions.waitForElementInteraction(elm);
     await GeneralUtils.scrollToElement(elm);
     await elm.clear();
@@ -19,7 +19,7 @@ export class InputBox {
    * Updates an input box of type number (ones with increment and decrement arrows) when the 'id' and update text are passed in.
    * Input: Id attribute of <input> tag, Text to input
    */
-  public static async updateNumberInputById(id: string, text: string): Promise <void> {
+  public static async updateNumberInputById(id: string, text: string): Promise<void> {
     const script = `document.getElementById('${id}').value = '${text}'`;
     return browser.executeScript(script);
   }
@@ -28,7 +28,7 @@ export class InputBox {
    * Updates an input box of type number (ones with increment and decrement arrows) when the 'css' and update text are passed in.
    * Input: CSS of <input> tag, Text to input
    */
-  public static async updateNumberInputByCss(CSS: string, text: string): Promise <void> {
+  public static async updateNumberInputByCss(CSS: string, text: string): Promise<void> {
     return browser.executeScript(`document.querySelector('${CSS}').value = '${text}'`);
   }
 
@@ -47,7 +47,7 @@ export class InputBox {
    * To be used wherever the open colour-picker shadows over other web-element interactions
    * Input: Location of <input> tag, Text to input
    */
-  public static async updateColourPickerBox(elm: ElementFinder, text: string): Promise <void> {
+  public static async updateColourPickerBox(elm: ElementFinder, text: string): Promise<void> {
     await CommonActions.waitForElementInteraction(elm);
     await GeneralUtils.scrollToElement(elm);
     await elm.clear();
@@ -61,7 +61,7 @@ export class InputBox {
    * Input: Location of <input> tag, Text to input
    * Return: true (if Enabled), False (if Disabled)
    */
-  public static async isInputBoxEnabled(elm: ElementFinder): Promise <boolean> {
+  public static async isInputBoxEnabled(elm: ElementFinder): Promise<boolean> {
     await CommonActions.waitForElementInteraction(elm);
     await GeneralUtils.scrollToElement(elm);
     return elm.isEnabled();
@@ -76,5 +76,12 @@ export class InputBox {
     await CommonActions.waitForElementInteraction(elm);
     await GeneralUtils.scrollToElement(elm);
     return elm.getCssValue('background-color');
+  }
+  /**
+   * for when .clear() just isn't working
+   * Input: Location of <input> tag
+   */
+  public static async ctrlADeleteClear(elm: ElementFinder): Promise<void> {
+    elm.sendKeys(protractor.Key.chord(protractor.Key.CONTROL, 'a', protractor.Key.DELETE));
   }
 }

@@ -88,3 +88,26 @@ Feature: Example Scenarios
       | OLDOXRS | 10:13            |      |
     When the schedule is received from LINX
     Then I should see nothing
+
+  @replaySetup
+  Scenario: Replay Setup - Scenario Example
+    Given I am viewing the map gw08cardiffswml.v
+    # All linx actions will be recorded if the @replaySetup tag is present
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | C2             | 7D      | 22   | 10:45:00  |
+    # this step only writes data to the replay recording file, no actions are carried out. useful for manual upload of steps
+    And I capture a SIGNAL_UPDATE action for replay
+      | actionData                                                                |
+      | {"address":"7D","data":"22","timestamp":"10:45:00","trainDescriber":"C2"} |
+
+  @replayTest
+  Scenario: Replay Test - Scenario Example
+    Given I load the replay data from scenario 'Replay Setup - Scenario Example'
+    And I am on the replay page
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I have set replay time and date from the recorded session
+    And I select Start
+
+
