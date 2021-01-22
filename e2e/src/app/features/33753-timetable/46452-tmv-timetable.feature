@@ -159,7 +159,7 @@ Feature: 33753 - TMV Timetable
     And I open timetable from the context menu
     And I switch to the new tab
     Then the tab title is 'TMV Schedule Matching 5N68'
-    And the punctuality is displayed as 'No Matching Services'
+    And the punctuality is displayed as 'Unmatched'
     And no matched service is visible
     And The timetable entries contains the following data
       | location   | workingArrivalTime | workingDeptTime  | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode   | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
@@ -214,7 +214,7 @@ Feature: 33753 - TMV Timetable
     And I wait for the context menu to display
     And I open timetable from the context menu
     And I switch to the new tab
-    And the punctuality is displayed as 'No Matching Services'
+    And the punctuality is displayed as 'Unmatched'
     And no matched service is visible
     When I switch to the timetable details tab
     Then The timetable details tab is visible
