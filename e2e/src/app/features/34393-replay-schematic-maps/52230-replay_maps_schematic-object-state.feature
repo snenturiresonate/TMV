@@ -20,6 +20,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
+    And I have set replay time and date from the recorded session
     And I select Start
     And the signal roundel for signal 'SN208' is red
     And I launch a new map 'HDGW02' the new map should have start time from the moment it was opened
@@ -48,6 +49,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
+    And I have set replay time and date from the recorded sessions
     And I select Start
     Then the signal roundel for signal 'SN128' is green
 
@@ -70,6 +72,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
+    And I have set replay time and date from the recorded session
     And I select Start
     Then the signal roundel for signal 'SN128' is red
 
@@ -81,6 +84,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     Given I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
+    And I have set replay time and date from the recorded session
     And I select Start
     Then the signal roundel for signal 'SN128' is grey
 
@@ -104,6 +108,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
+    And I have set replay time and date from the recorded session
     And I select Start
     Then the signal roundel for signal 'SN212' is green
 
@@ -126,6 +131,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw06gloucester.v'
+    And I have set replay time and date from the recorded session
     And I select Start
     Then the route indication for 'PHPHBK' is '1'
 
@@ -147,6 +153,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
+    And I have set replay time and date from the recorded session
     And I select Start
     Then the TRTS status for signal 'SN1' is white
     And the TRTS visibility status for 'SN1' is visible
@@ -169,6 +176,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
+    And I have set replay time and date from the recorded session
     And I select Start
     Then the TRTS status for signal 'SN1' is white
     And the TRTS visibility status for 'SN1' is visible
@@ -186,6 +194,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 00   | 10:45:00  |
+
   @tdd @replayTest
   Scenario: 34393-38b TRTS (Set from red)
     #Given a TRTS exists on a map
@@ -195,6 +204,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
+    And I have set replay time and date from the recorded session
     And I select Start
     Then the signal roundel for signal 'SN1' is red
     And the TRTS visibility status for 'SN1' is hidden
@@ -222,6 +232,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
+    And I have set replay time and date from the recorded session
     And I select Start
     Then the signal roundel for signal 'SN1' is green
     And the TRTS visibility status for 'SN1' is hidden
