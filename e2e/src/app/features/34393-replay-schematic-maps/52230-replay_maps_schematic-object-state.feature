@@ -85,7 +85,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     Then the signal roundel for signal 'SN128' is grey
 
   @tdd @replaySetup
-  Scenario: 34393-36a Setting up the map state from proceed to Not proceed
+  Scenario: 34393-36a Setting up TRTS
     Given I am viewing the map hdgw01paddington.v
     And I set up all signals for address 92 in D3 to be not-proceed
     And the signal roundel for signal 'SN212' is red
@@ -128,3 +128,101 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'hdgw06gloucester.v'
     And I select Start
     Then the route indication for 'PHPHBK' is '1'
+
+  @tdd @replaySetup
+  Scenario: 34393-38a Setting up the map TRTS set from Red
+    Given I am viewing the map hdgw01paddington.v
+    And I set up all signals for address 92 in D3 to be not-proceed
+    And the signal roundel for signal 'SN1' is red
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 50      | 01   | 10:45:00  |
+
+  @tdd @replayTest
+  Scenario: 34393-38b TRTS (Set from red)
+    #Given a TRTS exists on a map
+    #When a message is received setting the corresponding bit to 1
+    #Then the TRTS is  displayed for the signal
+    Given I load the replay data from scenario '34393-36a Setting up the map state from proceed to Not proceed'
+    And I am on the replay page
+    When I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I select Start
+    Then the TRTS status for signal 'SN1' is white
+    And the TRTS visibility status for 'SN1' is visible
+
+  @tdd @replaySetup
+  Scenario: 34393-38c Setting up the map TRTS set from Green
+    Given I am viewing the map hdgw01paddington.v
+    And I set up all signals for address 92 in D3 to be not-proceed
+    And the signal roundel for signal 'SN1' is green
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 50      | 01   | 10:45:00  |
+
+  @tdd @replayTest
+  Scenario: 34393-38d TRTS (Set from red)
+    #Given a TRTS exists on a map
+    #When a message is received setting the corresponding bit to 1
+    #Then the TRTS is  displayed for the signal
+    Given I load the replay data from scenario '34393-36a Setting up the map state from proceed to Not proceed'
+    And I am on the replay page
+    When I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I select Start
+    Then the TRTS status for signal 'SN1' is white
+    And the TRTS visibility status for 'SN1' is visible
+
+  @tdd @replaySetup
+  Scenario: 34393-39a Setting up the map TRTS n0t set from Red
+    Given I am viewing the map hdgw01paddington.v
+    And the signal roundel for signal 'SN1' is red
+    And the TRTS visibility status for 'SN1' is hidden
+    And the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 50      | 01   | 10:45:00  |
+    And the TRTS status for signal 'SN1' is white
+    And the TRTS visibility status for 'SN1' is visible
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 50      | 00   | 10:45:00  |
+  @tdd @replayTest
+  Scenario: 34393-38b TRTS (Set from red)
+    #Given a TRTS exists on a map
+    #When a message is received setting the corresponding bit to 0
+    #Then the TRTS is not displayed for the signal
+    Given I load the replay data from scenario '34393-36a Setting up the map state from proceed to Not proceed'
+    And I am on the replay page
+    When I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I select Start
+    Then the signal roundel for signal 'SN1' is red
+    And the TRTS visibility status for 'SN1' is hidden
+
+  @tdd @replaySetup
+  Scenario: 34393-38c Setting up the map TRTS set from Green
+    Given I am viewing the map hdgw01paddington.v
+    And the signal roundel for signal 'SN1' is green
+    And the TRTS visibility status for 'SN1' is hidden
+    And the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 50      | 01   | 10:45:00  |
+    And the TRTS status for signal 'SN1' is white
+    And the TRTS visibility status for 'SN1' is visible
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 50      | 00   | 10:45:00  |
+
+  @tdd @replayTest
+  Scenario: 34393-38d TRTS (Set from red)
+    #Given a TRTS exists on a map
+    #When a message is received setting the corresponding bit to 0
+    #Then the TRTS is not displayed for the signal
+    Given I load the replay data from scenario '34393-36a Setting up the map state from proceed to Not proceed'
+    And I am on the replay page
+    When I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I select Start
+    Then the signal roundel for signal 'SN1' is green
+    And the TRTS visibility status for 'SN1' is hidden
+
