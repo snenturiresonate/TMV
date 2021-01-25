@@ -139,3 +139,7 @@ When('I remove the following locations', async (table: any) => {
     await trainsListLocationSelectionConfig.removeLocation(tableValues[i].locations);
   }
 });
+
+Then('I should not see the location re-ordering arrows', async () => {
+  return expect(await trainsListLocationSelectionConfig.locationTableArrowsDisplay()).to.not.include(true);
+});

@@ -1,4 +1,4 @@
-import {Before, Given, Then, When} from 'cucumber';
+import {Given, Then, When} from 'cucumber';
 import {AppPage} from '../pages/app.po';
 import {expect} from 'chai';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
@@ -16,13 +16,8 @@ import {LocationModifiedBuilder} from '../utils/train-journey-modifications/loca
 import {TimingBuilder} from '../utils/train-journey-modifications/timing';
 import {TimingAtLocationBuilder} from '../utils/train-journey-modifications/timing-at-location';
 
-let page: AppPage;
-let linxRestClient: LinxRestClient;
-
-Before(() => {
-  page = new AppPage();
-  linxRestClient = new LinxRestClient();
-});
+const page: AppPage = new AppPage();
+const linxRestClient: LinxRestClient = new LinxRestClient();
 
 Given(/^I am on the home page$/, {timeout: 15 * 1000}, async () => {
   await page.navigateTo('');

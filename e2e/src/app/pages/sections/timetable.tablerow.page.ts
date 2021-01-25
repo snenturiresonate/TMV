@@ -12,7 +12,7 @@ export class TimetableTableRowPageObject {
   public path: ElementFinder;
   public ln: ElementFinder;
   public allowances: ElementFinder;
-  public activities: ElementFinder;
+  public activity: ElementFinder;
   public actualArr: ElementFinder;
   public actualDep: ElementFinder;
   public actualPlt: ElementFinder;
@@ -33,7 +33,7 @@ export class TimetableTableRowPageObject {
     this.path = rowLocator.element(by.css('td:nth-child(7)'));
     this.ln = rowLocator.element(by.css('td:nth-child(8)'));
     this.allowances = rowLocator.element(by.css('td:nth-child(9)'));
-    this.activities = rowLocator.element(by.css('td:nth-child(10)'));
+    this.activity = rowLocator.element(by.css('td:nth-child(10)'));
     this.actualArr = rowLocator.element(by.css('td:nth-child(11)'));
     this.actualDep = rowLocator.element(by.css('td:nth-child(12)'));
     this.actualPlt = rowLocator.element(by.css('td:nth-child(13)'));

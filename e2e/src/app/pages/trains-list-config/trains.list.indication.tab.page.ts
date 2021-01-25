@@ -1,17 +1,19 @@
-import {browser, by, element, ElementArrayFinder} from 'protractor';
+import {browser, by, element, ElementFinder} from 'protractor';
+import {TrainsListIndicationTable} from '../tables/trains-list-indication-table.page';
+import {InputBox} from '../common/ui-element-handlers/inputBox';
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
-export class TrainsListIndicationTabPage {
-
-  public rowName: ElementArrayFinder;
-  public classToggle: ElementArrayFinder;
-  public colourText: ElementArrayFinder;
-  public minutesText: ElementArrayFinder;
-
+export class TrainsListIndicationTabPage extends TrainsListIndicationTable {
+public trainIndicationTabHeader: ElementFinder;
   constructor() {
-    this.rowName = element.all(by.css('.indication-div-container .col-md-5:nth-child(1)'));
-    this.classToggle = element.all(by.css('.indication-div-container .toggle-switch >span:nth-child(3)'));
-    this.colourText = element.all(by.css('.indication-div-container input[class*=punctuality-colour]'));
-    this.minutesText = element.all(by.css('.indication-div-container input[class*=punctuality-input]'));
+    super(
+    element.all(by.css('.indication-div-container .col-md-5:nth-child(1)')),
+    element.all(by.css('.indication-div-container .toggle-switch >span:nth-child(3)')),
+    element.all(by.css('.indication-div-container input[class*=punctuality-colour]')),
+    element.all(by.css('.indication-div-container input[class*=punctuality-input]')),
+      element(by.css('div.color-picker.open .hex-text input'))
+  );
+    this.trainIndicationTabHeader = element(by.css('#indication-div-container .punctuality-header'));
   }
 
   public async waitForIndicationData(): Promise<boolean> {
@@ -21,23 +23,13 @@ export class TrainsListIndicationTabPage {
     return element(by.id('indication-div-container')).isPresent();
   }
 
-  public async getTrainIndicationRowName(index: number): Promise<string> {
-    return this.rowName.get(index).getText();
+  public async updateTrainIndicationColourMinutes(index: number, text: string): Promise<void> {
+    const indexForSelector = index + 1;
+    const selector = `.indication-div-container div:nth-child(${indexForSelector})[class*=row-background] input[class*=punctuality-input]`;
+    return InputBox.updateNumberInputByCss(selector, text);
   }
 
-  public async getTrainIndicationClassToggle(index: number): Promise<string> {
-    return this.classToggle.get(index).getText();
-  }
-
-  public async toggleTrainIndicationClassToggle(index: number): Promise<void> {
-    return this.classToggle.get(index).click();
-  }
-
-  public async getTrainIndicationColourText(index: number): Promise<string> {
-    return this.colourText.get(index).getAttribute('value');
-  }
-
-  public async getTrainIndicationColourMinutes(index: number): Promise<string> {
-    return this.minutesText.get(index) ? this.minutesText.get(index).getAttribute('value') : null;
+  public async getTrainIndicationHeader(): Promise<string> {
+    return CommonActions.waitAndGetText(this.trainIndicationTabHeader);
   }
 }
