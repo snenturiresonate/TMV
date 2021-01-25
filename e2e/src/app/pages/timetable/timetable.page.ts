@@ -1,18 +1,23 @@
-import {browser, by, element, ElementFinder, ExpectedConditions} from 'protractor';
 import {ModificationsTablerowPage} from './modifications.tablerow.page';
 import {of} from 'rxjs';
+import {browser, by, element, ElementArrayFinder, ElementFinder, ExpectedConditions} from 'protractor';
 
 export class TimeTablePageObject {
   public timetableTab: ElementFinder;
+  public headerLabels: ElementArrayFinder;
   public headerScheduleType: ElementFinder;
   public headerSignal: ElementFinder;
   public headerLastReported: ElementFinder;
   public headerTrainUid: ElementFinder;
   public headerTrustId: ElementFinder;
   public headerTJM: ElementFinder;
+  public changeEnRoute: ElementArrayFinder;
   public headerHeadcode: ElementFinder;
   public headerOldHeadcode: ElementFinder;
+  public navBarIndicatorColor: ElementFinder;
+  public navBarIndicatorText: ElementFinder;
   constructor() {
+    this.headerLabels = element.all(by.css('.tmv-header-content [id$=Label]'));
     this.timetableTab = element(by.id('timetable-table-tab'));
     this.headerScheduleType = element(by.id('timetableHeaderScheduleType'));
     this.headerHeadcode = element(by.id('timetable-header-service-information-current-train-description'));
@@ -22,6 +27,13 @@ export class TimeTablePageObject {
     this.headerTrainUid = element(by.id('timetableHeaderPlanningUid'));
     this.headerTrustId = element(by.id('timetableHeaderTrustTrainId'));
     this.headerTJM = element(by.id('timetableHeaderTrainJourneyModification'));
+    this.changeEnRoute = element.all(by.css('.change-en-route-table >tbody >div >tr>td'));
+    this.navBarIndicatorColor = element(by.css('.dot-punctuality-text:nth-child(1)'));
+    this.navBarIndicatorText = element(by.css('.punctuality-text:nth-child(2)'));
+  }
+  public async isTimetableTableTabVisible(): Promise<boolean> {
+    const timetableTabClasses: string = await element(by.id('timetable-table-tab')).getAttribute('class');
+    return timetableTabClasses.indexOf('tmv-tab-timetable-active') > -1;
   }
   public async isTimetableServiceDescriptionVisible(): Promise<boolean> {
     browser.wait(async () => {
@@ -43,6 +55,25 @@ export class TimeTablePageObject {
     return of(currentDescription + plannedDescription).toPromise();
   }
 
+  public async getTimetableEntryColValues(timetableEntryId: string): Promise<string[]> {
+    await browser.wait(async () => {
+      return element(by.id('tmv-timetable-row-' + timetableEntryId)).isPresent();
+    }, browser.displayTimeout, 'The timetable entry row should be displayed');
+
+    const entryColValues: ElementArrayFinder = element.all(by.css('#tmv-timetable-row-' + timetableEntryId + ' td'));
+    return entryColValues.map((colValue: ElementFinder) => {
+      return colValue.getText();
+    });
+  }
+
+  public async toggleInsertedLocationsOn(): Promise<void> {
+    await element(by.css('#live-timetable-toggle-menu .toggle-switch .absolute-off')).click();
+  }
+
+  public async toggleInsertedLocationsOff(): Promise<void> {
+    await element(by.css('#live-timetable-toggle-menu .toggle-switch .absolute-on')).click();
+  }
+
   public async getLiveTimetableTabName(): Promise<string> {
     return this.timetableTab.getText();
   }
@@ -60,4 +91,105 @@ export class TimeTablePageObject {
       });
     return array;
   }
+
+  public async getTimetableHeaderPropertyLabels(): Promise<string[]> {
+    return this.headerLabels.map((labelValue: ElementFinder) => {
+      return labelValue.getText();
+    });
+  }
+
+  public async isTimetableDetailsTabVisible(): Promise<boolean> {
+    browser.wait(async () => {
+      return element(by.id('timetable-details-table')).isPresent();
+    }, browser.displayTimeout, 'The timetable details table should be displayed');
+
+    const timetableTabClasses: string = await element(by.id('timetable-details-tab')).getAttribute('class');
+    return timetableTabClasses.indexOf('tmv-tab-timetable-active') > -1;
+  }
+
+  public async getTimetableModificationColValues(index: number): Promise<string[]> {
+    const entryColValues: ElementArrayFinder = element.all(by.css('#timetable-modifications-' + (index - 1).toString() + ' td'));
+    return entryColValues.map((colValue: ElementFinder) => {
+      return colValue.getText();
+    });
+  }
+  public async getTimetableAssociationsColValues(index: number): Promise<string[]> {
+    const entryColValues: ElementArrayFinder = element.all(by.css('#timetable-associations-' + (index - 1).toString() + ' td'));
+    return entryColValues.map((colValue: ElementFinder) => {
+      return colValue.getText();
+    });
+  }
+
+  public async getChangeEnRouteValues(): Promise<string> {
+    return this.changeEnRoute.getText();
+  }
+
+  public async getNavBarIndicatorColor(): Promise<string> {
+    return this.navBarIndicatorColor.getCssValue('background-color');
+  }
+
+  public async getNavBarIndicatorText(): Promise<string> {
+    return this.navBarIndicatorText.getText();
+  }
+
+
+  public async getTimetableDetailsRowValueDaysRun(): Promise<string> {
+    return this.getTimetableDetailsRowValue('daysRun');
+  }
+  public async getTimetableDetailsRowValueRuns(): Promise<string> {
+    return this.getTimetableDetailsRowValue('runs');
+  }
+  public async getTimetableDetailsRowValueBankHoliday(): Promise<string> {
+    return this.getTimetableDetailsRowValue('bankHoliday');
+  }
+  public async getTimetableDetailsRowValueBerthId(): Promise<string> {
+    return this.getTimetableDetailsRowValue('berthId');
+  }
+  public async getTimetableDetailsRowValueOperator(): Promise<string> {
+    return this.getTimetableDetailsRowValue('operator');
+  }
+  public async getTimetableDetailsRowValueTrainServiceCode(): Promise<string> {
+    return this.getTimetableDetailsRowValue('trainServiceCode');
+  }
+  public async getTimetableDetailsRowValueTrainCategory(): Promise<string> {
+    return this.getTimetableDetailsRowValue('trainCategory');
+  }
+  public async getTimetableDetailsRowValueDirection(): Promise<string> {
+    return this.getTimetableDetailsRowValue('direction');
+  }
+  public async getTimetableDetailsRowValueCateringCode(): Promise<string> {
+    return this.getTimetableDetailsRowValue('cateringCode');
+  }
+  public async getTimetableDetailsRowValueClass(): Promise<string> {
+    return this.getTimetableDetailsRowValue('class');
+  }
+  public async getTimetableDetailsRowValueReservations(): Promise<string> {
+    return this.getTimetableDetailsRowValue('reservations');
+  }
+  public async getTimetableDetailsRowValueTimingLoad(): Promise<string> {
+    return this.getTimetableDetailsRowValue('timingLoad');
+  }
+  public async getTimetableDetailsRowValuePowerType(): Promise<string> {
+    return this.getTimetableDetailsRowValue('powerType');
+  }
+  public async getTimetableDetailsRowValueSpeed(): Promise<string> {
+    return this.getTimetableDetailsRowValue('speed');
+  }
+  public async getTimetableDetailsRowValuePortionId(): Promise<string> {
+    return this.getTimetableDetailsRowValue('portionId');
+  }
+  public async getTimetableDetailsRowValueTrainLength(): Promise<string> {
+    return this.getTimetableDetailsRowValue('trainLength');
+  }
+  public async getTimetableDetailsRowValueTrainOperatingCharacteristcs(): Promise<string> {
+    return this.getTimetableDetailsRowValue('trainOperatingCharacteristcs');
+  }
+  public async getTimetableDetailsRowValueServiceBranding(): Promise<string> {
+    return this.getTimetableDetailsRowValue('serviceBranding');
+  }
+
+  private async getTimetableDetailsRowValue(attrId: string): Promise<string> {
+    return element(by.id(attrId)).getText();
+  }
+
 }

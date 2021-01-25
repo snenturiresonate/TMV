@@ -43,23 +43,23 @@ Feature: 46474 - Administration System Defaults - full end to end testing
       | ReplayBackgroundColour | MaxNoOfMapsPerReplay | MaxNoofReplays | MaxNoofSchematicMapDisplayInstances | MaxNoofTrainsListViewInstances |
       | #663377                | 5                    | 15             | 5                                   | 9                              |
 
-    @bug @bug_51595
+  @bug @bug_51595
   Scenario: Replay system setting values reset
     When I update the system default settings as
       | ReplayBackgroundColour | MaxNoOfMapsPerReplay | MaxNoofReplays | MaxNoofSchematicMapDisplayInstances | MaxNoofTrainsListViewInstances |
-      | #638                   | 8                    | 9             | 6                                   | 10                              |
+      | #638                   | 8                    | 9              | 6                                   | 10                             |
     And I save the system default settings
     And I update the system default settings as
       | ReplayBackgroundColour | MaxNoOfMapsPerReplay | MaxNoofReplays | MaxNoofSchematicMapDisplayInstances | MaxNoofTrainsListViewInstances |
-      | #637                   | 2                    | 3             | 5                                   | 15                              |
+      | #637                   | 2                    | 3              | 5                                   | 15                             |
     And I reset the system default settings
     Then I should see the system default settings as
       | ReplayBackgroundColour | MaxNoOfMapsPerReplay | MaxNoofReplays | MaxNoofSchematicMapDisplayInstances | MaxNoofTrainsListViewInstances |
-      | #638                   | 8                    | 9             | 6                                   | 10                              |
+      | #638                   | 8                    | 9              | 6                                   | 10                             |
 
-      @tdd
-      Scenario: User can edit only replay background colour of Replay system setting values
-      Then I should not be able to edit 'Maximum Number of Maps Per Replay Session'
-        And I should not be able to edit 'Maximum Number of Replays'
-        And I should not be able to edit 'Maximum Number of Schematic Map Display Instances'
-        And I should not be able to edit 'Maximum Number of Trains List View Instances'
+  @tdd
+  Scenario: User can edit only replay background colour of Replay system setting values
+    Then I should not be able to edit 'Maximum Number of Maps Per Replay Session'
+    And I should not be able to edit 'Maximum Number of Replays'
+    And I should not be able to edit 'Maximum Number of Schematic Map Display Instances'
+    And I should not be able to edit 'Maximum Number of Trains List View Instances'

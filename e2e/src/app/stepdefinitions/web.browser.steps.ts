@@ -104,3 +104,4 @@ async function closeLastTab(): Promise<void> {
   await browser.driver.close();
   await browser.driver.switchTo().window(windowHandles[penultimateTab]);
 }
+

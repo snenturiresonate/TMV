@@ -18,6 +18,7 @@ Feature: 49634 - Schematic State - Level Crossing state
     Then the level crossing barrier status of 'C2LXSF' is Up
     And the level crossing barrier status of 'C2PNWK' is Wk
 
+
   Scenario: 34081 - 22 Level Crossing State (Down)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type Level Crossing
