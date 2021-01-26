@@ -68,6 +68,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     Then the signal roundel for signal 'SN128' is grey
 
 
+  @replaySetup
   Scenario:34081 - 5 Subsidiary Signal State (Proceed)
 
     #Given an S-Class message is received and processed
@@ -87,28 +88,30 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN271' is white
 
-  @bug @bug_51929
+  @replaySetup
   Scenario:34081 - 6 Shunt Signal State (Proceed)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a shunt signal
     #And the S-Class message is setting the shunt signal to proceed
     #When a user is viewing a map that contains the shunt signal
     #Then the shunt signal will display a proceed aspect (white quadrant)
-    And the shunt signal state for signal 'SN6142' is grey
+    When I set up all signals for address 8F in D3 to be not-proceed
+    And the shunt signal state for signal 'SN6142' is red
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 8F      | 03   | 10:02:06  |
     And the maximum amount of time is allowed for end to end transmission
     Then the shunt signal state for signal 'SN6142' is white
 
-  @bug @bug_51929
+  @replaySetup
   Scenario: 34081 - 7 Shunt Signal State (Not Proceed)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a shunt signal
     #And the S-Class message is setting the shunt signal to not proceed
     #When a user is viewing a map that contains the shunt signal
     #Then the shunt signal will display a not proceed aspect (red quadrant)
-    And the shunt signal state for signal 'SN6142' is grey
+    When I set up all signals for address 8F in D3 to be proceed
+    And the shunt signal state for signal 'SN6142' is white
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 8F      | 00   | 10:02:06  |
