@@ -1,6 +1,8 @@
 import {ModificationsTablerowPage} from './modifications.tablerow.page';
 import {of} from 'rxjs';
 import {browser, by, element, ElementArrayFinder, ElementFinder, ExpectedConditions} from 'protractor';
+import {TimetableTableRowPageObject} from '../sections/timetable.tablerow.page';
+import * as assert from 'assert';
 
 export class TimeTablePageObject {
   public timetableTab: ElementFinder;
@@ -16,6 +18,9 @@ export class TimeTablePageObject {
   public headerOldHeadcode: ElementFinder;
   public navBarIndicatorColor: ElementFinder;
   public navBarIndicatorText: ElementFinder;
+  public rows: ElementArrayFinder;
+  public insertedToggle: ElementFinder;
+  public insertedToggleState: ElementFinder;
   constructor() {
     this.headerLabels = element.all(by.css('.tmv-header-content [id$=Label]'));
     this.timetableTab = element(by.id('timetable-table-tab'));
@@ -30,6 +35,66 @@ export class TimeTablePageObject {
     this.changeEnRoute = element.all(by.css('.change-en-route-table >tbody >div >tr>td'));
     this.navBarIndicatorColor = element(by.css('.dot-punctuality-text:nth-child(1)'));
     this.navBarIndicatorText = element(by.css('.punctuality-text:nth-child(2)'));
+    this.rows = element.all(by.css('[id^=tmv-timetable-row]'));
+    this.insertedToggle = element(by.css('#live-timetable-toggle-menu .toggle-switch'));
+    this.insertedToggleState = element(by.css('#live-timetable-toggle-menu [class^=absolute]'));
+  }
+
+  navigateTo(service: string): Promise<unknown> {
+    return browser.get(browser.baseUrl + '/tmv/live-timetable/' + service) as Promise<unknown>;
+  }
+
+  async getTableRows(): Promise<TimetableTableRowPageObject[]> {
+    await browser.wait(ExpectedConditions.visibilityOf(this.rows.first()), 4000, 'wait for timetable to load');
+    return this.rows.map(row => row.getAttribute('id'))
+      .then(list => list.map(id => new TimetableTableRowPageObject(element(by.id(id.toString())))));
+  }
+
+  async toggleInserted(status: string): Promise<void> {
+    const state = await this.insertedToggleState.getText();
+    if (status.toLowerCase() !== state) {
+      this.insertedToggle.click();
+    }
+  }
+  async getLocations(): Promise<string[]> {
+    const rows = await this.getTableRows();
+    return Promise.all(rows.map(row => row.getLocation()));
+  }
+
+  async getLocationRowIndex(location: string): Promise<number> {
+    const locations = await this.getLocations();
+    return locations.indexOf(location);
+  }
+
+  ensureInsertedLocationFormat(location: string): string {
+    if (! location.startsWith('[')) {
+      location = '[' + location + ']';
+    }
+    return location;
+  }
+
+  async pathTextToEqual(location: string, expectPathText: string): Promise<void> {
+    const row = await this.getRowByLocation(location);
+    const actualPathText = await row.path.getText();
+    assert(expectPathText === actualPathText,
+      `location ${location} should have path code ${expectPathText}, was ${actualPathText}`);
+  }
+
+  async lineTextToEqual(location: string, expectLineText: string): Promise<void> {
+    const row = await this.getRowByLocation(location);
+    const actualLineText = await row.path.getText();
+    assert(expectLineText === actualLineText,
+      `location ${location} should have path code ${expectLineText}, was ${actualLineText}`);
+  }
+
+  async getRowByLocation(location: string): Promise<TimetableTableRowPageObject> {
+    const rowIndex = await this.getLocationRowIndex(location);
+    if (rowIndex === -1)
+    {
+      assert.fail('no row for location ' + location);
+    }
+    const rows = await this.getTableRows();
+    return rows[rowIndex];
   }
   public async isTimetableTableTabVisible(): Promise<boolean> {
     const timetableTabClasses: string = await element(by.id('timetable-table-tab')).getAttribute('class');
