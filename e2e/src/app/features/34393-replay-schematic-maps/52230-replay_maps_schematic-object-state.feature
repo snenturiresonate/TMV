@@ -124,7 +124,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And the track state class for 'PNPNBD' is 'track_active'
 
   @tdd @replayTest
-  Scenario : 34393-35 Track State (Route Not Set)
+  Scenario:34393-35 Track State (Route Not Set)
     #Given an S-Class message is received and processed
     #And the S-Class message is a Route Expression Signalling function
     #And the route is set for that track(s)
