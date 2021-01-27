@@ -105,6 +105,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select skip forward until the end of the replay is reached
     Then I should not see the AES boundary elements
 
+  @tdd @replayTest
   Scenario:34393-34 Track State (Route Set)
     #Given an S-Class message is received and processed
     #And the S-Class message is a Route Expression Signalling function
@@ -122,6 +123,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     Then the track state width for 'PNPNBD' is '3px'
     And the track state class for 'PNPNBD' is 'track_active'
 
+  @tdd @replayTest
   Scenario : 34393-35 Track State (Route Not Set)
     #Given an S-Class message is received and processed
     #And the S-Class message is a Route Expression Signalling function
