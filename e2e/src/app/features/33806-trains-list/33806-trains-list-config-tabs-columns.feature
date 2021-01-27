@@ -13,14 +13,14 @@ Feature: 33806 - TMV User Preferences - full end to end testing
   Background:
     Given I am on the trains list Config page
 
-    Scenario: Verify that columns tab is displayed with the available and selected tables
+    Scenario: 33806 -2a Verify that columns tab is displayed with the available and selected tables
       Then I see the train list config tab title as 'Columns'
       And the following header can be seen on the columns
         | configColumnName |
         | Available        |
         | Selected         |
 
-  Scenario: Trains list column config tab title with default selected and unselected entries
+  Scenario: 33806 -2b Trains list column config tab title with default selected and unselected entries
     Then the following can be seen on the unselected column config
       | unSelectedColumn        |arrowType            |
       | TRUST UID               |keyboard_arrow_right |
@@ -42,7 +42,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       | keyboard_arrow_left | Next location   |
       | keyboard_arrow_left | TOC/FOC         |
 
-  Scenario: Moving all unselected to selected columns
+  Scenario: 33806 -2c Moving all unselected to selected columns
     When I click on all the unselected column entries
     Then the following can be seen in the selected column config
       | arrowType           | ColumnName               |
@@ -64,7 +64,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       | keyboard_arrow_left | Train Service Code       |
     And the unselected column entries should be empty
 
-  Scenario: Moving items within the selected columns
+  Scenario: 33806 -2d Moving items within the selected columns
   When I move 'Up' the selected column item 'Service'
     And I move 'Down' the selected column item 'Time'
     Then the following can be seen in the selected column config in the given order
@@ -85,7 +85,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #When the user selects a column from selected columns list to remove from the trains list view
     #Then the column item is moved to the un-selected columns list
 
-  Scenario: Moving all selected to un-selected columns
+  Scenario: 33806 -3 Moving all selected to un-selected columns
     When I click on all the selected column entries
     Then the following can be seen in the selected column config
     #below items cannot be moved from the selected column as they are mandatory
@@ -115,7 +115,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #Then the view is updated to reflect the user's column selection
 
   @tdd
-  Scenario: Moving all selected to un-selected columns and verifying the changes are reflected in trains list
+  Scenario: 33806 -4a Moving all selected to un-selected columns and verifying the changes are reflected in trains list
     When I click on all the selected column entries
     # Making changes to selected columns
     And I open 'trains list' page in a new tab
@@ -126,7 +126,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       | PUNCT.           |
 
   @tdd
-  Scenario: Changing the order of the selected column items and verifying the changes are reflected in trains list
+  Scenario: 33806 -4b Changing the order of the selected column items and verifying the changes are reflected in trains list
     When I move 'Up' the selected column item 'Service'
     And I move 'Down' the selected column item 'Time'
     And I open 'trains list' page in a new tab

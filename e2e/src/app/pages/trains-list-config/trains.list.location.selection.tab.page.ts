@@ -1,6 +1,7 @@
 import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {InputBox} from '../common/ui-element-handlers/inputBox';
+import {CheckBox} from "../common/ui-element-handlers/checkBox";
 
 export class TrainsListLocationSelectionTab {
 
@@ -20,6 +21,7 @@ export class TrainsListLocationSelectionTab {
     public locationTabHeader: ElementFinder;
     public locationTableRow: ElementArrayFinder;
     public locationTableArrows: ElementArrayFinder;
+    public locationRemoveIcon: ElementArrayFinder;
     constructor() {
         this.locationSearchBox = element(by.id('map-search-box'));
         this.locationSuggestSearchResultList = element(by.id('searchResults'));
@@ -37,6 +39,7 @@ export class TrainsListLocationSelectionTab {
         this.locationTabHeader = element(by.css('#locationSelectionTabContent .punctuality-header'));
         this.locationTableRow = element.all(by.css('#location-selection-table tr'));
         this.locationTableArrows = element.all(by.cssContainingText('#location-selection-table tr span.material-icons', 'keyboard_arrow'));
+        this.locationRemoveIcon = element.all(by.cssContainingText('#location-selection-table span.material-icons', `cancel`));
     }
 
     public async getLocationSearchBoxText(): Promise<string> {
@@ -52,8 +55,7 @@ export class TrainsListLocationSelectionTab {
     }
 
     public async enterLocationSearchString(searchString: string): Promise<void> {
-        this.locationSearchBox.clear();
-        return this.locationSearchBox.sendKeys(searchString);
+        return InputBox.updateInputBox(this.locationSearchBox, searchString);
     }
     public async getLocationFilterValue(): Promise<string> {
     return this.locationFilterValues.getAttribute('label');
@@ -118,8 +120,12 @@ export class TrainsListLocationSelectionTab {
         );
   }
   public async removeLocation(name: string): Promise <void> {
-
     return CommonActions.waitAndClick(this.getLocationTableIcon(name, 'cancel'));
+  }
+  public async removeAllLocations(): Promise<void> {
+      return this.locationRemoveIcon.each(elm => {
+        return CommonActions.waitAndClick(elm);
+      });
   }
   public getLocationTableIcon(locationName: string, iconName: string): ElementFinder {
     return this.getRowByLocationName(locationName)
@@ -131,6 +137,10 @@ export class TrainsListLocationSelectionTab {
   public async getStopTypeCheckedState(type: string, locationName: string): Promise<boolean> {
       await CommonActions.waitForElementToBeVisible(this.locationTableRow.first());
       return this.getStopTypeOfLocation(type, locationName).isSelected();
+  }
+  public async setStopTypeCheckedState(type: string, locationName: string, updatedState: string): Promise<void> {
+    await CommonActions.waitForElementToBeVisible(this.locationTableRow.first());
+    return CheckBox.updateCheckBox(this.getStopTypeOfLocation(type, locationName), updatedState);
   }
   public async locationTableArrowsDisplay(): Promise<any> {
       return this.locationTableArrows.isDisplayed();
