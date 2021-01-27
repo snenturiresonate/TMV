@@ -109,5 +109,6 @@ Feature: Example Scenarios
     And I select the map 'hdgw01paddington.v'
     And I have set replay time and date from the recorded session
     And I select Start
+    And I move the replay to the end of the captured scenario
 
 
