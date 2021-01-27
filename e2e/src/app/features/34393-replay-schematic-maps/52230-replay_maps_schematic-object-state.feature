@@ -73,6 +73,38 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select skip forward until the end of the replay is reached
     Then the signal roundel for signal 'SN128' is grey
 
+  @tdd @replayTest
+  Scenario:34393-32 AES State (AES Applied)
+    #Given an S-Class message is received and processed
+    #And the S-Class message is associated with an S-Class berth of type AES
+    #And the S-Class message is setting the AES to applied
+    #When a user is viewing a map that contains an AES indicator
+    #Then the AES box will display an AES text (purple) in the box
+    Given I load the replay data from scenario '34081 - 26 AES State (AES Applied)'
+    And I am on the replay page
+    When I expand the replay group of maps with name 'Wales & Western GW15 Cambrian'
+    And I have set replay time and date from the recorded session
+    And I select Start
+    And I wait for the buffer to fill
+    And I select skip forward until the end of the replay is reached
+    Then I should see the AES boundary elements
+
+  @tdd @replayTest
+  Scenario:34393-33 AES State (AES Not Applied)
+    #Given an S-Class message is received and processed
+    #And the S-Class message is associated with an S-Class berth of type AES
+    #And the S-Class message is setting the AES to not applied
+    #When a user is viewing a map that contains an AES indicator
+    #Then the AES box will not display an AES text (purple) in the box
+    Given I load the replay data from scenario '34081 - 27 AES State (AES Not Applied)'
+    And I am on the replay page
+    When I expand the replay group of maps with name 'Wales & Western GW15 Cambrian'
+    And I have set replay time and date from the recorded session
+    And I select Start
+    And I wait for the buffer to fill
+    And I select skip forward until the end of the replay is reached
+    Then I should not see the AES boundary elements
+
   Scenario:34393-34 Track State (Route Set)
     #Given an S-Class message is received and processed
     #And the S-Class message is a Route Expression Signalling function
@@ -171,7 +203,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And the TRTS visibility status for 'SN1' is visible
 
   @tdd @replayTest
-  Scenario: 34393-39a TRTS (Set from red)
+  Scenario: 34393-39a TRTS (Not Set from red)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
     #Then the TRTS is not displayed for the signal
@@ -186,22 +218,8 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     Then the signal roundel for signal 'SN1' is red
     And the TRTS visibility status for 'SN1' is hidden
 
-  @tdd @replaySetup
-  Scenario: 34393-39c Setting up the map TRTS not set from Green
-    Given I am viewing the map hdgw01paddington.v
-    And the signal roundel for signal 'SN1' is green
-    And the TRTS visibility status for 'SN1' is hidden
-    And the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 01   | 10:45:00  |
-    And the TRTS status for signal 'SN1' is white
-    And the TRTS visibility status for 'SN1' is visible
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 00   | 10:45:00  |
-
   @tdd @replayTest
-  Scenario: 34393-39b TRTS (Set from red)
+  Scenario: 34393-39b TRTS (Not Set from red)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
     #Then the TRTS is not displayed for the signal

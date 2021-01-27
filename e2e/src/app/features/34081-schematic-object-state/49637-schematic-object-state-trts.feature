@@ -4,7 +4,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
   I want to schematic objects displayed with the latest state
   So that I have a live view of the railway
 
-  @tdd @bug #52832
+  @tdd @replaySetup @bug #52832
   Scenario:34081 - 28 Track State (Route Set)
     #Given an S-Class message is received and processed
     #And the S-Class message is a Route Expression Signalling function
@@ -20,7 +20,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     Then the track state width for 'PNPNBD' is '3px'
     And the track state class for 'PNPNBD' is 'track_active'
 
-  @tdd @bug #52832
+  @tdd @replaySetup @bug #52832
   Scenario:34081 - 29 Track State (Route Not Set)
     #Given an S-Class message is received and processed
     #And the S-Class message is a Route Expression Signalling function
@@ -41,6 +41,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       | D3             | 06      | 00   | 10:45:00  |
     And  the track state width for 'PNPNBD' is '2px'
 
+  @replaySetup
   Scenario: 34081 - 30 Dual Signals
     #Given a signal exists on a map
     #And that signal has multiple bits that are configured for the main signal
@@ -55,6 +56,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       | D3             | 92      | 08   | 10:03:00  |
     Then the signal roundel for signal 'SN212' is green
 
+  @replaySetup
   Scenario Outline: 34081 - 31 Q Berth
     #Given An S-Class display berth exists in the Q berth configuration data
     #When a Q berth message is received
@@ -69,7 +71,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       |map                | trainDescription | toTrainDescriber | toBerth | timestamp | sClassBerth | sclassDisplayCode  |
       |hdgw06gloucester.v | DnDC             | GL               | Q070    | 10:02:06  | GLQ070      | DC                 |
 
-  @bug @bug_52196
+  @bug @replaySetup @bug_52196
   Scenario: 34081 - 32a TRTS (Set - from red)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
@@ -84,7 +86,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     Then the TRTS status for signal 'SN1' is white
     And the TRTS visibility status for 'SN1' is visible
 
-  @bug @bug_52196
+  @bug @replaySetup @bug_52196
   Scenario: 34081 - 32b TRTS (Set - from green)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
@@ -99,7 +101,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     Then the TRTS status for signal 'SN1' is white
     And the TRTS visibility status for 'SN1' is visible
 
-  @bug @bug_52196
+  @bug @replaySetup @bug_52196
   Scenario:34081 - 33a TRTS (Not Set back)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
@@ -120,7 +122,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     Then the signal roundel for signal 'SN1' is red
     And the TRTS visibility status for 'SN1' is hidden
 
-  @bug @bug_52196
+  @bug @replaySetup @bug_52196
   Scenario:34081 - 33b TRTS (Not Set)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0

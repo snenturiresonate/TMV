@@ -85,6 +85,7 @@ Feature: 49634 - Schematic State - Level Crossing state
       | MH             | 36      | 00   | 10:45:00  |
     Then the direction lock chevrons are not displayed
 
+  @replaySetup
   Scenario: 34081 - 26 AES State (AES Applied)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type AES
@@ -95,7 +96,8 @@ Feature: 49634 - Schematic State - Level Crossing state
     And I set up all signals for address 36 in MH to be not-proceed
     Then I should see the AES boundary elements
 
-    Scenario: 34081 - 27 AES State (AES Not Applied)
+  @replaySetup
+  Scenario: 34081 - 27 AES State (AES Not Applied)
       #Given an S-Class message is received and processed
       #And the S-Class message is associated with an S-Class berth of type AES
       #And the S-Class message is setting the AES to not applied
