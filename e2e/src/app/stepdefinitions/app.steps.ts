@@ -7,7 +7,7 @@ import {CucumberLog} from '../logging/cucumber-log';
 import * as fs from 'fs';
 import * as path from 'path';
 import {ProjectDirectoryUtil} from '../utils/project-directory.util';
-import {browser} from 'protractor';
+import {browser, ExpectedConditions} from 'protractor';
 import {TrainJourneyModificationMessageBuilder} from '../utils/train-journey-modifications/train-journey-modification-message';
 import {TrainJourneyModificationBuilder} from '../utils/train-journey-modifications/train-journey-modification';
 import {OperationalTrainNumberIdentifierBuilder} from '../utils/train-journey-modifications/operational-train-number-identifier';
@@ -19,7 +19,7 @@ import {TimingAtLocationBuilder} from '../utils/train-journey-modifications/timi
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
 
-Given(/^I am on the home page$/, {timeout: 15 * 1000}, async () => {
+Given(/^I am on the home page$/, async () => {
   await page.navigateTo('');
 });
 
@@ -248,7 +248,8 @@ Given('I am on the live timetable page with schedule id {string}', async (schedu
 
 
 Then('the tab title is {string}', async (expectedTabTitle: string) => {
-  const actualTabTitle: string = await browser.getTitle();
+  await browser.driver.wait(ExpectedConditions.titleContains(expectedTabTitle));
+  const actualTabTitle: string = await browser.driver.getTitle();
   expect(actualTabTitle).to.contains(expectedTabTitle);
 });
 

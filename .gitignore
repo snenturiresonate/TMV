@@ -49,3 +49,5 @@ Thumbs.db
 # Test files
 .tmp
 tmp
+
+e2e/debug.log
