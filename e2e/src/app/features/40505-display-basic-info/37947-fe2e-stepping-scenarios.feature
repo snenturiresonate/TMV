@@ -37,20 +37,6 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     Then berth '0095' in train describer 'D3' contains '1G69' and is visible
 
-  # Negative test - interpose into a Q-berth
-  # Q-berth Q070 is translated to become berth DC
-  # expect message to be treated as an S class message. s class display would show DC
-  @bug @53318
-  Scenario: 40505-1 - interpose is not displayed in the berth, which is a Q berth
-    Given I am viewing the map hdgw06gloucester.v
-    When I click on the layers icon in the nav bar
-    And I toggle the 'Berth' toggle 'on'
-    And I toggle the 'Berth' toggle 'off'
-    When the following berth interpose message is sent from LINX
-      | timestamp | toBerth | trainDescriber| trainDescription |
-      | 09:59:00  | Q070    | GL            | DnDC             |
-    Then it is 'false' that berth 'Q070' in train describer 'GL' is present
-
   Scenario: 40505-2 - interpose into berth that already contains a train description
     #    Given a berth that exists on the map is displaying a train description
     #    And it is not a Q berth
