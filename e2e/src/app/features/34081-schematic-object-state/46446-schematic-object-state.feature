@@ -7,7 +7,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
   Background:
     Given I am viewing the map hdgw01paddington.v
 
-  @tdd
+  @tdd @replayTest
   Scenario: 34081-1 Current Signal State
       #Given the existing state of the signals
       #And at least one signal has a known state
@@ -23,7 +23,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And the signal roundel for signal 'SN200' is red
 
 
-  Scenario:34081 - 2  Main Signal State (Proceed
+  Scenario:34081 - 2  Main Signal State Proceed
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a main signal
     #And the S-Class message is setting the main signal to proceed
