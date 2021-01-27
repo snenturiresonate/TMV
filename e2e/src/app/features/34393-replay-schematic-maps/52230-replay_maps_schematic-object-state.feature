@@ -37,7 +37,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
       | trainDescriber | address | data | timestamp |
       | D3             | 80      | FF   | 10:45:00  |
 
-
   @tdd @replayTest
   Scenario:34393-8b Main Signal State (Proceed)
     #Given an S-Class message is received and processed
@@ -49,7 +48,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
-    And I have set replay time and date from the recorded sessions
+    And I have set replay time and date from the recorded session
     And I select Start
     Then the signal roundel for signal 'SN128' is green
 
@@ -89,7 +88,60 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     Then the signal roundel for signal 'SN128' is grey
 
   @tdd @replaySetup
-  Scenario: 34393-36a Setting up TRTS
+  Scenario: 34393-34a Setting up Route Set
+    Given I am viewing the map hdgw01paddington.v
+    And I set up all signals for address 50 in D3 to be not-proceed
+    And the track state width for 'PNPNBD' is '2px'
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 06      | 08   | 10:45:00  |
+
+  Scenario:34393-34b Track State (Route Set)
+    #Given an S-Class message is received and processed
+    #And the S-Class message is a Route Expression Signalling function
+    #And the S-Class message is setting the track(s) to route set
+    #When a user is viewing a map that contains the track(s)
+    #Then the track(s) will be displayed in solid white
+    Given I load the replay data from scenario '34393-34a Setting up Route Set'
+    And I am on the replay page
+    When I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I have set replay time and date from the recorded session
+    And I select Start
+    Then the track state width for 'PNPNBD' is '3px'
+    And the track state class for 'PNPNBD' is 'track_active'
+
+  @tdd @replaySetup
+  Scenario: 34393-35a Setting up Route Not Set
+    Given I am viewing the map hdgw01paddington.v
+    And I set up all signals for address 50 in D3 to be not-proceed
+    And the track state width for 'PNPNBD' is '2px'
+    And the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 06      | 08   | 10:45:00  |
+    And  the track state width for 'PNPNBD' is '3px'
+    And the track state class for 'PNPNBD' is 'track_active'
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 06      | 00   | 10:45:00  |
+
+  Scenario : 34393-35b Track State (Route Not Set)
+    #Given an S-Class message is received and processed
+    #And the S-Class message is a Route Expression Signalling function
+    #And the route is set for that track(s)
+    #And the S-Class message is setting the track(s) to route not set
+    #When a user is viewing a map that contains the track(s)
+    #Then the track(s) will be displayed in thin white
+    Given I load the replay data from scenario '34393-35a Setting up Route Not Set'
+    And I am on the replay page
+    When I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I have set replay time and date from the recorded session
+    And I select Start
+    And  the track state width for 'PNPNBD' is '2px'
+
+  @tdd @replaySetup
+  Scenario: 34393-36a Setting up for Dual Signals
     Given I am viewing the map hdgw01paddington.v
     And I set up all signals for address 92 in D3 to be not-proceed
     And the signal roundel for signal 'SN212' is red
@@ -104,7 +156,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #And that signal has multiple bits that are configured for the main signal
     #When a message is received setting any of those bits to 1
     #Then the signal roundel displays green
-    Given I load the replay data from scenario '34393-36a Setting up the map state from proceed to Not proceed'
+    Given I load the replay data from scenario '34393-36a Setting up for Dual Signals'
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
@@ -123,7 +175,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
       | P1_1             | GL               | Q152    |
 
   @tdd @replayTest
-  Scenario:34393-37 Q Berth
+  Scenario:34393-37b Q Berth
     #Given An S-Class display berth exists in the Q berth configuration data
     #When a Q berth message is received
     #Then the S Class display code is displayed corresponding to the headcode provided
@@ -149,7 +201,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
     #Then the TRTS is  displayed for the signal
-    Given I load the replay data from scenario '34393-36a Setting up the map state from proceed to Not proceed'
+    Given I load the replay data from scenario '34393-38a Setting up the map TRTS set from Red'
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
@@ -172,7 +224,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
     #Then the TRTS is  displayed for the signal
-    Given I load the replay data from scenario '34393-36a Setting up the map state from proceed to Not proceed'
+    Given I load the replay data from scenario '34393-38c Setting up the map TRTS set from Green'
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
@@ -182,7 +234,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And the TRTS visibility status for 'SN1' is visible
 
   @tdd @replaySetup
-  Scenario: 34393-39a Setting up the map TRTS n0t set from Red
+  Scenario: 34393-39a Setting up the map TRTS not set from Red
     Given I am viewing the map hdgw01paddington.v
     And the signal roundel for signal 'SN1' is red
     And the TRTS visibility status for 'SN1' is hidden
@@ -196,11 +248,11 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
       | D3             | 50      | 00   | 10:45:00  |
 
   @tdd @replayTest
-  Scenario: 34393-38b TRTS (Set from red)
+  Scenario: 34393-39b TRTS (Set from red)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
     #Then the TRTS is not displayed for the signal
-    Given I load the replay data from scenario '34393-36a Setting up the map state from proceed to Not proceed'
+    Given I load the replay data from scenario '34393-39a Setting up the map TRTS not set from Red'
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
@@ -210,7 +262,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And the TRTS visibility status for 'SN1' is hidden
 
   @tdd @replaySetup
-  Scenario: 34393-38c Setting up the map TRTS set from Green
+  Scenario: 34393-39c Setting up the map TRTS not set from Green
     Given I am viewing the map hdgw01paddington.v
     And the signal roundel for signal 'SN1' is green
     And the TRTS visibility status for 'SN1' is hidden
@@ -224,11 +276,11 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
       | D3             | 50      | 00   | 10:45:00  |
 
   @tdd @replayTest
-  Scenario: 34393-38d TRTS (Set from red)
+  Scenario: 34393-39d TRTS (Set from red)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
     #Then the TRTS is not displayed for the signal
-    Given I load the replay data from scenario '34393-36a Setting up the map state from proceed to Not proceed'
+    Given I load the replay data from scenario '34393-39c Setting up the map TRTS not set from Green'
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
