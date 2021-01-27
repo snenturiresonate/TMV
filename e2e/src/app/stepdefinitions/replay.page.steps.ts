@@ -6,6 +6,7 @@ import {ReplayScenario} from '../utils/replay/replay-scenario';
 import {ReplayActionType} from '../utils/replay/replay-action-type';
 import {ReplayRecordings} from '../utils/replay/replay-recordings';
 import {ReplayStep} from '../utils/replay/replay-step';
+import {CommonActions} from '../pages/common/ui-event-handlers/actionsAndWaits';
 
 const replayPage: ReplayPageObject = new ReplayPageObject();
 let replayScenario: ReplayScenario;
@@ -41,4 +42,14 @@ Given(/^I have set replay time and date from the recorded session$/, async () =>
 When(/^I capture a (INTERPOSE|CANCEL|STEP|SIGNAL_UPDATE|HEARTBEAT|MODIFY_TRAIN_JOURNEY|CHANGE_ID|ACTIVATE_TRAIN|VSTP|TRAIN_RUNNING_INFORMATION) action for replay$/,
   (replayActionType: string, table: any) => {
     ReplayRecordings.addStep(new ReplayStep(ReplayActionType[replayActionType], table.hashes()[0].actionData));
+});
+
+When(/^I wait for the buffer to fill$/, async () => {
+  await CommonActions.waitForElementToBeVisible(replayPage.bufferingIndicator);
+});
+
+When(/^I select skip forward until the end of the replay is reached$/, async () => {
+  while (replayPage.skipForwardButton.isEnabled()) {
+    await replayPage.selectSkipForward();
+  }
 });

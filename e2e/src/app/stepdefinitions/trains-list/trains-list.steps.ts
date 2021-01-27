@@ -66,6 +66,7 @@ When('I invoke the context menu from train {int} on the trains list', async (ite
 
 When('I invoke the context menu from train {string} on the trains list', async (scheduleNum: string) => {
   const itemNum = await trainsListPage.getRowForSchedule(scheduleNum);
+  expect(itemNum).to.not.equal(-1);
   await trainsListPage.rightClickTrainListItem(itemNum);
 });
 

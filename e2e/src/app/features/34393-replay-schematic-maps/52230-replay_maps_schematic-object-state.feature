@@ -37,6 +37,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
       | trainDescriber | address | data | timestamp |
       | D3             | 80      | FF   | 10:45:00  |
 
+
   @tdd @replayTest
   Scenario:34393-8b Main Signal State (Proceed)
     #Given an S-Class message is received and processed
