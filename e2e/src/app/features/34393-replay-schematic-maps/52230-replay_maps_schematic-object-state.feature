@@ -288,4 +288,3 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select Start
     Then the signal roundel for signal 'SN1' is green
     And the TRTS visibility status for 'SN1' is hidden
-
