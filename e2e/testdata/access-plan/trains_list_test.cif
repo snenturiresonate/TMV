@@ -16,7 +16,7 @@ LILDBRKJ            2217H00000000   6  RL
 LIPRTOBJP           2218H00000000   5                 1  H                      
 LIROYAOJN           2221 00000000                                               
 LTPADTON  2223 222310    TF                                                     
-BSNV306032004062121101111100 1EE5G44    121381008 EMU345 090D                  N
+BSNV306032004062112101111100 1EE5G44    121381008 EMU345 090D                  N
 BX         XRY                                                                  
 LOPADTON  0958 000010 5      TB                                                 
 LIROYAOJN           0959 00000000   5                                           
@@ -117,7 +117,6 @@ LIWTNBSTJ           2001 00000000
 LIHLVNGTN           2007H00000000                                               
 LIWSTLGHJ           2014 00000000                                               
 LTBRSTPWY 2017 20172     TF                                                     
-HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
 BSNH445071912162112151111100 FDD3J41    195998501 D      090Q                  V
 BX         ZZY                                                                  
 LODIDCTFP 1453 0000          TB                                                 
@@ -146,7 +145,6 @@ LIGORASTR2          1859 00000000   RL
 LIDIDCTEJ2          1906H00000000   URL                 1H                      
 LIDIDCOTP2          1909 000000004                                              
 LTDIDCTFP21911 0000      TF                                                     
-HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
 BSNC025211912212112161111110 POO2C45    122726100 EMU700 100D     B            O
 BX         TLY                                                                  
 LOCAMBDGE 1527 15273         TB                                                 
