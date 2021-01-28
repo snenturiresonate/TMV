@@ -82,7 +82,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Then the AES box will display an AES text (purple) in the box
     Given I load the replay data from scenario '34081 - 26 AES State (AES Applied)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western GW15 Cambrian'
+    When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw15cambrian.v'
     And I have set replay time and date from the recorded session
     And I select Start
@@ -99,7 +99,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Then the AES box will not display an AES text (purple) in the box
     Given I load the replay data from scenario '34081 - 27 AES State (AES Not Applied)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western GW08 Cardiff SWML'
+    When I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw08cardiffswml.v'
     And I have set replay time and date from the recorded session
     And I select Start
