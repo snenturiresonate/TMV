@@ -7,7 +7,7 @@ Feature: 49634 - Schematic State - marker-board state
   Background:
     Given I am viewing the map gw15cambrian.v
 
-  @replayTest
+  @replaySetup
   Scenario: 34081-8 - Marker Board State (Movement Authority Given)
     #    Given an S-Class message is received and processed
     #    And the S-Class message is associated with a marker board
@@ -21,7 +21,7 @@ Feature: 49634 - Schematic State - marker-board state
       | MH             | 31      | 02   | 10:45:00  |
     Then the marker board 'MH1201' will display a Movement Authority given [green triangle on blue background]
 
-  @replayTest
+  @replaySetup
   Scenario: 34081-9 - Marker Board State (Movement Authority Not Given)
     #    Given an S-Class message is received and processed
     #    And the S-Class message is associated with a marker board

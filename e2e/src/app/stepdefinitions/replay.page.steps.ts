@@ -6,6 +6,7 @@ import {ReplayActionType} from '../utils/replay/replay-action-type';
 import {ReplayRecordings} from '../utils/replay/replay-recordings';
 import {ReplayStep} from '../utils/replay/replay-step';
 import {CommonActions} from '../pages/common/ui-event-handlers/actionsAndWaits';
+import {DateTimeFormatter, LocalDateTime} from '@js-joda/core';
 import {expect} from 'chai';
 import {browser, ExpectedConditions} from 'protractor';
 
@@ -86,4 +87,13 @@ When(/^I select skip forward until the end of the replay is reached$/, async () 
 });
 Given(/^I move the replay to the end of the captured scenario$/, async () => {
   await replayPage.moveReplayTimeTo(replayScenario.finishTime);
+});
+
+When(/^I select skip forward to just after replay scenario step '(.*)'$/, async (eventNum) => {
+  const eventNumVal = parseInt(eventNum, 10);
+  const eventTimeString: string = replayScenario.steps[eventNumVal].timestamp;
+  const eventTime: LocalDateTime = LocalDateTime.parse(eventTimeString, DateTimeFormatter.ofPattern('HH:mm:ss'));
+  const timeToCheck: LocalDateTime = eventTime.plusSeconds(1);
+  const timeToCheckString = timeToCheck.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+  await replayPage.moveReplayTimeTo(timeToCheckString);
 });
