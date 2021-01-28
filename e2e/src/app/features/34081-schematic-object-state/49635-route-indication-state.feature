@@ -7,7 +7,7 @@ Feature: 49635 - Schematic State - route indication state
   Background:
     Given I am viewing the map gw01paddington.v
 
-
+  @replaySetup
   Scenario: 34081-19a - Route Indication State (Set - Main Signal)
 #    Given an S-Class message is received and processed
 #    And the S-Class message is associated with an S-Class berth of type Route Indication
@@ -21,6 +21,7 @@ Feature: 49635 - Schematic State - route indication state
       | D3             | 14      | 10   | 10:45:00  |
     Then the s-class-berth 'D30105' will display a Route indication of 'DM'
 
+  @replaySetup
   Scenario: 34081-19b - Route Indication State (Set - Shunt Signal)
 #    Given an S-Class message is received and processed
 #    And the S-Class message is associated with an S-Class berth of type Route Indication
@@ -34,6 +35,7 @@ Feature: 49635 - Schematic State - route indication state
       | D3             | 10      | 02   | 10:45:00  |
     Then the s-class-berth 'D36003' will display a Route indication of 'A'
 
+  @replaySetup
   Scenario: 34081-19c - Route Indication State (Set - Main Signal into platforms with several different indications possible 1-3 alphanumeric)
 #    Given an S-Class message is received and processed
 #    And the S-Class message is associated with an S-Class berth of type Route Indication
@@ -55,6 +57,7 @@ Feature: 49635 - Schematic State - route indication state
       | D3             | 1B      | 20   | 10:45:00  |
     Then the s-class-berth 'D30032' will display a Route indication of '10'
 
+  @replaySetup
   Scenario: 34081-20a - Route Indication State (Not Set - Main Signal)
 #    Given an S-Class message is received and processed
 #    And the S-Class message is associated with an S-Class berth of type Route Indication
@@ -68,6 +71,7 @@ Feature: 49635 - Schematic State - route indication state
       | D3             | 14      | 00   | 10:45:00  |
     Then the s-class-berth 'D30105' will display no Route indication of 'anything'
 
+  @replaySetup
   Scenario: 34081-20b - Route Indication State (Not Set - Shunt Signal)
 #    Given an S-Class message is received and processed
 #    And the S-Class message is associated with an S-Class berth of type Route Indication

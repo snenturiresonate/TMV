@@ -7,6 +7,7 @@ Feature: 49635 - Schematic State - shunters release state
   Background:
     Given I am viewing the map gw5abristolparkway.v
 
+  @replaySetup
   Scenario: 34081-15 - Active Shunters Release State (Given)
 #    Given an S-Class message is received and processed
 #    And the S-Class message is an update to Latch
@@ -21,6 +22,7 @@ Feature: 49635 - Schematic State - shunters release state
       | D0             | 53      | 02   | 10:45:00  |
     Then the shunters-release 'BL7023' will display a given state [a white cross in the white box]
 
+  @replaySetup
   Scenario: 34081-16 - Active Shunters Release State (Not Given)
 #    Given an S-Class message is received and processed
 #    And the S-Class message is an update to Latch

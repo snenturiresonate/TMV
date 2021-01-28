@@ -17,6 +17,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
       | 09:59:00  | 0129      | D3            | 1G69             |
 
   # 47656 - getting initial state (for second map)
+  @bug @bug_54215
   Scenario: 40505-1 - interpose is displayed in the berth, which is not a Q berth
     # a berth that exists on the map is empty
     #  it is not a Q berth
@@ -37,6 +38,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     Then berth '0095' in train describer 'D3' contains '1G69' and is visible
 
+  @bug @bug_54215
   Scenario: 40505-2 - interpose into berth that already contains a train description
     #    Given a berth that exists on the map is displaying a train description
     #    And it is not a Q berth
@@ -54,6 +56,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     Then berth '0099' in train describer 'D3' contains '9Z99' and is visible
     But berth '0099' in train describer 'D3' does not contain '1G69'
 
+  @bug @bug_54215
   Scenario: 40505-3a - cancellation of train description
     #    Given a berth that exists on the map is displaying a train description
     #    And it is not a Q berth
@@ -83,6 +86,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     But berth '0099' in train describer 'D3' does not contain '9Z99'
 
+  @bug @bug_54215
   Scenario: 40505-3c - cancellation of a duplicate train description
     Given berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0095' in train describer 'D3' contains '' and is visible
@@ -107,6 +111,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
       | 09:59:00  | 0099      | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '' and is visible
 
+  @bug @bug_54215
   Scenario: 40505-5a - berth step
     #    Given berth A is displaying a train description
     #    And berth B is empty
@@ -128,6 +133,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     Then berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '1G69' and is visible
 
+  @bug @bug_54215
   Scenario: 40505-5b - berth step via cancellation and interpose
     # Could get a cancellation at A and an interpose at B instead of a step - do not always get a step
     Given berth '0099' in train describer 'D3' contains '' and is visible
@@ -161,6 +167,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     Then berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '1G69' and is visible
 
+  @bug @bug_54215
   Scenario: 40505-5d - berth step - out of sequence
     Given berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
@@ -178,6 +185,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     And berth '0115' in train describer 'D3' contains '' and is visible
     And berth '0129' in train describer 'D3' contains '1G69' and is visible
 
+  @bug @bug_54215
   Scenario: 40505-5e - berth step - both berths not on the map
     Given berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
@@ -192,6 +200,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
 
+  @bug @bug_54215
   Scenario: 40505-5f - berth step - only from berth is on the map - cancellation
     Given berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
@@ -206,6 +215,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     Then berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
 
+  @bug @bug_54215
   Scenario: 40505-5g - berth step - only to berth is on the map - interpose
     Given berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
