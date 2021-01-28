@@ -83,6 +83,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     Given I load the replay data from scenario '34081 - 26 AES State (AES Applied)'
     And I am on the replay page
     When I expand the replay group of maps with name 'Wales & Western GW15 Cambrian'
+    And I select the map 'gw15cambrian.v'
     And I have set replay time and date from the recorded session
     And I select Start
     And I wait for the buffer to fill
@@ -98,7 +99,8 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Then the AES box will not display an AES text (purple) in the box
     Given I load the replay data from scenario '34081 - 27 AES State (AES Not Applied)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western GW15 Cambrian'
+    When I expand the replay group of maps with name 'Wales & Western GW08 Cardiff SWML'
+    And I select the map 'gw08cardiffswml.v'
     And I have set replay time and date from the recorded session
     And I select Start
     And I wait for the buffer to fill
@@ -170,7 +172,8 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
-    Then the route indication for 'PHPHBK' is '1'
+    Then the s-class-berth 'GLQ070' will display '1' Route indication of 'DC'
+
 
   @tdd @replayTest
   Scenario: 34393-38a TRTS (Set from red)

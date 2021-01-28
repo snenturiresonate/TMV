@@ -7,7 +7,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
   Background:
     Given I am viewing the map hdgw01paddington.v
 
-  @tdd @replayTest
+  @tdd @replaySetup
   Scenario: 34081-1 Current Signal State
       #Given the existing state of the signals
       #And at least one signal has a known state
@@ -22,7 +22,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And I refresh the browser
     And the signal roundel for signal 'SN200' is red
 
-
+  @replaySetup
   Scenario:34081 - 2  Main Signal State Proceed
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a main signal
@@ -41,6 +41,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN128' is green
 
+    @replaySetup
   Scenario:34081 - 3 Main Signal State (Not Proceed)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a main signal
