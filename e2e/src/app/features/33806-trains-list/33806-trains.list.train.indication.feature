@@ -15,7 +15,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #Given the user is viewing the trains list config
     #When the user selects the trains indication view
     #Then the user is presented with the train indication settings view (defaulted to system settings)
-  Scenario: Trains indication table default settings
+  Scenario: 33806 -19 Trains indication table default settings
     Then the following can be seen on the trains indication table of trains list config
       | name                      | colour  | minutes | toggleValue |
       | Change of Origin          | #cccc00 |         | on          |
@@ -31,7 +31,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #Given the user is viewing the trains list train indication view
     #When the user selects a colour from a timeband
     #Then the user is presented with a colour picker defaulted with the colour for the selected train indication type
-  Scenario: Trains indication table display of colour picker
+  Scenario: 33806 -20 Trains indication table display of colour picker
   Then I should see the colour picker when any trains list colour box is clicked
 
   #33806 -21 Trains List Config (Change Trains Indication Select Colour)
@@ -49,7 +49,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #Given the user is viewing the trains list punctuality view
     #When the user selects the train indication thresholds
     #Then the minutes are changed accordingly
-  Scenario: Trains indication table settings update
+  Scenario: 33806 -21, 22, 23 Trains indication table settings update
     When I update the train list indication config settings as
     #Update to colour minutes & toggle to verify 33806 -21, 22 & 23
     | name                     | colour | minutes | toggleValue |

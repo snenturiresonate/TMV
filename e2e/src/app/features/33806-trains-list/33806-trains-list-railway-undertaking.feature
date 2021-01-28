@@ -14,16 +14,16 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #When the user selects a TOC/FOC from un-selected TOC/FOC list to add to the trains list view
     #Then the TOC/FOC item is moved to the selected TOC/FOC list
 
-  Scenario: Trains list TOC/FOC config header
+  Scenario: 33806 -11a Trains list TOC/FOC config header
     Then the railway undertaking tab header is displayed as 'TOC/FOC'
 
-  Scenario: Trains list column config column names
+  Scenario: 33806 -11b Trains list column config column names
     Then the following header can be seen on the railway undertaking columns
       | configColumnName |
       | Available        |
       | Selected         |
 @tdd
-  Scenario: Trains list railway undertaking config tab - default selected and unselected entries
+  Scenario: 33806 -11c Trains list railway undertaking config tab - default selected and unselected entries
     Then the following can be seen on the unselected railway undertaking config
       | unSelectedColumn                 | arrowType            |
       | Advenza Freight (PI)             | keyboard_arrow_right |
@@ -45,7 +45,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       |selectedColumn                   |
       |                                 |
 
-  Scenario: Moving all unselected items to selected column
+  Scenario: 33806 -11d Moving all unselected items to selected column
     When I click on all the unselected railway undertaking entries
     Then the following appear in the selected railway undertaking config
       |selectedColumn               |
@@ -71,7 +71,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #When the user selects a TOC/FOC from selected TOC/FOC list to remove from the trains list view
     #Then the TOC/FOC item is moved to the un-selected TOC/FOC list
 
-  Scenario: Moving all selected items to Unselected column
+  Scenario: 33806 -12 Moving all selected items to Unselected column
     When I click on all the selected railway undertaking entries
     And the following can be seen on the unselected railway undertaking config
       | unSelectedColumn                 | arrowType            |
@@ -96,7 +96,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #When the user views the trains list
     #Then the view is updated to reflect the user's TOC/FOC selection
   @tdd
-  Scenario Outline: Selecting required columns and verifying if they are reflected in the trains list
+  Scenario Outline: 33806 -13 Selecting required columns and verifying if they are reflected in the trains list
     When I select only the following railway undertaking entries
       | items                    |
       | <columnToSelectInConfig> |

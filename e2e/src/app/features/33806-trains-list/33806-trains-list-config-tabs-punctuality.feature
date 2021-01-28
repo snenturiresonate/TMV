@@ -13,10 +13,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     Given I am on the trains list Config page
     And I have navigated to the 'Punctuality' configuration tab
 
-  Scenario: Trains list punctuality config header
+  Scenario: 33806 -5a Trains list punctuality config header
     Then the punctuality header is displayed as 'Punctuality'
 
-  Scenario: Trains list punctuality config default color and entries
+  Scenario: 33806 -5b Trains list punctuality config default color and entries
     Then the following can be seen on the punctuality table
       | punctualityColorText | fromTime | toTime | entryValue               |
       | #ffb4b4              |          | -20    | 20 minutes or more early |
@@ -34,10 +34,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #When the user selects a colour from a timeband
     #Then the user is presented with a colour picker defaulted with the colour for the selected timeband
 
-  Scenario: Verify if the colour picker is displayed when user clicks on punctuality colour
+  Scenario: 33806 -6a Verify if the colour picker is displayed when user clicks on punctuality colour
     Then I should see the colour picker when any punctuality colour box is clicked
 
-  Scenario: Verify if the colour picker is defaulted with the colour for the selected time-band
+  Scenario: 33806 -6b Verify if the colour picker is defaulted with the colour for the selected time-band
     Then I should see the colour picker is defaulted with the colour for the selected time-band
 
   #33806 -7 Trains List Config (Change Punctuality Select Colour)
@@ -56,7 +56,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #When the user selects the timeband text
     #Then the text is changed accordingly
 
-  Scenario: Trains list punctuality config update
+  Scenario:33806 -7,8,9 Trains list punctuality config update
   #This scenario verified the above three FE2E scenarios
     When I update the trains list punctuality settings as
       | punctualityColorText | fromTime | toTime | entryValue                   |
@@ -84,7 +84,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       | #ddee77              | 15       | 20     | 15 to 20 minutes late-edit   |
       | #ffff66              | 21       |        | 21 minutes or more late-edit |
 
-  Scenario: Trains list punctuality config update
+  Scenario: 33806 -7,8,9 Trains list punctuality config update
     When I update the trains list punctuality settings as
       | punctualityColorText | fromTime | toTime | entryValue                   |
       | #bb2                 |          | -21    | 21 to 22 minutes early-edit  |
@@ -116,7 +116,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #When the user views the trains list
     #Then the view is updated to reflect the user's punctuality changes
     @tdd
-    Scenario: Verify if the trains list punctuality config update is reflected in trains list table
+    Scenario: 33806 -10 Verify if the trains list punctuality config update is reflected in trains list table
       When I update the trains list punctuality settings as
         | punctualityColorText | fromTime | toTime | entryValue                   |
       #End time-bands blanked out

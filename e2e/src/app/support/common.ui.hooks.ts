@@ -28,13 +28,13 @@ After('@replaySetup', async function(scenario: Scenario): Promise<void> {
 });
 
 Before('@newSession', async () => {
-  LocalStorage.reset();
+  await LocalStorage.reset();
   browser.manage().deleteAllCookies().catch(() => console.log('cannot delete browser cookies'));
 });
 
 // tslint:disable-next-line:typedef only-arrow-functions
 Before(async () => {
-  await handleUnexpectedAlert();
+  await LocalStorage.reset();
 });
 
 // None arrow methods required to avoid the binding of keyword this
@@ -48,8 +48,8 @@ After(async function(scenario) {
 });
 
 AfterAll(async () => {
-  LocalStorage.reset();
-  browser.driver.quit();
+  await LocalStorage.reset();
+  browser.quit();
   ReplayRecordings.writeFiles();
 });
 
