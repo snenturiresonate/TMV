@@ -12,17 +12,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing
   Background:
     Given I am on the home page
 
-  Scenario: Trains List page - Tab title
+  Scenario: 33806 -1a Trains List page - Tab title
     When I click the app 'trains-list'
     And I switch to the new tab
     Then the tab title is 'TMV Trains List'
 
-  Scenario: Trains List page - Trains list Table
+  Scenario: 33806 -1b Trains List page - Trains list Table
     When I click the app 'trains-list'
     And I switch to the new tab
     Then The trains list table is visible
 
-  Scenario: Trains list table - Default columns
+  Scenario: 33806 -1c Trains list table - Default columns
     When I click the app 'trains-list'
     And I switch to the new tab
     Then I should see the trains list columns as
@@ -41,14 +41,14 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       | NEXTLOC.         |
       | TOC/FOC          |
 
-  Scenario: Trains list config - Tab title
+  Scenario: 33806 -1d Trains list config - Tab title
     When I click the app 'trains-list'
     And I switch to the new tab
     And I navigate to train list configuration
     And I switch to the new tab
     Then the tab title is 'TMV Trains List Config'
 
-  Scenario: Trains list config - Config Tabs
+  Scenario: 33806 -1e Trains list config - Config Tabs
     When I click the app 'trains-list'
     And I switch to the new tab
     And I navigate to train list configuration

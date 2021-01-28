@@ -143,3 +143,17 @@ When('I remove the following locations', async (table: any) => {
 Then('I should not see the location re-ordering arrows', async () => {
   return expect(await trainsListLocationSelectionConfig.locationTableArrowsDisplay()).to.not.include(true);
 });
+
+When('I have only the following locations and stop types selected', async (table: any) => {
+  const tableValues = table.hashes();
+  await trainsListLocationSelectionConfig.removeAllLocations();
+  for (let i = 0; i < tableValues.length; i++) {
+    const locationName = tableValues[i].locationNameValue;
+    await trainsListLocationSelectionConfig.enterLocationSearchString(locationName);
+    await trainsListLocationSelectionConfig.clickLocationResult();
+    await trainsListLocationSelectionConfig.setStopTypeCheckedState('Originate', locationName, tableValues[i].Originate);
+    await trainsListLocationSelectionConfig.setStopTypeCheckedState('Stop', locationName, tableValues[i].Stop);
+    await trainsListLocationSelectionConfig.setStopTypeCheckedState('Pass', locationName, tableValues[i].Pass);
+    await trainsListLocationSelectionConfig.setStopTypeCheckedState('Terminate', locationName, tableValues[i].Terminate);
+  }
+});

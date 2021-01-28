@@ -5,7 +5,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing
   So, that I can identify if the build meets the end to end requirements
 
   Background:
-    Given I am on the trains list Config page
+    Given the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
+    And I am on the trains list Config page
     And I have navigated to the 'Locations' configuration tab
 
 
@@ -35,7 +36,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #When the user enters characters in the location search text box
     #Then the user is presented with a list of locations
 
-  Scenario: Trains list location search auto suggest list
+  Scenario: 33806 -14 Trains list location search auto suggest list
     When I type 'AB' into the location search box
     Then the location auto-suggest list is not hidden
     And the location auto-suggest list has atleast 5 entries
@@ -47,7 +48,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
   #When the user selects the location from the results
   #Then the location is added to the list of configured locations
   @tdd
-  Scenario: Trains list location search auto suggest list
+  Scenario: 33806 -15 Trains list location search auto suggest list
     When I type 'ABDARE' into the location search box
     And I click the first suggested location
     Then the following can be seen on the location order type table
@@ -75,7 +76,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #When the user selects the ordering up/down
     #Then the location moved up or down in the list
 
-  Scenario Outline: Ability to re-order location should be available only for All Locations, order applied
+  Scenario Outline: 33806 -16 Ability to re-order location should be available only for All Locations, order applied
     When I choose the location filter as '<filters>'
     Then I should not see the location re-ordering arrows
     Examples:
@@ -87,8 +88,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #Given the user has locations in the list
     #When the user removes a location
     #Then the location is removed from the list
-@tdd
-Scenario: Trains location list ability to remove location and move the location elements to desired order
+Scenario: 33806 -17 Trains location list ability to remove location and move the location elements to desired order
   #Below scenario covers both 33806 -16 & 33806 -17. They have been made as single scenario to avoid any data related false failures due to removing locations in different scenarios
   When I choose the location filter as 'All locations, order applied'
   And I move 'up' the location 'Slough'
@@ -104,5 +104,53 @@ Scenario: Trains location list ability to remove location and move the location 
     | Reading (RDNGSTN)              | un-checked | un-checked | checked    | un-checked |
     | Leeds (LEEDS)                  | un-checked | un-checked | checked    | checked    |
 
+#33806 -18 Trains List Config (Location Applied)
+  #Given the user has made changes to the trains list Location selection
+  #When the user views the trains list
+  #Then the view is updated to reflect the user's Location selection
+@bug @bug_54025
+  Scenario: 33806 -18 Trains list config for location types - Location applied while navigating away
+    And I have only the following locations and stop types selected
+      | locationNameValue | Originate | Stop       | Pass       | Terminate  |
+      | PADTON            | Checked   | un-checked | un-checked | un-checked |
+    And I have navigated to the 'Columns' configuration tab
+    And I have navigated to the 'Locations' configuration tab
+    Then the following can be seen on the location order type table
+      | locationNameValue              | Originate  | Stop       | Pass       | Terminate  |
+      | Paddington (PADTON)            | Checked    | un-checked | un-checked | un-checked |
 
+  @tdd
+  Scenario: 33806 -18 Trains list config for location types - Stop type 'Originate'
+    And I have only the following locations and stop types selected
+      | locationNameValue | Originate | Stop       | Pass       | Terminate  |
+      | PADTON            | Checked   | un-checked | un-checked | un-checked |
+    And I open 'trains list' page in a new tab
+    #Services to be displayed might have to change based on data once the integration is done
+    Then '1S42' are then displayed
 
+  @tdd
+  Scenario: 33806 -18 Trains list config for location types - Stop type 'Terminate'
+    And I have only the following locations and stop types selected
+      | locationNameValue | Originate  | Stop       | Pass       | Terminate |
+      | DDIDCOTP          | un-checked | un-checked | un-checked | Checked   |
+    And I open 'trains list' page in a new tab
+    #Services to be displayed might have to change based on data once the integration is done
+    Then '1S42' are then displayed
+
+  @tdd
+  Scenario: 33806 -18 Trains list config for location types - Stop type 'Pass'
+    And I have only the following locations and stop types selected
+      | locationNameValue | Originate  | Stop       | Pass    | Terminate  |
+      | ACTONW            | un-checked | un-checked | Checked | un-checked |
+    And I open 'trains list' page in a new tab
+    #Services to be displayed might have to change based on data once the integration is done
+    Then '1S42' are then displayed
+
+  @tdd
+  Scenario: 33806 -18 Trains list config for location types - Stop type 'Stop'
+    And I have only the following locations and stop types selected
+      | locationNameValue | Originate  | Stop    | Pass       | Terminate  |
+      | EALINGB           | un-checked | checked | un-checked | un-checked |
+    And I open 'trains list' page in a new tab
+    #Services to be displayed might have to change based on data once the integration is done
+    Then '1S42' are then displayed
