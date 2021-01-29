@@ -141,3 +141,30 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       | Destination   |
       | Next location |
       | TOC/FOC       |
+
+  @tdd
+  Scenario: 33806 -4c Selecting the 'origin' column includes the columns 'Origin', 'Planned' & 'Actual/Predict' columns in trains list
+  When I set trains list columns to include 'Origin' along with the mandatory columns
+    And I open 'trains list' page in a new tab
+    Then I should see the trains list columns as
+      | header         |
+      | SERVICE        |
+      | TIME           |
+      | PUNCT.         |
+      | ORIGIN         |
+      | PLANNED        |
+      | ACTUAL/PREDICT |
+
+  @tdd
+  Scenario: 33806 -4d Selecting the 'Destination' column includes the columns 'Dest.', 'Planned' & 'Actual/Predict' columns in trains list
+    When I set trains list columns to include 'Destination' along with the mandatory columns
+    And I open 'trains list' page in a new tab
+    Then I should see the trains list columns as
+      | header         |
+      | SERVICE        |
+      | TIME           |
+      | PUNCT.         |
+      | DEST.          |
+      | PLANNED        |
+      | ACTUAL/PREDICT |
+
