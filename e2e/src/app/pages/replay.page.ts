@@ -3,6 +3,7 @@ import {DateTimeFormatter, LocalDateTime, LocalTime} from '@js-joda/core';
 import {ContinuationLinkContextMenu} from './sections/replay.continuationlink.contextmenu';
 import {BerthContextMenu} from './sections/replay.berth.contextmenu';
 import {InputBox} from './common/ui-element-handlers/inputBox';
+import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
 
 export class ReplayPageObject {
   public mapList: ElementArrayFinder;
@@ -83,27 +84,27 @@ export class ReplayPageObject {
   }
 
   public async selectSkipForward(): Promise<void> {
-    return this.skipForwardButton.click();
+    CommonActions.waitAndClick(this.skipForwardButton);
   }
 
   public async selectSkipBack(): Promise<void> {
-    return this.skipBackButton.click();
+    CommonActions.waitAndClick(this.skipBackButton);
   }
 
   public async selectPlay(): Promise<void> {
-    return this.playButton.click();
+    CommonActions.waitAndClick(this.playButton);
   }
 
   public async selectStop(): Promise<void> {
-    return this.stopButton.click();
+    CommonActions.waitAndClick(this.stopButton);
   }
 
   public async selectReplay(): Promise<void> {
-    return this.stopButton.click();
+    CommonActions.waitAndClick(this.replayButton);
   }
 
   public async selectPause(): Promise<void> {
-    return this.pauseButton.click();
+    CommonActions.waitAndClick(this.pauseButton);
   }
 
   public async moveReplayTimeTo(time: string): Promise<void> {
