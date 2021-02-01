@@ -19,6 +19,7 @@ export class HomePageObject {
   public recentHistoryPreviousPageButton: ElementFinder;
   public recentSearchedMap: ElementFinder;
 
+  public replayButton: ElementFinder;
   public adminIcon: ElementFinder;
 
   constructor() {
@@ -37,6 +38,7 @@ export class HomePageObject {
     this.searchButton = element(by.id('map-search-submit-button'));
     this.recentSearchedMap = element(by.css('.recent-history-item-entry'));
     this.adminIcon = element(by.css('.btn-box .app-button-link-text'));
+    this.replayButton = element(by.id('icon-replay'));
   }
 
   public async getWelcomeMessageText(): Promise<string> {
