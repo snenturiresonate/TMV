@@ -277,7 +277,7 @@ export class MapPageObject {
   }
   public async isDirectionChevronDisplayed(): Promise<boolean> {
     await CommonActions.waitForElementToBeVisible(this.liveMap);
-    return element(by.css(`[id^='s-class-berth-element-text-']`)).isPresent();
+    return element(by.css(`text[class='DIRECTION_LOCK']`)).isPresent();
   }
   public async aesElementsAreDisplayed(): Promise<boolean> {
     const elm = this.aesBoundaryElements.element(by.css('[id^=aes-boundaries-element]'));
