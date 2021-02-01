@@ -599,3 +599,19 @@ Then('the route indication for {string} is {string}',
     const actualValue = await mapPageObject.getRouteIndication(trackId);
     expect(actualValue).to.equal(expectedValue);
   });
+
+When('I right click on berth with id {string}', async (berthId: string) => {
+  await mapPageObject.rightClickBerth(berthId);
+});
+
+Then('the berth context menu is displayed with berth name {string}', async (expectedBerthName: string) => {
+  const berthName: string = await mapPageObject.getBerthName();
+  expect(berthName).to.equal(expectedBerthName);
+});
+
+Then('the train headcode color for berth {string} is {word}',
+  async (berthId: string, expectedColor: string) => {
+    const expectedColorHex = mapColourHex[expectedColor];
+    const actualSignalStatus: string = await mapPageObject.getBerthColor(berthId);
+    expect(actualSignalStatus).to.equal(expectedColorHex);
+  });
