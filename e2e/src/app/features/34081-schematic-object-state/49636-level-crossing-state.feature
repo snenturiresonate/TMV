@@ -78,7 +78,7 @@ Feature: 49634 - Schematic State - Level Crossing, Direction Lock and AES
     Then the direction lock chevron of 'MHDJMH' is >
     And the direction lock chevron of 'MHMHDJ' is <
 
-  @replaySetup   @bug @bug_54269
+  @replaySetup
   Scenario: 34081 - 25 Direction Lock State (Not Locked)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type Direction Lock
