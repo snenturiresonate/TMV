@@ -34,7 +34,7 @@ Feature: 46450 - TMV Train Service - full end to end testing
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 10:02:06  | A001      | D3 		             | 1F23  		          |
     And I right click on berth with id 'A001'
-    And the berth context menu is displayed with berth name 'D3A003'
+    And the berth context menu is displayed with berth name 'D3A001'
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 10:02:06  | A003      | D3 		             | 1F23		          |
