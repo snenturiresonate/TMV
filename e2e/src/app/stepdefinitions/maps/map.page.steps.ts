@@ -615,3 +615,20 @@ Then('the train headcode color for berth {string} is {word}',
     const actualSignalStatus: string = await mapPageObject.getBerthColor(berthId);
     expect(actualSignalStatus).to.equal(expectedColorHex);
   });
+
+Then('the berth context menu contains the signal id {string}', async (signalId: string) => {
+  const signalName: string = await mapPageObject.getBerthContextMenuSignalName(signalId);
+  expect(signalName).length.greaterThan(1);
+});
+
+Then('the berth id for {string} is {word}',
+  async (berthId: string, expectedStatus: string) => {
+    const actualStatus = await mapPageObject.getVisibilityStatus(berthId);
+    expect(actualStatus).to.equal(expectedStatus);
+  });
+
+Then('the headcode displayed for {string} is {word}',
+  async (berthId: string, expectedStatus: string) => {
+    const actualStatus = await mapPageObject.getBerthId(berthId);
+    expect(actualStatus).to.equal(expectedStatus);
+  });
