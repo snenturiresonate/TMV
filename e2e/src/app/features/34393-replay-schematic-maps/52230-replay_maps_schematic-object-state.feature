@@ -88,8 +88,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
-    Then the track state width for 'PNPNBD' is '3px'
-    And the track state class for 'PNPNBD' is 'track_active'
+    Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in solid white
 
   @tdd @replayTest
   Scenario:34393-35 Track State (Route Not Set)
@@ -107,7 +106,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
-    And  the track state width for 'PNPNBD' is '2px'
+    Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
 
   @tdd @replayTest
   Scenario: 34393-36 Dual Signals

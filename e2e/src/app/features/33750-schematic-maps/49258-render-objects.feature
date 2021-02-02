@@ -26,7 +26,7 @@ Feature: 33750 - Schematic Maps - Render Objects
       | tunnel_bridge_viaduct        | sc16aberdeen.v           | 32               |
       | cut_bar                      | ea9ceastlondon.v         | 14               |
       | level_crossing               | ne24spalding.v           | 79               |
-      | dashed_track_section         | ea09stratford.v          | 2                |
+      | dashed_track_section         | ea09stratford.v          | 6                |
       | continuation_button          | so07blackfriars.v        | 18               |
       | limit_of_shunt_static_signal | ne15shipley.v            | 8                |
       | static_signal                | sc05yoker.v              | 22               |
