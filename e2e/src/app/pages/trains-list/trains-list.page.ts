@@ -145,7 +145,7 @@ export class TrainsListPageObject {
   }
 
   public async getRowForSchedule(scheduleId: string): Promise<number> {
-    const schedules = await this.getTrainsListValuesForColumn('Schedule');
+    const schedules = await this.getTrainsListValuesForColumn('train-description');
     return schedules.indexOf(scheduleId);
   }
 

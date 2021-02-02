@@ -48,8 +48,6 @@ After(async function(scenario) {
 });
 
 AfterAll(async () => {
-  await LocalStorage.reset();
-  browser.quit();
   ReplayRecordings.writeFiles();
 });
 

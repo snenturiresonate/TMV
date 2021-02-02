@@ -158,3 +158,11 @@ When('I set trains list columns to include {string}', {timeout: 15 * 1000}, asyn
   }
 });
 
+When('I set trains list columns to include {string} along with the mandatory columns',
+      {timeout: 15 * 1000}, async (wantedColumns: string) => {
+  const colsToAdd = wantedColumns.split(',', 16).map(item => item.trim());
+  await trainsListColumnConfigPage.trainListConfigSelectedSecondElements.click();
+  for (const item of colsToAdd) {
+    await trainsListColumnConfigPage.moveToSelectedList(item, -1);
+  }
+});

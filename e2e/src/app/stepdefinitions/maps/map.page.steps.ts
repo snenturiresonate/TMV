@@ -31,7 +31,8 @@ const mapColourHex = {
   white: '#ffffff',
   orange: '#ffa700',
   grey: '#969696',
-  paleblue: '#00d2ff'
+  paleblue: '#00d2ff',
+  purple: '#ff3cb1'
 };
 
 const mapObjectColourHex = {
@@ -414,6 +415,19 @@ Then('the s-class-berth {string} will display {word} Route indication of {string
     expect(actualIndicationText).to.equal(lineCode);
   }
 });
+
+Then('the AES box containing s-class-berth {string} will display {word} aes text of {string}',
+  async (sClassBerthId: string, expectedIndicationCount: string, aesCode: string) => {
+    if (expectedIndicationCount === 'no') {
+      expect(! await mapPageObject.isSClassBerthElementPresent(sClassBerthId));
+    }
+    else {
+      const actualIndicationText = await mapPageObject.getSClassBerthElementText(sClassBerthId);
+      const actualIndicationTextColourHex = await mapPageObject.getSClassBerthElementTextColour(sClassBerthId);
+      expect(actualIndicationTextColourHex).to.equal(mapColourHex.purple);
+      expect(actualIndicationText).to.equal(aesCode);
+    }
+  });
 
 
 Then('there is no text indication for {word} {string}', async (sClassBerthType: string, sClassBerthId: string) => {
