@@ -30,7 +30,7 @@ Feature: 34393 - TMV replay - Schematic Maps - Render Objects
       | Scotland\'s Railway    | sc16aberdeen.v           | tunnel_bridge_viaduct        | 32               |
       | Eastern                | ea9ceastlondon.v         | cut_bar                      | 14               |
       | Eastern                | ne24spalding.v           | level_crossing               | 79               |
-      | Eastern                | ea09stratford.v          | dashed_track_section         | 2                |
+      | Eastern                | ea09stratford.v          | dashed_track_section         | 6                |
       | Southern               | so07blackfriars.v        | continuation_button          | 18               |
       | Eastern                | ne15shipley.v            | limit_of_shunt_static_signal | 8                |
       | Scotland\'s Railway    | sc05yoker.v              | static_signal                | 22               |
