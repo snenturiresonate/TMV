@@ -4,6 +4,19 @@ Feature: 46450 - TMV Train Service - full end to end testing
   I want end to end tests to be created for the Train Service functionality
   So that there is confidence that it continues to work as expected as more of the system is developed
 
+  Scenario: 1 Punctuality (Matched Service)
+  #Given the user is authenticated to use TMV
+  #When the user is viewing the service on the map
+  #And the service is matched
+  #And the service is running or activated (called)
+  #Then the train's punctuality is displayed for each part of the journey not yet complete
+    Given the access plan located in CIF file 'access-plan/1D46_PADTON_OXFD.cif' is amended so that all services start within the next hour and then received from LINX
+    And I am viewing the map hdgw01paddington.v
+    When the following berth interpose message is sent from LINX
+      | timestamp | toBerth   | trainDescriber     | trainDescription   |
+      | 10:02:06  | 1664      | D1 		             | 1D46  		          |
+    And the train headcode color for berth '1664' is green
+
   @tdd
   Scenario: 2 Punctuality (Un-matched Service)
   #Given the user is authenticated to use TMV
