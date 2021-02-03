@@ -27,7 +27,7 @@ Feature: 46450 - TMV Train Service - full end to end testing
     Given I am viewing the map hdgw01paddington.v
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | A001      | D3 		             | BLKD  		          |
+      | 10:02:06  | A001      | D3 		             | 5T78  		          |
     Then the headcode displayed for 'A001' is BLKD
     And I right click on berth with id 'BLKD'
     And the berth context menu is displayed with berth name 'D3A001'
