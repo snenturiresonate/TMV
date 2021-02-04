@@ -55,7 +55,7 @@ const mapObjectColourHex = {
   train_washer_indicator: ['#969696'],
   AES_boundaries_line_group: ['#ff3cb1'],
   alarm_box: ['#ffffff'],
-  tunnel_bridge_viaduct: ['#969696'],
+  tunnel_bridge_viaduct: ['#666666'],
   cut_bar: ['#ffffff'],
   level_crossing: ['#ffffff'],
   dashed_track_section: ['#b2b2b2'],
@@ -623,7 +623,7 @@ Then('the track colour for track {string} is {word}',
 
 Then('the tracks {string} are displayed in {word} {word}',
   async (trackIds: string, expectedWidth: string, expectedColour: string) => {
-    const expectedTrackIds = trackIds.split(',', 10).map(item => item.trim());
+    const expectedTrackIds = trackIds.split(',').map(item => item.trim());
     const expectedTrackColourHex = mapColourHex[expectedColour];
     const expectedTrackWidth = mapLineWidth[expectedWidth];
     for (const trackId of expectedTrackIds) {

@@ -27,7 +27,7 @@ Feature: 33750 - Schematic Maps - Render Objects
       | cut_bar                      | ea9ceastlondon.v         | 14               |
       | level_crossing               | ne24spalding.v           | 79               |
       | dashed_track_section         | ea09stratford.v          | 6                |
-      | continuation_button          | so07blackfriars.v        | 18               |
+      | continuation_button          | so07blackfriars.v        | 36               |
       | limit_of_shunt_static_signal | ne15shipley.v            | 8                |
       | static_signal                | sc05yoker.v              | 22               |
       | static_shunt_signal          | sc11ayr.v                | 1                |
@@ -42,7 +42,7 @@ Feature: 33750 - Schematic Maps - Render Objects
       | manual_trust_berth           | md22hinckleymanton.v     | 35               |
       | aes_boundaries_text_label    | gw15cambrian.v           | 12               |
       | direction_lock_text_label    | gw15cambrian.v           | 11               |
-      | connector_text_label         | ne08darlington.v         | 4                |
+      | connector_text_label         | ne08darlington.v         | 8                |
       | other_text_label             | ne30durhamcoast.v        | 188              |
 
 
