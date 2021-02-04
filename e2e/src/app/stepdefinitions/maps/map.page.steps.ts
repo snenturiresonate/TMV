@@ -646,9 +646,9 @@ Then('the berth id for {string} is {word}',
   });
 
 Then('the headcode displayed for {string} is {word}',
-  async (berthId: string, expectedStatus: string) => {
-    const actualStatus = await mapPageObject.getBerthId(berthId);
-    expect(actualStatus).to.equal(expectedStatus);
+  async (berthId: string, expectedHeadcode: string) => {
+    const actualHeadcode = await mapPageObject.getHeadcode(berthId);
+    expect(actualHeadcode).to.equal(expectedHeadcode);
   });
 
 When('I right click on berth with id {string}', async (berthId: string) => {

@@ -28,11 +28,11 @@ Feature: 46450 - TMV Train Service - full end to end testing
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 10:02:06  | A001      | D3 		             | 5T78  		          |
-    Then the headcode displayed for 'A001' is BLKD
-    And I right click on berth with id 'BLKD'
+    Then the headcode displayed for 'A001' is 5T78
+    And I right click on berth with id 'A001'
     And the berth context menu is displayed with berth name 'D3A001'
     And the berth context menu contains the signal id 'SN1'
-    And the train headcode color for berth 'BLKD' is blue
+    And the train headcode color for berth 'A001' is blue
 
 
   @tdd
@@ -52,7 +52,7 @@ Feature: 46450 - TMV Train Service - full end to end testing
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 10:02:06  | A003      | D3 		             | 1F23		          |
     And the berth context menu is displayed with berth name 'D3A003'
-    Then the headcode displayed for 'A003' is A003
+    Then the headcode displayed for 'A003' is 1F23
     And the train headcode color for berth 'A003' is darkgrey
 
   @tdd
@@ -65,8 +65,8 @@ Feature: 46450 - TMV Train Service - full end to end testing
     When the following berth interpose message is sent from LINX
     | timestamp | toBerth   | trainDescriber     | trainDescription   |
     | 10:02:06  | A001      | D3 		             | 1D34 		          |
-    And I right click on berth with id 'R001'
-    And the berth context menu is displayed with berth name 'D3R001'
+    And I right click on berth with id 'A001'
+    And the berth context menu is displayed with berth name '1D34'
     Then the headcode displayed for 'A001' is R001
-    And the train headcode color for berth 'R001' is stone
+    And the train headcode color for berth 'A001' is stone
 

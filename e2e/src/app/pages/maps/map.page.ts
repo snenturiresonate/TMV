@@ -298,7 +298,7 @@ export class MapPageObject {
   public async getBerthContextMenuSignalName(signalId: string): Promise<string> {
     return element(by.id('berth-context-menu-signal-' + signalId)).getText();
   }
-  public async getBerthId(berthId: string): Promise<string> {
+  public async getHeadcode(berthId: string): Promise<string> {
     const berthLink: ElementFinder = element(by.id('berth-element-text-' + berthId));
     return berthLink.getCssValue('data-train-description');
   }
