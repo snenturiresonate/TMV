@@ -1,7 +1,7 @@
 import {Given, Then, When} from 'cucumber';
 import { expect } from 'chai';
 import {TrainsListMiscConfigTab} from '../../pages/trains-list-config/trains.list.misc.config.tab';
-import {browser} from 'protractor';
+import {browser, protractor} from 'protractor';
 
 const trainsListMisc: TrainsListMiscConfigTab = new TrainsListMiscConfigTab();
 
@@ -57,12 +57,22 @@ Then('the following can be seen on the class table', async (miscEntryDataTable: 
   }
 });
 
-Then('the following can be seen on the right class table', async (miscRightEntryDataTable: any) => {
+Then('the following toggle values can be seen on the right class table', async (miscRightEntryDataTable: any) => {
   const expectedMiscRightEntries = miscRightEntryDataTable.hashes();
-  const actualMiscRightClass = await trainsListMisc.getTrainMiscClassNameRight();
-  expectedMiscRightEntries.forEach((expectedMiscRightEntry: any) => {
-    expect(actualMiscRightClass).to.contain(expectedMiscRightEntry.classValue);
-  });
+  const results: any[] = [];
+  for (let i = 0; i < expectedMiscRightEntries.length; i++){
+    const classValue = expectedMiscRightEntries[i].classValue;
+    const toggleValue = (expectedMiscRightEntries[i].toggleValue).toLowerCase();
+    results.push(expect(await trainsListMisc.getTrainMiscClassNameRight(i)).to.contain(classValue));
+    if (toggleValue === 'on' || toggleValue === 'off') {
+        results.push(expect(await trainsListMisc.getTrainMiscClassNameToggleValuesRight(classValue))
+          .to.contain(toggleValue));
+      } else {
+      results.push(expect(await trainsListMisc.getTrainMiscClassNameNumberValuesRight(classValue))
+        .to.contain(toggleValue));
+    }
+  }
+  return protractor.promise.all(results);
 });
 
 When('I click on the Select All button', async () => {
