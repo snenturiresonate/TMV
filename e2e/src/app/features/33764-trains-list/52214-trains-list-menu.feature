@@ -1,3 +1,4 @@
+@bug @bug_54827
 Feature: 52214 - TMV Trains List
   (From Gherkin for Feature 33764)
 

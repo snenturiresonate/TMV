@@ -1,3 +1,4 @@
+@bug @bug_54829
 Feature: 49635 - Schematic State - node proved state
   (From Gherkin for Feature 34081)
   As a TMV User

@@ -1,4 +1,5 @@
-Feature: 49634 - Schematic State - Level Crossing, Direction Lock and AES
+@bug @bug_54829
+Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
   (From Gherkin for Feature 34081)
   As a TMV User
   I want to schematic objects displayed with the latest state

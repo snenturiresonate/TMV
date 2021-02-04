@@ -44,7 +44,8 @@ export class ReplayMapPage {
   }
 
   private getContinuationLinkLocator(linkText): ElementFinder {
-    return element(by.xpath(`//*[child::*[text()='${linkText.substring(0, 2)}']][child::*[text()='${linkText.substring(2, 4)}']]`));
+    return element(by.xpath(`//*[child::*[text()='${linkText.substring(2, 4)}']]
+    [preceding-sibling::*[child::*[text()='${linkText.substring(0, 2)}']]]`));
   }
 
   public async selectSkipForward(): Promise<void> {

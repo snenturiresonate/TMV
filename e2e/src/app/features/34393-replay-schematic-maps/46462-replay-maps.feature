@@ -31,7 +31,7 @@ Feature: 34393 - TMV replay - Schematic Maps - Render Objects
       | Eastern                | ea9ceastlondon.v         | cut_bar                      | 14               |
       | Eastern                | ne24spalding.v           | level_crossing               | 79               |
       | Eastern                | ea09stratford.v          | dashed_track_section         | 6                |
-      | Southern               | so07blackfriars.v        | continuation_button          | 18               |
+      | Southern               | so07blackfriars.v        | continuation_button          | 36               |
       | Eastern                | ne15shipley.v            | limit_of_shunt_static_signal | 8                |
       | Scotland\'s Railway    | sc05yoker.v              | static_signal                | 22               |
       | Scotland\'s Railway    | sc11ayr.v                | static_shunt_signal          | 1                |
@@ -46,7 +46,7 @@ Feature: 34393 - TMV replay - Schematic Maps - Render Objects
       | Eastern                | md22hinckleymanton.v     | manual_trust_berth           | 35               |
       | Wales & Western        | gw15cambrian.v           | aes_boundaries_text_label    | 12               |
       | Wales & Western        | gw15cambrian.v           | direction_lock_text_label    | 11               |
-      | Eastern                | ne08darlington.v         | connector_text_label         | 4                |
+      | Eastern                | ne08darlington.v         | connector_text_label         | 8                |
       | Eastern                | ne30durhamcoast.v        | other_text_label             | 188              |
 
 
