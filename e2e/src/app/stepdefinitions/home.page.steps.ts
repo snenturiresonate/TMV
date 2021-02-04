@@ -1,7 +1,7 @@
 import {After, Before, Then, When} from 'cucumber';
-import { expect } from 'chai';
+import {expect} from 'chai';
 
-import { HomePageObject } from '../pages/home.page';
+import {HomePageObject} from '../pages/home.page';
 import {LocalStorage} from '../../../local-storage/local-storage';
 import {browser} from 'protractor';
 
@@ -169,4 +169,7 @@ Then('the maps search results list has no scroll', async () => {
   const visibleTableHeight = await homePage.getMapSearchResultsVisibleHeight();
   const totalTableHeight = await homePage.getMapSearchResultsTotalHeight();
   expect(totalTableHeight).to.be.at.most(visibleTableHeight);
+});
+When(/^I select the replay button from the home page$/, async () => {
+  await homePage.replayButton.click();
 });

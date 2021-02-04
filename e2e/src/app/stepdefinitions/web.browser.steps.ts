@@ -58,6 +58,7 @@ When('I confirm on browser popup', async () => {
   try {
     await alertBox.accept();
   } catch (err) {
+    console.log('error clearing alert, will try JS script\n' + err);
     browser.executeScript('window.onbeforeunload = ()=>{}');
   }
 });

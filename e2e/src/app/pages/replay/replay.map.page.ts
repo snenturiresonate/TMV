@@ -1,20 +1,10 @@
-import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
+import {browser, by, element, ElementFinder, protractor} from 'protractor';
 import {DateTimeFormatter, LocalDateTime, LocalTime} from '@js-joda/core';
-import {ContinuationLinkContextMenu} from './sections/replay.continuationlink.contextmenu';
-import {BerthContextMenu} from './sections/replay.berth.contextmenu';
-import {InputBox} from './common/ui-element-handlers/inputBox';
-import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
+import {ContinuationLinkContextMenu} from '../sections/replay.continuationlink.contextmenu';
+import {BerthContextMenu} from '../sections/replay.berth.contextmenu';
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
-export class ReplayPageObject {
-  public mapList: ElementArrayFinder;
-
-  public quickSelect: ElementFinder;
-  public startDate: ElementFinder;
-  public startTime: ElementFinder;
-  public durationContainer: ElementFinder;
-  public durationExpand: ElementFinder;
-  public endDateAndTime: ElementFinder;
-  public startButton: ElementFinder;
+export class ReplayMapPage {
   public bufferingIndicator: ElementFinder;
   public skipForwardButton: ElementFinder;
   public skipBackButton: ElementFinder;
@@ -26,16 +16,10 @@ export class ReplayPageObject {
   public berthContextMenu: BerthContextMenu;
   public timestamp: ElementFinder;
   public replaySpeedButton: ElementFinder;
+  public mapName: ElementFinder;
 
   constructor() {
-    this.mapList = element.all(by.css('.mapLink'));
-    this.startButton = element(by.buttonText('Start'));
-    this.startDate = element(by.xpath('//input[@formcontrolname="startDate"]'));
-    this.startTime = element(by.id('timePicker'));
-    this.quickSelect = element(by.xpath('//app-dropdown[preceding-sibling::span[text()="Quick"]]//ul'));
-    this.durationContainer = element(by.xpath('//app-dropdown[preceding-sibling::span[text()="Duration (minutes)"]]'));
-    this.durationExpand = this.durationContainer.element(by.css('.dropdown-arrow'));
-    this.endDateAndTime = element(by.xpath('//input[@formcontrolname="endDate"]'));
+    // Replay Map Page
     this.continuationLinkContextMenu = new ContinuationLinkContextMenu();
     this.berthContextMenu = new BerthContextMenu();
     this.bufferingIndicator = element(by.css('.bufferingIndicator'));
@@ -47,27 +31,7 @@ export class ReplayPageObject {
     this.replayButton = element(by.xpath('//li[contains(text(),"replay")]'));
     this.timestamp = element(by.css('.playback-status div'));
     this.replaySpeedButton = element(by.xpath('//button[@title="Playback speed"]'));
-  }
-
-  public async expandMapGroupingForName(mapName: string): Promise<void> {
-    const mapListItem: ElementFinder = element(by.xpath('//div[contains(text(),"' + mapName + '")]'));
-    return mapListItem.click();
-  }
-
-  public async getMapsListed(): Promise<string> {
-    return this.mapList.getText();
-  }
-
-  public async openMapsList(location: string): Promise<void> {
-    const mapListItem: ElementFinder = element(by.xpath('//*[@id="map-link-' + location + '"]'));
-    const nextButton: ElementFinder = element(by.buttonText('Next'));
-    await mapListItem.click();
-    await nextButton.click();
-  }
-
-  public async selectStart(): Promise<void> {
-    browser.wait(this.startButton.isPresent());
-    return this.startButton.click();
+    this.mapName = element(by.css('.map-dropdown-button h2'));
   }
 
   public async selectContinuationLink(linkText): Promise<void> {
@@ -80,35 +44,36 @@ export class ReplayPageObject {
   }
 
   private getContinuationLinkLocator(linkText): ElementFinder {
-    return element(by.xpath(`//*[child::*[text()='${linkText.substring(0, 2)}']][child::*[text()='${linkText.substring(2, 4)}']]`));
+    return element(by.xpath(`//*[child::*[text()='${linkText.substring(2, 4)}']]
+    [preceding-sibling::*[child::*[text()='${linkText.substring(0, 2)}']]]`));
   }
 
   public async selectSkipForward(): Promise<void> {
-    CommonActions.waitAndClick(this.skipForwardButton);
+    await CommonActions.waitAndClick(this.skipForwardButton);
   }
 
   public async selectSkipBack(): Promise<void> {
-    CommonActions.waitAndClick(this.skipBackButton);
+    await CommonActions.waitAndClick(this.skipBackButton);
   }
 
   public async selectPlay(): Promise<void> {
-    CommonActions.waitAndClick(this.playButton);
+    await CommonActions.waitAndClick(this.playButton);
   }
 
   public async selectStop(): Promise<void> {
-    CommonActions.waitAndClick(this.stopButton);
+    await CommonActions.waitAndClick(this.stopButton);
   }
 
   public async selectReplay(): Promise<void> {
-    CommonActions.waitAndClick(this.replayButton);
+    await CommonActions.waitAndClick(this.replayButton);
   }
 
   public async selectPause(): Promise<void> {
-    CommonActions.waitAndClick(this.pauseButton);
+    await CommonActions.waitAndClick(this.pauseButton);
   }
 
   public async moveReplayTimeTo(time: string): Promise<void> {
-    await this.setReplaySpeed(ReplaySpeed.x5);
+    await this.setReplaySpeed(ReplaySpeed.x4);
     const timeAsLocalTime = LocalTime.parse(time);
     while ((await this.getTimestamp()).toLocalTime().hour() < timeAsLocalTime.hour()) {
       await this.selectSkipForward();
@@ -126,7 +91,7 @@ export class ReplayPageObject {
     await this.setReplaySpeed(ReplaySpeed.x1);
   }
 
-  private async getTimestamp(): Promise<LocalDateTime> {
+  public async getTimestamp(): Promise<LocalDateTime> {
     const timestamp = await this.timestamp.getText();
     return LocalDateTime.parse(timestamp.replace('Replay: ', ''),
       DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm:ss'));
@@ -140,21 +105,8 @@ export class ReplayPageObject {
     await browser.actions().mouseMove(el).click().perform();
   }
 
-  public async setStartDate(date): Promise<void> {
-    await InputBox.ctrlADeleteClear(this.startDate);
-    await this.startDate.sendKeys(date);
-    browser.sleep(1000);
-  }
-
-  public async setStartTime(time): Promise<void> {
-    await InputBox.ctrlADeleteClear(this.startTime);
-    await this.startTime.sendKeys(time);
-    browser.sleep(1000);
-  }
-
-  public async selectDurationOfReplay(duration): Promise<void> {
-    await this.durationExpand.click();
-    await this.durationContainer.element(by.cssContainingText('li', duration)).click();
+  public async getMapName(): Promise<string> {
+    return this.mapName.getText();
   }
 }
 
@@ -170,4 +122,3 @@ export enum ReplaySpeed {
   x25,
   x30
 }
-

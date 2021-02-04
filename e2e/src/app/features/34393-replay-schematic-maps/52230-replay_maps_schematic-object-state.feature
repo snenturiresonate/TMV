@@ -74,40 +74,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     Then the signal roundel for signal 'SN128' is grey
 
   @tdd @replayTest
-  Scenario:34393-32 AES State (AES Applied)
-    #Given an S-Class message is received and processed
-    #And the S-Class message is associated with an S-Class berth of type AES
-    #And the S-Class message is setting the AES to applied
-    #When a user is viewing a map that contains an AES indicator
-    #Then the AES box will display an AES text (purple) in the box
-    Given I load the replay data from scenario '34081 - 26 AES State (AES Applied)'
-    And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
-    And I select the map 'gw15cambrian.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
-    And I wait for the buffer to fill
-    And I select skip forward until the end of the replay is reached
-    Then I should see the AES boundary elements
-
-  @tdd @replayTest
-  Scenario:34393-33 AES State (AES Not Applied)
-    #Given an S-Class message is received and processed
-    #And the S-Class message is associated with an S-Class berth of type AES
-    #And the S-Class message is setting the AES to not applied
-    #When a user is viewing a map that contains an AES indicator
-    #Then the AES box will not display an AES text (purple) in the box
-    Given I load the replay data from scenario '34081 - 27 AES State (AES Not Applied)'
-    And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
-    And I select the map 'gw08cardiffswml.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
-    And I wait for the buffer to fill
-    And I select skip forward until the end of the replay is reached
-    Then I should not see the AES boundary elements
-
-  @tdd @replayTest
   Scenario:34393-34 Track State (Route Set)
     #Given an S-Class message is received and processed
     #And the S-Class message is a Route Expression Signalling function
@@ -122,8 +88,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
-    Then the track state width for 'PNPNBD' is '3px'
-    And the track state class for 'PNPNBD' is 'track_active'
+    Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in solid white
 
   @tdd @replayTest
   Scenario:34393-35 Track State (Route Not Set)
@@ -141,7 +106,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
-    And  the track state width for 'PNPNBD' is '2px'
+    Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
 
   @tdd @replayTest
   Scenario: 34393-36 Dual Signals

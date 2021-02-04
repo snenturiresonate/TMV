@@ -262,9 +262,10 @@ export class MapPageObject {
     return trackWidth.getCssValue('stroke-width');
   }
 
-  public async getTrackClass(trackId: string): Promise<string> {
-    const trackClass: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
-    return trackClass.getCssValue('class');
+  public async getTrackColour(trackId: string): Promise<string> {
+    const track: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
+    const trackColourRgb: string = await track.getCssValue('stroke');
+    return CssColorConverterService.rgb2Hex(trackColourRgb);
   }
   public async getRouteIndication(trackId: string): Promise<string> {
     const routeIndication: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
@@ -277,7 +278,7 @@ export class MapPageObject {
   }
   public async isDirectionChevronDisplayed(): Promise<boolean> {
     await CommonActions.waitForElementToBeVisible(this.liveMap);
-    return element(by.css(`[id^='s-class-berth-element-text-']`)).isPresent();
+    return element(by.css(`text[class='DIRECTION_LOCK']`)).isPresent();
   }
   public async aesElementsAreDisplayed(): Promise<boolean> {
     const elm = this.aesBoundaryElements.element(by.css('[id^=aes-boundaries-element]'));

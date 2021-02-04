@@ -1,4 +1,4 @@
-Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing and Direction Lock
+Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, Direction Lock and AES
   (From Gherkin for Feature 40680 and functionality developed in US34081)
   As a TMV User
   I want the view schematic maps in replay mode
@@ -103,3 +103,40 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing a
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the direction lock chevrons are not displayed
+
+  @tdd @replayTest
+  Scenario:34393 - 32 AES State (AES Applied)
+    #Given an S-Class message is received and processed
+    #And the S-Class message is associated with an S-Class berth of type AES
+    #And the S-Class message is setting the AES to applied
+    #When a user is viewing a map that contains an AES indicator
+    #Then the AES box will display an AES text (purple) in the box
+    Given I load the replay data from scenario '34081 - 26 AES State (AES Applied)'
+    And I am on the replay page
+    When I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'gw15cambrian.v'
+    And I have set replay time and date from the recorded session
+    And I select Start
+    And I wait for the buffer to fill
+    And I select skip forward until the end of the replay is reached
+    Then the AES box containing s-class-berth 'MHAES2' will display purple aes text of 'ES2'
+
+  @tdd @replayTest
+  Scenario:34393 - 33 AES State (AES Not Applied)
+    #Given an S-Class message is received and processed
+    #And the S-Class message is associated with an S-Class berth of type AES
+    #And the S-Class message is setting the AES to not applied
+    #When a user is viewing a map that contains an AES indicator
+    #Then the AES box will not display an AES text (purple) in the box
+    Given I load the replay data from scenario '34081 - 27 AES State (AES Not Applied)'
+    And I am on the replay page
+    When I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'gw15cambrian.v'
+    And I have set replay time and date from the recorded session
+    And I select Start
+    And I wait for the buffer to fill
+    And I select skip forward until the end of the replay is reached
+    Then the AES box containing s-class-berth 'MHAES1' will display purple aes text of 'ES1'
+    And the AES box containing s-class-berth 'MHAES3' will display purple aes text of 'ES3'
+    And the AES box containing s-class-berth 'MHAES4' will display purple aes text of 'ES4'
+    And the AES box containing s-class-berth 'MHAES2' will display no aes text of 'ES2'

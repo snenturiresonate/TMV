@@ -31,7 +31,14 @@ const mapColourHex = {
   white: '#ffffff',
   orange: '#ffa700',
   grey: '#969696',
-  paleblue: '#00d2ff'
+  palegrey: '#b2b2b2',
+  paleblue: '#00d2ff',
+  purple: '#ff3cb1'
+};
+
+const mapLineWidth = {
+  thin: '2px',
+  solid: '3px',
 };
 
 const mapObjectColourHex = {
@@ -48,16 +55,16 @@ const mapObjectColourHex = {
   train_washer_indicator: ['#969696'],
   AES_boundaries_line_group: ['#ff3cb1'],
   alarm_box: ['#ffffff'],
-  tunnel_bridge_viaduct: ['#969696'],
+  tunnel_bridge_viaduct: ['#666666'],
   cut_bar: ['#ffffff'],
   level_crossing: ['#ffffff'],
-  dashed_track_section: ['#ffffff'],
-  continuation_button: ['#0000ff'],
+  dashed_track_section: ['#b2b2b2'],
+  continuation_button: ['#0000ff', '#ffffff'],
   limit_of_shunt_static_signal: ['#000000'],
   static_signal: ['#000000'],
   static_shunt_signal: ['#000000'],
   static_markerboard: ['#000000'],
-  active_track_section: ['#ffffff'],
+  active_track_section: ['#b2b2b2', '#ffffff'],
   active_main_signal: ['#ff0000', '#00ff00', '#969696'],
   active_shunters_release: ['#ffffff'],
   active_markerboard: ['#ff0000', '#00ff00', '#969696'],
@@ -65,7 +72,7 @@ const mapObjectColourHex = {
   active_shunt_signal: ['#ff0000', '#ffffff', '#969696'],
   aes_boundaries_text_label: ['#ff3cb1'],
   direction_lock_text_label: ['#ffb578'],
-  connector_text_label: ['#ffffff'],
+  connector_text_label: ['#0000ff', '#ffffff'],
   other_text_label: ['#ffffff'],
   berth: ['#e1e1e1', '#ffd6b6'],
   manual_trust_berth: ['#ffff00']
@@ -415,6 +422,19 @@ Then('the s-class-berth {string} will display {word} Route indication of {string
   }
 });
 
+Then('the AES box containing s-class-berth {string} will display {word} aes text of {string}',
+  async (sClassBerthId: string, expectedIndicationCount: string, aesCode: string) => {
+    if (expectedIndicationCount === 'no') {
+      expect(! await mapPageObject.isSClassBerthElementPresent(sClassBerthId));
+    }
+    else {
+      const actualIndicationText = await mapPageObject.getSClassBerthElementText(sClassBerthId);
+      const actualIndicationTextColourHex = await mapPageObject.getSClassBerthElementTextColour(sClassBerthId);
+      expect(actualIndicationTextColourHex).to.equal(mapColourHex.purple);
+      expect(actualIndicationText).to.equal(aesCode);
+    }
+  });
+
 
 Then('there is no text indication for {word} {string}', async (sClassBerthType: string, sClassBerthId: string) => {
   expect(! await mapPageObject.isSClassBerthElementPresent(sClassBerthId));
@@ -588,14 +608,28 @@ Then('the track state width for {string} is {string}',
     expect(actualWidth).to.equal(expectedWidth);
   });
 
-Then('the track state class for {string} is {string}',
-  async (trackId: string, expectedClass: string) => {
-    const actualClass = await mapPageObject.getTrackClass(trackId);
-    expect(actualClass).to.equal(expectedClass);
-  });
-
 Then('the route indication for {string} is {string}',
   async (trackId: string, expectedValue: string) => {
     const actualValue = await mapPageObject.getRouteIndication(trackId);
     expect(actualValue).to.equal(expectedValue);
+  });
+
+Then('the track colour for track {string} is {word}',
+  async (trackId: string, expectedValue: string) => {
+    const expectedSignalStatusHex = mapColourHex[expectedValue];
+    const actualSignalStatus: string = await mapPageObject.getTrackColour(trackId);
+    expect(actualSignalStatus).to.equal(expectedSignalStatusHex);
+  });
+
+Then('the tracks {string} are displayed in {word} {word}',
+  async (trackIds: string, expectedWidth: string, expectedColour: string) => {
+    const expectedTrackIds = trackIds.split(',').map(item => item.trim());
+    const expectedTrackColourHex = mapColourHex[expectedColour];
+    const expectedTrackWidth = mapLineWidth[expectedWidth];
+    for (const trackId of expectedTrackIds) {
+      const actualTrackColour: string = await mapPageObject.getTrackColour(trackId);
+      const actualTrackWidth: string = await mapPageObject.getTrackWidth(trackId);
+      expect(actualTrackColour).to.equal(expectedTrackColourHex);
+      expect(actualTrackWidth).to.equal(expectedTrackWidth);
+    }
   });

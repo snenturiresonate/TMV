@@ -4,7 +4,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
   I want to schematic objects displayed with the latest state
   So that I have a live view of the railway
 
-  @tdd @replaySetup @bug #52832
+  @replaySetup
   Scenario:34081 - 28 Track State (Route Set)
     #Given an S-Class message is received and processed
     #And the S-Class message is a Route Expression Signalling function
@@ -12,15 +12,14 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #When a user is viewing a map that contains the track(s)
     #Then the track(s) will be displayed in solid white
     Given I am viewing the map hdgw01paddington.v
-    And I set up all signals for address 50 in D3 to be not-proceed
-    And the track state width for 'PNPNBD' is '2px'
+    And I set up all signals for address 06 in D3 to be not-proceed
+    And the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 06      | 08   | 10:45:00  |
-    Then the track state width for 'PNPNBD' is '3px'
-    And the track state class for 'PNPNBD' is 'track_active'
+    Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in solid white
 
-  @tdd @replaySetup @bug #52832
+  @replaySetup
   Scenario:34081 - 29 Track State (Route Not Set)
     #Given an S-Class message is received and processed
     #And the S-Class message is a Route Expression Signalling function
@@ -29,17 +28,16 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
     #When a user is viewing a map that contains the track(s)
     #Then the track(s) will be displayed in thin white
     Given I am viewing the map hdgw01paddington.v
-    And I set up all signals for address 50 in D3 to be not-proceed
-    And the track state width for 'PNPNBD' is '2px'
+    And I set up all signals for address 06 in D3 to be not-proceed
+    And the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
     And the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 06      | 08   | 10:45:00  |
-    And  the track state width for 'PNPNBD' is '3px'
-    And the track state class for 'PNPNBD' is 'track_active'
+    And the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in solid white
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 06      | 00   | 10:45:00  |
-    And  the track state width for 'PNPNBD' is '2px'
+    Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
 
   @replaySetup
   Scenario: 34081 - 30 Dual Signals
@@ -56,7 +54,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       | D3             | 92      | 08   | 10:03:00  |
     Then the signal roundel for signal 'SN212' is green
 
-  @replaySetup
+  @replaySetup @bug @bug_54549
   Scenario Outline: 34081 - 31 Q Berth
     #Given An S-Class display berth exists in the Q berth configuration data
     #When a Q berth message is received

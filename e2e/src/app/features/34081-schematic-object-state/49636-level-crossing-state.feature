@@ -1,4 +1,5 @@
-Feature: 49634 - Schematic State - Level Crossing, Direction Lock and AES
+@bug @bug_54829
+Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
   (From Gherkin for Feature 34081)
   As a TMV User
   I want to schematic objects displayed with the latest state
@@ -94,6 +95,7 @@ Feature: 49634 - Schematic State - Level Crossing, Direction Lock and AES
       | MH             | 36      | 00   | 10:45:00  |
     Then the direction lock chevrons are not displayed
 
+  @replaySetup
   Scenario: 34081 - 26 AES State (AES Applied)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type AES
@@ -101,15 +103,25 @@ Feature: 49634 - Schematic State - Level Crossing, Direction Lock and AES
     #When a user is viewing a map that contains an AES indicator
     #Then the AES box will display an AES text (purple) in the box
     Given I am viewing the map gw15cambrian.v
-    And I set up all signals for address 36 in MH to be not-proceed
-    Then I should see the AES boundary elements
+    And I set up all signals for address 35 in MH to be not-proceed
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | MH             | 35      | 02   | 10:45:00  |
+    Then the AES box containing s-class-berth 'MHAES2' will display purple aes text of 'ES2'
 
+  @replaySetup
   Scenario: 34081 - 27 AES State (AES Not Applied)
       #Given an S-Class message is received and processed
       #And the S-Class message is associated with an S-Class berth of type AES
       #And the S-Class message is setting the AES to not applied
       #When a user is viewing a map that contains an AES indicator
       #Then the AES box will not display an AES text (purple) in the box
-    Given I am viewing the map gw08cardiffswml.v
-    And I set up all signals for address 36 in MH to be not-proceed
-    Then I should not see the AES boundary elements
+    Given I am viewing the map gw15cambrian.v
+    And I set up all signals for address 35 in MH to be proceed
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | MH             | 35      | 0D   | 10:45:00  |
+    Then the AES box containing s-class-berth 'MHAES1' will display purple aes text of 'ES1'
+    And the AES box containing s-class-berth 'MHAES3' will display purple aes text of 'ES3'
+    And the AES box containing s-class-berth 'MHAES4' will display purple aes text of 'ES4'
+    And the AES box containing s-class-berth 'MHAES2' will display no aes text of 'ES2'
