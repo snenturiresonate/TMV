@@ -7,16 +7,21 @@ Feature: 46474 - Administration Login Message - full end to end testing
   Background:
     Given I am on the admin page
     And I navigate to the 'Login Message' admin tab
-  @bug @defaultValues
+
+  @bug @bug_54566
   Scenario: Login message view
     Then I should see the login settings 'Message' as 'Welcome to TMV'
     And I should see the login settings 'Terms and Conditions' as 'TMV terms of use'
 
-  Scenario: Login message update and save
+  @bug @bug_54566
+  Scenario: Login message update and reset
     When I update login settings 'Message' as 'Login Message'
     And I update login settings 'Terms and Conditions' as 'Login Terms and Conditions'
-    Then I should be able to save the login message settings
+    And I reset the login message settings
+    Then I should see the login settings 'Message' as 'Welcome to TMV'
+    And I should see the login settings 'Terms and Conditions' as 'TMV terms of use'
 
+  @bug @bug_54566
   Scenario: Login message save and verify
     When I update login settings 'Message' as 'Login Message'
     And I update login settings 'Terms and Conditions' as 'Login Terms and Conditions'
@@ -25,14 +30,8 @@ Feature: 46474 - Administration Login Message - full end to end testing
     And I navigate to the 'Login Message' admin tab
     Then I should see the login settings 'Message' as 'Login Message'
     And I should see the login settings 'Terms and Conditions' as 'Login Terms and Conditions'
-  @bug @defaultValues
-  Scenario: Login message update and reset
-    When I update login settings 'Message' as 'Login Message'
-    And I update login settings 'Terms and Conditions' as 'Login Terms and Conditions'
-    And I reset the login message settings
-    Then I should see the login settings 'Message' as 'Welcome to TMV'
-    And I should see the login settings 'Terms and Conditions' as 'TMV terms of use'
 
+  @bug @bug_54566 @manual
   Scenario: User should see the unsaved dialogue when refreshing the page without saving the changes
     When I update login settings 'Message' as 'Login Message'
     And I update login settings 'Terms and Conditions' as 'Login Terms and Conditions'
@@ -41,3 +40,10 @@ Feature: 46474 - Administration Login Message - full end to end testing
     And I navigate to the 'Login Message' admin tab
     Then I should see the login settings 'Message' as ''
     And I should see the login settings 'Terms and Conditions' as ''
+
+  #Update to default messages for future tests
+  @bug @bug_54566 @manual
+  Scenario: Reset messages to default
+    When I update login settings 'Message' as 'Welcome to TMV'
+    And I update login settings 'Terms and Conditions' as 'TMV terms of use'
+    And I should be able to save the login message settings
