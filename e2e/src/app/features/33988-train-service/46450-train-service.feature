@@ -53,8 +53,8 @@ Feature: 46450 - TMV Train Service - full end to end testing
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 10:02:06  | A003      | D3 		             | 1F23		          |
     And the berth context menu is displayed with berth name 'D3A003'
-    Then the headcode displayed for 'A003' is 1F23
-    And the train headcode color for berth 'A003' is darkgrey
+    Then the headcode displayed for 'A001' is 1F23
+    And the train headcode color for berth 'A001' is darkgrey
 
   @tdd
   Scenario: 4 Last Berth (Head Code)
