@@ -1,4 +1,4 @@
-@bug @bug_54827
+@bug @bug_54441
 Feature: 33753 - TMV Timetable
 
   As a TMV dev team member

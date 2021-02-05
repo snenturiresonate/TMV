@@ -285,4 +285,21 @@ export class MapPageObject {
     await CommonActions.waitForElementToBeVisible(this.liveMap);
     return elm.isPresent();
   }
+  public async getBerthName(): Promise<string> {
+    return element(by.id('berth-context-menu-berth-name')).getText();
+  }
+
+  public async getBerthColor(berthId: string): Promise<string> {
+    const berthLink: ElementFinder = element(by.id('berth-element-text-' + berthId));
+    const berthColourRgb: string = await berthLink.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(berthColourRgb);
+  }
+
+  public async getBerthContextMenuSignalName(signalId: string): Promise<string> {
+    return element(by.id('berth-context-menu-signal-' + signalId)).getText();
+  }
+  public async getHeadcode(berthId: string): Promise<string> {
+    const berthLink: ElementFinder = element(by.id('berth-element-text-' + berthId));
+    return berthLink.getCssValue('data-train-description');
+  }
 }

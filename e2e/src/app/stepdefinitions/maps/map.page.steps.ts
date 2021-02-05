@@ -633,3 +633,36 @@ Then('the tracks {string} are displayed in {word} {word}',
       expect(actualTrackWidth).to.equal(expectedTrackWidth);
     }
   });
+
+Then('the berth context menu contains the signal id {string}', async (signalId: string) => {
+  const signalName: string = await mapPageObject.getBerthContextMenuSignalName(signalId);
+  expect(signalName).length.greaterThan(1);
+});
+
+Then('the berth id for {string} is {word}',
+  async (berthId: string, expectedStatus: string) => {
+    const actualStatus = await mapPageObject.getVisibilityStatus(berthId);
+    expect(actualStatus).to.equal(expectedStatus);
+  });
+
+Then('the headcode displayed for {string} is {word}',
+  async (berthId: string, expectedHeadcode: string) => {
+    const actualHeadcode = await mapPageObject.getHeadcode(berthId);
+    expect(actualHeadcode).to.equal(expectedHeadcode);
+  });
+
+When('I right click on berth with id {string}', async (berthId: string) => {
+  await mapPageObject.rightClickBerth(berthId);
+});
+
+Then('the berth context menu is displayed with berth name {string}', async (expectedBerthName: string) => {
+  const berthName: string = await mapPageObject.getBerthName();
+  expect(berthName).to.equal(expectedBerthName);
+});
+
+Then('the train headcode color for berth {string} is {word}',
+  async (berthId: string, expectedColor: string) => {
+    const expectedColorHex = mapColourHex[expectedColor];
+    const actualSignalStatus: string = await mapPageObject.getBerthColor(berthId);
+    expect(actualSignalStatus).to.equal(expectedColorHex);
+  });
