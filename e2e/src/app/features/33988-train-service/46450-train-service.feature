@@ -71,3 +71,17 @@ Feature: 46450 - TMV Train Service - full end to end testing
     Then the headcode displayed for 'A001' is R001
     And the train headcode color for berth 'A001' is stone
 
+  @tdd
+  Scenario: 5 Off Planned Path
+    #Given the user is viewing a live schematic map
+    #And there are services running
+    #When the user views an individual service is off planned path
+    #Then the train's headcode colour represents "off plan"
+    #And the train's path that is off plan is a different colour to the on plan portion
+    Given the access plan located in CIF file 'access-plan/1D46_PADTON_OXFD.cif' is amended so that all services start within the next hour and then received from LINX
+    And I am viewing the map hdgw01paddington.v
+    When the following berth interpose message is sent from LINX
+      | timestamp | toBerth   | trainDescriber     | trainDescription   |
+      | 10:02:06  | A019      | D3 		             | 1D46		          |
+    Then the headcode displayed for 'A019' is 1D46
+    And the train headcode color for berth 'A019' is darkblue
