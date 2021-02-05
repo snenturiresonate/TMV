@@ -4,6 +4,7 @@ Feature: 46450 - TMV Train Service - full end to end testing
   I want end to end tests to be created for the Train Service functionality
   So that there is confidence that it continues to work as expected as more of the system is developed
 
+  @tdd
   Scenario: 1 Punctuality (Matched Service)
   #Given the user is authenticated to use TMV
   #When the user is viewing the service on the map
