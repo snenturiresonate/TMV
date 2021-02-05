@@ -1,6 +1,7 @@
 import { by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {browser} from 'protractor';
+import { InputBox } from '../common/ui-element-handlers/inputBox';
 
 export class TrainsListMiscConfigTab {
   public classHeader: ElementFinder;
@@ -17,7 +18,7 @@ export class TrainsListMiscConfigTab {
   public trainsListConfigTabs: ElementArrayFinder;
   public tabSectionHeader: ElementFinder;
   constructor() {
-    this.classHeader = element(by.id('class-header'));
+    this.classHeader = element(by.css('#miscTabContent .punctuality-header'));
     this.classToggle = element.all(by.css('.misc-table .toggle-switch >span:nth-child(3)'));
     this.className = element.all(by.css('.misc-table td:nth-child(1)'));
     this.selectAllClassBtn = element(by.id('selectAllClasses'));
@@ -54,8 +55,8 @@ export class TrainsListMiscConfigTab {
   public async clearAllButton(): Promise<void> {
     return this.clearAllClassBtn.click();
   }
-  public async getTrainMiscClassNameRight(): Promise<string> {
-    return this.miscClassRight.getText();
+  public async getTrainMiscClassNameRight(index: number): Promise<string> {
+    return this.miscClassRight.get(index).getText();
   }
   public async getIgnoreToggleState(): Promise<string> {
     return this.ignoreToggleButton.getText();
@@ -96,5 +97,40 @@ export class TrainsListMiscConfigTab {
   }
   public async getTabSectionHeader(): Promise<string> {
     return CommonActions.waitAndGetText(this.tabSectionHeader);
+  }
+  public async getTrainMiscClassNameToggleValuesRight(label: string): Promise<string> {
+    return CommonActions.waitAndGetText(this.rightClassTableToggleRouter(label));
+  }
+  public async getTrainMiscClassNameNumberValuesRight(label: string): Promise<string> {
+    return InputBox.waitAndGetTextOfInputBox(this.rightClassTableNumberRouter(label));
+  }
+  public rightClassTableToggleRouter(label: string): ElementFinder {
+    let routeLocator: ElementFinder;
+    switch (label) {
+      case ('Ignore PD Cancels'):
+        routeLocator = this.ignoreToggleButton;
+        break;
+      case ('Unmatched'):
+        routeLocator = this.unmatchedToggleButton;
+        break;
+      case ('Uncalled'):
+        routeLocator = this.uncalledToggleButton;
+        break;
+      default:
+        throw new Error(`Please verify the feature file table at ${label}`);
+    }
+    return routeLocator;
+  }
+  public rightClassTableNumberRouter(label: string): ElementFinder {
+    let routeLocator: ElementFinder;
+    switch (label) {
+      case ('Time to remain on list'):
+        routeLocator = this.timeToRemainBox;
+        break;
+      case ('Appear before current time on list'):
+        routeLocator = this.timeToAppearBeforeBox;
+        break;
+    }
+    return routeLocator;
   }
 }
