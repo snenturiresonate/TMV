@@ -3,6 +3,7 @@ import {of} from 'rxjs';
 import {browser, by, element, ElementArrayFinder, ElementFinder, ExpectedConditions} from 'protractor';
 import {TimetableTableRowPageObject} from '../sections/timetable.tablerow.page';
 import * as assert from 'assert';
+import {CssColorConverterService} from '../../services/css-color-converter.service';
 
 export class TimeTablePageObject {
   public timetableTab: ElementFinder;
@@ -21,6 +22,7 @@ export class TimeTablePageObject {
   public rows: ElementArrayFinder;
   public insertedToggle: ElementFinder;
   public insertedToggleState: ElementFinder;
+  public timetableHeaderThElements: ElementArrayFinder;
   constructor() {
     this.headerLabels = element.all(by.css('.tmv-header-content [id$=Label]'));
     this.timetableTab = element(by.id('timetable-table-tab'));
@@ -38,6 +40,7 @@ export class TimeTablePageObject {
     this.rows = element.all(by.css('[id^=tmv-timetable-row]'));
     this.insertedToggle = element(by.css('#live-timetable-toggle-menu .toggle-switch'));
     this.insertedToggleState = element(by.css('#live-timetable-toggle-menu [class^=absolute]'));
+    this.timetableHeaderThElements = element.all(by.css('[id^=tmv-timetable-header-row] th'));
   }
 
   navigateTo(service: string): Promise<unknown> {
@@ -50,6 +53,9 @@ export class TimeTablePageObject {
       .then(list => list.map(id => new TimetableTableRowPageObject(element(by.id(id.toString())))));
   }
 
+  async getHeaderColours(): Promise<string[]> {
+    return this.timetableHeaderThElements.map(elem => elem.getCssValue('background-colour'));
+  }
   async toggleInserted(status: string): Promise<void> {
     const state = await this.insertedToggleState.getText();
     if (status.toLowerCase() !== state) {
@@ -189,8 +195,9 @@ export class TimeTablePageObject {
     return this.changeEnRoute.getText();
   }
 
-  public async getNavBarIndicatorColor(): Promise<string> {
-    return this.navBarIndicatorColor.getCssValue('background-color');
+  public async getNavBarIndicatorColorHex(): Promise<string> {
+    const navIndicatorColourRgb = await this.navBarIndicatorColor.getCssValue('background-color');
+    return CssColorConverterService.rgb2Hex(navIndicatorColourRgb);
   }
 
   public async getNavBarIndicatorText(): Promise<string> {

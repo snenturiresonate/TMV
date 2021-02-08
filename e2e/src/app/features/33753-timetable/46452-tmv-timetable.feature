@@ -1,11 +1,11 @@
-@bug @bug_54827
+@bug @bug_54441
 Feature: 33753 - TMV Timetable
 
   As a TMV dev team member
   I want end to end tests to be created for the Timetable functionality
   So that there is confidence that it continues to work as expected as more of the system is developed
 
-  Scenario Outline: Scenario 1 -Open Timetable (Trains List)
+  Scenario Outline: 33753-1 -Open Timetable (Trains List)
      #Open Timetable (Trains List)
      #Given the user is authenticated to use TMV
      #And the user is viewing the trains list
@@ -25,7 +25,7 @@ Feature: 33753 - TMV Timetable
       | 1        |
 
   @tdd
-  Scenario Outline: Scenario 2 -Open Timetable (Map)
+  Scenario Outline: 33753-2 -Open Timetable (Map)
     #Given the user is authenticated to use TMV
     #And the user is viewing a map
     #When the user selects a train (occupied berth) from the map using the secondary click
@@ -43,7 +43,7 @@ Feature: 33753 - TMV Timetable
       | trainNum |
       | 1G69     |
 
-  Scenario Outline: Scenario - 3 Open Timetable (Search Result - Train, Timetable & Manual Match Search Results)
+  Scenario Outline: 33753-3 Open Timetable (Search Result - Train, Timetable & Manual Match Search Results)
     #Given the user is authenticated to use TMV
     #And the user is viewing a search results list
     #When the user selects a train search result using the secondary click
@@ -66,8 +66,8 @@ Feature: 33753 - TMV Timetable
       | trainNum |
       | 1        |
 
-  @tdd
-  Scenario: Scenario 4 - View Timetable (Schedule Matched)
+  @tdd @replaySetup
+  Scenario: 33753-4 - View Timetable (Schedule Matched)
     #Given the user is authenticated to use TMV
     #And the user has opened a timetable
     #And the train is schedule matched
@@ -86,7 +86,7 @@ Feature: 33753 - TMV Timetable
       And The values for the header properties are as follows
         | schedType | lastSignal | lastReport                  | trainUid | trustId       | lastTJM  |
         | VAR       |            |                             | L77777   |               |          |
-      And the navbar punctuality indicator is displayed as 'rgba(0, 255, 0, 1)'
+      And the navbar punctuality indicator is displayed as 'green'
       And the punctuality is displayed as 'On Time'
       Then a matched service is visible
       And The timetable entries contains the following data
@@ -144,7 +144,7 @@ Feature: 33753 - TMV Timetable
         |OXFDUDP		             |                    |00:40:00	          |00:00:00	           |00:00:00        |				              |                     |                    |[1]         |            |                 |              |           |          |          |             |
         |OXFD	                   |00:43:00		        |                   |00:43:00		         |                |3                    |                     |                    |            |            |                 |              |           |          |          |             |
   @tdd
-  Scenario: Scenario 5 - View Timetable (Schedule Not Matched)
+  Scenario: 33753-5 - View Timetable (Schedule Not Matched)
     #Given the user is authenticated to use TMV
     #And the user has opened a timetable
     #And the train is not schedule matched
@@ -166,7 +166,7 @@ Feature: 33753 - TMV Timetable
       | location   | workingArrivalTime | workingDeptTime  | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode   | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
 
   @tdd
-  Scenario: Scenario 7 - View Timetable (Schedule Matched)
+  Scenario: 33753-7 - View Timetable (Schedule Matched)
     #Given the user is authenticated to use TMV
     #And the user has opened a timetable
     #And the train is schedule matched
@@ -182,7 +182,7 @@ Feature: 33753 - TMV Timetable
     And I wait for the context menu to display
     And I open timetable from the context menu
     And I switch to the new tab
-    And the navbar punctuality indicator is displayed as 'rgba(0, 255, 0, 1)'
+    And the navbar punctuality indicator is displayed as 'green'
     And the punctuality is displayed as 'On Time'
     Then a matched service is visible
     When I switch to the timetable details tab
@@ -200,7 +200,7 @@ Feature: 33753 - TMV Timetable
 
 
   @tdd
-  Scenario: Scenario 8 - View Timetable Detail (Not Schedule Matched)
+  Scenario: 33753-8 - View Timetable Detail (Not Schedule Matched)
     #Given the user is authenticated to use TMV
     #And the user has opened a timetable
     #And the train is not schedule matched

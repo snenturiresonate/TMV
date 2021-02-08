@@ -1,5 +1,5 @@
 import {InputBox} from '../common/ui-element-handlers/inputBox';
-import {browser, ElementArrayFinder, ElementFinder} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export abstract class TrainsListIndicationTable {
@@ -34,6 +34,16 @@ export abstract class TrainsListIndicationTable {
     await InputBox.updateColourPickerBox(elm, text);
   }
 
+  public async updateTrainIndicationColourTextOfSetting(name: string, text: string): Promise<void> {
+    const elm: ElementFinder = this.getSettingRow(name).element(by.css('.punctuality-name'));
+    await this.scrollToElement(elm);
+    await InputBox.updateColourPickerBox(elm, text);
+  }
+
+  public getSettingRow(name: string): ElementFinder {
+    return element(by.cssContainingText('#indication-div-container div.row', `${name}`));
+  }
+
   public async getTrainIndicationColourMinutes(index: number): Promise<string> {
     return this.minutesText.get(index) ? this.minutesText.get(index).getAttribute('value') : null;
   }
@@ -48,6 +58,19 @@ export abstract class TrainsListIndicationTable {
 
     if (selectUpdate !== currentSelectionToBoolean) {
       return this.toggleTrainIndicationClassToggle(index);
+    } else {
+      return;
+    }
+  }
+
+  public async updateTrainIndicationToggleOfSetting(name: string, update: string): Promise<void> {
+    const toggleElm = this.getSettingRow(name).element(by.css('.toggle-switch span:nth-child(3)'));
+    const selectUpdate: boolean = await this.convertToggleToBoolean(update);
+    const currentSelection: string = await toggleElm.getText();
+    const currentSelectionToBoolean: boolean = await this.convertToggleToBoolean(currentSelection);
+
+    if (selectUpdate !== currentSelectionToBoolean) {
+      return toggleElm.click();
     } else {
       return;
     }

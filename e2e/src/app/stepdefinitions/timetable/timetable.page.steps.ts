@@ -38,6 +38,18 @@ const timetableColumnIndexes = {
   punctuality: 15
 };
 
+const punctualityColourHex = {
+  palepink: '#ffb4b4',
+  lilac: '#e5b4ff',
+  paleblue: '#78e7ff',
+  palegreen: '#78ff78',
+  green: '#00ff00',
+  yellow: '#ffff00',
+  orange: '#ffa700',
+  red: '#ff0000',
+  darkpink: '#ff009c'
+};
+
 Then('The timetable service description is visible', async () => {
   const isTimetableServiceDescriptionVisible: boolean = await timetablePage.isTimetableServiceDescriptionVisible();
   expect(isTimetableServiceDescriptionVisible).to.equal(true);
@@ -186,8 +198,9 @@ Then('The timetable entries contains the following data',
   });
 
 Then('the navbar punctuality indicator is displayed as {string}', async (expectedColor: string) => {
-  const actualColor: string = await timetablePage.getNavBarIndicatorColor();
-  expect(actualColor).to.equal(expectedColor);
+  const actualColorHex: string = await timetablePage.getNavBarIndicatorColorHex();
+  const expectedColourHex = punctualityColourHex[expectedColor];
+  expect(actualColorHex).to.equal(expectedColourHex);
 });
 
 Then('the punctuality is displayed as {string}', async (expectedText: string) => {

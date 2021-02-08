@@ -1,6 +1,7 @@
 import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {InputBox} from '../common/ui-element-handlers/inputBox';
+import {GeneralUtils} from '../common/utilities/generalUtils';
 
 export class TrainsListTableColumnsPage {
   public tableLocator: ElementFinder;
@@ -61,5 +62,16 @@ export class TrainsListTableColumnsPage {
     await CommonActions.waitForElementToBeVisible(this.toc.first());
     await this.toc.each(elm => elm.getText().then(text => valueArr.push(text.toString())));
     return valueArr;
+  }
+
+  public async getBackgroundColourOfRow(trainDescriberId: string): Promise<string[]> {
+    const colourOfEachRowArray: any[] = [];
+    await this.waitForTableToLoad();
+    const elm = element.all(by.css(`#trains-list-row-${trainDescriberId}`));
+    elm.each(el => {
+      GeneralUtils.scrollToElement(el);
+      colourOfEachRowArray.push(el.getCssValue('background-color'));
+    });
+    return colourOfEachRowArray;
   }
 }

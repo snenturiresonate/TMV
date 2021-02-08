@@ -1,3 +1,4 @@
+@bug @bug_54962
 Feature: 46482 - TMV Key - display key
   As a TMV User
   I want to view a symbol key

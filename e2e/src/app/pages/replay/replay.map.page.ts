@@ -12,6 +12,7 @@ export class ReplayMapPage {
   public pauseButton: ElementFinder;
   public stopButton: ElementFinder;
   public replayButton: ElementFinder;
+  public replayContainer: ElementFinder;
   public continuationLinkContextMenu: ContinuationLinkContextMenu;
   public berthContextMenu: BerthContextMenu;
   public timestamp: ElementFinder;
@@ -22,13 +23,14 @@ export class ReplayMapPage {
     // Replay Map Page
     this.continuationLinkContextMenu = new ContinuationLinkContextMenu();
     this.berthContextMenu = new BerthContextMenu();
-    this.bufferingIndicator = element(by.css('.bufferingIndicator'));
+    this.bufferingIndicator = element(by.css('.buffering-indicator'));
     this.skipForwardButton = element(by.xpath('//li[contains(text(),"skip_next")]'));
     this.skipBackButton = element(by.xpath('//li[contains(text(),"skip_previous")]'));
     this.playButton = element(by.xpath('//li[contains(text(),"play_circle_outline")]'));
     this.pauseButton = element(by.xpath('//li[contains(text(),"pause_circle_outline")]'));
     this.stopButton = element(by.xpath('//li[contains(text(),"stop")]'));
     this.replayButton = element(by.xpath('//li[contains(text(),"replay")]'));
+    this.replayContainer = element(by.css('.reply-container'));
     this.timestamp = element(by.css('.playback-status div'));
     this.replaySpeedButton = element(by.xpath('//button[@title="Playback speed"]'));
     this.mapName = element(by.css('.map-dropdown-button h2'));
@@ -91,6 +93,11 @@ export class ReplayMapPage {
     await this.setReplaySpeed(ReplaySpeed.x1);
   }
 
+  public async getCurrentBackgroundColours(): Promise<string[]> {
+    const backgroundProperty = await this.replayContainer.getCssValue('background');
+    return translateGradientToRGBColorStopList(backgroundProperty);
+  }
+
   public async getTimestamp(): Promise<LocalDateTime> {
     const timestamp = await this.timestamp.getText();
     return LocalDateTime.parse(timestamp.replace('Replay: ', ''),
@@ -108,6 +115,20 @@ export class ReplayMapPage {
   public async getMapName(): Promise<string> {
     return this.mapName.getText();
   }
+
+}
+
+function translateGradientToRGBColorStopList(gradientString: string): string[] {
+  const colourList = [];
+  let startNum = 0;
+  const numColours = gradientString.match(/rgb/g).length;
+  for (let i = 0; i < numColours; i++) {
+    const newString = gradientString.substr(gradientString.indexOf('rgb', startNum),
+      (gradientString.indexOf(')', startNum) - gradientString.indexOf('rgb', startNum)) + 1);
+    colourList.push(newString);
+    startNum = gradientString.indexOf('rgb', startNum) + newString.length + 1;
+  }
+  return colourList;
 }
 
 export enum ReplaySpeed {
