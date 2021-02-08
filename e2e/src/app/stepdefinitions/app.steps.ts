@@ -19,6 +19,39 @@ import {TimingAtLocationBuilder} from '../utils/train-journey-modifications/timi
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
 
+Given(/^I navigate to (.*) page$/, async (pageName: string) => {
+
+  switch (pageName){
+    case 'Home':
+      await page.navigateTo('');
+      break;
+    case 'TrainsList':
+      await page.navigateTo('tmv/trains-list');
+      break;
+    case 'LogViewer':
+      await page.navigateTo('tmv/log-viewer');
+      break;
+    case 'Replay':
+      await page.navigateTo('tmv/replay');
+      break;
+    case 'UserManagement':
+      await page.navigateTo('tmv/user-management');
+      break;
+    case 'Maps':
+      await page.navigateTo(`tmv/maps/1`);
+      break;
+    case 'TrainsListConfig':
+      await page.navigateTo('tmv/trains-list-config');
+      break;
+    case 'TimeTable':
+      await page.navigateTo('tmv/live-timetable/1');
+      break;
+    case 'Admin':
+      await page.navigateTo('tmv/administration');
+      break;
+  }
+});
+
 Given(/^I am on the home page$/, async () => {
   await page.navigateTo('');
 });
