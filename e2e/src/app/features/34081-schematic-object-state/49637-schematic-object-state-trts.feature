@@ -54,7 +54,7 @@ Feature: 40680 - Basic UI - Schematic Object State Scenarios
       | D3             | 92      | 08   | 10:03:00  |
     Then the signal roundel for signal 'SN212' is green
 
-  @replaySetup @bug @bug_54549
+  @replaySetup
   Scenario Outline: 34081 - 31 Q Berth
     #Given An S-Class display berth exists in the Q berth configuration data
     #When a Q berth message is received
