@@ -26,28 +26,28 @@ Given(/^I navigate to (.*) page$/, async (pageName: string) => {
       await page.navigateTo('');
       break;
     case 'TrainsList':
-      await page.navigateTo('tmv/trains-list');
+      await page.navigateTo('/tmv/trains-list');
       break;
     case 'LogViewer':
-      await page.navigateTo('tmv/log-viewer');
+      await page.navigateTo('/tmv/log-viewer');
       break;
     case 'Replay':
-      await page.navigateTo('tmv/replay');
+      await page.navigateTo('/tmv/replay');
       break;
     case 'UserManagement':
-      await page.navigateTo('tmv/user-management');
+      await page.navigateTo('/tmv/user-management');
       break;
     case 'Maps':
-      await page.navigateTo(`tmv/maps/1`);
+      await page.navigateTo(`/tmv/maps/1`);
       break;
     case 'TrainsListConfig':
-      await page.navigateTo('tmv/trains-list-config');
+      await page.navigateTo('/tmv/trains-list-config');
       break;
     case 'TimeTable':
-      await page.navigateTo('tmv/live-timetable/1');
+      await page.navigateTo('/tmv/live-timetable/1');
       break;
     case 'Admin':
-      await page.navigateTo('tmv/administration');
+      await page.navigateTo('/tmv/administration');
       break;
   }
 });

@@ -78,7 +78,7 @@ Feature: 33757 - TMV National Search
       | A137657    | P              | 2020-01-01     |
     And the schedule has a Date Run to of 'yesterday'
     And the schedule is received from LINX
-    When I search Train for '2020-01-01'
+    When I search Timetable for 'A137657'
     Then no results are returned with that planning UID 'A137657'
 
     Examples:
@@ -101,7 +101,7 @@ Feature: 33757 - TMV National Search
       | trainUid   | stpIndicator   | dateRunsFrom   |
       | A337657    | P              | tomorrow       |
     And the schedule is received from LINX
-    When I search Train for '4F03'
+    When I search Timetable for '4F03'
     Then no results are returned with that planning UID 'A337657'
 
     Examples:
@@ -125,7 +125,7 @@ Feature: 33757 - TMV National Search
       | A537657    | P              | 2020-01-01     |
     And the schedule does not run on a day that is today
     And the schedule is received from LINX
-    When I search Train for '4F05'
+    When I search Timetable for '4F05'
     Then no results are returned with that planning UID 'A537657'
     Examples:
       |pageName            |
@@ -188,9 +188,9 @@ Feature: 33757 - TMV National Search
     |GW01   |
     |GW02   |
     |HDGW01 |
-    And the following berth interpose message is sent from LINX
-      | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | 0211      | D3 		             | 1F23		          |
+    And the following berth step message is sent from LINX
+      | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
+      | 0209      | 10:02:06  | 0211    | D3             | 1F23             |
     And I invoke the context menu from trains '1'
     And I wait for the train search context menu to display
     Then the trains context menu is displayed
