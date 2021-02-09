@@ -288,3 +288,13 @@ Then('the TMV Key option should not be visible', async () => {
 Then('there should only be one key model window open', async () => {
   expect(await navBarPage.countKeyModelWindows()).to.equal(1);
 });
+
+Then('the following map names can be seen', async (mapNameDataTable: any) => {
+  const expectedMapNames = mapNameDataTable.hashes();
+  const actualMapNames = await navBarPage.getMapNames();
+
+  expectedMapNames.forEach((expectedMapName: any) => {
+    expect(actualMapNames).to.contain(expectedMapName.mapName);
+  });
+});
+
