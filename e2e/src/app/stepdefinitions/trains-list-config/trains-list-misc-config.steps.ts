@@ -2,6 +2,7 @@ import {Given, Then, When} from 'cucumber';
 import { expect } from 'chai';
 import {TrainsListMiscConfigTab} from '../../pages/trains-list-config/trains.list.misc.config.tab';
 import {browser, protractor} from 'protractor';
+import {CheckBox} from "../../pages/common/ui-element-handlers/checkBox";
 
 const trainsListMisc: TrainsListMiscConfigTab = new TrainsListMiscConfigTab();
 
@@ -60,16 +61,35 @@ Then('the following can be seen on the class table', async (miscEntryDataTable: 
 Then('the following toggle values can be seen on the right class table', async (miscRightEntryDataTable: any) => {
   const expectedMiscRightEntries = miscRightEntryDataTable.hashes();
   const results: any[] = [];
-  for (let i = 0; i < expectedMiscRightEntries.length; i++){
+  for (let i = 0; i < expectedMiscRightEntries.length; i++) {
     const classValue = expectedMiscRightEntries[i].classValue;
     const toggleValue = (expectedMiscRightEntries[i].toggleValue).toLowerCase();
     results.push(expect(await trainsListMisc.getTrainMiscClassNameRight(i)).to.contain(classValue));
     if (toggleValue === 'on' || toggleValue === 'off') {
         results.push(expect(await trainsListMisc.getTrainMiscClassNameToggleValuesRight(classValue))
-          .to.contain(toggleValue));
+          .to.equal(await CheckBox.convertToggleToBoolean(toggleValue)));
       } else {
       results.push(expect(await trainsListMisc.getTrainMiscClassNameNumberValuesRight(classValue))
         .to.contain(toggleValue));
+    }
+  }
+  return protractor.promise.all(results);
+});
+
+When('I update the following misc options', async (miscRightEntryDataTable: any) => {
+  const expectedMiscRightEntries = miscRightEntryDataTable.hashes();
+  const results: any[] = [];
+  for (let i = 0; i < expectedMiscRightEntries.length; i++){
+    const classValue = expectedMiscRightEntries[i].classValue.toLowerCase();
+    const toggleValue = (expectedMiscRightEntries[i].toggleValue).toLowerCase();
+    if (toggleValue === 'on' || toggleValue === 'off') {
+      results.push(await trainsListMisc.updateTrainMiscSettingToggles(classValue, toggleValue));
+    } else if (classValue === 'time to remain on list') {
+      results.push(await trainsListMisc.setTimeToRemain(toggleValue));
+    } else if (classValue === 'appear before current time on list') {
+      results.push(await trainsListMisc.setTimeToAppearBefore(toggleValue));
+    } else {
+      throw new Error(`Please check the class value on feature file row ${i + 1}`);
     }
   }
   return protractor.promise.all(results);
@@ -109,4 +129,13 @@ Then('I should see the trains list configuration tabs as', async (table: any) =>
 Then('I see the train list config tab title as {string}', async (title: string) => {
   const actualTitle: string = await trainsListMisc.getTabSectionHeader();
   expect(actualTitle).to.contain(title);
+});
+
+When('the following class table updates are made', async (table: any) => {
+  const tableValues = table.hashes();
+  const results: any[] = [];
+  for (let i = 0; i < tableValues.length; i++) {
+    await trainsListMisc.updateToggleOfClassName(tableValues[i].classValue, tableValues[i].toggleValue);
+  }
+  return protractor.promise.all(results);
 });

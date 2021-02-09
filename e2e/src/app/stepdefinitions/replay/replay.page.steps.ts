@@ -11,10 +11,12 @@ import {browser, by, element, ExpectedConditions} from 'protractor';
 import {DateTimeFormatter, LocalDateTime} from '@js-joda/core';
 import {ReplaySelectMapPage} from '../../pages/replay/replay.selectmap.page';
 import {ReplaySelectTimerangePage} from '../../pages/replay/replay.selecttimerange.page';
+import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
 
 const replayPage: ReplayMapPage = new ReplayMapPage();
 const replaySelectMapPage: ReplaySelectMapPage = new ReplaySelectMapPage();
 const replaySelectTimerangePage: ReplaySelectTimerangePage = new ReplaySelectTimerangePage();
+const replayTimetablePage: TimeTablePageObject = new TimeTablePageObject();
 let replayScenario: ReplayScenario;
 
 When('I expand the replay group of maps with name {string}', async (mapName: string) => {
@@ -94,6 +96,10 @@ Then(/^the context menu for the berth has a signal plated name of '(.*)'$/, asyn
   expect(await replayPage.berthContextMenu.signalName.getText()).to.contain(signal);
 });
 
+When('I make a note of the main replay map background colour', async () => {
+  browser.referenceReplayBackgroundColours = await replayPage.getCurrentBackgroundColours();
+});
+
 When(/^I wait for the buffer to fill$/, async () => {
   await CommonActions.waitForElementToBeVisible(replayPage.bufferingIndicator);
 });
@@ -163,4 +169,11 @@ When(/^I select skip forward to just after replay scenario step '(.*)'$/, async 
   const timeToCheck: LocalDateTime = eventTime.plusSeconds(1);
   const timeToCheckString = timeToCheck.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
   await replayPage.moveReplayTimeTo(timeToCheckString);
+});
+
+Then('the timetable background colour is the same as the map background colour', async () => {
+  const timetableHeaderElementColours = await replayTimetablePage.getHeaderColours();
+  for (const elem of timetableHeaderElementColours) {
+    expect(elem).oneOf(browser.referenceReplayBackgroundColours);
+  }
 });

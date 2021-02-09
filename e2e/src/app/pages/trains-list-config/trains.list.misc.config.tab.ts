@@ -1,7 +1,7 @@
 import { by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
-import {browser} from 'protractor';
 import { InputBox } from '../common/ui-element-handlers/inputBox';
+import {CheckBox} from '../common/ui-element-handlers/checkBox';
 
 export class TrainsListMiscConfigTab {
   public classHeader: ElementFinder;
@@ -19,14 +19,14 @@ export class TrainsListMiscConfigTab {
   public tabSectionHeader: ElementFinder;
   constructor() {
     this.classHeader = element(by.css('#miscTabContent .punctuality-header'));
-    this.classToggle = element.all(by.css('.misc-table .toggle-switch >span:nth-child(3)'));
+    this.classToggle = element.all(by.css('.misc-table .toggle-switch'));
     this.className = element.all(by.css('.misc-table td:nth-child(1)'));
     this.selectAllClassBtn = element(by.id('selectAllClasses'));
     this.clearAllClassBtn = element(by.id('clearAllClasses'));
     this.miscClassRight = element.all(by.css('.misc-div-container>div>div:nth-child(1)'));
-    this.ignoreToggleButton = element(by.css('#ignorePdCancel-toggle-menu>label>span:nth-child(3)'));
-    this.unmatchedToggleButton = element(by.css('#unmatched-toggle-menu>label>span:nth-child(3)'));
-    this.uncalledToggleButton = element(by.css('#uncalled-toggle-menu>label>span:nth-child(3)'));
+    this.ignoreToggleButton = element(by.css('#ignorePdCancel-toggle-menu>label'));
+    this.unmatchedToggleButton = element(by.css('#unmatched-toggle-menu>label'));
+    this.uncalledToggleButton = element(by.css('#uncalled-toggle-menu>label'));
     this.timeToRemainBox = element(by.id('timeToRemain'));
     this.timeToAppearBeforeBox = element(by.id('timeToAppearBefore'));
     this.trainsListConfigTabs = element.all(by.css('#v-pills-tab li'));
@@ -89,7 +89,10 @@ export class TrainsListMiscConfigTab {
     return this.timeToAppearBeforeBox.click();
   }
   public async setTimeToAppearBefore(val: string): Promise<void> {
-    return browser.executeScript('document.getElementById(\'timeToAppearBefore\').value = ' + val + ';');
+    return InputBox.updateNumberInputById('timeToAppearBefore', val);
+  }
+  public async setTimeToRemain(val: string): Promise<void> {
+    return InputBox.updateNumberInputById('timeToRemain', val);
   }
   public async getTrainsListConfigTabNames(): Promise<any> {
     await CommonActions.waitForElementToBeVisible(this.trainsListConfigTabs.first());
@@ -98,22 +101,30 @@ export class TrainsListMiscConfigTab {
   public async getTabSectionHeader(): Promise<string> {
     return CommonActions.waitAndGetText(this.tabSectionHeader);
   }
-  public async getTrainMiscClassNameToggleValuesRight(label: string): Promise<string> {
-    return CommonActions.waitAndGetText(this.rightClassTableToggleRouter(label));
+  public async getTrainMiscClassNameToggleValuesRight(label: string): Promise<boolean> {
+    return CheckBox.toggleIsSelected(this.rightClassTableToggleRouter(label));
   }
   public async getTrainMiscClassNameNumberValuesRight(label: string): Promise<string> {
     return InputBox.waitAndGetTextOfInputBox(this.rightClassTableNumberRouter(label));
   }
+  public async updateToggleOfClassName(className: string, toggleUpdate: string): Promise<void> {
+    const elm = this.getToggleOfClass(className);
+    await CheckBox.updateToggle(elm, toggleUpdate);
+  }
+  public async updateTrainMiscSettingToggles(label: string, update: string): Promise<void> {
+    const elm = this.rightClassTableToggleRouter(label);
+    return CheckBox.updateToggle(elm, update);
+  }
   public rightClassTableToggleRouter(label: string): ElementFinder {
     let routeLocator: ElementFinder;
-    switch (label) {
-      case ('Ignore PD Cancels'):
+    switch (label.toLowerCase()) {
+      case ('ignore pd cancels'):
         routeLocator = this.ignoreToggleButton;
         break;
-      case ('Unmatched'):
+      case ('unmatched'):
         routeLocator = this.unmatchedToggleButton;
         break;
-      case ('Uncalled'):
+      case ('uncalled'):
         routeLocator = this.uncalledToggleButton;
         break;
       default:
@@ -132,5 +143,8 @@ export class TrainsListMiscConfigTab {
         break;
     }
     return routeLocator;
+  }
+  private getToggleOfClass(className: string): ElementFinder {
+    return element(by.xpath(`//td[contains(.,'${className}')]//..//td//label`));
   }
 }
