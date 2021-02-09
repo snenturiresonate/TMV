@@ -139,6 +139,7 @@ Feature: 33757 - TMV National Search
       |LogViewer           |
       |Admin               |
 
+    @tdd
   Scenario Outline: 33757-2e Timetable search - all days
     Given I navigate to <pageName> page
     And there is a Schedule for '4F07'
