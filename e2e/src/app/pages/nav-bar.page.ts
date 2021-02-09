@@ -41,6 +41,7 @@ export class NavBarPageObject {
   public modalWindow: ElementArrayFinder;
   public helpMenu: ElementFinder;
   public searchFilterToggle: ElementFinder;
+  public mapLink: ElementArrayFinder;
   constructor() {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
@@ -82,7 +83,7 @@ export class NavBarPageObject {
     this.tmvKeyButton = element(by.id('tmv-key-button'));
     this.modalWindow = element.all(by.css('.modalpopup'));
     this.helpMenu = element(by.id('help-menu-button'));
-
+    this.mapLink = element.all(by.css('#map-list>ul>li>span'));
   }
 
   public async getNavbarIconNames(): Promise<string> {
@@ -345,5 +346,9 @@ export class NavBarPageObject {
       await this.searchFilterToggle.click();
       await element(by.buttonText(filter)).click();
     }
+  }
+
+  public async getMapNames(): Promise<string> {
+    return this.mapLink.getText();
   }
 }
