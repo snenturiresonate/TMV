@@ -15,6 +15,11 @@ Then(/^results are returned with that planning UID '(.*)'$/, async (planningUID:
   expect(await row.isPresent()).to.equal(true);
 });
 
+Then(/^results are returned with that signal ID '(.*)'$/, async (signalID: string) => {
+  const row = await searchResultsPage.getRowBySignalID(signalID);
+  expect(await row.isPresent()).to.equal(true);
+});
+
 Then('results are returned with planning UID {string} and schedule type {string}', async (planningUID: string, scheduleType: string) =>
 {
   const row = await searchResultsPage.getRowByPlanningUIDAndScheduleType(planningUID, scheduleType.toUpperCase());

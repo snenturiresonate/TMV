@@ -165,6 +165,38 @@ Feature: 33757 - TMV National Search
       |Admin               |
 
   @tdd
+  Scenario Outline: 33757-3 Signal search window shown
+      #Given the user is authenticated to use TMV
+      #And the user is viewing TMV screen with a national search in the title bar
+      #When the user selects a signal search option
+      #And the user enters at least two alphanumeric characters
+      #And the user submits the search
+      #Then the signal search results list is displayed with zero or many results
+    Given I navigate to <pageName> page
+    And the Train Search Box has the value 'Train Desc, Trust ID, Planning UID'
+    When I search Signal for 'A'
+    And Warning Message is displayed for minimum characters
+    And I search Signal for '#'
+    And Warning Message is displayed for minimum characters
+    And I search Signal for '1234567890ABCDEFGH'
+    And Warning Message is displayed for minimum characters
+    And I search Signal for 'SN259'
+    Then results are returned with that signal ID 'SN259'
+    And the window title is displayed as 'Signal Search Results'
+    And I click close button at the bottom of table
+    Examples:
+      |pageName            |
+      |Home                |
+      |TrainsList          |
+      |TimeTable           |
+      |Replay              |
+      |UserManagement      |
+      |TrainsListConfig    |
+      |Maps                |
+      |LogViewer           |
+      |Admin               |
+
+  @tdd
   Scenario Outline: 33757-4 Train search window shown - Train Search context menu
     #Given the user is authenticated to use TMV
     #And the user is viewing the train search results pop-up
