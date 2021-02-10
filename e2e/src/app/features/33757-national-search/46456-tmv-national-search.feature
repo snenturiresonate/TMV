@@ -174,7 +174,6 @@ Feature: 33757 - TMV National Search
       #Then the signal search results list is displayed with zero or many results
     Given I navigate to <pageName> page
     And the Train Search Box has the value 'Train Desc, Trust ID, Planning UID'
-    And the access plan located in CIF file 'access-plan/CcfData.xml' is received from LINX
     When I search Signal for 'A'
     And Warning Message is displayed for minimum characters
     And I search Signal for '#'
