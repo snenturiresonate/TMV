@@ -1,6 +1,6 @@
 import {AdministrationLoginMessageTab} from '../../pages/administration/administration-loginMessage-tab.page';
 import {Then, When} from 'cucumber';
-import { expect } from 'chai';
+import {expect} from 'chai';
 
 const adminLoginMessage: AdministrationLoginMessageTab = new AdministrationLoginMessageTab();
 
@@ -18,15 +18,18 @@ When ('I reset the login message settings', async () => {
 
 Then('I should see the login settings {string} as {string}', async (setting: string, expectedText: string) => {
   const actualText = await adminLoginMessage.getLoginMessage(setting);
-  return expect(actualText).to.contain(expectedText);
+  return expect(actualText, `Login setting ${setting} is not as expected`)
+    .to.contain(expectedText);
 });
 
 Then('the unsaved indicator is displayed on the sign in message tab', async () => {
   const unsavedIndicator = await adminLoginMessage.isUnsavedIndicatorPresent();
-  expect(unsavedIndicator).to.equal(true);
+  expect(unsavedIndicator, 'The unsaved indicator is not displayed')
+    .to.equal(true);
 });
 
 Then('the unsaved indicator is not displayed on the sign in message tab', async () => {
   const unsavedIndicator = await adminLoginMessage.isUnsavedIndicatorPresent();
-  expect(unsavedIndicator).to.equal(false);
+  expect(unsavedIndicator, 'The unsaved indicator is displayed when it shouldn\'t be')
+    .to.equal(false);
 });

@@ -1,9 +1,8 @@
-import {When, Then} from 'cucumber';
-import { expect } from 'chai';
+import {Then, When} from 'cucumber';
+import {expect} from 'chai';
 import {TrainsListRailwayUndertakingConfigTabPageObject} from '../../pages/trains-list-config/trains.list.railway.undertaking.config.tab.page';
-import {ElementArrayFinder, protractor} from 'protractor';
-import {TrainsListTableColumnsPage} from '../../pages/trains-list/trains-list.tablecolumns.page';
 import {browser} from 'protractor';
+import {TrainsListTableColumnsPage} from '../../pages/trains-list/trains-list.tablecolumns.page';
 
 const trainsListRailwayUndertakingConfigPage: TrainsListRailwayUndertakingConfigTabPageObject =
   new TrainsListRailwayUndertakingConfigTabPageObject();
@@ -14,7 +13,8 @@ Then('the following header can be seen on the railway undertaking columns', asyn
   const actualConfigColumnNames = await trainsListRailwayUndertakingConfigPage.getTrainListConfigColumn();
 
   expectedConfigColumnNames.forEach((expectedConfigColumnName: any) => {
-    expect(actualConfigColumnNames).to.contain(expectedConfigColumnName.configColumnName);
+    expect(actualConfigColumnNames, `${expectedConfigColumnName.configColumnName} not found in config column names`)
+      .to.contain(expectedConfigColumnName.configColumnName);
   });
 });
 
@@ -23,10 +23,12 @@ Then('the following can be seen on the unselected railway undertaking config', a
   const actualUnselectedEntries = await trainsListRailwayUndertakingConfigPage.getTrainConfigUnselected();
   const actualUnselectedArrow = await trainsListRailwayUndertakingConfigPage.getConfigUnselectedArrow();
   expectedUnselectedEntries.forEach((expectedUnselectedEntry: any) => {
-    expect(actualUnselectedEntries).to.contain(expectedUnselectedEntry.unSelectedColumn);
+    expect(actualUnselectedEntries, `${expectedUnselectedEntry.unSelectedColumn} not found in unselected entries`)
+      .to.contain(expectedUnselectedEntry.unSelectedColumn);
   });
   expectedUnselectedEntries.forEach((expectedUnselectedEntry: any) => {
-    expect(actualUnselectedArrow).to.contain(expectedUnselectedEntry.arrowType);
+    expect(actualUnselectedArrow, `unselected arrow was not ${expectedUnselectedEntry.arrowType}`)
+      .to.contain(expectedUnselectedEntry.arrowType);
   });
 });
 
@@ -35,11 +37,13 @@ Then('the following appear in the selected railway undertaking config', async (s
   if (expectedSelectedEntries[0].selectedColumn !== '') {
     const actualSelectedEntries = await trainsListRailwayUndertakingConfigPage.getSecondElementsInSelectedGrid();
     expectedSelectedEntries.forEach((expectedSelectedEntry: any) => {
-      expect(actualSelectedEntries).to.contain(expectedSelectedEntry.selectedColumn);
+      expect(actualSelectedEntries, `${expectedSelectedEntry.selectedColumn} not found in selected entries`)
+        .to.contain(expectedSelectedEntry.selectedColumn);
     });
   } else {
     const actualSelectedElementsDisplayed = await trainsListRailwayUndertakingConfigPage.selectedGridElementsDisplay();
-    expect(actualSelectedElementsDisplayed).to.equal(false);
+    expect(actualSelectedElementsDisplayed, `Selected elements are displayed when shouldn't`)
+      .to.equal(false);
   }
 });
 
@@ -72,12 +76,14 @@ Then('I should see the trains list column TOC/FOC has only the below values', as
   const tocFocColumnValues: string[] = await trainsListTable.getTocValues();
   console.log('Actual values: ' + tocFocColumnValues);
   console.log('Expected values: ' + expectedValues);
-  expect(tocFocColumnValues).to.have.members(expectedValues);
+  expect(tocFocColumnValues, `Expected values not found in TOC/FOC column`)
+    .to.have.members(expectedValues);
 });
 
 Then('the railway undertaking tab header is displayed as {string}', async (expectedTitle: string) => {
   const actualTabTitle: string = await trainsListRailwayUndertakingConfigPage.getTocFocTabTitle();
-  expect(actualTabTitle).to.equal(expectedTitle);
+  expect(actualTabTitle, `Tab header is not ${expectedTitle}`)
+    .to.equal(expectedTitle);
 });
 
 When('I set toc filters to be {string}', async (wantedColumns: string) => {

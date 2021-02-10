@@ -8,14 +8,16 @@ const adminSystemDefaults: AdministrationDefaultSettingsTab = new Administration
 
 Then('the default settings header is displayed as {string}', async (expectedText: string) => {
   const actualText: string = await adminSystemDefaults.getUserTabValue();
-  expect(actualText).to.equal(expectedText);
+  expect(actualText, 'Settings header is not as expected')
+    .to.equal(expectedText);
 });
 
 Then('the following can be seen on the system default settings', async (replayEntryDataTable: any) => {
   const expectedReplayTableEntries = replayEntryDataTable.hashes();
   const actualValue = await adminSystemDefaults.getReplayColumn();
   expectedReplayTableEntries.forEach((expectedReplayTableEntry: any) => {
-    expect(actualValue).to.contain(expectedReplayTableEntry.replayEntry);
+    expect(actualValue, `${expectedReplayTableEntry.replayEntry}, is not present in default settings`)
+      .to.contain(expectedReplayTableEntry.replayEntry);
   });
 });
 
@@ -27,11 +29,16 @@ Then('I should see the system default settings as', async (table: any) => {
   const actualTrainListInstance: string = await adminSystemDefaults.getTrainListInstance();
   const actualMaxNoOfMapsPerReplay: string = await adminSystemDefaults.getMaxNoOfMapsPerReplay();
   const results = [
-    expect(actualBackgroundColour).to.contain(tableValues.ReplayBackgroundColour),
-    expect(actualSchematicMapInstance).to.contain(tableValues.MaxNoofSchematicMapDisplayInstances),
-    expect(actualNoOfReplays).to.contain(tableValues.MaxNoofReplays),
-    expect(actualTrainListInstance).to.contain(tableValues.MaxNoofTrainsListViewInstances),
-    expect(actualMaxNoOfMapsPerReplay).to.contain(tableValues.MaxNoOfMapsPerReplay)
+    expect(actualBackgroundColour, `Replay background colour is not ${tableValues.ReplayBackgroundColour}`)
+      .to.contain(tableValues.ReplayBackgroundColour),
+    expect(actualSchematicMapInstance, `Schematic map instance is not ${tableValues.MaxNoofSchematicMapDisplayInstances}`)
+      .to.contain(tableValues.MaxNoofSchematicMapDisplayInstances),
+    expect(actualNoOfReplays, `No of replays is not ${tableValues.MaxNoofReplays}`)
+      .to.contain(tableValues.MaxNoofReplays),
+    expect(actualTrainListInstance, `Trains list instances is not ${tableValues.MaxNoofTrainsListViewInstances}`)
+      .to.contain(tableValues.MaxNoofTrainsListViewInstances),
+    expect(actualMaxNoOfMapsPerReplay, `Max no of maps per replay is not ${tableValues.MaxNoOfMapsPerReplay}`)
+      .to.contain(tableValues.MaxNoOfMapsPerReplay)
   ];
   return protractor.promise.all(results);
 });
@@ -55,5 +62,6 @@ When('I reset the system default settings', async () => {
 
 Then('I should not be able to edit {string}', async (fieldName: string) => {
  const isFieldEditable: boolean = await adminSystemDefaults.fieldIsEditable(fieldName);
- expect(isFieldEditable).to.equal(false);
+ expect(isFieldEditable, `${fieldName} is editable when it shouldn't be`)
+   .to.equal(false);
 });
