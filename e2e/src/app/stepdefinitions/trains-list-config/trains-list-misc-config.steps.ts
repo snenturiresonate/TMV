@@ -1,8 +1,8 @@
 import {Given, Then, When} from 'cucumber';
-import { expect } from 'chai';
+import {expect} from 'chai';
 import {TrainsListMiscConfigTab} from '../../pages/trains-list-config/trains.list.misc.config.tab';
 import {browser, protractor} from 'protractor';
-import {CheckBox} from "../../pages/common/ui-element-handlers/checkBox";
+import {CheckBox} from '../../pages/common/ui-element-handlers/checkBox';
 
 const trainsListMisc: TrainsListMiscConfigTab = new TrainsListMiscConfigTab();
 
@@ -42,7 +42,8 @@ Given('I set Time to Appear Before to be {string}', async (setting: string) => {
 
 Then('the misc class header is displayed as {string}', async (expectedHeader: string) => {
   const actualHeader: string = await trainsListMisc.getTrainMiscClassHeader();
-  expect(actualHeader).to.equal(expectedHeader);
+  expect(actualHeader, 'Misc class header is not as expected')
+    .to.equal(expectedHeader);
 });
 
 Then('the following can be seen on the class table', async (miscEntryDataTable: any) => {
@@ -52,8 +53,10 @@ Then('the following can be seen on the class table', async (miscEntryDataTable: 
   for (const expectedMiscEntry of expectedMiscEntries) {
     const actualMiscClass = await trainsListMisc.getTrainMiscClassName(index);
     const actualMiscToggle = await trainsListMisc.getTrainMiscClassToggle(index);
-    expect(actualMiscClass).to.contain(expectedMiscEntry.classValue);
-    expect(actualMiscToggle).to.contain(expectedMiscEntry.toggleValue);
+    expect(actualMiscClass, `The class table does not contain ${expectedMiscEntry.classValue}`)
+      .to.contain(expectedMiscEntry.classValue);
+    expect(actualMiscToggle, `The class table does not contain ${expectedMiscEntry.toggleValue}`)
+      .to.contain(expectedMiscEntry.toggleValue);
     index++;
   }
 });
@@ -64,13 +67,18 @@ Then('the following toggle values can be seen on the right class table', async (
   for (let i = 0; i < expectedMiscRightEntries.length; i++) {
     const classValue = expectedMiscRightEntries[i].classValue;
     const toggleValue = (expectedMiscRightEntries[i].toggleValue).toLowerCase();
-    results.push(expect(await trainsListMisc.getTrainMiscClassNameRight(i)).to.contain(classValue));
+    results.push(
+      expect(await trainsListMisc.getTrainMiscClassNameRight(i), `${classValue} not found in right class table`)
+        .to.contain(classValue));
     if (toggleValue === 'on' || toggleValue === 'off') {
-        results.push(expect(await trainsListMisc.getTrainMiscClassNameToggleValuesRight(classValue))
-          .to.equal(await CheckBox.convertToggleToBoolean(toggleValue)));
-      } else {
-      results.push(expect(await trainsListMisc.getTrainMiscClassNameNumberValuesRight(classValue))
-        .to.contain(toggleValue));
+      const expectedToggleValue = await CheckBox.convertToggleToBoolean(toggleValue);
+      results.push(
+        expect(await trainsListMisc.getTrainMiscClassNameToggleValuesRight(classValue), `Toggle was not ${expectedToggleValue}`)
+          .to.equal(expectedToggleValue));
+    } else {
+      results.push(
+        expect(await trainsListMisc.getTrainMiscClassNameNumberValuesRight(classValue), `Toggle did not contain ${toggleValue}`)
+          .to.contain(toggleValue));
     }
   }
   return protractor.promise.all(results);
@@ -79,7 +87,7 @@ Then('the following toggle values can be seen on the right class table', async (
 When('I update the following misc options', async (miscRightEntryDataTable: any) => {
   const expectedMiscRightEntries = miscRightEntryDataTable.hashes();
   const results: any[] = [];
-  for (let i = 0; i < expectedMiscRightEntries.length; i++){
+  for (let i = 0; i < expectedMiscRightEntries.length; i++) {
     const classValue = expectedMiscRightEntries[i].classValue.toLowerCase();
     const toggleValue = (expectedMiscRightEntries[i].toggleValue).toLowerCase();
     if (toggleValue === 'on' || toggleValue === 'off') {
@@ -109,12 +117,14 @@ When('I toggle on the Ignore PD cancels switch', async () => {
 
 Then('the toggle state of Ignore PD cancels is {string}', async (expectedHeader: string) => {
   const actualHeader: string = await trainsListMisc.getIgnoreToggleState();
-  expect(actualHeader).to.equal(expectedHeader);
+  expect(actualHeader, `Toggle state of Ignore PD Cancels is not as expected`)
+    .to.equal(expectedHeader);
 });
 
 Then('the time to remain on list displayed as {string}', async (expectedHeader: string) => {
   const actualHeader: string = await trainsListMisc.getTimeToRemain();
-  expect(actualHeader).to.equal(expectedHeader);
+  expect(actualHeader, `Time to remain is not as expected`)
+    .to.equal(expectedHeader);
 });
 When('I click on the time to remain', async () => {
   await trainsListMisc.clickTimeToRemain();
@@ -123,12 +133,14 @@ Then('I should see the trains list configuration tabs as', async (table: any) =>
   const expectedTabs = table.hashes();
   const actualColHeader = await trainsListMisc.getTrainsListConfigTabNames();
   expectedTabs.forEach((expectedTabName: any) => {
-    expect(actualColHeader).to.contain(expectedTabName.tabs);
+    expect(actualColHeader, `Tab name ${expectedTabName.tabs} not present`)
+      .to.contain(expectedTabName.tabs);
   });
 });
 Then('I see the train list config tab title as {string}', async (title: string) => {
   const actualTitle: string = await trainsListMisc.getTabSectionHeader();
-  expect(actualTitle).to.contain(title);
+  expect(actualTitle, `Title does not contain ${title}`)
+    .to.contain(title);
 });
 
 When('the following class table updates are made', async (table: any) => {

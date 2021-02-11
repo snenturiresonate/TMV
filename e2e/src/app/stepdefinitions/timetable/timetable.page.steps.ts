@@ -1,4 +1,4 @@
-import {Given, When, Then} from 'cucumber';
+import {Given, Then, When} from 'cucumber';
 import {expect} from 'chai';
 import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
 import {Duration, LocalTime} from '@js-joda/core';
@@ -52,18 +52,21 @@ const punctualityColourHex = {
 
 Then('The timetable service description is visible', async () => {
   const isTimetableServiceDescriptionVisible: boolean = await timetablePage.isTimetableServiceDescriptionVisible();
-  expect(isTimetableServiceDescriptionVisible).to.equal(true);
+  expect(isTimetableServiceDescriptionVisible, 'Timetable service description is not visible')
+    .to.equal(true);
 });
 
 Then('the timetable header train description is {string}', async (expectedTrainDescription: string) => {
   const trainDescription: string = await timetablePage.getHeaderTrainDescription();
-  expect(trainDescription).to.equal(expectedTrainDescription);
+  expect(trainDescription, 'Timetable header train description is not visible')
+    .to.equal(expectedTrainDescription);
 });
 
 Then('The live timetable tab will be titled {string}', async (expectedTabName: string) => {
   const actualTimetableTabName: string = await timetablePage.getLiveTimetableTabName();
 
-  expect(actualTimetableTabName).to.equal(expectedTabName);
+  expect(actualTimetableTabName, `Live timetable tab is not titled ${expectedTabName}`)
+    .to.equal(expectedTabName);
 
 });
 
@@ -78,12 +81,18 @@ Then('The values for the header properties are as follows',
     const actualHeaderTrustId: string = await timetablePage.headerTrustId.getText();
     const actualHeaderTJM: string = await timetablePage.headerTJM.getText();
 
-    expect(actualHeaderScheduleType).to.equal(expectedHeaderPropertyValues.schedType);
-    expect(actualHeaderSignal).to.equal(expectedHeaderPropertyValues.lastSignal);
-    expect(actualHeaderLastReported).to.equal(expectedHeaderPropertyValues.lastReport);
-    expect(actualHeaderTrainUid).to.equal(expectedHeaderPropertyValues.trainUid);
-    expect(actualHeaderTrustId).to.equal(expectedHeaderPropertyValues.trustId);
-    expect(actualHeaderTJM).to.equal(expectedHeaderPropertyValues.lastTJM);
+    expect(actualHeaderScheduleType, 'Schedule type is not as expected')
+      .to.equal(expectedHeaderPropertyValues.schedType);
+    expect(actualHeaderSignal, 'Last Signal is not as expected')
+      .to.equal(expectedHeaderPropertyValues.lastSignal);
+    expect(actualHeaderLastReported, 'Last Reported is not as expected')
+      .to.equal(expectedHeaderPropertyValues.lastReport);
+    expect(actualHeaderTrainUid, 'Train UID is not as expected')
+      .to.equal(expectedHeaderPropertyValues.trainUid);
+    expect(actualHeaderTrustId, 'Trust ID is not as expected')
+      .to.equal(expectedHeaderPropertyValues.trustId);
+    expect(actualHeaderTJM, 'Last TJM is not as expected')
+      .to.equal(expectedHeaderPropertyValues.lastTJM);
   });
 
 When('I switch to the timetable details tab', async () => {
@@ -92,12 +101,14 @@ When('I switch to the timetable details tab', async () => {
 
 Then('The timetable service description is visible', async () => {
   const isTimetableServiceDescriptionVisible: boolean = await timetablePage.isTimetableServiceDescriptionVisible();
-  expect(isTimetableServiceDescriptionVisible).to.equal(true);
+  expect(isTimetableServiceDescriptionVisible, 'Timetable Service Description is not visible')
+    .to.equal(true);
 });
 
 Then(/^the headcode in the header row is '(.*)'$/, async (header: string) => {
   const headerHeadcode = await timetablePage.headerHeadcode.getText();
-  expect(headerHeadcode).to.equal(header);
+  expect(headerHeadcode, 'Headcode in the header row is not as expected')
+    .to.equal(header);
 });
 
 Then(/^there is a record in the modifications table$/, async (table: any) => {
@@ -112,14 +123,16 @@ Then(/^there is a record in the modifications table$/, async (table: any) => {
       const type = await row.getModificationReason() === expectedRecord.type;
       found = (reason && location && time && type);
     }
-    expect(found).to.equal(true, 'No record with value found in the modifications table');
+    expect(found, 'No record with value found in the modifications table')
+      .to.equal(true);
   }
 });
 
 Then(/^the last TJM is$/, async (table: any) => {
   const lastTjm = await timetablePage.headerTJM.getText();
   const expected = table.hashes()[0];
-  expect(lastTjm).to.equal(`${expected.description}, ${expected.location}, ${expected.time}`);
+  expect(lastTjm, 'Last TJM is not as expected')
+    .to.equal(`${expected.description}, ${expected.location}, ${expected.time}`);
 });
 
 When('I toggle the inserted locations on', async () => {
@@ -135,13 +148,15 @@ Then('The timetable header contains the following property labels:',
     const expectedHeaderPropertyLabels: any[] = headerPropertyLabels.hashes();
     const actualHeaderPropertyLabels: string[] = await timetablePage.getTimetableHeaderPropertyLabels();
     expectedHeaderPropertyLabels.forEach((expectedPropertyValue: any, i: number) => {
-      expect(actualHeaderPropertyLabels[i]).contains(expectedPropertyValue.property);
+      expect(actualHeaderPropertyLabels[i], `Timetable header does not contain label ${actualHeaderPropertyLabels[i]}`)
+        .contains(expectedPropertyValue.property);
     });
   });
 
 Then('The timetable details tab is visible', async () => {
   const isTimetableDetailsTabVisible: boolean = await timetablePage.isTimetableDetailsTabVisible();
-  expect(isTimetableDetailsTabVisible).to.equal(true);
+  expect(isTimetableDetailsTabVisible, 'Timetable details page is not visible')
+    .to.equal(true);
 });
 
 Then('The entry {int} of the timetable modifications table contains the following data in each column',
@@ -150,7 +165,8 @@ Then('The entry {int} of the timetable modifications table contains the followin
     const actualTimetableModificationColValues: string[] = await timetablePage.getTimetableModificationColValues(index);
 
     expectedTimetableModificationsColValues.forEach((expectedAppName: any, i: number) => {
-      expect(actualTimetableModificationColValues[i]).to.equal(expectedAppName.column);
+      expect(actualTimetableModificationColValues[i], `Row ${index} of Modifications table, column ${i} doesn't equal ${expectedAppName.column}`)
+        .to.equal(expectedAppName.column);
     });
   });
 
@@ -160,7 +176,8 @@ Then('The entry {int} of the timetable associations table contains the following
     const actualTimetableAssociationsColValues: string[] = await timetablePage.getTimetableAssociationsColValues(index);
 
     expectedTimetableAssociationsColValues.forEach((expectedAppName: any, i: number) => {
-      expect(actualTimetableAssociationsColValues[i]).to.equal(expectedAppName.column);
+      expect(actualTimetableAssociationsColValues[i], `Row ${index} of Associations table, column ${i} doesn't equal ${expectedAppName.column}`)
+        .to.equal(expectedAppName.column);
     });
   });
 
@@ -168,7 +185,8 @@ Then('The entry of the change en route table contains the following data', async
   const expectedChangeEnRouteColValues = changeEnRouteDataTable.hashes();
   const actualChangeEnRouteColValues = await timetablePage.getChangeEnRouteValues();
   expectedChangeEnRouteColValues.forEach((expectedChangeEnRouteColValue: any) => {
-    expect(actualChangeEnRouteColValues).to.contain(expectedChangeEnRouteColValue.columnName);
+    expect(actualChangeEnRouteColValues, `Change en route does not contain ${expectedChangeEnRouteColValue.columnName}`)
+      .to.contain(expectedChangeEnRouteColValue.columnName);
   });
 });
 
@@ -177,59 +195,94 @@ Then('The timetable entries contains the following data',
     const expectedTimetableEntryColValues: any[] = timetableEntryDataTable.hashes();
     for (const expectedTimetableEntryCol of expectedTimetableEntryColValues) {
       const actualTimetableEntryColValues: string[] = await timetablePage.getTimetableEntryColValues(expectedTimetableEntryCol.entryId);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.location]).to.equal(expectedTimetableEntryCol.location);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.workingArrivalTime])
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.location], 'Timetable entry Location is not correct')
+        .to.equal(expectedTimetableEntryCol.location);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.workingArrivalTime],
+        'Timetable entry Working Arrival Time is not correct')
         .to.equal(expectedTimetableEntryCol.workingArrivalTime);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.workingDeptTime]).to.equal(expectedTimetableEntryCol.workingDeptTime);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.publicArrivalTime]).to.equal(expectedTimetableEntryCol.publicArrivalTime);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.publicDeptTime]).to.equal(expectedTimetableEntryCol.publicDeptTime);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalAssetCode]).to.equal(expectedTimetableEntryCol.originalAssetCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalPathCode]).to.equal(expectedTimetableEntryCol.originalPathCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalLineCode]).to.equal(expectedTimetableEntryCol.originalLineCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.allowances]).to.equal(expectedTimetableEntryCol.allowances);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.activities]).to.equal(expectedTimetableEntryCol.activities);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.arrivalDateTime]).to.equal(expectedTimetableEntryCol.arrivalDateTime);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.deptDateTime]).to.equal(expectedTimetableEntryCol.deptDateTime);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.assetCode]).to.equal(expectedTimetableEntryCol.assetCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.pathCode]).to.equal(expectedTimetableEntryCol.pathCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.lineCode]).to.equal(expectedTimetableEntryCol.lineCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.punctuality]).to.equal(expectedTimetableEntryCol.punctuality);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.workingDeptTime], 'Timetable entry Working Departure Time is not correct')
+        .to.equal(expectedTimetableEntryCol.workingDeptTime);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.publicArrivalTime], 'Timetable entry Public Arrival Time is not correct')
+        .to.equal(expectedTimetableEntryCol.publicArrivalTime);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.publicDeptTime], 'Timetable entry Public Departure Time is not correct')
+        .to.equal(expectedTimetableEntryCol.publicDeptTime);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalAssetCode], 'Timetable entry Original Asset Code is not correct')
+        .to.equal(expectedTimetableEntryCol.originalAssetCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalPathCode], 'Timetable entry Original Path Code is not correct')
+        .to.equal(expectedTimetableEntryCol.originalPathCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalLineCode], 'Timetable entry Original Line Code is not correct')
+        .to.equal(expectedTimetableEntryCol.originalLineCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.allowances], 'Timetable entry Allowances is not correct')
+        .to.equal(expectedTimetableEntryCol.allowances);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.activities], 'Timetable entry Activities is not correct')
+        .to.equal(expectedTimetableEntryCol.activities);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.arrivalDateTime], 'Timetable entry Arrival Date Time is not correct')
+        .to.equal(expectedTimetableEntryCol.arrivalDateTime);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.deptDateTime], 'Timetable entry Departure Date Time is not correct')
+        .to.equal(expectedTimetableEntryCol.deptDateTime);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.assetCode], 'Timetable entry Asset Code is not correct')
+        .to.equal(expectedTimetableEntryCol.assetCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.pathCode], 'Timetable entry Path Code is not correct')
+        .to.equal(expectedTimetableEntryCol.pathCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.lineCode], 'Timetable entry Line Code is not correct')
+        .to.equal(expectedTimetableEntryCol.lineCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.punctuality], 'Timetable entry Punctuality is not correct')
+        .to.equal(expectedTimetableEntryCol.punctuality);
     }
   });
 
 Then('the navbar punctuality indicator is displayed as {string}', async (expectedColor: string) => {
   const actualColorHex: string = await timetablePage.getNavBarIndicatorColorHex();
   const expectedColourHex = punctualityColourHex[expectedColor];
-  expect(actualColorHex).to.equal(expectedColourHex);
+  expect(actualColorHex, 'Punctuality indicator is not the correct colour')
+    .to.equal(expectedColourHex);
 });
 
 Then('the punctuality is displayed as {string}', async (expectedText: string) => {
   const actualText: string = await timetablePage.getNavBarIndicatorText();
-  expect(actualText).to.equal(expectedText);
+  expect(actualText, 'Punctuality value is not correct')
+    .to.equal(expectedText);
 });
 
 Then('The timetable details table contains the following data in each row', async (detailsDataTable: any) => {
   const expectedDetailsRowValues: any = detailsDataTable.hashes()[0];
 
-  expect(await timetablePage.getTimetableDetailsRowValueDaysRun()).to.equal(expectedDetailsRowValues.daysRun);
-  expect(await timetablePage.getTimetableDetailsRowValueRuns()).to.equal(expectedDetailsRowValues.runs);
-  expect(await timetablePage.getTimetableDetailsRowValueBankHoliday()).to.equal(expectedDetailsRowValues.bankHoliday);
-  expect(await timetablePage.getTimetableDetailsRowValueBerthId()).to.equal(expectedDetailsRowValues.berthId);
-  expect(await timetablePage.getTimetableDetailsRowValueOperator()).to.equal(expectedDetailsRowValues.operator);
-  expect(await timetablePage.getTimetableDetailsRowValueTrainServiceCode()).to.equal(expectedDetailsRowValues.trainServiceCode);
-  expect(await timetablePage.getTimetableDetailsRowValueTrainCategory()).to.equal(expectedDetailsRowValues.trainCategory);
-  expect(await timetablePage.getTimetableDetailsRowValueDirection()).to.equal(expectedDetailsRowValues.direction);
-  expect(await timetablePage.getTimetableDetailsRowValueCateringCode()).to.equal(expectedDetailsRowValues.cateringCode);
-  expect(await timetablePage.getTimetableDetailsRowValueClass()).to.equal(expectedDetailsRowValues.class);
-  expect(await timetablePage.getTimetableDetailsRowValueReservations()).to.equal(expectedDetailsRowValues.reservations);
-  expect(await timetablePage.getTimetableDetailsRowValueTimingLoad()).to.equal(expectedDetailsRowValues.timingLoad);
-  expect(await timetablePage.getTimetableDetailsRowValuePowerType()).to.equal(expectedDetailsRowValues.powerType);
-  expect(await timetablePage.getTimetableDetailsRowValueSpeed()).to.equal(expectedDetailsRowValues.speed);
-  expect(await timetablePage.getTimetableDetailsRowValuePortionId()).to.equal(expectedDetailsRowValues.portionId);
-  expect(await timetablePage.getTimetableDetailsRowValueTrainLength()).to.equal(expectedDetailsRowValues.trainLength);
-  expect(await timetablePage.getTimetableDetailsRowValueTrainOperatingCharacteristcs())
+  expect(await timetablePage.getTimetableDetailsRowValueDaysRun(), 'Timetable Details entry Days Run is not correct')
+    .to.equal(expectedDetailsRowValues.daysRun);
+  expect(await timetablePage.getTimetableDetailsRowValueRuns(), 'Timetable Details entry Runs is not correct')
+    .to.equal(expectedDetailsRowValues.runs);
+  expect(await timetablePage.getTimetableDetailsRowValueBankHoliday(), 'Timetable Details entry Bank Holiday is not correct')
+    .to.equal(expectedDetailsRowValues.bankHoliday);
+  expect(await timetablePage.getTimetableDetailsRowValueBerthId(), 'Timetable Details entry Berth ID is not correct')
+    .to.equal(expectedDetailsRowValues.berthId);
+  expect(await timetablePage.getTimetableDetailsRowValueOperator(), 'Timetable Details entry Operator is not correct')
+    .to.equal(expectedDetailsRowValues.operator);
+  expect(await timetablePage.getTimetableDetailsRowValueTrainServiceCode(), 'Timetable Details entry Train Service Code is not correct')
+    .to.equal(expectedDetailsRowValues.trainServiceCode);
+  expect(await timetablePage.getTimetableDetailsRowValueTrainCategory(), 'Timetable Details entry Train Category is not correct')
+    .to.equal(expectedDetailsRowValues.trainCategory);
+  expect(await timetablePage.getTimetableDetailsRowValueDirection(), 'Timetable Details entry Direction is not correct')
+    .to.equal(expectedDetailsRowValues.direction);
+  expect(await timetablePage.getTimetableDetailsRowValueCateringCode(), 'Timetable Details entry Catering Code is not correct')
+    .to.equal(expectedDetailsRowValues.cateringCode);
+  expect(await timetablePage.getTimetableDetailsRowValueClass(), 'Timetable Details entry Class is not correct')
+    .to.equal(expectedDetailsRowValues.class);
+  expect(await timetablePage.getTimetableDetailsRowValueReservations(), 'Timetable Details entry Reservations is not correct')
+    .to.equal(expectedDetailsRowValues.reservations);
+  expect(await timetablePage.getTimetableDetailsRowValueTimingLoad(), 'Timetable Details entry Timing Load is not correct')
+    .to.equal(expectedDetailsRowValues.timingLoad);
+  expect(await timetablePage.getTimetableDetailsRowValuePowerType(), 'Timetable Details entry Power Type is not correct')
+    .to.equal(expectedDetailsRowValues.powerType);
+  expect(await timetablePage.getTimetableDetailsRowValueSpeed(), 'Timetable Details entry Speed is not correct')
+    .to.equal(expectedDetailsRowValues.speed);
+  expect(await timetablePage.getTimetableDetailsRowValuePortionId(), 'Timetable Details entry Portion ID is not correct')
+    .to.equal(expectedDetailsRowValues.portionId);
+  expect(await timetablePage.getTimetableDetailsRowValueTrainLength(), 'Timetable Details entry Train Length is not correct')
+    .to.equal(expectedDetailsRowValues.trainLength);
+  expect(await timetablePage.getTimetableDetailsRowValueTrainOperatingCharacteristcs(), 'Timetable Details entry Operating Characteristics is not correct')
     .to.equal(expectedDetailsRowValues.trainOperatingCharacteristcs);
-  expect(await timetablePage.getTimetableDetailsRowValueServiceBranding()).to.equal(expectedDetailsRowValues.serviceBranding);
+  expect(await timetablePage.getTimetableDetailsRowValueServiceBranding(), 'Timetable Details entry Service Branding is not correct')
+    .to.equal(expectedDetailsRowValues.serviceBranding);
 });
 
 When('I am on the timetable view for service {string}', {timeout: 15 * 1000}, async (service: string) => {
@@ -243,15 +296,18 @@ When(/^the Inserted toggle is '(on|off)'$/, async (state: string) => {
 Then(/^no inserted locations are displayed$/, async () => {
   const locations = await timetablePage.getLocations();
   for (const location of locations) {
-    expect(location).not.to.contain('[', 'Expect no additional locations. [location]');
-    expect(location).not.to.contain(']', 'Expect no additional locations. [location]');
+    expect(location, 'Expect no additional locations. found ' + location)
+      .not.to.contain('[');
+    expect(location, 'Expect no additional locations. found ' + location)
+      .not.to.contain(']');
   }
 });
 
 Then('the inserted location {string} is displayed in square brackets', async (location: string) => {
   const locations = await timetablePage.getLocations()
     .then(allLocations => allLocations.filter(loc => loc.includes(location)));
-  expect(locations).to.contain('[' + location + ']');
+  expect(locations, 'Inserted location not wrapped in square brackets')
+    .to.contain('[' + location + ']');
 });
 
 Then(/^the inserted location (.*) is (before|after) (.*)$/,
@@ -259,8 +315,10 @@ Then(/^the inserted location (.*) is (before|after) (.*)$/,
     const locations = await timetablePage.getLocations();
     const rowOfInserted = await timetablePage.getLocationRowIndex(timetablePage.ensureInsertedLocationFormat(insertedLocation));
     (beforeAfter === 'before') ?
-      expect(locations[rowOfInserted + 1]).to.equal(otherLocation) :
-      expect(locations[rowOfInserted - 1]).to.equal(otherLocation);
+      expect(locations[rowOfInserted + 1], `Inserted location ${insertedLocation} is not ${beforeAfter} ${otherLocation}`)
+        .to.equal(otherLocation) :
+      expect(locations[rowOfInserted - 1], `Inserted location ${insertedLocation} is not ${beforeAfter} ${otherLocation}`)
+        .to.equal(otherLocation);
   });
 
 Then(/^the expected arrival time for inserted location (.*) is (.*) percent between (.*) and (.*)$/, async (
@@ -270,7 +328,9 @@ Then(/^the expected arrival time for inserted location (.*) is (.*) percent betw
   const difference = Duration.between(startingDepartureTime, destinationArrivalTime).seconds();
   const expectedArrivalTime = startingDepartureTime.plusSeconds(difference * (percentage / 1000));
   const row = await timetablePage.getRowByLocation(timetablePage.ensureInsertedLocationFormat(location));
-  row.plannedArr.getText().then(text => expect(text).to.equal(expectedArrivalTime.toString()));
+  const actual = await row.plannedArr.getText();
+  expect(actual, 'Expected arrival time of inserted location is not correct')
+    .to.equal(expectedArrivalTime.toString());
 });
 
 Then(/^the locations line code matches the path code$/, async (locationsTable: any) => {
@@ -419,7 +479,6 @@ Given(/^the schedule does not run on a day that is tommorow$/, () => {
   const tommorow = DateAndTimeUtils.dayOfWeekPlusDays(1);
   schedule.noRunDay(tommorow, schedule);
 });
-
 
 
 Given(/^the following basic schedules? (?:is|are) received from LINX$/, async (table: any) => {

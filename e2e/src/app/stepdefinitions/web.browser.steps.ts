@@ -19,7 +19,8 @@ Given('the number of tabs open is {int}', async (tabs: number) => {
   }, TAB_CREATION_TIMEOUT, 'The number of tabs should be ' + tabs.toString());
 
   const windowHandles: string[] = await browser.driver.getAllWindowHandles();
-  expect(windowHandles.length).to.equal(tabs);
+  expect(windowHandles.length, 'Number of tabs expected is incorrect')
+    .to.equal(tabs);
 });
 
 When('I switch to the new tab', async () => {
@@ -49,7 +50,8 @@ When('I resize the browser to {int} by {int}', async (width: number, height: num
 
 Then('the url contains {string}', async (appUrlParameter: string) => {
   const appUrl: string = await browser.driver.getCurrentUrl();
-  expect(appUrl).to.contain(appUrlParameter);
+  expect(appUrl, 'URL does not contain expected values')
+    .to.contain(appUrlParameter);
 });
 
 When('I confirm on browser popup', async () => {
@@ -65,7 +67,8 @@ When('I confirm on browser popup', async () => {
 
 Then('The browser popup does not appear', async () => {
   const isAlertPresent: boolean = await browser.wait(protractor.ExpectedConditions.alertIsPresent());
-  expect(isAlertPresent).to.equal(false);
+  expect(isAlertPresent, 'Unexpected alert is present')
+    .to.equal(false);
 });
 
 Then('The admin view is closed', async () => {
