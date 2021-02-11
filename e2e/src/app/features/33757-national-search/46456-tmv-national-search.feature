@@ -259,7 +259,7 @@ Feature: 33757 - TMV National Search
       |LogViewer           |
       |Admin               |
 
-
+  @tdd
   Scenario Outline:33757-6 National Signal Search Selection
     #Given the user is authenticated to use TMV
     #And the user is viewing the signal search results pop-up
@@ -292,6 +292,7 @@ Feature: 33757 - TMV National Search
       |LogViewer           |
       |Admin               |
 
+  @tdd
   Scenario Outline:33757-8 National Signal Search Highlight
     #Given the user is authenticated to use TMV
     #And the user is viewing the signal search results
