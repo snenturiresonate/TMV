@@ -97,7 +97,8 @@ Given('I view a schematic that contains a continuation button', async () => {
   const continuationTextLayerItem: MapLayerItem = continuationTextLayerItems[0];
   const continuationTextElements: any[] = await continuationTextLayerItem.layerItems.getWebElements();
   const numContinuationLinks = continuationTextElements.length;
-  expect(numContinuationLinks).to.be.greaterThan(0);
+  expect(numContinuationLinks, 'Expect map to contain 1 or more continuation link')
+    .to.be.greaterThan(0);
 });
 
 Given('I set up all signals for address {word} in {word} to be {word}', async (address: string, trainDescriber: string, state: string) => {
@@ -180,52 +181,62 @@ When('I use the secondary mouse on {word} berth {word}', async (berthType: strin
 
 Then('the zoom level is the same as previously noted', async () => {
   const currentSF = await mapPageObject.getCurrentScaleFactor();
-  expect(currentSF).to.equal(browser.referenceMapScaleFactor);
+  expect(currentSF, 'the zoom level has changed')
+    .to.equal(browser.referenceMapScaleFactor);
 });
 
 Then('the zoom level has increased', async () => {
   const currentSF = await mapPageObject.getCurrentScaleFactor();
-  expect(currentSF).to.be.greaterThan(browser.referenceMapScaleFactor);
+  expect(currentSF, 'the zoom level has not increased')
+    .to.be.greaterThan(browser.referenceMapScaleFactor);
 });
 
 Then('the zoom level has decreased', async () => {
   const currentSF = await mapPageObject.getCurrentScaleFactor();
-  expect(currentSF).to.be.lessThan(browser.referenceMapScaleFactor);
+  expect(currentSF, 'the zoom level has not decreased')
+    .to.be.lessThan(browser.referenceMapScaleFactor);
 });
 
 Then('the zoom level is {int}', async (expectedSF: number) => {
   const currentSF = await mapPageObject.getCurrentScaleFactor();
-  expect(currentSF).to.equal(expectedSF);
+  expect(currentSF, `the zoom level is not ${expectedSF}`)
+    .to.equal(expectedSF);
 });
 
 Then('the berth is not shown', async () => {
   const actualBerthVisibility = await mapPageObject.isBerthLayerVisible();
-  expect(actualBerthVisibility).to.equal(false);
+  expect(actualBerthVisibility, 'Berth layer is shown')
+    .to.equal(false);
 });
 
 Then('the berth is shown', async () => {
   const actualBerthVisibility = await mapPageObject.isBerthLayerVisible();
-  expect(actualBerthVisibility).to.equal(true);
+  expect(actualBerthVisibility, 'Berth layer is not show')
+    .to.equal(true);
 });
 
 Then('the manual trust berth is not shown', async () => {
   const actualBerthVisibility = await mapPageObject.isManualTrustBerthPresent();
-  expect(actualBerthVisibility).to.equal(false);
+  expect(actualBerthVisibility, 'Manual trust berth layer is shown')
+    .to.equal(false);
 });
 
 Then('the manual trust berth is shown', async () => {
   const actualBerthVisibility = await mapPageObject.isManualTrustBerthPresent();
-  expect(actualBerthVisibility).to.equal(true);
+  expect(actualBerthVisibility, 'Manual trust berth layer is not shown')
+    .to.equal(true);
 });
 
 Then('the platform layer is shown', async () => {
   const actualPlatformLayerVisibility = await mapPageObject.isPlatformLayerPresent();
-  expect(actualPlatformLayerVisibility).to.equal(true);
+  expect(actualPlatformLayerVisibility, 'Platform layer is not shown')
+    .to.equal(true);
 });
 
 Then('the platform layer is not shown', async () => {
   const actualPlatformLayerVisibility = await mapPageObject.isPlatformLayerPresent();
-  expect(actualPlatformLayerVisibility).to.equal(false);
+  expect(actualPlatformLayerVisibility, 'Platform layer is shown')
+    .to.equal(false);
 });
 
 Then('there are {int} {word} elements in the {word} layer', async (expectedItemCount: number, elementName: string, layer: string) => {
@@ -244,23 +255,23 @@ Then('there are {int} {word} elements in the {word} layer', async (expectedItemC
       actualLayerItems = await mapPageObject.signalLayerIndicatorItems.getWebElements();
     }
   }
-  expect(actualLayerItems.length).to.equal(expectedItemCount);
+  expect(actualLayerItems.length, `The number ${layer} elements is not correct`)
+    .to.equal(expectedItemCount);
 });
 
 Then ('{int} objects of type {word} are rendered', async (expectedItemCount: number, objectType: string) => {
   await CommonActions.waitForElementInteraction(mapPageObject.zoomableLayer);
-  const layerType: MapLayerType = MapLayerType[objectType];
-  const mapLayerItems: MapLayerItem[] = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(layerType);
+  const mapLayerItems: MapLayerItem[] = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType[objectType]);
   const mapLayerItem: MapLayerItem = mapLayerItems[0];
   const webElements: any[] = await mapLayerItem.layerItems.getWebElements();
 
-  expect(webElements.length).to.equal(expectedItemCount);
+  expect(webElements.length, `The number ${objectType} elements is not correct`)
+    .to.equal(expectedItemCount);
 
 });
 
 Then ('the objects of type {word} are the correct colour', async (objectType: string) => {
-  const layerType: MapLayerType = MapLayerType[objectType];
-  const mapLayerItems: MapLayerItem[] = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(layerType);
+  const mapLayerItems: MapLayerItem[] = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType[objectType]);
   const mapLayerItem: MapLayerItem = mapLayerItems[0];
   const expectedObjectColourHex = mapObjectColourHex[objectType];
   const webElements: any[] = await mapLayerItem.layerItems.getWebElements();
@@ -268,7 +279,8 @@ Then ('the objects of type {word} are the correct colour', async (objectType: st
   if (mapLayerItem.styleProperty) {
     const actualItemColourRgb: string = await webElements[0].getCssValue(mapLayerItem.styleProperty);
     const actualItemColourHex: string = CssColorConverterService.rgb2Hex(actualItemColourRgb);
-    expect(actualItemColourHex).oneOf(expectedObjectColourHex);
+    expect(actualItemColourHex, `${objectType} Object is not the correct colour`)
+      .oneOf(expectedObjectColourHex);
   }
 });
 
@@ -301,25 +313,27 @@ Then('the {word} elements in the {word} layer have colour {string}',
   }
 });
 
-
 Then('the map is not being dragged', async () => {
   const isMidDrag = await mapPageObject.isMidDrag();
-  expect(isMidDrag).to.equal(false);
+  expect(isMidDrag, 'The map is being dragged')
+    .to.equal(false);
 });
 
 Then('the map is being dragged', async () => {
   const isMidDrag = await mapPageObject.isMidDrag();
-  expect(isMidDrag).to.equal(true);
+  expect(isMidDrag, 'The map is not being dragged')
+    .to.equal(true);
 });
-
 
 Then('the mouse icon is a {string}', async (cursorIcon: string) => {
   const actualCursorIcon = await mapPageObject.getCursor();
   if (cursorIcon === 'pointer') {
-    expect(actualCursorIcon).to.equal('auto');
+    expect(actualCursorIcon, `The mouse cursor is not icon ${cursorIcon}`)
+      .to.equal('auto');
   }
   if (cursorIcon === 'closed fist') {
-    expect(actualCursorIcon).to.equal('grabbing');
+    expect(actualCursorIcon, `The mouse cursor is not icon ${cursorIcon}`)
+      .to.equal('grabbing');
   }
 });
 
@@ -327,68 +341,80 @@ Then('the map has moved right {int}, down {int}', async (xVal: number, yVal: num
   const newMapTopPX = await mapPageObject.getDraggableAreaTop();
   const newMapLeftPX = await mapPageObject.getDraggableAreaLeft();
   const scaleFactor = browser.referenceMapScaleFactor;
-  expect(Math.round((newMapLeftPX - browser.referenceMapLeftPX) * scaleFactor)).to.equal(xVal);
-  expect(Math.round((newMapTopPX - browser.referenceMapTopPX) * scaleFactor)).to.equal(yVal);
+  expect(Math.round((newMapLeftPX - browser.referenceMapLeftPX) * scaleFactor), 'x location of map is not correct')
+    .to.equal(xVal);
+  expect(Math.round((newMapTopPX - browser.referenceMapTopPX) * scaleFactor), 'y location of map is not correct')
+    .to.equal(yVal);
 });
 
 Then('the map has not moved', async () => {
   const newMapTopPX = await mapPageObject.getDraggableAreaTop();
   const newMapLeftPX = await mapPageObject.getDraggableAreaLeft();
-  expect(newMapLeftPX).to.equal(browser.referenceMapLeftPX);
-  expect(newMapTopPX).to.equal(browser.referenceMapTopPX);
+  expect(newMapLeftPX, 'x location of map has moved')
+    .to.equal(browser.referenceMapLeftPX);
+  expect(newMapTopPX, 'y location of map has moved')
+    .to.equal(browser.referenceMapTopPX);
 });
 
 Then('berth {string} in train describer {string} contains {string}',
   async (berthId: string, trainDescriber: string, berthContents: string) => {
   const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
-  expect(trainDescription).equals(berthContents);
+  expect(trainDescription, 'Train description is not in the berth text')
+    .equals(berthContents);
 });
 
 Then('berth {string} in train describer {string} contains {string} and is visible',
   async (berthId: string, trainDescriber: string, berthContents: string) => {
   const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
-  expect(trainDescription).equals(berthContents);
-  expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber));
+  expect(trainDescription, 'Train description is not in the berth text')
+    .equals(berthContents);
+  expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber), 'Berth text is not visible');
 });
 
 Then('it is {string} that berth {string} in train describer {string} is present',
   async (isPresent: string, berthId: string, trainDescriber: string) => {
     const expectedPresent: boolean = (isPresent === 'true');
     const present: boolean = await mapPageObject.isBerthPresent(berthId, trainDescriber);
-    expect(present).equals(Boolean(expectedPresent));
+    expect(present, 'The presence/absence of the berth is not as expected')
+      .equals(Boolean(expectedPresent));
 });
 
 Then('berth {string} in train describer {string} does not contain {string}',
   async (berthId: string, trainDescriber: string, berthContents: string) => {
     const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
-    expect(trainDescription).to.not.equal(berthContents);
+    expect(trainDescription, `Berth contains ${berthContents} when it shouldn't`)
+      .to.not.equal(berthContents);
 });
 
 Then('the signal roundel for signal {string} is {word}',
   async (signalId: string, expectedSignalColour: string) => {
     const expectedSignalColourHex = mapColourHex[expectedSignalColour];
     const actualSignalColourHex = await mapPageObject.getSignalLampRoundColour(signalId);
-    expect(actualSignalColourHex).to.equal(expectedSignalColourHex);
+    expect(actualSignalColourHex, `Signal ${signalId} colour is not correct`)
+      .to.equal(expectedSignalColourHex);
   });
 
 Then('the TRTS visibility status for {string} is {word}',
   async (signalId: string, expectedStatus: string) => {
     const actualStatus = await mapPageObject.getVisibilityStatus(signalId);
-    expect(actualStatus).to.equal(expectedStatus);
+    expect(actualStatus, `TRTS ${signalId} status is not correct`)
+      .to.equal(expectedStatus);
   });
 
 Then('the marker board triangle for marker board {string} is {word}',
   async (markerBoardId: string, expectedMarkerBoardColour: string) => {
     const expectedMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];
     const actualMarkerBoardColourHex = await mapPageObject.getMarkerBoardTriangleColour(markerBoardId);
-    expect(actualMarkerBoardColourHex).to.equal(expectedMarkerBoardColourHex);
+    expect(actualMarkerBoardColourHex, `Marker board triangle colour for ${markerBoardId} is not correct`)
+      .to.equal(expectedMarkerBoardColourHex);
   });
 
 Then('the shunt marker board triangle for shunt marker board {string} is {word}',
   async (markerBoardId: string, expectedShuntMarkerBoardColour: string) => {
     const expectedShuntMarkerBoardColourHex = mapColourHex[expectedShuntMarkerBoardColour];
     const actualShuntMarkerBoardColourHex = await mapPageObject.getShuntMarkerBoardTriangleColour(markerBoardId);
-    expect(actualShuntMarkerBoardColourHex).to.equal(expectedShuntMarkerBoardColourHex);
+    expect(actualShuntMarkerBoardColourHex, `Shunt marker board triangle colour for ${markerBoardId} is not correct`)
+      .to.equal(expectedShuntMarkerBoardColourHex);
   });
 
 Then('the marker board {string} will display a Movement Authority {word} [{word} triangle on blue background]',
@@ -396,8 +422,10 @@ Then('the marker board {string} will display a Movement Authority {word} [{word}
     const expectedMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];
     const actualMarkerBoardColourHex = await mapPageObject.getMarkerBoardTriangleColour(markerBoardId);
     const actualMarkerBoardBackgroundColourHex = await mapPageObject.getMarkerBoardBackgroundColour(markerBoardId);
-    expect(actualMarkerBoardColourHex).to.equal(expectedMarkerBoardColourHex);
-    expect(actualMarkerBoardBackgroundColourHex).to.equal(mapColourHex.blue);
+    expect(actualMarkerBoardColourHex, `Marker board triangle colour for ${markerBoardId} is not correct`)
+      .to.equal(expectedMarkerBoardColourHex);
+    expect(actualMarkerBoardBackgroundColourHex, `Triangle background colour is not blue`)
+      .to.equal(mapColourHex.blue);
   });
 
 Then('the shunt marker board {string} will display a Movement Authority {word} [{word} triangle with blue inner triangle]',
@@ -405,8 +433,10 @@ Then('the shunt marker board {string} will display a Movement Authority {word} [
     const expectedShuntMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];
     const actualShuntMarkerBoardTriangleColourHex = await mapPageObject.getShuntMarkerBoardTriangleColour(markerBoardId);
     const actualShuntMarkerBoardSmallTriangleColourHex = await mapPageObject.getShuntMarkerBoardSmallTriangleColour(markerBoardId);
-    expect(actualShuntMarkerBoardTriangleColourHex).to.equal(expectedShuntMarkerBoardColourHex);
-    expect(actualShuntMarkerBoardSmallTriangleColourHex).to.equal(mapColourHex.blue);
+    expect(actualShuntMarkerBoardTriangleColourHex, `Shunt marker board triangle colour for ${markerBoardId} is not correct`)
+      .to.equal(expectedShuntMarkerBoardColourHex);
+    expect(actualShuntMarkerBoardSmallTriangleColourHex, `Triangle background colour is not blue`)
+      .to.equal(mapColourHex.blue);
   });
 
 Then('the s-class-berth {string} will display {word} Route indication of {string}',
@@ -430,8 +460,10 @@ Then('the AES box containing s-class-berth {string} will display {word} aes text
     else {
       const actualIndicationText = await mapPageObject.getSClassBerthElementText(sClassBerthId);
       const actualIndicationTextColourHex = await mapPageObject.getSClassBerthElementTextColour(sClassBerthId);
-      expect(actualIndicationTextColourHex).to.equal(mapColourHex.purple);
-      expect(actualIndicationText).to.equal(aesCode);
+      expect(actualIndicationTextColourHex, 'Text colour is not purple')
+        .to.equal(mapColourHex.purple);
+      expect(actualIndicationText, 'AES text is not correct')
+        .to.equal(aesCode);
     }
   });
 
@@ -452,8 +484,10 @@ Then('the shunt-marker-board {string} will display a Node Proven {word} [{word} 
     else {
       const actualIndicationText = await mapPageObject.getSClassBerthElementText(markerBoardId);
       const actualIndicationTextColourHex = await mapPageObject.getSClassBerthElementTextColour(markerBoardId);
-      expect(actualIndicationTextColourHex).to.equal(mapColourHex.green);
-      expect(actualIndicationText).to.equal('+');
+      expect(actualIndicationTextColourHex, 'Text colour is not green')
+        .to.equal(mapColourHex.green);
+      expect(actualIndicationText, 'Text is not a green +')
+        .to.equal('+');
     }
   });
 
@@ -473,7 +507,8 @@ Then('the shunters-release {string} will display a {word} state [{word} white cr
     else {
       expect(await mapPageObject.releaseElementIsVisible(releaseId));
       const actualIndicationTextColourHex = await mapPageObject.getReleaseElementColour(releaseId);
-      expect(actualIndicationTextColourHex).to.equal(mapColourHex.white);
+      expect(actualIndicationTextColourHex, 'Text colour is not white')
+        .to.equal(mapColourHex.white);
     }
   });
 
@@ -483,15 +518,18 @@ Then('berth {string} in train describer {string} contains the train description 
     const array = trainDescription.split('');
     const expectedTrainDescription = array[1] + array[0] + array[2] + array[3];
     const present: boolean = await mapPageObject.isBerthPresent(berthId, trainDescriber);
-    expect(present).equals(true);
+    expect(present, 'Berth is not present')
+      .equals(true);
     const berthText = await mapPageObject.getBerthText(berthId, trainDescriber);
-    expect(berthText).equals(expectedTrainDescription);
-    expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber));
+    expect(berthText, 'Berth text is not correct')
+      .equals(expectedTrainDescription);
+    expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber), 'Berth text is not visible');
 });
 
 Then('the view is refreshed with the linked map', async () => {
   const actualTabTitle: string = await browser.getTitle();
-  expect(actualTabTitle).to.contain(mapPageObject.lastMapLinkSelectedCode);
+  expect(actualTabTitle, 'Map code is not correct in the browser title')
+    .to.contain(mapPageObject.lastMapLinkSelectedCode);
 });
 
 Then ('I am presented with a menu which I choose to open the map within to the same view or new tab', async () => {
@@ -499,9 +537,12 @@ Then ('I am presented with a menu which I choose to open the map within to the s
   const actualContextMenuItem2: string = await mapPageObject.getMapContextMenuItem(2);
   const actualContextMenuItem3: string = await mapPageObject.getMapContextMenuItem(3);
   const actualContextMenuItem4: string = await mapPageObject.getMapContextMenuItem(4);
-  expect(actualContextMenuItem2).to.contain(mapPageObject.lastMapLinkSelectedCode);
-  expect(actualContextMenuItem3).equals('Open');
-  expect(actualContextMenuItem4).equals('Open (new tab)');
+  expect(actualContextMenuItem2, '2nd item on the context menu is not correct map code')
+    .to.contain(mapPageObject.lastMapLinkSelectedCode);
+  expect(actualContextMenuItem3, '3rd item on the context menu is not Open')
+    .equals('Open');
+  expect(actualContextMenuItem4, '4th item on the context menu is not Open (new tab)')
+    .equals('Open (new tab)');
 });
 
 Then('a new tab opens showing the linked map', async () => {
@@ -509,7 +550,8 @@ Then('a new tab opens showing the linked map', async () => {
   const finalTab: number = windowHandles.length - 1;
   await browser.driver.switchTo().window(windowHandles[finalTab]);
   const actualTabTitle: string = await browser.getTitle();
-  expect(actualTabTitle).to.contain(mapPageObject.lastMapLinkSelectedCode);
+  expect(actualTabTitle, 'Map code is not correct in the browser title')
+    .to.contain(mapPageObject.lastMapLinkSelectedCode);
 });
 
 Then('the previous tab still displays the original map', async () => {
@@ -518,27 +560,32 @@ Then('the previous tab still displays the original map', async () => {
   const penultimateTab: number = finalTab - 1;
   await browser.driver.switchTo().window(windowHandles[penultimateTab]);
   const actualTabTitle: string = await browser.getTitle();
-  expect(actualTabTitle).equals(mapPageObject.originallyOpenedMapTitle);
+  expect(actualTabTitle, 'Map code is not correct in the browser title')
+    .equals(mapPageObject.originallyOpenedMapTitle);
 });
 
 Then('I am presented with a set of information about the berth', async () => {
   const contextMenuAppears = await mapPageObject.waitForContextMenu();
-  expect(contextMenuAppears).equals(true);
+  expect(contextMenuAppears, 'Context menu is not displayed')
+    .equals(true);
 });
 
 Then('the berth information for {word} contains {word}', async (berthId: string, expectedBerthInfo: string) => {
   const infoString: string = await mapPageObject.getBerthContextInfoText();
-  expect(infoString).to.contain(expectedBerthInfo);
+  expect(infoString, 'Expected berth information not correct')
+    .to.contain(expectedBerthInfo);
 });
 
 Then('the berth information for {word} only contains {word}', async (berthId: string, expectedBerthInfo: string) => {
   const infoString: string = await mapPageObject.getBerthContextInfoText();
-  expect(infoString).to.equal(expectedBerthInfo);
+  expect(infoString, 'Expected berth information not correct')
+    .to.equal(expectedBerthInfo);
 });
 
 Then('the manual trust berth information for {word} only contains {word}', async (berthId: string, expectedBerthInfo: string) => {
   const infoString: string = await mapPageObject.getManualTrustBerthContextInfoText();
-  expect(infoString).to.equal(expectedBerthInfo);
+  expect(infoString, 'Expected berth information not correct')
+    .to.equal(expectedBerthInfo);
 });
 
 Given('I am on a map showing berth {string} and in train describer {string}', async (berthId: string, trainDescriber: string) => {
@@ -549,9 +596,9 @@ Then('the shunt signal state for signal {string} is {word}',
   async (signalId: string, expectedSignalColour: string) => {
     const expectedSignalColourHex = mapColourHex[expectedSignalColour];
     const actualSignalColourHex = await mapPageObject.getShuntSignalColour(signalId);
-    expect(actualSignalColourHex).to.equal(expectedSignalColourHex);
+    expect(actualSignalColourHex, `shunt signal for ${signalId} is not the correct colour`)
+      .to.equal(expectedSignalColourHex);
   });
-
 
 When('I launch a new map {string} the new map should have start time from the moment it was opened', async (mapName: string) => {
   await mapPageObject.clickMapName();
@@ -563,35 +610,41 @@ Then('the TRTS status for signal {string} is {word}',
   async (signalId: string, expectedSignalStatus: string) => {
     const expectedSignalStatusHex = mapColourHex[expectedSignalStatus];
     const actualSignalStatus: string = await mapPageObject.getTrtsStatus(signalId);
-    expect(actualSignalStatus).to.equal(expectedSignalStatusHex);
+    expect(actualSignalStatus, `TRTS status for ${signalId} is not correct`)
+      .to.equal(expectedSignalStatusHex);
   });
 
 Then('the level crossing barrier status of {string} is {word}',
   async (lvlCrossingId: string, expectedStatus: string) => {
     const actualBarrierStatus = await mapPageObject.getLvlCrossingBarrierState(lvlCrossingId);
-    expect(actualBarrierStatus).to.equal(expectedStatus);
+    expect(actualBarrierStatus, `level crossing barrier status for ${lvlCrossingId} is not correct`)
+      .to.equal(expectedStatus);
   });
 
 Then('the direction lock chevron of {string} is {word}',
   async (directionLockId: string, expectedStatus: string) => {
     const actualBarrierStatus = await mapPageObject.getLvlCrossingBarrierState(directionLockId);
-    expect(actualBarrierStatus).to.equal(expectedStatus);
+    expect(actualBarrierStatus, `direction lock chevron for ${directionLockId} is not correct`)
+      .to.equal(expectedStatus);
   });
 
 Then('the direction lock chevrons are not displayed',
   async () => {
     const chevronsDisplayed = await mapPageObject.isDirectionChevronDisplayed();
-    expect(chevronsDisplayed).to.equal(false);
+    expect(chevronsDisplayed, 'Direction lock chevron is displayed when it shouldn\'t be')
+      .to.equal(false);
   });
 
 Then('I should see the AES boundary elements', async () => {
     const aesDisplayed = await mapPageObject.aesElementsAreDisplayed();
-    expect(aesDisplayed).to.equal(true);
+    expect(aesDisplayed, 'AES boundary elements are not displayed')
+      .to.equal(true);
   });
 
 Then('I should not see the AES boundary elements', async () => {
   const aesDisplayed = await mapPageObject.aesElementsAreDisplayed();
-  expect(aesDisplayed).to.equal(false);
+  expect(aesDisplayed, 'AES boundary elements are displayed')
+    .to.equal(false);
 });
 
 When(/^I invoke the context menu on the map for train (.*)$/, async (trainDescription: string) => {
@@ -605,20 +658,23 @@ When('I open timetable from the map context menu', async () => {
 Then('the track state width for {string} is {string}',
   async (trackId: string, expectedWidth: string) => {
     const actualWidth = await mapPageObject.getTrackWidth(trackId);
-    expect(actualWidth).to.equal(expectedWidth);
+    expect(actualWidth, `Track width for ${trackId} is not as expected`)
+      .to.equal(expectedWidth);
   });
 
 Then('the route indication for {string} is {string}',
   async (trackId: string, expectedValue: string) => {
     const actualValue = await mapPageObject.getRouteIndication(trackId);
-    expect(actualValue).to.equal(expectedValue);
+    expect(actualValue, `Route Indication for ${trackId} is not correct`)
+      .to.equal(expectedValue);
   });
 
 Then('the track colour for track {string} is {word}',
   async (trackId: string, expectedValue: string) => {
     const expectedSignalStatusHex = mapColourHex[expectedValue];
     const actualSignalStatus: string = await mapPageObject.getTrackColour(trackId);
-    expect(actualSignalStatus).to.equal(expectedSignalStatusHex);
+    expect(actualSignalStatus, `Track colour for ${trackId} is not as expected`)
+      .to.equal(expectedSignalStatusHex);
   });
 
 Then('the tracks {string} are displayed in {word} {word}',
@@ -629,8 +685,10 @@ Then('the tracks {string} are displayed in {word} {word}',
     for (const trackId of expectedTrackIds) {
       const actualTrackColour: string = await mapPageObject.getTrackColour(trackId);
       const actualTrackWidth: string = await mapPageObject.getTrackWidth(trackId);
-      expect(actualTrackColour).to.equal(expectedTrackColourHex);
-      expect(actualTrackWidth).to.equal(expectedTrackWidth);
+      expect(actualTrackColour, `Track colour for ${trackIds} is not as expected`)
+        .to.equal(expectedTrackColourHex);
+      expect(actualTrackWidth, `Track width for ${trackIds} is not as expected`)
+        .to.equal(expectedTrackWidth);
     }
   });
 

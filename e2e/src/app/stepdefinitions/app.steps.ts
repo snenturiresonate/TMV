@@ -19,6 +19,39 @@ import {TimingAtLocationBuilder} from '../utils/train-journey-modifications/timi
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
 
+Given(/^I navigate to (.*) page$/, async (pageName: string) => {
+
+  switch (pageName){
+    case 'Home':
+      await page.navigateTo('');
+      break;
+    case 'TrainsList':
+      await page.navigateTo('/tmv/trains-list');
+      break;
+    case 'LogViewer':
+      await page.navigateTo('/tmv/log-viewer');
+      break;
+    case 'Replay':
+      await page.navigateTo('/tmv/replay');
+      break;
+    case 'UserManagement':
+      await page.navigateTo('/tmv/user-management');
+      break;
+    case 'Maps':
+      await page.navigateTo(`/tmv/maps/1`);
+      break;
+    case 'TrainsListConfig':
+      await page.navigateTo('/tmv/trains-list-config');
+      break;
+    case 'TimeTable':
+      await page.navigateTo('/tmv/live-timetable/1');
+      break;
+    case 'Admin':
+      await page.navigateTo('/tmv/administration');
+      break;
+  }
+});
+
 Given(/^I am on the home page$/, async () => {
   await page.navigateTo('');
 });
@@ -210,12 +243,14 @@ Then(/^I should see nothing$/, async () => {
 
 Then('a modal displays with title {string}', async (modalTitle: string) => {
   const displayedTitle: string = await page.getModalWindowTitle();
-  expect(displayedTitle).to.contain(modalTitle);
+  expect(displayedTitle, 'Modal title is not correct')
+    .to.contain(modalTitle);
 });
 
 Then('the modal contains a {string} button', async (buttonName: string) => {
   const displayedButtons: string = await page.getModalButtons();
-  expect(displayedButtons).to.contain(buttonName);
+  expect(displayedButtons, `Button ${buttonName} is not on the Modal`)
+    .to.contain(buttonName);
 });
 
 Given(/^I am on the trains list page$/, async () => {
@@ -250,7 +285,8 @@ Given('I am on the live timetable page with schedule id {string}', async (schedu
 Then('the tab title is {string}', async (expectedTabTitle: string) => {
   await browser.driver.wait(ExpectedConditions.titleContains(expectedTabTitle));
   const actualTabTitle: string = await browser.driver.getTitle();
-  expect(actualTabTitle).to.contains(expectedTabTitle);
+  expect(actualTabTitle, `Tab title is not ${expectedTabTitle}`)
+    .to.contains(expectedTabTitle);
 });
 
 When('I open {string} page in a new tab', async (pageName: string) => {

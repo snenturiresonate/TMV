@@ -7,17 +7,25 @@ const searchResultsPage: SearchResultsPageObject = new SearchResultsPageObject()
 
 Then(/^no results are returned with that planning UID '(.*)'$/, async (planningUID: string) => {
   const row = await searchResultsPage.getRowByPlanningUID(planningUID);
-  expect(await row.isPresent()).to.equal(false);
+  expect(await row.isPresent(), `Row with planning UID ${planningUID} is present`)
+    .to.equal(false);
 });
 
 Then(/^results are returned with that planning UID '(.*)'$/, async (planningUID: string) => {
   const row = await searchResultsPage.getRowByPlanningUID(planningUID);
+  expect(await row.isPresent(), `Row with planning UID ${planningUID} is not present`)
+    .to.equal(true);
+});
+
+Then(/^results are returned with that signal ID '(.*)'$/, async (signalID: string) => {
+  const row = await searchResultsPage.getRowBySignalID(signalID);
   expect(await row.isPresent()).to.equal(true);
 });
 
 Then('results are returned with planning UID {string} and schedule type {string}', async (planningUID: string, scheduleType: string) =>
 {
   const row = await searchResultsPage.getRowByPlanningUIDAndScheduleType(planningUID, scheduleType.toUpperCase());
-  expect(await row.isPresent()).to.equal(true);
+  expect(await row.isPresent(), `Row with planning UID ${planningUID} & schedule type ${scheduleType} is not present`)
+    .to.equal(true);
 });
 

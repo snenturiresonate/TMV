@@ -1,5 +1,5 @@
 import {AdminPageCommon} from '../../pages/administration/administration-common.page';
-import { When, Then } from 'cucumber';
+import {Then, When} from 'cucumber';
 import {expect} from 'chai';
 
 const adminCommonPage: AdminPageCommon = new AdminPageCommon();
@@ -12,6 +12,7 @@ Then('the following tabs can be seen on the administration', async (adminTabName
   const expectedTabNames = adminTabNameDataTable.hashes();
   const actualTabNames = await adminCommonPage.getAdministrationTab();
   expectedTabNames.forEach((expectedAdminTabName: any) => {
-    expect(actualTabNames).to.contain(expectedAdminTabName.tabName);
+    expect(actualTabNames, `${expectedAdminTabName.tabName} tab not present`)
+      .to.contain(expectedAdminTabName.tabName);
   });
 });
