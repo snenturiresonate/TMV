@@ -1,0 +1,23 @@
+name: $(date:yyyyMMdd)$(rev:.r)
+
+resources:
+  repositories:
+    - repository: IaC
+      type: git
+      name: Luminate-TMV/InfrastructureAsCode
+      ref: refs/heads/master
+
+variables:
+- template: AzureDevOpsBuildPipelines/PipelineVariables.yaml@IaC
+
+trigger: none # will disable CI builds entirely
+
+pool:
+  name: LuminateTMVAgentPool
+  demands: maven
+
+steps:
+- template: AzureDevOpsBuildPipelines/TaskGroups/CleanGitBranches.yaml@IaC # Template reference
+- template: AzureDevOpsBuildPipelines/TaskGroups/UpdateGitBranches.yaml@IaC # Template reference
+- template: AzureDevOpsBuildPipelines/TaskGroups/MavenStartReleaseBranch.yaml@IaC # Template reference
+- template: AzureDevOpsBuildPipelines/TaskGroups/CleanGitBranches.yaml@IaC # Template reference
