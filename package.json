@@ -9,6 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "e2e-ci": "protractor --baseUrl=\"http://$npm_config_ci_ip\" --cucumberOpts.tags=\"$cucumber_tags\" e2e/protractor.conf.js",
+    "fe2e": "protractor --baseUrl=\"https://tmv-national-test-fe2e.tmv.resonate.tech\" e2e/protractor.conf.js",
     "junit-xml": "cat .tmp/results.json | ./node_modules/.bin/cucumber-junit > .tmp/TEST-results.xml"
   },
   "private": true,
