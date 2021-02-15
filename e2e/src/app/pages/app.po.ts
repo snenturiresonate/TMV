@@ -14,16 +14,17 @@ export class AppPage {
   }
 
   public async navigateTo(url: string, role?: string): Promise<any> {
+    const URL = browser.baseUrl + url;
     try {
       await browser.waitForAngularEnabled(false);
-      await browser.get(browser.baseUrl + url);
+      await browser.get(URL);
       await browser.waitForAngularEnabled(true);
-      await CommonActions.waitForElementToBeVisible(this.navBarLogo);
+      await this.waitForAppLoad();
     } catch (e) {
       if (role) {
-        await this.roleBasedAuthentication(url, role);
+        await this.roleBasedAuthentication(URL, role);
       } else {
-        await this.defaultAuthentication(url);
+        await this.defaultAuthentication(URL);
       }
     }
 
@@ -31,10 +32,10 @@ export class AppPage {
 
   public async roleBasedAuthentication(url, role): Promise<any> {
     await browser.waitForAngularEnabled(false);
-    await browser.get(browser.baseUrl + url);
+    await browser.get(url);
     await this.authenticationRouter(role);
     await browser.waitForAngularEnabled(true);
-    await CommonActions.waitForElementToBeVisible(this.navBarLogo);
+    await this.waitForAppLoad();
   }
 
   private async authenticationRouter(role: string): Promise<any> {
@@ -69,9 +70,9 @@ export class AppPage {
 
   public async defaultAuthentication(url): Promise<any> {
     await browser.waitForAngularEnabled(false);
-    await browser.get(browser.baseUrl + url);
+    await browser.get(url);
     await this.authenticateAsAdminUser();
-    await CommonActions.waitForElementToBeVisible(this.navBarLogo);
+    await this.waitForAppLoad();
     await browser.waitForAngularEnabled(true);
   }
 
@@ -103,6 +104,10 @@ export class AppPage {
     const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
     await browser.waitForAngularEnabled(false);
     await authPage.authenticate(userName, Password);
+  }
+
+  public async waitForAppLoad(): Promise<void> {
+    await CommonActions.waitForElementToBeVisible(this.navBarLogo);
   }
 
 }
