@@ -258,3 +258,193 @@ Feature: 33757 - TMV National Search
       |Maps                |
       |LogViewer           |
       |Admin               |
+
+  @tdd
+  Scenario Outline:5 National Timetable Search Selection
+    #Given the user is authenticated to use TMV
+    #And the user is viewing the timetable search results pop-up
+    #When the user selects a timetable from search result by using the secondary mouse click
+    #Then the user is presented with a menu to either view the timetable or open a map(s) that contains the train (if running)
+    Given I navigate to <pageName> page
+    And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
+    And the following berth interpose message is sent from LINX
+      | timestamp | toBerth   | trainDescriber     | trainDescription   |
+      | 10:02:06  | 0209      | D3 		             | 1F23  		          |
+    And I search Timetable for 'A82345'
+    And results are returned with that planning UID 'A82345'
+    And the window title is displayed as 'Timetable Search Results'
+    And I invoke the context menu from timetable '1'
+    And I wait for the train search context menu to display
+    And the timetable context menu is displayed
+    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Select maps' on line 2
+    And the following map names can be seen
+      |mapName|
+      |GW01   |
+      |GW02   |
+      |HDGW01 |
+    And the following berth step message is sent from LINX
+      | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
+      | 0209      | 10:02:06  | 0211    | D3             | 1F23             |
+    And I invoke the context menu from timetable '1'
+    And I wait for the timetable search context menu to display
+    Then the timetable context menu is displayed
+    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Select maps' on line 2
+    And the following map names can be seen
+      |mapName|
+      |GW01   |
+      |GW02   |
+      |HDGW01 |
+    And I click close button at the bottom of table
+    And I search Timetable for 'A82345'
+    And results are returned with that planning UID 'A82345'
+    And I invoke the context menu from timetable '1'
+    And I wait for the timetable search context menu to display
+    And the timetable context menu is displayed
+    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Select maps' on line 2
+    And the following map names can be seen
+      |mapName|
+      |GW02   |
+      |HDGW01 |
+    Examples:
+      |pageName            |
+      |Home                |
+      |TrainsList          |
+      |TimeTable           |
+      |Replay              |
+      |UserManagement      |
+      |TrainsListConfig    |
+      |Maps                |
+      |LogViewer           |
+      |Admin               |
+
+  @tdd
+  Scenario Outline:33757-6 National Signal Search Selection
+    #Given the user is authenticated to use TMV
+    #And the user is viewing the signal search results pop-up
+    #When the user selects a train from search result by using the secondary mouse click
+    #Then the user is presented with a menu open a map(s) that contains the signal
+    Given I navigate to <pageName> page
+    And I search Signal for 'SN259'
+    Then results are returned with that signal ID 'SN259'
+    And the window title is displayed as 'Signal Search Results'
+    And I invoke the context menu from signal 'SN259'
+    And I wait for the signal search context menu to display
+    And the signal context menu is displayed
+    And the train search context menu contains 'Select maps' on line 1
+    And I placed the mouseover on signal map option
+    And the following map names can be seen
+      |mapName|
+      |EA02   |
+      |EA2A   |
+      |EA03   |
+
+    Examples:
+      |pageName            |
+      |Home                |
+      |TrainsList          |
+      |TimeTable           |
+      |Replay              |
+      |UserManagement      |
+      |TrainsListConfig    |
+      |Maps                |
+      |LogViewer           |
+      |Admin               |
+
+  @tdd
+  Scenario Outline:33757-7 National Trains Search Highlight
+    #Given the user is authenticated to use TMV
+    #And the user is viewing the train search results
+    #When the user selects a map from the train search results
+    #Then the user is presented with a map that contains the train
+    #And the train is highlighted for a brief period
+    Given I navigate to <pageName> page
+    And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
+    And the following berth interpose message is sent from LINX
+      | timestamp | toBerth   | trainDescriber     | trainDescription   |
+      | 10:02:06  | 0209      | D3 		             | 1F23  		          |
+    And I search Train for 'A82345'
+    And results are returned with that planning UID 'A82345'
+    And the Train search table is shown
+    And the window title is displayed as 'Train Search Results'
+    And I invoke the context menu from trains '1'
+    And I wait for the train search context menu to display
+    And the trains context menu is displayed
+    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Select maps' on line 2
+    And the following map names can be seen
+      |mapName|
+      |GW01   |
+      |GW02   |
+      |HDGW01 |
+    And I open the Map 'GW01'
+    And I switch to the new tab
+    And I toggle the 'Berth' toggle 'On'
+    And the berth '0209' is 'highlighted'
+    And the following berth step message is sent from LINX
+      | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
+      | 0209      | 10:02:06  | 0211    | D3             | 1F23             |
+    And I invoke the context menu from trains '1'
+    And I wait for the train search context menu to display
+    Then the trains context menu is displayed
+    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Select maps' on line 2
+    And the following map names can be seen
+      |mapName|
+      |GW01   |
+      |GW02   |
+      |HDGW01 |
+   And I open the Map 'HDGW01'
+    And I switch to the new tab
+    And I toggle the 'Berth' toggle 'On'
+    And the berth '0211' is 'highlighted'
+    Examples:
+      |pageName            |
+      |Home                |
+      |TrainsList          |
+      |TimeTable           |
+      |Replay              |
+      |UserManagement      |
+      |TrainsListConfig    |
+      |Maps                |
+      |LogViewer           |
+      |Admin               |
+
+  @tdd
+  Scenario Outline:33757-8 National Signal Search Highlight
+    #Given the user is authenticated to use TMV
+    #And the user is viewing the signal search results
+    #When the user selects a map from the signal search results
+    #Then the user is presented with a map that contains the signal
+    #And the signal is highlighted for a brief period
+    Given I navigate to <pageName> page
+    And I search Signal for 'SN259'
+    Then results are returned with that signal ID 'SN259'
+    And the window title is displayed as 'Signal Search Results'
+    And I invoke the context menu from signal 'SN259'
+    And I wait for the signal search context menu to display
+    And the signal context menu is displayed
+    And the train search context menu contains 'Select maps' on line 1
+    And I placed the mouseover on signal map option
+    And the following map names can be seen
+      |mapName|
+      |EA02   |
+      |EA2A   |
+      |EA03   |
+    And I open the Map 'EA02'
+    And I switch to the new tab
+    And the tab title is 'TMV Map EA02'
+    And the signal 'SN254' is 'highlighted'
+    Examples:
+      |pageName            |
+      |Home                |
+      |TrainsList          |
+      |TimeTable           |
+      |Replay              |
+      |UserManagement      |
+      |TrainsListConfig    |
+      |Maps                |
+      |LogViewer           |
+      |Admin               |
