@@ -331,3 +331,9 @@ Then('the signal {string} is {word}',
     const actualStatus = await navBarPage.getHighlightStatus(signalId);
     expect(actualStatus).to.equal(expectedStatus);
   });
+
+Then('the berth {string} is {word}',
+  async (berthId: string, expectedStatus: string) => {
+    const actualStatus = await navBarPage.getBerthHighlightStatus(berthId);
+    expect(actualStatus).to.equal(expectedStatus);
+  });
