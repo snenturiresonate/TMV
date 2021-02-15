@@ -27,13 +27,17 @@ Then('the following can be seen on the trains indication table of trains list co
 
     if (expectedEntry.minutes) {
       const actualMinutes = await trainsListIndicationTab.getTrainIndicationColourMinutes(minutesIndex);
-      expect(actualMinutes).to.contain(expectedEntry.minutes);
+      expect(actualMinutes, `Train Indication Colour minutes does not contain ${expectedEntry.minutes}`)
+        .to.contain(expectedEntry.minutes);
       minutesIndex++;
     }
 
-    expect(actualRowName).to.contain(expectedEntry.name);
-    expect(actualToggleValue).to.contain(expectedEntry.toggleValue);
-    expect(actualColour).to.contain(expectedEntry.colour);
+    expect(actualRowName, `Trains indication Row Name does not contain ${expectedEntry.name}`)
+      .to.contain(expectedEntry.name);
+    expect(actualToggleValue, `Trains indication Class Toggle does not contain ${expectedEntry.toggleValue}`)
+      .to.contain(expectedEntry.toggleValue);
+    expect(actualColour, `Trains indication Colour Text does not contain ${expectedEntry.colour}`)
+      .to.contain(expectedEntry.colour);
     index++;
   }
 });
@@ -52,7 +56,6 @@ When('I update the train list indication config settings as', {timeout: 6 * 5000
       const updateMinutes = await trainsListIndicationTab.updateTrainIndicationColourMinutes(i, expectedEntries[i].minutes);
       results.push(updateMinutes);
     }
-
   }
 
   return protractor.promise.all(results);
@@ -81,7 +84,6 @@ When('I update only the below train list indication config settings as', {timeou
           break;
       }
     }
-
   }
 
   return protractor.promise.all(results);
@@ -93,13 +95,15 @@ Then('I should see the colour picker when any trains list colour box is clicked'
   for (let i = 0; i < punctualityColourTextBoxes; i++) {
     await trainsListIndicationTab.clickTrainIndicationColourElement(i);
     const colourPickerIsDisplayed: boolean = await trainsListIndicationTab.colourPickerIsDisplayed();
-    expect(colourPickerIsDisplayed).to.equal(true);
+    expect(colourPickerIsDisplayed, `Colour picker is not displayed`)
+      .to.equal(true);
   }
 });
 
 Then('the train indication config header is displayed as {string}', async (expectedHeader: string) => {
   const actualHeader: string = await trainsListIndicationTab.getTrainIndicationHeader();
-  expect(actualHeader).to.equal(expectedHeader);
+  expect(actualHeader, `train indication config header is not ${expectedHeader}`)
+    .to.equal(expectedHeader);
 });
 
 
@@ -109,7 +113,9 @@ Then('I should see the train list row coloured as', async (table: any) => {
   for (let i = 0; i < expectedEntries.length; i++) {
     const expectedBackgroundColour = expectedEntries[i].backgroundColour;
     const trainDescriberId = expectedEntries[i].trainDescriberId;
-    results.push(expect(trainsListTable.getBackgroundColourOfRow(trainDescriberId)).to.include(expectedEntries));
+    results.push(
+      expect(trainsListTable.getBackgroundColourOfRow(trainDescriberId), `Row Colour for ${trainDescriberId} not correct`)
+        .to.include(expectedEntries));
   }
   return protractor.promise.all(results);
 });

@@ -1,6 +1,6 @@
-import { Then, When } from 'cucumber';
-import { expect } from 'chai';
-import { TrainsListLocationSelectionTab } from '../../pages/trains-list-config/trains.list.location.selection.tab.page';
+import {Then, When} from 'cucumber';
+import {expect} from 'chai';
+import {TrainsListLocationSelectionTab} from '../../pages/trains-list-config/trains.list.location.selection.tab.page';
 import {protractor} from 'protractor';
 import {SelectBox} from '../../pages/common/ui-element-handlers/selectBox';
 import {GeneralUtils} from '../../pages/common/utilities/generalUtils';
@@ -10,38 +10,45 @@ const countDeltaValue = 5;
 
 Then('the location search box has value {string}', async (expectedText: string) => {
   const message: string = await trainsListLocationSelectionConfig.getLocationSearchBoxText();
-  expect(message).to.equal(expectedText);
+  expect(message, `Location search box does not contain ${expectedText}`)
+    .to.equal(expectedText);
 });
 
 Then('the location auto-suggest list is hidden', async () => {
   const isDisplayed: boolean = await trainsListLocationSelectionConfig.isLocationSuggestSearchResultDisplayed();
   const isHidden: boolean = !isDisplayed;
-  expect(isHidden).to.equal(true);
+  expect(isHidden, `Location auto suggest is not hidden`)
+    .to.equal(true);
 });
 Then('the location auto-suggest list is not hidden', async () => {
   const isDisplayed: boolean = await trainsListLocationSelectionConfig.isLocationSuggestSearchResultDisplayed();
   const isHidden: boolean = !isDisplayed;
-  expect(isHidden).to.equal(false);
+  expect(isHidden, `Location auto suggest list is hidden`)
+    .to.equal(false);
 });
 
 Then('the location auto-suggest list has atleast {int} entries', async (count: number) => {
   const suggestSearchResults: string = await trainsListLocationSelectionConfig.getLocationSuggestSearchResults();
-  expect(suggestSearchResults.length).to.closeTo(count, countDeltaValue);
+  expect(suggestSearchResults.length, `Number of entries from Location auto-suggest search results was not at least ${count}`)
+    .to.closeTo(count, countDeltaValue);
 });
 Then('the location auto-suggest list has {int} entries', async (count: number) => {
   const suggestSearchResults: string = await trainsListLocationSelectionConfig.getLocationSuggestSearchResults();
-  expect(suggestSearchResults.length).to.equal(count);
+  expect(suggestSearchResults.length, `Number of entries from Location auto-suggest search results was not ${count}`)
+    .to.equal(count);
 });
 Then('the location auto-suggest list contains {string} at position {int}', async (expectedText: string, position: number) => {
   const actualMapNames: string = await trainsListLocationSelectionConfig.getLocationSuggestSearchResults();
-  expect(actualMapNames[position - 1]).to.equal(expectedText);
+  expect(actualMapNames[position - 1], `Item ${position} in Location auto-suggest search results was not ${expectedText}`)
+    .to.equal(expectedText);
 });
 When('I type {string} into the location search box', async (text: string) => {
   await trainsListLocationSelectionConfig.enterLocationSearchString(text);
 });
 Then('the location search box dropdown has value {string}', async (expectedValue: string) => {
   const actualValue: string = await trainsListLocationSelectionConfig.getLocationFilterValue();
-  expect(actualValue).to.equal(expectedValue);
+  expect(actualValue, `Location search dropdown did not have value ${expectedValue}`)
+    .to.equal(expectedValue);
 });
 When('I click on the location filter', async () => {
   await trainsListLocationSelectionConfig.clickLocationFilter();
@@ -52,7 +59,8 @@ Then('the following values can be seen on the locations filter', async (location
   const actualLocationFilterValues = await trainsListLocationSelectionConfig.getLocationFilterValue();
 
   expectedLocationFilterValues.forEach((expectedLocationFilterValue: any) => {
-    expect(actualLocationFilterValues).to.contain(expectedLocationFilterValue.locationFilter);
+    expect(actualLocationFilterValues, `${expectedLocationFilterValue.locationFilter} not found in the locations filter`)
+      .to.contain(expectedLocationFilterValue.locationFilter);
   });
 });
 
@@ -69,14 +77,17 @@ Then('the following can be seen on the location order type table', async (locati
     const stopTypePass = await trainsListLocationSelectionConfig.getStopTypeCheckedState('Pass', expectedLocationName);
     const stopTypeTerminate = await trainsListLocationSelectionConfig.getStopTypeCheckedState('Terminate', expectedLocationName);
 
-    results.push(expect(stopTypeOriginate).to.contain(GeneralUtils.
-      convertCheckboxSelectionToBoolean(expectedLocationEntries[i].Originate)));
-    results.push(expect(stopTypeStop).to.contain(GeneralUtils.convertCheckboxSelectionToBoolean(expectedLocationEntries[i].Stop)));
-    results.push(expect(stopTypePass).to.contain(GeneralUtils.convertCheckboxSelectionToBoolean(expectedLocationEntries[i].Pass)));
-    results.push(expect(stopTypeTerminate).to.contain(GeneralUtils.
-      convertCheckboxSelectionToBoolean(expectedLocationEntries[i].Terminate)));
+    results.push(expect(stopTypeOriginate, `Originate for ${expectedLocationName} not as expected`)
+      .to.contain(GeneralUtils.convertCheckboxSelectionToBoolean(expectedLocationEntries[i].Originate)));
+    results.push(expect(stopTypeStop, `Stop for ${expectedLocationName} not as expected`)
+      .to.contain(GeneralUtils.convertCheckboxSelectionToBoolean(expectedLocationEntries[i].Stop)));
+    results.push(expect(stopTypePass, `Pass for ${expectedLocationName} not as expected`)
+      .to.contain(GeneralUtils.convertCheckboxSelectionToBoolean(expectedLocationEntries[i].Pass)));
+    results.push(expect(stopTypeTerminate, `Terminate for ${expectedLocationName} not as expected`)
+      .to.contain(GeneralUtils.convertCheckboxSelectionToBoolean(expectedLocationEntries[i].Terminate)));
   }
-  expect(actualNoOfLocations).to.equal(expectedLocationEntries.length);
+  expect(actualNoOfLocations, `Expected number of locations not correct`)
+    .to.equal(expectedLocationEntries.length);
   return protractor.promise.all(results);
 });
 
@@ -94,17 +105,20 @@ When('I uncheck the Originate checkbox', async () => {
 
 Then('the Originate checkbox is unchecked', async () => {
   const isOriginateCheckboxSelected: boolean = await trainsListLocationSelectionConfig.isOriginateSelected();
-  expect(isOriginateCheckboxSelected).to.equal(false);
+  expect(isOriginateCheckboxSelected, `Originate checkbox is checked when shouldn't be`)
+    .to.equal(false);
 });
 
 Then('the Originate checkbox is checked', async () => {
   const isOriginateCheckboxSelected: boolean = await trainsListLocationSelectionConfig.isOriginateSelected();
-  expect(isOriginateCheckboxSelected).to.equal(true);
+  expect(isOriginateCheckboxSelected, `Originate checkbox is not checked when it should be`)
+    .to.equal(true);
 });
 
 Then('the locations tab header is displayed as {string}', async (expectedTitle: string) => {
   const actualTabTitle: string = await trainsListLocationSelectionConfig.getLocationTabTitle();
-  expect(actualTabTitle).to.equal(expectedTitle);
+  expect(actualTabTitle, `Locations tab header is not ${expectedTitle}`)
+    .to.equal(expectedTitle);
 });
 
 Then('I should see the following stop types in the given order within each location', async (table: any) => {
@@ -114,7 +128,8 @@ Then('I should see the following stop types in the given order within each locat
   for (let i = 0; i < locationRowCount; i++) {
       for (let elmOrder = 0; elmOrder < tableValues.length; elmOrder++) {
         const actualResult: string = await trainsListLocationSelectionConfig.getStopTypeOfRow(i, elmOrder);
-        results.push(expect(actualResult).to.equal(tableValues[elmOrder].stopTypes));
+        results.push(expect(actualResult, `Stop type not correct for row ${i + 1}`)
+          .to.equal(tableValues[elmOrder].stopTypes));
       }
   }
   return protractor.promise.all(results);
@@ -141,7 +156,8 @@ When('I remove the following locations', async (table: any) => {
 });
 
 Then('I should not see the location re-ordering arrows', async () => {
-  return expect(await trainsListLocationSelectionConfig.locationTableArrowsDisplay()).to.not.include(true);
+  return expect(await trainsListLocationSelectionConfig.locationTableArrowsDisplay(), `Location re ordering arrow are displayed`)
+    .to.not.include(true);
 });
 
 When('I have only the following locations and stop types selected', async (table: any) => {
