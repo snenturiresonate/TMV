@@ -37,6 +37,7 @@ Feature: 47637 - Process C Class Messages - Berth Translation
       | trainDescription | toTrainDescriber | toBerth | newTrainDescriber | newBerth |
       | 1E04             | EX               | EJ08    | ZY                | EJ08     |
 
+    @bug @bug:55362
   Scenario Outline: 33758 Berth Translation - Interpose to Null
     # Translation is ******
     Given I am on a map showing berth '<toBerth>' and in train describer '<toTrainDescriber>'
