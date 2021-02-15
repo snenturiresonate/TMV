@@ -359,6 +359,11 @@ export class NavBarPageObject {
     }
   }
 
+  public async getHighlightStatus(signalId: string): Promise<string> {
+    const signalHighlight: ElementFinder = element(by.css('[id^=signal-latch-cross-element-' + signalId  + ']'));
+    return signalHighlight.getCssValue('highlighted');
+  }
+
   public async getBerthHighlightStatus(berthId: string): Promise<string> {
     const berthHighlight: ElementFinder = element(by.css('[id^=berth-element-text-' + berthId  + ']'));
     return berthHighlight.getCssValue('highlighted');
