@@ -12,7 +12,7 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      args: [ "--disable-gpu", "--window-size=1980,1080" ]
+      args: [ "--headless", "--disable-gpu", "--window-size=1980,1080" ]
     }
   },
   suites: {
@@ -20,7 +20,7 @@ exports.config = {
     trainsList: ['./src/**/features/33806-trains-list/*.feature']
   },
   directConnect: true,
-  baseUrl: 'https://tmv-national-test-fe2e.tmv.resonate.tech',
+  baseUrl: 'https://sv.tmv.resonate.tech/',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
