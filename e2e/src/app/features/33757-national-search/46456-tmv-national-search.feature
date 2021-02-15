@@ -260,6 +260,67 @@ Feature: 33757 - TMV National Search
       |Admin               |
 
   @tdd
+  Scenario Outline:5 National Timetable Search Selection
+    #Given the user is authenticated to use TMV
+    #And the user is viewing the timetable search results pop-up
+    #When the user selects a timetable from search result by using the secondary mouse click
+    #Then the user is presented with a menu to either view the timetable or open a map(s) that contains the train (if running)
+    Given I navigate to <pageName> page
+    And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
+    And the following berth interpose message is sent from LINX
+      | timestamp | toBerth   | trainDescriber     | trainDescription   |
+      | 10:02:06  | 0209      | D3 		             | 1F23  		          |
+    And I search Timetable for 'A82345'
+    And results are returned with that planning UID 'A82345'
+    And the window title is displayed as 'Timetable Search Results'
+    And I invoke the context menu from timetable '1'
+    And I wait for the train search context menu to display
+    And the timetable context menu is displayed
+    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Select maps' on line 2
+    And the following map names can be seen
+      |mapName|
+      |GW01   |
+      |GW02   |
+      |HDGW01 |
+    And the following berth step message is sent from LINX
+      | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
+      | 0209      | 10:02:06  | 0211    | D3             | 1F23             |
+    And I invoke the context menu from timetable '1'
+    And I wait for the timetable search context menu to display
+    Then the timetable context menu is displayed
+    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Select maps' on line 2
+    And the following map names can be seen
+      |mapName|
+      |GW01   |
+      |GW02   |
+      |HDGW01 |
+    And I click close button at the bottom of table
+    And I search Timetable for 'A82345'
+    And results are returned with that planning UID 'A82345'
+    And I invoke the context menu from timetable '1'
+    And I wait for the timetable search context menu to display
+    And the timetable context menu is displayed
+    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Select maps' on line 2
+    And the following map names can be seen
+      |mapName|
+      |GW02   |
+      |HDGW01 |
+    Examples:
+      |pageName            |
+      |Home                |
+      |TrainsList          |
+      |TimeTable           |
+      |Replay              |
+      |UserManagement      |
+      |TrainsListConfig    |
+      |Maps                |
+      |LogViewer           |
+      |Admin               |
+
+  @tdd
   Scenario Outline:33757-6 National Signal Search Selection
     #Given the user is authenticated to use TMV
     #And the user is viewing the signal search results pop-up
