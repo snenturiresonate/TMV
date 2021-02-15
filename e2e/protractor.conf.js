@@ -12,7 +12,7 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      args: [ "--headless", "--disable-gpu", "--window-size=1980,1080" ]
+      args: [ "--disable-gpu", "--window-size=1980,1080" ]
     }
   },
   suites: {
@@ -20,7 +20,7 @@ exports.config = {
     trainsList: ['./src/**/features/33806-trains-list/*.feature']
   },
   directConnect: true,
-  baseUrl: '',
+  baseUrl: 'https://sv.tmv.resonate.tech/',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
@@ -30,7 +30,7 @@ exports.config = {
     // To run specific Scenarios marked with the tag @test (for example), uncomment the next line
     //tags: ['@test']
     // To run all scenarios not marked @bug or @tdd, uncomment the next line
-    tags: ['not (@bug or @tdd or @manual)']
+    tags: ['not (@bug or @tdd or @manual)','@check']
   },
   ignoreUncaughtExceptions: true,
   async onPrepare() {

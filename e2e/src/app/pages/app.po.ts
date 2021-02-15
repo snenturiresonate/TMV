@@ -14,19 +14,27 @@ export class AppPage {
   }
 
   public async navigateTo(url: string, role?: string): Promise<any> {
-    if (role) {
-      return browser.get(browser.baseUrl + url)
-        // Click Login button (if displayed) step to be added
-        .then(() => this.authenticationRouter(role))
-        .then(() => browser.waitForAngularEnabled(true))
-        .then(() => CommonActions.waitForElementToBeVisible(this.navBarLogo));
-    } else {
-      return browser.get(browser.baseUrl + url)
-        // Click Login button (if displayed) step to be added
-        .then(() => this.authenticateAsAdminUser())
-        .then(() => browser.waitForAngularEnabled(true))
-        .then(() => CommonActions.waitForElementToBeVisible(this.navBarLogo));
+    try {
+      await browser.waitForAngularEnabled(false);
+      await browser.get(browser.baseUrl + url);
+      await browser.waitForAngularEnabled(true);
+      await CommonActions.waitForElementToBeVisible(this.navBarLogo);
+    } catch (e) {
+      if (role) {
+        await this.roleBasedAuthentication(url, role);
+      } else {
+        await this.defaultAuthentication(url);
+      }
     }
+
+  }
+
+  public async roleBasedAuthentication(url, role): Promise<any> {
+    await browser.waitForAngularEnabled(false);
+    await browser.get(browser.baseUrl + url);
+    await this.authenticationRouter(role);
+    await browser.waitForAngularEnabled(true);
+    await CommonActions.waitForElementToBeVisible(this.navBarLogo);
   }
 
   private async authenticationRouter(role: string): Promise<any> {
@@ -57,6 +65,14 @@ export class AppPage {
 
   public async getModalButtons(): Promise<string> {
     return this.modalWindowButtons.getText();
+  }
+
+  public async defaultAuthentication(url): Promise<any> {
+    await browser.waitForAngularEnabled(false);
+    await browser.get(browser.baseUrl + url);
+    await this.authenticateAsAdminUser();
+    await CommonActions.waitForElementToBeVisible(this.navBarLogo);
+    await browser.waitForAngularEnabled(true);
   }
 
   public async authenticateAsAdminUser(): Promise<void> {

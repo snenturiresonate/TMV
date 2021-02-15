@@ -39,7 +39,7 @@ export class AuthenticationModalDialoguePage {
   public async authenticateAsAdminUser(): Promise<void> {
     const userName = 'userAdmin';
     const Password = 'password';
-    await this.authenticate(userName, Password);
+    return this.authenticate(userName, Password);
   }
 
 }

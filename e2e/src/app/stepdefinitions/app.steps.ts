@@ -19,7 +19,7 @@ import {TimingAtLocationBuilder} from '../utils/train-journey-modifications/timi
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
 
-Given(/^I am on the home page$/, async () => {
+Given(/^I am on the home page$/, {timeout: 5 * 10000}, async () => {
   await page.navigateTo('');
 });
 
@@ -230,7 +230,7 @@ Given(/^I am on the log viewer page$/, async () => {
   await page.navigateTo('/tmv/log-viewer');
 });
 
-Given(/^I am on the admin page$/, async () => {
+Given(/^I am on the admin page$/, {timeout: 5 * 10000}, async () => {
   try {
     await page.navigateTo('/tmv/administration');
   } catch (UnexpectedAlertOpenError) {

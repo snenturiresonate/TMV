@@ -11,12 +11,12 @@ Feature: 46474 - Administration Common - full end to end testing
 
   Background:
     Given I am on the home page
-
+@check
   Scenario: Administration page tabs
     When I click the app 'admin'
     And I switch to the new tab
     Then the tab title is 'TMV Administration'
-
+@check
   Scenario: Administration page tabs
     When I click the app 'admin'
     And I switch to the new tab

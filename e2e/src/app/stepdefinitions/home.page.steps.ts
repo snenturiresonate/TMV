@@ -2,17 +2,9 @@ import {After, Before, Then, When} from 'cucumber';
 import {expect} from 'chai';
 
 import {HomePageObject} from '../pages/home.page';
-import {LocalStorage} from '../../../local-storage/local-storage';
 import {browser} from 'protractor';
 
 const homePage: HomePageObject = new HomePageObject();
-
-Before(() => {
-});
-
-After(async () => {
-  LocalStorage.reset();
-});
 
 Then('the welcome message should read {string}', async (expectedMessage: string) => {
   const message: string = await homePage.getWelcomeMessageText();
