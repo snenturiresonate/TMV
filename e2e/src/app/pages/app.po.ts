@@ -30,8 +30,12 @@ export class AppPage {
           await browser.get(URL);
         }
       } catch (ex) {
-          await this.authenticateOnCurrentRole();
-          await browser.get(URL);
+          try {
+            await this.authenticateOnCurrentRole();
+            await browser.get(URL);
+          } catch (reason) {
+            throw new Error('Unable to signin: ' + reason);
+          }
         }
     }
   }
