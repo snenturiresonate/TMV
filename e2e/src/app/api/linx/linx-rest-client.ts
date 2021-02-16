@@ -21,60 +21,72 @@ export class LinxRestClient {
 
   public postBerthInterpose(body: BerthInterpose): ResponsePromise {
     this.replayRecord(ReplayActionType.INTERPOSE, JSON.stringify(body));
+    console.log('TestHarnessIP: ' + browser.test_harness_ci_ip);
     return this.httpClient.post('/traindescriberupdates/berthinterpose', body);
   }
 
   public postBerthCancel(body: BerthCancel): ResponsePromise {
     this.replayRecord(ReplayActionType.CANCEL, JSON.stringify(body));
+    console.log('TestHarnessIP: ' + browser.test_harness_ci_ip);
     return this.httpClient.post('/traindescriberupdates/berthcancel', body);
   }
 
   public postBerthStep(body: BerthStep): ResponsePromise {
     this.replayRecord(ReplayActionType.STEP, JSON.stringify(body));
+    console.log('TestHarnessIP: ' + browser.test_harness_ci_ip);
     return this.httpClient.post('/traindescriberupdates/berthstep', body);
   }
 
   public postSignallingUpdate(body: SignallingUpdate): ResponsePromise {
     this.replayRecord(ReplayActionType.SIGNAL_UPDATE, JSON.stringify(body));
+    console.log('TestHarnessIP: ' + browser.test_harness_ci_ip);
     return this.httpClient.post('/traindescriberupdates/signallingupdate', body);
   }
 
   public postHeartbeat(body: Heartbeat): ResponsePromise {
     this.replayRecord(ReplayActionType.HEARTBEAT, JSON.stringify(body));
+    console.log('TestHarnessIP: ' + browser.test_harness_ci_ip);
     return this.httpClient.post('/traindescriberupdates/heartbeat', body);
   }
 
   public postTrainJourneyModification(body: string): ResponsePromise {
     this.replayRecord(ReplayActionType.MODIFY_TRAIN_JOURNEY, body);
+    console.log('TestHarnessIP: ' + browser.test_harness_ci_ip);
     return this.httpClient.post('/trainjourneymodification/modifytrainjourney', body, {'Content-Type': 'text/plain'});
   }
 
   public postTrainJourneyModificationIdChange(body: string): ResponsePromise {
     this.replayRecord(ReplayActionType.CHANGE_ID, body);
+    console.log('TestHarnessIP: ' + browser.test_harness_ci_ip);
     return this.httpClient.post('/trainjourneymodification/changeid', body, {'Content-Type': 'text/plain'});
   }
 
   public postTrainActivation(body: string): ResponsePromise {
     this.replayRecord(ReplayActionType.ACTIVATE_TRAIN, body);
+    console.log('TestHarnessIP: ' + browser.test_harness_ci_ip);
     return this.httpClient.post('/trainactivation/activatetrain', body, {'Content-Type': 'text/plain'});
   }
 
   public postVstp(body: string): ResponsePromise {
     this.replayRecord(ReplayActionType.VSTP, body);
+    console.log('TestHarnessIP: ' + browser.test_harness_ci_ip);
     return this.httpClient.post('/vstp/vstp', body, {'Content-Type': 'text/plain'});
   }
 
   public postTrainRunningInformation(body: string): ResponsePromise {
     this.replayRecord(ReplayActionType.TRAIN_RUNNING_INFORMATION, body);
+    console.log('TestHarnessIP: ' + browser.test_harness_ci_ip);
     return this.httpClient.post('/trainrunninginformation/trainrunninginformation', body, {'Content-Type': 'text/plain'});
   }
 
   public addAccessPlan(fileName: string, body: string): ResponsePromise {
+    console.log('TestHarnessIP: ' + browser.test_harness_ci_ip);
     return this.httpClient.post('/add-access-plan', body,
       {'file-name': fileName, 'Content-Type': 'text/plain'});
   }
 
   public writeAccessPlan(body: AccessPlanRequest): ResponsePromise {
+    console.log('TestHarnessIP: ' + browser.test_harness_ci_ip);
     return this.httpClient.post('/write-access-plan', body);
   }
 
