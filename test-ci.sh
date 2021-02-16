@@ -41,7 +41,7 @@ echo "Found $HOST created at $CREATION_TIME"
 
 # Run the full end to end tests
 echo "CUCUMBER_TAGS: ${CUCUMBER_TAGS}"
-export npm_config_ci_ip="${HOST}"; export cucumber_tags="${CUCUMBER_TAGS}"; npm run e2e-ci
+export npm_config_ci_ip="${HOST}"; export cucumber_tags="${CUCUMBER_TAGS}"; npm run fe2e
 
 # Generate JUnit style XML to support VSTS reporting
 npm run junit-xml
