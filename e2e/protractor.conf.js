@@ -20,7 +20,7 @@ exports.config = {
     trainsList: ['./src/**/features/33806-trains-list/*.feature']
   },
   directConnect: true,
-  baseUrl: 'https://sv.tmv.resonate.tech/',
+  baseUrl: 'https://tmv-national-test-fe2e.tmv.resonate.tech',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
