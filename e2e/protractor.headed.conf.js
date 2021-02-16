@@ -6,6 +6,9 @@
  */
 exports.config = {
   allScriptsTimeout: 11000,
+  params: {
+    test_harness_ci_ip: ''
+  },
   specs: [
     './src/**/features/**/*.feature'
   ],

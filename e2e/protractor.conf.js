@@ -22,7 +22,6 @@ exports.config = {
     administration: ['./src/**/features/46474-administration/*.feature', './src/**/features/51351-administration/*.feature'],
     trainsList: ['./src/**/features/33806-trains-list/*.feature']
   },
-  chromeDriver: '..//node_modules//protractor//node_modules//webdriver-manager//selenium//chromedriver_87.0.4280.88.exe',
   directConnect: true,
   baseUrl: 'https://tmv-national-test-fe2e.tmv.resonate.tech',
   framework: 'custom',
@@ -34,7 +33,7 @@ exports.config = {
     // To run specific Scenarios marked with the tag @test (for example), uncomment the next line
     //tags: ['@test']
     // To run all scenarios not marked @bug or @tdd, uncomment the next line
-    tags: ['not (@bug or @tdd or @manual)','@check']
+    tags: ['not (@bug or @tdd or @manual)']
   },
   ignoreUncaughtExceptions: true,
   async onPrepare() {
