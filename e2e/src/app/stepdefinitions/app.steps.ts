@@ -273,8 +273,12 @@ Given(/^I am on the admin page$/, {timeout: 5 * 10000}, async () => {
   }
 });
 
-Given(/^I am on the replay page$/, async () => {
+Given(/^I am on the replay page$/, {timeout: 2 * 20000}, async () => {
   await page.navigateTo('/tmv/replay/replay-session-1');
+});
+
+Given(/^I am on the replay page as existing user$/, {timeout: 2 * 20000}, async () => {
+  await page.navigateToAndSignIn('/tmv/replay/replay-session-1');
 });
 
 Given('I am on the live timetable page with schedule id {string}', async (scheduleId: string) => {

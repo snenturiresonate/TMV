@@ -1,4 +1,4 @@
-import {browser, by, element, ElementArrayFinder, ElementFinder } from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {AuthenticationModalDialoguePage} from './authentication-modal-dialogue.page';
 import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
 
@@ -21,12 +21,41 @@ export class AppPage {
       await browser.waitForAngularEnabled(true);
       await this.waitForAppLoad();
     } catch (e) {
-      if (role) {
-        await this.roleBasedAuthentication(URL, role);
-      } else {
-        await this.defaultAuthentication(URL);
-      }
+        try {
+        if (role) {
+          await this.roleBasedAuthentication(URL, role);
+          await browser.get(URL);
+        } else {
+          await this.defaultAuthentication(URL);
+          await browser.get(URL);
+        }
+      } catch (ex) {
+          await this.authenticateOnCurrentRole();
+          await browser.get(URL);
+        }
     }
+  }
+
+  /**
+   *  To Be used when re-login dialogue is expected. Typically then session storage is cleared and navigating to a page
+   */
+  public async navigateToAndSignIn(url: string, role?: string): Promise<any> {
+    const URL = browser.baseUrl + url;
+    const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
+    if (role) {
+        await browser.waitForAngularEnabled(false);
+        await browser.get(URL);
+        await authPage.clickSignInAsDifferentUser();
+        await this.roleBasedAuthentication(URL, role);
+        await browser.waitForAngularEnabled(true);
+        await browser.get(URL);
+      } else {
+        await browser.waitForAngularEnabled(false);
+        await browser.get(URL);
+        await this.authenticateOnCurrentRole();
+        await browser.waitForAngularEnabled(true);
+        await browser.get(URL);
+      }
 
   }
 
@@ -72,6 +101,14 @@ export class AppPage {
     await browser.waitForAngularEnabled(false);
     await browser.get(url);
     await this.authenticateAsAdminUser();
+    await this.waitForAppLoad();
+    await browser.waitForAngularEnabled(true);
+  }
+
+  public async authenticateOnCurrentRole(): Promise<any> {
+    const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
+    await browser.waitForAngularEnabled(false);
+    await authPage.signBackIntoCurrentRole();
     await this.waitForAppLoad();
     await browser.waitForAngularEnabled(true);
   }

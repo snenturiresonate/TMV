@@ -1,3 +1,4 @@
+@newSession
 Feature: 34393 - TMV replay - Schematic Maps - Render Objects
 
   As a TMV User
@@ -5,7 +6,7 @@ Feature: 34393 - TMV replay - Schematic Maps - Render Objects
   So that I can view the historic running railway
 
   Scenario Outline: 33750-1 Render specific objects
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name '<mapGroup>'
     And I select the map '<map>'
     And I select Start
@@ -59,7 +60,7 @@ Feature: 34393 - TMV replay - Schematic Maps - Render Objects
     And the tab title is 'TMV Replay GW02'
 
   Scenario: 34393-5 Replay - Continuation Button (Secondary Click)
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw01paddington.v'
     And I select Start
@@ -67,7 +68,7 @@ Feature: 34393 - TMV replay - Schematic Maps - Render Objects
     Then the context menu for the continuation button has options to open the map within to the same view or new tab
 
   Scenario: 34393-5 Replay - Continuation Button (Secondary Click - Open)
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw01paddington.v'
     And I select Start
@@ -76,7 +77,7 @@ Feature: 34393 - TMV replay - Schematic Maps - Render Objects
     And the tab title is 'TMV Replay GW02'
 
   Scenario: 34393-5 Replay - Continuation Button (Secondary Click - Open new tab)
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw01paddington.v'
     And I select Start
@@ -87,7 +88,7 @@ Feature: 34393 - TMV replay - Schematic Maps - Render Objects
     And the tab title is 'TMV Replay GW02'
 
   Scenario: 34393-6 Replay - Berth Menu (Secondary Click)
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw01paddington.v'
     And I select Start

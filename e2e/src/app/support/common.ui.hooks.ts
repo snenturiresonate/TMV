@@ -28,10 +28,7 @@ After('@replaySetup', async function(scenario: Scenario): Promise<void> {
 });
 
 Before('@newSession', async () => {
-  await browser.waitForAngularEnabled(false);
   await LocalStorage.reset();
-  browser.manage().deleteAllCookies().catch(() => console.log('cannot delete browser cookies'));
-  await browser.waitForAngularEnabled(true);
 });
 
 // None arrow methods required to avoid the binding of keyword this
