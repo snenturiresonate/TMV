@@ -16,7 +16,7 @@ export class LinxRestClient {
   public httpClient: HttpClient;
 
   constructor() {
-    this.httpClient = new HttpClient(browser.baseUrl + ':8480');
+    this.httpClient = new HttpClient(browser.test_harness_ci_ip + ':8480');
   }
 
   public postBerthInterpose(body: BerthInterpose): ResponsePromise {

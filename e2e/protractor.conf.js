@@ -21,6 +21,7 @@ exports.config = {
   },
   directConnect: true,
   baseUrl: 'https://tmv-national-test-fe2e.tmv.resonate.tech',
+  test_harness_ci_ip: '',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
