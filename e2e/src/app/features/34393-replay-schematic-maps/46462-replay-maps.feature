@@ -52,7 +52,7 @@ Feature: 34393 - TMV replay - Schematic Maps - Render Objects
 
 
   Scenario: 34393-4 Replay - Continuation Button (Primary Click)
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw01paddington.v'
     And I select Start
