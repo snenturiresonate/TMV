@@ -4,6 +4,7 @@ export class LocalStorage {
 
   public static async reset(): Promise<void> {
     await browser.waitForAngularEnabled(false);
+    await browser.get('');
     await browser.executeScript('window.localStorage.clear();')
       .catch(reason => console.log('Cannot clear browser Local Storage\n' + reason));
     await browser.executeScript('window.sessionStorage.clear();')
