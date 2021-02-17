@@ -5,9 +5,23 @@ import * as fs from 'fs';
 import {AccessPlanRequest} from '../../../../src/app/api/linx/models/access-plan-request';
 import {ProjectDirectoryUtil} from '../utils/project-directory.util';
 import * as path from 'path';
+import {browser} from 'protractor';
+import {expect} from 'chai';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
+
+const cifStartChars = {
+  LO_WTT_dep: 10,
+  LO_GBTT_dep: 15,
+  LI_WTT_arr: 10,
+  LI_WTT_dep: 15,
+  LI_WTT_pass: 20,
+  LI_GBTT_arr: 25,
+  LI_GBTT_dep: 29,
+  LT_WTT_arr: 10,
+  LT_GBTT_arr: 15
+};
 
 Before(() => {
   page = new AppPage();
@@ -52,6 +66,37 @@ When('the access plan located in CIF file {string} is amended so that all servic
     const newData = cifLines.join('');
     linxRestClient.addAccessPlan('', newData);
 });
+
+When ('the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX',
+  async (inputs: any) => {
+    const newTrainProps: any = inputs.hashes()[0];
+    expect(newTrainProps.newTrainDescription.length, 'Train Description should be of form nCnn').to.equal(4);
+    expect(newTrainProps.newPlanningUid.length, 'Train Description should be length 6').to.equal(6);
+    const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), newTrainProps.filePath));
+    const initialString = rawData.toString();
+    const cifLines: string[] = initialString.split(/\r?\n/, 1000);
+    for (const cifLine of cifLines) {
+      const rowType = cifLine.substr(0, 2);
+      const thisLoc = cifLine.substr(2, 7);
+      if (thisLoc.trim() === newTrainProps.refLocation) {
+        browser.timeAdjustMs = calculateTimeAdjustToNearestMinInMs(cifLine, new Date(), rowType + '_' + newTrainProps.refTimingType);
+        break;
+      }
+    }
+    for (let j = 0; j < cifLines.length; j++) {
+      const rowType = cifLines[j].substr(0, 2);
+      if ((rowType === 'BS') || (rowType === 'CR')) {
+        cifLines[j] = adjustCIFTrainIds(cifLines[j], rowType, newTrainProps.newTrainDescription, newTrainProps.newPlanningUid);
+      }
+      else {
+        cifLines[j] = adjustCIFTimes(cifLines[j], rowType, browser.timeAdjustMs);
+      }
+    }
+    // put it all back together and load
+    const newData = cifLines.join('');
+    linxRestClient.addAccessPlan('', newData);
+  });
+
 
 When('the access plan located in JSON file {string} is received from LINX', async (jsonFilePath: string) => {
   const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), jsonFilePath));
@@ -130,4 +175,112 @@ function dealWithLIRecord(cifLine: string, trainStartHours, hoursVal: number): s
 function pickCorrectHoursString(initialString: string, trainStartHours, hoursVal: number): string {
   const hoursDiff = Number(initialString) - trainStartHours;
   return String(hoursVal + hoursDiff).padStart(2, '0');
+}
+
+function calculateTimeAdjustToNearestMinInMs(cifLine: string, refTime: Date, refRowAndTimingType: string): number {
+  let timeStringLength = 4;
+  if (refRowAndTimingType.includes('wtt')) {
+    timeStringLength = 5;
+  }
+  const cifLineTimeString = cifLine.substr(cifStartChars[refRowAndTimingType], timeStringLength);
+  const diffMs = refTime.valueOf() - toDateTime(cifLineTimeString).valueOf();
+  // round ms to nearest minute
+  return Math.round(diffMs / (60 * 1000)) * (60 * 1000);
+}
+
+function toDateTime(cifTime: string): Date {
+  const thisDateTime = new Date();
+  let cifHourStr = cifTime.substr(0, 2);
+  let cifMinsStr = cifTime.substr(2, 2);
+  let cifSecs = 0;
+  if (cifHourStr.substr(0, 1) === '0') {
+    cifHourStr = cifHourStr.substr(1, 1);
+  }
+  if (cifMinsStr.substr(0, 1) === '0') {
+    cifMinsStr = cifMinsStr.substr(1, 1);
+  }
+  if (cifTime.length === 5 && cifTime.substr(4, 1) === 'H') {
+    cifSecs = 30;
+  }
+  thisDateTime.setHours(parseInt(cifHourStr, 10), parseInt(cifMinsStr, 10), cifSecs);
+  return thisDateTime;
+}
+
+function toCIFTime(inputTime: Date, cifTimingType: string): string {
+  let secString = '';
+  if (cifTimingType === 'wtt') {
+    if (inputTime.getSeconds() >= 30) {
+      secString = 'H';
+    }
+    else {
+      secString = ' ';
+    }
+  }
+  return inputTime.getHours().toString().padStart(2, '0') + inputTime.getMinutes().toString().padStart(2, '0') + secString;
+}
+
+function adjustCIFTrainIds(cifLine: string, rowType: string, trainDesc: string, planningUid: number): string {
+  const padToEighty = ' '.repeat(80 - cifLine.length);
+  if (rowType === 'BS') {
+    return cifLine.substr(0, 3)
+      + planningUid
+      + cifLine.substr(9, 23)
+      + trainDesc
+      + cifLine.substr(36, 46)
+      + padToEighty + '\r\n';
+  } else if (rowType === 'CR') {
+    return cifLine.substr(0, 12)
+      + trainDesc
+      + cifLine.substr(16, 66)
+      + padToEighty + '\r\n';
+  }
+}
+
+
+function adjustCIFTimes(cifLine: string, rowType: string, timeAdjustMs: number): string {
+  const padToEighty = ' '.repeat(80 - cifLine.length);
+  if (rowType === 'LO') {
+    return cifLine.substr(0, 10)
+      + adjustCIFTime(cifLine.substr(cifStartChars.LO_WTT_dep, 5), timeAdjustMs)
+      + adjustCIFTime(cifLine.substr(cifStartChars.LO_GBTT_dep, 4), timeAdjustMs)
+      + cifLine.substr(19, 63)
+      + padToEighty + '\r\n';
+  }
+  else if (rowType === 'LI') {
+    return cifLine.substr(0, 10)
+      + adjustCIFTime(cifLine.substr(cifStartChars.LI_WTT_arr, 5), timeAdjustMs)
+      + adjustCIFTime(cifLine.substr(cifStartChars.LI_WTT_dep, 5), timeAdjustMs)
+      + adjustCIFTime(cifLine.substr(cifStartChars.LI_WTT_pass, 5), timeAdjustMs)
+      + adjustCIFTime(cifLine.substr(cifStartChars.LI_GBTT_arr, 4), timeAdjustMs)
+      + adjustCIFTime(cifLine.substr(cifStartChars.LI_GBTT_dep, 4), timeAdjustMs)
+      + cifLine.substr(33, 49)
+      + padToEighty + '\r\n';
+  }
+  else if (rowType === 'LT') {
+    return cifLine.substr(0, 10)
+      + adjustCIFTime(cifLine.substr(cifStartChars.LT_WTT_arr, 5), timeAdjustMs)
+      + adjustCIFTime(cifLine.substr(cifStartChars.LT_GBTT_arr, 4), timeAdjustMs)
+      + cifLine.substr(19, 63)
+      + padToEighty + '\r\n';
+  }
+  else {
+    return cifLine + padToEighty + '\r\n';
+  }
+}
+
+function adjustCIFTime(timeString: string, timeAdjustMs: number): string {
+  // don't adjust if the timeString is essentially blank
+  if ((timeString === '     ') || (timeString === '    ') || (timeString === '0000')) {
+    return timeString;
+  }
+  else {
+    const newTime = new Date();
+    newTime.setTime(toDateTime(timeString).valueOf() + timeAdjustMs);
+    if (timeString.length === 5) {
+      return toCIFTime(newTime, 'wtt');
+    }
+    else {
+      return toCIFTime(newTime, 'gbtt');
+    }
+  }
 }

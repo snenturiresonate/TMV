@@ -654,6 +654,10 @@ When(/^I invoke the context menu on the map for train (.*)$/, async (trainDescri
 When('I open timetable from the map context menu', async () => {
   mapPageObject.mapContextMenuItems.get(1).click();
 });
+Then('the map context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
+  const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
+  expect(actualContextMenuItem).to.contain(expectedText);
+});
 
 Then('the track state width for {string} is {string}',
   async (trackId: string, expectedWidth: string) => {
