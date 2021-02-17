@@ -52,13 +52,13 @@ export class AppPage {
         await authPage.clickSignInAsDifferentUser();
         await this.roleBasedAuthentication(URL, role);
         await browser.waitForAngularEnabled(true);
-        await this.waitForAppLoad();
+        await browser.get(URL);
       } else {
         await browser.waitForAngularEnabled(false);
         await browser.get(URL);
         await this.authenticateOnCurrentRole();
         await browser.waitForAngularEnabled(true);
-        await this.waitForAppLoad();
+        await browser.get(URL);
       }
 
   }
