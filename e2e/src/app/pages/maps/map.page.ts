@@ -7,9 +7,10 @@ import {ProjectDirectoryUtil} from '../../utils/project-directory.util';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import assert = require('assert');
 import path = require('path');
+import {AppPage} from "../app.po";
 
 const SCALEFACTORX_START = 7;
-
+const appPage: AppPage = new AppPage();
 export class MapPageObject {
   public platformLayer: ElementFinder;
   public berthElements: ElementFinder;
@@ -52,8 +53,20 @@ export class MapPageObject {
     this.aesBoundaryElements = element(by.css('#aes-boundaries-elements'));
   }
 
-  navigateTo(mapId: string): Promise<unknown> {
-    return browser.get(browser.baseUrl + '/tmv/maps/' + mapId) as Promise<unknown>;
+  public async navigateTo(mapId: string, role?: string): Promise<any> {
+    const url = browser.baseUrl + '/tmv/maps/' + mapId;
+    try {
+      await browser.waitForAngularEnabled(false);
+      await browser.get(url);
+      await browser.waitForAngularEnabled(true);
+      await appPage.waitForAppLoad();
+    } catch (e) {
+      if (role) {
+        await appPage.roleBasedAuthentication(url, role);
+      } else {
+        await appPage.defaultAuthentication(url);
+      }
+    }
   }
 
   public async isPlatformLayerPresent(): Promise<boolean> {
