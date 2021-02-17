@@ -77,8 +77,8 @@ export class AppPage {
       case('admin'):
         authentication = this.authenticateAsAdminUser();
         break;
-      case('restricted'):
-        authentication = this.authenticateAsRestrictedUser();
+      case('restriction'):
+        authentication = this.authenticateAsRestrictionUser();
         break;
       case('standard'):
         authentication = this.authenticateAsStandardUser();
@@ -129,7 +129,7 @@ export class AppPage {
     await this.performLoginSteps(userName, Password);
   }
 
-  public async authenticateAsRestrictedUser(): Promise<void> {
+  public async authenticateAsRestrictionUser(): Promise<void> {
     const userName = 'userRestrictions';
     const Password = 'password';
     await this.performLoginSteps(userName, Password);
@@ -145,6 +145,7 @@ export class AppPage {
     const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
     await browser.waitForAngularEnabled(false);
     await authPage.authenticate(userName, Password);
+    await browser.waitForAngularEnabled(true);
   }
 
   public async waitForAppLoad(): Promise<void> {
