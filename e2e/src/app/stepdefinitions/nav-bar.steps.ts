@@ -322,3 +322,18 @@ Then('the following map names can be seen', async (mapNameDataTable: any) => {
   });
 });
 
+Then('I open the Map {string}', async (mapName: string) => {
+  await navBarPage.openMap(mapName);
+});
+
+Then('the signal {string} is {word}',
+  async (signalId: string, expectedStatus: string) => {
+    const actualStatus = await navBarPage.getHighlightStatus(signalId);
+    expect(actualStatus).to.equal(expectedStatus);
+  });
+
+Then('the berth {string} is {word}',
+  async (berthId: string, expectedStatus: string) => {
+    const actualStatus = await navBarPage.getBerthHighlightStatus(berthId);
+    expect(actualStatus).to.equal(expectedStatus);
+  });

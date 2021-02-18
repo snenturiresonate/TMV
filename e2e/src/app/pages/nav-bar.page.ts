@@ -83,7 +83,7 @@ export class NavBarPageObject {
     this.tmvKeyButton = element(by.id('tmv-key-button'));
     this.modalWindow = element.all(by.css('.modalpopup'));
     this.helpMenu = element(by.id('help-menu-button'));
-    this.mapLink = element.all(by.css('#map-list>ul>li>span'));
+    this.mapLink = element.all(by.css('#signal-map-list>ul>li>span'));
   }
 
   public async getNavbarIconNames(): Promise<string> {
@@ -350,5 +350,22 @@ export class NavBarPageObject {
 
   public async getMapNames(): Promise<string> {
     return this.mapLink.getText();
+  }
+
+  public async openMap(mapName: string): Promise<void> {
+    if (mapName !== (await this.mapLink.getText())) {
+      await this.mapLink.click();
+      await element(by.buttonText(mapName)).click();
+    }
+  }
+
+  public async getHighlightStatus(signalId: string): Promise<string> {
+    const signalHighlight: ElementFinder = element(by.css('[id^=signal-latch-cross-element-' + signalId  + ']'));
+    return signalHighlight.getCssValue('highlighted');
+  }
+
+  public async getBerthHighlightStatus(berthId: string): Promise<string> {
+    const berthHighlight: ElementFinder = element(by.css('[id^=berth-element-text-' + berthId  + ']'));
+    return berthHighlight.getCssValue('highlighted');
   }
 }

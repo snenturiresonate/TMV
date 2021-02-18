@@ -6,6 +6,9 @@
  */
 exports.config = {
   allScriptsTimeout: 11000,
+  params: {
+    test_harness_ci_ip: ''
+  },
   specs: [
     './src/**/features/**/*.feature'
   ],
@@ -20,7 +23,7 @@ exports.config = {
     trainsList: ['./src/**/features/33806-trains-list/*.feature']
   },
   directConnect: true,
-  baseUrl: '',
+  baseUrl: 'https://tmv-national-test-fe2e.tmv.resonate.tech',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {

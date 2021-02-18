@@ -1,4 +1,4 @@
-import {by, ElementFinder} from 'protractor';
+import {browser, by, ElementFinder, protractor} from 'protractor';
 
 export class SearchResultsTableRowPage {
 
@@ -27,5 +27,9 @@ export class SearchResultsTableRowPage {
   }
   async isPresent(): Promise<boolean> {
     return this.rowLocator.isPresent();
+  }
+
+  async performRightClick(): Promise<void> {
+    browser.actions().click(this.rowLocator, protractor.Button.RIGHT).perform();
   }
 }

@@ -52,7 +52,7 @@ Given(/^I navigate to (.*) page$/, async (pageName: string) => {
   }
 });
 
-Given(/^I am on the home page$/, async () => {
+Given(/^I am on the home page$/, {timeout: 5 * 10000}, async () => {
   await page.navigateTo('');
 });
 
@@ -265,7 +265,7 @@ Given(/^I am on the log viewer page$/, async () => {
   await page.navigateTo('/tmv/log-viewer');
 });
 
-Given(/^I am on the admin page$/, async () => {
+Given(/^I am on the admin page$/, {timeout: 5 * 10000}, async () => {
   try {
     await page.navigateTo('/tmv/administration');
   } catch (UnexpectedAlertOpenError) {
@@ -273,8 +273,12 @@ Given(/^I am on the admin page$/, async () => {
   }
 });
 
-Given(/^I am on the replay page$/, async () => {
+Given(/^I am on the replay page$/, {timeout: 2 * 20000}, async () => {
   await page.navigateTo('/tmv/replay/replay-session-1');
+});
+
+Given(/^I am on the replay page as existing user$/, {timeout: 2 * 20000}, async () => {
+  await page.navigateToAndSignIn('/tmv/replay/replay-session-1');
 });
 
 Given('I am on the live timetable page with schedule id {string}', async (scheduleId: string) => {

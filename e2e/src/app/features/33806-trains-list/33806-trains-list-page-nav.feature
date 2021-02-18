@@ -22,7 +22,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     When I click the app 'trains-list'
     And I switch to the new tab
     Then The trains list table is visible
-
+  @bug @bug_55794
   Scenario: 33806 -1c Trains list table - Default columns
     When I click the app 'trains-list'
     And I switch to the new tab
