@@ -40,7 +40,14 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+package-lock.json
 
 # System Files
 .DS_Store
 Thumbs.db
+
+# Test files
+.tmp
+tmp
+
+e2e/debug.log

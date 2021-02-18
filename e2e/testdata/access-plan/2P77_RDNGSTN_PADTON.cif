@@ -1,0 +1,19 @@
+HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
+BSNY956861912212205161111110 POO2P77    125516005 DMUT   090D     S            P
+BX         GWY                                                                  
+LORDNGSTN 2130 213015AURL    TB                                                 
+LIRDNGKBJ           2132 00000000   RL                                          
+LITWYFORD 2135H2136H     213621364  RL    T                                     
+LIMDNHEAD 2143H2144H     214421444  RL    T                                     
+LISLOUGH  2151 2152      215121525  RL    T              H                      
+LIHTRWAJN           2159H00000000   RL                                          
+LIHAYESAH 2200H2201H     220122014     RL T             1                       
+LISTHALL            2205 000000004  RL                  1                       
+LIWEALING           2208 000000004  RL                  1H                      
+LIEALINGB 2211 2212      221122124  RL    T                                     
+LIACTONW            2213H00000000   RL RL               1                       
+LILDBRKJ            2217H00000000   6  RL                                       
+LIPRTOBJP           2218H00000000   5                 1  H                      
+LIROYAOJN           2221 00000000                                               
+LTPADTON  2223 222310    TF                                                     
+ZZ                                                                              

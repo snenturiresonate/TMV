@@ -1,0 +1,1337 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Test harness for publishing messages to LINX",
+    "title": "LINX Test Harness"
+  },
+  "host": "10.5.0.161:8480",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "access-plan-controller",
+      "description": "Access Plan Controller"
+    },
+    {
+      "name": "train-activation-controller",
+      "description": "Train Activation Controller"
+    },
+    {
+      "name": "train-describer-updates-controller",
+      "description": "Train Describer Updates Controller"
+    },
+    {
+      "name": "train-journey-modification-controller",
+      "description": "Train Journey Modification Controller"
+    },
+    {
+      "name": "train-journey-modification-id-change-controller",
+      "description": "Train Journey Modification Id Change Controller"
+    },
+    {
+      "name": "train-running-information-controller",
+      "description": "Train Running Information Controller"
+    },
+    {
+      "name": "vstp-controller",
+      "description": "VSTP Controller"
+    }
+  ],
+  "paths": {
+    "/add-access-plan": {
+      "post": {
+        "tags": [
+          "access-plan-controller"
+        ],
+        "summary": "addAccessPlan",
+        "operationId": "addAccessPlanUsingPOST",
+        "consumes": [
+          "text/plain"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "file-name",
+            "in": "header",
+            "description": "file-name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "fileContents",
+            "description": "fileContents",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/trainactivation/activatetrain": {
+      "post": {
+        "tags": [
+          "train-activation-controller"
+        ],
+        "summary": "Publish train activation message",
+        "operationId": "publishTrainActivationUsingPOST",
+        "consumes": [
+          "text/plain"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "trainActivation",
+            "description": "trainActivation",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/traindescriberupdates/berthcancel": {
+      "post": {
+        "tags": [
+          "train-describer-updates-controller"
+        ],
+        "summary": "Publish berth cancel message",
+        "operationId": "publishBerthCancelUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "berthCancel",
+            "description": "berthCancel",
+            "required": true,
+            "schema": {
+              "originalRef": "BerthCancel",
+              "$ref": "#/definitions/BerthCancel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/traindescriberupdates/berthinterpose": {
+      "post": {
+        "tags": [
+          "train-describer-updates-controller"
+        ],
+        "summary": "Publish berth interpose message",
+        "operationId": "publishBerthInterposeUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "berthInterpose",
+            "description": "berthInterpose",
+            "required": true,
+            "schema": {
+              "originalRef": "BerthInterpose",
+              "$ref": "#/definitions/BerthInterpose"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/traindescriberupdates/berthstep": {
+      "post": {
+        "tags": [
+          "train-describer-updates-controller"
+        ],
+        "summary": "Publish berth step message",
+        "operationId": "publishBerthStepUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "berthStep",
+            "description": "berthStep",
+            "required": true,
+            "schema": {
+              "originalRef": "BerthStep",
+              "$ref": "#/definitions/BerthStep"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/traindescriberupdates/heartbeat": {
+      "post": {
+        "tags": [
+          "train-describer-updates-controller"
+        ],
+        "summary": "Publish heartbeat message",
+        "operationId": "publishHeartbeatUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "heartbeat",
+            "description": "heartbeat",
+            "required": true,
+            "schema": {
+              "originalRef": "Heartbeat",
+              "$ref": "#/definitions/Heartbeat"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/traindescriberupdates/signallingrefresh": {
+      "post": {
+        "tags": [
+          "train-describer-updates-controller"
+        ],
+        "summary": "Publish signalling refresh message",
+        "operationId": "publishSignallingRefreshUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "signallingRefresh",
+            "description": "signallingRefresh",
+            "required": true,
+            "schema": {
+              "originalRef": "SignallingRefresh",
+              "$ref": "#/definitions/SignallingRefresh"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/traindescriberupdates/signallingrefreshfinished": {
+      "post": {
+        "tags": [
+          "train-describer-updates-controller"
+        ],
+        "summary": "Publish signalling refresh finished message",
+        "operationId": "publishSignallingRefreshFinishedUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "signallingRefreshFinished",
+            "description": "signallingRefreshFinished",
+            "required": true,
+            "schema": {
+              "originalRef": "SignallingRefreshFinished",
+              "$ref": "#/definitions/SignallingRefreshFinished"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/traindescriberupdates/signallingupdate": {
+      "post": {
+        "tags": [
+          "train-describer-updates-controller"
+        ],
+        "summary": "Publish signalling update message",
+        "operationId": "publishSignallingUpdateUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "signallingUpdate",
+            "description": "signallingUpdate",
+            "required": true,
+            "schema": {
+              "originalRef": "SignallingUpdate",
+              "$ref": "#/definitions/SignallingUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/traindescriberupdates/traindescriberupdates": {
+      "post": {
+        "tags": [
+          "train-describer-updates-controller"
+        ],
+        "summary": "Publish train describer updates xml message",
+        "operationId": "publishTrainDescriberUpdatesUsingPOST",
+        "consumes": [
+          "text/plain"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "trainDescriberUpdates",
+            "description": "trainDescriberUpdates",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/trainjourneymodification/changeid": {
+      "post": {
+        "tags": [
+          "train-journey-modification-id-change-controller"
+        ],
+        "summary": "Publish train journey modification ID change message",
+        "operationId": "publishTrainJourneyModificationIdChangeUsingPOST",
+        "consumes": [
+          "text/plain"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "trainJourneyModificationIdChange",
+            "description": "trainJourneyModificationIdChange",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/trainjourneymodification/modifytrainjourney": {
+      "post": {
+        "tags": [
+          "train-journey-modification-controller"
+        ],
+        "summary": "Publish train journey modification message",
+        "operationId": "publishTrainJourneyModificationUsingPOST",
+        "consumes": [
+          "text/plain"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "trainJourneyModification",
+            "description": "trainJourneyModification",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/trainrunninginformation/trainrunninginformation": {
+      "post": {
+        "tags": [
+          "train-running-information-controller"
+        ],
+        "summary": "Publish train running information xml message",
+        "operationId": "publishTrainRunningInformationMessageUsingPOST",
+        "consumes": [
+          "text/plain"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "trainRunningInformation",
+            "description": "trainRunningInformation",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/vstp/vstp": {
+      "post": {
+        "tags": [
+          "vstp-controller"
+        ],
+        "summary": "Publish train VSTP",
+        "operationId": "publishVSTPUsingPOST",
+        "consumes": [
+          "text/plain"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "vstp",
+            "description": "vstp",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/write-access-plan": {
+      "post": {
+        "tags": [
+          "access-plan-controller"
+        ],
+        "summary": "writeAccessPlan",
+        "operationId": "writeAccessPlanUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "request",
+            "description": "request",
+            "required": true,
+            "schema": {
+              "originalRef": "AccessPlanRequest",
+              "$ref": "#/definitions/AccessPlanRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "AccessPlanRequest": {
+      "type": "object",
+      "properties": {
+        "associations": {
+          "type": "array",
+          "items": {
+            "originalRef": "Association",
+            "$ref": "#/definitions/Association"
+          }
+        },
+        "schedules": {
+          "type": "array",
+          "items": {
+            "originalRef": "Schedule",
+            "$ref": "#/definitions/Schedule"
+          }
+        }
+      },
+      "title": "AccessPlanRequest"
+    },
+    "Association": {
+      "type": "object",
+      "properties": {
+        "assocLocationSuffix": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "associationCategory": {
+          "type": "string"
+        },
+        "associationDateInd": {
+          "type": "string"
+        },
+        "associationDays": {
+          "originalRef": "Days",
+          "$ref": "#/definitions/Days"
+        },
+        "associationEndDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "associationIdentifier": {
+          "originalRef": "AssociationIdentifier",
+          "$ref": "#/definitions/AssociationIdentifier"
+        },
+        "associationLocation": {
+          "type": "string"
+        },
+        "associationType": {
+          "type": "string"
+        },
+        "baseLocationSuffix": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "diagramType": {
+          "type": "string"
+        },
+        "transactionType": {
+          "type": "string"
+        }
+      },
+      "title": "Association"
+    },
+    "AssociationIdentifier": {
+      "type": "object",
+      "properties": {
+        "associatedTrainUid": {
+          "type": "string"
+        },
+        "associationStartDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "mainTrainUid": {
+          "type": "string"
+        },
+        "stpIndicator": {
+          "type": "string"
+        }
+      },
+      "title": "AssociationIdentifier"
+    },
+    "BerthCancel": {
+      "type": "object",
+      "properties": {
+        "fromBerth": {
+          "type": "string",
+          "example": "0246"
+        },
+        "timestamp": {
+          "type": "string",
+          "example": "10:02:06"
+        },
+        "trainDescriber": {
+          "type": "string",
+          "example": "D4"
+        },
+        "trainDescription": {
+          "type": "string",
+          "example": "1G65"
+        }
+      },
+      "title": "BerthCancel"
+    },
+    "BerthInterpose": {
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "example": "10:02:06"
+        },
+        "toBerth": {
+          "type": "string",
+          "example": "0246"
+        },
+        "trainDescriber": {
+          "type": "string",
+          "example": "D4"
+        },
+        "trainDescription": {
+          "type": "string",
+          "example": "1G65"
+        }
+      },
+      "title": "BerthInterpose"
+    },
+    "BerthStep": {
+      "type": "object",
+      "properties": {
+        "fromBerth": {
+          "type": "string",
+          "example": "0244"
+        },
+        "timestamp": {
+          "type": "string",
+          "example": "10:02:06"
+        },
+        "toBerth": {
+          "type": "string",
+          "example": "0246"
+        },
+        "trainDescriber": {
+          "type": "string",
+          "example": "D4"
+        },
+        "trainDescription": {
+          "type": "string",
+          "example": "1G65"
+        }
+      },
+      "title": "BerthStep"
+    },
+    "ChangesEnRoute": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "originalRef": "Location",
+          "$ref": "#/definitions/Location"
+        },
+        "serviceCharacteristics": {
+          "originalRef": "ServiceCharacteristics",
+          "$ref": "#/definitions/ServiceCharacteristics"
+        },
+        "stockCharacteristics": {
+          "originalRef": "StockCharacteristics",
+          "$ref": "#/definitions/StockCharacteristics"
+        }
+      },
+      "title": "ChangesEnRoute"
+    },
+    "Days": {
+      "type": "object",
+      "properties": {
+        "friday": {
+          "type": "boolean"
+        },
+        "monday": {
+          "type": "boolean"
+        },
+        "saturday": {
+          "type": "boolean"
+        },
+        "sunday": {
+          "type": "boolean"
+        },
+        "thursday": {
+          "type": "boolean"
+        },
+        "tuesday": {
+          "type": "boolean"
+        },
+        "wednesday": {
+          "type": "boolean"
+        }
+      },
+      "title": "Days"
+    },
+    "Heartbeat": {
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "example": "10:02:06"
+        },
+        "trainDescriber": {
+          "type": "string",
+          "example": "D4"
+        },
+        "trainDescriberTimestamp": {
+          "type": "string",
+          "example": "10:03:00"
+        }
+      },
+      "title": "Heartbeat"
+    },
+    "IntermediateLocation": {
+      "type": "object",
+      "properties": {
+        "activity": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "changesEnRoute": {
+          "originalRef": "ChangesEnRoute",
+          "$ref": "#/definitions/ChangesEnRoute"
+        },
+        "engineeringAllowance": {
+          "type": "number"
+        },
+        "line": {
+          "type": "string"
+        },
+        "location": {
+          "originalRef": "Location",
+          "$ref": "#/definitions/Location"
+        },
+        "locationSpecificNotes": {
+          "type": "array",
+          "items": {
+            "originalRef": "LocationSpecificNote",
+            "$ref": "#/definitions/LocationSpecificNote"
+          }
+        },
+        "path": {
+          "type": "string"
+        },
+        "pathingAllowance": {
+          "type": "number"
+        },
+        "performanceAllowance": {
+          "type": "number"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "publicArrival": {
+          "type": "string"
+        },
+        "publicDeparture": {
+          "type": "string"
+        },
+        "scheduledArrival": {
+          "type": "string"
+        },
+        "scheduledDeparture": {
+          "type": "string"
+        },
+        "scheduledPass": {
+          "type": "string"
+        }
+      },
+      "title": "IntermediateLocation"
+    },
+    "Location": {
+      "type": "object",
+      "properties": {
+        "suffix": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "tiploc": {
+          "type": "string"
+        }
+      },
+      "title": "Location"
+    },
+    "LocationSpecificNote": {
+      "type": "object",
+      "properties": {
+        "note": {
+          "type": "string"
+        },
+        "noteType": {
+          "type": "string"
+        }
+      },
+      "title": "LocationSpecificNote"
+    },
+    "OriginLocation": {
+      "type": "object",
+      "properties": {
+        "activity": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "engineeringAllowance": {
+          "type": "number"
+        },
+        "line": {
+          "type": "string"
+        },
+        "location": {
+          "originalRef": "Location",
+          "$ref": "#/definitions/Location"
+        },
+        "locationSpecificNotes": {
+          "type": "array",
+          "items": {
+            "originalRef": "LocationSpecificNote",
+            "$ref": "#/definitions/LocationSpecificNote"
+          }
+        },
+        "pathingAllowance": {
+          "type": "number"
+        },
+        "performanceAllowance": {
+          "type": "number"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "publicDeparture": {
+          "type": "string"
+        },
+        "scheduledDeparture": {
+          "type": "string"
+        }
+      },
+      "title": "OriginLocation"
+    },
+    "Schedule": {
+      "type": "object",
+      "properties": {
+        "applicableTimetableCode": {
+          "type": "string"
+        },
+        "atocCode": {
+          "type": "string"
+        },
+        "bankHolidayRunning": {
+          "type": "string"
+        },
+        "dateRunsTo": {
+          "type": "string",
+          "format": "date"
+        },
+        "daysRun": {
+          "originalRef": "Days",
+          "$ref": "#/definitions/Days"
+        },
+        "intermediateLocations": {
+          "type": "array",
+          "items": {
+            "originalRef": "IntermediateLocation",
+            "$ref": "#/definitions/IntermediateLocation"
+          }
+        },
+        "originLocation": {
+          "originalRef": "OriginLocation",
+          "$ref": "#/definitions/OriginLocation"
+        },
+        "scheduleIdentifier": {
+          "originalRef": "ScheduleIdentifier",
+          "$ref": "#/definitions/ScheduleIdentifier"
+        },
+        "serviceCharacteristics": {
+          "originalRef": "ServiceCharacteristics",
+          "$ref": "#/definitions/ServiceCharacteristics"
+        },
+        "stockCharacteristics": {
+          "originalRef": "StockCharacteristics",
+          "$ref": "#/definitions/StockCharacteristics"
+        },
+        "terminatingLocation": {
+          "originalRef": "TerminatingLocation",
+          "$ref": "#/definitions/TerminatingLocation"
+        },
+        "trainSpecificNotes": {
+          "type": "array",
+          "items": {
+            "originalRef": "TrainSpecificNote",
+            "$ref": "#/definitions/TrainSpecificNote"
+          }
+        },
+        "trainStatus": {
+          "type": "string"
+        },
+        "transactionType": {
+          "type": "string"
+        }
+      },
+      "title": "Schedule"
+    },
+    "ScheduleIdentifier": {
+      "type": "object",
+      "properties": {
+        "dateRunsFrom": {
+          "type": "string",
+          "format": "date"
+        },
+        "stpIndicator": {
+          "type": "string"
+        },
+        "trainUid": {
+          "type": "string"
+        }
+      },
+      "title": "ScheduleIdentifier"
+    },
+    "ServiceCharacteristics": {
+      "type": "object",
+      "properties": {
+        "connectionIndicator": {
+          "type": "string"
+        },
+        "courseIndicator": {
+          "type": "string"
+        },
+        "headcode": {
+          "type": "string"
+        },
+        "tractionClass": {
+          "type": "string"
+        },
+        "trainCategory": {
+          "type": "string"
+        },
+        "trainIdentity": {
+          "type": "string"
+        },
+        "trainServiceCode": {
+          "type": "string"
+        },
+        "uicCode": {
+          "type": "string"
+        }
+      },
+      "title": "ServiceCharacteristics"
+    },
+    "SignallingRefresh": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "example": "05"
+        },
+        "data": {
+          "type": "string",
+          "example": "06843306"
+        },
+        "timestamp": {
+          "type": "string",
+          "example": "10:02:06"
+        },
+        "trainDescriber": {
+          "type": "string",
+          "example": "D4"
+        }
+      },
+      "title": "SignallingRefresh"
+    },
+    "SignallingRefreshFinished": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "example": "04"
+        },
+        "data": {
+          "type": "string",
+          "example": "06880306"
+        },
+        "timestamp": {
+          "type": "string",
+          "example": "10:02:06"
+        },
+        "trainDescriber": {
+          "type": "string",
+          "example": "D4"
+        }
+      },
+      "title": "SignallingRefreshFinished"
+    },
+    "SignallingUpdate": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "example": "01"
+        },
+        "data": {
+          "type": "string",
+          "example": 23
+        },
+        "timestamp": {
+          "type": "string",
+          "example": "10:02:06"
+        },
+        "trainDescriber": {
+          "type": "string",
+          "example": "D4"
+        }
+      },
+      "title": "SignallingUpdate"
+    },
+    "StockCharacteristics": {
+      "type": "object",
+      "properties": {
+        "cateringCode": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "operatingCharacteristics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "portionId": {
+          "type": "string"
+        },
+        "powerType": {
+          "type": "string"
+        },
+        "reservations": {
+          "type": "string"
+        },
+        "seatingClass": {
+          "type": "string"
+        },
+        "serviceBranding": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sleepers": {
+          "type": "string"
+        },
+        "speed": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "timingLoad": {
+          "type": "string"
+        }
+      },
+      "title": "StockCharacteristics"
+    },
+    "TerminatingLocation": {
+      "type": "object",
+      "properties": {
+        "activity": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "location": {
+          "originalRef": "Location",
+          "$ref": "#/definitions/Location"
+        },
+        "locationSpecificNotes": {
+          "type": "array",
+          "items": {
+            "originalRef": "LocationSpecificNote",
+            "$ref": "#/definitions/LocationSpecificNote"
+          }
+        },
+        "path": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "publicArrival": {
+          "type": "string"
+        },
+        "scheduledArrival": {
+          "type": "string"
+        }
+      },
+      "title": "TerminatingLocation"
+    },
+    "TrainSpecificNote": {
+      "type": "object",
+      "properties": {
+        "note": {
+          "type": "string"
+        },
+        "noteType": {
+          "type": "string"
+        }
+      },
+      "title": "TrainSpecificNote"
+    }
+  }
+}
