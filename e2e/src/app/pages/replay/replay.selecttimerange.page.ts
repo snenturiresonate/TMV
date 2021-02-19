@@ -4,6 +4,7 @@ import {Locale} from '@js-joda/locale_en';
 import {InputBox} from '../common/ui-element-handlers/inputBox';
 import {DatePicker} from '../sections/datepicker';
 import {TimePicker} from '../sections/timepicker';
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export class ReplaySelectTimerangePage {
   public selectYourTimeRangeTitle: ElementFinder;
@@ -87,7 +88,6 @@ export class ReplaySelectTimerangePage {
   }
 
   public async selectStart(): Promise<void> {
-    browser.wait(this.startButton.isPresent());
-    return this.startButton.click();
+    return CommonActions.waitAndClick(this.startButton);
   }
 }

@@ -19,8 +19,9 @@ Feature: 33763 - TMV Replay Playback Controls
     When I expand the replay group of maps with name 'Wales & Western'
     Then replay map 'HDGW01 Paddington' is present in the tree view
 
+    @newSession @bug @bug_55794
   Scenario: Replay - Time Range
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     When I select the map 'hdgw01paddington.v'
     Then the replay time selection is presented
@@ -37,8 +38,9 @@ Feature: 33763 - TMV Replay Playback Controls
       | mapName    | expectedTimestamp |
       | Paddington | Last 15 minutes   |
 
+    @newSession @bug @bug_55794
   Scenario: Replay - Time Range Selection (Manual Input)
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     When I set the date and time for replay to
@@ -49,8 +51,9 @@ Feature: 33763 - TMV Replay Playback Controls
       | mapName    | expectedTimestamp   |
       | Paddington | 01/01/2020 12:00:00 |
 
+      @newSession @bug @bug_55794
   Scenario: Replay - Time Range Selection (Dropdowns)
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     When I set the date and time using the dropdowns for replay to

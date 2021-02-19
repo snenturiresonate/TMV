@@ -1,4 +1,4 @@
-import {Then} from 'cucumber';
+import {When, Then} from 'cucumber';
 import {SearchResultsPageObject} from '../pages/sections/search.results.page';
 import {expect} from 'chai';
 
@@ -34,3 +34,7 @@ Then('results are returned with planning UID {string} and schedule type {string}
     .to.equal(true);
 });
 
+When('I invoke the context menu from train with planning UID {string} on the search results table', async (planningUID: string) => {
+  const targetRow = await searchResultsPage.getRowByPlanningUID(planningUID);
+  await targetRow.performRightClick();
+});
