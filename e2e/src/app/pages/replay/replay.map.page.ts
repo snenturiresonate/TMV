@@ -3,6 +3,7 @@ import {DateTimeFormatter, LocalDateTime, LocalTime} from '@js-joda/core';
 import {ContinuationLinkContextMenu} from '../sections/replay.continuationlink.contextmenu';
 import {BerthContextMenu} from '../sections/replay.berth.contextmenu';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
+import moment = require('moment');
 
 export class ReplayMapPage {
   public bufferingIndicator: ElementFinder;
@@ -18,7 +19,8 @@ export class ReplayMapPage {
   public timestamp: ElementFinder;
   public replaySpeedButton: ElementFinder;
   public mapName: ElementFinder;
-
+  public speedValue: ElementFinder;
+  public replayTimestamp: ElementFinder;
   constructor() {
     // Replay Map Page
     this.continuationLinkContextMenu = new ContinuationLinkContextMenu();
@@ -34,6 +36,8 @@ export class ReplayMapPage {
     this.timestamp = element(by.css('.playback-status div'));
     this.replaySpeedButton = element(by.xpath('//button[@title="Playback speed"]'));
     this.mapName = element(by.css('.map-dropdown-button h2'));
+    this.speedValue = element(by.css('button[title*=speed]>span'));
+    this.replayTimestamp = element(by.css('.playback-status >div'));
   }
 
   public async selectContinuationLink(linkText): Promise<void> {
@@ -114,6 +118,21 @@ export class ReplayMapPage {
 
   public async getMapName(): Promise<string> {
     return this.mapName.getText();
+  }
+
+  public async getSpeedValue(speed: string): Promise<string> {
+    return this.speedValue.getText();
+  }
+  public async getButtonType(button: string): Promise<string> {
+    if (button === 'backward'){
+      return this.skipBackButton.getAttribute('class');
+    }
+    if (button === 'forward'){
+      return this.skipForwardButton.getAttribute('class');
+    }
+  }
+  public async getReplayTimestamp(): Promise<any> {
+    return this.replayTimestamp.getText();
   }
 
 }
