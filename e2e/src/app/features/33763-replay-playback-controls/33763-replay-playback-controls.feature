@@ -87,6 +87,32 @@ Feature: 33763 - TMV Replay Playback Controls
       | Paddington | 01/02/2020 12:49:04 |
 
   @newSession @bug @bug_55794
+  Scenario: Scenario-7 Replay - Speed
+    #Given the user has selected a map to start the replay
+    #And has selected a timeframe
+    #And has started the replay
+    #When the user changes the speed
+    #Then the stepping and signalling objects are replayed at the new speed
+    Given I am on the replay page
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I set the date and time using the dropdowns for replay to
+      | date       | time     | duration |
+      | 01/02/2020 | 12:49:03 | 10       |
+    And I select Start
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    And I click Play button
+    And the replay playback 'Speed' is 'Normal'
+    When I increase the replay speed at position 5
+    Then the replay playback 'Speed' is 'x 5'
+    And I increase the replay speed at position 6
+    And the replay playback 'Speed' is 'x 10'
+    And I increase the replay speed at position 7
+    And the replay playback 'Speed' is 'x 15'
+
+  @newSession @bug @bug_55794
   Scenario: Scenario8a Replay - Play and Skip forward
     #Given the user has selected a map to start the replay
     #And has selected a timeframe

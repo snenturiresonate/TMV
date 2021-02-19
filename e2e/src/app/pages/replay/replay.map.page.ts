@@ -1,4 +1,4 @@
-import {browser, by, element, ElementFinder, protractor} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {DateTimeFormatter, LocalDateTime, LocalTime} from '@js-joda/core';
 import {ContinuationLinkContextMenu} from '../sections/replay.continuationlink.contextmenu';
 import {BerthContextMenu} from '../sections/replay.berth.contextmenu';
@@ -21,6 +21,7 @@ export class ReplayMapPage {
   public mapName: ElementFinder;
   public speedValue: ElementFinder;
   public replayTimestamp: ElementFinder;
+  public replayIncreaseSpeed: ElementArrayFinder;
   constructor() {
     // Replay Map Page
     this.continuationLinkContextMenu = new ContinuationLinkContextMenu();
@@ -38,6 +39,7 @@ export class ReplayMapPage {
     this.mapName = element(by.css('.map-dropdown-button h2'));
     this.speedValue = element(by.css('button[title*=speed]>span'));
     this.replayTimestamp = element(by.css('.playback-status >div'));
+    this.replayIncreaseSpeed = element.all(by.css('.speed-editor-popup .speeds .speed'));
   }
 
   public async selectContinuationLink(linkText): Promise<void> {
@@ -133,6 +135,15 @@ export class ReplayMapPage {
   }
   public async getReplayTimestamp(): Promise<any> {
     return this.replayTimestamp.getText();
+  }
+
+  public async clickReplaySpeed(): Promise<void> {
+    return this.replaySpeedButton.click();
+  }
+
+  public async increaseReplaySpeed(position: number): Promise<void> {
+    const speed = this.replayIncreaseSpeed;
+    await speed.get(position).click();
   }
 
 }

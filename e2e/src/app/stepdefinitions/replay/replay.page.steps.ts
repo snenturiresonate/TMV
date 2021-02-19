@@ -200,6 +200,11 @@ Then('the replay playback {string} is {string}', async (speed: string, expectedS
     .to.contain(expectedSpeed);
 });
 
+When('I increase the replay speed at position {int}', async (position: number) => {
+  await replayPage.clickReplaySpeed();
+  await replayPage.increaseReplaySpeed(position);
+});
+
 Then('the replay button {string} is {string}', async (button: string, expectedType: string) => {
   const actualType = await replayPage.getButtonType(button);
   return expect(actualType, `replay button ${button} is not as expected`)
