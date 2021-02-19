@@ -217,6 +217,17 @@ Then('my replay should skip {string} minute when I click forward button', async 
   expect(actualTime).to.be.closeToTime(expectedTime, 3);
 });
 
+Then('my replay should skip {string} minute when I click backward button', async (decrement: number) => {
+  const dateTimeAtStart = await replayPage.getReplayTimestamp();
+  const expectedTime = await formulateDecrementedDateTime(dateTimeAtStart, decrement);
+
+  await replayPage.selectSkipBack();
+  const dateTimeAfterClick = await replayPage.getReplayTimestamp();
+  const actualTime = await formulateDateTime(dateTimeAfterClick);
+
+  expect(actualTime).to.be.closeToTime(expectedTime, 3);
+});
+
 async function formulateDateTime(timeStamp: string): Promise<any> {
   const parsedDateTime = new Date(timeStamp);
   return moment(parsedDateTime).toDate();
@@ -225,4 +236,9 @@ async function formulateDateTime(timeStamp: string): Promise<any> {
 async function formulateIncrementedDateTime(timeStamp: string, increment: number): Promise<any> {
   const parsedDateTime = new Date(timeStamp);
   return moment(parsedDateTime).add(increment, 'minute').toDate();
+}
+
+async function formulateDecrementedDateTime(timeStamp: string, decrement: number): Promise<any> {
+  const parsedDateTime = new Date(timeStamp);
+  return moment(parsedDateTime).add(decrement, 'minute').toDate();
 }

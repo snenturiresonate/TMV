@@ -164,6 +164,65 @@ Feature: 33763 - TMV Replay Playback Controls
     And my replay should skip '1' minute when I click forward button
     And the replay button 'forward' is 'disabled'
 
+  Scenario: Scenario9a Replay - Play and Skip backward
+    #Given the user has selected a map to start the replay
+    #And has selected a timeframe
+    #And has started the replay
+    #When the user skips backward
+    #Then the replay is skipped backward a minute increment
+    Given I am on the replay page
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I set the date and time using the dropdowns for replay to
+      | date       | time     | duration |
+      | 01/02/2020 | 12:49:03 | 10       |
+    And I select Start
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    When I click Play button
+    Then the replay playback 'Speed' is 'Normal'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:04 |
+    Then my replay should skip '1' minute when I click backward button
+
+  Scenario: Scenario9b Replay - Pause and Skip backward
+    Given I am on the replay page
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I set the date and time using the dropdowns for replay to
+      | date       | time     | duration |
+      | 01/02/2020 | 12:49:03 | 10       |
+    And I select Start
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    When I click Play button
+    And I click Pause button
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:04 |
+    Then my replay should skip '1' minute when I click backward button
+
+  Scenario: Scenario9c Replay - Stop and Skip forward
+    Given I am on the replay page
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I set the date and time using the dropdowns for replay to
+      | date       | time     | duration |
+      | 01/02/2020 | 12:49:03 | 10       |
+    And I select Start
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    When I click Play button
+    And I click Stop button
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    Then my replay should skip '1' minute when I click backward button
+
   Scenario: Scenario-10 a Replay - Stop (Play and Stop)
     #Given the user has selected a map to start the replay
     #And has selected a timeframe
