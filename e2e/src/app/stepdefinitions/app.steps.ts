@@ -2,6 +2,7 @@ import {Given, Then, When} from 'cucumber';
 import {AppPage} from '../pages/app.po';
 import {expect} from 'chai';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
+import {AdminRestClient} from '../api/admin/admin-rest-client';
 import {BerthCancel, BerthInterpose, BerthStep, Heartbeat, SignallingUpdate} from '../../../../src/app/api/linx/models';
 import {CucumberLog} from '../logging/cucumber-log';
 import * as fs from 'fs';
@@ -18,6 +19,7 @@ import {TimingAtLocationBuilder} from '../utils/train-journey-modifications/timi
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
+const adminRestClient: AdminRestClient = new AdminRestClient();
 
 Given(/^I navigate to (.*) page$/, async (pageName: string) => {
 
@@ -62,6 +64,14 @@ Given(/^I am authenticated to use TMV$/, async () => {
 
 Given(/^I have not opened the trains list before$/, async () => {
 // something here about resetting to the defaults
+});
+
+Given(/^The admin setting defaults are as originally shipped$/, async () => {
+  const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), 'admin/admin-defaults.json'));
+  const adminDefaults = rawData.toString();
+  await CucumberLog.addJson(adminDefaults);
+  adminRestClient.postAdminConfiguration(adminDefaults);
+  await adminRestClient.waitMaxTransmissionTime();
 });
 
 When(/^I do nothing$/, () => {
