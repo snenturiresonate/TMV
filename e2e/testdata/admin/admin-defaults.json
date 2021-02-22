@@ -1,0 +1,189 @@
+{
+  "defaultPunctualityTimeBandColour": [
+    {
+      "colour": "#ffb4b4",
+      "defaultPunctualityTimeBandColourId": "1",
+      "name": "20 minutes or more early",
+      "fromPunctuality": null,
+      "toPunctuality": -1200
+    },
+    {
+      "colour": "#e5b4ff",
+      "defaultPunctualityTimeBandColourId": "2",
+      "name": "10 to 19 minutes early",
+      "fromPunctuality": -1200,
+      "toPunctuality": -600
+    },
+    {
+      "colour": "#78e7ff",
+      "defaultPunctualityTimeBandColourId": "3",
+      "name": "5 to 9 minutes early",
+      "fromPunctuality": -600,
+      "toPunctuality": -300
+    },
+    {
+      "colour": "#78ff78",
+      "defaultPunctualityTimeBandColourId": "4",
+      "name": "1 to 4 minutes early",
+      "fromPunctuality": -300,
+      "toPunctuality": -60
+    },
+    {
+      "colour": "#00ff00",
+      "defaultPunctualityTimeBandColourId": "5",
+      "name": "Right Time",
+      "fromPunctuality": -60,
+      "toPunctuality": 60
+    },
+    {
+      "colour": "#ffff00",
+      "defaultPunctualityTimeBandColourId": "6",
+      "name": "1 to 4 minutes late",
+      "fromPunctuality": 60,
+      "toPunctuality": 300
+    },
+    {
+      "colour": "#ffa700",
+      "defaultPunctualityTimeBandColourId": "7",
+      "name": "5 to 9 minutes late",
+      "fromPunctuality": 300,
+      "toPunctuality": 600
+    },
+    {
+      "colour": "#ff0000",
+      "defaultPunctualityTimeBandColourId": "8",
+      "name": "10 to 19 minutes late",
+      "fromPunctuality": 600,
+      "toPunctuality": 1200
+    },
+    {
+      "colour": "#ff009c",
+      "defaultPunctualityTimeBandColourId": "9",
+      "name": "20 minutes or more late",
+      "fromPunctuality": 1200,
+      "toPunctuality": null
+    }
+  ],
+  "trainsListDisplayConfiguration": {
+    "unmatchedColour": "#140e2b",
+    "unmatchedDisplay": true,
+    "offRouteColour": "#ffffff",
+    "offRouteDisplay": true,
+    "changeOfOriginColour": "#ffffff",
+    "changeOfOriginDisplay": true,
+    "changeOfIdentityColour": "#ffffff",
+    "changeOfIdentityDisplay": true,
+    "cancellationColour": "#ffffff",
+    "cancellationDisplay": true,
+    "reinstatementColour": "#ffffff",
+    "reinstatementDisplay": true,
+    "nextReportOverdueColour": "#0000ff",
+    "nextReportOverdueDisplay": false,
+    "nextReportOverdueMinutes": 15,
+    "originCalledColour": "#ffb578",
+    "originCalledDisplay": true,
+    "originCalledMinutes": 15,
+    "originDeptOverdueColour": "#ffffff",
+    "originDeptOverdueDisplay": true,
+    "originDeptOverdueMinutes": 1
+  },
+  "adminLineStatusSettings": {
+    "restrictionTypeSettings": [
+      {
+        "lineStatusSettingName": "Blockage",
+        "colour": "#ff0000",
+        "lineStyle": "Solid",
+        "lineWidth": 2
+      },
+      {
+        "lineStatusSettingName": "TSR",
+        "colour": "#ffa700",
+        "lineStyle": "Dashed",
+        "lineWidth": 2
+      },
+      {
+        "lineStatusSettingName": "ESR",
+        "colour": "#ffff00",
+        "lineStyle": "Dashed",
+        "lineWidth": 2
+      },
+      {
+        "lineStatusSettingName": "Possession",
+        "colour": "#ff0000",
+        "lineStyle": "Dashed",
+        "lineWidth": 2
+      },
+      {
+        "lineStatusSettingName": "Not in use",
+        "colour": "#ffa700",
+        "lineStyle": "Solid",
+        "lineWidth": 2
+      }
+    ],
+    "routeTypeSettings": [
+      {
+        "lineStatusSettingName": "Route Set",
+        "colour": "#ffffff",
+        "lineStyle": "Solid",
+        "lineWidth": 2
+      }
+    ],
+    "pathTypeSettings": [
+      {
+        "lineStatusSettingName": "Predicted Path",
+        "colour": "#0000ff",
+        "lineStyle": "Solid",
+        "lineWidth": 3
+      }
+    ],
+    "noteSettings": [
+      {
+        "lineStatusSettingName": "Note applied",
+        "colour": "#78e7ff",
+        "lineStyle": "Solid",
+        "lineWidth": 2
+      }
+    ]
+  },
+  "berthColourSettings": [
+    {
+      "state": "Attention",
+      "colour": "#0000ff",
+      "visible": false
+    },
+    {
+      "state": "Left Behind",
+      "colour": "#969696",
+      "visible": true
+    },
+    {
+      "state": "No Timetable",
+      "colour": "#e1e1e1",
+      "visible": true
+    },
+    {
+      "state": "Last Berth",
+      "colour": "#ffffff",
+      "visible": true
+    },
+    {
+      "state": "Unknown Delay",
+      "colour": "#ffffff",
+      "visible": true
+    }
+  ],
+  "loginMessageSettings": {
+    "loginNoticeMessage": "Welcome to TMV",
+    "loginTermsOfUse": "TMV terms of use"
+  },
+  "adminReplaySettings": {
+    "replayBackgroundColour": "#20373e",
+    "replayDefaultProperties": {
+      "maxNumberofMapsPerReplaySession": 16,
+      "maxNumberofSchematicMapDisplayInstances": 16,
+      "maxNumberofTrainsListViewInstances": 16,
+      "maxNumberOfEnquiriesViewInstances": 3,
+      "maxNumberofReplays": 2
+    }
+  }
+}
