@@ -5,6 +5,7 @@ Feature: 33750 - Schematic Maps - Render Objects
   So that I can see the signalling infrastructure of the railway nationally
   Background:
     Given I am on the home page
+  @bug @bug_56036
   Scenario Outline: 33750-1 Render specific objects
     When I am viewing the map <map>
     Then <numberOfElements> objects of type <object> are rendered
@@ -62,6 +63,7 @@ Feature: 33750 - Schematic Maps - Render Objects
     When I select "Open" map from the menu
     Then the view is refreshed with the linked map
 
+  @bug @bug_56036
   Scenario: 33750-3b Continuation Button (Secondary Click - Open new tab)
     Given I am authenticated to use TMV
     And I view a schematic that contains a continuation button

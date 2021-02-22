@@ -5,6 +5,7 @@ Feature: 34393 - TMV replay - Schematic Maps - Render Objects
   I want the view schematic maps in replay mode
   So that I can view the historic running railway
 
+  @bug @bug_56036
   Scenario Outline: 33750-1 Render specific objects
     Given I am on the replay page as existing user
     And I expand the replay group of maps with name '<mapGroup>'
