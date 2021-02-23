@@ -10,8 +10,10 @@ import {MapLayerType} from '../../pages/maps/map-layer-type.enum';
 import {MapLayerItem} from '../../pages/maps/map-layer-item.model';
 import {HomePageObject} from '../../pages/home.page';
 import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
+import {AppPage} from '../../pages/app.po';
 
 let page: MapPageObject;
+const appPage: AppPage = new AppPage();
 let linxRestClient: LinxRestClient;
 
 Before(() => {
@@ -79,18 +81,14 @@ const mapObjectColourHex = {
 };
 
 Given(/^I am viewing the map (.*)$/, async (mapId: string) => {
-  await mapPageObject.navigateTo(mapId);
-});
-
-Given('I am viewing a schematic map', async () => {
-  const randomMap = await homePage.chooseRandomMap();
-  await mapPageObject.navigateTo(randomMap);
-  mapPageObject.originallyOpenedMapTitle = await browser.getTitle();
+  const url = '/tmv/maps/' + mapId;
+  await appPage.navigateTo(url);
 });
 
 Given('I view a schematic that contains a continuation button', async () => {
   const randomMap = await homePage.chooseRandomMap();
-  await mapPageObject.navigateTo(randomMap);
+  const url = '/tmv/maps/' + randomMap;
+  await appPage.navigateTo(url);
   mapPageObject.originallyOpenedMapTitle = await browser.getTitle();
   const continuationTextLayerItems: MapLayerItem[]
     = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType.connector_text_label);

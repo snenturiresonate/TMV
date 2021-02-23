@@ -267,7 +267,7 @@ Given(/^I am on the trains list page$/, async () => {
   await page.navigateTo('/tmv/trains-list');
 });
 
-Given(/^I am on the trains list Config page$/, {timeout: 2 * 5000}, async () => {
+Given(/^I am on the trains list Config page$/, {timeout: 4 * 5000}, async () => {
   await page.navigateTo('/tmv/trains-list-config');
 });
 
