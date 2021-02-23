@@ -7,7 +7,7 @@ import {ProjectDirectoryUtil} from '../../utils/project-directory.util';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import assert = require('assert');
 import path = require('path');
-import {AppPage} from "../app.po";
+import {AppPage} from '../app.po';
 
 const SCALEFACTORX_START = 7;
 const appPage: AppPage = new AppPage();
@@ -51,22 +51,6 @@ export class MapPageObject {
     this.liveMap = element(by.css('#live-map'));
     this.sClassBerthTextElements = element(by.css('#s-class-berth-text-elements'));
     this.aesBoundaryElements = element(by.css('#aes-boundaries-elements'));
-  }
-
-  public async navigateTo(mapId: string, role?: string): Promise<any> {
-    const url = browser.baseUrl + '/tmv/maps/' + mapId;
-    try {
-      await browser.waitForAngularEnabled(false);
-      await browser.get(url);
-      await browser.waitForAngularEnabled(true);
-      await appPage.waitForAppLoad();
-    } catch (e) {
-      if (role) {
-        await appPage.roleBasedAuthentication(url, role);
-      } else {
-        await appPage.defaultAuthentication(url);
-      }
-    }
   }
 
   public async isPlatformLayerPresent(): Promise<boolean> {
@@ -206,7 +190,8 @@ export class MapPageObject {
     const filtered = mapBerthData.filter((mapObj) => mapObj.berths.includes(trainDescriber + berthId));
     assert(filtered.length > 0, 'no map found containing berth ' + berthId + ' in train describer ' + trainDescriber + ' found');
     await CucumberLog.addText(browser.baseUrl + '/tmv/maps/' + filtered[0].map);
-    await this.navigateTo(filtered[0].map);
+    const url = '/tmv/maps/' + filtered[0].map;
+    await appPage.navigateTo(url);
   }
 
   public async waitForContextMenu(): Promise<boolean> {
