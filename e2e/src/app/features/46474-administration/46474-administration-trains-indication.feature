@@ -23,7 +23,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - tra
       | Origin Called            | #ffb578 | 15      | on          |
       | Origin Departure Overdue | #ffffff | 1       | on          |
 
-  @bug @bug_55727
   Scenario: Trains indication table - Update and Save
     When I update the train list indication table as
       | name                     | colour  | minutes | toggleValue |
