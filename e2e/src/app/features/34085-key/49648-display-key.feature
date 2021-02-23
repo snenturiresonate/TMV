@@ -1,11 +1,13 @@
-@bug @bug_54962
 Feature: 46482 - TMV Key - display key
   As a TMV User
   I want to view a symbol key
   So that I can understand what the schematic objects mean
 
+  Background:
+    Given The admin setting defaults are as originally shipped
+    And I am viewing the map GW01paddington.v
+
   Scenario: 34085-2a The TMV Key punctuality table is displayed within the modal when the tmv icon is clicked
-    Given I am viewing the map GW01paddington.v
     When I click on the Help icon
     And I select the TMV Key option
     Then a modal displays with title 'Key'
@@ -22,7 +24,6 @@ Feature: 46482 - TMV Key - display key
       | 8        | 20 minutes or more late  | #ff009c          | #ffffff |
 
   Scenario: 34085-2b The TMV Key berth table is displayed within the modal when the tmv icon is clicked
-    Given I am viewing the map GW01paddington.v
     When I click on the Help icon
     And I select the TMV Key option
     Then a modal displays with title 'Key'
@@ -34,8 +35,8 @@ Feature: 46482 - TMV Key - display key
       | 3        | Left Behind              | #999999          | #000000 |
       | 4        | Last Berth               | #f9cb9c          | #000000 |
 
+  @bug @bug_54962
   Scenario: 34085-3 The TMV Key Symbol table is displayed when the Symbol tab is clicked
-    Given I am viewing the map GW01paddington.v
     When I click on the Help icon
     And I select the TMV Key option
     Then a modal displays with title 'Key'
@@ -59,8 +60,8 @@ Feature: 46482 - TMV Key - display key
       | 3        | TSR        |
       | 4        | Possession |
 
+  @bug @bug_54962
   Scenario: 34085-4 The TMV Key train describer table is displayed when the Train Describer tab is clicked
-    Given I am viewing the map GW01paddington.v
     When I click on the Help icon
     And I select the TMV Key option
     Then a modal displays with title 'Key'
