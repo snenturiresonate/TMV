@@ -66,7 +66,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
 
-  @bug @bug_55727
   Scenario: User should be able to add a punctuality time-band
     When I add a punctuality time-band
     And I save the punctuality settings
@@ -83,7 +82,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
 
-  @bug @bug_55727
   Scenario: User should be able to add, edit and save a punctuality time-band
     When I update the admin punctuality settings as
       | punctualityColorText | fromTime | toTime | entryValue      |
@@ -104,7 +102,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
 
-  @bug @bug_55727
   Scenario: User should be able to delete, edit and save a punctuality time-band
     When I delete the first punctuality time-band
     And I save the punctuality settings
@@ -177,7 +174,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
 
-  @bug @bug_55727
   Scenario: User should be able to add a maximum of 20 time-bands
     When I add punctuality time-bands until count of 20
     Then I should not be able to add any more punctuality time-bands

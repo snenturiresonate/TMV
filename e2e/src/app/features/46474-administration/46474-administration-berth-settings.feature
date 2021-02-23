@@ -20,7 +20,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - ber
       | Last Berth     | #ffffff | On          |
       | Unknown Delay  | #ffffff | On          |
 
-  @bug @bug_55727
   Scenario: Berth colour settings - Update and Save
     When I update the Berth settings table as
       | name           | colour  | toggleState |
