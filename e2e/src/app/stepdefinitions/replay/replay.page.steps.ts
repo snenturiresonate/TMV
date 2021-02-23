@@ -114,6 +114,11 @@ When(/^I select skip forward until the end of the replay is reached$/, async () 
 Given(/^I move the replay to the end of the captured scenario$/, async () => {
   await replayPage.moveReplayTimeTo(replayScenario.finishTime);
 });
+
+When(/^I move the replay forward until time (.*)$/, async (time) => {
+  await replayPage.moveReplayTimeTo(time);
+});
+
 When(/^I search for replay map '(.*)'$/, async (input) => {
   await replaySelectMapPage.searchForMap(input);
 });
