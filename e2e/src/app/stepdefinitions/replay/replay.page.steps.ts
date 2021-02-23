@@ -12,6 +12,8 @@ import {DateTimeFormatter, LocalDateTime} from '@js-joda/core';
 import {ReplaySelectMapPage} from '../../pages/replay/replay.selectmap.page';
 import {ReplaySelectTimerangePage} from '../../pages/replay/replay.selecttimerange.page';
 import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
+import moment = require('moment');
+import * as chaiDateTime from 'chai-datetime';
 
 const replayPage: ReplayMapPage = new ReplayMapPage();
 const replaySelectMapPage: ReplaySelectMapPage = new ReplaySelectMapPage();
@@ -112,6 +114,11 @@ When(/^I select skip forward until the end of the replay is reached$/, async () 
 Given(/^I move the replay to the end of the captured scenario$/, async () => {
   await replayPage.moveReplayTimeTo(replayScenario.finishTime);
 });
+
+When(/^I move the replay forward until time (.*)$/, async (time) => {
+  await replayPage.moveReplayTimeTo(time);
+});
+
 When(/^I search for replay map '(.*)'$/, async (input) => {
   await replaySelectMapPage.searchForMap(input);
 });
@@ -143,7 +150,7 @@ Then(/^replay map '(.*)' is present in the tree view$/, async (map) => {
 When(/^I select time period '(.*)' from the quick dropdown$/, async (duration) => {
   await replaySelectTimerangePage.selectQuickDuration(duration);
 });
-Then(/^the map view is opened ready for replaying$/, async (dataTable) => {
+Then(/^the map view is opened ready for replaying with timestamp$/, async (dataTable) => {
   const table = dataTable.hashes()[0];
   const replayMapName = await replayPage.getMapName();
   expect(replayMapName).to.equal(table.mapName);
@@ -177,3 +184,70 @@ Then('the timetable background colour is the same as the map background colour',
     expect(elem).oneOf(browser.referenceReplayBackgroundColours);
   }
 });
+
+When('I click Play button', async () => {
+  await replayPage.selectPlay();
+});
+
+When('I click Stop button', async () => {
+  await replayPage.selectStop();
+});
+
+When('I click Pause button', async () => {
+  await replayPage.selectPause();
+});
+
+Then('the replay playback speed is {string}', async (expectedSpeed: string) => {
+  const actualSpeed = await replayPage.getSpeedValue();
+  return expect(actualSpeed, `replay playback speed is not as expected`)
+    .to.contain(expectedSpeed);
+});
+
+When('I increase the replay speed at position {int}', async (position: number) => {
+  await replayPage.clickReplaySpeed();
+  await replayPage.increaseReplaySpeed(position);
+});
+
+Then('the replay button {string} is {string}', async (button: string, expectedType: string) => {
+  const actualType = await replayPage.getButtonType(button);
+  return expect(actualType, `replay button ${button} is not as expected`)
+    .to.contain(expectedType);
+});
+
+Then('my replay should skip {string} minute when I click forward button', async (increment: number) => {
+  const dateTimeAtStart = await replayPage.getReplayTimestamp();
+  const expectedTime = await formulateIncrementedDateTime(dateTimeAtStart, increment);
+
+  await replayPage.selectSkipForward();
+  const dateTimeAfterForward = await replayPage.getReplayTimestamp();
+  const actualTime = await formulateDateTime(dateTimeAfterForward);
+
+  return expect(actualTime, `replay playback speed is not as expected`)
+    .to.be.closeToTime(expectedTime, 3);});
+
+Then('my replay should skip {string} minute when I click backward button', async (decrement: number) => {
+  const dateTimeAtStart = await replayPage.getReplayTimestamp();
+  const expectedTime = await formulateDecrementedDateTime(dateTimeAtStart, decrement);
+
+  await replayPage.selectSkipBack();
+  const dateTimeAfterClick = await replayPage.getReplayTimestamp();
+  const actualTime = await formulateDateTime(dateTimeAfterClick);
+
+  return expect(actualTime, `replay playback speed is not as expected`)
+    .to.be.closeToTime(expectedTime, 3);
+});
+
+async function formulateDateTime(timeStamp: string): Promise<any> {
+  const parsedDateTime = new Date(timeStamp);
+  return moment(parsedDateTime).toDate();
+}
+
+async function formulateIncrementedDateTime(timeStamp: string, increment: number): Promise<any> {
+  const parsedDateTime = new Date(timeStamp);
+  return moment(parsedDateTime).add(increment, 'minute').toDate();
+}
+
+async function formulateDecrementedDateTime(timeStamp: string, decrement: number): Promise<any> {
+  const parsedDateTime = new Date(timeStamp);
+  return moment(parsedDateTime).add(decrement, 'minute').toDate();
+}
