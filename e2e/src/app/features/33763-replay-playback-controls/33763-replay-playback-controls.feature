@@ -81,7 +81,8 @@ Feature: 33763 - TMV Replay Playback Controls
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:03 |
     When I click Play button
-    Then the replay playback 'Speed' is 'Normal'
+    And I wait for the buffer to fill
+    Then the replay playback speed is 'Normal'
     And the map view is opened ready for replaying with timestamp
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:04 |
@@ -104,13 +105,14 @@ Feature: 33763 - TMV Replay Playback Controls
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:03 |
     And I click Play button
-    And the replay playback 'Speed' is 'Normal'
+    And I wait for the buffer to fill
+    And the replay playback speed is 'Normal'
     When I increase the replay speed at position 5
-    Then the replay playback 'Speed' is 'x 5'
+    Then the replay playback speed is 'x 5'
     And I increase the replay speed at position 6
-    And the replay playback 'Speed' is 'x 10'
+    And the replay playback speed is 'x 10'
     And I increase the replay speed at position 7
-    And the replay playback 'Speed' is 'x 15'
+    And the replay playback speed is 'x 15'
 
   @newSession @bug @bug_55794
   Scenario: Scenario8a Replay - Play and Skip forward
@@ -130,7 +132,8 @@ Feature: 33763 - TMV Replay Playback Controls
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:03 |
     When I click Play button
-    Then the replay playback 'Speed' is 'Normal'
+    And I wait for the buffer to fill
+    Then the replay playback speed is 'Normal'
     And the map view is opened ready for replaying with timestamp
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:04 |
@@ -149,6 +152,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:03 |
     When I click Play button
+    And I wait for the buffer to fill
     And I click Pause button
     And the map view is opened ready for replaying with timestamp
       | mapName    | expectedTimestamp   |
@@ -168,6 +172,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:03 |
     When I click Play button
+    And I wait for the buffer to fill
     And I click Stop button
     And the map view is opened ready for replaying with timestamp
       | mapName    | expectedTimestamp   |
@@ -187,6 +192,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:03 |
     When I click Play button
+    And I wait for the buffer to fill
     And my replay should skip '1' minute when I click forward button
     And my replay should skip '1' minute when I click forward button
     And my replay should skip '1' minute when I click forward button
@@ -206,17 +212,22 @@ Feature: 33763 - TMV Replay Playback Controls
     And I select the map 'hdgw01paddington.v'
     And I set the date and time using the dropdowns for replay to
       | date       | time     | duration |
-      | 01/02/2020 | 12:49:03 | 10       |
+      | 01/02/2020 | 12:49:03 | 5       |
     And I select Start
     And the map view is opened ready for replaying with timestamp
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:03 |
     When I click Play button
-    Then the replay playback 'Speed' is 'Normal'
+    And I wait for the buffer to fill
+    And the replay playback speed is 'Normal'
+    And I move the replay to the end of the captured scenario
     And the map view is opened ready for replaying with timestamp
       | mapName    | expectedTimestamp   |
-      | Paddington | 01/02/2020 12:49:04 |
+      | Paddington | 01/02/2020 12:54:03 |
     Then my replay should skip '1' minute when I click backward button
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:53:03 |
 
   @newSession @bug @bug_55794
   Scenario: Scenario9b Replay - Pause and Skip backward
@@ -225,20 +236,22 @@ Feature: 33763 - TMV Replay Playback Controls
     And I select the map 'hdgw01paddington.v'
     And I set the date and time using the dropdowns for replay to
       | date       | time     | duration |
-      | 01/02/2020 | 12:49:03 | 10       |
+      | 01/02/2020 | 12:49:03 | 5       |
     And I select Start
-    And the map view is opened ready for replaying with timestamp
-      | mapName    | expectedTimestamp   |
-      | Paddington | 01/02/2020 12:49:03 |
     When I click Play button
+    And I wait for the buffer to fill
+    And I move the replay to the end of the captured scenario
     And I click Pause button
     And the map view is opened ready for replaying with timestamp
       | mapName    | expectedTimestamp   |
-      | Paddington | 01/02/2020 12:49:04 |
+      | Paddington | 01/02/2020 12:54:04 |
     Then my replay should skip '1' minute when I click backward button
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:53:04 |
 
   @newSession @bug @bug_55794
-  Scenario: Scenario9c Replay - Stop and Skip forward
+  Scenario: Scenario9c Replay - Stop and Skip backward
     Given I am on the replay page
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
@@ -250,12 +263,24 @@ Feature: 33763 - TMV Replay Playback Controls
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:03 |
     When I click Play button
+    And I wait for the buffer to fill
+    And I move the replay to the end of the captured scenario
     And I click Stop button
     And the map view is opened ready for replaying with timestamp
       | mapName    | expectedTimestamp   |
-      | Paddington | 01/02/2020 12:49:03 |
+      | Paddington | 01/02/2020 12:54:03 |
     Then my replay should skip '1' minute when I click backward button
-
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:53:03 |
+    And my replay should skip '1' minute when I click backward button
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:52:03 |
+    Then my replay should skip '1' minute when I click backward button
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:51:03 |
   @newSession @bug @bug_55794
   Scenario: Scenario-10 a Replay - Stop (Play and Stop)
     #Given the user has selected a map to start the replay
@@ -274,7 +299,8 @@ Feature: 33763 - TMV Replay Playback Controls
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:03 |
     And I click Play button
-    And the replay playback 'Speed' is 'Normal'
+    And I wait for the buffer to fill
+    And the replay playback speed is 'Normal'
     And the map view is opened ready for replaying with timestamp
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:04 |
@@ -297,8 +323,9 @@ Feature: 33763 - TMV Replay Playback Controls
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:03 |
     And I click Play button
+    And I wait for the buffer to fill
     And I click Pause button
-    And the replay playback 'Speed' is 'Normal'
+    And the replay playback speed is 'Normal'
     And the map view is opened ready for replaying with timestamp
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:04 |
@@ -307,3 +334,6 @@ Feature: 33763 - TMV Replay Playback Controls
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:03 |
     And the replay button 'backward' is 'disabled'
+
+
+    And I move the replay forward until time 12:53:03

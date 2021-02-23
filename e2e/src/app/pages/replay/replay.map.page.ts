@@ -122,7 +122,7 @@ export class ReplayMapPage {
     return this.mapName.getText();
   }
 
-  public async getSpeedValue(speed: string): Promise<string> {
+  public async getSpeedValue(): Promise<string> {
     return this.speedValue.getText();
   }
   public async getButtonType(button: string): Promise<string> {

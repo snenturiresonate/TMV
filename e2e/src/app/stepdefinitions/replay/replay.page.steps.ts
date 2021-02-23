@@ -181,8 +181,6 @@ Then('the timetable background colour is the same as the map background colour',
 });
 
 When('I click Play button', async () => {
-  /*  const waitTime = 10;
-    await replaySessionPage.waitForTimePeriod(waitTime);*/
   await replayPage.selectPlay();
 });
 
@@ -194,9 +192,9 @@ When('I click Pause button', async () => {
   await replayPage.selectPause();
 });
 
-Then('the replay playback {string} is {string}', async (speed: string, expectedSpeed: string) => {
-  const actualSpeed = await replayPage.getSpeedValue(speed);
-  return expect(actualSpeed, `replay playback ${speed} is not as expected`)
+Then('the replay playback speed is {string}', async (expectedSpeed: string) => {
+  const actualSpeed = await replayPage.getSpeedValue();
+  return expect(actualSpeed, `replay playback speed is not as expected`)
     .to.contain(expectedSpeed);
 });
 
@@ -219,8 +217,8 @@ Then('my replay should skip {string} minute when I click forward button', async 
   const dateTimeAfterForward = await replayPage.getReplayTimestamp();
   const actualTime = await formulateDateTime(dateTimeAfterForward);
 
-  expect(actualTime).to.be.closeToTime(expectedTime, 3);
-});
+  return expect(actualTime, `replay playback speed is not as expected`)
+    .to.be.closeToTime(expectedTime, 3);});
 
 Then('my replay should skip {string} minute when I click backward button', async (decrement: number) => {
   const dateTimeAtStart = await replayPage.getReplayTimestamp();
@@ -230,7 +228,8 @@ Then('my replay should skip {string} minute when I click backward button', async
   const dateTimeAfterClick = await replayPage.getReplayTimestamp();
   const actualTime = await formulateDateTime(dateTimeAfterClick);
 
-  expect(actualTime).to.be.closeToTime(expectedTime, 3);
+  return expect(actualTime, `replay playback speed is not as expected`)
+    .to.be.closeToTime(expectedTime, 3);
 });
 
 async function formulateDateTime(timeStamp: string): Promise<any> {
