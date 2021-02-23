@@ -23,13 +23,13 @@ Feature: 46474 - Administration Display Settings - full end to end testing - ber
   Scenario: Berth colour settings - Update and Save
     When I update the Berth settings table as
       | name           | colour  | toggleState |
-      | Attention      | #e1e1e1 | Off         |
+      | Attention      | #bb1    | Off         |
     And I save the punctuality settings
     And I navigate to the 'Login Message' admin tab
     And I navigate to the 'Display Settings' admin tab
     Then the following can be seen on the berth color settings table
       | name           | colour  | toggleState |
-      | Attention      | #e1e1e1 | Off         |
+      | Attention      | #bbbb11 | Off         |
       | Left Behind    | #969696 | On          |
       | No Timetable   | #e1e1e1 | On          |
       | Last Berth     | #ffffff | On          |
