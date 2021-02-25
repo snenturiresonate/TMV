@@ -35,6 +35,15 @@ export class CheckBox{
   }
 
   /**
+   * Returns the current selection state of a toggle button as a boolean. True: On, False: Off
+   * Input: Location of <label> tag
+   */
+  public static async getToggleCurrentState(elm: ElementFinder): Promise<boolean> {
+    await CommonActions.waitForElementInteraction(elm);
+    return this.toggleIsSelected(elm);
+  }
+
+  /**
    * Determines the current state of toggle selection and returns a boolean response.
    * Input: Location of <label> tag
    */
