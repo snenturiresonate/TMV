@@ -1,5 +1,5 @@
 @bug @bug_54441
-Feature: 52214 - TMV Trains List
+Feature: 52214 - TMV Trains List - menu
   (From Gherkin for Feature 33764)
 
   As a TMV User

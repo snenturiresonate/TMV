@@ -1,5 +1,5 @@
-@bug @bug_54441
-Feature: 52214 - TMV Trains List
+@tdd
+Feature: 52214 - TMV Trains List - sort
   (From Gherkin for Feature 33764)
 
   As a TMV User
@@ -32,7 +32,7 @@ Feature: 52214 - TMV Trains List
       | columnsToInclude    | colA          | colB    |
       | Origin, Destination | DEST.         | ORIGIN  |
       | Origin              | ORIGIN        | PUNCT.  |
-      | Schedule            | SCHED.        | SERVICE |
+      | Schedule Type       | SCHED.        | SERVICE |
       | Destination         | DEST.>PLANNED | DEST.   |
 
   @tdd
@@ -48,7 +48,6 @@ Feature: 52214 - TMV Trains List
     Then the entries in PUNCT. column are in descending order
     And the entries in TIME column are in ascending order within each value in PUNCT. column
 
-  @tdd
   Scenario Outline: 33764-4b Trains List Column (Ascending/Descending Sorting - sorting of list updates to reflect selections made)
 #    Given the user is viewing the trains list
 #    And the default columns have a sort (primary and secondary)
@@ -93,5 +92,5 @@ Feature: 52214 - TMV Trains List
     And the entries in TIME column are in ascending order within each value in 'PUNCT.' column
 
     Examples:
-      | columnsToInclude              | colA        | colB   | colC   |
-      | Origin, Destination, Schedule | DESTINATION | ORIGIN | SCHED. |
+      | columnsToInclude                   | colA        | colB   | colC   |
+      | Origin, Destination, Schedule Type | DESTINATION | ORIGIN | SCHED. |
