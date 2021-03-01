@@ -36,14 +36,18 @@ export class AppPage {
             await this.authenticateOnCurrentRole();
             await browser.get(URL);
           } catch (reason) {
-            throw new Error('Unable to signin: ' + reason);
+            if ((reason.toString()).includes('UnexpectedAlertOpenError') === false){
+              throw new Error('Unable to signin: ' + reason);
+            }
+            const alert = await browser.switchTo().alert();
+            await alert.accept();
           }
         }
     }
   }
 
   /**
-   *  To Be used when re-login dialogue is expected. Typically then session storage is cleared and navigating to a page
+   *  To Be used when re-login dialogue is expected. Typically when session storage is cleared and navigating to a page
    */
   public async navigateToAndSignIn(url: string, role?: string): Promise<any> {
     const URL = browser.baseUrl + url;
