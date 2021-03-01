@@ -219,7 +219,9 @@ export class NavBarPageObject {
   }
 
   public async enterSearchValue(searchValue: string): Promise<void> {
-    await this.trainSearchBox.sendKeys(searchValue);
+    const elm = this.trainSearchBox;
+    await elm.clear();
+    await elm.sendKeys(searchValue);
   }
 
   public async isTrainTablePresent(): Promise<boolean> {

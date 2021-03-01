@@ -70,7 +70,7 @@ Feature: 33763 - TMV Replay Playback Controls
     #And has selected a timeframe
     #When the user presses play
     #Then the stepping and signalling objects are replayed at normal speed
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     And I set the date and time using the dropdowns for replay to
@@ -94,7 +94,7 @@ Feature: 33763 - TMV Replay Playback Controls
     #And has started the replay
     #When the user changes the speed
     #Then the stepping and signalling objects are replayed at the new speed
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     And I set the date and time using the dropdowns for replay to
@@ -121,7 +121,7 @@ Feature: 33763 - TMV Replay Playback Controls
     #And has started the replay
     #When the user skips forward
     #Then the replay is skipped forward a minute increment
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     And I set the date and time using the dropdowns for replay to
@@ -141,7 +141,7 @@ Feature: 33763 - TMV Replay Playback Controls
 
   @newSession @bug @bug_55794
   Scenario: 33763-8b Replay - Pause and Skip forward
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     And I set the date and time using the dropdowns for replay to
@@ -161,7 +161,7 @@ Feature: 33763 - TMV Replay Playback Controls
 
   @newSession @bug @bug_55794
   Scenario: 33763-8c Replay - Stop and Skip forward
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     And I set the date and time using the dropdowns for replay to
@@ -181,7 +181,7 @@ Feature: 33763 - TMV Replay Playback Controls
 
   @newSession @bug @bug_55794
   Scenario: 33763-8d Replay - Skip forward to end the replay session
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     And I set the date and time using the dropdowns for replay to
@@ -207,7 +207,7 @@ Feature: 33763 - TMV Replay Playback Controls
     #And has started the replay
     #When the user skips backward
     #Then the replay is skipped backward a minute increment
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     And I set the date and time using the dropdowns for replay to
@@ -231,7 +231,7 @@ Feature: 33763 - TMV Replay Playback Controls
 
   @newSession @bug @bug_55794
   Scenario: 33763-9b Replay - Pause and Skip backward
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     And I set the date and time using the dropdowns for replay to
@@ -252,7 +252,7 @@ Feature: 33763 - TMV Replay Playback Controls
 
   @newSession @bug @bug_55794
   Scenario: 33763-9c Replay - Stop and Skip backward
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     And I set the date and time using the dropdowns for replay to
@@ -288,7 +288,7 @@ Feature: 33763 - TMV Replay Playback Controls
     #And has started the replay
     #When the user stops the replay
     #Then the replay is stopped and taken to the beginning
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     And I set the date and time using the dropdowns for replay to
@@ -312,7 +312,7 @@ Feature: 33763 - TMV Replay Playback Controls
 
   @newSession @bug @bug_55794
   Scenario: 33763-10 b Replay - Stop (Pause and stop)
-    Given I am on the replay page
+    Given I am on the replay page as existing user
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     And I set the date and time using the dropdowns for replay to
