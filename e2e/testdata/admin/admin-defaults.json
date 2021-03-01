@@ -5,63 +5,72 @@
       "defaultPunctualityTimeBandColourId": "1",
       "name": "20 minutes or more early",
       "fromPunctuality": null,
-      "toPunctuality": -1200
+      "toPunctuality": -1200,
+      "punctualityDisplay": true
     },
     {
       "colour": "#e5b4ff",
       "defaultPunctualityTimeBandColourId": "2",
       "name": "10 to 19 minutes early",
       "fromPunctuality": -1200,
-      "toPunctuality": -600
+      "toPunctuality": -600,
+      "punctualityDisplay": true
     },
     {
       "colour": "#78e7ff",
       "defaultPunctualityTimeBandColourId": "3",
       "name": "5 to 9 minutes early",
       "fromPunctuality": -600,
-      "toPunctuality": -300
+      "toPunctuality": -300,
+      "punctualityDisplay": true
     },
     {
       "colour": "#78ff78",
       "defaultPunctualityTimeBandColourId": "4",
       "name": "1 to 4 minutes early",
       "fromPunctuality": -300,
-      "toPunctuality": -60
+      "toPunctuality": -60,
+      "punctualityDisplay": true
     },
     {
       "colour": "#00ff00",
       "defaultPunctualityTimeBandColourId": "5",
       "name": "Right Time",
       "fromPunctuality": -60,
-      "toPunctuality": 60
+      "toPunctuality": 60,
+      "punctualityDisplay": true
     },
     {
       "colour": "#ffff00",
       "defaultPunctualityTimeBandColourId": "6",
       "name": "1 to 4 minutes late",
       "fromPunctuality": 60,
-      "toPunctuality": 300
+      "toPunctuality": 300,
+      "punctualityDisplay": true
     },
     {
       "colour": "#ffa700",
       "defaultPunctualityTimeBandColourId": "7",
       "name": "5 to 9 minutes late",
       "fromPunctuality": 300,
-      "toPunctuality": 600
+      "toPunctuality": 600,
+      "punctualityDisplay": true
     },
     {
       "colour": "#ff0000",
       "defaultPunctualityTimeBandColourId": "8",
       "name": "10 to 19 minutes late",
       "fromPunctuality": 600,
-      "toPunctuality": 1200
+      "toPunctuality": 1200,
+      "punctualityDisplay": true
     },
     {
       "colour": "#ff009c",
       "defaultPunctualityTimeBandColourId": "9",
       "name": "20 minutes or more late",
       "fromPunctuality": 1200,
-      "toPunctuality": null
+      "toPunctuality": null,
+      "punctualityDisplay": true
     }
   ],
   "trainsListDisplayConfiguration": {
@@ -179,9 +188,10 @@
   "adminReplaySettings": {
     "replayBackgroundColour": "#20373e",
     "replayDefaultProperties": {
-      "maxNumberofMapsPerReplaySession": 16,
-      "maxNumberofSchematicMapDisplayInstances": 16,
-      "maxNumberofTrainsListViewInstances": 16,
+      "maxNumberofMapsPerReplaySession": 5,
+      "maxNumberofSchematicMapDisplayInstances": 2,
+      "maxNumberofTimetableInstances": 16,
+      "maxNumberofTrainsListViewInstances": 8,
       "maxNumberOfEnquiriesViewInstances": 3,
       "maxNumberofReplays": 2
     }
