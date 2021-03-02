@@ -35,7 +35,7 @@ Feature: 46482 - TMV Key - display key
       | 3        | Left Behind              | #999999          | #000000 |
       | 4        | Last Berth               | #f9cb9c          | #000000 |
 
-  @bug @bug_54962
+  @tdd @tdd_54867
   Scenario: 34085-3 The TMV Key Symbol table is displayed when the Symbol tab is clicked
     When I click on the Help icon
     And I select the TMV Key option
@@ -60,7 +60,7 @@ Feature: 46482 - TMV Key - display key
       | 3        | TSR        |
       | 4        | Possession |
 
-  @bug @bug_54962
+  @tdd @tdd_54867
   Scenario: 34085-4 The TMV Key train describer table is displayed when the Train Describer tab is clicked
     When I click on the Help icon
     And I select the TMV Key option
