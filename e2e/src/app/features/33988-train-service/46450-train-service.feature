@@ -19,7 +19,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 10:02:06  | A007      | D3 		             | 1D46  		          |
-    And the train headcode color for berth '1664' is green
+    And the train headcode color for berth 'D31664' is green
 
   @tdd
   Scenario: 33998-2 Punctuality (Un-matched Service)
@@ -33,10 +33,10 @@ Feature: 33998 - TMV Train Service - full end to end testing
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 10:02:06  | A001      | D3 		             | 5T78  		          |
     Then the headcode displayed for 'A001' is 5T78
-    And I right click on berth with id 'A001'
+    And I right click on berth with id 'D3A001'
     And the berth context menu is displayed with berth name 'D3A001'
     And the berth context menu contains the signal id 'SN1'
-    And the train headcode color for berth 'A001' is blue
+    And the train headcode color for berth 'D3A001' is blue
 
 
   @tdd
@@ -61,8 +61,8 @@ Feature: 33998 - TMV Train Service - full end to end testing
       | 10:02:06  | A003      | D3 		             | 1F23		          |
     And the maximum amount of time is allowed for end to end transmission
     And the berth context menu is displayed with berth name 'D3A003'
-    Then the headcode displayed for 'A007' is 1F23
-    And the train headcode color for berth 'A007' is darkgrey
+    Then the headcode displayed for 'D3A007' is 1F23
+    And the train headcode color for berth 'D3A007' is darkgrey
 
   @tdd
   Scenario: 33998-4 Last Berth (Head Code)
@@ -74,10 +74,10 @@ Feature: 33998 - TMV Train Service - full end to end testing
     When the following berth interpose message is sent from LINX
     | timestamp | toBerth   | trainDescriber     | trainDescription   |
     | 10:02:06  | A001      | D3 		             | 1D34 		          |
-    And I right click on berth with id 'A001'
+    And I right click on berth with id 'D3A001'
     And the berth context menu is displayed with berth name '1D34'
-    Then the headcode displayed for 'A001' is R001
-    And the train headcode color for berth 'A001' is stone
+    Then the headcode displayed for 'D3A001' is R001
+    And the train headcode color for berth 'D3A001' is stone
 
   @tdd
   Scenario: 33998-5 Off Planned Path
@@ -94,5 +94,5 @@ Feature: 33998 - TMV Train Service - full end to end testing
     When the following berth interpose message is sent from LINX
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 10:02:06  | A019      | D3 		             | 1F24		          |
-    Then the headcode displayed for 'A019' is 1F24
-    And the train headcode color for berth 'A019' is darkblue
+    Then the headcode displayed for 'D3A019' is 1F24
+    And the train headcode color for berth 'D3A019' is darkblue
