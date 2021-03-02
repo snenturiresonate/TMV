@@ -29,8 +29,8 @@ When('I select the map {string}', async (location: string) => {
   await replaySelectMapPage.openMapsList(location);
 });
 
-When('I select Start', async () => {
-  await replaySelectTimerangePage.selectStart();
+When('I select Next', async () => {
+  await replaySelectTimerangePage.selectNext();
 });
 
 Given(/^I load the replay data from scenario '(.*)'$/, (filepath) => {
@@ -150,6 +150,11 @@ Then(/^replay map '(.*)' is present in the tree view$/, async (map) => {
 When(/^I select time period '(.*)' from the quick dropdown$/, async (duration) => {
   await replaySelectTimerangePage.selectQuickDuration(duration);
 });
+
+When(/^I set time period '(.*)' from the quick dropdown$/, async (duration) => {
+  await replaySelectTimerangePage.setTimeRange(duration);
+});
+
 Then(/^the map view is opened ready for replaying with timestamp$/, async (dataTable) => {
   const table = dataTable.hashes()[0];
   const replayMapName = await replayPage.getMapName();
@@ -223,7 +228,8 @@ Then('my replay should skip {string} minute when I click forward button', async 
   const actualTime = await formulateDateTime(dateTimeAfterForward);
 
   return expect(actualTime, `replay playback speed is not as expected`)
-    .to.be.closeToTime(expectedTime, 3);});
+    .to.be.closeToTime(expectedTime, 3);
+});
 
 Then('my replay should skip {string} minute when I click backward button', async (decrement: number) => {
   const dateTimeAtStart = await replayPage.getReplayTimestamp();

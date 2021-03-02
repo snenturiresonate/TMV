@@ -1,3 +1,4 @@
+@bug @bug_58561
 Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, Direction Lock and AES
   (From Gherkin for Feature 40680 and functionality developed in US34081)
   As a TMV User
@@ -13,10 +14,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
 #    Then the Level Crossing will display an "Up" lefthand side
     Given I load the replay data from scenario '34081 - 21 Level Crossing State (Up)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw08cardiffswml.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the level crossing barrier status of 'C2LXPN' is Up
@@ -31,10 +32,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
 #    Then the Level Crossing will display a "Dn" on the left side and a "Wk" for the working on the right side
     Given I load the replay data from scenario '34081 - 22 Level Crossing State (Down)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'md19marstonvale.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the level crossing barrier status of 'RTFSUD' is Dn
@@ -48,10 +49,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
 #    Then the Level Crossing will display an "F" righthand side
     Given I load the replay data from scenario '34081 - 23 Level Crossing State - verification of non-working state display'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'md19marstonvale.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the level crossing barrier status of 'RTLLUD' is Dn
@@ -66,10 +67,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
 #    Then the Direction Lock will display a chevron in the direction of the lock
     Given I load the replay data from scenario '34081 - 24a Direction Lock State (Locked)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw15cambrian.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the direction lock chevron of 'MHSBWP' is <
@@ -78,10 +79,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
   Scenario: 34393 - 30b Direction Lock State (Locked) both directions
     Given I load the replay data from scenario '34081 - 24b Direction Lock State (Locked) both directions'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw15cambrian.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the direction lock chevron of 'MHDJMH' is >
@@ -96,10 +97,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
 #    Then the Direction Lock will not display a chevron
     Given I load the replay data from scenario '34081 - 25 Direction Lock State (Not Locked)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw15cambrian.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the direction lock chevrons are not displayed
@@ -113,10 +114,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     #Then the AES box will display an AES text (purple) in the box
     Given I load the replay data from scenario '34081 - 26 AES State (AES Applied)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw15cambrian.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the AES box containing s-class-berth 'MHAES2' will display purple aes text of 'ES2'
@@ -130,10 +131,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     #Then the AES box will not display an AES text (purple) in the box
     Given I load the replay data from scenario '34081 - 27 AES State (AES Not Applied)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw15cambrian.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the AES box containing s-class-berth 'MHAES1' will display purple aes text of 'ES1'

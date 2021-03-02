@@ -1,11 +1,12 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export class ReplaySelectMapPage {
   public selectYourMapTitle: ElementFinder;
   public mapsInputBox: ElementFinder;
   public mapsListContainer: ElementFinder;
   public mapList: ElementArrayFinder;
-  public nextButton: ElementFinder;
+  public startButton: ElementFinder;
   public searchedMapResultItems: ElementArrayFinder;
 
   constructor() {
@@ -14,7 +15,7 @@ export class ReplaySelectMapPage {
     this.mapsListContainer = element(by.css('.maps-container'));
     this.mapList = element.all(by.css('.mapLink'));
     this.searchedMapResultItems = element.all(by.css('.app-map-link'));
-    this.nextButton = element(by.buttonText('Next'));
+    this.startButton = element(by.buttonText('Start'));
   }
 
   public async expandMapGroupingForName(mapName: string): Promise<void> {
@@ -29,7 +30,7 @@ export class ReplaySelectMapPage {
   public async openMapsList(location: string): Promise<void> {
     const mapListItem: ElementFinder = element(by.xpath('//*[@id="map-link-' + location + '"]'));
     await mapListItem.click();
-    await this.selectNext();
+    await this.selectStart();
   }
 
   public async getSearchResults(): Promise<Array<string>> {
@@ -39,9 +40,8 @@ export class ReplaySelectMapPage {
     });
   }
 
-  public async selectNext(): Promise<void> {
-    browser.wait(this.nextButton.isPresent());
-    return this.nextButton.click();
+  public async selectStart(): Promise<void> {
+    return CommonActions.waitAndClick(this.startButton);
   }
 
   public async searchForMap(input): Promise<void> {

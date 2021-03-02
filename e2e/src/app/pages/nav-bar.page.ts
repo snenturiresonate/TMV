@@ -336,7 +336,7 @@ export class NavBarPageObject {
   }
 
   public async openHelpMenu(): Promise<void> {
-    return this.helpMenu.click();
+    await this.helpMenu.click();
   }
 
   public async openTMVKey(): Promise<void> {

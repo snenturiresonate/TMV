@@ -1,3 +1,4 @@
+@bug @bug_58561
 @newSession
 Feature: 34393 - TMV replay - Schematic Maps - Render Objects
 
@@ -7,9 +8,9 @@ Feature: 34393 - TMV replay - Schematic Maps - Render Objects
 
   Scenario Outline: 33750-1 Render specific objects
     Given I am on the replay page as existing user
+    And I select Next
     And I expand the replay group of maps with name '<mapGroup>'
     And I select the map '<map>'
-    And I select Start
     Then <numberOfElements> objects of type <object> are rendered
     And the objects of type <object> are the correct colour
 
@@ -53,34 +54,34 @@ Feature: 34393 - TMV replay - Schematic Maps - Render Objects
 
   Scenario: 34393-4 Replay - Continuation Button (Primary Click)
     Given I am on the replay page as existing user
+    And I select Next
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw01paddington.v'
-    And I select Start
     When I select the continuation button 'GW02'
     And the tab title is 'TMV Replay GW02'
 
   Scenario: 34393-5 Replay - Continuation Button (Secondary Click)
     Given I am on the replay page as existing user
+    And I select Next
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw01paddington.v'
-    And I select Start
     When I open the context menu for the continuation button 'GW02'
     Then the context menu for the continuation button has options to open the map within to the same view or new tab
 
   Scenario: 34393-5 Replay - Continuation Button (Secondary Click - Open)
     Given I am on the replay page as existing user
+    And I select Next
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw01paddington.v'
-    And I select Start
     And I open the context menu for the continuation button 'GW02'
     When I open the next map from the continuation button context menu
     And the tab title is 'TMV Replay GW02'
 
   Scenario: 34393-5 Replay - Continuation Button (Secondary Click - Open new tab)
     Given I am on the replay page as existing user
+    And I select Next
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw01paddington.v'
-    And I select Start
     When I open the context menu for the continuation button 'GW02'
     And I open the next map in a new tab from the continuation button context menu
     And the tab title is 'TMV Replay GW01'
@@ -90,9 +91,9 @@ Feature: 34393 - TMV replay - Schematic Maps - Render Objects
   @bug @bug_55794
   Scenario: 34393-6 Replay - Berth Menu (Secondary Click)
     Given I am on the replay page as existing user
+    And I select Next
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw01paddington.v'
-    And I select Start
     And I click on the layers icon in the nav bar
     And I toggle the 'Berth' toggle 'on'
     When I use the secondary mouse on normal berth D3A001

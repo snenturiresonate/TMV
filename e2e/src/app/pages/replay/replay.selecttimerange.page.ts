@@ -17,13 +17,13 @@ export class ReplaySelectTimerangePage {
   public durationContainer: ElementFinder;
   public durationExpand: ElementFinder;
   public endDateAndTime: ElementFinder;
-  public startButton: ElementFinder;
+  public nextButton: ElementFinder;
   public timePicker: TimePicker;
   public datePicker: DatePicker;
 
   constructor() {
     this.selectYourTimeRangeTitle = element(by.cssContainingText('h1', 'Select your time range'));
-    this.startButton = element(by.buttonText('Start'));
+    this.nextButton = element(by.buttonText('Next'));
     this.startDate = element(by.xpath('//input[@formcontrolname="startDate"]'));
     this.openCalendarPickerButton = element(by.css('[aria-label="Open calendar"]'));
     this.startTime = element(by.id('timePicker'));
@@ -87,7 +87,12 @@ export class ReplaySelectTimerangePage {
     await this.timePicker.closeButton.click();
   }
 
-  public async selectStart(): Promise<void> {
-    return CommonActions.waitAndClick(this.startButton);
+  public async setTimeRange(duration: string): Promise<void> {
+    await this.selectQuickDuration(duration);
+    await this.selectNext();
+  }
+
+  public async selectNext(): Promise<void> {
+    return CommonActions.waitAndClick(this.nextButton);
   }
 }

@@ -1,3 +1,4 @@
+@bug @bug_58561
 Feature: 34375 - TMV Replay Timetable
 
   As a TMV User
@@ -6,10 +7,10 @@ Feature: 34375 - TMV Replay Timetable
 
   Background:
     Given I load the replay data from scenario '33753-4 - View Timetable (Schedule Matched - Trains List)'
+    And I have set replay time and date from the recorded session
+    And I select Next
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw02reading.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
 
 
