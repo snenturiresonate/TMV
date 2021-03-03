@@ -1,8 +1,9 @@
 import {Then, When} from 'cucumber';
 import { expect } from 'chai';
 import {TrainsListPunctualityConfigTab} from '../../pages/trains-list-config/trains.list.punctuality.config.tab';
-import {ElementArrayFinder, ElementFinder, protractor} from 'protractor';
+import {ElementArrayFinder, protractor} from 'protractor';
 import {TrainsListTableColumnsPage} from '../../pages/trains-list/trains-list.tablecolumns.page';
+import {CheckBox} from '../../pages/common/ui-element-handlers/checkBox';
 
 const trainsListPunctuality: TrainsListPunctualityConfigTab = new TrainsListPunctualityConfigTab();
 const trainsListTable: TrainsListTableColumnsPage = new TrainsListTableColumnsPage();
@@ -20,11 +21,13 @@ Then('the following can be seen on the punctuality table', {timeout: 8 * 5000}, 
     const actualPunctualityEntries: string = await trainsListPunctuality.getTrainPunctualityText(i);
     const actualFromPunctualityTime: string = await trainsListPunctuality.getPunctualityFromTime(i);
     const actualToPunctualityTime: string = await trainsListPunctuality.getPunctualityToTime(i);
+    const actualIncludeToggle: boolean = await trainsListPunctuality.getPunctualityToggle(i);
 
     results.push(expect(actualPunctualityColors).to.contain(expectedValues[i].punctualityColorText));
     results.push(expect(actualPunctualityEntries).to.contain(expectedValues[i].entryValue));
     results.push(expect(actualFromPunctualityTime).to.contain(expectedValues[i].fromTime));
     results.push(expect(actualToPunctualityTime).to.contain(expectedValues[i].toTime));
+    results.push(expect(actualIncludeToggle).to.equal(await CheckBox.convertToggleToBoolean(expectedValues[i].include)));
   }
   return protractor.promise.all(results);
 
@@ -55,11 +58,13 @@ When('I update the trains list punctuality settings as', {timeout: 8 * 5000}, as
     const updatePunctualityEntries = await trainsListPunctuality.updatePunctualityText(i, updateValues[i].entryValue);
     const updateFromPunctualityTime = await trainsListPunctuality.updatePunctualityFromTime(i, updateValues[i].fromTime);
     const updateToPunctualityTime = await trainsListPunctuality.updatePunctualityToTime(i, updateValues[i].toTime);
+    const updateToPunctualityToggle = await trainsListPunctuality.updatePunctualityToggle(i, updateValues[i].include);
 
     results.push(updatePunctualityColors);
     results.push(updatePunctualityEntries);
     results.push(updateFromPunctualityTime);
     results.push(updateToPunctualityTime);
+    results.push(updateToPunctualityToggle);
   }
   return protractor.promise.all(results);
 });

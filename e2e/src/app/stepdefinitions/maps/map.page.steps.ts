@@ -2,7 +2,7 @@ import {Before, Given, Then, When} from 'cucumber';
 import {expect} from 'chai';
 import {MapPageObject} from '../../pages/maps/map.page';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
-import {browser, ElementFinder, protractor} from 'protractor';
+import {browser, ElementFinder, ExpectedConditions, protractor} from 'protractor';
 import {SignallingUpdate} from '../../../../../src/app/api/linx/models/signalling-update';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {MapLayerPageObject} from '../../pages/maps/map-layer.page';
@@ -11,6 +11,8 @@ import {MapLayerItem} from '../../pages/maps/map-layer-item.model';
 import {HomePageObject} from '../../pages/home.page';
 import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
 import {AppPage} from '../../pages/app.po';
+import {BerthCancel} from '../../../../../src/app/api/linx/models/berth-cancel';
+import {CucumberLog} from '../../logging/cucumber-log';
 
 let page: MapPageObject;
 const appPage: AppPage = new AppPage();
@@ -80,7 +82,7 @@ const mapObjectColourHex = {
   manual_trust_berth: ['#ffff00']
 };
 
-Given(/^I am viewing the map (.*)$/, async (mapId: string) => {
+Given(/^I am viewing the map (.*)$/, {timeout: 1 * 40000}, async (mapId: string) => {
   const url = '/tmv/maps/' + mapId;
   await appPage.navigateTo(url);
 });
@@ -356,17 +358,18 @@ Then('the map has not moved', async () => {
 
 Then('berth {string} in train describer {string} contains {string}',
   async (berthId: string, trainDescriber: string, berthContents: string) => {
-  const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
-  expect(trainDescription, 'Train description is not in the berth text')
-    .equals(berthContents);
+    const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
+    expect(trainDescription, 'Train description is not in the berth text')
+      .equals(berthContents);
 });
 
 Then('berth {string} in train describer {string} contains {string} and is visible',
   async (berthId: string, trainDescriber: string, berthContents: string) => {
-  const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
-  expect(trainDescription, 'Train description is not in the berth text')
-    .equals(berthContents);
-  expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber), 'Berth text is not visible');
+    await mapPageObject.waitUntilBerthTextIs(berthId, trainDescriber, berthContents);
+    const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
+    expect(trainDescription, 'Train description is not in the berth text')
+      .equals(berthContents);
+    expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber), 'Berth text is not visible');
 });
 
 Then('it is {string} that berth {string} in train describer {string} is present',
@@ -724,5 +727,41 @@ Then('the train headcode color for berth {string} is {word}',
   async (berthId: string, expectedColor: string) => {
     const expectedColorHex = mapColourHex[expectedColor];
     const actualSignalStatus: string = await mapPageObject.getBerthColor(berthId);
-    expect(actualSignalStatus).to.equal(expectedColorHex);
+    expect(actualSignalStatus, 'Headcode colour is not ' + expectedColor)
+      .to.equal(expectedColorHex);
   });
+
+Then(/^the (Matched|Unmatched) version of the context menu is displayed$/, async (matchType: string) => {
+  await mapPageObject.waitForContextMenu();
+  let expected;
+  if (matchType === 'Matched') {
+    expected = 'Unmatch';
+  } else {
+    expected = 'Match';
+  }
+  const contextMenuItem: string = await mapPageObject.getMapContextMenuItem(3);
+  expect(contextMenuItem, `${matchType} option not found in the context menu`)
+    .to.equal(expected);
+});
+
+Given(/^I have cleared out all headcodes$/, async () => {
+  await browser.wait(ExpectedConditions.visibilityOf(mapPageObject.berthElements), 60 * 1000);
+  await browser.sleep(5000);
+  await CucumberLog.addScreenshot();
+  await mapPageObject.headcodeOnMap.each((el) => {
+    el.getAttribute('id').then((id) => {
+      const berthID = id.replace('berth-element-text-', '');
+      el.getText().then(headcode => {
+        CucumberLog.addText(`Clearing headcode ${headcode} from ${berthID}`);
+        const berthCancel: BerthCancel = new BerthCancel(
+          berthID.substring(2, 6),
+          '00:00:00',
+          berthID.substring(0, 2),
+          headcode
+        );
+        linxRestClient.postBerthCancel(berthCancel);
+      });
+    });
+  });
+  await linxRestClient.waitMaxTransmissionTime();
+});

@@ -13,15 +13,19 @@ const mapTLColumns = new Map([
   ['Punctuality', ['PUNCT.']],
   ['Origin', ['ORIGIN.', 'PLANNED', 'ACTUAL / PREDICT']],
   ['Destination', ['DEST.', 'PLANNED', 'ACTUAL / PREDICT']],
-  ['Next location', ['NEXTLOC.']],
-  ['TOC/FOC', ['TOC/FOC.']],
+  ['Next location', ['NEXT LOC.']],
+  ['TOC/FOC', ['OPERATOR']],
   ['TRUST UID', ['TRUST UID']],
-  ['Schedule UID', ['SCHEDULE UID']],
-  ['Cancellation Reason Code', ['CANCELLATION REASON CODE']],
-  ['Cancellation Type', ['CANCELLATION TYPE']],
-  ['Last Reported', ['LAST REPORTED', 'LAST REPORTED LINE', 'LAST REPORTED PLATFORM']],
-  ['Train Category', ['TRAIN CATEGORY']],
-  ['Train Service Code', ['TRAIN SERVICE CODE']]
+  ['Schedule UID', ['SCHED. UID']],
+  ['Cancellation Reason Code', ['REASON']],
+  ['Cancellation Type', ['CANCEL']],
+  ['GBTT Destination Arrival Time', ['PUB ARR.']],
+  ['GBTT Origin Departure Time', ['PUB DEPT.']],
+  ['Time expected at next Location', ['NEXT TIME']],
+  ['Last Reported Line', ['LINE']],
+  ['Last Reported Platform', ['PLT.']],
+  ['Train Category', ['CATEGORY']],
+  ['Train Service Code', ['SERVICE CODE']]
 ]);
 
 
@@ -133,6 +137,15 @@ When('I set trains list columns to be {string}', {timeout: 15 * 1000}, async (wa
   // need to flatten the array
   // used an alternative to flatMap https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap
   browser.userTLColumns = userTLColumns.reduce((acc: string[], item) => acc.concat(mapTLColumns.get(item)), []);
+});
+
+When('I set trains list columns to the default', {timeout: 15 * 1000}, async () => {
+  await trainsListColumnConfigPage.trainListConfigSelectedSecondElements.click();
+  const wantedColumns = 'Schedule, Service, Time, Report, Punctuality, Origin, Destination, Next location, Operator';
+  const userTLColumns = wantedColumns.split(',', 16).map(item => item.trim());
+  for (let i = 0; i < userTLColumns.length; i++) {
+    await trainsListColumnConfigPage.moveToSelectedList(userTLColumns[i], i);
+  }
 });
 
 When('I select the arrow up down at position {int}', async (position: number) => {

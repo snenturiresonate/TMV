@@ -1,0 +1,7 @@
+HDTPS.UCFR1LX.PD2103010103211047CFR1LXACFR1LXAFA010321310321                    
+BSNH394072001015001011111100 FH49F01    157610310        060Q                  P
+BX         ZZY                                                                  
+LOPADTON  0958 0000          TB                                                 
+LIROYAOJN 1000 1001      00000000         C                                     
+LTOLDOXRS 1013 0000      TF                                                     
+ZZ                                                                              

@@ -1,3 +1,4 @@
+@bug @bug_58561
 Feature: 34393 - Replay page Schematic Object State Scenarios
   (From Gherkin for Feature 40680 and functionality developed in US34081)
   As a TMV User
@@ -12,10 +13,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Then the signal state align with the underlying signal state model
     Given I load the replay data from scenario '34081-1 Current Signal State'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     And the signal roundel for signal 'SN208' is red
@@ -34,10 +35,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Then the main signal will display a proceed aspect (green roundel)
     Given I load the replay data from scenario '34081 - 2  Main Signal State Proceed'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the signal roundel for signal 'SN128' is green
@@ -51,10 +52,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Then the main signal will display a not proceed aspect (red roundel)
     Given I load the replay data from scenario '34081 - 3 Main Signal State (Not Proceed)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the signal roundel for signal 'SN128' is red
@@ -65,10 +66,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #When a user is viewing a map that contains the main signal
     #Then the main signal will display an unknown aspect (grey roundel)
     Given I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the signal roundel for signal 'SN128' is grey
@@ -82,10 +83,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Then the track(s) will be displayed in solid white
     Given I load the replay data from scenario '34081 - 28 Track State (Route Set)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in solid white
@@ -100,10 +101,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Then the track(s) will be displayed in thin white
     Given I load the replay data from scenario '34081 - 29 Track State (Route Not Set)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
@@ -116,10 +117,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Then the signal roundel displays green
     Given I load the replay data from scenario '34081 - 30 Dual Signals'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the signal roundel for signal 'SN212' is green
@@ -131,10 +132,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Then the S Class display code is displayed corresponding to the headcode provided
     Given I load the replay data from scenario '34081 - 31 Q Berth'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw06gloucester.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the s-class-berth 'GLQ070' will display '1' Route indication of 'DC'
@@ -147,10 +148,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Then the TRTS is  displayed for the signal
     Given I load the replay data from scenario '34081 - 32a TRTS (Set - from red)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the TRTS status for signal 'SN1' is white
@@ -163,10 +164,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Then the TRTS is  displayed for the signal
     Given I load the replay data from scenario '34081 - 32b TRTS (Set - from green)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the TRTS status for signal 'SN1' is white
@@ -179,10 +180,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Then the TRTS is not displayed for the signal
     Given I load the replay data from scenario '34081 - 33a TRTS (Not Set back)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the signal roundel for signal 'SN1' is red
@@ -195,10 +196,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     #Then the TRTS is not displayed for the signal
     Given I load the replay data from scenario '34081 - 33b TRTS (Not Set)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the signal roundel for signal 'SN1' is green

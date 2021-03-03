@@ -1,189 +1,199 @@
 {
-  "defaultPunctualityTimeBandColour": [
-    {
-      "colour": "#ffb4b4",
-      "defaultPunctualityTimeBandColourId": "1",
-      "name": "20 minutes or more early",
-      "fromPunctuality": null,
-      "toPunctuality": -1200
-    },
-    {
-      "colour": "#e5b4ff",
-      "defaultPunctualityTimeBandColourId": "2",
-      "name": "10 to 19 minutes early",
-      "fromPunctuality": -1200,
-      "toPunctuality": -600
-    },
-    {
-      "colour": "#78e7ff",
-      "defaultPunctualityTimeBandColourId": "3",
-      "name": "5 to 9 minutes early",
-      "fromPunctuality": -600,
-      "toPunctuality": -300
-    },
-    {
-      "colour": "#78ff78",
-      "defaultPunctualityTimeBandColourId": "4",
-      "name": "1 to 4 minutes early",
-      "fromPunctuality": -300,
-      "toPunctuality": -60
-    },
-    {
-      "colour": "#00ff00",
-      "defaultPunctualityTimeBandColourId": "5",
-      "name": "Right Time",
-      "fromPunctuality": -60,
-      "toPunctuality": 60
-    },
-    {
-      "colour": "#ffff00",
-      "defaultPunctualityTimeBandColourId": "6",
-      "name": "1 to 4 minutes late",
-      "fromPunctuality": 60,
-      "toPunctuality": 300
-    },
-    {
-      "colour": "#ffa700",
-      "defaultPunctualityTimeBandColourId": "7",
-      "name": "5 to 9 minutes late",
-      "fromPunctuality": 300,
-      "toPunctuality": 600
-    },
-    {
-      "colour": "#ff0000",
-      "defaultPunctualityTimeBandColourId": "8",
-      "name": "10 to 19 minutes late",
-      "fromPunctuality": 600,
-      "toPunctuality": 1200
-    },
-    {
-      "colour": "#ff009c",
-      "defaultPunctualityTimeBandColourId": "9",
-      "name": "20 minutes or more late",
-      "fromPunctuality": 1200,
-      "toPunctuality": null
-    }
-  ],
-  "trainsListDisplayConfiguration": {
-    "unmatchedColour": "#140e2b",
-    "unmatchedDisplay": true,
-    "offRouteColour": "#ffffff",
-    "offRouteDisplay": true,
-    "changeOfOriginColour": "#ffffff",
-    "changeOfOriginDisplay": true,
-    "changeOfIdentityColour": "#ffffff",
-    "changeOfIdentityDisplay": true,
-    "cancellationColour": "#ffffff",
-    "cancellationDisplay": true,
-    "reinstatementColour": "#ffffff",
-    "reinstatementDisplay": true,
-    "nextReportOverdueColour": "#0000ff",
-    "nextReportOverdueDisplay": false,
-    "nextReportOverdueMinutes": 15,
-    "originCalledColour": "#ffb578",
-    "originCalledDisplay": true,
-    "originCalledMinutes": 15,
-    "originDeptOverdueColour": "#ffffff",
-    "originDeptOverdueDisplay": true,
-    "originDeptOverdueMinutes": 1
-  },
   "adminLineStatusSettings": {
-    "restrictionTypeSettings": [
+    "noteSettings": [
       {
-        "lineStatusSettingName": "Blockage",
-        "colour": "#ff0000",
-        "lineStyle": "Solid",
-        "lineWidth": 2
-      },
-      {
-        "lineStatusSettingName": "TSR",
-        "colour": "#ffa700",
-        "lineStyle": "Dashed",
-        "lineWidth": 2
-      },
-      {
-        "lineStatusSettingName": "ESR",
-        "colour": "#ffff00",
-        "lineStyle": "Dashed",
-        "lineWidth": 2
-      },
-      {
-        "lineStatusSettingName": "Possession",
-        "colour": "#ff0000",
-        "lineStyle": "Dashed",
-        "lineWidth": 2
-      },
-      {
-        "lineStatusSettingName": "Not in use",
-        "colour": "#ffa700",
-        "lineStyle": "Solid",
-        "lineWidth": 2
-      }
-    ],
-    "routeTypeSettings": [
-      {
-        "lineStatusSettingName": "Route Set",
-        "colour": "#ffffff",
+        "colour": "#78e7ff",
+        "lineStatusSettingName": "Note applied",
         "lineStyle": "Solid",
         "lineWidth": 2
       }
     ],
     "pathTypeSettings": [
       {
-        "lineStatusSettingName": "Predicted Path",
         "colour": "#0000ff",
+        "lineStatusSettingName": "Predicted Path",
         "lineStyle": "Solid",
         "lineWidth": 3
       }
     ],
-    "noteSettings": [
+    "restrictionTypeSettings": [
       {
-        "lineStatusSettingName": "Note applied",
-        "colour": "#78e7ff",
+        "colour": "#ff0000",
+        "lineStatusSettingName": "Blockage",
+        "lineStyle": "Solid",
+        "lineWidth": 2
+      },
+      {
+        "colour": "#ffa700",
+        "lineStatusSettingName": "TSR",
+        "lineStyle": "Dashed",
+        "lineWidth": 2
+      },
+      {
+        "colour": "#ffff00",
+        "lineStatusSettingName": "ESR",
+        "lineStyle": "Dashed",
+        "lineWidth": 2
+      },
+      {
+        "colour": "#ff0000",
+        "lineStatusSettingName": "Possession",
+        "lineStyle": "Dashed",
+        "lineWidth": 2
+      },
+      {
+        "colour": "#ffa700",
+        "lineStatusSettingName": "Not in use",
+        "lineStyle": "Solid",
+        "lineWidth": 2
+      }
+    ],
+    "routeTypeSettings": [
+      {
+        "colour": "#ffffff",
+        "lineStatusSettingName": "Route Set",
         "lineStyle": "Solid",
         "lineWidth": 2
       }
     ]
   },
+  "adminReplaySettings": {
+    "replayBackgroundColour": "#20373e",
+    "replayDefaultProperties": {
+      "maxNumberOfEnquiriesViewInstances": 3,
+      "maxNumberofMapsPerReplaySession": 16,
+      "maxNumberofReplays": 2,
+      "maxNumberofSchematicMapDisplayInstances": 16,
+      "maxNumberofTimetableInstances": 16,
+      "maxNumberofTrainsListViewInstances": 16
+    }
+  },
   "berthColourSettings": [
     {
-      "state": "Attention",
       "colour": "#0000ff",
+      "state": "Attention",
       "visible": false
     },
     {
-      "state": "Left Behind",
       "colour": "#969696",
+      "state": "Left Behind",
       "visible": true
     },
     {
-      "state": "No Timetable",
       "colour": "#e1e1e1",
+      "state": "No Timetable",
       "visible": true
     },
     {
+      "colour": "#ffffff",
       "state": "Last Berth",
-      "colour": "#ffffff",
       "visible": true
     },
     {
-      "state": "Unknown Delay",
       "colour": "#ffffff",
+      "state": "Unknown Delay",
       "visible": true
+    }
+  ],
+  "defaultPunctualityTimeBandColour": [
+    {
+      "colour": "#ffb4b4",
+      "defaultPunctualityTimeBandColourId": "1",
+      "fromPunctuality": null,
+      "name": "20 minutes or more early",
+      "punctualityDisplay": true,
+      "toPunctuality": -1200
+    },
+    {
+      "colour": "#e5b4ff",
+      "defaultPunctualityTimeBandColourId": "2",
+      "fromPunctuality": -1200,
+      "name": "10 to 19 minutes early",
+      "punctualityDisplay": true,
+      "toPunctuality": -600
+    },
+    {
+      "colour": "#78e7ff",
+      "defaultPunctualityTimeBandColourId": "3",
+      "fromPunctuality": -600,
+      "name": "5 to 9 minutes early",
+      "punctualityDisplay": true,
+      "toPunctuality": -300
+    },
+    {
+      "colour": "#78ff78",
+      "defaultPunctualityTimeBandColourId": "4",
+      "fromPunctuality": -300,
+      "name": "1 to 4 minutes early",
+      "punctualityDisplay": true,
+      "toPunctuality": -60
+    },
+    {
+      "colour": "#00ff00",
+      "defaultPunctualityTimeBandColourId": "5",
+      "fromPunctuality": -60,
+      "name": "Right Time",
+      "punctualityDisplay": true,
+      "toPunctuality": 60
+    },
+    {
+      "colour": "#ffff00",
+      "defaultPunctualityTimeBandColourId": "6",
+      "fromPunctuality": 60,
+      "name": "1 to 4 minutes late",
+      "punctualityDisplay": true,
+      "toPunctuality": 300
+    },
+    {
+      "colour": "#ffa700",
+      "defaultPunctualityTimeBandColourId": "7",
+      "fromPunctuality": 300,
+      "name": "5 to 9 minutes late",
+      "punctualityDisplay": true,
+      "toPunctuality": 600
+    },
+    {
+      "colour": "#ff0000",
+      "defaultPunctualityTimeBandColourId": "8",
+      "fromPunctuality": 600,
+      "name": "10 to 19 minutes late",
+      "punctualityDisplay": true,
+      "toPunctuality": 1200
+    },
+    {
+      "colour": "#ff009c",
+      "defaultPunctualityTimeBandColourId": "9",
+      "fromPunctuality": 1200,
+      "name": "20 minutes or more late",
+      "punctualityDisplay": true,
+      "toPunctuality": null
     }
   ],
   "loginMessageSettings": {
     "loginNoticeMessage": "Welcome to TMV",
     "loginTermsOfUse": "TMV terms of use"
   },
-  "adminReplaySettings": {
-    "replayBackgroundColour": "#20373e",
-    "replayDefaultProperties": {
-      "maxNumberofMapsPerReplaySession": 16,
-      "maxNumberofSchematicMapDisplayInstances": 16,
-      "maxNumberofTrainsListViewInstances": 16,
-      "maxNumberOfEnquiriesViewInstances": 3,
-      "maxNumberofReplays": 2
-    }
+  "trainsListDisplayConfiguration": {
+    "cancellationColour": "#ffffff",
+    "cancellationDisplay": true,
+    "changeOfIdentityColour": "#ffffff",
+    "changeOfIdentityDisplay": true,
+    "changeOfOriginColour": "#ffffff",
+    "changeOfOriginDisplay": true,
+    "nextReportOverdueColour": "#0000ff",
+    "nextReportOverdueDisplay": false,
+    "nextReportOverdueMinutes": 15,
+    "offRouteColour": "#ffffff",
+    "offRouteDisplay": true,
+    "originCalledColour": "#ffb578",
+    "originCalledDisplay": true,
+    "originCalledMinutes": 15,
+    "originDeptOverdueColour": "#ffffff",
+    "originDeptOverdueDisplay": true,
+    "originDeptOverdueMinutes": 1,
+    "reinstatementColour": "#ffffff",
+    "reinstatementDisplay": true,
+    "unmatchedColour": "#140e2b",
+    "unmatchedDisplay": true
   }
 }

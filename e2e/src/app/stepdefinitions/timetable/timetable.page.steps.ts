@@ -514,7 +514,7 @@ Given(/^it has Terminating Details$/, async (table: any) => {
 
 Given(/^the schedule has a basic timetable$/, () => {
   schedule.withOriginLocation(new OriginLocationBuilder()
-    .withLocation(new LocationBuilder().withTiploc('OLDOXRS').build())
+    .withLocation(new LocationBuilder().withTiploc('PADTON').build())
     .withScheduledDeparture('12:00')
     .withLine('')
     .build());
@@ -562,8 +562,8 @@ Given(/^the schedule does not run on a day that is today$/, () => {
 
 
 Given(/^the schedule does not run on a day that is tommorow$/, () => {
-  const tommorow = DateAndTimeUtils.dayOfWeekPlusDays(1);
-  schedule.noRunDay(tommorow, schedule);
+  const tomorrow = DateAndTimeUtils.dayOfWeekPlusDays(1);
+  schedule.noRunDay(tomorrow, schedule);
 });
 
 
