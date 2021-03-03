@@ -18,6 +18,7 @@ export class NavBarPageObject {
   public timeTableOption: ElementFinder;
   public navBar: ElementFinder;
   public trainTable: ElementFinder;
+  public searchTable: ElementFinder;
   public trainTableCloseIcon: ElementFinder;
   public trainTableCloseBtn: ElementFinder;
   public trainTableWindow: ElementFinder;
@@ -26,6 +27,7 @@ export class NavBarPageObject {
   public trainContextMenu: ElementFinder;
   public timeTableContextMenu: ElementFinder;
   public trainsContextListItems: ElementArrayFinder;
+  public contextListItems: ElementArrayFinder;
   public trainSearchWarningMsg: ElementFinder;
   public timeTableLink: ElementFinder;
   public contextMapArrowLink: ElementFinder;
@@ -60,6 +62,7 @@ export class NavBarPageObject {
     this.timeTableOption = element(by.css('#national-search-dropdown-menu >button:nth-child(2)'));
     this.navBar = element(by.id('collapsibleNavbar'));
     this.berthToggleIndicator = element(by.css('#berthtoggle .toggle-switch'));
+    this.searchTable = element(by.css('.modalbody:nth-child(2)'));
     this.trainTable = element(by.css('.modalbody:nth-child(2)'));
     this.trainTableCloseIcon = element(by.css('.closemodal:nth-child(1)'));
     this.trainTableCloseBtn = element(by.css('.tmv-btn-cancel:nth-child(1)'));
@@ -69,6 +72,7 @@ export class NavBarPageObject {
     this.trainSearchRow = element.all(by.css('#trainSearchResults-tbody tr'));
     this.timeTableSearchRow = element.all(by.css('#timetableSearchResults-tbody tr'));
     this.trainsContextListItems = element.all(by.css('.dropdown-item-menu:nth-child(1)'));
+    this.contextListItems = element.all(by.css('.dropdown-item-menu:nth-child(1)'));
     this.trainSearchWarningMsg = element(by.css('.div-warning-msg:nth-child(1)'));
     this.timeTableLink = element(by.id('btn-open-timetable'));
     this.contextMapArrowLink = element(by.css('#right-arrow:nth-child(1)'));
@@ -133,6 +137,23 @@ export class NavBarPageObject {
         await this.berthToggleOn.click();
       }
     }
+  }
+
+  public async getServiceWithStatus(statusType: string, searchType: string): Promise<number> {
+    const statuses = await this.getSearchListValuesForColumn(searchType, 'Status');
+    return statuses.indexOf(statusType);
+  }
+
+  public async getSearchListValuesForColumn(list: string, column: string): Promise<string[]> {
+    const entryColValues: ElementArrayFinder = element.all(by.id(list + 'Search' + column));
+    return entryColValues.map((colValue: ElementFinder) => {
+      return colValue.getText();
+    });
+  }
+
+  public async getSearchListValueForColumnAndRow(list: string, column: string, row: number): Promise<string> {
+    const entryColValues: ElementArrayFinder = element.all(by.id(list + 'Search' + column));
+    return entryColValues.get(row - 1).getText();
   }
 
   public async getUserProfileMenuDisplayName(): Promise<string> {
@@ -228,6 +249,10 @@ export class NavBarPageObject {
     return browser.isElementPresent(this.trainTable);
   }
 
+  public async isSearchTablePresent(): Promise<boolean> {
+    return browser.isElementPresent(this.searchTable);
+  }
+
   public async isTrainTableWarningPresent(): Promise<boolean> {
     return browser.isElementPresent(this.trainSearchWarningMsg);
   }
@@ -262,6 +287,10 @@ export class NavBarPageObject {
 
   public async getTrainsSearchContextMenuItem(rowIndex: number): Promise<string> {
     return this.trainsContextListItems.get(rowIndex - 1).getText();
+  }
+
+  public async getSearchContextMenuItem(rowIndex: number): Promise<string> {
+    return this.contextListItems.get(rowIndex - 1).getText();
   }
 
   public async isContextMenuDisplayed(): Promise<boolean> {
@@ -320,8 +349,7 @@ export class NavBarPageObject {
     browser.actions().click(targetRow, protractor.Button.RIGHT).perform();
   }
 
-
-  public async waitForContext(): Promise<boolean> {
+  public async waitForTrainContext(): Promise<boolean> {
     browser.wait(async () => {
       return this.trainContextMenu.isPresent();
     }, browser.displayTimeout, 'The trains list context menu should be displayed');

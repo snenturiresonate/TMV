@@ -7,14 +7,8 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
   Background: # prepare and clean up for each test
     Given I am viewing the map HDGW01paddington.v
     When I click on the layers icon in the nav bar
-    And I toggle the 'Berth' toggle 'on'
     And I toggle the 'Berth' toggle 'off'
-    And the following berth cancel message is sent from LINX
-      | timestamp | fromBerth | trainDescriber| trainDescription |
-      | 09:59:00  | 0099      | D3            | 1G69             |
-      | 09:59:00  | 0095      | D3            | 1G69             |
-      | 09:59:00  | 0115      | D3            | 1G69             |
-      | 09:59:00  | 0129      | D3            | 1G69             |
+    And I have cleared out all headcodes
 
   # 47656 - getting initial state (for second map)
   Scenario: 40505-1 - interpose is displayed in the berth, which is not a Q berth

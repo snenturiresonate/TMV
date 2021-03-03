@@ -198,6 +198,14 @@ When('I click Stop button', async () => {
   await replayPage.selectStop();
 });
 
+When('I click Skip forward button', async () => {
+  await replayPage.selectSkipForward();
+});
+
+When('I click Skip back button', async () => {
+  await replayPage.selectSkipBack();
+});
+
 When('I click Pause button', async () => {
   await replayPage.selectPause();
 });

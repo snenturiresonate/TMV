@@ -653,8 +653,13 @@ When(/^I invoke the context menu on the map for train (.*)$/, async (trainDescri
 });
 
 When('I open timetable from the map context menu', async () => {
-  mapPageObject.mapContextMenuItems.get(1).click();
+  await mapPageObject.mapContextMenuItems.get(1).click();
 });
+
+When('I open schedule matching screen from the map context menu', async () => {
+  await mapPageObject.mapContextMenuItems.get(2).click();
+});
+
 Then('the map context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
   const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
   expect(actualContextMenuItem).to.contain(expectedText);
@@ -746,7 +751,7 @@ Then(/^the (Matched|Unmatched) version of the context menu is displayed$/, async
 
 Given(/^I have cleared out all headcodes$/, async () => {
   await browser.wait(ExpectedConditions.visibilityOf(mapPageObject.berthElements), 60 * 1000);
-  await browser.sleep(5000);
+  await browser.sleep(1000);
   await CucumberLog.addScreenshot();
   await mapPageObject.headcodeOnMap.each((el) => {
     el.getAttribute('id').then((id) => {

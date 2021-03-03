@@ -299,10 +299,23 @@ Given('I am on the live timetable page with schedule id {string}', async (schedu
 Then('the tab title is {string}', async (expectedTabTitle: string) => {
   await browser.driver.wait(ExpectedConditions.titleContains(expectedTabTitle));
   const actualTabTitle: string = await browser.driver.getTitle();
-  expect(actualTabTitle, `Tab title is not ${expectedTabTitle}`)
+  expect(actualTabTitle, `Tab title is ${actualTabTitle} not ${expectedTabTitle}`)
     .to.contains(expectedTabTitle);
 });
 
+Then('the tab title contains {string}', async (expectedTabTitle: string) => {
+  await browser.driver.wait(ExpectedConditions.titleContains(expectedTabTitle));
+  const actualTabTitle: string = await browser.driver.getTitle();
+  expect(actualTabTitle, `Tab title is ${actualTabTitle} not ${expectedTabTitle}`)
+    .to.contains(expectedTabTitle);
+});
+
+Then('the tab title contains the selected Train', async () => {
+  await browser.driver.wait(ExpectedConditions.titleContains(browser.selectedTrain));
+  const actualTabTitle: string = await browser.driver.getTitle();
+  expect(actualTabTitle, `Tab title is ${actualTabTitle} not TMV Replay Timetable ${browser.selectedTrain}`)
+    .to.contains(browser.selectedTrain);
+});
 When('I open {string} page in a new tab', async (pageName: string) => {
   try {
     await OpenNewTab();

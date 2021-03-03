@@ -105,6 +105,19 @@ Then('The values for the header properties are as follows',
       .to.equal(expectedHeaderPropertyValues.lastTJM);
   });
 
+Then('The values for {string} are the following as time passes',
+  async (propertyName: string, expectedValues: any) => {
+    const expectedVals = expectedValues.split(',', 10).map(item => item.trim());
+    for (const val of expectedVals) {
+      if (val === 'blank') {
+        await timetablePage.waitUntilPropertyValueIs(propertyName, '');
+      }
+      else {
+        await timetablePage.waitUntilPropertyValueIs(propertyName, val);
+      }
+    }
+  });
+
 When('I switch to the timetable details tab', async () => {
   await timetablePage.openDetailsTab();
 });
@@ -137,6 +150,12 @@ Then(/^there is a record in the modifications table$/, async (table: any) => {
       .to.equal(true);
   }
 });
+
+Then(/^there are no records in the modifications table$/, async () => {
+  const modificationEntries: boolean = await timetablePage.modification.isPresent();
+  expect(modificationEntries, 'Modification entries found when expected there to be none').to.equal(false);
+});
+
 
 Then(/^the last TJM is$/, async (table: any) => {
   const lastTjm = await timetablePage.headerTJM.getText();
@@ -241,7 +260,7 @@ Then('The timetable entries contains the following data',
     }
   });
 
-Then('The timetable entries are populated as follows:', async (timetableEntryDataTable: any) => {
+Then('The live timetable entries are populated as follows:', async (timetableEntryDataTable: any) => {
   const expectedTimetableEntryColValues: any[] = timetableEntryDataTable.hashes();
   for (const expectedTimetableEntryCol of expectedTimetableEntryColValues) {
     const actualTimetableEntryColValues: string[] = await timetablePage.getTimetableEntryColValues(expectedTimetableEntryCol.location);
@@ -261,6 +280,14 @@ Then('The timetable entries are populated as follows:', async (timetableEntryDat
       expect(actualTimetableEntryColValues[colIndex],
         `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing actual time when should be predicted`)
         .to.contain(']');
+    }
+    if (expectedTimetableEntryCol.value === 'absent') {
+      expect(actualTimetableEntryColValues[colIndex],
+        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing time when should be nothing`)
+        .to.equal('');
+      expect(actualTimetableEntryColValues[colIndex],
+        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing time when should be nothing`)
+        .to.equal('');
     }
     else {
       expect(actualTimetableEntryColValues[colIndex],
