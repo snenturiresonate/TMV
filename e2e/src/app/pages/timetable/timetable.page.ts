@@ -15,6 +15,7 @@ export class TimeTablePageObject {
   public headerTrustId: ElementFinder;
   public headerTJM: ElementFinder;
   public changeEnRoute: ElementArrayFinder;
+  public modification: ElementArrayFinder;
   public headerHeadcode: ElementFinder;
   public headerOldHeadcode: ElementFinder;
   public navBarIndicatorColor: ElementFinder;
@@ -35,6 +36,7 @@ export class TimeTablePageObject {
     this.headerTrustId = element(by.id('timetableHeaderTrustTrainId'));
     this.headerTJM = element(by.id('timetableHeaderTrainJourneyModification'));
     this.changeEnRoute = element.all(by.css('.change-en-route-table >tbody >div >tr>td'));
+    this.modification = element.all(by.css('.modification-table >tbody >div >tr>td'));
     this.navBarIndicatorColor = element(by.css('.dot-punctuality-text:nth-child(1)'));
     this.navBarIndicatorText = element(by.css('.punctuality-text:nth-child(2)'));
     this.rows = element.all(by.css('[id^=tmv-timetable-row]'));
@@ -277,4 +279,7 @@ export class TimeTablePageObject {
     return element(by.id(attrId)).getText();
   }
 
+  public async waitUntilPropertyValueIs(propertyName: string, expectedString: string): Promise<void> {
+    browser.wait(ExpectedConditions.textToBePresentInElement(element(by.id(propertyName)), expectedString));
+  }
 }

@@ -1,9 +1,13 @@
-import {Then} from 'cucumber';
+import {Then, When} from 'cucumber';
 import {expect} from 'chai';
 
 import {TrainsListManualMatchPageObject} from '../../pages/trains-list/trains-list-manual-match-page';
 
 const trainsListManualMatchPage: TrainsListManualMatchPageObject = new TrainsListManualMatchPageObject();
+
+When('I un-match the currently matched schedule', async () =>  {
+  await trainsListManualMatchPage.clickUnMatch();
+});
 
 Then('a matched service is visible', async () =>  {
   const matchedService = await trainsListManualMatchPage.isMatchedServiceVisible();
