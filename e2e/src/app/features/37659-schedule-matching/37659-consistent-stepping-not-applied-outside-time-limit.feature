@@ -7,8 +7,8 @@ Feature: 37659 - Schedule Matching - Consistent Stepping has a time limit
   Background:
     Given I am viewing the map HDGW01paddington.v
     And I have cleared out all headcodes
-    And the access plan located in CIF file 'access-plan/37659-schedules/37659-6.cif' is received from LINX
-    And the following berth step messages is sent from LINX
+    And the access plan located in CIF file 'access-plan/37659-schedules/9F01.cif' is received from LINX
+    And the following berth interpose messages is sent from LINX
       | timestamp | toBerth | trainDescriber | trainDescription |
       | 10:00:00  | R001    | D3             | 9F01             |
 
@@ -61,3 +61,4 @@ Feature: 37659 - Schedule Matching - Consistent Stepping has a time limit
       | D3             | A001  | PADTON   | 401         | berth        |
       | D3             | A011  | PADTON   | 401         | location     |
       | D3             | 0106  | PRTOBJP  | 401         | sub-division |
+
