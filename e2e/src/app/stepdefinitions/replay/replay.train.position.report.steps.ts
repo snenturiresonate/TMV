@@ -41,3 +41,7 @@ Then('the admin tpr filter placeholder is displayed as {string}', async (expecte
 Then('the user enter the filter value {string} for tpr', async (searchValue: string) => {
   await tprPage.enterReportFilterSearch(searchValue);
 });
+
+When('I Click on Print view button', async () => {
+  await tprPage.clickTprPrint();
+});

@@ -59,8 +59,8 @@ Feature: 34385 - TMV Replay Train Position Report
     And the tab title is 'TMV Replay TPR HDGW02'
     Then the following can be seen on the tpr settings table
       | trainDescription  | operator  |	berth   |  punctuality     |     time               |
-      |		9F01            |	LO        |	0212	  |	  +0m            |2020/02/08 10:00	      |
-      |		0A01	          |	LI        |	0222	  |	  +0m            |2020/02/08 10:00 (Last) |
+      |		9F01            |	LO        |	0212	  |	  +0m            |2020/02/08 10:00 (Last) |
+      |		0A01	          |	          |	0222	  |	  Unknown        |2020/02/08 10:00 (Last) |
 
   @tdd @replayTest
   Scenario: 342853 Train Position Report Trains List
@@ -81,11 +81,37 @@ Feature: 34385 - TMV Replay Train Position Report
     And the admin tpr filter placeholder is displayed as 'Filter reports by Train description'
     And the following can be seen on the tpr settings table
       | trainDescription  | operator  |	berth   |  punctuality     |     time               |
-      |		9F01            |	LO        |	0212	  |	  +0m            |2020/02/08 10:00	      |
-      |		0A01	          |	LI        |	0222	  |	  +0m            |2020/02/08 10:00 (Last) |
+      |		9F01            |	LO        |	0212	  |	  +0m            |2020/02/08 10:00 (Last) |
+      |		0A01	          |	          |	0222	  |	  Unknown        |2020/02/08 10:00 (Last) |
     When the user enter the filter value '9F01' for tpr
     Then the following can be seen on the tpr settings table
       | trainDescription  | operator  |	berth   |  punctuality     |     time               |
-      |		9F01            |	LO        |	0212	  |	  +0m            |2020/02/08 10:00	      |
-      |		0A01	          |	LI        |	0222	  |	  +0m            |2020/02/08 10:00 (Last) |
+      |		9F01            |	LO        |	0212	  |	  +0m            |2020/02/08 10:00 (Last) |
 
+  Scenario: 342853-4 Train Position Report Print View
+    #Given the user is authenticated to use TMV replay
+    #And the user has opened a train position report
+    #And the train position report is populated with trains as and when enter and leave berths for the timeframe
+    #When the user selects the print view
+    #Then the trains position report is open in a separate print view tab
+    Given I load the replay data from scenario '34285-a Train Position Report - data set up'
+    And I am on the replay page
+    And I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I wait for the buffer to fill
+    And I Click on the TPR link
+    And I switch to the new tab
+    And the admin tpr filter placeholder is displayed as 'Filter reports by Train description'
+    And the following can be seen on the tpr settings table
+      | trainDescription  | operator  |	berth   |  punctuality     |     time               |
+      |		9F01            |	LO        |	0212	  |	  +0m            |2020/02/08 10:00 (Last) |
+      |		0A01	          |	          |	0222	  |	  Unknown        |2020/02/08 10:00 (Last) |
+    When I Click on Print view button
+    And I switch to the new tab
+    Then the tab title is 'TMV TPR Print'
+    And the following can be seen on the tpr settings table
+      | trainDescription  | operator  |	berth   |  punctuality     |     time               |
+      |		9F01            |	LO        |	0212	  |	  +0m            |2020/02/08 10:00 (Last) |
+      |		0A01	          |	          |	0222	  |	  Unknown        |2020/02/08 10:00 (Last) |

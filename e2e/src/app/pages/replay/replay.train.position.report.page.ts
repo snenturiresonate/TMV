@@ -9,6 +9,7 @@ export class ReplayTrainPositionReportPage {
   public punctuality: ElementArrayFinder;
   public time: ElementArrayFinder;
   public reportFilter: ElementFinder;
+  public tprPrint: ElementFinder;
   constructor() {
     this.tprTable = element(by.id('reports-table'));
     this.tprLink = element(by.css('.tpr-link>span'));
@@ -18,6 +19,7 @@ export class ReplayTrainPositionReportPage {
     this.punctuality = element.all(by.css('#reports-table >tbody >tr >td:nth-child(4)'));
     this.time = element.all(by.css('#reports-table >tbody >tr >td:nth-child(5)'));
     this.reportFilter = element(by.id('reports-filter-box'));
+    this.tprPrint = element(by.id('print'));
   }
   public async componentLoad(): Promise<void> {
     const EC = protractor.ExpectedConditions;
@@ -50,5 +52,8 @@ export class ReplayTrainPositionReportPage {
   }
   public async enterReportFilterSearch(searchValue: string): Promise<void> {
     await this.reportFilter.sendKeys(searchValue);
+  }
+  public async clickTprPrint(): Promise<void> {
+    return this.tprLink.click();
   }
 }
