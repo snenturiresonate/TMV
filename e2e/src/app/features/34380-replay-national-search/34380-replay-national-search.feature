@@ -152,6 +152,29 @@ Feature: 34380 - TMV Replay National Search
     And the following berth interpose message is sent from LINX
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 10:02:06  | 0209      | D3 		             | 1F23  		          |
+    And I search Train for 'A82345'
+    And results are returned with that planning UID 'A82345'
+    And the Train search table is shown
+    And the window title is displayed as 'Train Search Results'
+    And I invoke the context menu from signal 1
+    And I wait for the signal search context menu to display
+    And the trains context menu is displayed
+    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Select maps' on line 2
+#    And I select map 'EA02' from the search context menu
+#    Then I am presented with a map containing the train 'EA02'
+#    And te train 'EA02' is highlighted
+  @tdd @replayTest
+  Scenario: 34380-8 National Signal Search Highlight
+#    Given the user is authenticated to use TMV replay
+#    And the user is viewing the signal search results
+#    When the user selects a map from the signal search results
+#    Then the user is presented with a map that contains the signal
+#    And the signal is highlighted for a brief period
+    And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
+    And the following berth interpose message is sent from LINX
+      | timestamp | toBerth   | trainDescriber     | trainDescription   |
+      | 10:02:06  | 0209      | D3 		             | 1F23  		          |
     And I search Signal for 'A82345'
     And results are returned with that planning UID 'A82345'
     And the signal search table is shown
@@ -160,8 +183,6 @@ Feature: 34380 - TMV Replay National Search
     And I wait for the signal search context menu to display
     And the signal context menu is displayed
     And the 'signal' search context menu contains 'Select maps' on line 1
-    Then the following map names can be seen
-      |mapName|
-      |EA02   |
-      |EA2A   |
-      |EA03   |
+#    And I select map 'EA02' from the search context menu
+#    Then I am presented with a map containing the train 'EA02'
+#    And te train 'EA02' is highlighted
