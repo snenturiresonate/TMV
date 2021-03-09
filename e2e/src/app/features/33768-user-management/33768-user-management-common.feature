@@ -55,7 +55,7 @@ Scenario: 33768 -4a Displaying User Profile information- userAdmin
   #And I have a valid TMV role
   #When I view the user profile menu from the homepage
   #Then I am presented with my name and a list of my assigned roles
-    When I access the homepage as restriction
+    When I access the homepage as standard
     And I open the user profile menu
     Then The user profile shows user roles as
       |roleName|
@@ -67,7 +67,7 @@ Scenario: 33768 -4a Displaying User Profile information- userAdmin
   #And I have a valid TMV role
   #When I view the user profile menu from the homepage
   #Then I am presented with my name and a list of my assigned roles
-    When I access the homepage as standard
+    When I access the homepage as restriction
     And I open the user profile menu
     Then The user profile shows user roles as
       |roleName|
