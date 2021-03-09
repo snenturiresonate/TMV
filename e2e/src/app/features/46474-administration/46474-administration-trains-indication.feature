@@ -10,7 +10,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - tra
 
   Scenario: Trains indication table header
     Then the train indication header is displayed as 'Trains List Indication'
-
+  @bug @bug_57070
   Scenario: Trains indication table
     Then the following can be seen on the trains list indication table
       | name                     | colour  | minutes | toggleValue |
@@ -22,7 +22,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - tra
       | Next report overdue      | #0000ff | 15      | off         |
       | Origin Called            | #ffb578 | 15      | on          |
       | Origin Departure Overdue | #ffffff | 1       | on          |
-
+  @bug @bug_57070
   Scenario: Trains indication table - Update and Save
     When I update the train list indication table as
       | name                     | colour  | minutes | toggleValue |

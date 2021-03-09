@@ -46,6 +46,15 @@ Then('The user profile shows role name as {string}', async (roleName: string) =>
     .to.equal(roleNameText);
 });
 
+Then('The user profile shows user roles as', async (table: any) => {
+  const tableValues = table.hashes();
+  const roleNameText: string = await navBarPage.getUserProfileMenuRoleName();
+  tableValues.forEach(row => {
+    expect(roleNameText, 'User profile role is not correct')
+      .to.equal(row.roleName);
+  });
+});
+
 Then('the following icons can be seen on the navigation bar', async (iconNameDataTable: any) => {
   const expectedNavbarIconNames = iconNameDataTable.hashes();
   const actualNavbarIconNames = await navBarPage.getNavbarIconNames();

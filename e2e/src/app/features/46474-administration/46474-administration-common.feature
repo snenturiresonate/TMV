@@ -25,4 +25,3 @@ Feature: 46474 - Administration Common - full end to end testing
       | Display Settings    |
       | Sign In Message     |
       | System Defaults     |
-      | Users               |
