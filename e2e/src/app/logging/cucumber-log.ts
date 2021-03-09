@@ -21,6 +21,6 @@ export class CucumberLog
 
   public static async addScreenshot(): Promise<void> {
     const screenShotFail = await browser.takeScreenshot();
-    CucumberLog.cucumberLog.attach(screenShotFail, 'image/png');
+    await CucumberLog.cucumberLog.attach(screenShotFail, 'image/png');
   }
 }

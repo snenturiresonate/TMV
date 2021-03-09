@@ -1,7 +1,8 @@
 import {Given, Then, When} from 'cucumber';
 import {expect} from 'chai';
 import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
-import {ChronoUnit, DateTimeFormatter, Duration, LocalDate, LocalTime} from '@js-joda/core';
+import {Locale} from '@js-joda/locale_en';
+import {ChronoUnit, DateTimeFormatter, Duration, LocalDate, LocalDateTime, LocalTime} from '@js-joda/core';
 import {ScheduleBuilder} from '../../utils/access-plan-requests/schedule-builder';
 import {LocationBuilder} from '../../utils/access-plan-requests/location-builder';
 import {OriginLocationBuilder} from '../../utils/access-plan-requests/origin-location-builder';
@@ -16,10 +17,11 @@ import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {DaysBuilder} from '../../utils/access-plan-requests/days-builder';
 import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
 import {AppPage} from '../../pages/app.po';
-import {browser} from 'protractor';
+import {browser, ExpectedConditions} from 'protractor';
 import {ReplayScenario} from '../../utils/replay/replay-scenario';
+import {TestData} from '../../logging/test-data';
 
-const page: AppPage = new AppPage();
+const appPage: AppPage = new AppPage();
 
 const timetablePage: TimeTablePageObject = new TimeTablePageObject();
 // No plans for parallel running, should be fine
@@ -145,23 +147,88 @@ Then(/^there is a record in the modifications table$/, async (table: any) => {
       const time = await row.getTime() === expectedRecord.time;
       const type = await row.getModificationReason() === expectedRecord.type;
       found = (reason && location && time && type);
+      if (found) {
+        break;
+      }
     }
     expect(found, 'No record with value found in the modifications table')
       .to.equal(true);
   }
 });
 
+Then(/^the sent TJMs are in the modifications table$/, async () => {
+  const modificationsTable = await timetablePage.getModificationsTableRows();
+  for (const expectedRecord of TestData.getTJMs()) {
+    let found = false;
+    const expectedTypeOfModification = getExpectedModificationType(
+      expectedRecord.TrainJourneyModification.TrainJourneyModificationIndicator);
+    const expectedLocation = tiplocToLocation(
+      expectedRecord.TrainJourneyModification.LocationModified.Location.LocationSubsidiaryIdentification.LocationSubsidiaryCode);
+    const expectedTime = LocalDateTime
+        .parse(expectedRecord.MessageHeader.MessageReference.MessageDateTime.replace('-00:00', ''))
+        .format(DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm').withLocale(Locale.ENGLISH));
+    const expectedReason = expectedRecord.ModificationReason;
+    for (const row of modificationsTable) {
+      const reason = await row.getTypeOfModification() === expectedTypeOfModification;
+      const location = await row.getLocation() === expectedLocation;
+      const time = await row.getTime() === expectedTime;
+      const type = await row.getModificationReason() === expectedReason;
+      found = (reason && location && time && type);
+      if (found) {
+        break;
+      }
+    }
+    expect(found,
+      `No record found in the modifications table with ${expectedTypeOfModification}, ${expectedLocation}, ${expectedTime}, ${expectedReason}`)
+      .to.equal(true);
+  }
+});
+
+function tiplocToLocation(tiploc: string): string {
+  // config needed
+  return tiploc;
+}
+
+function getExpectedModificationType(trainJourneyModificationIndicator): string {
+  switch (trainJourneyModificationIndicator) {
+    case '06':
+      return 'Change Of Location';
+    case '07':
+      return 'Change Of Identity';
+    case '91':
+      return 'Cancellation';
+    case '92':
+      return 'Cancellation';
+    case '94':
+      return 'Change Of Origin';
+    case '96':
+      return 'Cancellation';
+    default:
+      return 'Unknown Modification Type';
+  }
+}
+
 Then(/^there are no records in the modifications table$/, async () => {
   const modificationEntries: boolean = await timetablePage.modification.isPresent();
   expect(modificationEntries, 'Modification entries found when expected there to be none').to.equal(false);
 });
 
-
-Then(/^the last TJM is$/, async (table: any) => {
+Then(/^the last TJM is correct$/, async () => {
   const lastTjm = await timetablePage.headerTJM.getText();
-  const expected = table.hashes()[0];
+  const tjmsSent = TestData.getTJMs();
+  const lastTjmSent = tjmsSent[tjmsSent.length - 1];
+
+  const expectedTypeOfModification = getExpectedModificationType(
+    lastTjmSent.TrainJourneyModification.TrainJourneyModificationIndicator);
+  const expectedLocation = tiplocToLocation(
+    lastTjmSent.TrainJourneyModification.LocationModified.Location.LocationSubsidiaryIdentification.LocationSubsidiaryCode);
+  const expectedTime = LocalDateTime
+    .parse(lastTjmSent.MessageHeader.MessageReference.MessageDateTime.replace('-00:00', ''))
+    .format(DateTimeFormatter.ofPattern('HH:mm:ss, d MMM yyyy').withLocale(Locale.ENGLISH));
+  const expectedReason = lastTjmSent.ModificationReason;
+
   expect(lastTjm, 'Last TJM is not as expected')
-    .to.equal(`${expected.description}, ${expected.location}, ${expected.time}`);
+    .to.equal(`${expectedTypeOfModification}, ${expectedLocation}, ${expectedReason}, ${expectedTime}`);
 });
 
 When('I toggle the inserted locations on', async () => {
@@ -391,8 +458,9 @@ Then('The timetable details table contains the following data in each row', asyn
     .to.equal(expectedDetailsRowValues.serviceBranding);
 });
 
-When('I am on the timetable view for service {string}', {timeout: 15 * 1000}, async (service: string) => {
-  await timetablePage.navigateTo(service);
+When('I am on the timetable view for service {string}', {timeout: 40 * 1000}, async (service: string) => {
+  await appPage.navigateTo(`/tmv/live-timetable/${service}:${LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`);
+  await browser.wait(ExpectedConditions.presenceOf(timetablePage.timetableTab), 20000, 'Timetable page loading timed out');
 });
 
 When(/^the Inserted toggle is '(on|off)'$/, async (state: string) => {
@@ -502,7 +570,7 @@ When('that service has the cancellation status {string}', (service: string) => {
 });
 
 Given('I see todays schedule for {string} has loaded by looking at the timetable page', async (scheduleId: string) => {
-  await page.navigateTo(`/tmv/live-timetable/${scheduleId}:`
+  await appPage.navigateTo(`/tmv/live-timetable/${scheduleId}:`
     +  LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd')));
   await CommonActions.waitForElementToBeVisible(timetablePage.headerHeadcode);
 });
