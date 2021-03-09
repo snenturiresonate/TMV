@@ -16,10 +16,14 @@ import {ReferenceOTNBuilder} from '../utils/train-journey-modifications/referenc
 import {LocationModifiedBuilder} from '../utils/train-journey-modifications/location-modified';
 import {TimingBuilder} from '../utils/train-journey-modifications/timing';
 import {TimingAtLocationBuilder} from '../utils/train-journey-modifications/timing-at-location';
+import {LocalStorage} from '../../../local-storage/local-storage';
+import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dialogue.page';
+import {CommonActions} from "../pages/common/ui-event-handlers/actionsAndWaits";
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
 const adminRestClient: AdminRestClient = new AdminRestClient();
+const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
 
 Given(/^I navigate to (.*) page$/, async (pageName: string) => {
 
@@ -52,6 +56,18 @@ Given(/^I navigate to (.*) page$/, async (pageName: string) => {
       await page.navigateTo('/tmv/administration');
       break;
   }
+});
+
+Given(/^I have not already authenticated$/, {timeout: 5 * 10000}, async () => {
+  // Below steps to be replaced to logout steps once DEV implementation is done
+  await LocalStorage.reset();
+  await browser.waitForAngularEnabled(false);
+  await browser.get(browser.baseUrl);
+  expect(await authPage.signInModalIsVisible(), 'Sign In Modal is not visible').to.equal(true);
+  if (await authPage.reAuthenticationModalIsVisible()) {
+    await authPage.clickSignInAsDifferentUser();
+  }
+  await browser.waitForAngularEnabled(true);
 });
 
 Given(/^I am on the home page$/, {timeout: 5 * 10000}, async () => {

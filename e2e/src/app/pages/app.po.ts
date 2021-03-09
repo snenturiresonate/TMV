@@ -1,8 +1,10 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {AuthenticationModalDialoguePage} from './authentication-modal-dialogue.page';
 import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
+import {UserCredentials} from "../user-credentials/user-credentials";
 
 const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
+const userCreds: UserCredentials = new UserCredentials();
 
 export class AppPage {
   public modalWindow: ElementFinder;
@@ -15,6 +17,9 @@ export class AppPage {
     this.navBarLogo = element(by.css('.navbar-brand [alt=logo]'));
   }
 
+  /**
+   *  To Be used when authentication is to be performed and re-navigation to desired page is needed.
+   */
   public async navigateTo(url: string, role?: string): Promise<any> {
     const URL = browser.baseUrl + url;
     try {
@@ -47,6 +52,27 @@ export class AppPage {
   }
 
   /**
+   *  To Be used when only authentication is to be performed and re-navigation to desired page is not needed.
+   */
+  public async authenticateOnlyWithoutReNavigation(url: string, role?: string): Promise<any> {
+    const URL = browser.baseUrl + url;
+    await browser.waitForAngularEnabled(false);
+    try {
+        if (await authPage.reAuthenticationModalIsVisible()) {
+          await authPage.clickSignInAsDifferentUser();
+        }
+        await this.roleBasedAuthentication(URL, role);
+      } catch (reason) {
+          if ((reason.toString()).includes('UnexpectedAlertOpenError') === false){
+            throw new Error('Unable to signin: ' + reason);
+          }
+          const alert = await browser.switchTo().alert();
+          await alert.accept();
+        }
+    await browser.waitForAngularEnabled(true);
+  }
+
+  /**
    *  To Be used when re-login dialogue is expected. Typically when session storage is cleared and navigating to a page
    */
   public async navigateToAndSignIn(url: string, role?: string): Promise<any> {
@@ -66,6 +92,26 @@ export class AppPage {
         await browser.get(URL);
       }
 
+  }
+  /**
+   *  To Be used when login is not performed
+   */
+  public async navigateToWithoutSignIn(url: string): Promise<any> {
+    const URL = browser.baseUrl + url;
+    await browser.waitForAngularEnabled(false);
+    await browser.get(URL);
+    await browser.waitForAngularEnabled(true);
+  }
+
+  /**
+   *  To Be used when invalid login is performed
+   */
+  public async navigateToWithInvalidLogin(url: string): Promise<any> {
+    const URL = browser.baseUrl + url;
+    await browser.waitForAngularEnabled(false);
+    await browser.get(URL);
+    await this.authenticateAsUnknownUser();
+    await browser.waitForAngularEnabled(true);
   }
 
   public async roleBasedAuthentication(url, role): Promise<any> {
@@ -121,26 +167,32 @@ export class AppPage {
   }
 
   public async authenticateAsAdminUser(): Promise<void> {
-    const userName = 'userAdmin';
-    const Password = 'password';
+    const userName = userCreds.userAdmin().userName;
+    const Password = userCreds.userAdmin().password;
     await authPage.authenticate(userName, Password);
   }
 
   public async authenticateAsStandardUser(): Promise<void> {
-    const userName = 'userStandard';
-    const Password = 'password';
+    const userName = userCreds.userStandard().userName;
+    const Password = userCreds.userStandard().password;
     await authPage.authenticate(userName, Password);
   }
 
   public async authenticateAsRestrictionUser(): Promise<void> {
-    const userName = 'userRestrictions';
-    const Password = 'password';
+    const userName = userCreds.userRestrictions().userName;
+    const Password = userCreds.userRestrictions().password;
     await authPage.authenticate(userName, Password);
   }
 
   public async authenticateAsScheduleMatchingUser(): Promise<void> {
-    const userName = 'userScheduleMatching';
-    const Password = 'password';
+    const userName = userCreds.userScheduleMatching().userName;
+    const Password = userCreds.userScheduleMatching().password;
+    await authPage.authenticate(userName, Password);
+  }
+
+  public async authenticateAsUnknownUser(): Promise<void> {
+    const userName = userCreds.userUnknown().userName;
+    const Password = userCreds.userUnknown().password;
     await authPage.authenticate(userName, Password);
   }
 
