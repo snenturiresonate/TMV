@@ -1,10 +1,15 @@
 import {MessageReference, MessageReferenceBuilder} from './message-reference';
+import {SenderReferenceCalculator} from '../sender-reference-calculator';
 
 export class MessageHeader {
   public MessageReference?: MessageReference;
   public SenderReference?: string;
   public Sender?: string;
   public Recipient?: string;
+
+  calculateSenderReference(trainNumber: string, trainUid: string, hourDepartFromOrigin: number): void {
+    this.SenderReference = trainNumber + SenderReferenceCalculator.encodeToSenderReference(trainUid, hourDepartFromOrigin);
+  }
 }
 
 export class MessageHeaderBuilder {
@@ -14,7 +19,7 @@ export class MessageHeaderBuilder {
   private Recipient?: string;
   constructor() {
     this.MessageReference = new MessageReferenceBuilder().build();
-    this.SenderReference = '5A416EUB-N3J';
+    this.SenderReference = '1X07c91IB35K';
     this.Sender = '0070';
     this.Recipient = '9999';
   }

@@ -1,4 +1,4 @@
-import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {AuthenticationModalDialoguePage} from './authentication-modal-dialogue.page';
 import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
 import {UserCredentials} from "../user-credentials/user-credentials";
@@ -28,14 +28,13 @@ export class AppPage {
       await browser.waitForAngularEnabled(true);
       await this.waitForAppLoad();
     } catch (e) {
-        try {
+      try {
         if (role) {
           await this.roleBasedAuthentication(URL, role);
-          await browser.get(URL);
         } else {
           await this.defaultAuthentication();
-          await browser.get(URL);
         }
+        await browser.get(URL);
       } catch (ex) {
           try {
             await this.authenticateOnCurrentRole();
@@ -49,6 +48,8 @@ export class AppPage {
           }
         }
     }
+
+    await browser.waitForAngularEnabled(true);
   }
 
   /**
@@ -77,21 +78,19 @@ export class AppPage {
    */
   public async navigateToAndSignIn(url: string, role?: string): Promise<any> {
     const URL = browser.baseUrl + url;
+
+    await browser.waitForAngularEnabled(false);
+    await browser.get(URL);
+
     if (role) {
-        await browser.waitForAngularEnabled(false);
-        await browser.get(URL);
         await authPage.clickSignInAsDifferentUser();
         await this.roleBasedAuthentication(URL, role);
-        await browser.waitForAngularEnabled(true);
-        await browser.get(URL);
       } else {
-        await browser.waitForAngularEnabled(false);
-        await browser.get(URL);
         await this.authenticateOnCurrentRole();
-        await browser.waitForAngularEnabled(true);
-        await browser.get(URL);
       }
 
+    await browser.waitForAngularEnabled(true);
+    await browser.get(URL);
   }
   /**
    *  To Be used when login is not performed
