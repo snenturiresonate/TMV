@@ -31,6 +31,14 @@ Before('@newSession', async () => {
   await LocalStorage.reset();
 });
 
+Before('@loginPageTest', async () => {
+  await browser.waitForAngularEnabled(false);
+});
+
+After('@loginPageTest', async () => {
+  await browser.waitForAngularEnabled(true);
+});
+
 // None arrow methods required to avoid the binding of keyword this
 // tslint:disable-next-line:typedef only-arrow-functions
 After(async function(scenario) {
