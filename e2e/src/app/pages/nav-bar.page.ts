@@ -301,6 +301,11 @@ export class NavBarPageObject {
     return this.trainsContextListItems.get(rowIndex - 1).getText();
   }
 
+  public async clickTrainsSearchContextMenuItem(rowIndex: number): Promise<void> {
+    const trainContextList = this.trainsContextListItems.get(rowIndex - 1);
+    browser.actions().click(trainContextList);
+  }
+
   public async getSearchContextMenuItem(rowIndex: number): Promise<string> {
     return this.contextListItems.get(rowIndex - 1).getText();
   }

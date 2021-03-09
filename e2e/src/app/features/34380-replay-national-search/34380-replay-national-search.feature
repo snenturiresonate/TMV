@@ -161,9 +161,9 @@ Feature: 34380 - TMV Replay National Search
     And the trains context menu is displayed
     And the train search context menu contains 'Open timetable' on line 1
     And the train search context menu contains 'Select maps' on line 2
-#    And I select map 'EA02' from the search context menu
+    And I select map 'EA02' on line 2 from the search context menu
 #    Then I am presented with a map containing the train 'EA02'
-#    And te train 'EA02' is highlighted
+#    And the train 'EA02' is highlighted
   @tdd @replayTest
   Scenario: 34380-8 National Signal Search Highlight
 #    Given the user is authenticated to use TMV replay
@@ -183,6 +183,6 @@ Feature: 34380 - TMV Replay National Search
     And I wait for the signal search context menu to display
     And the signal context menu is displayed
     And the 'signal' search context menu contains 'Select maps' on line 1
-#    And I select map 'EA02' from the search context menu
+    And I select map 'EA02' on line 2 from the search context menu
 #    Then I am presented with a map containing the train 'EA02'
-#    And te train 'EA02' is highlighted
+#    And the train 'EA02' is highlighted
