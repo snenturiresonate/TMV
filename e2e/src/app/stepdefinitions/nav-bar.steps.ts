@@ -149,6 +149,18 @@ Then('the Train search table is shown', async () => {
     .to.equal(true);
 });
 
+Then('the timetable search table is shown', async () => {
+  const actualTimetable = await navBarPage.isTimetablePresent();
+  expect(actualTimetable, `Timetable is not displayed`)
+    .to.equal(true);
+});
+
+Then('the signal search table is shown', async () => {
+  const actualSignalTable = await navBarPage.isSignalTablePresent();
+  expect(actualSignalTable, `Signal search table is not displayed`)
+    .to.equal(true);
+});
+
 Then('the search table is shown', async () => {
   const actualSearchTable = await navBarPage.isSearchTablePresent();
   expect(actualSearchTable, `Search table is not displayed`)

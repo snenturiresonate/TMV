@@ -94,3 +94,74 @@ Feature: 34380 - TMV Replay National Search
    Then the following map names can be seen
      |mapName|
      |HDGW02 |
+  @tdd @replayTest
+  Scenario: 34380-5 National Timetable Search Selection
+#    Given the user is authenticated to use TMV replay
+#    And the user is viewing the timetable search results pop-up
+#    When the user selects a timetable from search result by using the secondary mouse click
+#    Then the user is presented with a menu to either view the timetable or open a map(s) that contains the train (if running)
+    And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
+    And the following berth interpose message is sent from LINX
+      | timestamp | toBerth   | trainDescriber     | trainDescription   |
+      | 10:02:06  | 0209      | D3 		             | 1F23  		          |
+    And I search Timetable for 'A82345'
+    And results are returned with that planning UID 'A82345'
+    And the timetable search table is shown
+    And the window title is displayed as 'Timetable Search Results'
+    And I invoke the context menu from an Active service in the Timetable list
+    And I wait for the timetable search context menu to display
+    And the timetable context menu is displayed
+    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Select maps' on line 2
+    Then the following map names can be seen
+      |mapName|
+      |EA02   |
+      |EA2A   |
+      |EA03   |
+  @tdd @replayTest
+  Scenario: 34380-6 National Signal Search Selection
+#    Given the user is authenticated to use TMV replay
+#    And the user is viewing the signal search results pop-up
+#    When the user selects a train from search result by using the secondary mouse click
+#    Then the user is presented with a menu open a map(s) that contains the signal
+    And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
+    And the following berth interpose message is sent from LINX
+      | timestamp | toBerth   | trainDescriber     | trainDescription   |
+      | 10:02:06  | 0209      | D3 		             | 1F23  		          |
+    And I search Signal for 'A82345'
+    And results are returned with that planning UID 'A82345'
+    And the signal search table is shown
+    And the window title is displayed as 'Signal Search Results'
+    And I invoke the context menu from signal 1
+    And I wait for the signal search context menu to display
+    And the signal context menu is displayed
+    And the 'signal' search context menu contains 'Select maps' on line 1
+    Then the following map names can be seen
+      |mapName|
+      |EA02   |
+      |EA2A   |
+      |EA03   |
+  @tdd @replayTest
+  Scenario: 34380-7 National Train Search Highlight
+#    Given the user is authenticated to use TMV replay
+#    And the user is viewing the train search results
+#    When the user selects a map from the train search results
+#    Then the user is presented with a map that contains the train
+#    And the train is highlighted for a brief period
+    And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
+    And the following berth interpose message is sent from LINX
+      | timestamp | toBerth   | trainDescriber     | trainDescription   |
+      | 10:02:06  | 0209      | D3 		             | 1F23  		          |
+    And I search Signal for 'A82345'
+    And results are returned with that planning UID 'A82345'
+    And the signal search table is shown
+    And the window title is displayed as 'Signal Search Results'
+    And I invoke the context menu from signal 1
+    And I wait for the signal search context menu to display
+    And the signal context menu is displayed
+    And the 'signal' search context menu contains 'Select maps' on line 1
+    Then the following map names can be seen
+      |mapName|
+      |EA02   |
+      |EA2A   |
+      |EA03   |

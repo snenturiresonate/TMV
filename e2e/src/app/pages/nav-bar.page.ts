@@ -18,6 +18,8 @@ export class NavBarPageObject {
   public timeTableOption: ElementFinder;
   public navBar: ElementFinder;
   public trainTable: ElementFinder;
+  public timeTable: ElementFinder;
+  public signalTable: ElementFinder;
   public searchTable: ElementFinder;
   public trainTableCloseIcon: ElementFinder;
   public trainTableCloseBtn: ElementFinder;
@@ -64,6 +66,8 @@ export class NavBarPageObject {
     this.berthToggleIndicator = element(by.css('#berthtoggle .toggle-switch'));
     this.searchTable = element(by.css('.modalbody:nth-child(2)'));
     this.trainTable = element(by.css('.modalbody:nth-child(2)'));
+    this.timeTable = element(by.css('.modalbody:nth-child(2)'));
+    this.signalTable = element(by.css('.modalbody:nth-child(2)'));
     this.trainTableCloseIcon = element(by.css('.closemodal:nth-child(1)'));
     this.trainTableCloseBtn = element(by.css('.tmv-btn-cancel:nth-child(1)'));
     this.trainTableWindow = element(by.css('.modaltitle:nth-child(1)'));
@@ -247,6 +251,14 @@ export class NavBarPageObject {
 
   public async isTrainTablePresent(): Promise<boolean> {
     return browser.isElementPresent(this.trainTable);
+  }
+
+  public async isTimetablePresent(): Promise<boolean> {
+    return browser.isElementPresent(this.timeTable);
+  }
+
+  public async isSignalTablePresent(): Promise<boolean> {
+    return browser.isElementPresent(this.signalTable);
   }
 
   public async isSearchTablePresent(): Promise<boolean> {
