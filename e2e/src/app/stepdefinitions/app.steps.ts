@@ -21,6 +21,7 @@ import {LocationSubsidiaryIdentificationBuilder} from '../utils/train-journey-mo
 import {TestData} from '../logging/test-data';
 import {LocalStorage} from '../../../local-storage/local-storage';
 import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dialogue.page';
+import {TrainActivationMessageBuilder} from '../utils/train-activation/train-activation-message';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
@@ -237,11 +238,17 @@ When(/^the following train journey modification change of id messages? (?:is|are
   });
 
 When(/^the following train activation messages? (?:is|are) sent from LINX$/, async (trainActivationMessageTable: any) => {
-  const trainActivationMessages: any = trainActivationMessageTable.hashes();
+  const trainActivationMessages = trainActivationMessageTable.hashes()[0];
+  const trainActivationMessageBuilder: TrainActivationMessageBuilder = new TrainActivationMessageBuilder();
+  const trainUID = trainActivationMessages.trainUID;
+  const trainNumber = trainActivationMessages.trainNumber;
+  const scheduledDepartureTime = trainActivationMessages.scheduledDepartureTime;
+  const locationPrimaryCode = trainActivationMessages.locationPrimaryCode;
+  const locationSubsidiaryCode = trainActivationMessages.locationSubsidiaryCode;
+  const trainActMss = trainActivationMessageBuilder.buildMessage(locationPrimaryCode, locationSubsidiaryCode,
+    scheduledDepartureTime, trainNumber, trainUID);
+  await linxRestClient.postTrainActivation(trainActMss.toString({prettyPrint: true}));
 
-  trainActivationMessages.forEach((trainActivationMessage: any) => {
-    linxRestClient.postTrainActivation(trainActivationMessage.asXml);
-  });
   await linxRestClient.waitMaxTransmissionTime();
 });
 
@@ -290,7 +297,7 @@ Given(/^I am on the trains list page$/, async () => {
   await page.navigateTo('/tmv/trains-list');
 });
 
-Given(/^I am on the trains list Config page$/, {timeout: 4 * 5000}, async () => {
+Given(/^I am on the trains list Config page$/, {timeout: 4 * 10000}, async () => {
   await page.navigateTo('/tmv/trains-list-config');
 });
 
