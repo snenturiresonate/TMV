@@ -4,9 +4,9 @@ Feature: 33761-2 Train activation for a valid service
   So that I can view the train stepping on the schematic
 
   Background:
-    Given I am on the trains list Config page
-    And I have navigated to the 'Train Indication' configuration tab
-    And I wait for the indication config data to be retrieved
+    #Given I am on the trains list Config page
+    #And I have navigated to the 'Train Indication' configuration tab
+    #And I wait for the indication config data to be retrieved
     #And the following can be seen on the trains list indication table
     #  | name                      | colour  | minutes | toggleValue |
     #  | Change of Origin          | #cccc00 |         | on          |
@@ -20,7 +20,7 @@ Feature: 33761-2 Train activation for a valid service
 
   @check
   Scenario: 33761-2 Train Activation for a valid service
-    Given I am on the trains list page
+    #Given I am on the trains list page
     #And the service '0A00' is not active
     #And there is a Schedule for '0A00'
     #And it has Origin Details
@@ -34,9 +34,9 @@ Feature: 33761-2 Train activation for a valid service
     #  | OLDOXRS | 10:13            |      |
     #And that service has the cancellation status 'F'
     #When the schedule is received from LINX
-    And the following train activation messages are sent from LINX
-       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-       | W15214   | 0A00        | 09:58                     | 99999               | PADTON                 |
+    And the following train activation messages is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 09:58                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
@@ -58,7 +58,9 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:14            |      |
     And that service has the cancellation status 'T'
     When the schedule is received from LINX
-    And the activation message from location 'linx/0a00_train_activation.xml' is sent from LINX
+    And the following train activation messages is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 09:59                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
@@ -80,7 +82,9 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:14            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
-    And the activation message from location 'linx/0a00_train_activation.xml' is sent from LINX
+    And the following train activation messages is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 09:59                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
@@ -102,7 +106,9 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
-    And the activation message from location 'linx/0a00_train_activation.xml' is sent from LINX
+    And the following train activation messages is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 09:58                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
@@ -124,7 +130,9 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
-    And the activation message from location 'linx/0a00_train_activation.xml' is sent from LINX
+    And the following train activation messages is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 09:58                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
@@ -146,7 +154,9 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
-    And the activation message from location 'linx/0a00_train_activation.xml' is sent from LINX
+    And the following train activation messages is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 10:15                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |

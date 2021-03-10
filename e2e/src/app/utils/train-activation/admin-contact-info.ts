@@ -5,7 +5,6 @@ export class AdminContactInfo {
     const adminContactInfo = fragment().ele('AdministrativeContactInformation')
       .ele('Name').txt(adminContactName)
       .doc();
-    console.log('adminContactInfo: ' + adminContactInfo.end({prettyPrint: true}));
     return adminContactInfo.end({prettyPrint: true});
   }
 }

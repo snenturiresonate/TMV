@@ -19,7 +19,6 @@ export class TrainActivationPlannedJourneyLocationBuilder {
       .ele('ResponsibleIM').txt('0070').up()
       .ele('OperationalTrainNumber').txt(operationalTrainNumber).up()
       .doc();
-    console.log('plannedJourneyLocation: ' + plannedJourneyLocation.end({prettyPrint: true}));
     return plannedJourneyLocation.end({prettyPrint: true});
   }
 }

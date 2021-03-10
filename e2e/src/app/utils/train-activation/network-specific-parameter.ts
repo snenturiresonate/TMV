@@ -6,7 +6,6 @@ export class TrainActivationNetworkSpecificParameter {
       .ele('Name').txt(name).up()
       .ele('Value').txt(value)
       .doc();
-    console.log('networkSpecificParameter: ' + networkSpecificParameter.end({prettyPrint: true}));
     return networkSpecificParameter.end({prettyPrint: true});
   }
 }

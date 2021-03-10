@@ -7,7 +7,6 @@ export class TrainActivationTrainActivityBuilder {
     const trainActivity = fragment().ele('TrainActivity')
       .ele('TrainActivityType').txt(trainActivityType).up()
       .doc();
-    console.log('trainActivity: ' + trainActivity.end({prettyPrint: true}));
     return trainActivity.end({prettyPrint: true});
   }
 }

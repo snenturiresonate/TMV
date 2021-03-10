@@ -11,7 +11,6 @@ export class TrainActivationPathInformationBuilder {
         time, operationalTrainNumber, trainUID)).up()
       .ele(TrainActivationPlannedCalendarBuilder.plannedCalendar())
       .doc();
-    console.log('pathInformation: ' + pathInformation.end({prettyPrint: true}));
     return pathInformation.end({prettyPrint: true});
   }
 }

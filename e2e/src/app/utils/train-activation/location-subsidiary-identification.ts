@@ -6,7 +6,6 @@ export class TrainActivationLocationSubsidiaryIdentificationBuilder {
       .ele('LocationSubsidiaryCode').att('n1:LocationSubsidiaryTypeCode', '0').txt(locationSubsidiaryCode).up()
       .ele('AllocationCompany').txt(allocationCompany)
       .doc();
-    console.log('LocationSubsidiaryIdentification: ' + locationSubsidiaryIdentification.end({prettyPrint: true}));
     return locationSubsidiaryIdentification.end({prettyPrint: true});
   }
 }

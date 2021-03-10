@@ -9,7 +9,6 @@ export class TrainActivationTimingAtLocationBuilder {
       .ele('Time').txt(time).up()
       .ele('Offset').txt(offset).up()
       .doc();
-    console.log('timingAtLocation: ' + timingAtLocation.end({prettyPrint: true}));
     return timingAtLocation.end({prettyPrint: true});
   }
 }

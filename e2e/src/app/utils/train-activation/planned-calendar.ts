@@ -8,7 +8,6 @@ export class TrainActivationPlannedCalendarBuilder {
       .ele('BitmapDays').txt(bitmapDays).up()
       .ele(TrainActivationValidityPeriodBuilder.validityPeriod())
       .doc();
-    console.log('plannedCalendar: ' + plannedCalendar.end({prettyPrint: true}));
     return plannedCalendar.end({prettyPrint: true});
   }
 }

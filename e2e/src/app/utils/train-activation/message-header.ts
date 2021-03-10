@@ -27,7 +27,6 @@ export class TrainActivationMessageHeader {
       .ele('Sender', {'n1:CI_InstanceNumber': '01'}).txt('0070').up()
       .ele('Recipient', {'n1:CI_InstanceNumber': '99'}).txt('0070').up()
       .doc();
-    console.log('messageHeader: ' + messageHeaderObj.end({prettyPrint: true}));
     return messageHeaderObj.end({prettyPrint: true});
   }
 }

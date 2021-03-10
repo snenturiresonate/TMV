@@ -8,7 +8,6 @@ export class TrainActivationValidityPeriodBuilder {
     const validityPeriod = fragment().ele('ValidityPeriod')
       .ele('StartDateTime').txt(startDateTime)
       .doc();
-    console.log('validityPeriod: ' + validityPeriod.end({prettyPrint: true}));
     return validityPeriod.end({prettyPrint: true});
   }
 }
