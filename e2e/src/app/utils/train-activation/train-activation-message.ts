@@ -1,41 +1,10 @@
-import { create, fragment, convert, builder } from 'xmlbuilder2';
+import { create, fragment } from 'xmlbuilder2';
 import {LocalDateTime} from '@js-joda/core';
-import {SenderReferenceCalculator} from '../sender-reference-calculator';
+import {TrainActivationMessageHeader} from './message-header';
+import {AdminContactInfo} from './admin-contact-info';
 
 export class TrainActivationMessageBuilder {
-  private runDateTime = LocalDateTime.now();
-  // private senderReference = SenderReferenceCalculator.encodeToSenderReference()
-  /*calculateSenderReference(trainNumber: string, trainUid: string, hourDepartFromOrigin: number): void {
-    this.SenderReference = trainNumber + SenderReferenceCalculator.encodeToSenderReference(trainUid, hourDepartFromOrigin);
-  }*/
-  public messageReference = (messageDateTime: any = this.runDateTime) => {
-      const messageReferenceObj = fragment().ele('MessageReference')
-        .ele('MessageType').txt('2003').up()
-        .ele('MessageTypeVersion').txt('5.3.1.GB').up()
-        .ele('MessageIdentifier').txt('414d51204e52504230303920202020205e504839249a2a40').up()
-        .ele('MessageDateTime').txt(messageDateTime)
-        .doc();
-      return messageReferenceObj.end({prettyPrint: true});
-
-  }
-  public messageHeader = () => {
-    const messageHeaderObj = fragment().ele('MessageHeader')
-       .ele(this.messageReference()).up()
-       .ele('SenderReference').txt('5J09M2hi6N3J').up()
-       .ele('Sender', {'n1:CI_InstanceNumber': '01'}).txt('0070').up()
-      .ele('Recipient', {'n1:CI_InstanceNumber': '99'}).txt('0070').up()
-      .doc();
-    console.log('messageHeader: ' + messageHeaderObj.end({prettyPrint: true}));
-    return messageHeaderObj.end({prettyPrint: true});
-  }
-
-  public adminContactInfo = (adminContactName: string = 'Network Rail') => {
-    const adminContactInfo = fragment().ele('AdministrativeContactInformation')
-      .ele('Name').txt(adminContactName)
-      .doc();
-    console.log('adminContactInfo: ' + adminContactInfo.end({prettyPrint: true}));
-    return adminContactInfo.end({prettyPrint: true});
-  }
+  public runDateTime = LocalDateTime.now();
 
   public messageStatus = (messageStatus: string = '1') => {
     const messageStat = fragment().ele('MessageStatus').txt(messageStatus).doc();
@@ -139,9 +108,10 @@ export class TrainActivationMessageBuilder {
   public buildMessage = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                          time: string, operationalTrainNumber: string, trainUID: string) => {
     console.log('Build Message: ');
+    const hourOfDeparture = parseInt(time.split(':')[0], 2);
     const message =  create().ele('PathDetailsMessage')
-      .ele(this.messageHeader()).root()
-      .ele(this.adminContactInfo()).root()
+      .ele(TrainActivationMessageHeader.messageHeader(operationalTrainNumber, trainUID, hourOfDeparture)).root()
+      .ele(AdminContactInfo.adminContactInfo()).root()
       .ele(this.messageStatus()).root()
       .ele(this.typeOfRequest()).root()
       .ele(this.typeOfInformation()).root()
@@ -151,25 +121,5 @@ export class TrainActivationMessageBuilder {
     console.log('XML: ' + message.end({prettyPrint: true}));
     return message;
   }
-
-/*  public buildMessage(rawXML: string, senderRef: string): any {
-    return this.replaceSenderReference(rawXML, senderRef);
-  }*/
-
-  public serializeXML(rawXML: string): object {
-    return create(rawXML).end({format: 'object'});
-  }
-
-  public replaceSenderReference(rawXML: string, senderReference: string): any {
-    const serializedXML = this.serializeXML(rawXML);
-    console.log('serializedXML: ' + serializedXML);
-  }
-
-  /*{
-    MessageType: 2003,
-    MessageTypeVersion: 5.3.1.GB,
-    MessageIdentifier: 414d51204e52504230303920202020205e504839249a2a40,
-    MessageDateTime: 2020-02-24T05:59:35-00:00
-};*/
 
 }
