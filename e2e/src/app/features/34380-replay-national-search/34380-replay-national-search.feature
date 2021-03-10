@@ -125,9 +125,6 @@ Feature: 34380 - TMV Replay National Search
 #    When the user selects a train from search result by using the secondary mouse click
 #    Then the user is presented with a menu open a map(s) that contains the signal
     And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
-    And the following berth interpose message is sent from LINX
-      | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | 0209      | D3 		             | 1F23  		          |
     And I search Signal for 'A82345'
     And results are returned with that planning UID 'A82345'
     And the signal search table is shown
