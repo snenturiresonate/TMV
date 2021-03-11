@@ -237,7 +237,7 @@ Feature: 34385 - TMV Replay Train Position Report
     When I am sorting the train report table based on 'trainDescription'
     Then the following can be seen on the tpr settings table
       | trainDescription  | operator  |	berth   |  punctuality     |     time               |
-      |		0A01	          |	          |	0045	  |	  Unknown        |2020/02/08 10:00 (Last)
+      |		0A01	          |	          |	0045	  |	  Unknown        |2020/02/08 10:00 (Last) |
       |		9F01            |	LO        |	C001	  |	  +0m            |2020/02/08 10:00 (Last) |
     And I am sorting the train report table based on 'berth'
     And the following can be seen on the tpr settings table
@@ -248,6 +248,6 @@ Feature: 34385 - TMV Replay Train Position Report
     And I am sorting the train report table based on 'berth'
     Then the following can be seen on the tpr settings table
       | trainDescription  | operator  |	berth   |  punctuality     |     time               |
-      |		0A01	          |	          |	0045	  |	  Unknown        |2020/02/08 10:00 (Last)
+      |		0A01	          |	          |	0045	  |	  Unknown        |2020/02/08 10:00 (Last) |
       |		9F01            |	LO        |	C001	  |	  +0m            |2020/02/08 10:00 (Last) |
     And arrow type is displayed as 'arrow_downward'
