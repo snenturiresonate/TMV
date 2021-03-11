@@ -45,3 +45,21 @@ Then('the user enter the filter value {string} for tpr', async (searchValue: str
 When('I Click on Print view button', async () => {
   await tprPage.clickTprPrint();
 });
+
+Then('the page number is displayed as {string}', async (expectedPageNumber: string) => {
+  const actualPageNumber: string = await tprPage.getPageNumber();
+  expect(actualPageNumber).to.equal(expectedPageNumber);
+});
+
+When('I Click on Next page', async () => {
+  await tprPage.clickNextPage();
+});
+
+When('I Click on Previous page', async () => {
+  await tprPage.clickNextPage();
+});
+
+Then('arrow type is displayed as {string}', async (expectedType: string) => {
+  const actualType: string = await tprPage.getArrowType();
+  expect(actualType).to.equal(expectedType);
+});

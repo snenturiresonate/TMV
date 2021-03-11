@@ -10,6 +10,10 @@ export class ReplayTrainPositionReportPage {
   public time: ElementArrayFinder;
   public reportFilter: ElementFinder;
   public tprPrint: ElementFinder;
+  public pageNumber: ElementFinder;
+  public pageNext: ElementFinder;
+  public pagePrevious: ElementFinder;
+  public arrowType: ElementFinder;
   constructor() {
     this.tprTable = element(by.id('reports-table'));
     this.tprLink = element(by.css('.tpr-link>span'));
@@ -20,6 +24,10 @@ export class ReplayTrainPositionReportPage {
     this.time = element.all(by.css('#reports-table >tbody >tr >td:nth-child(5)'));
     this.reportFilter = element(by.id('reports-filter-box'));
     this.tprPrint = element(by.id('print'));
+    this.pageNumber = element(by.id('activePage'));
+    this.pageNext = element(by.id('paginationNext'));
+    this.pagePrevious = element(by.id('paginationPrevious'));
+    this.arrowType = element(by.className('arrow-style'));
   }
   public async componentLoad(): Promise<void> {
     const EC = protractor.ExpectedConditions;
@@ -55,5 +63,17 @@ export class ReplayTrainPositionReportPage {
   }
   public async clickTprPrint(): Promise<void> {
     return this.tprLink.click();
+  }
+  public async getPageNumber(): Promise<string> {
+    return this.pageNumber.getText();
+  }
+  public async clickNextPage(): Promise<void> {
+    return this.pageNext.click();
+  }
+  public async clickPreviousPage(): Promise<void> {
+    return this.pagePrevious.click();
+  }
+  public async getArrowType(): Promise<string> {
+    return this.reportFilter.getAttribute('class');
   }
 }
