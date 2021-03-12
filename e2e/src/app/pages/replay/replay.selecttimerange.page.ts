@@ -20,7 +20,7 @@ export class ReplaySelectTimerangePage {
   public nextButton: ElementFinder;
   public timePicker: TimePicker;
   public datePicker: DatePicker;
-
+  public minimise: ElementFinder;
   constructor() {
     this.selectYourTimeRangeTitle = element(by.cssContainingText('h1', 'Select your time range'));
     this.nextButton = element(by.buttonText('Next'));
@@ -35,6 +35,7 @@ export class ReplaySelectTimerangePage {
     this.openTimePickerButton = element(by.css('.time-button'));
     this.timePicker = new TimePicker();
     this.datePicker = new DatePicker();
+    this.minimise = element(by.css('.collapse-button'));
   }
 
   // Select Time Page
@@ -93,6 +94,10 @@ export class ReplaySelectTimerangePage {
   }
 
   public async selectNext(): Promise<void> {
+    return CommonActions.waitAndClick(this.nextButton);
+  }
+
+  public async clickMinimise(): Promise<void> {
     return CommonActions.waitAndClick(this.nextButton);
   }
 }

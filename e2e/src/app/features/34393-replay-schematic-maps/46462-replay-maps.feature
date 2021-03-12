@@ -88,7 +88,7 @@ Feature: 34393 - TMV replay - Schematic Maps - Render Objects
     And I switch to the new tab
     And the tab title is 'TMV Replay GW02'
 
-  @bug @bug_55794
+
   Scenario: 34393-6 Replay - Berth Menu (Secondary Click)
     Given I am on the replay page as existing user
     And I select Next

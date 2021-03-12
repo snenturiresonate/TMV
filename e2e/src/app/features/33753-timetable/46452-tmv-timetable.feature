@@ -53,6 +53,7 @@ Feature: 33753 - TMV Timetable
   @replaySetup
   Scenario Outline: 33753-2b -Open Timetable (from Map - Unmatched)
     Given I am viewing the map HDGW01paddington.v
+    And I have cleared out all headcodes
     And the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber | trainDescription |
       | 09:59:00  | 0099    | D3             | <trainNum>       |

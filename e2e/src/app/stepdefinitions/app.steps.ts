@@ -1,4 +1,4 @@
-import {Given, Then, When} from 'cucumber';
+import {Before, Given, Then, When} from 'cucumber';
 import {AppPage} from '../pages/app.po';
 import {expect} from 'chai';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
@@ -16,14 +16,25 @@ import {ReferenceOTNBuilder} from '../utils/train-journey-modifications/referenc
 import {LocationModifiedBuilder} from '../utils/train-journey-modifications/location-modified';
 import {TimingBuilder} from '../utils/train-journey-modifications/timing';
 import {TimingAtLocationBuilder} from '../utils/train-journey-modifications/timing-at-location';
+import {LocationBuilder} from '../utils/train-journey-modifications/location';
+import {LocationSubsidiaryIdentificationBuilder} from '../utils/train-journey-modifications/location-subsidiary-identification';
+import {TestData} from '../logging/test-data';
+import {LocalStorage} from '../../../local-storage/local-storage';
+import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dialogue.page';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
 const adminRestClient: AdminRestClient = new AdminRestClient();
+const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
+
+
+Before(() => {
+  TestData.resetTJMsCaptured();
+});
 
 Given(/^I navigate to (.*) page$/, async (pageName: string) => {
 
-  switch (pageName){
+  switch (pageName) {
     case 'Home':
       await page.navigateTo('');
       break;
@@ -52,6 +63,18 @@ Given(/^I navigate to (.*) page$/, async (pageName: string) => {
       await page.navigateTo('/tmv/administration');
       break;
   }
+});
+
+Given(/^I have not already authenticated$/, {timeout: 5 * 10000}, async () => {
+  // Below steps to be replaced to logout steps once DEV implementation is done
+  await LocalStorage.reset();
+  await browser.waitForAngularEnabled(false);
+  await browser.get(browser.baseUrl);
+  expect(await authPage.signInModalIsVisible(), 'Sign In Modal is not visible').to.equal(true);
+  if (await authPage.reAuthenticationModalIsVisible()) {
+    await authPage.clickSignInAsDifferentUser();
+  }
+  await browser.waitForAngularEnabled(true);
 });
 
 Given(/^I am on the home page$/, {timeout: 5 * 10000}, async () => {
@@ -363,58 +386,71 @@ async function OpenNewTab(): Promise<any> {
 
 When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
   const messages: any = table.hashes();
-
   messages.forEach((message: any) => {
-    const tjmBuilder = new TrainJourneyModificationMessageBuilder()
-      .create()
-      .withOperationalTrainNumberIdentifier(new OperationalTrainNumberIdentifierBuilder()
-        .withOperationalTrainNumber(message.trainNumber)
-        .build())
-      .withTrainJourneyModification(new TrainJourneyModificationBuilder()
-        .withTrainJourneyModificationIndicator(message.type)
-        .withLocationModified(new LocationModifiedBuilder()
-          .withModificationStatusIndicator(message.type)
-          .withLocation(message.locationPrimaryCode)
-          .withTimingAtLocation(new TimingAtLocationBuilder()
-            .withTiming(new TimingBuilder()
-              .withTime(message.time)
-              .build())
-            .build())
-          .build())
-        .build())
+    const tjmBuilder = createBaseTjmMessage(message.trainNumber, message.trainUid, message.departureHour)
+      .withTrainJourneyModification(createBaseTjm(message.indicator,
+        message.statusIndicator,
+        message.primaryCode,
+        message.subsidiaryCode,
+        message.time)
+         .build())
+      .withModificationReason(message.modificationReason)
+      .withNationalDelayCode(message.nationalDelayCode)
       .build();
     linxRestClient.postTrainJourneyModification(tjmBuilder.toXML());
+    TestData.addTJM(tjmBuilder);
   });
   await linxRestClient.waitMaxTransmissionTime();
 });
+
 When(/^the following change of ID TJM is received$/, async (table: any) => {
   const messages: any = table.hashes();
 
   messages.forEach((message: any) => {
-    const tjmBuilder = new TrainJourneyModificationMessageBuilder()
-      .create()
-      .withOperationalTrainNumberIdentifier(new OperationalTrainNumberIdentifierBuilder()
-        .withOperationalTrainNumber(message.newTrainNumber)
+    const tjmBuilder = createBaseTjmMessage(message.newTrainNumber, message.trainUid, message.departureHour)
+      .withTrainJourneyModification(createBaseTjm(message.indicator,
+        message.statusIndicator,
+        message.primaryCode,
+        message.subsidiaryCode,
+        message.time)
         .build())
       .withReferenceOTN(new ReferenceOTNBuilder()
         .withOperationalTrainNumberIdentifier(new OperationalTrainNumberIdentifierBuilder()
           .withOperationalTrainNumber(message.oldTrainNumber)
           .build())
         .build())
-      .withTrainJourneyModification(new TrainJourneyModificationBuilder()
-        .withTrainJourneyModificationIndicator('7')
-        .withLocationModified(new LocationModifiedBuilder()
-          .withModificationStatusIndicator('7')
-          .withLocation(message.locationPrimaryCode)
-          .withTimingAtLocation(new TimingAtLocationBuilder()
-            .withTiming(new TimingBuilder()
-              .withTime(message.time)
-              .build())
-            .build())
-          .build())
-        .build())
       .build();
     linxRestClient.postTrainJourneyModification(tjmBuilder.toXML());
+    TestData.addTJM(tjmBuilder);
   });
   await linxRestClient.waitMaxTransmissionTime();
 });
+
+function createBaseTjm(modificationIndicator, modificationStatusIndicator, locationPrimaryCode, locationSubsidiaryCode, time)
+  : TrainJourneyModificationBuilder {
+  return new TrainJourneyModificationBuilder()
+    .withTrainJourneyModificationIndicator(modificationIndicator)
+    .withLocationModified(new LocationModifiedBuilder()
+      .withModificationStatusIndicator(modificationStatusIndicator)
+      .withLocation(new LocationBuilder()
+        .withLocationPrimaryCode(locationPrimaryCode)
+        .withLocationSubsidiaryIdentification(new LocationSubsidiaryIdentificationBuilder()
+          .withLocationSubsidiaryCode(locationSubsidiaryCode)
+          .build())
+        .build())
+      .withTimingAtLocation(new TimingAtLocationBuilder()
+        .withTiming(new TimingBuilder()
+          .withTime(time)
+          .build())
+        .build())
+      .build());
+}
+
+function createBaseTjmMessage(trainNumber, trainUid, departureHour): TrainJourneyModificationMessageBuilder {
+  return new TrainJourneyModificationMessageBuilder()
+    .create()
+    .withOperationalTrainNumberIdentifier(new OperationalTrainNumberIdentifierBuilder()
+      .withOperationalTrainNumber(trainNumber)
+      .build())
+    .calculateSenderReferenceWith(trainUid, departureHour);
+}

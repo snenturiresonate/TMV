@@ -87,7 +87,7 @@ Feature: 33750 - Schematic Maps - Render Objects
       | C38466  | C38466       | SC8475           |
       | C38410  | C38410       | SC8410           |
 
-    @bug @bug_55794
+
   Scenario Outline: 33750-4b Berth Menu (Secondary Click - berths with static signals)
     Given I am authenticated to use TMV
     And I am viewing the map gw16shrewsbury.v

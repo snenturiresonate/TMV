@@ -7,6 +7,7 @@ import {CssColorConverterService} from '../../services/css-color-converter.servi
 
 export class TimeTablePageObject {
   public timetableTab: ElementFinder;
+  public detailsTab: ElementFinder;
   public headerLabels: ElementArrayFinder;
   public headerScheduleType: ElementFinder;
   public headerSignal: ElementFinder;
@@ -27,6 +28,7 @@ export class TimeTablePageObject {
   constructor() {
     this.headerLabels = element.all(by.css('.tmv-header-content [id$=Label]'));
     this.timetableTab = element(by.id('timetable-table-tab'));
+    this.detailsTab = element(by.id('timetable-details-tab'));
     this.headerScheduleType = element(by.id('timetableHeaderScheduleType'));
     this.headerHeadcode = element(by.id('timetable-header-service-information-current-train-description'));
     this.headerOldHeadcode = element(by.id('timetable-header-service-information-planned-train-description'));
@@ -43,10 +45,6 @@ export class TimeTablePageObject {
     this.insertedToggle = element(by.css('#live-timetable-toggle-menu .toggle-switch'));
     this.insertedToggleState = element(by.css('#live-timetable-toggle-menu [class^=absolute]'));
     this.timetableHeaderThElements = element.all(by.css('[id^=tmv-timetable-header-row] th'));
-  }
-
-  navigateTo(service: string): Promise<unknown> {
-    return browser.get(browser.baseUrl + '/tmv/live-timetable/' + service) as Promise<unknown>;
   }
 
   async getTableRows(): Promise<TimetableTableRowPageObject[]> {
@@ -165,13 +163,20 @@ export class TimeTablePageObject {
   }
 
   public async openDetailsTab(): Promise<void> {
-    await element(by.id('timetable-details-tab')).click();
+    await this.detailsTab.click();
+    await element(by.css('.tmv-tab-timetable-active')).getText()
+      .then(async text => {
+        if (text !== 'Details') {
+          await this.detailsTab.click();
+        }
+      });
   }
 
   public async getModificationsTableRows(): Promise<ModificationsTablerowPage[]> {
-    browser.wait(ExpectedConditions.visibilityOf(element(by.css('table.modification-table tbody tr'))));
+    const rowLocator = by.css('table.modification-table tbody tr');
+    await browser.wait(ExpectedConditions.visibilityOf(element(rowLocator)), 15000, 'Modifications table is not shown');
     const array = new Array<ModificationsTablerowPage>();
-    await element.all(by.css('table.modification-table tbody tr'))
+    await element.all(rowLocator)
       .each((row, index) => {
         array.push(new ModificationsTablerowPage(element(by.css(`table.modification-table tbody tr:nth-child(${index + 1})`))));
       });
