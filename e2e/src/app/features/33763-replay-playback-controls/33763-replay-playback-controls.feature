@@ -339,3 +339,286 @@ Feature: 33763 - TMV Replay Playback Controls
       | mapName    | expectedTimestamp   |
       | Paddington | 01/02/2020 12:49:03 |
     And the replay button 'backward' is 'disabled'
+
+  @newSession @bug @bug_55794
+  Scenario: 33763-11 Replay - Pause with Skip forward and Skip backward
+    #Given the user has selected a map to start the replay
+    #And has selected a timeframe
+    #And has started the replay
+    #When the user pauses the replay forward
+    #Then the replay is paused
+    Given I am on the replay page as existing user
+    And I set the date and time using the dropdowns for replay to
+      | date       | time     | duration |
+      | 01/02/2020 | 12:49:03 | 5       |
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    When I click Play button
+    And I wait for the buffer to fill
+    And I move the replay forward until time '12:53:03'
+    And I click Play button
+    And I click Pause button
+    Then the replay is paused
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:53:03 |
+    And my replay should skip '1' minute when I click backward button
+    And I click Play button
+    And I click Pause button
+    And the replay is paused
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:52:03 |
+
+
+  @newSession @bug @bug_55794
+  Scenario: 33763-13 Replay - Replay the Replay
+    #Given the user has selected a map to start the replay
+    #And has selected a timeframe
+    #And the replay has reached the end
+    #When the user uses the replay
+    #Then the replay is started again from the beginning
+    Given I am on the replay page as existing user
+    And I set the date and time using the dropdowns for replay to
+      | date       | time     | duration |
+      | 01/02/2020 | 12:49:03 | 5       |
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I click Play button
+    And I wait for the buffer to fill
+    And I move the replay forward until time '12:54:03'
+    When I click replay button
+    Then the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    And the replay button 'play' is 'enabled'
+
+  @newSession @bug @bug_55794
+  Scenario: 33763-14a Replay - Minimise control Play and forward button
+    #Given the user has selected a map to start the replay
+    #And has selected a timeframe
+    #And the user is viewing the replay map
+    #When the user uses the minimise control icon
+    #Then the controls are minimised
+    Given I am on the replay page as existing user
+    And I set the date and time using the dropdowns for replay to
+      | date       | time     | duration |
+      | 01/02/2020 | 12:49:03 | 10       |
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    When I click minimise button
+    Then the replay play back control is 'collapsed'
+    And I click Play button
+    And I wait for the buffer to fill
+    And the replay playback speed is 'Normal'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:04 |
+    And my replay should skip '1' minute when I click forward button
+
+  @newSession @bug @bug_55794
+  Scenario: 33763-14b Replay - Minimise control Stop and Skip backward
+    Given I am on the replay page as existing user
+    And I set the date and time using the dropdowns for replay to
+      | date       | time     | duration |
+      | 01/02/2020 | 12:49:03 | 10       |
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    When I click Play button
+    And I wait for the buffer to fill
+    And I move the replay forward until time '12:53:03'
+    And I click minimise button
+    Then the replay play back control is 'collapsed'
+    And I click Stop button
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:53:03 |
+    And my replay should skip '1' minute when I click backward button
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:52:03 |
+    And my replay should skip '1' minute when I click backward button
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:51:03 |
+    And my replay should skip '1' minute when I click backward button
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:50:03 |
+
+  @newSession @bug @bug_55794
+  Scenario:33763-14c Replay - Minimise control Replay - Multiple Map Synchronisation with Pause
+    Given I am on the replay page as existing user
+    And I set the date and time using the dropdowns for replay to
+      | date       | time     | duration |
+      | 01/02/2020 | 12:49:03 | 10       |
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    And I click Play button
+    And I wait for the buffer to fill
+    When I click minimise button
+    Then the replay play back control is 'collapsed'
+    And I click Pause button
+    And the replay playback speed is 'Normal'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:04 |
+    And I launch a new map 'HDGW02' the new map should have start time from the moment it was opened
+    And I switch to the new tab
+    And the replay playback speed is 'Normal'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:04 |
+    And I click Stop button
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    And the replay button 'backward' is 'disabled'
+    And I switch back to the home page tab
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    And the replay button 'backward' is 'disabled'
+
+  @newSession @bug @bug_55794
+  Scenario:33763-14d Replay - Minimise control and Replay icon
+    Given I am on the replay page as existing user
+    And I set the date and time using the dropdowns for replay to
+      | date       | time     | duration |
+      | 01/02/2020 | 12:49:03 | 5       |
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And I click Play button
+    And I wait for the buffer to fill
+    And I move the replay forward until time '12:54:03'
+    When I click minimise button
+    Then the replay play back control is 'collapsed'
+    And I click replay button
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    And the replay button 'play' is 'enabled'
+
+  @newSession @bug @bug_55794
+  Scenario: 33763-15a Replay - Multiple Map Synchronisation (Play and Increase the speed two diff maps synch)
+    #Given the user has selected a map to start the replay
+    #And has selected a timeframe
+    #And the user is viewing multiple maps from the same replay session
+    #When the user uses the replay control
+    #Then the replay playback is synchronised between all open maps
+    Given I am on the replay page as existing user
+    And I set the date and time using the dropdowns for replay to
+      | date       | time     | duration |
+      | 01/02/2020 | 12:49:03 | 10       |
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    And I click Play button
+    And I wait for the buffer to fill
+    And the replay playback speed is 'Normal'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:04 |
+    When I launch a new map 'HDGW02' the new map should have start time from the moment it was opened
+    And I switch to the new tab
+    Then the replay playback speed is 'Normal'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:04 |
+    And I increase the replay speed at position 5
+    And the replay playback speed is 'x 5'
+    And I switch back to the home page tab
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:50:04 |
+    And the replay playback speed is 'x 5'
+
+  @newSession @bug @bug_55794
+  Scenario: 33763-15b Replay - Multiple Map Synchronisation (Skip forward and backward two diff maps synch)
+    Given I am on the replay page as existing user
+    And I set the date and time using the dropdowns for replay to
+      | date       | time     | duration |
+      | 01/02/2020 | 12:49:03 | 10       |
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    And I click Play button
+    And I wait for the buffer to fill
+    And the replay playback speed is 'Normal'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:04 |
+    And my replay should skip '1' minute when I click forward button
+    When I launch a new map 'HDGW02' the new map should have start time from the moment it was opened
+    And I switch to the new tab
+    Then the replay playback speed is 'Normal'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:50:04 |
+    And my replay should skip '1' minute when I click backward button
+    And the replay playback speed is 'Normal'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:04 |
+    And I switch back to the home page tab
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:04 |
+    And the replay playback speed is 'Normal'
+
+  @newSession @bug @bug_55794
+  Scenario: 33763-15c Replay - Multiple Map Synchronisation (Pause and stop two diff maps synch)
+    Given I am on the replay page as existing user
+    And I set the date and time using the dropdowns for replay to
+      | date       | time     | duration |
+      | 01/02/2020 | 12:49:03 | 10       |
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'hdgw01paddington.v'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    And I click Play button
+    And I wait for the buffer to fill
+    And I click Pause button
+    And the replay playback speed is 'Normal'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:04 |
+    When I launch a new map 'HDGW02' the new map should have start time from the moment it was opened
+    And I switch to the new tab
+    Then the replay playback speed is 'Normal'
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:04 |
+    And I click Stop button
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    And the replay button 'backward' is 'disabled'
+    And I switch back to the home page tab
+    And the map view is opened ready for replaying with timestamp
+      | mapName    | expectedTimestamp   |
+      | Paddington | 01/02/2020 12:49:03 |
+    And the replay button 'backward' is 'disabled'

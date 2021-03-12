@@ -33,6 +33,7 @@ Feature: 46474 - Administration System Defaults - full end to end testing
       | ReplayBackgroundColour | MaxNoOfMapsPerReplay | MaxNoofReplays | MaxNoofSchematicMapDisplayInstances | MaxNoofTrainsListViewInstances |
       | #663377                | 16                   | 2              | 16                                  | 16                             |
 
+  @bug @bug_57224
   Scenario: Replay system setting values reset
     When I update the system default settings as
       | ReplayBackgroundColour | MaxNoOfMapsPerReplay | MaxNoofReplays | MaxNoofSchematicMapDisplayInstances | MaxNoofTrainsListViewInstances |
