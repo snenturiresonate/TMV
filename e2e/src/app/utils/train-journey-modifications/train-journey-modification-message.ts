@@ -121,7 +121,12 @@ export class TrainJourneyModificationMessageBuilder {
   }
 
   withTrainJourneyModificationTime(value: string): TrainJourneyModificationMessageBuilder {
-    this.TrainJourneyModificationTime = value;
+    const valueArray = value.split(':');
+    this.TrainJourneyModificationTime = LocalDateTime.now()
+      .withHour(Number(valueArray[0]))
+      .withMinute(Number(valueArray[1]))
+      .withSecond(Number(valueArray[2]))
+      .format(DateTimeFormatter.ofPattern('yyyy-MM-dd\'T\'HH:mm:ss')) + '-00:00';;
     return this;
   }
 
