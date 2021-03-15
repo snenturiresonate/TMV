@@ -88,6 +88,7 @@ Feature: 34385 - TMV Replay Train Position Report
       | trainDescription  | operator  |	berth   |  punctuality     |     time               |
       |		9F01            |	LO        |	C001	  |	  +0m            |2020/02/08 10:00 (Last) |
 
+  @tdd @replayTest
   Scenario: 342853-4 Train Position Report Print View
     #Given the user is authenticated to use TMV replay
     #And the user has opened a train position report
@@ -116,6 +117,7 @@ Feature: 34385 - TMV Replay Train Position Report
       |		9F01            |	LO        |	C001	  |	  +0m            |2020/02/08 10:00 (Last) |
       |		0A01	          |	          |	0045	  |	  Unknown        |2020/02/08 10:00 (Last) |
 
+  @tdd @replayTest
   Scenario: 342853-5a Train Position Report Pagination-data setup
     #Given the user is authenticated to use TMV replay
     #And the user has opened a train position report
@@ -169,6 +171,7 @@ Feature: 34385 - TMV Replay Train Position Report
       | timestamp | fromBerth | toBerth | trainDescriber | trainDescription |
       | 10:00:00  | 0135      | 0151    | D3             | 9F01             |
 
+  @tdd @replayTest
   Scenario: 342853-5b Train Position Report Pagination
     Given I load the replay data from scenario '342853-5a Train Position Report Pagination-data setup'
     And I am on the replay page
@@ -213,7 +216,7 @@ Feature: 34385 - TMV Replay Train Position Report
       |		9F01            |	LO        |	0082	  |	  +0m            |2020/02/08 10:00 (Last) |
       |		9F01            |	LO        |	0105	  |	  +0m            |2020/02/08 10:00 (Last) |
 
-
+  @tdd @replayTest
   Scenario: 342853-4 Train Position Report Sorting
     #Given the user is authenticated to use TMV replay
     #And the user has opened a train position report
