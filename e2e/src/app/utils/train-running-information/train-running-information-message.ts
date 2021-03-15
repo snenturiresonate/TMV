@@ -26,7 +26,7 @@ export class TrainRunningInformationMessageBuilder {
   public buildMessageWithDelayAgainstBookedTime = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                                    operationalTrainNumber: string, trainUID: string,
                                                    scheduledStartDate: string, messageType: string,
-                                                   delay: number, delayHoursOrMins: string) => {
+                                                   delay: string) => {
     const currentTimeHour = this.currentTimeHour();
     return create().ele('TrainRunningInformationMessage')
       .ele(TrainRunningInformationMessageHeader.messageHeader(operationalTrainNumber, trainUID, currentTimeHour)).root()
@@ -34,7 +34,7 @@ export class TrainRunningInformationMessageBuilder {
       .ele(TRIOperationalTrainNumberIdentifier.operationalTrainNumberIdentifier(operationalTrainNumber)).root()
       .ele(TRITrainOperationalIdentification.trainOperationalIdentification(trainUID, operationalTrainNumber, scheduledStartDate)).root()
       .ele(TRITrainLocationReport.trainLocationReportWithDelayAgainstBookedTime(locationPrimaryCode, locationSubsidiaryCode,
-        this.deriveRunningStatusFromMessageType(messageType), delay, delayHoursOrMins)).root()
+        this.deriveRunningStatusFromMessageType(messageType), delay)).root()
       .doc();
   }
 

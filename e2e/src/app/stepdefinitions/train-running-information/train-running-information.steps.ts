@@ -8,7 +8,7 @@ const linxRestClient: LinxRestClient = new LinxRestClient();
  * Step to be used when train running information does not have any delay
  * Message Type to be used:
  * Not Specified, Arrival at termination, Departure from Origin, Arrival at station, Departure from station, Passing Location
- * Input: trainUID,trainNumber,scheduledStartDate(per timetable- accepts today),LocationPrimaryCode,LocationSubsidiaryCode,messageType
+ * Input: trainUID,trainNumber,scheduledStartDate(accepts today),LocationPrimaryCode,LocationSubsidiaryCode,messageType
  */
 // tslint:disable-next-line:max-line-length
 When(/^the following train running information? (?:message|messages)? (?:is|are) sent from LINX$/, {timeout: 2 * 20000}, async (trainRunningInfoMessageTable: any) => {
@@ -31,7 +31,13 @@ When(/^the following train running information? (?:message|messages)? (?:is|are)
   }
 });
 
-When(/^the following train running information? (?:message|messages) with delay? (?:is|are) sent from LINX$/,
+/**
+ * Step to be used when train running information has delay on the location timing
+ * Message Type to be used:
+ * Not Specified, Arrival at termination, Departure from Origin, Arrival at station, Departure from station, Passing Location
+ * Input: trainUID,trainNumber,scheduledStartDate(accepts today),LocationPrimaryCode,LocationSubsidiaryCode,messageType and delay
+ */
+When(/^the following train running information? (?:message|messages) with delay against booked time? (?:is|are) sent from LINX$/,
   async (trainRunningInfoMessageTable: any) => {
   const trainRunningInfoMessages = trainRunningInfoMessageTable.hashes();
   for (let i = 0; i < trainRunningInfoMessages.length; i++){
@@ -43,11 +49,11 @@ When(/^the following train running information? (?:message|messages) with delay?
     const locationSubsidiaryCode = trainRunningInfoMessages[i].locationSubsidiaryCode;
     const messageType = trainRunningInfoMessages[i].messageType;
     const delay = trainRunningInfoMessages[i].delay;
-    const delayHoursOrMins = trainRunningInfoMessages[i].delayHoursOrMins;
     // tslint:disable-next-line:max-line-length
     const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithDelayAgainstBookedTime(locationPrimaryCode, locationSubsidiaryCode,
       operationalTrainNumber, trainUID,
-      scheduledStartDate, messageType, delay, delayHoursOrMins);
+      scheduledStartDate, messageType, delay);
+    console.log('XML: ' + trainRunningInfo.toString({prettyPrint: true}));
     await linxRestClient.postTrainActivation(trainRunningInfo.toString({prettyPrint: true}));
 
     await linxRestClient.waitMaxTransmissionTime();
