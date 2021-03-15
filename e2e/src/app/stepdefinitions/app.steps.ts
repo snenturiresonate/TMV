@@ -22,6 +22,7 @@ import {TestData} from '../logging/test-data';
 import {LocalStorage} from '../../../local-storage/local-storage';
 import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dialogue.page';
 import {TrainActivationMessageBuilder} from '../utils/train-activation/train-activation-message';
+import {TrainRunningInformationMessageBuilder} from "../utils/train-running-information/train-running-information-message";
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
@@ -267,15 +268,6 @@ When(/^the following VSTP messages? (?:is|are) sent from LINX$/, async (vstpMess
 
   vstpMessages.forEach((vstpMessage: any) => {
     linxRestClient.postVstp(vstpMessage.asXml);
-  });
-  await linxRestClient.waitMaxTransmissionTime();
-});
-
-When(/^the following train running information messages? (?:is|are) sent from LINX$/, async (trainRunningInformationMessageTable: any) => {
-  const trainRunningInformationMessages: any = trainRunningInformationMessageTable.hashes();
-
-  trainRunningInformationMessages.forEach((trainRunningInformationMessage: any) => {
-    linxRestClient.postTrainRunningInformation(trainRunningInformationMessage.asXml);
   });
   await linxRestClient.waitMaxTransmissionTime();
 });
