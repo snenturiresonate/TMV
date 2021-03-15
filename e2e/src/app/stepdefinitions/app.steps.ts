@@ -21,6 +21,7 @@ import {LocationSubsidiaryIdentificationBuilder} from '../utils/train-journey-mo
 import {TestData} from '../logging/test-data';
 import {LocalStorage} from '../../../local-storage/local-storage';
 import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dialogue.page';
+import {TrainActivationMessageBuilder} from '../utils/train-activation/train-activation-message';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
@@ -237,13 +238,21 @@ When(/^the following train journey modification change of id messages? (?:is|are
     await linxRestClient.waitMaxTransmissionTime();
   });
 
-When(/^the following train activation messages? (?:is|are) sent from LINX$/, async (trainActivationMessageTable: any) => {
-  const trainActivationMessages: any = trainActivationMessageTable.hashes();
+When(/^the following train activation? (?:message|messages)? (?:is|are) sent from LINX$/, async (trainActivationMessageTable: any) => {
+  const trainActivationMessages = trainActivationMessageTable.hashes();
+  for (let i = 0; i < trainActivationMessages.length; i++){
+  const trainActivationMessageBuilder: TrainActivationMessageBuilder = new TrainActivationMessageBuilder();
+  const trainUID = trainActivationMessages[i].trainUID;
+  const trainNumber = trainActivationMessages[i].trainNumber;
+  const scheduledDepartureTime = trainActivationMessages[i].scheduledDepartureTime;
+  const locationPrimaryCode = trainActivationMessages[i].locationPrimaryCode;
+  const locationSubsidiaryCode = trainActivationMessages[i].locationSubsidiaryCode;
+  const trainActMss = trainActivationMessageBuilder.buildMessage(locationPrimaryCode, locationSubsidiaryCode,
+    scheduledDepartureTime, trainNumber, trainUID);
+  await linxRestClient.postTrainActivation(trainActMss.toString({prettyPrint: true}));
 
-  trainActivationMessages.forEach((trainActivationMessage: any) => {
-    linxRestClient.postTrainActivation(trainActivationMessage.asXml);
-  });
   await linxRestClient.waitMaxTransmissionTime();
+  }
 });
 
 When('the activation message from location {string} is sent from LINX', async (xmlFilePath: string) => {
@@ -291,7 +300,7 @@ Given(/^I am on the trains list page$/, async () => {
   await page.navigateTo('/tmv/trains-list');
 });
 
-Given(/^I am on the trains list Config page$/, {timeout: 4 * 5000}, async () => {
+Given(/^I am on the trains list Config page$/, {timeout: 4 * 10000}, async () => {
   await page.navigateTo('/tmv/trains-list-config');
 });
 

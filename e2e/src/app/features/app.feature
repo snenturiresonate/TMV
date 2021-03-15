@@ -46,8 +46,8 @@ Feature: Example Scenarios
   Scenario: Example - Receive train activation message from LINX
     Given I am on the home page
     When the following train activation message is sent from LINX
-      | asXml            |
-      | </exampleNeeded> |
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 10:15                  | 99999               | PADTON                 |
     Then I should see nothing
 
   Scenario: Example - Receive VSTP message from LINX
