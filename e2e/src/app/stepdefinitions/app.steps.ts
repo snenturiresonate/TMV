@@ -21,6 +21,7 @@ import {LocationSubsidiaryIdentificationBuilder} from '../utils/train-journey-mo
 import {TestData} from '../logging/test-data';
 import {LocalStorage} from '../../../local-storage/local-storage';
 import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dialogue.page';
+import {TrainActivationMessageBuilder} from '../utils/train-activation/train-activation-message';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
@@ -98,6 +99,7 @@ Given(/^The admin setting defaults are as originally shipped$/, async () => {
 });
 
 When(/^I do nothing$/, () => {
+  browser.sleep(5000);
 });
 
 When(/^the following berth interpose messages? (?:is|are) sent from LINX$/, async (berthInterposeMessageTable: any) => {
@@ -236,13 +238,21 @@ When(/^the following train journey modification change of id messages? (?:is|are
     await linxRestClient.waitMaxTransmissionTime();
   });
 
-When(/^the following train activation messages? (?:is|are) sent from LINX$/, async (trainActivationMessageTable: any) => {
-  const trainActivationMessages: any = trainActivationMessageTable.hashes();
+When(/^the following train activation? (?:message|messages)? (?:is|are) sent from LINX$/, async (trainActivationMessageTable: any) => {
+  const trainActivationMessages = trainActivationMessageTable.hashes();
+  for (let i = 0; i < trainActivationMessages.length; i++){
+  const trainActivationMessageBuilder: TrainActivationMessageBuilder = new TrainActivationMessageBuilder();
+  const trainUID = trainActivationMessages[i].trainUID;
+  const trainNumber = trainActivationMessages[i].trainNumber;
+  const scheduledDepartureTime = trainActivationMessages[i].scheduledDepartureTime;
+  const locationPrimaryCode = trainActivationMessages[i].locationPrimaryCode;
+  const locationSubsidiaryCode = trainActivationMessages[i].locationSubsidiaryCode;
+  const trainActMss = trainActivationMessageBuilder.buildMessage(locationPrimaryCode, locationSubsidiaryCode,
+    scheduledDepartureTime, trainNumber, trainUID);
+  await linxRestClient.postTrainActivation(trainActMss.toString({prettyPrint: true}));
 
-  trainActivationMessages.forEach((trainActivationMessage: any) => {
-    linxRestClient.postTrainActivation(trainActivationMessage.asXml);
-  });
   await linxRestClient.waitMaxTransmissionTime();
+  }
 });
 
 When('the activation message from location {string} is sent from LINX', async (xmlFilePath: string) => {
@@ -290,7 +300,7 @@ Given(/^I am on the trains list page$/, async () => {
   await page.navigateTo('/tmv/trains-list');
 });
 
-Given(/^I am on the trains list Config page$/, {timeout: 4 * 5000}, async () => {
+Given(/^I am on the trains list Config page$/, {timeout: 4 * 10000}, async () => {
   await page.navigateTo('/tmv/trains-list-config');
 });
 
@@ -395,10 +405,14 @@ When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
         message.time)
          .build())
       .withModificationReason(message.modificationReason)
-      .withNationalDelayCode(message.nationalDelayCode)
-      .build();
-    linxRestClient.postTrainJourneyModification(tjmBuilder.toXML());
-    TestData.addTJM(tjmBuilder);
+      .withNationalDelayCode(message.nationalDelayCode);
+    if (message.modificationTime !== undefined) {
+      tjmBuilder.withTrainJourneyModificationTime(message.modificationTime);
+    }
+    const tjmMessage = tjmBuilder.build();
+
+    linxRestClient.postTrainJourneyModification(tjmMessage.toXML());
+    TestData.addTJM(tjmMessage);
   });
   await linxRestClient.waitMaxTransmissionTime();
 });
@@ -418,10 +432,14 @@ When(/^the following change of ID TJM is received$/, async (table: any) => {
         .withOperationalTrainNumberIdentifier(new OperationalTrainNumberIdentifierBuilder()
           .withOperationalTrainNumber(message.oldTrainNumber)
           .build())
-        .build())
-      .build();
-    linxRestClient.postTrainJourneyModification(tjmBuilder.toXML());
-    TestData.addTJM(tjmBuilder);
+        .build());
+    if (message.modificationTime !== undefined) {
+      tjmBuilder.withTrainJourneyModificationTime(message.modificationTime);
+    }
+    const tjmMessage = tjmBuilder.build();
+
+    linxRestClient.postTrainJourneyModification(tjmMessage.toXML());
+    TestData.addTJM(tjmMessage);
   });
   await linxRestClient.waitMaxTransmissionTime();
 });
