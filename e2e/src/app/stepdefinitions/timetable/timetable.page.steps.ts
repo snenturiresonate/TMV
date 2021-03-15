@@ -20,6 +20,7 @@ import {AppPage} from '../../pages/app.po';
 import {browser, ExpectedConditions} from 'protractor';
 import {ReplayScenario} from '../../utils/replay/replay-scenario';
 import {TestData} from '../../logging/test-data';
+import {TrainJourneyModificationMessage} from '../../utils/train-journey-modifications/train-journey-modification-message';
 
 const appPage: AppPage = new AppPage();
 
@@ -165,7 +166,7 @@ Then(/^the sent TJMs are in the modifications table$/, async () => {
     const expectedLocation = tiplocToLocation(
       expectedRecord.TrainJourneyModification.LocationModified.Location.LocationSubsidiaryIdentification.LocationSubsidiaryCode);
     const expectedTime = LocalDateTime
-        .parse(expectedRecord.MessageHeader.MessageReference.MessageDateTime.replace('-00:00', ''))
+        .parse(expectedRecord.TrainJourneyModificationTime.replace('-00:00', ''))
         .format(DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm').withLocale(Locale.ENGLISH));
     const expectedReason = expectedRecord.ModificationReason;
     for (const row of modificationsTable) {
@@ -183,6 +184,24 @@ Then(/^the sent TJMs are in the modifications table$/, async () => {
       .to.equal(true);
   }
 });
+
+
+Then(/^the sent TJMs in the modifications table are in time order$/, async () => {
+  const modificationsTable = await timetablePage.getModificationsTableRows();
+  const times = modificationsTable.map(async (row) => await row.getTime());
+
+  for (let i = 0; i < (times.length - 1); i++) {
+    const dateFormat = 'dd/MM/yyyy HH:mm';
+    const rowTime = LocalDateTime.parse(await times[i], DateTimeFormatter.ofPattern(dateFormat));
+    const nextRowTime = LocalDateTime.parse(await times[i + 1], DateTimeFormatter.ofPattern(dateFormat));
+
+    expect(rowTime.isBefore(nextRowTime) || rowTime.isEqual(nextRowTime),
+      `Modifications are not in time order. ${times[i]} not before ${times[i + 1]}`)
+      .to.equal(true);
+  }
+});
+
+
 
 function tiplocToLocation(tiploc: string): string {
   // config needed
@@ -214,22 +233,35 @@ Then(/^there are no records in the modifications table$/, async () => {
 });
 
 Then(/^the last TJM is correct$/, async () => {
-  const lastTjm = await timetablePage.headerTJM.getText();
   const tjmsSent = TestData.getTJMs();
-  const lastTjmSent = tjmsSent[tjmsSent.length - 1];
+  await assertLastTJM(tjmsSent[tjmsSent.length - 1]);
+});
 
+Then(/^the last TJM is the TJM with the latest time$/, async () => {
+  const lastTjmSent = sortTJMsByDateTime(TestData.getTJMs());
+  await assertLastTJM(lastTjmSent[lastTjmSent.length - 1]);
+});
+
+function sortTJMsByDateTime(array): TrainJourneyModificationMessage[] {
+  return array.sort((a, b) => {
+    return Number(a.MessageHeader.MessageReference.MessageDateTime) - Number(b.MessageHeader.MessageReference.MessageDateTime);
+  });
+}
+
+async function assertLastTJM(tjmMessage: TrainJourneyModificationMessage): Promise<void> {
+  const lastTjm = await timetablePage.headerTJM.getText();
   const expectedTypeOfModification = getExpectedModificationType(
-    lastTjmSent.TrainJourneyModification.TrainJourneyModificationIndicator);
+    tjmMessage.TrainJourneyModification.TrainJourneyModificationIndicator);
   const expectedLocation = tiplocToLocation(
-    lastTjmSent.TrainJourneyModification.LocationModified.Location.LocationSubsidiaryIdentification.LocationSubsidiaryCode);
+    tjmMessage.TrainJourneyModification.LocationModified.Location.LocationSubsidiaryIdentification.LocationSubsidiaryCode);
   const expectedTime = LocalDateTime
-    .parse(lastTjmSent.MessageHeader.MessageReference.MessageDateTime.replace('-00:00', ''))
+    .parse(tjmMessage.TrainJourneyModificationTime.replace('-00:00', ''))
     .format(DateTimeFormatter.ofPattern('HH:mm:ss, d MMM yyyy').withLocale(Locale.ENGLISH));
-  const expectedReason = lastTjmSent.ModificationReason;
+  const expectedReason = tjmMessage.ModificationReason;
 
   expect(lastTjm, 'Last TJM is not as expected')
     .to.equal(`${expectedTypeOfModification}, ${expectedLocation}, ${expectedReason}, ${expectedTime}`);
-});
+}
 
 When('I toggle the inserted locations on', async () => {
   await timetablePage.toggleInsertedLocationsOn();

@@ -98,6 +98,7 @@ Given(/^The admin setting defaults are as originally shipped$/, async () => {
 });
 
 When(/^I do nothing$/, () => {
+  browser.sleep(5000);
 });
 
 When(/^the following berth interpose messages? (?:is|are) sent from LINX$/, async (berthInterposeMessageTable: any) => {
@@ -395,10 +396,14 @@ When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
         message.time)
          .build())
       .withModificationReason(message.modificationReason)
-      .withNationalDelayCode(message.nationalDelayCode)
-      .build();
-    linxRestClient.postTrainJourneyModification(tjmBuilder.toXML());
-    TestData.addTJM(tjmBuilder);
+      .withNationalDelayCode(message.nationalDelayCode);
+    if (message.modificationTime !== undefined) {
+      tjmBuilder.withTrainJourneyModificationTime(message.modificationTime);
+    }
+    const tjmMessage = tjmBuilder.build();
+
+    linxRestClient.postTrainJourneyModification(tjmMessage.toXML());
+    TestData.addTJM(tjmMessage);
   });
   await linxRestClient.waitMaxTransmissionTime();
 });
@@ -418,10 +423,14 @@ When(/^the following change of ID TJM is received$/, async (table: any) => {
         .withOperationalTrainNumberIdentifier(new OperationalTrainNumberIdentifierBuilder()
           .withOperationalTrainNumber(message.oldTrainNumber)
           .build())
-        .build())
-      .build();
-    linxRestClient.postTrainJourneyModification(tjmBuilder.toXML());
-    TestData.addTJM(tjmBuilder);
+        .build());
+    if (message.modificationTime !== undefined) {
+      tjmBuilder.withTrainJourneyModificationTime(message.modificationTime);
+    }
+    const tjmMessage = tjmBuilder.build();
+
+    linxRestClient.postTrainJourneyModification(tjmMessage.toXML());
+    TestData.addTJM(tjmMessage);
   });
   await linxRestClient.waitMaxTransmissionTime();
 });
