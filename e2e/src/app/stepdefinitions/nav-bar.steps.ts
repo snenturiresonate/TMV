@@ -18,6 +18,14 @@ When('I toggle the {string} toggle {string}', async (toggle: string, toState: st
   await navBarPage.toggle(toggle, toState);
 });
 
+When('I toggle path off from the nav bar', async () => {
+  await navBarPage.toggleMapPathOff();
+});
+
+When('I open map {string} via the recent map list', async (mapName: string) => {
+  await navBarPage.changeToRecentMap(mapName);
+});
+
 Then('the following map layer toggles can be seen', async (toggleName: any) => {
   const expectedToggleNames = toggleName.hashes();
   const actualToggleNames = await navBarPage.getToggleNames();
@@ -26,6 +34,19 @@ Then('the following map layer toggles can be seen', async (toggleName: any) => {
     expect(actualToggleNames, `Toggle ${expectedToggleName.toggle} is not present in the map toggles`)
       .to.contain(expectedToggleName.toggle);
   });
+});
+
+Then('{string} toggle is displayed in the title bar', async (expectedState: string) => {
+  const actualState: boolean = await browser.isElementPresent(navBarPage.mapPathToggle);
+  if (expectedState === 'no') {
+    expect(actualState, `PATH toggle is being displayed when it shouldn't be`)
+      .to.equal(false);
+  }
+  else {
+    const mapPathIndicator = await navBarPage.mapPathToggle.getText();
+    expect(mapPathIndicator, `PATH toggle is not shown when it should be`)
+      .to.equal(expectedState);
+  }
 });
 
 Then('the {string} toggle is {string}', async (toggle: string, expectedToggleState: string) => {

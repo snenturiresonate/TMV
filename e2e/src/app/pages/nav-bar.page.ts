@@ -44,6 +44,9 @@ export class NavBarPageObject {
   public helpMenu: ElementFinder;
   public searchFilterToggle: ElementFinder;
   public mapLink: ElementArrayFinder;
+  public mapPathToggle: ElementArrayFinder;
+  public recentMaps: ElementArrayFinder;
+  public mapChanger: ElementFinder;
   constructor() {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
@@ -88,6 +91,9 @@ export class NavBarPageObject {
     this.modalWindow = element.all(by.css('.modalpopup'));
     this.helpMenu = element(by.id('help-menu-button'));
     this.mapLink = element.all(by.css('#signal-map-list>ul>li>span'));
+    this.mapPathToggle = element.all(by.css('#map-path-toggle-button'));
+    this.recentMaps = element.all(by.css('.map-details'));
+    this.mapChanger = element(by.css('a[title=\'Change map\']'));
   }
 
   public async getNavbarIconNames(): Promise<string> {
@@ -137,6 +143,10 @@ export class NavBarPageObject {
         await this.berthToggleOn.click();
       }
     }
+  }
+
+  public async toggleMapPathOff(): Promise<void> {
+    await this.mapPathToggle.click();
   }
 
   public async getServiceWithStatus(statusType: string, searchType: string): Promise<number> {
@@ -387,6 +397,12 @@ export class NavBarPageObject {
       await this.mapLink.click();
       await element(by.buttonText(mapName)).click();
     }
+  }
+
+  public async changeToRecentMap(mapName: string): Promise<void> {
+    await this.mapChanger.click();
+    const recentMap = element(by.css('[id^=map-search-menu-recent-history-item-map-name-' + mapName.toLowerCase() + ']'));
+    await recentMap.click();
   }
 
   public async getHighlightStatus(signalId: string): Promise<string> {
