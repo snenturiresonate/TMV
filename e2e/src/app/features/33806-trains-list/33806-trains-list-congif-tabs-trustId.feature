@@ -63,8 +63,11 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     And I click the clear all button for TRUST Service Filter
     Then I see the selected trusts table to not have any items
 
-
-    Scenario: TRI
+@tdd
+    Scenario: 33806 -37 Trains List Config (TRUST IDs Applied)
+  #Given the user has made changes to the TRUST ID settings
+  #When the user views the trains list
+  #Then the view is updated to reflect the user's TRUST ID changes
       Given the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
       And the access plan located in CIF file 'access-plan/1D46_PADTON_OXFD.cif' is amended so that all services start within the next hour and then received from LINX
       And the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
@@ -76,6 +79,9 @@ Feature: 33806 - TMV User Preferences - full end to end testing
         | V95541   | 1B25        | today              | 15220               | WCROYDN                | Departure from Origin |
       And I input '1B25V95541' in the TRUST input field
       And I click the add button for TRUST Service Filter
+  And I save the Service Filter changes
+  And I open 'trains list' page in a new tab
+
   @check
       Scenario: TRI 2
         When the following train running information message with delay against booked time is sent from LINX

@@ -2,13 +2,14 @@ import {fragment} from 'xmlbuilder2';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {TRILocation} from './location';
 import {TRITrainDelay} from './train-delay';
-import * as moment from "moment";
+import * as moment from 'moment';
 
 export class TRITrainLocationReport {
   private static locationDateTime = DateAndTimeUtils.getCurrentDateTime();
   private static delayedLocationDateTime(delayMins: number): string {
     const parsedDateTime = new Date(TRITrainLocationReport.locationDateTime);
-    return moment(parsedDateTime).subtract(delayMins, 'minute').toDate().toString();
+    const delayedDateTime = moment(parsedDateTime).subtract(delayMins, 'minute').toDate();
+    return moment(delayedDateTime).format();
   }
   public static trainLocationReportWithoutDelay = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                                    trainLocationStatus: string) => {

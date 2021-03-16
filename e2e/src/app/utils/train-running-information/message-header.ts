@@ -24,8 +24,8 @@ export class TrainRunningInformationMessageHeader {
     const messageHeaderObj = fragment().ele('MessageHeader')
       .ele(TrainRunningInformationMessageHeader.messageReference()).up()
       .ele('SenderReference').txt(senderReference).up()
-      .ele('Sender', {'n1:CI_InstanceNumber': '01'}).txt('0070').up()
-      .ele('Recipient', {'n1:CI_InstanceNumber': '99'}).txt('9999').up()
+      .ele('Sender', {'ns0:CI_InstanceNumber': '01'}).txt('0070').up()
+      .ele('Recipient', {'ns0:CI_InstanceNumber': '99'}).txt('9999').up()
       .doc();
     return messageHeaderObj.end({prettyPrint: true});
   }

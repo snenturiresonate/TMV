@@ -20,6 +20,10 @@ When('I click the clear all button for TRUST Service Filter', async () => {
   await trainsListServiceFilterTabPage.clickTrustIdsClearAll();
 });
 
+When('I save the Service Filter changes', async () => {
+  await trainsListServiceFilterTabPage.clickTrustIdSaveBtn();
+});
+
 Then('The TRUST ID table contains the following results', async (trustIdDataTable: any) => {
 
   const expectedTrustIds: string[] = trustIdDataTable.hashes();
