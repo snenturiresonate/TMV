@@ -232,7 +232,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | trainDescription |
       | 5G44             |
 @tdd
-  Scenario: 33806 -32f Trains List Config (Train Misc Settings Applied) - Uncalled toggle off
+  Scenario: 33806 -32g Trains List Config (Train Misc Settings Applied) - Uncalled toggle off
     #Services not activated from the loaded access plan - 5G44
     When I update the following misc options
       | classValue                         | toggleValue |
