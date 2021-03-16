@@ -20,7 +20,7 @@ When('I click the clear all button for TRUST Service Filter', async () => {
   await trainsListServiceFilterTabPage.clickTrustIdsClearAll();
 });
 
-When('I save the Service Filter changes', async () => {
+When('I save the service filter changes', async () => {
   await trainsListServiceFilterTabPage.clickTrustIdSaveBtn();
 });
 
