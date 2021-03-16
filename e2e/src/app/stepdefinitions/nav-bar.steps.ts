@@ -179,6 +179,18 @@ Then('the Train search table is shown', async () => {
     .to.equal(true);
 });
 
+Then('the timetable search table is shown', async () => {
+  const actualTimetable = await navBarPage.isTimetablePresent();
+  expect(actualTimetable, `Timetable is not displayed`)
+    .to.equal(true);
+});
+
+Then('the signal search table is shown', async () => {
+  const actualSignalTable = await navBarPage.isSignalTablePresent();
+  expect(actualSignalTable, `Signal search table is not displayed`)
+    .to.equal(true);
+});
+
 Then('the search table is shown', async () => {
   const actualSearchTable = await navBarPage.isSearchTablePresent();
   expect(actualSearchTable, `Search table is not displayed`)
@@ -289,6 +301,10 @@ Then('the train search context menu contains {string} on line {int}', async (exp
   const actualContextMenuItem: string = await navBarPage.getTrainsSearchContextMenuItem(rowNum);
   expect(actualContextMenuItem, `Item ${rowNum} in train search context menu was not ${expectedText}`)
     .to.contain(expectedText);
+});
+
+Then('I select map {string} on line {int} from the search context menu', async (expectedText: string, rowNum: number) => {
+  await navBarPage.clickTrainsSearchContextMenuItem(rowNum);
 });
 
 Then('the {string} search context menu contains {string} on line {int}',
