@@ -77,9 +77,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       When the following train running information message is sent from LINX
         | trainUID | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           |
         | V95541   | 1B25        | today              | 15220               | WCROYDN                | Departure from Origin |
+      And I click the clear all button for TRUST Service Filter
       And I input '1B25V95541' in the TRUST input field
       And I click the add button for TRUST Service Filter
-  And I save the Service Filter changes
-  And I open 'trains list' page in a new tab
-  Then I should see the trains list table to only display train description 'IB25'
+      And I save the Service Filter changes
+      And I open 'trains list' page in a new tab
+      Then I should see the trains list table to only display train description 'IB25'
 
