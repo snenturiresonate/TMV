@@ -35,7 +35,7 @@ When(/^the following train running information? (?:message|messages)? (?:is|are)
  * Step to be used when train running information has delay on the location timing
  * Message Type to be used:
  * Not Specified, Arrival at termination, Departure from Origin, Arrival at station, Departure from station, Passing Location
- * Input: trainUID,trainNumber,scheduledStartDate(accepts today),LocationPrimaryCode,LocationSubsidiaryCode,messageType and delay
+ * Input: trainUID,trainNumber,scheduledStartDate(accepts today),LocationPrimaryCode,LocationSubsidiaryCode,messageType and delay(hh:mm)
  */
 When(/^the following train running information? (?:message|messages) with delay against booked time? (?:is|are) sent from LINX$/,
   async (trainRunningInfoMessageTable: any) => {

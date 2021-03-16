@@ -325,6 +325,13 @@ Then('{string} are {word} displayed', async (expectedTrainDescriptions: string, 
   }
 });
 
+Then('I should see the trains list table to only display train description {string}', async (expectedTrainDescription: string) => {
+  const actualTrainDescriptionsArray: string[] = await trainsListPage.getTrainsListValuesForColumn('train-description');
+  actualTrainDescriptionsArray.forEach(trainDescriber => {
+    expect(trainDescriber, `Unexpected train describer ${trainDescriber} seen`).to.equal(expectedTrainDescription);
+  });
+});
+
 function checkOrdering(thisString: string, nextString: string, colName: string, direction: string): void {
 
   let orderCheck = thisString.localeCompare(nextString);
