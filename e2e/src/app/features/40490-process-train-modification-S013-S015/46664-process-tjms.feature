@@ -145,3 +145,65 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | trainUid | trainDescription | type | modificationReason | nationalDelayCode |
       | H41111   | 1X11             | 91   | 12                 | PD                |
       | H41112   | 1X12             | 92   | 19                 | OZ                |
+
+  @bug @bug:57008 @bug:56878 @tdd @tdd:53405
+  Scenario: 40490-9 Out of order cancel/reinstate display in trains list
+  #  Given a TJM with <TJM 1 type> has been received for a schedule followed by <TJM 2 type> with an earlier modification datetime
+  #  And the trains list configuration has cancellation indication turned on
+  #  And the trains list configuration has reinstatement indication turned on
+  #  When a user view the trains list
+  #  Then the train is highlighted as reinstated
+
+   # Examples:
+   #   | TJM 1 type |Type of Modification 1| Location1          | Time 1                          | TJM 2 type                      | Modification Reason 1          | Type of Modification 2| Location 2   | Time 2             |Modification Reason 2 |
+   #   | 96         | Reinstatement        | Location from TJM1 | Modification datetime from TJM1 | Modification Reason from TJM 1 | 91                    | Cancellation | Location from TJM2 | Modification datetime from TJM2| Modification Reason from TJM 2|
+   #   | 96         | Reinstatement        | Location from TJM1 | Modification datetime from TJM1 | Modification Reason from TJM 1 | 92                    | Cancellation | Location from TJM2 | Modification datetime from TJM2| Modification Reason from TJM2 |
+    Given the following basic schedules are received from LINX
+      | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
+      | H41113   | N            | 2020-01-01   | 2030-01-01 | 1111111 | 1X13             | PADTON | 12:00     | OLDOXRS     | 12:30   |
+    And the following TJM is received
+      | trainUid | trainNumber | departureHour | modificationTime |status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
+      | H41113   | 1X13        | 12            | 10:00:00         | create| 91        | 91              | 99999       | OLDOXRS        | 12:00:00 | 82                 | VA                |
+      | H41113   | 1X13        | 12            | 10:01:00         | create| 96        | 96              | 99999       | OLDOXRS        | 12:01:00 | 82                 | VA                |
+    And I am on the trains list Config page
+    And I have navigated to the 'Train Indication' configuration tab
+    And I update the train list indication config settings as
+      | name                     | colour | minutes | toggleValue |
+      | Cancellation             | #ff7   |         | on          |
+      | Reinstatement            | #dde   |         | on          |
+    When I open 'trains list' page in a new tab
+    And The trains list table is visible
+    Then I should see the train list row coloured as
+      |trainDescriberId|backgroundColour|
+      |1X13            |rgb(221, 221, 238)|
+
+  @bug @bug:57008 @bug:56878 @tdd @tdd:53405
+  Scenario: 40490-10 Invalid reinstate followed by cancellation display in trains list
+    # Given a TJM with <TJM 1 type> has been received for a schedule followed by <TJM 2 type> with a later modification datetime
+    # And the trains list configuration has cancellation indication turned on
+    # And the trains list configuration has reinstatement indication turned on
+    # When a user view the trains list
+    # Then the train is highlighted as cancelled
+
+    # Examples:
+    #  | TJM 1 type |Type of Modification 1| Location1| Time 1| TJM 2 type |Modification Reason 1 | Type of Modification 2| Location 2| Time 2|Modification Reason 2 |
+    #  | 96 | Reinstatement| Location from TJM1 | Modification datetime from TJM1| Modification Reason from TJM 1 | 91| Cancellation | Location from TJM2 | Modification datetime from TJM2| Modification Reason from TJM 2|
+    #  | 96| Reinstatement | Location from TJM1| Modification datetime from TJM1| Modification Reason from TJM 1| 92| Cancellation | Location from TJM2 | Modification datetime from TJM2| Modification Reason from TJM2 |
+    Given the following basic schedules are received from LINX
+      | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
+      | H41114   | N            | 2020-01-01   | 2030-01-01 | 1111111 | 1X14             | PADTON | 12:00     | OLDOXRS     | 12:30   |
+    And the following TJM is received
+      | trainUid | trainNumber | departureHour | modificationTime  |status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
+      | H41114   | 1X14        | 12            | 10:00:00          |create | 96        | 96              | 99999       | OLDOXRS        | 12:00:00 | 82                 | VA                |
+      | H41114   | 1X14        | 12            | 10:01:00          |create | 91        | 91              | 99999       | OLDOXRS        | 12:01:00 | 82                 | VA                |
+    And I am on the trains list Config page
+    And I have navigated to the 'Train Indication' configuration tab
+    And I update the train list indication config settings as
+      | name                     | colour | minutes | toggleValue |
+      | Cancellation             | #dde   |         | on          |
+      | Reinstatement            | #ff7   |         | on          |
+    When I open 'trains list' page in a new tab
+    And The trains list table is visible
+    Then I should see the train list row coloured as
+      |trainDescriberId|backgroundColour|
+      |1X14            |rgb(221, 221, 238)|
