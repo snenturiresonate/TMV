@@ -34,6 +34,7 @@ const mapColourHex = {
   yellow: '#fffe3c',
   white: '#ffffff',
   orange: '#ffa700',
+  stone: '#f9cb9c',
   grey: '#969696',
   palegrey: '#b2b2b2',
   paleblue: '#00d2ff',
@@ -154,6 +155,20 @@ When('I use the secondary mouse click on a continuation button', async () => {
   const randomIndex = Math.floor(Math.random() * numContinuationLinks);
   mapPageObject.lastMapLinkSelectedCode  = await continuationTextElements[randomIndex].getText();
   await browser.actions().click(continuationTextElements[randomIndex], protractor.Button.RIGHT).perform();
+});
+
+When('I move to map {string} via continuation link', async (mapName: string) => {
+  const mapNumber = mapName.substr(mapName.length - 2, 2);
+  const continuationTextLayerItems: MapLayerItem[]
+    = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType.connector_text_label);
+  const continuationTextLayerItem: MapLayerItem = continuationTextLayerItems[0];
+  const continuationTextElements: any[] = await continuationTextLayerItem.layerItems.getWebElements();
+  for (const textItem of continuationTextElements) {
+    const textString = await textItem.getText();
+    if (textString === mapNumber) {
+      return textItem.click();
+    }
+  }
 });
 
 When('I select "Open" map from the menu', async () => {
@@ -660,6 +675,10 @@ When('I open schedule matching screen from the map context menu', async () => {
   await mapPageObject.mapContextMenuItems.get(2).click();
 });
 
+When(/^I toggle path (?:on|off) from the map context menu$/, async () => {
+  await mapPageObject.mapContextMenuItems.get(3).click();
+});
+
 Then('the map context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
   const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
   expect(actualContextMenuItem).to.contain(expectedText);
@@ -735,6 +754,22 @@ Then('the train headcode color for berth {string} is {word}',
     expect(actualSignalStatus, 'Headcode colour is not ' + expectedColor)
       .to.equal(expectedColorHex);
   });
+
+Then('the train headcode {string} is {string} on the map', async (trainDesc: string, visibilityType: string) => {
+  const headcodes: string[] = await mapPageObject.getHeadcodesOnMap();
+  let found = false;
+  for (const hcode of headcodes) {
+    if (hcode === trainDesc) {
+      found = true;
+      break;
+    }
+  }
+  if (visibilityType === 'displayed') {
+    expect(found, 'Headcode expected to be present on map').to.equal(true);
+  } else {
+    expect(found, 'Headcode not expected to be present on map').to.equal(false);
+  }
+});
 
 Then(/^the (Matched|Unmatched) version of the context menu is displayed$/, async (matchType: string) => {
   await mapPageObject.waitForContextMenu();

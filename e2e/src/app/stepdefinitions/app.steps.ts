@@ -119,7 +119,8 @@ When(/^the following berth interpose messages? (?:is|are) sent from LINX$/, asyn
   await linxRestClient.waitMaxTransmissionTime();
 });
 
-When(/^the following live berth interpose messages? (?:is|are) sent from LINX$/, async (berthInterposeMessageTable: any) => {
+When(/^the following live berth interpose messages? (?:is|are) sent from LINX (.*)$/,
+  async (explanation: string, berthInterposeMessageTable: any) => {
   const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
   const now = new Date();
 
@@ -154,7 +155,8 @@ When(/^the following berth step messages? (?:is|are) sent from LINX$/, async (be
   await linxRestClient.waitMaxTransmissionTime();
 });
 
-When(/^the following live berth step messages? (?:is|are) sent from LINX$/, async (berthStepMessageTable: any) => {
+When(/^the following live berth step messages? (?:is|are) sent from LINX (.*)$/,
+  async (explanation: string, berthStepMessageTable: any) => {
   const berthStepMessages: any = berthStepMessageTable.hashes();
   const now = new Date();
 
@@ -196,6 +198,23 @@ When(/^the following signalling update messages? (?:is|are) sent from LINX$/, as
       signallingUpdateMessage.address,
       signallingUpdateMessage.data,
       signallingUpdateMessage.timestamp,
+      signallingUpdateMessage.trainDescriber
+    );
+    CucumberLog.addJson(signallingUpdate);
+    linxRestClient.postSignallingUpdate(signallingUpdate);
+  });
+  await linxRestClient.waitMaxTransmissionTime();
+});
+
+When(/^the following live signalling update messages? (?:is|are) sent from LINX (.*)$/,
+  async (explanation: string, signallingUpdateMessageTable: any) => {
+  const signallingUpdateMessages: any = signallingUpdateMessageTable.hashes();
+  const now = new Date();
+  signallingUpdateMessages.forEach((signallingUpdateMessage: any) => {
+    const signallingUpdate: SignallingUpdate = new SignallingUpdate(
+      signallingUpdateMessage.address,
+      signallingUpdateMessage.data,
+      now.toTimeString().substr(0, 8),
       signallingUpdateMessage.trainDescriber
     );
     CucumberLog.addJson(signallingUpdate);
