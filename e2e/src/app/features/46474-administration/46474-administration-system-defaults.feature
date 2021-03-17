@@ -16,7 +16,7 @@ Feature: 46474 - Administration System Defaults - full end to end testing
       | Maximum Number of Replays                         |
       | Maximum Number of Schematic Map Display Instances |
       | Maximum Number of Trains List View Instances      |
-  @bug @bug_57070
+
   Scenario: Replay system setting values display
     Then I should see the system default settings as
       | ReplayBackgroundColour | MaxNoOfMapsPerReplay | MaxNoofReplays | MaxNoofSchematicMapDisplayInstances | MaxNoofTrainsListViewInstances |

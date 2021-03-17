@@ -111,8 +111,8 @@ Then('the following can be seen on the trains list indication table', async (dat
     }
 
     expect(actualRowName).to.contain(expectedEntry.name);
-    expect(actualToggleValue).to.contain(expectedEntry.toggleValue);
-    expect(actualColour).to.contain(expectedEntry.colour);
+    expect(actualToggleValue, `Toggle value of ${expectedEntry.name} is not as expected`).to.contain(expectedEntry.toggleValue);
+    expect(actualColour, `Colour of ${expectedEntry.name} is not as expected`).to.contain(expectedEntry.colour);
     index++;
   }
 });

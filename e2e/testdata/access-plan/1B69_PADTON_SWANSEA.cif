@@ -1,0 +1,51 @@
+HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
+BSNC460962101202309091111111 PXX1B696175125375002 HST    125      B S C        P
+BX         GWY                                                                  
+LOPADTON  1730 17304  1      TB                                                 
+LIROYAOJN           1731 00000000   1                                           
+LIPRTOBJP           1732H00000000   1                                           
+LILDBRKJ            1733H00000000   ML 1                                        
+LIACTONW            1736H00000000   ML ML                                       
+LISTHALL            1738H000000001  ML                                          
+LIHTRWAJN           1739H00000000   ML                                          
+LISTKYJN            1740H00000000   RL ML                                       
+LISLOUGH            1746 000000004  RL                2                         
+LIMDNHEAD           1753 000000003  RL                1                         
+LITWYFORD           1800 000000003  RL                                          
+LIRDNGKBJ           1802H00000000   DRL               2                         
+LIRDNGSTN 1806H1808H     1807180713 RL    T                                     
+LIREDGWJN           1810H00000000   RL                                          
+LIGORASTR           1815H00000000   RL                                          
+LIDIDCTEJ           1821 00000000   RL                1                         
+LIDIDCOTP 1823 1824H     182318243  RL    T                                     
+LIFOXHALJ           1825H00000000   ML                                          
+LIWANTRD            1831H00000000                                               
+LICHALLOW           1833H00000000                                               
+LIUFNGTN            1834H00000000                                               
+LISDON    1841H1843H     184318434        T           1                         
+LIWTNBSTJ           1850 00000000                                               
+LIHLVNGTN           1856H00000000                     1                         
+LIWSTLGHJ           1904H00000000                                               
+LIBRSTPWY 1908H1910H     190719092        T                                     
+LIPATCHWY           1912H000000002                                              
+LIPILNING           1915H000000002                                              
+LISEVTNLE           1916H00000000                                               
+LISEVTNLW           1920 00000000                                               
+LISEVTNLJ           1921 000000003  ML                                          
+LILWERWJN           1926H00000000                     1                         
+LIMAINDWJ           1929H00000000                                               
+LINWPTRTG 1931 1933      193119322  RL    T                                     
+LIEBBWJ             1936H00000000DRL                  2                         
+LIMSHFILD           1942H00000000                                               
+LILNGDYKJ           1951 00000000   E                                           
+LICRDFCEN 1952H1954H     195119533  D     T                                     
+LILCKWTHJ           1957 00000000                                               
+LIPONYCLN           2005H00000000                                               
+LIBRGEND  2013H2015      201320141        T                                     
+LISTORMY            2019H00000000                                               
+LIMRGMMJN           2022 00000000                     1                         
+LIPTALBOT 2026H2028      20262027         T                                     
+LINEATH   2034 2035H     20332034         T           1                         
+LISWANSLE           2045H00000000                                               
+LTSWANSEA 2048 20482     TF                                                     
+ZZ                                                                              

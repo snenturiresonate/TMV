@@ -1,5 +1,5 @@
-Feature: 40680 - Basic UI - Schematic Object State Scenarios
-  (From Gherkin for Feature 40680 and functionality developed in US34081)
+Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
+  (From Gherkin for Feature 34081)
   As a TMV User
   I want to schematic objects displayed with the latest state
   So that I have a live view of the railway

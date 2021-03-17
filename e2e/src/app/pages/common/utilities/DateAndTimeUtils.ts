@@ -1,7 +1,11 @@
 import * as moment from 'moment';
-import {DateTimeFormatter, LocalDate} from '@js-joda/core';
+import {DateTimeFormatter, LocalDate, LocalDateTime} from '@js-joda/core';
 
 export class DateAndTimeUtils {
+
+  public static getCurrentDateTime(): any {
+    return LocalDateTime.now();
+  }
 
   public static dayOfWeek(): string {
     return LocalDate.now().dayOfWeek().name();
