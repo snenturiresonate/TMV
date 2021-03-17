@@ -11,7 +11,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - ber
   Scenario: Berth settings header
     Then the berth settings header is displayed as 'Berth Colours'
 
-  @bug @bug_57070
   Scenario: Berth colour settings default color and entries
     Then the following can be seen on the berth color settings table
       | name           | colour  | toggleState |
@@ -21,7 +20,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - ber
       | Last Berth     | #ffffff | On          |
       | Unknown Delay  | #ffffff | On          |
 
-  @bug @bug_57070
   Scenario: Berth colour settings - Update and Save
     When I update the Berth settings table as
       | name           | colour  | toggleState |
