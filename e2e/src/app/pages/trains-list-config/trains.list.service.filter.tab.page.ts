@@ -20,7 +20,7 @@ export class TrainsListServiceFilterTabPage {
     this.selectedServicesTableElm = element((by.css('table.services-filter-table')));
     this.selectedServicesTableHeader = element(by.css('table.services-filter-table th'));
     this.selectedServicesTableItems = element.all(by.css('table.services-filter-table td.services-filter-table-trust-id'));
-    this.saveServiceFiltersBtn = element(by.css('#saveTLServiceFilterConfig'));
+    this.saveServiceFiltersBtn = element(by.css('#saveTLMiscConfig'));
   }
 
   public async waitForTrustIds(): Promise<boolean> {
