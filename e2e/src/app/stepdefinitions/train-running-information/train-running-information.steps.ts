@@ -24,7 +24,6 @@ When(/^the following train running information? (?:message|messages)? (?:is|are)
     const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithoutDelay(locationPrimaryCode, locationSubsidiaryCode,
       operationalTrainNumber, trainUID,
       scheduledStartDate, messageType);
-    console.log('XML: ' + trainRunningInfo.toString({prettyPrint: true}));
     await linxRestClient.postTrainActivation(trainRunningInfo.toString({prettyPrint: true}));
 
     await linxRestClient.waitMaxTransmissionTime();
@@ -53,7 +52,6 @@ When(/^the following train running information? (?:message|messages) with delay 
     const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithDelayAgainstBookedTime(locationPrimaryCode, locationSubsidiaryCode,
       operationalTrainNumber, trainUID,
       scheduledStartDate, messageType, delay);
-    console.log('XML: ' + trainRunningInfo.toString({prettyPrint: true}));
     await linxRestClient.postTrainActivation(trainRunningInfo.toString({prettyPrint: true}));
 
     await linxRestClient.waitMaxTransmissionTime();

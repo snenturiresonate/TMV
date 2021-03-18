@@ -1,4 +1,3 @@
-@bug @bug_55994
 Feature: 33806 - TMV User Preferences - full end to end testing - TL config navigation
 
   As a tester
@@ -40,8 +39,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config navi
       | DEST.            |
       | PLANNED          |
       | ACTUAL / PREDICT |
-      | NEXTLOC.         |
-      | TOC/FOC          |
+      | NEXT LOC.        |
+      | OPERATOR         |
 
   Scenario: 33806 -1d Trains list config - Tab title
     When I click the app 'trains-list'
