@@ -38,7 +38,7 @@ Feature: 33753 - TMV Timetable
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |
     And I see todays schedule for '<planningUid>' has loaded by looking at the timetable page
-    And the following live berth interpose message is sent from LINX
+    And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 0037    | D3             | <trainNum>       |
     And I am viewing the map HDGW01paddington.v
@@ -134,7 +134,7 @@ Feature: 33753 - TMV Timetable
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | SLOUGH      | WTT_arr       | <trainNum>          | <planningUid>  |
     And I see todays schedule for '<planningUid>' has loaded by looking at the timetable page
-    And the following live berth interpose message is sent from LINX
+    And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 0519    | D6             | <trainNum>       |
     Given I am on the trains list page
@@ -207,7 +207,7 @@ Feature: 33753 - TMV Timetable
       | location | column          | value     |
       | SLOUGH   | arrivalDateTime | actual    |
       | SLOUGH   | deptDateTime    | predicted |
-    When the following live berth step message is sent from LINX
+    When the following live berth step message is sent from LINX (moving train along)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 0519      | 0533    | D6             | <trainNum>       |
     And the maximum amount of time is allowed for end to end transmission
@@ -226,7 +226,7 @@ Feature: 33753 - TMV Timetable
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | EALINGB     | WTT_arr       | <trainNum>          | <planningUid>  |
     And I see todays schedule for '<planningUid>' has loaded by looking at the timetable page
-    And the following live berth interpose message is sent from LINX
+    And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 0206    | D3             | <trainNum>       |
     Given I am viewing the map hdgw01paddington.v
@@ -241,7 +241,7 @@ Feature: 33753 - TMV Timetable
       | location | column          | value     |
       | EALINGB  | arrivalDateTime | actual    |
       | EALINGB  | deptDateTime    | predicted |
-    And the following live berth step message is sent from LINX
+    And the following live berth step message is sent from LINX (moving train along)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 0206      | 0202    | D3             | <trainNum>       |
     And the maximum amount of time is allowed for end to end transmission
@@ -278,7 +278,7 @@ Feature: 33753 - TMV Timetable
 #    And the schedule is not matched to live stepping
 #    When the user is viewing the timetable
 #    Then the schedule is displayed with no predicted or live actual running information or header information.
-    Given the following live berth interpose message is sent from LINX
+    Given the following live berth interpose message is sent from LINX (which won't match anything)
       | toBerth | trainDescriber | trainDescription |
       | 0831    | D1             | <trainNum>       |
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
@@ -320,7 +320,7 @@ Feature: 33753 - TMV Timetable
       | location | column          | value  |
       | CHOLSEY  | arrivalDateTime | absent |
       | CHOLSEY  | deptDateTime    | absent |
-    And the following live berth step message is sent from LINX
+    And the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 0831      | 0839    | D1             | <trainNum>       |
     Then The values for the header properties are as follows
@@ -346,10 +346,10 @@ Feature: 33753 - TMV Timetable
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |
     And I see todays schedule for '<planningUid>' has loaded by looking at the timetable page
-    And the following live berth interpose message is sent from LINX
+    And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | A001    | D3             | <trainNum>       |
-    And the following live berth step message is sent from LINX
+    And the following live berth step message is sent from LINX (moving train along)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | A001      | 0037    | D3             | <trainNum>       |
     Given I am viewing the map hdgw01paddington.v
@@ -416,7 +416,7 @@ Feature: 33753 - TMV Timetable
     #And the train is not schedule matched
     #When the user selects the details tab of the timetable
     #Then the train's basic header information is displayed
-    Given the following live berth interpose message is sent from LINX
+    Given the following live berth interpose message is sent from LINX (which won't match anything)
       | toBerth | trainDescriber | trainDescription |
       | 1630    | D1             | <trainNum>       |
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
@@ -439,7 +439,7 @@ Feature: 33753 - TMV Timetable
     Then The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed  | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
       | 15/12/2019 to 10/05/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             |         | GW       | 25507005         | P               | OO            |           |              | 1     | S            |              |            | EMU       | 110mph |           | m           | D                            |                 |
-    When the following live berth step message is sent from LINX
+    When the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 1630      | 1628    | D1             | <trainNum>       |
     Then The values for the header properties are as follows

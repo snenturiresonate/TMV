@@ -180,7 +180,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
   @tdd
   Scenario: 33806 -24-g Off route - Train has moved off route
     Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    When the following live berth step message is sent from LINX
+    When the following live berth step message is sent from LINX (causing service to go off route)
        | fromBerth | toBerth | trainDescriber| trainDescription |
        | 0099      | 9999    | GW            | IS42             |
     And I update only the below train list indication config settings as

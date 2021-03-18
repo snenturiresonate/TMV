@@ -8,11 +8,11 @@ Feature: 46474 - Administration Login Message - full end to end testing
     Given I am on the admin page
     And The admin setting defaults are as originally shipped
     And I navigate to the 'Login Message' admin tab
-  @bug @bug_57070
+
   Scenario: Login message view
     Then I should see the login settings 'Message' as 'Welcome to TMV'
     And I should see the login settings 'Terms and Conditions' as 'TMV terms of use'
-  @bug @bug_57070
+
   Scenario: Login message update and reset
     When I update login settings 'Message' as 'Login Message'
     And I update login settings 'Terms and Conditions' as 'Login Terms and Conditions'
