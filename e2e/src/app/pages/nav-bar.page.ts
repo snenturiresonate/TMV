@@ -49,6 +49,8 @@ export class NavBarPageObject {
   public mapPathToggle: ElementArrayFinder;
   public recentMaps: ElementArrayFinder;
   public mapChanger: ElementFinder;
+  public routeSetTrackIndicator: ElementFinder;
+  public routeSetCodeIndicator: ElementFinder;
   constructor() {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
@@ -98,6 +100,8 @@ export class NavBarPageObject {
     this.mapPathToggle = element.all(by.css('#map-path-toggle-button'));
     this.recentMaps = element.all(by.css('.map-details'));
     this.mapChanger = element(by.css('a[title=\'Change map\']'));
+    this.routeSetTrackIndicator = element(by.css('#routesettracktoggle .toggle-switch'));
+    this.routeSetCodeIndicator = element(by.css('#routesetcodetoggle .toggle-switch'));
   }
 
   public async getNavbarIconNames(): Promise<string> {
@@ -123,6 +127,12 @@ export class NavBarPageObject {
     }
     if (toggleName === 'Berth') {
       return this.berthToggleIndicator.getText();
+    }
+    if (toggleName === 'Route Set - Track') {
+      return this.routeSetTrackIndicator.getText();
+    }
+    if (toggleName === 'Route Set - Code') {
+      return this.routeSetCodeIndicator.getText();
     }
     return 'Unknown';
   }
