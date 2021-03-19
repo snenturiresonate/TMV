@@ -141,7 +141,7 @@ When('I set trains list columns to be {string}', {timeout: 15 * 1000}, async (wa
 
 When('I set trains list columns to the default', {timeout: 15 * 1000}, async () => {
   await trainsListColumnConfigPage.trainListConfigSelectedSecondElements.click();
-  const wantedColumns = 'Schedule, Service, Time, Report, Punctuality, Origin, Destination, Next location, Operator';
+  const wantedColumns = 'Schedule UID, Service, Last Reported Location, Origin, Destination, Next location, Operator';
   const userTLColumns = wantedColumns.split(',', 16).map(item => item.trim());
   for (let i = 0; i < userTLColumns.length; i++) {
     await trainsListColumnConfigPage.moveToSelectedList(userTLColumns[i], i);
