@@ -1,4 +1,3 @@
-@check
 Feature: 46474 - Administration System Defaults - full end to end testing
 
   As a tester

@@ -1,4 +1,3 @@
-@check
 Feature: 46474 - Administration Display Settings - full end to end testing - berth settings
 
   As a tester

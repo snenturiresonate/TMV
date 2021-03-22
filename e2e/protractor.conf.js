@@ -33,7 +33,7 @@ exports.config = {
     // To run specific Scenarios marked with the tag @test (for example), uncomment the next line
     //tags: ['@test']
     // To run all scenarios not marked @bug or @tdd, uncomment the next line
-    tags: ['not (@bug or @tdd or @manual)','@check']
+    tags: ['not (@bug or @tdd or @manual)']
   },
   ignoreUncaughtExceptions: true,
   async onPrepare() {
