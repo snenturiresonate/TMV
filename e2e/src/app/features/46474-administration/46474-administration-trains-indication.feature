@@ -7,7 +7,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - tra
   Background:
     Given I am on the admin page
     And The admin setting defaults are as originally shipped
-    And I reset the punctuality settings
+    And I refresh the browser
 
   Scenario: Trains indication table header
     Then the train indication header is displayed as 'Trains List Indication'

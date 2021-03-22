@@ -8,7 +8,7 @@ Feature: 46474 - Administration System Defaults - full end to end testing
     Given I am on the admin page
     And I navigate to the 'System Defaults' admin tab
     And The admin setting defaults are as originally shipped
-    And I reset the system default settings
+    And I refresh the browser
 
   Scenario: Replay system settings
     Then the following can be seen on the system default settings
