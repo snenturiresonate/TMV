@@ -49,8 +49,9 @@ After(async function(scenario) {
     .catch(reason => console.log(scenario.name + ' : ' + reason));
 });
 
-After(async (scenario) => {
-  console.log(scenario.name);
+Before((scenario) => {
+  const scenarioName = scenario.name;
+  console.log(`${scenarioName}`);
 });
 
 AfterAll(async () => {
