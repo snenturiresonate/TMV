@@ -7,6 +7,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - ber
   Background:
     Given I am on the admin page
     And The admin setting defaults are as originally shipped
+    And I reset the punctuality settings
 
   Scenario: Berth settings header
     Then the berth settings header is displayed as 'Berth Colours'

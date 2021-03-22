@@ -7,6 +7,7 @@ Feature: 46474 - Administration Login Message - full end to end testing
   Background:
     Given I am on the admin page
     And The admin setting defaults are as originally shipped
+    And I reset the punctuality settings
     And I navigate to the 'Login Message' admin tab
 
   Scenario: Login message view
