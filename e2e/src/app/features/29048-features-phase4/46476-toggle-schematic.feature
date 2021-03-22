@@ -30,7 +30,6 @@ Feature: 46476 - Toggle Schematic
     And the TRTS status for signal 'SN1' is white
     And the TRTS visibility status for 'SN1' is visible
 
-      @tdd
     Scenario:46476-2 Route Set Code (turn on)
     #Given the user is authenticated to use TMV
     #And the user is viewing a live the map
@@ -38,17 +37,17 @@ Feature: 46476 - Toggle Schematic
     #When the user toggles on the route set code to on
     #Then the route set code is displayed for the track for all trains that have a route set
       And I set up all signals for address 06 in D3 to be not-proceed
-      And the tracks 'PNPNZS, PNPNQ3' are displayed in thin palegrey
+      And the tracks 'PNPNQ3' are displayed in thin palegrey
       And the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 48      | 10   | 10:45:00  |
       And I click on the layers icon in the nav bar
       And the 'Route Set - Track' toggle is 'on'
-      Then the tracks 'PNPNZS, PNPNQ3' are displayed in solid white
+      Then the tracks 'PNPNQ3' are displayed in solid white
       And I move to map 'HDGW02' via continuation link
       And I click on the layers icon in the nav bar
       And the 'Route Set - Track' toggle is 'on'
-      And the tracks 'PNPNZS, PNPNQ3' are displayed in solid white
+      And the tracks 'PNPNQ3' are displayed in solid white
 
         @tdd
   Scenario: 3 Berth (turn on)
@@ -72,7 +71,7 @@ Feature: 46476 - Toggle Schematic
       And I toggle the 'Berth' toggle 'on'
       And berth '0099' in train describer 'D3' contains '0099' and is visible
 
-          @tdd
+
   Scenario:4 Platform (turn on)
       #Given the user is authenticated to use TMV
       #And the user is viewing a live the map
