@@ -83,7 +83,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
       | #cc44dd              | 3        | 10     | 3 to 10 minutes late-edit    | on      |
       | #ddee77              | 15       | 20     | 15 to 20 minutes late-edit   | off     |
       | #ffff66              | 21       |        | 21 minutes or more late-edit | on      |
-
+  @bug @bug_58056
   Scenario: 33806 -7,8,9 Trains list punctuality config update
     When I update the trains list punctuality settings as
       | punctualityColorText | fromTime | toTime | entryValue                   | include |

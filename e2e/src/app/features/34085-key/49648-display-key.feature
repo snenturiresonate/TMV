@@ -7,7 +7,7 @@ Feature: 46482 - TMV Key - display key
     Given The admin setting defaults are as originally shipped
     And I am viewing the map GW01paddington.v
 
-
+  @bug @bug_58056
   Scenario: 34085-2a The TMV Key punctuality table is displayed within the modal when the tmv icon is clicked
     When I click on the Help icon
     And I select the TMV Key option

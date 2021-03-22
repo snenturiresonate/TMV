@@ -11,7 +11,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
 
   Scenario: Line Status settings header
     Then the line settings header is displayed as 'Line Status'
-
+  @bug @bug_58056
   Scenario: Line Status -Restriction type settings default color and entries
     Then the following can be seen on the Line Status restriction type settings table
       | name       | colour  |
@@ -20,22 +20,22 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
       | ESR        | #ffff00 |
       | Possession | #ff0000 |
       | Not in use | #ffa700 |
-
+  @bug @bug_58056
   Scenario: Line Status -Route type settings default color and entries
     Then the following can be seen on the Line Status route type settings table
       | name      | colour  | lineWidth | lineStyle |
       | Route Set | #ffffff | 2         | Solid     |
-
+  @bug @bug_58056
   Scenario: Line Status -Path type settings default color and entries
     Then the following can be seen on the Line Status path type settings table
       | name           | colour  | lineWidth | lineStyle |
       | Predicted Path | #0000ff | 3         | Solid     |
-
+  @bug @bug_58056
   Scenario: Line Status -Note settings default color and entries
     Then the following can be seen on the Line Status note settings table
       | name         | colour  | lineWidth | lineStyle |
       | Note applied | #78e7ff | 2         | Solid    |
-
+  @bug @bug_58056
   Scenario: Line Status -Restriction type settings reset to default color and entries
     When I update the Line Status restriction type settings table as
       | name       | colour  |
@@ -63,7 +63,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
     Then the following can be seen on the Line Status note settings table
       | name         | colour  | lineWidth | lineStyle |
       | Note applied | #78e7ff | 2         | Solid    |
-
+  @bug @bug_58056
   Scenario: Update Line Status -Restriction type settings
     When I update the Line Status restriction type settings table as
       | name       | colour  |
@@ -78,7 +78,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
       | ESR        | #ffff00 |
       | Possession | #ff0000 |
       | Not in use | #ffa700 |
-
+  @bug @bug_58056
   Scenario: Update Line Status -Route type settings
     When I update the Line Status route type settings table as
       | name      | colour  | lineWidth | lineStyle |
@@ -89,7 +89,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
     Then the following can be seen on the Line Status route type settings table
       | name      | colour  | lineWidth | lineStyle |
       | Route Set | #bbbb22 | 3         | Solid     |
-
+  @bug @bug_58056
   Scenario: Update Line Status -Path type settings
     When I update the Line Status path type settings table as
       | name           | colour  | lineWidth | lineStyle |
@@ -100,7 +100,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
     Then the following can be seen on the Line Status path type settings table
       | name            | colour  | lineWidth | lineStyle |
       | Predicted Path  | #bbbb22 | 3         | Solid     |
-
+  @bug @bug_58056
   Scenario: Update Line Status -Note settings
     When I update the Line Status note settings table as
       | name         | colour  | lineWidth | lineStyle |

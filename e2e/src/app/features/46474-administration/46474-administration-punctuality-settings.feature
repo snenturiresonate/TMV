@@ -11,7 +11,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
 
   Scenario: Admin punctuality settings table header
     Then the admin punctuality header is displayed as 'Punctuality'
-
+  @bug @bug_58056
   Scenario: Admin punctuality settings default color and entries
     And I have navigated to the 'Display Settings' admin tab
     Then the following can be seen on the admin punctuality settings table
@@ -66,7 +66,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #ffa700              | 5        | 10     | 5 to 9 minutes late      |
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
-
+  @bug @bug_58056
   Scenario: User should be able to add a punctuality time-band
     When I add a punctuality time-band
     And I save the punctuality settings
@@ -82,7 +82,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #ffa700              | 5        | 10     | 5 to 9 minutes late      |
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
-
+  @bug @bug_58056
   Scenario: User should be able to add, edit and save a punctuality time-band
     When I add a punctuality time-band
     And I update the admin punctuality settings as
@@ -103,7 +103,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #ffa700              | 5        | 10     | 5 to 9 minutes late      |
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
-
+  @bug @bug_58056
   Scenario: User should be able to delete, edit and save a punctuality time-band
     When I delete the first punctuality time-band
     And I save the punctuality settings
