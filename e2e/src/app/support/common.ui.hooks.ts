@@ -49,11 +49,6 @@ After(async function(scenario) {
     .catch(reason => console.log(scenario.name + ' : ' + reason));
 });
 
-Before((scenario) => {
-  const scenarioName = scenario.name;
-  console.log(`${scenarioName}`);
-});
-
 AfterAll(async () => {
   ReplayRecordings.writeFiles();
 });
