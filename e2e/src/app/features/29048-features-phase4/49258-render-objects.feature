@@ -36,17 +36,17 @@ Feature: 46476 - Toggle Schematic
     #When the user toggles on the route set code to on
     #Then the route set code is displayed for the track for all trains that have a route set
       And I set up all signals for address 06 in D3 to be not-proceed
-      And the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
+      And the tracks 'PNPNZS, PNPNQ3' are displayed in thin palegrey
       And the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 06      | 08   | 10:45:00  |
+      | D3             | 48      | 10   | 10:45:00  |
       And I click on the layers icon in the nav bar
       And the 'Route Set - Track' toggle is 'on'
-      Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in solid white
+      Then the tracks 'PNPNZS, PNPNQ3' are displayed in solid white
       And I move to map 'HDGW02' via continuation link
       And I click on the layers icon in the nav bar
       And the 'Route Set - Track' toggle is 'on'
-      And the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in solid white
+      And the tracks 'PNPNZS, PNPNQ3' are displayed in solid white
 
   Scenario: 3 Berth (turn on)
      #Given the user is authenticated to use TMV
@@ -56,15 +56,18 @@ Feature: 46476 - Toggle Schematic
      #Then the all berth codes are displayed for all berths
       When I click on the layers icon in the nav bar
       And I toggle the 'Berth' toggle 'off'
-      And I toggle the 'Berth' toggle 'on'
       And the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
       Then berth '0099' in train describer 'D3' contains '1G69' and is visible
+      And I toggle the 'Berth' toggle 'on'
+      Then berth '0099' in train describer 'D3' contains '0099' and is visible
       And I move to map 'HDGW02' via continuation link
       And I click on the layers icon in the nav bar
       And I toggle the 'Berth' toggle 'off'
+      And berth '0099' in train describer 'D3' contains '1G69' and is visible
       And I toggle the 'Berth' toggle 'on'
+      And berth '0099' in train describer 'D3' contains '0099' and is visible
 
   Scenario:4 Platform (turn on)
       #Given the user is authenticated to use TMV
