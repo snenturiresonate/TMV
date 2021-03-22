@@ -1,3 +1,4 @@
+@check
 Feature: 46474 - Administration Display Settings - full end to end testing - trains indication
 
   As a tester

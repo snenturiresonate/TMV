@@ -108,7 +108,6 @@ Then('the maps auto-suggest list contains {string} at position {int}', async (ex
 });
 
 When('I click the app {string}', async (appName: string) => {
-  browser.driver.sleep(1000);
   await homePage.clickIcon(appName);
 });
 

@@ -1,3 +1,4 @@
+@check
 Feature: 46474 - Administration Display Settings - full end to end testing - line status
 
   As a tester
