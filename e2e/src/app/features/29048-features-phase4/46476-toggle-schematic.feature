@@ -7,6 +7,7 @@ Feature: 46476 - Toggle Schematic
   Background:
     Given I am viewing the map hdgw01paddington.v
 
+    @tdd
   Scenario:46476-1 Route Set Track (turn on)
   #Given the user is authenticated to use TMV
   #And the user is viewing a live the map
@@ -29,6 +30,7 @@ Feature: 46476 - Toggle Schematic
     And the TRTS status for signal 'SN1' is white
     And the TRTS visibility status for 'SN1' is visible
 
+      @tdd
     Scenario:46476-2 Route Set Code (turn on)
     #Given the user is authenticated to use TMV
     #And the user is viewing a live the map
@@ -48,6 +50,7 @@ Feature: 46476 - Toggle Schematic
       And the 'Route Set - Track' toggle is 'on'
       And the tracks 'PNPNZS, PNPNQ3' are displayed in solid white
 
+        @tdd
   Scenario: 3 Berth (turn on)
      #Given the user is authenticated to use TMV
      #And the user is viewing a live the map
@@ -69,6 +72,7 @@ Feature: 46476 - Toggle Schematic
       And I toggle the 'Berth' toggle 'on'
       And berth '0099' in train describer 'D3' contains '0099' and is visible
 
+          @tdd
   Scenario:4 Platform (turn on)
       #Given the user is authenticated to use TMV
       #And the user is viewing a live the map
