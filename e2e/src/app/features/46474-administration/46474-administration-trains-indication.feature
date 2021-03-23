@@ -8,7 +8,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - tra
     Given I am on the admin page
     And The admin setting defaults are as originally shipped
     And I refresh the browser
-
+  @checkRole
   Scenario: Trains indication table header
     Then the train indication header is displayed as 'Trains List Indication'
   @bug @bug_58056

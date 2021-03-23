@@ -1,5 +1,5 @@
 import {Status} from 'cucumber';
-import {browser} from 'protractor';
+import {browser, by, element} from 'protractor';
 
 export class CucumberLog
 {
@@ -9,6 +9,7 @@ export class CucumberLog
   }
   public static async addScreenshotOnFailure(scenario: any): Promise<void> {
     if (scenario.result.status === Status.FAILED){
+      await element(by.css('#user-profile-menu-button')).click();
       await CucumberLog.addScreenshot();
     }
   }
