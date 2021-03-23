@@ -5,7 +5,7 @@ Feature: 46476 - Toggle Schematic
   So that I can focus on a particular type of infrastructure
 
   Background:
-    Given I am viewing the map hdgw01paddington.v
+    Given I am viewing the map gw01paddington.v
 
     @tdd
   Scenario:46476-1 Route Set Track (turn on)
@@ -44,12 +44,12 @@ Feature: 46476 - Toggle Schematic
       And I click on the layers icon in the nav bar
       And the 'Route Set - Track' toggle is 'on'
       Then the tracks 'PNPNQ3' are displayed in solid white
-      And I move to map 'HDGW02' via continuation link
+      And I move to map 'GW02' via continuation link
       And I click on the layers icon in the nav bar
       And the 'Route Set - Track' toggle is 'on'
       And the tracks 'PNPNQ3' are displayed in solid white
 
-        @tdd
+
   Scenario: 3 Berth (turn on)
      #Given the user is authenticated to use TMV
      #And the user is viewing a live the map
@@ -60,16 +60,16 @@ Feature: 46476 - Toggle Schematic
       And I toggle the 'Berth' toggle 'off'
       And the following berth interpose message is sent from LINX
       | timestamp | toBerth | trainDescriber| trainDescription |
-      | 09:59:00  | 0099    | D3            | 1G69             |
-      Then berth '0099' in train describer 'D3' contains '1G69' and is visible
+      | 09:59:00  | 0209    | D3            | 1G69             |
+      Then berth '0209' in train describer 'D3' contains '1G69' and is visible
       And I toggle the 'Berth' toggle 'on'
-      Then berth '0099' in train describer 'D3' contains '0099' and is visible
-      And I move to map 'HDGW02' via continuation link
+      Then berth '0209' in train describer 'D3' contains '0209' and is visible
+      And I move to map 'GW02' via continuation link
       And I click on the layers icon in the nav bar
       And I toggle the 'Berth' toggle 'off'
-      And berth '0099' in train describer 'D3' contains '1G69' and is visible
+      And berth '0209' in train describer 'D3' contains '1G69' and is visible
       And I toggle the 'Berth' toggle 'on'
-      And berth '0099' in train describer 'D3' contains '0099' and is visible
+      And berth '0209' in train describer 'D3' contains '0209' and is visible
 
 
   Scenario:4 Platform (turn on)
@@ -78,7 +78,6 @@ Feature: 46476 - Toggle Schematic
       #And the platforms is toggled off
       #When the user toggles on the platform to on
       #Then platforms are not displayed
-      Given I am viewing the map hdgw01paddington.v
       When I click on the layers icon in the nav bar
       And the 'Platform' toggle is 'on'
       And the platform layer is shown
