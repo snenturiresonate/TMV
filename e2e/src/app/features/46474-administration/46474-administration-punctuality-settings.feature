@@ -1,3 +1,4 @@
+@bug @bug_58056
 Feature: 46474 - Administration Display Settings - full end to end testing - punctuality settings
 
   As a tester

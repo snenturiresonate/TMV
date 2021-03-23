@@ -4,6 +4,7 @@ Feature: 33753 - TMV Timetable
   I want end to end tests to be created for the Timetable functionality
   So that there is confidence that it continues to work as expected as more of the system is developed
 
+  @bug @bug_58079
   Scenario Outline: 33753-1 -Open Timetable (Trains List)
      #Open Timetable (Trains List)
      #Given the user is authenticated to use TMV
@@ -14,9 +15,9 @@ Feature: 33753 - TMV Timetable
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | RDNGSTN     | WTT_arr       | <trainNum>          | <planningUid>  |
-    And I see todays schedule for '<planningUid>' has loaded by looking at the timetable page
     And I am on the trains list page
     And The trains list table is visible
+    And Train description '<trainNum>' is visible on the trains list
     When I invoke the context menu from train '<trainNum>' on the trains list
     And I wait for the context menu to display
     And the trains list context menu is displayed
@@ -25,7 +26,7 @@ Feature: 33753 - TMV Timetable
     And the tab title is 'TMV Timetable'
     Examples:
       | trainNum | planningUid |
-      | 1A02     | L10002      |
+      | 1A01     | L10001      |
 
   @replaySetup
   Scenario Outline: 33753-2a -Open Timetable (from Map - Schedule Matched)
@@ -37,7 +38,9 @@ Feature: 33753 - TMV Timetable
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |
-    And I see todays schedule for '<planningUid>' has loaded by looking at the timetable page
+    And I am on the trains list page
+    And The trains list table is visible
+    And Train description '<trainNum>' is visible on the trains list
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 0037    | D3             | <trainNum>       |
@@ -133,7 +136,9 @@ Feature: 33753 - TMV Timetable
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | SLOUGH      | WTT_arr       | <trainNum>          | <planningUid>  |
-    And I see todays schedule for '<planningUid>' has loaded by looking at the timetable page
+    And I am on the trains list page
+    And The trains list table is visible
+    And Train description '<trainNum>' is visible on the trains list
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 0519    | D6             | <trainNum>       |
@@ -225,7 +230,9 @@ Feature: 33753 - TMV Timetable
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | EALINGB     | WTT_arr       | <trainNum>          | <planningUid>  |
-    And I see todays schedule for '<planningUid>' has loaded by looking at the timetable page
+    And I am on the trains list page
+    And The trains list table is visible
+    And Train description '<trainNum>' is visible on the trains list
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 0206    | D3             | <trainNum>       |
@@ -284,7 +291,9 @@ Feature: 33753 - TMV Timetable
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1S42_PADTON_DIDCOTP.cif | CHOLSEY     | WTT_arr       | <trainNum>          | <planningUid>  |
-    And I see todays schedule for '<planningUid>' has loaded by looking at the timetable page
+    And I am on the trains list page
+    And The trains list table is visible
+    And Train description '<trainNum>' is visible on the trains list
     And I am on the trains list page
     And The trains list table is visible
     When I invoke the context menu from train '<trainNum>' on the trains list
@@ -345,7 +354,9 @@ Feature: 33753 - TMV Timetable
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |
-    And I see todays schedule for '<planningUid>' has loaded by looking at the timetable page
+    And I am on the trains list page
+    And The trains list table is visible
+    And Train description '<trainNum>' is visible on the trains list
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | A001    | D3             | <trainNum>       |
@@ -422,7 +433,9 @@ Feature: 33753 - TMV Timetable
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1S42_PADTON_DIDCOTP.cif | TWYFORD     | WTT_pass      | <trainNum>          | <planningUid>  |
-    And I see todays schedule for '<planningUid>' has loaded by looking at the timetable page
+    And I am on the trains list page
+    And The trains list table is visible
+    And Train description '<trainNum>' is visible on the trains list
     And I am on the trains list page
     And The trains list table is visible
     When I invoke the context menu from train '<trainNum>' on the trains list

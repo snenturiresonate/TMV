@@ -22,7 +22,6 @@ import {TestData} from '../logging/test-data';
 import {LocalStorage} from '../../../local-storage/local-storage';
 import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dialogue.page';
 import {TrainActivationMessageBuilder} from '../utils/train-activation/train-activation-message';
-import {TrainRunningInformationMessageBuilder} from "../utils/train-running-information/train-running-information-message";
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
@@ -307,7 +306,7 @@ Then('the modal contains a {string} button', async (buttonName: string) => {
     .to.contain(buttonName);
 });
 
-Given(/^I am on the trains list page$/, async () => {
+Given(/^I am on the trains list page$/, {timeout: 4 * 10000}, async () => {
   await page.navigateTo('/tmv/trains-list');
 });
 
