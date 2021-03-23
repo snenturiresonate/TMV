@@ -8,7 +8,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
     Given I am on the admin page
     And The admin setting defaults are as originally shipped
     And I refresh the browser
-  @checkRole
+  @bug @bug_58056
   Scenario: Admin punctuality settings table header
     Then the admin punctuality header is displayed as 'Punctuality'
   @bug @bug_58056

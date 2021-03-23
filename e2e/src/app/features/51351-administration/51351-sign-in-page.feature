@@ -22,7 +22,7 @@ Feature: 51351 - Administration Login Message Part 2 - full end to end testing
     When I reset the login message settings
     And I should see the login settings 'Terms and Conditions' as 'TMV terms of use'
     And the unsaved indicator is not displayed on the sign in message tab
-
+  @bug @bug_58056
   Scenario: 33767-8 Editing Log in Message using exceeded and special characteristics
     When I update login settings 'Message' as 'I am one hundred and one characters long, I also contain special characteristics such as !"£$%^!$£"!'
     And I update login settings 'Terms and Conditions' as 'I am two hundred and one characters long, I also contain special characteristics such as !"£$%^!$£"!%. I am two hundred and one characters long, I also contain special characteristics such as !"£$%^!$£'

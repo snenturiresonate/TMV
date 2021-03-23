@@ -20,7 +20,7 @@ Feature: 46474 - Administration Login Message - full end to end testing
     And I reset the login message settings
     Then I should see the login settings 'Message' as 'Welcome to TMV'
     And I should see the login settings 'Terms and Conditions' as 'TMV terms of use'
-  @checkRole
+  @bug @bug_58056
   Scenario: Login message save and verify
     When I update login settings 'Message' as 'Login Message'
     And I update login settings 'Terms and Conditions' as 'Login Terms and Conditions'

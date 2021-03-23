@@ -8,7 +8,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
     Given I am on the admin page
     And The admin setting defaults are as originally shipped
     And I refresh the browser
-
+  @bug @bug_58056
   Scenario: Line Status settings header
     Then the line settings header is displayed as 'Line Status'
   @bug @bug_58056
