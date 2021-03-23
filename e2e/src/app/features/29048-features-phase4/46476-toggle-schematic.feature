@@ -7,7 +7,7 @@ Feature: 46476 - Toggle Schematic
   Background:
     Given I am viewing the map gw01paddington.v
 
-    @tdd
+    @bug @bug_58090
   Scenario:46476-1 Route Set Track (turn on)
   #Given the user is authenticated to use TMV
   #And the user is viewing a live the map
@@ -30,6 +30,7 @@ Feature: 46476 - Toggle Schematic
     And the TRTS status for signal 'SN1' is white
     And the TRTS visibility status for 'SN1' is visible
 
+     @bug @bug_58090
     Scenario:46476-2 Route Set Code (turn on)
     #Given the user is authenticated to use TMV
     #And the user is viewing a live the map
