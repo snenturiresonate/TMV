@@ -1,3 +1,4 @@
+@bug @bug_58056
 Feature: 51351 - Administration Login Message Part 2 - full end to end testing
 
   As a tester

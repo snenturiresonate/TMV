@@ -73,6 +73,12 @@ When('I invoke the context menu from train {string} on the trains list', async (
   await trainsListPage.rightClickTrainListItem(itemNum);
 });
 
+Then('Train description {string} is visible on the trains list', async (scheduleNum: string) => {
+  const itemNum = await trainsListPage.getRowForSchedule(scheduleNum) + 1;
+  console.log('Row num is ' + itemNum);
+  expect(itemNum).to.not.equal(-1);
+});
+
 When('I wait for the context menu to display', async () => {
   await trainsListPage.waitForContextMenu();
 });
