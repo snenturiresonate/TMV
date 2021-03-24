@@ -36,7 +36,7 @@ Feature: 46476 - Toggle Schematic
      @bug @bug_58090
     Scenario:46476-2 Route Set Code (turn on)
     #Given the user is authenticated to use TMV
-    #And the user is viewing a live the map
+    #And the user is viewing a live map
     #And the route set code is toggled off
     #When the user toggles on the route set code to on
     #Then the route set code is displayed for the track for all trains that have a route set
@@ -59,7 +59,7 @@ Feature: 46476 - Toggle Schematic
 
   Scenario: 3 Berth (turn on)
      #Given the user is authenticated to use TMV
-     #And the user is viewing a live the map
+     #And the user is viewing a live map
      #And the berth is toggled off
      #When the user toggles on the berth to on
      #Then the all berth codes are displayed for all berths
@@ -82,7 +82,7 @@ Feature: 46476 - Toggle Schematic
 
   Scenario:4 Platform (turn on)
       #Given the user is authenticated to use TMV
-      #And the user is viewing a live the map
+      #And the user is viewing a live map
       #And the platforms is toggled off
       #When the user toggles on the platform to on
       #Then platforms are not displayed
@@ -101,7 +101,7 @@ Feature: 46476 - Toggle Schematic
   @bug @bug_58090
   Scenario:46476- Addtional test case to check Default to Non default and open the new map through search and check the default states
   #Given the user is authenticated to use TMV
-  #And the user is viewing a live the map
+  #And the user is viewing a live map
   #And the route set track is toggled off
   #When the user toggles on the route set track to on
   #Then the route set is displayed for the track for all trains that have a route set
