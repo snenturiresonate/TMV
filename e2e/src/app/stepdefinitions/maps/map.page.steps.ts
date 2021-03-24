@@ -192,6 +192,9 @@ When('I use the secondary mouse on {word} berth {word}', async (berthType: strin
   if (berthType === 'manual-trust') {
     await mapPageObject.rightClickManualTrustBerth(berthId);
   }
+  if (berthType === 'last') {
+    await mapPageObject.rightClickBerth(berthId);
+  }
 });
 
 Then('the zoom level is the same as previously noted', async () => {

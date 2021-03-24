@@ -198,7 +198,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
   @tdd
   Scenario: 33806 -32d Trains List Config (Train Misc Settings Applied) - Unmatched toggle on
     #Schedule is not available for the train IG65
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
       | S307      | 10:02:06  | S308    | D4             | 1G65             |
     When I update the following misc options
@@ -213,7 +213,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
   @tdd
   Scenario: 33806 -32e Trains List Config (Train Misc Settings Applied) - Unmatched toggle off
     #Schedule is not available for the train IG65
-    Given the following berth step message is sent from LINX
+    Given the following berth step message is sent from LINX (to move train)
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
       | S307      | 10:02:06  | S308    | D4             | 1G65             |
     When I update the following misc options

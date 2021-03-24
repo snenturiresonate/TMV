@@ -102,7 +102,8 @@ When(/^I do nothing$/, () => {
   browser.sleep(5000);
 });
 
-When(/^the following berth interpose messages? (?:is|are) sent from LINX$/, async (berthInterposeMessageTable: any) => {
+When(/^the following berth interpose messages? (?:is|are) sent from LINX (.*)$/,
+  async (explanation: string, berthInterposeMessageTable: any) => {
   const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
 
   berthInterposeMessages.forEach((berthInterposeMessage: any) => {
@@ -137,7 +138,7 @@ When(/^the following live berth interpose messages? (?:is|are) sent from LINX (.
 });
 
 
-When(/^the following berth step messages? (?:is|are) sent from LINX$/, async (berthStepMessageTable: any) => {
+When(/^the following berth step messages? (?:is|are) sent from LINX (.*)$/, async (explanation: string, berthStepMessageTable: any) => {
   const berthStepMessages: any = berthStepMessageTable.hashes();
 
   berthStepMessages.forEach((berthStepMessage: any) => {

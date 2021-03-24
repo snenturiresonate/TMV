@@ -15,11 +15,11 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     # a berth that exists on the map is empty
     #  it is not a Q berth
     Given berth '0099' in train describer 'D3' contains '' and is visible
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0095    | D3            | 1G69             |
     Then berth '0095' in train describer 'D3' contains '1G69' and is visible
@@ -38,11 +38,11 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     #    Then the new Train Description from the interpose message is displayed in the berth
     #    But the old Train Description is not displayed in the berth
     Given berth '0099' in train describer 'D3' contains '' and is visible
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 9Z99             |
     Then berth '0099' in train describer 'D3' contains '9Z99' and is visible
@@ -54,7 +54,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     #    When a cancel message is published from LINX for that berth
     #    Then no Train Description is displayed in the berth
     Given berth '0099' in train describer 'D3' contains '' and is visible
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
@@ -67,7 +67,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
   @bug @bug_48780
   Scenario: 40505-3b - cancellation of train description for a train description that isn't in the berth, but the berth is occupied
     Given berth '0099' in train describer 'D3' contains '' and is visible
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
@@ -80,11 +80,11 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
   Scenario: 40505-3c - cancellation of a duplicate train description
     Given berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0095' in train describer 'D3' contains '' and is visible
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0095    | D3            | 1G69             |
     Then berth '0095' in train describer 'D3' contains '1G69' and is visible
@@ -111,12 +111,12 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     #    And Train Description is displayed in the berth B
     Given berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | 0115    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '' and is visible
@@ -126,7 +126,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     # Could get a cancellation at A and an interpose at B instead of a step - do not always get a step
     Given berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
@@ -134,7 +134,7 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     When the following berth cancel message is sent from LINX
       | timestamp | fromBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | D3            | 1G69             |
-    And the following berth interpose message is sent from LINX
+    And the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0115    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '' and is visible
@@ -144,12 +144,12 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
   Scenario: 40505-5c - berth step - train description already in second berth, so overridden
     Given berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
-    And the following berth interpose message is sent from LINX
+    And the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0115    | D3            | 1G99             |
     Then berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '1G99' and is visible
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | 0115    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '' and is visible
@@ -159,13 +159,13 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
     Given berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
     And berth '0129' in train describer 'D3' contains '' and is visible
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
     And berth '0129' in train describer 'D3' contains '' and is visible
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | 0129    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '' and is visible
@@ -175,12 +175,12 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
   Scenario: 40505-5e - berth step - both berths not on the map
     Given berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0000      | 9999    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
@@ -189,12 +189,12 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
   Scenario: 40505-5f - berth step - only from berth is on the map - cancellation
     Given berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099      | 9999    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '' and is visible
@@ -203,12 +203,12 @@ Feature: 37947 - Basic UI - full end to end testing - stepping scenarios
   Scenario: 40505-5g - berth step - only to berth is on the map - interpose
     Given berth '0099' in train describer 'D3' contains '' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible
     And berth '0115' in train describer 'D3' contains '' and is visible
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0000      | 0115    | D3            | 1G69             |
     Then berth '0099' in train describer 'D3' contains '1G69' and is visible

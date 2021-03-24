@@ -57,7 +57,7 @@ Feature: 33753 - TMV Timetable
   Scenario Outline: 33753-2b -Open Timetable (from Map - Unmatched)
     Given I am viewing the map HDGW01paddington.v
     And I have cleared out all headcodes
-    And the following berth interpose message is sent from LINX
+    And the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber | trainDescription |
       | 09:59:00  | 0099    | D3             | <trainNum>       |
     When I invoke the context menu on the map for train <trainNum>
@@ -104,7 +104,7 @@ Feature: 33753 - TMV Timetable
   @tdd
   Scenario Outline: 33753-3c Open Timetable (from Manual Match Search Result - matched/unmatched services have timetable)
     Given I am viewing the map HDGW01paddington.v
-    And the following berth interpose message is sent from LINX
+    And the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber | trainDescription |
       | 09:59:00  | <berth> | D4             | <trainNum>       |
     When I invoke the context menu on the map for train <trainNum>
