@@ -15,7 +15,7 @@ Feature: 46476 - Toggle Schematic
   #When the user toggles on the route set track to on
   #Then the route set is displayed for the track for all trains that have a route set
       And I click on the layers icon in the nav bar
-      And I toggle the 'Route Set - Track' toggle 'Off'
+      And I toggle the 'Route Set - Track' toggle 'off'
       And the 'Route Set - Track' toggle is 'off'
       And the tracks 'PNPNQ3' are displayed in thin palegrey
       And I set up all signals for address 06 in D3 to be not-proceed
@@ -24,6 +24,7 @@ Feature: 46476 - Toggle Schematic
         | D3             | 48      | 10   | 10:45:00  |
       And I click on the layers icon in the nav bar
       And the tracks 'PNPNQ3' are displayed in thin palegrey
+      And I toggle the 'Route Set - Track' toggle 'on'
       And the 'Route Set - Track' toggle is 'on'
       Then the tracks 'PNPNQ3' are displayed in solid white
       And I move to map 'GW02' via continuation link
@@ -40,7 +41,7 @@ Feature: 46476 - Toggle Schematic
     #When the user toggles on the route set code to on
     #Then the route set code is displayed for the track for all trains that have a route set
        And I click on the layers icon in the nav bar
-       And I toggle the 'Route Set - Code' toggle 'Off'
+       And I toggle the 'Route Set - Code' toggle 'off'
        And the 'Route Set - Code' toggle is 'off'
        And I set up all signals for address 06 in D3 to be not-proceed
        And the route set code on the track 'PNPNQ3' is ''
@@ -71,6 +72,7 @@ Feature: 46476 - Toggle Schematic
       And I toggle the 'Berth' toggle 'on'
       Then berth '0209' in train describer 'D3' contains '0209' and is visible
       And I move to map 'GW02' via continuation link
+      And berth '0209' in train describer 'D3' contains '0209' and is visible
       And I click on the layers icon in the nav bar
       And I toggle the 'Berth' toggle 'off'
       And berth '0209' in train describer 'D3' contains '1G69' and is visible
@@ -85,8 +87,8 @@ Feature: 46476 - Toggle Schematic
       #When the user toggles on the platform to on
       #Then platforms are not displayed
       When I click on the layers icon in the nav bar
-      And I toggle the 'Platform' toggle 'Off'
-      And the 'Platform' toggle is 'Off'
+      And I toggle the 'Platform' toggle 'off'
+      And the 'Platform' toggle is 'off'
       And the platform layer is not shown
       And I toggle the 'Platform' toggle 'On'
       And the 'Platform' toggle is 'on'
@@ -110,10 +112,10 @@ Feature: 46476 - Toggle Schematic
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0209    | D3            | 1G69             |
     And I click on the layers icon in the nav bar
-    And I toggle the 'Platform' toggle 'Off'
-    And I toggle the 'Berth' toggle 'On'
-    And I toggle the 'Route Set - Track' toggle 'On'
-    And I toggle the 'Route Set - Code' toggle 'On'
+    And I toggle the 'Platform' toggle 'off'
+    And I toggle the 'Berth' toggle 'on'
+    And I toggle the 'Route Set - Track' toggle 'on'
+    And I toggle the 'Route Set - Code' toggle 'on'
     Then the tracks 'PNPNQ3' are displayed in solid white
     And the platform layer is not shown
     And berth '0209' in train describer 'D3' contains '0209' and is visible
@@ -122,11 +124,12 @@ Feature: 46476 - Toggle Schematic
     And I click the search icon
     And I select the map at position 1 in the search results list
     And I switch to the new tab
-    And the 'Platform' toggle is 'Off'
-    And the 'Berth' toggle is 'On'
-    And the 'Route Set - Track' toggle is 'On'
-    And the 'Route Set - Code' toggle is 'On'
+    And I click on the layers icon in the nav bar
+    And the 'Platform' toggle is 'on'
+    And the 'Berth' toggle is 'off'
+    And the 'Route Set - Track' toggle is 'off'
+    And the 'Route Set - Code' toggle is 'off'
     And the tracks 'PNPNQ3' are displayed in solid white
-    And the platform layer is not shown
-    And berth '0209' in train describer 'D3' contains '0209' and is visible
+    And the platform layer is shown
+    And berth '0209' in train describer 'D3' contains '1G69' and is visible
     And the route set code on the track 'PNPNQ3' is 'CXR'
