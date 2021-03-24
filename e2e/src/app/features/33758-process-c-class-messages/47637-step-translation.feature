@@ -7,7 +7,7 @@ Feature: 47637 - Process C Class Messages - Step Translation
   @tdd
   Scenario Outline: 33758-9 Step Translation - Config with no null values
     Given I am on a map showing berth '<newToBerth>' and in train describer '<newToTrainDescriber>'
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newToBerth>' in train describer '<newToTrainDescriber>' contains '<trainDescription>' and is visible
@@ -36,7 +36,7 @@ Feature: 47637 - Process C Class Messages - Step Translation
   Scenario Outline: 33758-9 Step Translation - old From Berth is null - New values are populated
     #interpose message received with from berth -> step translation
     Given I am on a map showing berth '<newToBerth>' and in train describer '<newToTrainDescriber>'
-    When the following berth interpose message are sent from LINX
+    When the following berth interpose message are sent from LINX (to indicate train is present)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newFromBerth>' in train describer '<newFromTrainDescriber>' does not contain '<trainDescription>'
@@ -50,7 +50,7 @@ Feature: 47637 - Process C Class Messages - Step Translation
   #no data in test environment - data taken from national/oddstep.dat
   Scenario Outline: 33758-10 Step Translation - new From Berth is null - new To Berth is populated - treat as Interpose
     Given I am on a map showing berth '<newToBerth>' and in train describer '<newToTrainDescriber>'
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newToBerth>' in train describer '<newToTrainDescriber>' contains '<trainDescription>' and is visible
@@ -63,11 +63,11 @@ Feature: 47637 - Process C Class Messages - Step Translation
   #no data in test environment - data taken from national/oddstep.dat
   Scenario Outline: 33758-10 Step Translation - new From Berth is populated - new To Berth is null - treat as Cancel
     Given I am on a map showing berth '<newFromBerth>' and in train describer '<newFromTrainDescriber>'
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth        | trainDescriber          | trainDescription   |
       | 09:59:00  | <newFromBerth> | <newFromTrainDescriber> | <trainDescription> |
     And berth '<fromBerth>' in train describer '<fromTrainDescriber>' contains '<trainDescription>' and is visible
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newFromBerth>' in train describer '<newFromTrainDescriber>' does not contain '<trainDescription>'
@@ -79,7 +79,7 @@ Feature: 47637 - Process C Class Messages - Step Translation
   # no map config for scenario
   Scenario Outline: 33758-10 Step Translation - New To and New From are null - Ignore message
     Given I am on a map showing berth '<toBerth>' and in train describer '<toTrainDescriber>'
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<toBerth>' in train describer '<toTrainDescriber>' does not contain '<trainDescription>'
@@ -93,11 +93,11 @@ Feature: 47637 - Process C Class Messages - Step Translation
   Scenario Outline: 33758-12 (Applying Berth and Step translation in precedence)
 
     Given I am on a map showing berth '<newToBerth>' and in train describer '<newToTrainDescriber>'
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth     | trainDescriber       | trainDescription   |
       | 09:59:00  | <fromBerth> | <fromTrainDescriber> | <trainDescription> |
     And berth '<fromBerth>' in train describer '<fromTrainDescriber>' contains '<trainDescription>' and is visible
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newToBerth>' in train describer '<newToTrainDescriber>' contains '<trainDescription>' and is visible
