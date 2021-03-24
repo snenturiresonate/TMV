@@ -1,10 +1,24 @@
-import {Then} from 'cucumber';
+import {Then, When, Given} from 'cucumber';
 import {LastberthServicelistPageObject} from '../../pages/sections/lastberth.servicelist.page';
 import {expect} from 'chai';
 import {DateTimeFormatter, LocalDateTime} from '@js-joda/core';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
+import {browser} from 'protractor';
 
 const lastBerthServiceListPageObject: LastberthServicelistPageObject = new LastberthServicelistPageObject();
+
+Given('Last berth data has been loaded for {string}', async (lastBerth: string) => {
+  expect(browser.loadedLastBerthData, `last berth data not loaded for ${lastBerth}`).contains(lastBerth);
+});
+
+Then('I make a note that last berth data has been loaded for {string}', async (lastBerth: string) => {
+  browser.loadedLastBerthData.push(lastBerth);
+});
+
+When('I use the primary mouse on train {string}', async (trainDesc: string) => {
+  const trainRecord = await lastBerthServiceListPageObject.getRowByService(trainDesc);
+  await trainRecord.performLeftClick();
+});
 
 Then('the user is presented with a list of the last {string} services that have finished at this berth',
   async (expectedNumServices: string, expectedlastServicesTable: any) => {

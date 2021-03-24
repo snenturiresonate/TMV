@@ -39,4 +39,8 @@ export class LastBerthServiceListTableRowPageObject {
   async performRightClick(): Promise<void> {
     browser.actions().click(this.rowLocator, protractor.Button.RIGHT).perform();
   }
+
+  async performLeftClick(): Promise<void> {
+    this.rowLocator.click();
+  }
 }

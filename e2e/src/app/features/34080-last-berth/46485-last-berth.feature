@@ -18,24 +18,31 @@ Feature: 34080 - Last Berth
       | 10:40:00  | 0581    | D6             | 2B51             |
       | 11:40:00  | 0581    | D6             | 2B53             |
       | 12:40:00  | 0581    | D6             | 2B55             |
+      | 13:40:00  | 0581    | D6             | 2B57             |
     And the following berth step messages are sent from LINX (moving through last berth)
       | fromBerth | timeStamp | toBerth | trainDescriber | trainDescription |
       | 0581      | 10:43:00  | LMBE    | D6             | 2B51             |
       | 0581      | 11:45:00  | LMBE    | D6             | 2B53             |
       | 0581      | 12:50:00  | LMBE    | D6             | 2B55             |
+      | 0581      | 13:50:00  | MDES    | D6             | 2B57             |
     When I am viewing the map <map>
-    And berth '<lastBerth>' in train describer '<lastBerthTD>' contains '<lastTrainDesc>' and is visible
-    And I use the secondary mouse on last berth <TDandBerthId>
-    Then the user is presented with a list of the last '<numberTrains>' services that have finished at this berth
+    And berth '<lB1>' in train describer '<lBTD>' contains '<lTD1>' and is visible
+    And berth '<lB2>' in train describer '<lBTD>' contains '<lTD2>' and is visible
+    And I use the secondary mouse on last berth <TDandBerthId1>
+    Then the user is presented with a list of the last '<numTrains1>' services that have finished at this berth
       | serviceDescription | operatorCode | punct   | arrivalTime | arrivalDate |
       | 2B55               | GW           | +7m     | 12:50:00    | today       |
       | 2B53               | GW           | +2m     | 11:45:00    | today       |
       | 2B51               | GW           | on time | 10:43:00    | today       |
     And the records in the last berth service list are in reverse date-time order
+    When I use the secondary mouse on last berth <TDandBerthId2>
+    Then the user is presented with a list of the last '<numTrains2>' services that have finished at this berth
+      | serviceDescription | operatorCode | punct   | arrivalTime | arrivalDate |
+      | 2B57               |              | unknown | 13:50:00    | today       |
 
     Examples:
-      | cifFile                     | map          | numberTrains | lastBerth | lastBerthTD | lastTrainDesc | TDandBerthId |
-      | schedules_to_bourne_end.cif | gw2aslough.v | 3            | LMBE      | D6          | 2B55          | D6LMBE       |
+      | cifFile                     | map          | lBTD | lB1  | lTD1 | TDandBerthId1 | numTrains1 | lB2  | lTD2 | TDandBerthId2 | numTrains2 |
+      | schedules_to_bourne_end.cif | gw2aslough.v | D6   | LMBE | 2B55 | D6LMBE        | 3          | MDES | 2B55 | D6MDES        | 1          |
 
   Scenario Outline: 34080-1b Last Berth (Secondary Click) - more than 10
     Given the access plan located in CIF file '<cifFile>' is received from LINX
@@ -120,6 +127,7 @@ Feature: 34080 - Last Berth
       | LD36      | 17:22:00  | LD35    | D5             | 2C50             |
       | LD36      | 19:19:10  | LD35    | D5             | 1V58             |
       | LD36      | 20:07:12  | LD35    | D5             | 1V60             |
+    And I make a note that last berth data has been loaded for '<TDandBerthId>'
     When I am viewing the map <map>
     And berth '<lastBerth>' in train describer '<lastBerthTD>' contains '<lastTrainDesc>' and is visible
     And I use the secondary mouse on last berth <TDandBerthId>
@@ -172,3 +180,44 @@ Feature: 34080 - Last Berth
       | cifFile                   | map              | lastBerth | lastBerthTD | lastTrainDesc | TDandBerthId |
       | schedules_to_penzance.cif | hdgw09penzance.v | LD35      | PH          | 1V60          | PHLD35       |
 
+
+  Scenario Outline: 34080-2a Last Berth (Select Timetable) - matched trains
+#    Given the user is viewing a live schematic map
+#    And there are services running
+#    And performs a secondary click on the last berth
+#    When the user views a list of the last services that have finished at this berth
+#    And performs a primary click on a train
+#    Then the user is presented with the timetable in a new tab
+    Given Last berth data has been loaded for '<TDandBerthId>'
+    When I am viewing the map <map>
+    And I use the secondary mouse on last berth <TDandBerthId>
+    And I use the primary mouse on train '<trainNum1>'
+    And I switch to the new tab
+    Then the tab title contains '<trainNum1>'
+    And the timetable header train description is '<trainNum1>'
+    And The values for the header properties are as follows
+      | schedType    | lastSignal | lastReport | trainUid       | trustId | lastTJM | headCode    |
+      | <schedType1> |            |            | <planningUid1> |         |         | <trainNum1> |
+    When I switch to the second-newest tab
+    And I use the secondary mouse on last berth <TDandBerthId>
+    And I use the primary mouse on train 'trainNum2'
+    Then the tab title contains '<trainNum2>'
+    And the timetable header train description is '<trainNum2>'
+    And The values for the header properties are as follows
+      | schedType    | lastSignal | lastReport | trainUid       | trustId | lastTJM | headCode    |
+      | <schedType2> |            |            | <planningUid2> |         |         | <trainNum2> |
+
+    Examples:
+      | map              | TDandBerthId | trainNum1 | planningUid1 | schedType1 | trainNum2 | planningUid2 | schedType2 |
+      | hdgw09penzance.v | PHLD35       | 2C50      | C56594       | LTP        | 1C09      | C11729       | VAR        |
+
+  Scenario Outline: 34080-2b Last Berth (Select Timetable) - unmatched trains
+    Given Last berth data has been loaded for '<TDandBerthId>'
+    When I am viewing the map <map>
+    And I use the secondary mouse on last berth <TDandBerthId>
+    And I use the primary mouse on train '<trainNum>'
+    Then no new tab is launched
+
+    Examples:
+      | map              | TDandBerthId | trainNum |
+      | hdgw09penzance.v | PHLD35       | 1X35     |

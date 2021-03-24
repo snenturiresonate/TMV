@@ -1,3 +1,4 @@
+HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
 BSNC117322101012405181111111 PXX1V581670120183000 DMUV   125      B S T        P
 BX         XCY                                                                  
 LOGLGC    0900 09002  A1     TB                                                 
@@ -148,7 +149,7 @@ LIREDRUTH 2116H2118H     21172118         T
 LICBORNE  2123H2125      21242125         T                                     
 LISTERTH  2133H2135      213421351        T           1                         
 LTPENZNCE 2143 21433     TF                                                     
-BSNC117292101012405181111111 PXX1C091900120184000 DMUV   125      B S T        P
+BSNC117292101012405181111111 PXX1C091900120184000 DMUV   125      B S T        O
 BX         XCY                                                                  
 LOPLYMTH  0628 06288         TB                                                 
 LISASH              0635H000000001        X                                     
