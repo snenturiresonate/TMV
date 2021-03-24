@@ -90,9 +90,7 @@ Feature: 46476 - Toggle Schematic
       And I toggle the 'Platform' toggle 'off'
       And the 'Platform' toggle is 'off'
       And the platform layer is not shown
-      And I click on the layers icon in the nav bar
-      And I click on the layers icon in the nav bar
-      And I toggle the 'Platform' toggle 'On'
+      And I toggle the 'Platform' toggle 'on'
       And the 'Platform' toggle is 'on'
       And the platform layer is shown
       And I move to map 'HDGW02' via continuation link
