@@ -127,8 +127,8 @@ Feature: 46476 - Toggle Schematic
     And I click on the layers icon in the nav bar
     And the 'Platform' toggle is 'on'
     And the 'Berth' toggle is 'off'
-    And the 'Route Set - Track' toggle is 'off'
-    And the 'Route Set - Code' toggle is 'off'
+    And the 'Route Set - Track' toggle is 'on'
+    And the 'Route Set - Code' toggle is 'on'
     And the tracks 'PNPNQ3' are displayed in solid white
     And the platform layer is shown
     And berth '0209' in train describer 'D3' contains '1G69' and is visible
