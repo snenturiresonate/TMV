@@ -9,6 +9,10 @@ export class NavBarPageObject {
   public platformToggleOff: ElementFinder;
   public berthToggleOn: ElementFinder;
   public berthToggleOff: ElementFinder;
+  public routeSetCodeToggleOn: ElementFinder;
+  public routeSetCodeToggleOff: ElementFinder;
+  public routeSetTrackToggleOn: ElementFinder;
+  public routeSetTrackToggleOff: ElementFinder;
   public version: ElementFinder;
   public configOption: ElementFinder;
   public trainSearchBox: ElementFinder;
@@ -59,6 +63,10 @@ export class NavBarPageObject {
     this.platformToggleOff = element(by.css('#platformtoggle .absolute-off'));
     this.berthToggleOn = element(by.css('#berthtoggle .absolute-on'));
     this.berthToggleOff = element(by.css('#berthtoggle .absolute-off'));
+    this.routeSetTrackToggleOn = element(by.css('#routesettracktoggle .absolute-on'));
+    this.routeSetTrackToggleOff = element(by.css('#routesettracktoggle .absolute-off'));
+    this.routeSetCodeToggleOn = element(by.css('#routesetcodetoggle .absolute-on'));
+    this.routeSetCodeToggleOff = element(by.css('#routesetcodetoggle .absolute-off'));
     this.version = element(by.id('settings-menu-tmvVersion'));
     this.configOption = element(by.css('li.dropdown-item.dropdown-item-Menu.trains-config-button'));
     this.trainSearchBox = element(by.id('national-search-box'));
@@ -157,6 +165,23 @@ export class NavBarPageObject {
         await this.berthToggleOn.click();
       }
     }
+
+    else if (toggleName === 'Route Set - Track') {
+      if (requiredState === 'on') {
+        await this.routeSetTrackToggleOn.click();
+      } else {
+        await this.routeSetTrackToggleOff.click();
+      }
+    }
+
+    else if (toggleName === 'Route Set - Code') {
+      if (requiredState === 'on') {
+        await this.routeSetCodeToggleOn.click();
+      } else {
+        await this.routeSetCodeToggleOff.click();
+      }
+    }
+
   }
 
   public async toggleMapPathOff(): Promise<void> {

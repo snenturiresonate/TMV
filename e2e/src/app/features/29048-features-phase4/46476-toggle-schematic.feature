@@ -14,21 +14,23 @@ Feature: 46476 - Toggle Schematic
   #And the route set track is toggled off
   #When the user toggles on the route set track to on
   #Then the route set is displayed for the track for all trains that have a route set
-    When I set up all signals for address 50 in D3 to be not-proceed
-    And I set up all signals for address 78 in D3 to be proceed
-    And the signal roundel for signal 'SN1' is green
-    And the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 01   | 10:45:00  |
-    And I click on the layers icon in the nav bar
-    And the 'Route Set - Track' toggle is 'on'
-    Then the TRTS status for signal 'SN1' is white
-    And the TRTS visibility status for 'SN1' is visible
-    And I move to map 'HDGW02' via continuation link
-    And I click on the layers icon in the nav bar
-    And the 'Route Set - Track' toggle is 'on'
-    And the TRTS status for signal 'SN1' is white
-    And the TRTS visibility status for 'SN1' is visible
+      And I click on the layers icon in the nav bar
+      And I toggle the 'Route Set - Track' toggle 'Off'
+      And the 'Route Set - Track' toggle is 'off'
+      And the tracks 'PNPNQ3' are displayed in thin palegrey
+      And I set up all signals for address 06 in D3 to be not-proceed
+      When the following signalling update message is sent from LINX
+        | trainDescriber | address | data | timestamp |
+        | D3             | 48      | 10   | 10:45:00  |
+      And I click on the layers icon in the nav bar
+      And the tracks 'PNPNQ3' are displayed in thin palegrey
+      And the 'Route Set - Track' toggle is 'on'
+      Then the tracks 'PNPNQ3' are displayed in solid white
+      And I move to map 'GW02' via continuation link
+      And I click on the layers icon in the nav bar
+      And the 'Route Set - Track' toggle is 'on'
+      And the tracks 'PNPNQ3' are displayed in solid white
+
 
      @bug @bug_58090
     Scenario:46476-2 Route Set Code (turn on)
@@ -37,18 +39,21 @@ Feature: 46476 - Toggle Schematic
     #And the route set code is toggled off
     #When the user toggles on the route set code to on
     #Then the route set code is displayed for the track for all trains that have a route set
-      And I set up all signals for address 06 in D3 to be not-proceed
-      And the tracks 'PNPNQ3' are displayed in thin palegrey
-      And the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 48      | 10   | 10:45:00  |
-      And I click on the layers icon in the nav bar
-      And the 'Route Set - Track' toggle is 'on'
-      Then the tracks 'PNPNQ3' are displayed in solid white
-      And I move to map 'GW02' via continuation link
-      And I click on the layers icon in the nav bar
-      And the 'Route Set - Track' toggle is 'on'
-      And the tracks 'PNPNQ3' are displayed in solid white
+       And I click on the layers icon in the nav bar
+       And I toggle the 'Route Set - Code' toggle 'Off'
+       And the 'Route Set - Code' toggle is 'off'
+       And I set up all signals for address 06 in D3 to be not-proceed
+       And the route set code on the track 'PNPNQ3' is ''
+       And the following signalling update message is sent from LINX
+         | trainDescriber | address | data | timestamp |
+         | D3             | 48      | 10   | 10:45:00  |
+       And I click on the layers icon in the nav bar
+       And the 'Route Set - Code' toggle is 'on'
+       Then the route set code on the track 'PNPNQ3' is 'CXR'
+       And I move to map 'GW02' via continuation link
+       And I click on the layers icon in the nav bar
+       And the 'Route Set - Code' toggle is 'on'
+       And the route set code on the track 'PNPNQ3' is 'CXR'
 
 
   Scenario: 3 Berth (turn on)
@@ -80,9 +85,48 @@ Feature: 46476 - Toggle Schematic
       #When the user toggles on the platform to on
       #Then platforms are not displayed
       When I click on the layers icon in the nav bar
+      And I toggle the 'Platform' toggle 'Off'
+      And the 'Platform' toggle is 'Off'
+      And the platform layer is not shown
+      And I toggle the 'Platform' toggle 'On'
       And the 'Platform' toggle is 'on'
       And the platform layer is shown
       And I move to map 'HDGW02' via continuation link
       And I click on the layers icon in the nav bar
       Then the 'Platform' toggle is 'on'
       And the platform layer is shown
+
+  @bug @bug_58090
+  Scenario:46476- Addtional test case to check Default to Non default and open the new map through search and check the default states
+  #Given the user is authenticated to use TMV
+  #And the user is viewing a live the map
+  #And the route set track is toggled off
+  #When the user toggles on the route set track to on
+  #Then the route set is displayed for the track for all trains that have a route set
+    When the following signalling update message is sent from LINX
+      | trainDescriber | address | data | timestamp |
+      | D3             | 48      | 10   | 10:45:00  |
+    And the following berth interpose message is sent from LINX
+      | timestamp | toBerth | trainDescriber| trainDescription |
+      | 09:59:00  | 0209    | D3            | 1G69             |
+    And I click on the layers icon in the nav bar
+    And I toggle the 'Platform' toggle 'Off'
+    And I toggle the 'Berth' toggle 'On'
+    And I toggle the 'Route Set - Track' toggle 'On'
+    And I toggle the 'Route Set - Code' toggle 'On'
+    Then the tracks 'PNPNQ3' are displayed in solid white
+    And the platform layer is not shown
+    And berth '0209' in train describer 'D3' contains '0209' and is visible
+    And the route set code on the track 'PNPNQ3' is 'CXR'
+    And I type 'GW02' into the map search box
+    And I click the search icon
+    And I select the map at position 1 in the search results list
+    And I switch to the new tab
+    And the 'Platform' toggle is 'Off'
+    And the 'Berth' toggle is 'On'
+    And the 'Route Set - Track' toggle is 'On'
+    And the 'Route Set - Code' toggle is 'On'
+    And the tracks 'PNPNQ3' are displayed in solid white
+    And the platform layer is not shown
+    And berth '0209' in train describer 'D3' contains '0209' and is visible
+    And the route set code on the track 'PNPNQ3' is 'CXR'

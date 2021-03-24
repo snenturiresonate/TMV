@@ -706,6 +706,14 @@ Then('the track colour for track {string} is {word}',
       .to.equal(expectedSignalStatusHex);
   });
 
+
+Then('the route set code on the track {string} is {word}',
+  async (trackId: string, expectedRouteSetCode: string) => {
+    const actualRouteSetCode: string = await mapPageObject.getRouteIndication(trackId);
+    expect(actualRouteSetCode, `Track colour for ${trackId} is not as expected`)
+      .to.equal(expectedRouteSetCode);
+  });
+
 Then('the tracks {string} are displayed in {word} {word}',
   async (trackIds: string, expectedWidth: string, expectedColour: string) => {
     const expectedTrackIds = trackIds.split(',').map(item => item.trim());
