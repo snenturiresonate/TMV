@@ -114,12 +114,12 @@ Feature: 46476 - Toggle Schematic
     And I click on the layers icon in the nav bar
     And I toggle the 'Platform' toggle 'off'
     And I toggle the 'Berth' toggle 'on'
-    And I toggle the 'Route Set - Track' toggle 'on'
-    And I toggle the 'Route Set - Code' toggle 'on'
-    Then the tracks 'PNPNQ3' are displayed in solid white
+    And I toggle the 'Route Set - Track' toggle 'off'
+    And I toggle the 'Route Set - Code' toggle 'off'
+    And the tracks 'PNPNQ3' are displayed in thin palegrey
     And the platform layer is not shown
     And berth '0209' in train describer 'D3' contains '0209' and is visible
-    And the route set code on the track 'PNPNQ3' is 'CXR'
+    And the route set code on the track 'PNPNQ3' is ''
     And I type 'GW02' into the map search box
     And I click the search icon
     And I select the map at position 1 in the search results list
