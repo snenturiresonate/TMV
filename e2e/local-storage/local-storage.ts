@@ -11,4 +11,9 @@ export class LocalStorage {
       .catch(reason => console.log('Cannot clear browser session Storage\n' + reason));
     await browser.waitForAngularEnabled(true);
   }
+
+  public static async getLocalStorage(): Promise<any> {
+    const storageString: string = await browser.executeScript('return JSON.stringify(window.localStorage);');
+    return JSON.parse(storageString);
+  }
 }

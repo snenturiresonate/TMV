@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "e2e-ci": "protractor --baseUrl=\"http://$npm_config_ci_ip\" --cucumberOpts.tags=\"$cucumber_tags\" e2e/protractor.conf.js",
-    "fe2e": "protractor --baseUrl=\"https://$npm_config_ci_ip\" --params.test_harness_ci_ip=\"http://$npm_config_test_harness_ip\" e2e/protractor.conf.js",
+    "fe2e": "protractor --baseUrl=\"https://$npm_config_ci_ip\" --params.test_harness_ci_ip=\"http://$npm_config_test_harness_ip\" --params.access_token=\"$npm_config_access_token\" e2e/protractor.conf.js",
     "junit-xml": "cat .tmp/results.json | ./node_modules/.bin/cucumber-junit > .tmp/TEST-results.xml"
   },
   "private": true,

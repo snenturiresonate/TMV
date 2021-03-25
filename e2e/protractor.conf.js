@@ -7,7 +7,8 @@
 exports.config = {
   allScriptsTimeout: 11000,
   params: {
-    test_harness_ci_ip: ''
+    test_harness_ci_ip: '',
+    access_token: ''
   },
   specs: [
     './src/**/features/**/*.feature'

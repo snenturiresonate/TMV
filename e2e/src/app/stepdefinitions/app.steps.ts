@@ -28,7 +28,6 @@ const linxRestClient: LinxRestClient = new LinxRestClient();
 const adminRestClient: AdminRestClient = new AdminRestClient();
 const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
 
-
 Before(() => {
   TestData.resetTJMsCaptured();
 });
