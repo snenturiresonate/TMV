@@ -3,14 +3,14 @@ Feature: Example Scenarios
 
   Scenario: Example - Receive berth interpose message from LINX
     Given I am on the home page
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber | trainDescription |
       | 10:02:06  | 0246    | D4             | 1G65             |
     Then I should see nothing
 
   Scenario: Example - Receive berth step message from LINX
     Given I am on the home page
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
       | S307      | 10:02:06  | S308    | D4             | 1G65             |
     Then I should see nothing

@@ -11,7 +11,7 @@ Feature: 37659 - Schedule Matching - Matched and Unmatched trains are removed fr
 
 
   Scenario Outline: 37659 -10   Clearing berth following unmatched cancel
-    Given the following berth interpose messages is sent from LINX
+    Given the following berth interpose messages is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber   | trainDescription   |
       | 10:00:00  | <berth> | <trainDescriber> | <trainDescription> |
     And berth '<berth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
@@ -25,7 +25,7 @@ Feature: 37659 - Schedule Matching - Matched and Unmatched trains are removed fr
       | 9F01             | D3             | 0222  |          |             |            |
 
   Scenario Outline: 37659 -11 Clearing berth following matched cancel
-    Given the following berth interpose messages is sent from LINX
+    Given the following berth interpose messages is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber   | trainDescription   |
       | 10:00:00  | <berth> | <trainDescriber> | <trainDescription> |
     And berth '<berth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
@@ -41,10 +41,10 @@ Feature: 37659 - Schedule Matching - Matched and Unmatched trains are removed fr
       | 9F01             | D3             | 0106  | PRTOBJP  | 401         | sub-division |
 
   Scenario Outline: 37659 -12 Clearing berth following consistent stepping cancel
-    Given the following berth interpose messages is sent from LINX
+    Given the following berth interpose messages is sent from LINX (to indicate train is present)
       | timestamp | toBerth         | trainDescriber   | trainDescription   |
       | 10:00:00  | <matchingBerth> | <trainDescriber> | <trainDescription> |
-    And the following berth step messages is sent from LINX
+    And the following berth step messages is sent from LINX (to indicate train is moving)
       | timestamp | fromBerth       | toBerth            | trainDescriber   | trainDescription   |
       | 10:19:00  | <matchingBerth> | <nonMatchingBerth> | <trainDescriber> | <trainDescription> |
     And berth '<nonMatchingBerth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
@@ -58,7 +58,7 @@ Feature: 37659 - Schedule Matching - Matched and Unmatched trains are removed fr
       | 9F01             | D3             | R001          | 0222             |
 
   Scenario Outline: 37659 -13 Berth not cleared following cancel with a different train description
-    Given the following berth interpose messages is sent from LINX
+    Given the following berth interpose messages is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber   | trainDescription   |
       | 10:00:00  | <berth> | <trainDescriber> | <trainDescription> |
     And berth '<berth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible

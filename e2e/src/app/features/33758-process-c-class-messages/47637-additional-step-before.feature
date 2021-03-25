@@ -8,7 +8,7 @@ So that I can record berth stepping for use by the system
   Scenario: 33758-1 Additional Step Before
     # values taken from addstep.dat in S3
     Given I am viewing the map HDGW01paddington.v
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0101      | 0119    | D3            | 1G69             |
     And the maximum amount of time is allowed for end to end transmission

@@ -192,6 +192,9 @@ When('I use the secondary mouse on {word} berth {word}', async (berthType: strin
   if (berthType === 'manual-trust') {
     await mapPageObject.rightClickManualTrustBerth(berthId);
   }
+  if (berthType === 'last') {
+    await mapPageObject.rightClickBerth(berthId);
+  }
 });
 
 Then('the zoom level is the same as previously noted', async () => {
@@ -704,6 +707,14 @@ Then('the track colour for track {string} is {word}',
     const actualSignalStatus: string = await mapPageObject.getTrackColour(trackId);
     expect(actualSignalStatus, `Track colour for ${trackId} is not as expected`)
       .to.equal(expectedSignalStatusHex);
+  });
+
+
+Then('the route set code on the track {string} is {word}',
+  async (trackId: string, expectedRouteSetCode: string) => {
+    const actualRouteSetCode: string = await mapPageObject.getRouteIndication(trackId);
+    expect(actualRouteSetCode, `Track colour for ${trackId} is not as expected`)
+      .to.equal(expectedRouteSetCode);
   });
 
 Then('the tracks {string} are displayed in {word} {word}',

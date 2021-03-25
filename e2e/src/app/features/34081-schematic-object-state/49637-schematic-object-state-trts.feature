@@ -61,7 +61,7 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     #Then the S Class display code is displayed corresponding to the headcode provided
   # Has type I
     Given I am viewing the map <map>
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | <timestamp>  | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then the s-class-berth '<sClassBerth>' will display '1' Route indication of '<sclassDisplayCode>'
