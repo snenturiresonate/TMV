@@ -1,7 +1,12 @@
+@bug @bug:58214
 Feature: 33805 TMV Schedule Matching
   As a TMV User
   I want updates to the planned schedule to be considered during schedule matching
   So that the system selects the most appropriate match
+
+  # other tests change config and don't restore it
+  Background:
+    Given I restore to default train list config
 
   Scenario Outline: 1. Interpose - Match old ID after Change of ID - <matchLevel> match
     #    Given there is a valid schedule
@@ -22,7 +27,7 @@ Feature: 33805 TMV Schedule Matching
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
       | <trainUid> | N            | 2020-01-01   | 2030-01-01 | 1111111 | <origTrainDesc>  | PADTON | 12:00     | OLDOXRS     | 12:30   |
     And I am on the trains list page
-    And Train description '<origTrainDesc>' is visible on the trains list
+    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
     When the following change of ID TJM is received
       | trainUid   | newTrainNumber | oldTrainNumber  | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
       | <trainUid> | <newTrainDesc> | <origTrainDesc> | 12            | create | 07        | 07              | 99999       | PADTON         | 12:00:00 |
@@ -66,7 +71,7 @@ Feature: 33805 TMV Schedule Matching
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
       | <trainUid> | N            | 2020-01-01   | 2030-01-01 | 1111111 | <origTrainDesc>  | PADTON | 12:00     | OLDOXRS     | 12:30   |
     And I am on the trains list page
-    And Train description '<origTrainDesc>' is visible on the trains list
+    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
     When the following change of ID TJM is received
       | trainUid   | newTrainNumber | oldTrainNumber  | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
       | <trainUid> | <newTrainDesc> | <origTrainDesc> | 12            | create | 07        | 07              | 99999       | PADTON         | 12:00:00 |
@@ -89,7 +94,7 @@ Feature: 33805 TMV Schedule Matching
       | trainDescriber | berth | secondBerth | origTrainDesc | newTrainDesc | trainUid | location | subdivision | matchLevel   |
       | D3             | A001  | 6003        | 4B69          | 4B70         | B11111   | PADTON   | 401         | berth        |
       | D3             | A011  | 0041        | 5B69          | 5B70         | B22222   | PADTON   | 401         | location     |
-      # @bug:58171 | D3             | 0107  | 0125        | 6B69          | 6B70         | B33333   | PRTOBJP  | 401         | sub-division |
+      | D3             | 0107  | 0125        | 6B69          | 6B70         | B33333   | PRTOBJP  | 401         | sub-division |
 
   @bug @bug:58015
   Scenario Outline: 2. Interpose - Match new ID after Change of ID - <matchLevel> match
@@ -111,7 +116,7 @@ Feature: 33805 TMV Schedule Matching
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
       | <trainUid> | N            | 2020-01-01   | 2030-01-01 | 1111111 | <origTrainDesc>  | PADTON | 12:00     | OLDOXRS     | 12:30   |
     And I am on the trains list page
-    And Train description '<origTrainDesc>' is visible on the trains list
+    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
     When the following change of ID TJM is received
       | trainUid   | newTrainNumber  | oldTrainNumber  | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
       | <trainUid> | <newTrainDesc>  | <origTrainDesc> | 12            | create | 07        | 07              | 99999       | PADTON         | 12:00:00 |
@@ -156,7 +161,7 @@ Feature: 33805 TMV Schedule Matching
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
       | <trainUid> | N            | 2020-01-01   | 2030-01-01 | 1111111 | <origTrainDesc>  | PADTON | 12:00     | OLDOXRS     | 12:30   |
     And I am on the trains list page
-    And Train description '<origTrainDesc>' is visible on the trains list
+    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
     When the following change of ID TJM is received
       | trainUid   | newTrainNumber | oldTrainNumber  | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
       | <trainUid> | <newTrainDesc> | <origTrainDesc> | 12            | create | 07        | 07              | 99999       | PADTON         | 12:00:00 |
@@ -179,7 +184,7 @@ Feature: 33805 TMV Schedule Matching
       | trainDescriber | berth | secondBerth | origTrainDesc | newTrainDesc | trainUid | location | subdivision | matchLevel   |
       | D3             | A001  | 6003        | 1B71          | 1B72         | D11111   | PADTON   | 401         | berth        |
       | D3             | A011  | 0041        | 2B71          | 2B72         | D22222   | PADTON   | 401         | location     |
-      # @bug:58171 | D3             | 0107  | 0125        | 3B71          | 3B72         | D33333   | PRTOBJP  | 401         | sub-division |
+      | D3             | 0107  | 0125        | 3B71          | 3B72         | D33333   | PRTOBJP  | 401         | sub-division |
 
   Scenario Outline: 3. Interpose - Check if the berth should be schedule matched - <berthType> berth
       #      Given there is a valid schedule
@@ -198,7 +203,7 @@ Feature: 33805 TMV Schedule Matching
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin  | departure | termination | arrival |
       | <trainUid> | N            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDesc>      | BHAMNWS | 12:00     | EUSTON      | 14:00   |
     And I am on the trains list page
-    Then Train description '<origTrainDesc>' is visible on the trains list
+    And train description '<trainDesc>' is visible on the trains list with schedule type 'STP'
     When the following live berth interpose message is sent from LINX
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <trainDesc>      |
@@ -235,7 +240,7 @@ Feature: 33805 TMV Schedule Matching
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin  | departure | termination | arrival |
       | <trainUid> | N            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDesc>      | BHAMNWS | 12:00     | EUSTON      | 14:00   |
     And I am on the trains list page
-    Then Train description '<origTrainDesc>' is visible on the trains list
+    And train description '<trainDesc>' is visible on the trains list with schedule type 'STP'
     When the following live berth interpose message is sent from LINX
       | toBerth     | trainDescriber   | trainDescription |
       | <fromBerth> | <trainDescriber> | <trainDesc>      |

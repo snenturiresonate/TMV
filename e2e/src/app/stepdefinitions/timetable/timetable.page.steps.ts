@@ -696,7 +696,7 @@ Given(/^the schedule does not run on a day that is tommorow$/, () => {
 
 Given(/^the following basic schedules? (?:is|are) received from LINX$/, async (table: any) => {
   const messages: any = table.hashes();
-  messages.forEach(message => {
+  for (const message of messages) {
     const accessPlan = new AccessPlanRequestBuilder()
       .full()
       .withSchedule(new ScheduleBuilder()
@@ -725,8 +725,9 @@ Given(/^the following basic schedules? (?:is|are) received from LINX$/, async (t
         .build())
       .build();
     CucumberLog.addJson(accessPlan);
-    new LinxRestClient().writeAccessPlan(accessPlan);
-  });
+    const response = await new LinxRestClient().writeAccessPlan(accessPlan);
+    expect(response.statusCode, `Error whilst writing access plan: ${response.statusCode}`).to.equal(200);
+  }
 });
 
 function applyTimeAdjustment(colonSeparatedTimeStringHhMmSs: string, adjustmentMs: number): string {

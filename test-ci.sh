@@ -29,7 +29,7 @@ then
 fi
 
 TEST_HARNESS_IP=${TEST_HARNESS_IP:-$(echo "$STACK_DETAILS" | grep -A 4 Outputs | grep OutputValue | cut -d'"' -f 4)}
-ACCESS_TOKEN=tools/authentication/authenticator.py --stack-name "${STACK_NAME}"
+ACCESS_TOKEN=$(tools/authentication/authenticator.py --stack-name "${STACK_NAME}")
 CREATION_TIME=$(echo "$STACK_DETAILS" | grep CreationTime | cut -d'"' -f 4)
 TMV_DOMAIN=${TMV_DOMAIN:-"tmv-national-test-fe2e.tmv.resonate.tech"}
 
@@ -44,7 +44,7 @@ echo "Found $TEST_HARNESS_IP created at $CREATION_TIME"
 # Run the full end to end tests
 echo "CUCUMBER_TAGS: ${CUCUMBER_TAGS}"
 echo "test_harness_ci_ip: ${TEST_HARNESS_IP}"
-export npm_config_ci_ip="${TMV_DOMAIN}"; export npm_config_test_harness_ip="${TEST_HARNESS_IP}"; export npm_config_access_token="${ACCESS_TOKEN}";export cucumber_tags="${CUCUMBER_TAGS}"; npm run fe2e
+export npm_config_ci_ip="${TMV_DOMAIN}"; export npm_config_test_harness_ip="${TEST_HARNESS_IP}"; export npm_config_access_token="${ACCESS_TOKEN}"; export cucumber_tags="${CUCUMBER_TAGS}"; npm run fe2e
 
 # Generate JUnit style XML to support VSTS reporting
 npm run junit-xml

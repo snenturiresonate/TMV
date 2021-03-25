@@ -78,6 +78,12 @@ Then('Train description {string} is visible on the trains list', async (schedule
   expect(itemNum).to.not.equal(-1);
 });
 
+Then('train description {string} is visible on the trains list with schedule type {string}',
+  async (trainDescription: string, scheduleType: string) => {
+    const scheduleFound: boolean = await trainsListPage.trainDescriptionHasScheduleType(trainDescription, scheduleType);
+    expect(scheduleFound).to.equal(true);
+});
+
 Then('train description {string} disappears from the trains list', async (trainDescription: string) => {
   const hasDisappeared: boolean = await trainsListPage.trainDescriptionHasDisappeared(trainDescription);
   expect(hasDisappeared).to.equal(true);
