@@ -98,8 +98,8 @@ Given(/^The admin setting defaults are as originally shipped$/, async () => {
   await adminRestClient.waitMaxTransmissionTime();
 });
 
-When(/^I do nothing$/, () => {
-  browser.sleep(5000);
+When(/^I do nothing$/, async () => {
+  await browser.sleep(5000);
 });
 
 When(/^the following berth interpose messages? (?:is|are) sent from LINX (.*)$/,
@@ -119,7 +119,7 @@ When(/^the following berth interpose messages? (?:is|are) sent from LINX (.*)$/,
   await linxRestClient.waitMaxTransmissionTime();
 });
 
-When(/^the following live berth interpose messages? (?:is|are) sent from LINX (.*)$/,
+When(/^the following live berth interpose messages? (?:is|are) sent from LINX(.*)$/,
   async (explanation: string, berthInterposeMessageTable: any) => {
   const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
   const now = new Date();
@@ -138,7 +138,7 @@ When(/^the following live berth interpose messages? (?:is|are) sent from LINX (.
 });
 
 
-When(/^the following berth step messages? (?:is|are) sent from LINX (.*)$/, async (explanation: string, berthStepMessageTable: any) => {
+When(/^the following berth step messages? (?:is|are) sent from LINX(.*)$/, async (explanation: string, berthStepMessageTable: any) => {
   const berthStepMessages: any = berthStepMessageTable.hashes();
 
   berthStepMessages.forEach((berthStepMessage: any) => {

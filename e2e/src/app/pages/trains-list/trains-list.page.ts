@@ -149,6 +149,23 @@ export class TrainsListPageObject {
     return schedules.indexOf(scheduleId);
   }
 
+  public async trainDescriptionHasDisappeared(trainDescription: string): Promise<boolean> {
+    try {
+      const trainRow: ElementFinder = element(by.css('#trains-list-row-' + trainDescription));
+      await browser.wait(async () => {
+        return !(await trainRow.isPresent());
+      }, browser.displayTimeout, 'The train description did not disappear');
+      return !(await trainRow.isPresent());
+    }
+    catch (error) {
+      if (error.name === 'StaleElementReferenceError')
+      {
+        // whilst checking, we may get a stale element as the train has been removed, this is good so just return
+        return true;
+      }
+    }
+  }
+
   public async getTrainsListRowColFill(scheduleId: string): Promise<string> {
     const trainDescriptionEntry: ElementFinder = element(by.css('#trains-list-row-' + scheduleId));
     const backgroundColour: string = await trainDescriptionEntry.getCssValue('background-color');

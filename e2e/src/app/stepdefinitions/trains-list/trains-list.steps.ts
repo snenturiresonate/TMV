@@ -75,8 +75,12 @@ When('I invoke the context menu from train {string} on the trains list', async (
 
 Then('Train description {string} is visible on the trains list', async (scheduleNum: string) => {
   const itemNum = await trainsListPage.getRowForSchedule(scheduleNum) + 1;
-  console.log('Row num is ' + itemNum);
   expect(itemNum).to.not.equal(-1);
+});
+
+Then('train description {string} disappears from the trains list', async (trainDescription: string) => {
+  const hasDisappeared: boolean = await trainsListPage.trainDescriptionHasDisappeared(trainDescription);
+  expect(hasDisappeared).to.equal(true);
 });
 
 When('I wait for the context menu to display', async () => {
@@ -104,6 +108,10 @@ When(/^I click on (?:Unmatch|Match) in the context menu$/, async () => {
 
 Then('I open timetable from the context menu', async () => {
   await trainsListPage.timeTableLink.click();
+});
+
+Then('the open timetable option is present on the context menu', async () => {
+  await trainsListPage.timeTableLink.isPresent();
 });
 
 Then('the trains list context menu is displayed', async () => {
