@@ -99,6 +99,12 @@ export class MapPageObject {
     return berth.getText();
   }
 
+  public async getHeadcodesOnMap(): Promise<string[]> {
+    return this.headcodeOnMap.map((el: ElementFinder) => {
+      return el.getText();
+    });
+  }
+
   public async waitUntilBerthTextIs(berthId: string, trainDescriber: string, expectedString: string): Promise<void> {
     const berth: ElementFinder = await this.getBerthElementFinder(berthId, trainDescriber);
     await browser.wait(ExpectedConditions.textToBePresentInElement(berth, expectedString),

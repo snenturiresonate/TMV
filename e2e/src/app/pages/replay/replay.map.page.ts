@@ -3,6 +3,7 @@ import {DateTimeFormatter, LocalDateTime, LocalTime} from '@js-joda/core';
 import {ContinuationLinkContextMenu} from '../sections/replay.continuationlink.contextmenu';
 import {BerthContextMenu} from '../sections/replay.berth.contextmenu';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
+import moment = require('moment');
 
 export class ReplayMapPage {
   public bufferingIndicator: ElementFinder;
@@ -21,6 +22,7 @@ export class ReplayMapPage {
   public speedValue: ElementFinder;
   public replayTimestamp: ElementFinder;
   public replayIncreaseSpeed: ElementArrayFinder;
+  public replayMinimise: ElementFinder;
   constructor() {
     // Replay Map Page
     this.continuationLinkContextMenu = new ContinuationLinkContextMenu();
@@ -39,6 +41,7 @@ export class ReplayMapPage {
     this.speedValue = element(by.css('button[title*=speed]>span'));
     this.replayTimestamp = element(by.css('.playback-status >div'));
     this.replayIncreaseSpeed = element.all(by.css('.speed-editor-popup .speeds .speed'));
+    this.replayMinimise = element(by.css('.collapse-button'));
   }
 
   public async selectContinuationLink(linkText): Promise<void> {
@@ -125,12 +128,20 @@ export class ReplayMapPage {
   public async getSpeedValue(): Promise<string> {
     return this.speedValue.getText();
   }
+
+  public async getPlaybackControl(): Promise<string>{
+    return this.replayMinimise.getAttribute('class');
+  }
+
   public async getButtonType(button: string): Promise<string> {
     if (button === 'backward'){
       return this.skipBackButton.getAttribute('class');
     }
     if (button === 'forward'){
       return this.skipForwardButton.getAttribute('class');
+    }
+    if (button === 'play'){
+      return this.playButton.getAttribute('class');
     }
   }
   public async getReplayTimestamp(): Promise<any> {
@@ -139,6 +150,10 @@ export class ReplayMapPage {
 
   public async clickReplaySpeed(): Promise<void> {
     return this.replaySpeedButton.click();
+  }
+
+  public async clickMinimise(): Promise<void> {
+    return this.replayMinimise.click();
   }
 
   public async increaseReplaySpeed(position: number): Promise<void> {

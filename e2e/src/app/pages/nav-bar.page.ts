@@ -9,6 +9,10 @@ export class NavBarPageObject {
   public platformToggleOff: ElementFinder;
   public berthToggleOn: ElementFinder;
   public berthToggleOff: ElementFinder;
+  public routeSetCodeToggleOn: ElementFinder;
+  public routeSetCodeToggleOff: ElementFinder;
+  public routeSetTrackToggleOn: ElementFinder;
+  public routeSetTrackToggleOff: ElementFinder;
   public version: ElementFinder;
   public configOption: ElementFinder;
   public trainSearchBox: ElementFinder;
@@ -18,6 +22,8 @@ export class NavBarPageObject {
   public timeTableOption: ElementFinder;
   public navBar: ElementFinder;
   public trainTable: ElementFinder;
+  public timeTable: ElementFinder;
+  public signalTable: ElementFinder;
   public searchTable: ElementFinder;
   public trainTableCloseIcon: ElementFinder;
   public trainTableCloseBtn: ElementFinder;
@@ -44,6 +50,11 @@ export class NavBarPageObject {
   public helpMenu: ElementFinder;
   public searchFilterToggle: ElementFinder;
   public mapLink: ElementArrayFinder;
+  public mapPathToggle: ElementArrayFinder;
+  public recentMaps: ElementArrayFinder;
+  public mapChanger: ElementFinder;
+  public routeSetTrackIndicator: ElementFinder;
+  public routeSetCodeIndicator: ElementFinder;
   constructor() {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
@@ -52,6 +63,10 @@ export class NavBarPageObject {
     this.platformToggleOff = element(by.css('#platformtoggle .absolute-off'));
     this.berthToggleOn = element(by.css('#berthtoggle .absolute-on'));
     this.berthToggleOff = element(by.css('#berthtoggle .absolute-off'));
+    this.routeSetTrackToggleOn = element(by.css('#routesettracktoggle .absolute-on'));
+    this.routeSetTrackToggleOff = element(by.css('#routesettracktoggle .absolute-off'));
+    this.routeSetCodeToggleOn = element(by.css('#routesetcodetoggle .absolute-on'));
+    this.routeSetCodeToggleOff = element(by.css('#routesetcodetoggle .absolute-off'));
     this.version = element(by.id('settings-menu-tmvVersion'));
     this.configOption = element(by.css('li.dropdown-item.dropdown-item-Menu.trains-config-button'));
     this.trainSearchBox = element(by.id('national-search-box'));
@@ -64,6 +79,8 @@ export class NavBarPageObject {
     this.berthToggleIndicator = element(by.css('#berthtoggle .toggle-switch'));
     this.searchTable = element(by.css('.modalbody:nth-child(2)'));
     this.trainTable = element(by.css('.modalbody:nth-child(2)'));
+    this.timeTable = element(by.css('.modalbody:nth-child(2)'));
+    this.signalTable = element(by.css('.modalbody:nth-child(2)'));
     this.trainTableCloseIcon = element(by.css('.closemodal:nth-child(1)'));
     this.trainTableCloseBtn = element(by.css('.tmv-btn-cancel:nth-child(1)'));
     this.trainTableWindow = element(by.css('.modaltitle:nth-child(1)'));
@@ -88,6 +105,11 @@ export class NavBarPageObject {
     this.modalWindow = element.all(by.css('.modalpopup'));
     this.helpMenu = element(by.id('help-menu-button'));
     this.mapLink = element.all(by.css('#signal-map-list>ul>li>span'));
+    this.mapPathToggle = element.all(by.css('#map-path-toggle-button'));
+    this.recentMaps = element.all(by.css('.map-details'));
+    this.mapChanger = element(by.css('a[title=\'Change map\']'));
+    this.routeSetTrackIndicator = element(by.css('#routesettracktoggle .toggle-switch'));
+    this.routeSetCodeIndicator = element(by.css('#routesetcodetoggle .toggle-switch'));
   }
 
   public async getNavbarIconNames(): Promise<string> {
@@ -114,6 +136,12 @@ export class NavBarPageObject {
     if (toggleName === 'Berth') {
       return this.berthToggleIndicator.getText();
     }
+    if (toggleName === 'Route Set - Track') {
+      return this.routeSetTrackIndicator.getText();
+    }
+    if (toggleName === 'Route Set - Code') {
+      return this.routeSetCodeIndicator.getText();
+    }
     return 'Unknown';
   }
 
@@ -137,6 +165,27 @@ export class NavBarPageObject {
         await this.berthToggleOn.click();
       }
     }
+
+    else if (toggleName === 'Route Set - Track') {
+      if (requiredState === 'on') {
+        await this.routeSetTrackToggleOn.click();
+      } else {
+        await this.routeSetTrackToggleOff.click();
+      }
+    }
+
+    else if (toggleName === 'Route Set - Code') {
+      if (requiredState === 'on') {
+        await this.routeSetCodeToggleOn.click();
+      } else {
+        await this.routeSetCodeToggleOff.click();
+      }
+    }
+
+  }
+
+  public async toggleMapPathOff(): Promise<void> {
+    await this.mapPathToggle.click();
   }
 
   public async getServiceWithStatus(statusType: string, searchType: string): Promise<number> {
@@ -249,6 +298,14 @@ export class NavBarPageObject {
     return browser.isElementPresent(this.trainTable);
   }
 
+  public async isTimetablePresent(): Promise<boolean> {
+    return browser.isElementPresent(this.timeTable);
+  }
+
+  public async isSignalTablePresent(): Promise<boolean> {
+    return browser.isElementPresent(this.signalTable);
+  }
+
   public async isSearchTablePresent(): Promise<boolean> {
     return browser.isElementPresent(this.searchTable);
   }
@@ -287,6 +344,11 @@ export class NavBarPageObject {
 
   public async getTrainsSearchContextMenuItem(rowIndex: number): Promise<string> {
     return this.trainsContextListItems.get(rowIndex - 1).getText();
+  }
+
+  public async clickTrainsSearchContextMenuItem(rowIndex: number): Promise<void> {
+    const trainContextList = this.trainsContextListItems.get(rowIndex - 1);
+    browser.actions().click(trainContextList);
   }
 
   public async getSearchContextMenuItem(rowIndex: number): Promise<string> {
@@ -387,6 +449,12 @@ export class NavBarPageObject {
       await this.mapLink.click();
       await element(by.buttonText(mapName)).click();
     }
+  }
+
+  public async changeToRecentMap(mapName: string): Promise<void> {
+    await this.mapChanger.click();
+    const recentMap = element(by.css('[id^=map-search-menu-recent-history-item-map-name-' + mapName.toLowerCase() + ']'));
+    await recentMap.click();
   }
 
   public async getHighlightStatus(signalId: string): Promise<string> {

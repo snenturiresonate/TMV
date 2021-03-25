@@ -73,6 +73,12 @@ When('I invoke the context menu from train {string} on the trains list', async (
   await trainsListPage.rightClickTrainListItem(itemNum);
 });
 
+Then('Train description {string} is visible on the trains list', async (scheduleNum: string) => {
+  const itemNum = await trainsListPage.getRowForSchedule(scheduleNum) + 1;
+  console.log('Row num is ' + itemNum);
+  expect(itemNum).to.not.equal(-1);
+});
+
 When('I wait for the context menu to display', async () => {
   await trainsListPage.waitForContextMenu();
 });
@@ -323,6 +329,46 @@ Then('{string} are {word} displayed', async (expectedTrainDescriptions: string, 
     }
 
   }
+});
+
+Then('I should see the trains list table to only display train description {string}', async (expectedTrainDescription: string) => {
+  const actualTrainDescriptionsArray: string[] = await trainsListPage.getTrainsListValuesForColumn('train-description');
+  actualTrainDescriptionsArray.forEach(trainDescriber => {
+    expect(trainDescriber, `Unexpected train describer ${trainDescriber} seen`).to.equal(expectedTrainDescription);
+  });
+});
+
+Then('I should see the trains list table to only display the following trains', async (expectedTrainDescriptionTable: any) => {
+  const expectedTrainDescriptionValues = expectedTrainDescriptionTable.hashes();
+  const expectedTrainDescriptionArray: string[] = [];
+  for (const i in expectedTrainDescriptionValues) {
+    expectedTrainDescriptionArray.push(expectedTrainDescriptionValues[i].trainDescription);
+  }
+  const actualTrainDescriptionsArray: string[] = await trainsListPage.getTrainsListValuesForColumn('train-description');
+  expect(actualTrainDescriptionsArray).to.include.all.members(expectedTrainDescriptionArray);
+
+});
+
+Then('I should see the trains list table to display the following trains', async (expectedTrainDescriptionTable: any) => {
+  const expectedTrainDescriptionValues = expectedTrainDescriptionTable.hashes();
+  const expectedTrainDescriptionArray: string[] = [];
+  for (const i in expectedTrainDescriptionValues) {
+    expectedTrainDescriptionArray.push(expectedTrainDescriptionValues[i].trainDescription);
+  }
+  const actualTrainDescriptionsArray: string[] = await trainsListPage.getTrainsListValuesForColumn('train-description');
+  expect(actualTrainDescriptionsArray).to.include.members(expectedTrainDescriptionArray);
+
+});
+
+Then('I should see the trains list table to not display the following trains', async (expectedTrainDescriptionTable: any) => {
+  const expectedTrainDescriptionValues = expectedTrainDescriptionTable.hashes();
+  const expectedTrainDescriptionArray: string[] = [];
+  for (const i in expectedTrainDescriptionValues) {
+    expectedTrainDescriptionArray.push(expectedTrainDescriptionValues[i].trainDescription);
+  }
+  const actualTrainDescriptionsArray: string[] = await trainsListPage.getTrainsListValuesForColumn('train-description');
+  expect(actualTrainDescriptionsArray).not.to.include.members(expectedTrainDescriptionArray);
+
 });
 
 function checkOrdering(thisString: string, nextString: string, colName: string, direction: string): void {

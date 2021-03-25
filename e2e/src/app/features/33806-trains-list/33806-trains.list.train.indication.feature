@@ -1,4 +1,3 @@
-@bug @bug_55994
 Feature: 33806 - TMV User Preferences - full end to end testing - TL config - train indication
 
   As a tester
@@ -19,14 +18,14 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
   Scenario: 33806 -19 Trains indication table default settings
     Then the following can be seen on the trains indication table of trains list config
       | name                      | colour  | minutes | toggleValue |
-      | Change of Origin          | #cccc00 |         | on          |
-      | Change of Identity        | #ccff66 |         | off         |
-      | Cancellation              | #00ff00 |         | on          |
-      | Reinstatement             | #00ffff |         | off         |
-      | Off-route                 | #cc6600 |         | on          |
-      | Next report overdue       | #ffff00 | 10      | off         |
-      | Origin Called             | #9999ff | 50      | on          |
-      | Origin Departure Overdue  | #339966 | 20      | on          |
+      | Change of Origin         | #ffffff |         | on          |
+      | Change of Identity       | #ffffff |         | on          |
+      | Cancellation             | #ffffff |         | on          |
+      | Reinstatement            | #ffffff |         | on          |
+      | Off-route                | #ffffff |         | on          |
+      | Next report overdue      | #0000ff | 15      | off         |
+      | Origin Called            | #ffb578 | 15      | on          |
+      | Origin Departure Overdue | #ffffff | 1       | on          |
 
   #33806 -20 Trains List Config (Change Trains Indication Colour Picker)
     #Given the user is viewing the trains list train indication view
@@ -139,7 +138,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
-    And the following train activation messages is sent from LINX
+    And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
       | W15214   | 0A00        | 09:59                  | 99999               | PADTON                 |
     Then The trains list table is visible
@@ -180,7 +179,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
   @tdd
   Scenario: 33806 -24-g Off route - Train has moved off route
     Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    When the following live berth step message is sent from LINX
+    When the following live berth step message is sent from LINX (causing service to go off route)
        | fromBerth | toBerth | trainDescriber| trainDescription |
        | 0099      | 9999    | GW            | IS42             |
     And I update only the below train list indication config settings as

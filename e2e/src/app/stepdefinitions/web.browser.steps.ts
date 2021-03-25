@@ -93,6 +93,14 @@ When('I close the current tab', async () => {
   await browser.driver.close();
 });
 
+Then('no new tab is launched', async () => {
+  const windowHandles: string[] = await browser.getAllWindowHandles();
+  const numHandles: number = windowHandles.length - 1;
+  const currentWindowsHandle: string = await browser.driver.getWindowHandle();
+  const lastWindowsHandle: string = windowHandles[numHandles];
+  expect(currentWindowsHandle, 'A new tab has been launched unexpectedly').equals(lastWindowsHandle);
+});
+
 async function closeAllButTheFirstTab(): Promise<void> {
   while ((await browser.getAllWindowHandles()).length > 1) {
     await closeLastTab();

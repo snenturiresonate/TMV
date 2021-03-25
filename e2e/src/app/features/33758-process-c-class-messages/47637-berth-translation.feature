@@ -14,7 +14,7 @@ Feature: 47637 - Process C Class Messages - Berth Translation
   Scenario Outline: 33758 Berth Translation - Interpose With Matching Config
     # Has type I
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible
@@ -28,7 +28,7 @@ Feature: 47637 - Process C Class Messages - Berth Translation
   Scenario Outline: 33758 Berth Translation - Interpose With No Matching Config
     # Does not have type I
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newBerth>' in train describer '<newTrainDescriber>' does not contain '<trainDescription>'
@@ -41,7 +41,7 @@ Feature: 47637 - Process C Class Messages - Berth Translation
   Scenario Outline: 33758 Berth Translation - Interpose to Null
     # Translation is ******
     Given I am on a map showing berth '<toBerth>' and in train describer '<toTrainDescriber>'
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<toBerth>' in train describer '<toTrainDescriber>' does not contain '<trainDescription>'
@@ -55,7 +55,7 @@ Feature: 47637 - Process C Class Messages - Berth Translation
   Scenario Outline: 33758 Berth Translation - Step With Matching Config - To
     # Has Type T
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<fromBerth>' in train describer '<fromTrainDescriber>' does not contain '<trainDescription>'
@@ -71,11 +71,11 @@ Feature: 47637 - Process C Class Messages - Berth Translation
   Scenario Outline: 33758 Berth Translation - Step With Matching Config - From
     # Has Type F
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
-    When the following berth interpose message is sent from LINX
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth    | trainDescriber      | trainDescription   |
       | 09:59:00  | <newBerth> | <newTrainDescriber> | <trainDescription> |
     And berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newBerth>' in train describer '<newTrainDescriber>' does not contain '<trainDescription>'
@@ -92,7 +92,7 @@ Feature: 47637 - Process C Class Messages - Berth Translation
   Scenario Outline: 33758 Berth Translation - Step With No Matching Config
     # Does not have type T or F
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
-    When the following berth step message is sent from LINX
+    When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newBerth>' in train describer '<newTrainDescriber>' does not contain '<trainDescription>'
@@ -106,7 +106,7 @@ Feature: 47637 - Process C Class Messages - Berth Translation
   Scenario Outline: 33758 Berth Translation - Cancel With Matching Config
     # Has type C
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
-    And the following berth interpose message is sent from LINX
+    And the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth    | trainDescriber      | trainDescription   |
       | 09:59:00  | <newBerth> | <newTrainDescriber> | <trainDescription> |
     And berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible
@@ -126,7 +126,7 @@ Feature: 47637 - Process C Class Messages - Berth Translation
   Scenario Outline: 33758 Berth Translation - Cancel With No Matching Config
     # Does not have type C
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
-    And the following berth interpose message is sent from LINX
+    And the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth    | trainDescriber      | trainDescription   |
       | 09:59:00  | <newBerth> | <newTrainDescriber> | <trainDescription> |
     And berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible

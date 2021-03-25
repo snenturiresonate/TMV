@@ -1,4 +1,3 @@
-@bug @bug_55994
 Feature: 33806 - TMV User Preferences - full end to end testing - TL config - location selection
 
   As a tester
@@ -22,6 +21,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
       | All locations                |
       | All locations, order applied |
 @tdd
+  #Needs a step to add all desired locations
   Scenario: Trains list location stop types
     Then I should see the following stop types in the given order within each location
       | stopTypes |
@@ -49,6 +49,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
   #When the user selects the location from the results
   #Then the location is added to the list of configured locations
   @tdd
+    #Needs a step to add all desired locations
   Scenario: 33806 -15 Trains list location search auto suggest list
     When I type 'ABDARE' into the location search box
     And I click the first suggested location
@@ -82,6 +83,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
     #Given the user has locations in the list
     #When the user removes a location
     #Then the location is removed from the list
+  @tdd
+    #Needs a step to add all desired locations
 Scenario: 33806 -17 Trains location list ability to remove location and move the location elements to desired order
   #Below scenario covers both 33806 -16 & 33806 -17. They have been made as single scenario to avoid any data related false failures due to removing locations in different scenarios
   When I choose the location filter as 'All locations, order applied'

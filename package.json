@@ -1,6 +1,6 @@
 {
   "name": "tmvend-to-end-test-framework",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -24,6 +24,7 @@
     "@angular/router": "10.0.3",
     "@js-joda/core": "3.2.0",
     "@js-joda/locale_en": "^3.2.2",
+    "chromedriver": "^89.0.0",
     "json-ignore": "^0.4.0",
     "rxjs": "6.5.5",
     "tslib": "2.0.0",

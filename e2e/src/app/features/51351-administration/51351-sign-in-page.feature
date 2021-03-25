@@ -1,3 +1,4 @@
+@bug @bug_58056
 Feature: 51351 - Administration Login Message Part 2 - full end to end testing
 
   As a tester
@@ -8,14 +9,14 @@ Feature: 51351 - Administration Login Message Part 2 - full end to end testing
     Given I am on the admin page
     And I navigate to the 'Login Message' admin tab
     And The admin setting defaults are as originally shipped
-  @bug @bug_57070
+
   Scenario: 33767-14 Resetting unsaved changes - Message
     When I update login settings 'Message' as 'I am a message'
     And the unsaved indicator is displayed on the sign in message tab
     When I reset the login message settings
     Then I should see the login settings 'Message' as 'Welcome to TMV'
     And the unsaved indicator is not displayed on the sign in message tab
-  @bug @bug_57070
+
   Scenario: 33767-14 Resetting unsaved changes - T&C
     When I update login settings 'Terms and Conditions' as 'I am terms and conditions'
     And the unsaved indicator is displayed on the sign in message tab

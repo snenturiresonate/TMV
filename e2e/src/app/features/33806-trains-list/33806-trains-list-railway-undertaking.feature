@@ -1,4 +1,3 @@
-@bug @bug_55994
 Feature: 33806 - TMV User Preferences - full end to end testing - TL config - railway undertaking
 
   As a tester
