@@ -38,7 +38,8 @@ const mapColourHex = {
   grey: '#969696',
   palegrey: '#b2b2b2',
   paleblue: '#00d2ff',
-  purple: '#ff3cb1'
+  purple: '#ff3cb1',
+  lightgrey: '#e1e1e1'
 };
 
 const mapLineWidth = {
@@ -766,6 +767,24 @@ Then('the train headcode color for berth {string} is {word}',
       .to.equal(expectedColorHex);
   });
 
+Then(/^the rectangle colour for berth (\w+) (is|is not) (\w+) meaning (.*)$/,
+  async (berthId: string, negate: string, verificationColour: string, explanation: string) => {
+    const expectedRectangleColourHex = mapColourHex[verificationColour];
+    const actualRectangleColour: string = await mapPageObject.getBerthRectangleColour(berthId);
+    if (negate === 'is not')
+    {
+      expect(actualRectangleColour,
+        'Berth rectangle colour is ' + verificationColour + ' meaning ' + explanation + ', which is unexpected')
+        .to.not.equal(expectedRectangleColourHex);
+    }
+    else
+    {
+      expect(actualRectangleColour,
+        'Berth rectangle colour is not ' + verificationColour + ' - ' + explanation + ', it is ' + actualRectangleColour)
+        .to.equal(expectedRectangleColourHex);
+    }
+});
+
 Then('the train headcode {string} is {string} on the map', async (trainDesc: string, visibilityType: string) => {
   const headcodes: string[] = await mapPageObject.getHeadcodesOnMap();
   let found = false;
@@ -792,7 +811,13 @@ Then(/^the (Matched|Unmatched) version of the context menu is displayed$/, async
   }
   const contextMenuItem: string = await mapPageObject.getMapContextMenuItem(3);
   expect(contextMenuItem, `${matchType} option not found in the context menu`)
-    .to.equal(expected);
+    .to.contain(expected);
+});
+
+When(/^I wait for the option to (Match|Unmatch) train description (\w+) in berth (\w+), describer (\w+) to be available$/,
+  async (matchType: string, trainDescription: string, berth: string, describer: string) => {
+    const disappeared: boolean = await mapPageObject.waitForMatchType(trainDescription, matchType, berth, describer);
+    expect(disappeared).to.equal(true);
 });
 
 Given(/^I have cleared out all headcodes$/, async () => {
