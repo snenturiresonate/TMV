@@ -55,14 +55,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
     And I click the first suggested location
     Then the following can be seen on the location order type table
       | locationNameValue              | Originate  | Stop       | Pass       | Terminate  |
-      |Aberdare (ABDARE)               | Checked    | un-Checked | checked    | unchecked  |
-      | Slough (SLOUGH)                | Checked    | un-Checked | checked    | unchecked  |
-      | Paddington (PADTON)            | Checked    | un-checked | un-checked | un-checked |
-      | Swindon (SDON)                 | un-checked | Checked    | un-checked | un-checked |
-      | Reading Lane Junction (RDGLNJ) | un-checked | checked    | checked    | un-checked |
-      | Peterborough (PBRO)            | un-checked | checked    | unchecked  | checked    |
-      | Reading (RDNGSTN)              | un-checked | un-checked | checked    | un-checked |
-      | Leeds (LEEDS)                  | un-checked | un-checked | checked    | checked    |
+      | Aberdare (ABDARE)              | Checked    | un-Checked | checked    | unchecked  |
     And I should see the following stop types in the given order within each location
       | stopTypes |
       | Originate |
