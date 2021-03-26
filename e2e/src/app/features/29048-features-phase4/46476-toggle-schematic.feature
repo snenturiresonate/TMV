@@ -67,15 +67,15 @@ Feature: 46476 - Toggle Schematic
       And I toggle the 'Berth' toggle 'off'
       And the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
-      | 09:59:00  | 0209    | D3            | 1G69             |
-      Then berth '0209' in train describer 'D3' contains '1G69' and is visible
+      | 09:59:00  | 0209    | D3            | 1S22             |
+      Then berth '0209' in train describer 'D3' contains '1S22' and is visible
       And I toggle the 'Berth' toggle 'on'
       Then berth '0209' in train describer 'D3' contains '0209' and is visible
       And I move to map 'GW02' via continuation link
       And berth '0209' in train describer 'D3' contains '0209' and is visible
       And I click on the layers icon in the nav bar
       And I toggle the 'Berth' toggle 'off'
-      And berth '0209' in train describer 'D3' contains '1G69' and is visible
+      And berth '0209' in train describer 'D3' contains '1S22' and is visible
       And I toggle the 'Berth' toggle 'on'
       And berth '0209' in train describer 'D3' contains '0209' and is visible
 
