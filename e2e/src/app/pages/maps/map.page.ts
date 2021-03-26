@@ -113,7 +113,7 @@ export class MapPageObject {
   public async waitUntilBerthTextIs(berthId: string, trainDescriber: string, expectedString: string): Promise<void> {
     const berth: ElementFinder = await this.getBerthElementFinder(berthId, trainDescriber);
     await browser.wait(ExpectedConditions.textToBePresentInElement(berth, expectedString),
-      10000,
+      15000,
       `Berth text was not ${expectedString} in Berth ${trainDescriber}${berthId}`);
   }
 

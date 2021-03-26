@@ -56,7 +56,7 @@ Feature: 46476 - Toggle Schematic
        And the 'Route Set - Code' toggle is 'on'
        And the route set code on the track 'PNPNQ3' is 'CXR'
 
-
+  @bug @bug_58238
   Scenario: 3 Berth (turn on)
      #Given the user is authenticated to use TMV
      #And the user is viewing a live map
