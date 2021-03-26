@@ -22,10 +22,10 @@ export class TrainRunningInformationMessageHeader {
   public static messageHeader = (trainNumber: string, trainUid: string, hourDepartFromOrigin: number) => {
     const senderReference = TrainRunningInformationMessageHeader.calculateSenderReference(trainNumber, trainUid, hourDepartFromOrigin);
     const messageHeaderObj = fragment().ele('MessageHeader')
-      .ele(TrainRunningInformationMessageHeader.messageReference()).up()
       .ele('SenderReference').txt(senderReference).up()
       .ele('Sender', {'ns0:CI_InstanceNumber': '01'}).txt('0070').up()
       .ele('Recipient', {'ns0:CI_InstanceNumber': '99'}).txt('9999').up()
+      .ele(TrainRunningInformationMessageHeader.messageReference()).up()
       .doc();
     return messageHeaderObj.end({prettyPrint: true});
   }

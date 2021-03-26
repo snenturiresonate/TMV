@@ -5,7 +5,7 @@ import {TRITrainDelay} from './train-delay';
 import * as moment from 'moment';
 
 export class TRITrainLocationReport {
-  private static locationDateTime = DateAndTimeUtils.getCurrentDateTime();
+  public static locationDateTime = DateAndTimeUtils.getCurrentDateTime();
   private static delayedLocationDateTime(delayMins: number): string {
     const parsedDateTime = new Date(TRITrainLocationReport.locationDateTime);
     const delayedDateTime = moment(parsedDateTime).subtract(delayMins, 'minute').toDate();

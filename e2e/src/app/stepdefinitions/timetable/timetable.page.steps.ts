@@ -21,6 +21,7 @@ import {browser, ExpectedConditions} from 'protractor';
 import {ReplayScenario} from '../../utils/replay/replay-scenario';
 import {TestData} from '../../logging/test-data';
 import {TrainJourneyModificationMessage} from '../../utils/train-journey-modifications/train-journey-modification-message';
+import {TRITrainLocationReport} from '../../utils/train-running-information/train-location-report';
 
 const appPage: AppPage = new AppPage();
 
@@ -107,6 +108,13 @@ Then('The values for the header properties are as follows',
     expect(actualHeaderTJM, 'Last TJM is not as expected')
       .to.equal(expectedHeaderPropertyValues.lastTJM);
   });
+
+Then('the last reported information displayed matches that provided in the TRI message', async () => {
+  const expectedTime = TRITrainLocationReport.locationDateTime;
+  const actualHeaderLastReported: string = await timetablePage.headerLastReported.getText();
+  expect(actualHeaderLastReported, 'Last Reported is not as expected')
+    .to.equal(expectedTime);
+});
 
 Then('The values for {string} are the following as time passes',
   async (propertyName: string, expectedValues: any) => {
@@ -537,6 +545,24 @@ Then(/^the expected arrival time for inserted location (.*) is (.*) percent betw
   const actual = await row.plannedArr.getText();
   expect(actual, 'Expected arrival time of inserted location is not correct')
     .to.equal(expectedArrivalTime.toString());
+});
+
+Then('the actual {string} time displayed for that location {string} matches that provided in the TRI message', async (
+  location: string, expected: string) => {
+  const expectedTime = TRITrainLocationReport.locationDateTime;
+  const row = await timetablePage.getRowByLocation(location);
+
+  if ( expected.toUpperCase() === 'ARRIVAL' ) {
+    const actualArrivalTime = await row.actualArr.getText();
+    expect(actualArrivalTime, 'Expected arrival time of inserted location is not correct')
+      .to.equal(expectedTime.toString());
+  }
+
+  if ( expected.toUpperCase() === 'DEPARTURE' ) {
+    const actualDepartureTime = await row.actualDep.getText();
+    expect(actualDepartureTime, 'Expected arrival time of inserted location is not correct')
+      .to.equal(expectedTime.toString());
+  }
 });
 
 Then(/^the locations line code matches the path code$/, async (locationsTable: any) => {
