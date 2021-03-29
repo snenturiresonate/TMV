@@ -193,7 +193,7 @@ export class MapPageObject {
   public async getBerthElementFinder(berthId: string, trainDescriber: string): Promise<ElementFinder> {
     // id for berths can be either berth-element-text-bth.[train_id] or berth-element-text-btl.[train_id]
     // using $= to get element based on just train_id
-    const berth: ElementFinder = element(by.css('text[id$=' + trainDescriber + berthId + ']'));
+    const berth: ElementFinder = element(by.css('text[id$=' + trainDescriber + berthId + ']:not(text[id^=s-class])'));
     return berth;
   }
 

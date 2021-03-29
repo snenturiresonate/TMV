@@ -1,8 +1,13 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
+import {CheckBox} from './common/ui-element-handlers/checkBox';
 
 export class NavBarPageObject {
   public navBarIcons: ElementArrayFinder;
   public mapLayerToggles: ElementArrayFinder;
+  public berthToggle: ElementFinder;
+  public platformToggle: ElementFinder;
+  public routeSetTrackToggle: ElementFinder;
+  public routeSetCodeToggle: ElementFinder;
   public platformToggleIndicator: ElementFinder;
   public berthToggleIndicator: ElementFinder;
   public platformToggleOn: ElementFinder;
@@ -53,11 +58,16 @@ export class NavBarPageObject {
   public mapPathToggle: ElementArrayFinder;
   public recentMaps: ElementArrayFinder;
   public mapChanger: ElementFinder;
+  public mapSearchBox: ElementFinder;
   public routeSetTrackIndicator: ElementFinder;
   public routeSetCodeIndicator: ElementFinder;
   constructor() {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
+    this.berthToggle = element(by.css('#berthtoggle .toggle-switch'));
+    this.platformToggle = element(by.css('#platformtoggle .toggle-switch'));
+    this.routeSetTrackToggle = element(by.css('#routesettracktoggle .toggle-switch'));
+    this.routeSetCodeToggle = element(by.css('#routesetcodetoggle .toggle-switch'));
     this.platformToggleIndicator = element(by.css('#platformtoggle .toggle-switch'));
     this.platformToggleOn = element(by.css('#platformtoggle .absolute-on'));
     this.platformToggleOff = element(by.css('#platformtoggle .absolute-off'));
@@ -108,6 +118,7 @@ export class NavBarPageObject {
     this.mapPathToggle = element.all(by.css('#map-path-toggle-button'));
     this.recentMaps = element.all(by.css('.map-details'));
     this.mapChanger = element(by.css('a[title=\'Change map\']'));
+    this.mapSearchBox = element(by.id('map-search-box'));
     this.routeSetTrackIndicator = element(by.css('#routesettracktoggle .toggle-switch'));
     this.routeSetCodeIndicator = element(by.css('#routesetcodetoggle .toggle-switch'));
   }
@@ -129,59 +140,29 @@ export class NavBarPageObject {
     return this.mapLayerToggles.getText();
   }
 
-  public async getToggleState(toggleName: string): Promise<string> {
+  public async getToggleState(toggleName: string): Promise<boolean> {
+    const elm = await this.getToggle(toggleName);
+    return await CheckBox.getToggleCurrentState(elm);
+  }
+
+  private async getToggle(toggleName): Promise<ElementFinder> {
     if (toggleName === 'Platform') {
-      return this.platformToggleIndicator.getText();
+      return this.platformToggle;
     }
-    if (toggleName === 'Berth') {
-      return this.berthToggleIndicator.getText();
+    else if (toggleName === 'Berth') {
+      return this.berthToggle;
     }
-    if (toggleName === 'Route Set - Track') {
-      return this.routeSetTrackIndicator.getText();
+    else if (toggleName === 'Route Set - Track') {
+      return this.routeSetTrackToggle;
     }
-    if (toggleName === 'Route Set - Code') {
-      return this.routeSetCodeIndicator.getText();
+    else if (toggleName === 'Route Set - Code') {
+      return this.routeSetCodeToggle;
     }
-    return 'Unknown';
   }
 
   public async toggle(toggleName: string, requiredState: string): Promise<void> {
-    const currentState: string = await this.getToggleState(toggleName);
-    if (currentState === requiredState)
-    {
-      return;
-    }
-    if (toggleName === 'Platform') {
-      if (requiredState === 'on') {
-        await this.platformToggleOff.click();
-      } else {
-        await this.platformToggleOn.click();
-      }
-    }
-    else if (toggleName === 'Berth') {
-      if (requiredState === 'on') {
-        await this.berthToggleOff.click();
-      } else {
-        await this.berthToggleOn.click();
-      }
-    }
-
-    else if (toggleName === 'Route Set - Track') {
-      if (requiredState === 'on') {
-        await this.routeSetTrackToggleOn.click();
-      } else {
-        await this.routeSetTrackToggleOff.click();
-      }
-    }
-
-    else if (toggleName === 'Route Set - Code') {
-      if (requiredState === 'on') {
-        await this.routeSetCodeToggleOn.click();
-      } else {
-        await this.routeSetCodeToggleOff.click();
-      }
-    }
-
+    const elm = await this.getToggle(toggleName);
+    return await CheckBox.updateToggle(elm, requiredState);
   }
 
   public async toggleMapPathOff(): Promise<void> {
@@ -449,6 +430,11 @@ export class NavBarPageObject {
       await this.mapLink.click();
       await element(by.buttonText(mapName)).click();
     }
+  }
+
+  public async enterMapSearchString(searchString: string): Promise<void> {
+    this.mapSearchBox.clear();
+    return this.mapSearchBox.sendKeys(searchString);
   }
 
   public async changeToRecentMap(mapName: string): Promise<void> {
