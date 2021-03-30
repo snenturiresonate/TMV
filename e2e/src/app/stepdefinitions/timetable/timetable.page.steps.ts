@@ -750,7 +750,7 @@ Given(/^the following basic schedules? (?:is|are) received from LINX$/, async (t
           .build())
         .build())
       .build();
-    CucumberLog.addJson(accessPlan);
+    await CucumberLog.addJson(accessPlan);
     const response = await new LinxRestClient().writeAccessPlan(accessPlan);
     expect(response.statusCode, `Error whilst writing access plan: ${response.statusCode}`).to.equal(200);
   }

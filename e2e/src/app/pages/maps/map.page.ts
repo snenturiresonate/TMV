@@ -242,21 +242,30 @@ export class MapPageObject {
 
   public async waitForMatchType(trainDescription: string, matchType: string, berth: string, describer: string): Promise<boolean> {
     return browser.wait(async () => {
-      await this.openContextMenuForTrainDescription(trainDescription);
-      await this.waitForContextMenu();
-      const contextMenuItem = await this.getMapContextMenuItem(3);
-      if (contextMenuItem.includes(matchType)) {
-        return true;
+      try {
+        await this.openContextMenuForTrainDescription(trainDescription);
+        await this.waitForContextMenu();
+        const contextMenuItem = await this.getMapContextMenuItem(3);
+        if (contextMenuItem.includes(matchType)) {
+          return true;
+        }
+        await this.closeContextMenuForTrainDescription(trainDescription);
+        await linxRestClient.postBerthInterpose(
+          new BerthInterpose(
+            new Date().toTimeString().substr(0, 8),
+            berth,
+            describer,
+            trainDescription
+          )
+        );
       }
-      await this.closeContextMenuForTrainDescription(trainDescription);
-      await linxRestClient.postBerthInterpose(
-        new BerthInterpose(
-          new Date().toTimeString().substr(0, 8),
-          berth,
-          describer,
-          trainDescription
-        )
-      );
+      catch (exception) {
+        if (exception.toString().includes('StaleElementReferenceError'))
+        {
+          // the train has been removed which constitutes a change in state
+          return true;
+        }
+      }
       return false;
     },
     browser.displayTimeout, 'The train description did not disappear');

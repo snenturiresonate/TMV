@@ -1,6 +1,7 @@
 import {When} from 'cucumber';
 import {TrainRunningInformationMessageBuilder} from '../../utils/train-running-information/train-running-information-message';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
+import {CucumberLog} from '../../logging/cucumber-log';
 
 const linxRestClient: LinxRestClient = new LinxRestClient();
 
@@ -24,8 +25,9 @@ When(/^the following train running information? (?:message|messages)? (?:is|are)
     const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithoutDelay(locationPrimaryCode, locationSubsidiaryCode,
       operationalTrainNumber, trainUID,
       scheduledStartDate, messageType);
-    await linxRestClient.postTrainActivation(trainRunningInfo.toString({prettyPrint: true}));
-
+    const triMessage: string = trainRunningInfo.toString({prettyPrint: true});
+    await CucumberLog.addText(triMessage);
+    await linxRestClient.postTrainRunningInformation(triMessage);
     await linxRestClient.waitMaxTransmissionTime();
   }
 });
@@ -52,8 +54,9 @@ When(/^the following train running information? (?:message|messages) with delay 
     const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithDelayAgainstBookedTime(locationPrimaryCode, locationSubsidiaryCode,
       operationalTrainNumber, trainUID,
       scheduledStartDate, messageType, delay);
-    await linxRestClient.postTrainActivation(trainRunningInfo.toString({prettyPrint: true}));
-
+    const triMessage: string = trainRunningInfo.toString({prettyPrint: true});
+    await CucumberLog.addText(triMessage);
+    await linxRestClient.postTrainRunningInformation(triMessage);
     await linxRestClient.waitMaxTransmissionTime();
   }
 });

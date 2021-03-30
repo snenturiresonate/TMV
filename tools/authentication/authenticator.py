@@ -25,8 +25,20 @@ class Authenticator:
             dest='users',
             default=1,
             help='the number of TMV users, for which to create access tokens')
+        parser.add_argument(
+            '--client-id',
+            dest='clientIdRequired',
+            action='store_const',
+            const='true',
+            default='false',
+            help='return the client ID instead of the access token')
         cmdArgs = parser.parse_args()
+
         cognitoClient: CognitoClient = CognitoClient(cmdArgs.stackName)
+        if (cmdArgs.clientIdRequired == 'true'):
+            print(cognitoClient.getClientId('Tmv Client'))
+            return
+
         for i in range(int(cmdArgs.users)):
             # Cognito has a maximum allowed rate of 30 requests per second
             time.sleep(0.1)
