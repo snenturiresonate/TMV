@@ -1,4 +1,4 @@
-import {browser, by, element, ElementFinder} from 'protractor';
+import {by, element, ElementFinder} from 'protractor';
 import {InputBox} from './common/ui-element-handlers/inputBox';
 import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
 

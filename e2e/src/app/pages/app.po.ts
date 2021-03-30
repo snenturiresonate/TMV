@@ -1,7 +1,7 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {AuthenticationModalDialoguePage} from './authentication-modal-dialogue.page';
 import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
-import {UserCredentials} from "../user-credentials/user-credentials";
+import {UserCredentials} from '../user-credentials/user-credentials';
 
 const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
 const userCreds: UserCredentials = new UserCredentials();
@@ -151,7 +151,7 @@ export class AppPage {
     return this.modalWindowButtons.getText();
   }
 
-  public async defaultAuthentication(): Promise<any> {
+  public async  defaultAuthentication(): Promise<any> {
     await browser.waitForAngularEnabled(false);
     await this.authenticateAsAdminUser();
     await this.waitForAppLoad();

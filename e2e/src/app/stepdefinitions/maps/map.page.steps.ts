@@ -84,7 +84,7 @@ const mapObjectColourHex = {
   manual_trust_berth: ['#ffff00']
 };
 
-Given(/^I am viewing the map (.*)$/, {timeout: 1 * 40000}, async (mapId: string) => {
+Given(/^I am viewing the map (.*)$/, {timeout: 40000}, async (mapId: string) => {
   const url = '/tmv/maps/' + mapId;
   await appPage.navigateTo(url);
 });

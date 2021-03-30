@@ -1,7 +1,7 @@
 import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {InputBox} from '../common/ui-element-handlers/inputBox';
-import {CheckBox} from "../common/ui-element-handlers/checkBox";
+import {CheckBox} from '../common/ui-element-handlers/checkBox';
 
 export class TrainsListLocationSelectionTab {
 

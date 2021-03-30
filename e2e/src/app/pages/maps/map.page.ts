@@ -127,6 +127,13 @@ export class MapPageObject {
     return sClassBerth.isPresent();
   }
 
+  public async waitUntilSClassBerthElementIsPresent(berthId: string): Promise<void> {
+    const sClassBerth: ElementFinder = await this.getSClassBerthElementFinder(berthId);
+    await CommonActions.waitForElementToBePresent(sClassBerth,
+      10000,
+      `S class berth ${berthId} not present in time limit`);
+  }
+
   public async isReleaseIndicationPresent(releaseId: string): Promise<boolean> {
     const release: ElementFinder = await this.getSClassBerthElementFinder(releaseId);
     return release.isPresent();
@@ -169,6 +176,7 @@ export class MapPageObject {
   }
 
   public async getSClassBerthElementText(elementId: string): Promise<string> {
+    await this.waitUntilSClassBerthElementIsPresent(elementId);
     const textElement: ElementFinder = await this.getSClassBerthElementFinder(elementId);
     return textElement.getText();
   }

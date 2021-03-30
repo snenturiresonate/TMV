@@ -1,4 +1,4 @@
-import {After, Before, Then, When} from 'cucumber';
+import {Then, When} from 'cucumber';
 import {expect} from 'chai';
 
 import {HomePageObject} from '../pages/home.page';

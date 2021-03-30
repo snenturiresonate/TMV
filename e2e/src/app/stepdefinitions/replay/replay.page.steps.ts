@@ -13,6 +13,7 @@ import {ReplaySelectMapPage} from '../../pages/replay/replay.selectmap.page';
 import {ReplaySelectTimerangePage} from '../../pages/replay/replay.selecttimerange.page';
 import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
 import moment = require('moment');
+// this import looks like its not used but is by expect().to.be.closeToTime()
 import * as chaiDateTime from 'chai-datetime';
 
 const replayPage: ReplayMapPage = new ReplayMapPage();

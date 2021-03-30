@@ -1,4 +1,4 @@
-import {browser, ElementFinder, protractor} from 'protractor';
+import {browser, ElementFinder, ExpectedConditions, protractor} from 'protractor';
 import {GeneralUtils} from '../utilities/generalUtils';
 
 export class CommonActions {
@@ -41,6 +41,14 @@ export class CommonActions {
   public static async waitForElementToBeVisible(elm: ElementFinder): Promise<void> {
     const EC = protractor.ExpectedConditions;
     await browser.wait(EC.visibilityOf(elm));
+  }
+
+  /**
+   * Waits for the element to be visible.
+   * Input: ElementFinder of the UI element to be visible
+   */
+  public static async waitForElementToBePresent(elm: ElementFinder, timeout?: number, message?: string): Promise<void> {
+    await browser.wait(ExpectedConditions.presenceOf(elm), timeout, message);
   }
 
   /**

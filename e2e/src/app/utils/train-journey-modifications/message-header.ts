@@ -10,6 +10,12 @@ export class MessageHeader {
   calculateSenderReference(trainNumber: string, trainUid: string, hourDepartFromOrigin: number): void {
     this.SenderReference = trainNumber + SenderReferenceCalculator.encodeToSenderReference(trainUid, hourDepartFromOrigin);
   }
+
+  calculateSenderReferenceChangeOfID(oldTrainNumber: string, newTrainNumber: string, trainUid: string, hourDepartFromOrigin: number): void {
+    const senderReference = SenderReferenceCalculator.encodeToSenderReference(trainUid, hourDepartFromOrigin);
+
+    this.SenderReference = `${oldTrainNumber}${senderReference},${newTrainNumber}${senderReference}`;
+  }
 }
 
 export class MessageHeaderBuilder {
