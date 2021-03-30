@@ -298,6 +298,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 7B69          | D22222   | PADTON   | 401         | location     |
       | D3             | 0106  | 8B69          | D33333   | PRTOBJP  | 401         | sub-division |
 
+    @bug @bug_58519
   Scenario Outline: 4. Step - Cancelled schedules are not matched - <matchLevel> match
     #    Given there is a valid schedule has a STP indicator of Cancelled  (C or CV)
     #    And a TD update with the type <Step Type> has been received for the same train description

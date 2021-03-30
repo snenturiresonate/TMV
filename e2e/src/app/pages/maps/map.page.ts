@@ -362,6 +362,17 @@ export class MapPageObject {
     return CssColorConverterService.rgb2Hex(berthColourRgb);
   }
 
+  public async getBerthType(berthId: string): Promise<string> {
+    const berth: ElementFinder = element(by.id('berth-element-text-' + berthId));
+    const berthType: string = await berth.getCssValue('class');
+    return berthType;
+  }
+
+  public async getManualBerthType(berthId: string): Promise<string> {
+    const manualBerth: ElementFinder = element(by.id('manual-berth-element-text-' + berthId));
+    const manualBerthType: string = await manualBerth.getText();
+    return manualBerthType;
+  }
   public async getBerthRectangleColour(berthId: string): Promise<string> {
     const berthRectangleElement: ElementFinder = element(by.id('berth-element-rect-' + berthId));
     const berthRectangleColourRgb: string = await berthRectangleElement.getCssValue('fill');

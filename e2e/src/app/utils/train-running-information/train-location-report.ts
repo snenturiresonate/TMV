@@ -34,4 +34,15 @@ export class TRITrainLocationReport {
       .doc();
     return trainLocationReport.end({prettyPrint: true});
   }
+
+  public static trainLocationReportWithTime = (locationPrimaryCode: string, locationSubsidiaryCode: string,
+                                               trainLocationStatus: string, timeInfo: string) => {
+    const trainLocationReport = fragment().ele('TrainLocationReport')
+      .ele(TRILocation.trainLocation(locationPrimaryCode, locationSubsidiaryCode))
+      .ele('LocationDateTime').txt(TRITrainLocationReport.locationDateTime).up()
+      .ele('TrainLocationStatus').txt(trainLocationStatus).up()
+      .ele('TrainDelay').txt(timeInfo).up()
+      .doc();
+    return trainLocationReport.end({prettyPrint: true});
+  }
 }

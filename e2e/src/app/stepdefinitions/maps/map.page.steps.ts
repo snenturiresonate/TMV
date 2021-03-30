@@ -793,6 +793,21 @@ Then('the train headcode {string} is {string} on the map', async (trainDesc: str
   }
 });
 
+Then('the punctuality color for berth {string} is {word}',
+  async (berthId: string, expectedColor: string) => {
+    const expectedColorHex = mapColourHex[expectedColor];
+    const actualColorHex: string = await mapPageObject.getBerthColor(berthId);
+    expect(actualColorHex, 'Punctuality colour is not ' + expectedColor)
+      .to.equal(expectedColorHex);
+  });
+
+Then('the manual trust berth type for {string} is {word}',
+  async (berthId: string, expectedType: string) => {
+    const actualType: string = await mapPageObject.getManualBerthType(berthId);
+    expect(actualType, 'Manual Berth type is not ' + expectedType)
+      .to.equal(expectedType);
+  });
+
 Then(/^the (Matched|Unmatched) version of the context menu is displayed$/, async (matchType: string) => {
   await mapPageObject.waitForContextMenu();
   let expected;

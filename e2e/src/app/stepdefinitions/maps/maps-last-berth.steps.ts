@@ -20,8 +20,8 @@ When('I use the primary mouse on train {string}', async (trainDesc: string) => {
   await trainRecord.performLeftClick();
 });
 
-Then('the user is presented with a list of the last {string} services that have finished at this berth',
-  async (expectedNumServices: string, expectedlastServicesTable: any) => {
+Then('the user is presented with a list of the last {string} services that have {string} this berth',
+  async (expectedNumServices: string, expectedBehavior: string, expectedlastServicesTable: any) => {
     expect(lastBerthServiceListPageObject.isDisplayed(), 'Last service list not displayed').to.equal(true);
     const actualServiceTable = await lastBerthServiceListPageObject.getServiceListRows();
     expect(actualServiceTable.length, `Expected ${expectedNumServices} services listed but got ${actualServiceTable.length}`)
