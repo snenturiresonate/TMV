@@ -21,6 +21,7 @@ import {browser, ExpectedConditions} from 'protractor';
 import {ReplayScenario} from '../../utils/replay/replay-scenario';
 import {TestData} from '../../logging/test-data';
 import {TrainJourneyModificationMessage} from '../../utils/train-journey-modifications/train-journey-modification-message';
+import {TRITrainLocationReport} from '../../utils/train-running-information/train-location-report';
 
 const appPage: AppPage = new AppPage();
 
@@ -107,6 +108,13 @@ Then('The values for the header properties are as follows',
     expect(actualHeaderTJM, 'Last TJM is not as expected')
       .to.equal(expectedHeaderPropertyValues.lastTJM);
   });
+
+Then('the last reported information displayed matches that provided in the TRI message', async () => {
+  const expectedTime = TRITrainLocationReport.locationDateTime;
+  const actualHeaderLastReported: string = await timetablePage.headerLastReported.getText();
+  expect(actualHeaderLastReported, 'Last Reported is not as expected')
+    .to.equal(expectedTime);
+});
 
 Then('The values for {string} are the following as time passes',
   async (propertyName: string, expectedValues: any) => {
@@ -539,6 +547,24 @@ Then(/^the expected arrival time for inserted location (.*) is (.*) percent betw
     .to.equal(expectedArrivalTime.toString());
 });
 
+Then('the actual {string} time displayed for that location {string} matches that provided in the TRI message', async (
+  location: string, expected: string) => {
+  const expectedTime = TRITrainLocationReport.locationDateTime;
+  const row = await timetablePage.getRowByLocation(location);
+
+  if ( expected.toUpperCase() === 'ARRIVAL' ) {
+    const actualArrivalTime = await row.actualArr.getText();
+    expect(actualArrivalTime, 'Expected arrival time of inserted location is not correct')
+      .to.equal(expectedTime.toString());
+  }
+
+  if ( expected.toUpperCase() === 'DEPARTURE' ) {
+    const actualDepartureTime = await row.actualDep.getText();
+    expect(actualDepartureTime, 'Expected arrival time of inserted location is not correct')
+      .to.equal(expectedTime.toString());
+  }
+});
+
 Then(/^the locations line code matches the path code$/, async (locationsTable: any) => {
   const locations: any = locationsTable.hashes();
   for (const location of locations) {
@@ -696,7 +722,7 @@ Given(/^the schedule does not run on a day that is tommorow$/, () => {
 
 Given(/^the following basic schedules? (?:is|are) received from LINX$/, async (table: any) => {
   const messages: any = table.hashes();
-  messages.forEach(message => {
+  for (const message of messages) {
     const accessPlan = new AccessPlanRequestBuilder()
       .full()
       .withSchedule(new ScheduleBuilder()
@@ -724,9 +750,10 @@ Given(/^the following basic schedules? (?:is|are) received from LINX$/, async (t
           .build())
         .build())
       .build();
-    CucumberLog.addJson(accessPlan);
-    new LinxRestClient().writeAccessPlan(accessPlan);
-  });
+    await CucumberLog.addJson(accessPlan);
+    const response = await new LinxRestClient().writeAccessPlan(accessPlan);
+    expect(response.statusCode, `Error whilst writing access plan: ${response.statusCode}`).to.equal(200);
+  }
 });
 
 function applyTimeAdjustment(colonSeparatedTimeStringHhMmSs: string, adjustmentMs: number): string {

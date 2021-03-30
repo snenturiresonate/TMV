@@ -62,7 +62,7 @@ Feature: 46482 - TMV Key - select key
     And I toggle the 'Platform' toggle 'on'
     Then the platform layer is shown
     And a modal displays with title 'Key'
-
+    
   Scenario: 34085-1h Verify the map still updates whilst the TMV Modal Key is open
     Given I am viewing the map GW01paddington.v
     When I click on the Help icon

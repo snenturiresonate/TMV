@@ -13,8 +13,11 @@ export class TrainRunningInformationMessageBuilder {
                                      operationalTrainNumber: string, trainUID: string,
                                      scheduledStartDate: string, messageType: string) => {
     const currentTimeHour = this.currentTimeHour();
-    return create().ele('TrainRunningInformationMessage').att('xmlns:ns0', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
-      .att('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance').att('xsi:schemaLocation', 'http://www.era.europa.eu/schemes/TAFTSI/5.3 taf_cat_complete.xsd')
+    return create().ele('TrainRunningInformationMessage')
+      .att('xmlns', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
+      .att('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance')
+      .att('xmlns:ns0', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
+      .att('xsi:schemaLocation', 'http://www.era.europa.eu/schemes/TAFTSI/5.3 taf_cat_complete.xsd')
       .ele(TrainRunningInformationMessageHeader.messageHeader(operationalTrainNumber, trainUID, currentTimeHour)).root()
       .ele(this.messageStatus()).root()
       .ele(TRIOperationalTrainNumberIdentifier.operationalTrainNumberIdentifier(operationalTrainNumber)).root()

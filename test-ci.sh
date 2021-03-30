@@ -38,7 +38,7 @@ then
   exit 1;
 fi
 
-echo "Found $TEST_HARNESS_IP created at $CREATION_TIME"
+echo "Found ${TEST_HARNESS_IP} created at ${CREATION_TIME}"
 
 # Run the full end to end tests
 echo "CUCUMBER_TAGS: ${CUCUMBER_TAGS}"

@@ -149,6 +149,30 @@ export class TrainsListPageObject {
     return schedules.indexOf(scheduleId);
   }
 
+  public async trainDescriptionHasScheduleType(trainDescription: string, scheduleType: string): Promise<boolean> {
+    return browser.wait(async () => {
+      try {
+        const trainDescriptions = await this.getTrainsListValuesForColumn('train-description');
+        const scheduleTypes = await this.getTrainsListValuesForColumn('schedule-type');
+        for (let i = 0; i < trainDescriptions.length; i++)
+        {
+          if (trainDescriptions[i] === trainDescription && scheduleTypes[i] === scheduleType)
+          {
+            return true;
+          }
+        }
+        return false;
+      }
+      catch (error) {
+        if (error.name === 'StaleElementReferenceError')
+        {
+          // whilst checking, we may get a stale element as the row is dynamic, we will just try again
+          return false;
+        }
+      }
+    }, browser.displayTimeout, 'Cound not find train description with schedule type ${scheduleType}');
+  }
+
   public async trainDescriptionHasDisappeared(trainDescription: string): Promise<boolean> {
     try {
       const trainRow: ElementFinder = element(by.css('#trains-list-row-' + trainDescription));

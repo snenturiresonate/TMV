@@ -4,7 +4,6 @@ Feature: 33753 - TMV Timetable
   I want end to end tests to be created for the Timetable functionality
   So that there is confidence that it continues to work as expected as more of the system is developed
 
-  @bug @bug_58079
   Scenario Outline: 33753-1 -Open Timetable (Trains List)
      #Open Timetable (Trains List)
      #Given the user is authenticated to use TMV

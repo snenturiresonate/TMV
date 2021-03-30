@@ -26,6 +26,11 @@ When('I open map {string} via the recent map list', async (mapName: string) => {
   await navBarPage.changeToRecentMap(mapName);
 });
 
+When('I search for map {string} via the recent map list', async (mapName: string) => {
+  await navBarPage.mapChanger.click();
+  await navBarPage.enterMapSearchString(mapName);
+});
+
 Then('the following map layer toggles can be seen', async (toggleName: any) => {
   const expectedToggleNames = toggleName.hashes();
   const actualToggleNames = await navBarPage.getToggleNames();
@@ -49,9 +54,10 @@ Then('{string} toggle is displayed in the title bar', async (expectedState: stri
   }
 });
 
-Then('the {string} toggle is {string}', async (toggle: string, expectedToggleState: string) => {
-  const actualToggleState: string = await navBarPage.getToggleState(toggle);
-  expect(actualToggleState, `Toggle ${toggle} is not ${expectedToggleState}`)
+Then('the {string} toggle is {string}', async (toggle: string, expectedToggleString: string) => {
+  const actualToggleState: boolean = await navBarPage.getToggleState(toggle);
+  const expectedToggleState: boolean = (expectedToggleString.toLowerCase() === 'on');
+  expect(actualToggleState, `Toggle ${toggle} is not ${expectedToggleString}`)
     .to.equal(expectedToggleState);
 });
 

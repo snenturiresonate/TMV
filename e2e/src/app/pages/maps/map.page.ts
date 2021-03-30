@@ -113,7 +113,7 @@ export class MapPageObject {
   public async waitUntilBerthTextIs(berthId: string, trainDescriber: string, expectedString: string): Promise<void> {
     const berth: ElementFinder = await this.getBerthElementFinder(berthId, trainDescriber);
     await browser.wait(ExpectedConditions.textToBePresentInElement(berth, expectedString),
-      10000,
+      15000,
       `Berth text was not ${expectedString} in Berth ${trainDescriber}${berthId}`);
   }
 
@@ -193,7 +193,7 @@ export class MapPageObject {
   public async getBerthElementFinder(berthId: string, trainDescriber: string): Promise<ElementFinder> {
     // id for berths can be either berth-element-text-bth.[train_id] or berth-element-text-btl.[train_id]
     // using $= to get element based on just train_id
-    const berth: ElementFinder = element(by.css('text[id$=' + trainDescriber + berthId + ']'));
+    const berth: ElementFinder = element(by.css('text[id$=' + trainDescriber + berthId + ']:not(text[id^=s-class])'));
     return berth;
   }
 
@@ -242,21 +242,30 @@ export class MapPageObject {
 
   public async waitForMatchType(trainDescription: string, matchType: string, berth: string, describer: string): Promise<boolean> {
     return browser.wait(async () => {
-      await this.openContextMenuForTrainDescription(trainDescription);
-      await this.waitForContextMenu();
-      const contextMenuItem = await this.getMapContextMenuItem(3);
-      if (contextMenuItem.includes(matchType)) {
-        return true;
+      try {
+        await this.openContextMenuForTrainDescription(trainDescription);
+        await this.waitForContextMenu();
+        const contextMenuItem = await this.getMapContextMenuItem(3);
+        if (contextMenuItem.includes(matchType)) {
+          return true;
+        }
+        await this.closeContextMenuForTrainDescription(trainDescription);
+        await linxRestClient.postBerthInterpose(
+          new BerthInterpose(
+            new Date().toTimeString().substr(0, 8),
+            berth,
+            describer,
+            trainDescription
+          )
+        );
       }
-      await this.closeContextMenuForTrainDescription(trainDescription);
-      await linxRestClient.postBerthInterpose(
-        new BerthInterpose(
-          new Date().toTimeString().substr(0, 8),
-          berth,
-          describer,
-          trainDescription
-        )
-      );
+      catch (exception) {
+        if (exception.toString().includes('StaleElementReferenceError'))
+        {
+          // the train has been removed which constitutes a change in state
+          return true;
+        }
+      }
       return false;
     },
     browser.displayTimeout, 'The train description did not disappear');
