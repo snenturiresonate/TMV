@@ -73,6 +73,12 @@ Then('the timetable header train description is {string}', async (expectedTrainD
     .to.equal(expectedTrainDescription);
 });
 
+Then('the timetable header train UID is {string}', async (expectedTrainUID: string) => {
+  const trainUID: string = await timetablePage.getHeaderTrainUID();
+  expect(trainUID, 'Timetable header train UID is not visible')
+    .to.equal(expectedTrainUID);
+});
+
 Then('The live timetable tab will be titled {string}', async (expectedTabName: string) => {
   const actualTimetableTabName: string = await timetablePage.getLiveTimetableTabName();
 

@@ -1,3 +1,4 @@
+@bug @bug:58519
 Feature: 33805 TMV Schedule Matching
   As a TMV User
   I want updates to the planned schedule to be considered during schedule matching
@@ -293,9 +294,9 @@ Feature: 33805 TMV Schedule Matching
 
     Examples:
       | trainDescriber | berth | origTrainDesc | trainUid | location | subdivision | matchLevel   |
-      | D3             | A001  | 1B69          | A11111   | PADTON   | 401         | berth        |
-      | D3             | A011  | 2B69          | A22222   | PADTON   | 401         | location     |
-      | D3             | 0106  | 3B69          | A33333   | PRTOBJP  | 401         | sub-division |
+      | D3             | A001  | 6B69          | D11111   | PADTON   | 401         | berth        |
+      | D3             | A011  | 7B69          | D22222   | PADTON   | 401         | location     |
+      | D3             | 0106  | 8B69          | D33333   | PRTOBJP  | 401         | sub-division |
 
   Scenario Outline: 4. Step - Cancelled schedules are not matched - <matchLevel> match
     #    Given there is a valid schedule has a STP indicator of Cancelled  (C or CV)
@@ -327,9 +328,9 @@ Feature: 33805 TMV Schedule Matching
 
     Examples:
       | trainDescriber | berth | secondBerth | origTrainDesc | trainUid | location | subdivision | matchLevel   |
-      | D3             | A001  | 6003        | 4B69          | B11111   | PADTON   | 401         | berth        |
-      | D3             | A011  | 0041        | 5B69          | B22222   | PADTON   | 401         | location     |
-      | D3             | 0107  | 0125        | 6B69          | B33333   | PRTOBJP  | 401         | sub-division |
+      | D3             | A001  | 6003        | 6B69          | D11111   | PADTON   | 401         | berth        |
+      | D3             | A011  | 0041        | 7B69          | D22222   | PADTON   | 401         | location     |
+      | D3             | 0107  | 0125        | 8B69          | D33333   | PRTOBJP  | 401         | sub-division |
 
   @bug @bug:58384
   Scenario Outline: 5. Interpose - Exclude Terminated Schedules from Matching - <matchLevel> match
@@ -408,3 +409,97 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A001  | 6003        | 4B69          | B11111   | PADTON   | 401         | berth        |
       | D3             | A011  | 0041        | 5B69          | B22222   | PADTON   | 401         | location     |
       | D3             | 0107  | 0125        | 6B69          | B33333   | PRTOBJP  | 401         | sub-division |
+
+  Scenario Outline: 6. Interpose - activated schedules take precedence - <matchLevel> match
+    #    Given there two valid schedule
+    #    And a Train Activation message has been received for 1 schedule
+    #    And a TD update with the type <Step Type> has been received for the train description in the two schedules
+    #    And the berth included  matches both schedule at <match level>
+    #    When a user views a map containing the same berth
+    #    Then train description is displayed in the berth and colour reflects punctuality (not no timetable colour)
+    #    And the timetable contains the Train UID from the activated schedule
+    #      | Match level |
+    #      | berth |
+    #      | location |
+    #      | sub division |
+    Given I am viewing the map HDGW01paddington.v
+    And I have cleared out all headcodes
+    And the following basic schedules are received from LINX
+      | trainUid         | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin  | departure | termination | arrival |
+      | <trainUid>       | N            | 2020-01-01   | 2030-01-01 | 1111111 | <origTrainDesc>  | PADTON  | 12:00     | OLDOXRS     | 12:30   |
+      | <secondTrainUid> | N            | 2020-01-01   | 2030-01-01 | 1111111 | <origTrainDesc>  | PADTON  | 12:00     | OLDOXRS     | 12:30   |
+    And I am on the trains list page
+    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
+    When the following train activation message is sent from LINX
+      | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | <trainUid> | <origTrainDesc> | 12:00                  | 73000               | PADTON                 |
+    And the following live berth interpose message is sent from LINX (creating a match)
+      | toBerth | trainDescriber   | trainDescription |
+      | <berth> | <trainDescriber> | <origTrainDesc>  |
+    And I am viewing the map HDGW01paddington.v
+    Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
+    When I wait for the option to Unmatch train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
+    And I invoke the context menu on the map for train <origTrainDesc>
+    Then the Matched version of the context menu is displayed
+    When I open timetable from the map context menu
+    And I switch to the new tab
+    And the tab title is 'TMV Timetable'
+    Then the timetable header train UID is '<trainUid>'
+    # clean up
+    * the following basic schedule is received from LINX
+      | trainUid         | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin  | departure | termination | arrival |
+      | <trainUid>       | C            | 2020-01-01   | 2030-01-01 | 1111111 | <origTrainDesc>  | PADTON  | 12:00     | OLDOXRS     | 12:30   |
+      | <secondTrainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <origTrainDesc>  | PADTON  | 12:00     | OLDOXRS     | 12:30   |
+
+    Examples:
+      | trainDescriber | berth | origTrainDesc | trainUid | secondTrainUid | location | subdivision | matchLevel   |
+      | D3             | A001  | 1B69          | A11111   | B11111         | PADTON   | 401         | berth        |
+      | D3             | A011  | 2B69          | A22222   | B22222         | PADTON   | 401         | location     |
+      | D3             | 0106  | 3B69          | A33333   | B33333         | PRTOBJP  | 401         | sub-division |
+
+  Scenario Outline: 6. Step - activated schedules take precedence - <matchLevel> match
+    #    Given there two valid schedule
+    #    And a Train Activation message has been received for 1 schedule
+    #    And a TD update with the type <Step Type> has been received for the train description in the two schedules
+    #    And the berth included  matches both schedule at <match level>
+    #    When a user views a map containing the same berth
+    #    Then train description is displayed in the berth and colour reflects punctuality (not no timetable colour)
+    #    And the timetable contains the Train UID from the activated schedule
+    #      | Match level |
+    #      | berth |
+    #      | location |
+    #      | sub division |
+    Given I am viewing the map HDGW01paddington.v
+    And I have cleared out all headcodes
+    And the following basic schedules are received from LINX
+      | trainUid         | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin  | departure | termination | arrival |
+      | <trainUid>       | N            | 2020-01-01   | 2030-01-01 | 1111111 | <origTrainDesc>  | PADTON  | 12:00     | OLDOXRS     | 12:30   |
+      | <secondTrainUid> | N            | 2020-01-01   | 2030-01-01 | 1111111 | <origTrainDesc>  | PADTON  | 12:00     | OLDOXRS     | 12:30   |
+    And I am on the trains list page
+    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
+    When the following train activation message is sent from LINX
+      | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | <trainUid> | <origTrainDesc> | 12:00                  | 73000               | PADTON                 |
+    And the following berth step message is sent from LINX (creating a match)
+      | fromBerth | timestamp | toBerth       | trainDescriber   | trainDescription |
+      | <berth>   | 12:00:00  | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
+    And I am viewing the map HDGW01paddington.v
+    Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
+    When I wait for the option to Unmatch train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
+    And I invoke the context menu on the map for train <origTrainDesc>
+    Then the Matched version of the context menu is displayed
+    When I open timetable from the map context menu
+    And I switch to the new tab
+    And the tab title is 'TMV Timetable'
+    Then the timetable header train UID is '<trainUid>'
+    # clean up
+    * the following basic schedule is received from LINX
+      | trainUid         | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin  | departure | termination | arrival |
+      | <trainUid>       | C            | 2020-01-01   | 2030-01-01 | 1111111 | <origTrainDesc>  | PADTON  | 12:00     | OLDOXRS     | 12:30   |
+      | <secondTrainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <origTrainDesc>  | PADTON  | 12:00     | OLDOXRS     | 12:30   |
+
+    Examples:
+      | trainDescriber | berth | secondBerth | origTrainDesc | trainUid | secondTrainUid | location | subdivision | matchLevel   |
+      | D3             | A001  | 6003        | 4B69          | C11111   | D11111         | PADTON   | 401         | berth        |
+      | D3             | A011  | 0041        | 5B69          | C22222   | D22222         | PADTON   | 401         | location     |
+      | D3             | 0107  | 0125        | 6B69          | C33333   | D33333         | PRTOBJP  | 401         | sub-division |

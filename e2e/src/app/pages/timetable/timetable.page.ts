@@ -140,6 +140,15 @@ export class TimeTablePageObject {
     return of(currentDescription + plannedDescription).toPromise();
   }
 
+  public async getHeaderTrainUID(): Promise<string> {
+    await browser.wait(async () => {
+      return this.headerTrainUid.isPresent();
+    }, browser.displayTimeout, 'The timetable header train UID should be displayed');
+
+    const trainUID: string = await this.headerTrainUid.getText();
+    return of(trainUID).toPromise();
+  }
+
   public async getTimetableEntryColValues(timetableEntryId: string): Promise<string[]> {
     await browser.wait(async () => {
       return element(by.id('tmv-timetable-row-' + timetableEntryId)).isPresent();
