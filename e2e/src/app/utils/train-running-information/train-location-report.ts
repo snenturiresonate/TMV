@@ -3,6 +3,7 @@ import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {TRILocation} from './location';
 import {TRITrainDelay} from './train-delay';
 import * as moment from 'moment';
+import {DateTimeFormatter, LocalDate, LocalDateTime} from '@js-joda/core';
 
 export class TRITrainLocationReport {
   public static locationDateTime = DateAndTimeUtils.getCurrentDateTime();
@@ -16,6 +17,17 @@ export class TRITrainLocationReport {
     const trainLocationReport = fragment().ele('TrainLocationReport')
       .ele(TRILocation.trainLocation(locationPrimaryCode, locationSubsidiaryCode))
       .ele('LocationDateTime').txt(TRITrainLocationReport.locationDateTime).up()
+      .ele('TrainLocationStatus').txt(trainLocationStatus).up()
+      .doc();
+    return trainLocationReport.end({prettyPrint: true});
+  }
+
+  public static trainLocationReportAtTime = (locationPrimaryCode: string, locationSubsidiaryCode: string,
+                                             trainLocationStatus: string, timestamp: string) => {
+    const formattedTime = `${LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}T${timestamp}-00:00`;
+    const trainLocationReport = fragment().ele('TrainLocationReport')
+      .ele(TRILocation.trainLocation(locationPrimaryCode, locationSubsidiaryCode))
+      .ele('LocationDateTime').txt(formattedTime).up()
       .ele('TrainLocationStatus').txt(trainLocationStatus).up()
       .doc();
     return trainLocationReport.end({prettyPrint: true});

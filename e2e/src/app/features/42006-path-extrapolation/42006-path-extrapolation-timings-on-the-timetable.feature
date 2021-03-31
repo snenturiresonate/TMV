@@ -127,4 +127,29 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       #Passing
       | access-plan/42006-schedules/42006-4.cif | C14260   | 1U36             | Rugeley North Jn | 14:03:00  | 14:43:00   |
 
+  Scenario Outline: 42006-5 Calculated arrival time for a location is not displayed when a TRI has already been received
+    Given I am on the trains list page
+    And the following basic schedule is received from LINX
+      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
+      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
+    And train description '<trainDescription>' disappears from the trains list
+    And the access plan located in CIF file '<cif>' is received from LINX
+    And Train description '<trainDescription>' is visible on the trains list
+    When the following berth interpose messages is sent from LINX
+      | timestamp   | toBerth   | trainDescriber   | trainDescription   |
+      | <timestamp> | <toBerth> | <trainDescriber> | <trainDescription> |
+    And the following train running info message with time is sent from LINX
+      | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType   | timestamp      | hourDepartFromOrigin |
+      | <trainUid> | <trainDescription> | today              | 15220               | <tiploc>               | <messageType> | <triTimestamp> | 13                   |
+    And I am on the timetable view for service '<trainUid>'
+    And I toggle the inserted locations on
+    Then the actual/predicted Arrival time for location "<location>" instance 1 is correctly calculated based on "<triTimestamp>"
+
+    Examples:
+      | cif                                     | trainUid | trainDescription | location      | timestamp | trainDescriber | toBerth | triTimestamp | tiploc  | messageType            |
+      #Stopping
+      | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | Stafford      | 13:50:00  | R3             | 5582    | 13:52:00     | STAFFRD | Arrival at Station     |
+      #Destination
+      | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | London Euston | 15:52:00  | WY             | B012    | 15:53:00     | EUSTON  | Arrival at Termination |
+
 
