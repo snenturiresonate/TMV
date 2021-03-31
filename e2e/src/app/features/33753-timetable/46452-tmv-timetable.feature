@@ -4,6 +4,11 @@ Feature: 33753 - TMV Timetable
   I want end to end tests to be created for the Timetable functionality
   So that there is confidence that it continues to work as expected as more of the system is developed
 
+  Background:
+    * I am on the home page
+    * I restore to default train list config
+
+  @bug @bug:58145
   Scenario Outline: 33753-1 -Open Timetable (Trains List)
      #Open Timetable (Trains List)
      #Given the user is authenticated to use TMV
@@ -16,7 +21,7 @@ Feature: 33753 - TMV Timetable
       | access-plan/1D46_PADTON_OXFD.cif | RDNGSTN     | WTT_arr       | <trainNum>          | <planningUid>  |
     And I am on the trains list page
     And The trains list table is visible
-    And Train description '<trainNum>' is visible on the trains list
+    And train description '<trainNum>' is visible on the trains list with schedule type 'LTP'
     When I invoke the context menu from train '<trainNum>' on the trains list
     And I wait for the context menu to display
     And the trains list context menu is displayed
