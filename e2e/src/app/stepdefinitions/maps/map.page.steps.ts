@@ -685,7 +685,12 @@ When(/^I toggle path (?:on|off) from the map context menu$/, async () => {
 
 Then('the map context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
   const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
-  expect(actualContextMenuItem).to.contain(expectedText);
+  expect(actualContextMenuItem, `Map menu item not as expected`).to.contain(expectedText);
+});
+
+Then('the map context menu has {string} on line {int}', async (expectedText: string, rowNum: number) => {
+  const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
+  expect(actualContextMenuItem, `Map menu item not as expected`).to.equal(expectedText);
 });
 
 Then('the track state width for {string} is {string}',

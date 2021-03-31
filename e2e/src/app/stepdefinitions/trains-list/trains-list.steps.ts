@@ -122,12 +122,17 @@ Then('the open timetable option is present on the context menu', async () => {
 
 Then('the trains list context menu is displayed', async () => {
   const isTrainsContextMenuVisible: boolean = await trainsListPage.isTrainsListContextMenuDisplayed();
-  expect(isTrainsContextMenuVisible).to.equal(true);
+  expect(isTrainsContextMenuVisible, 'Trains list menu is not visible').to.equal(true);
 });
 
 Then('the context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
   const actualContextMenuItem: string = await trainsListPage.getTrainsListContextMenuItem(rowNum);
-  expect(actualContextMenuItem).to.contain(expectedText);
+  expect(actualContextMenuItem, 'Trains list menu item is not as expected').to.contain(expectedText);
+});
+
+Then('the trains list context menu has {string} on line {int}', async (expectedText: string, rowNum: number) => {
+  const actualContextMenuItem: string = await trainsListPage.getTrainsListContextMenuItem(rowNum);
+  expect(actualContextMenuItem, 'Trains list menu item is not as expected').to.equal(expectedText);
 });
 
 Then('the context menu contains the {word} {string} of train {int} on line {int}',

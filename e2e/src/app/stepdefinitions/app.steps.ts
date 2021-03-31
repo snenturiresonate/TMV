@@ -28,6 +28,11 @@ const linxRestClient: LinxRestClient = new LinxRestClient();
 const adminRestClient: AdminRestClient = new AdminRestClient();
 const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
 
+const userForRole = {
+  matching: 'admin',
+};
+
+
 Before(() => {
   TestData.resetTJMsCaptured();
 });
@@ -83,6 +88,10 @@ Given(/^I am on the home page$/, {timeout: 5 * 10000}, async () => {
 
 Given(/^I am authenticated to use TMV$/, async () => {
   await page.navigateTo('');
+});
+
+Given('I am authenticated to use TMV with {string} role', {timeout: 5 * 10000},  async (userRole: string) => {
+  await page.navigateTo('', userForRole[userRole]);
 });
 
 Given(/^I have not opened the trains list before$/, async () => {
