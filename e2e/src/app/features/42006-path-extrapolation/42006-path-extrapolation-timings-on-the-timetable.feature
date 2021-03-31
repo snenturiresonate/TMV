@@ -126,3 +126,5 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | access-plan/42006-schedules/42006-4.cif | C14260   | 1U36             | Stafford         | 13:51:00  | 14:51:00   |
       #Passing
       | access-plan/42006-schedules/42006-4.cif | C14260   | 1U36             | Rugeley North Jn | 14:03:00  | 14:43:00   |
+
+
