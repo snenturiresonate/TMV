@@ -34,7 +34,7 @@ export class TrainRunningInformationMessageHeader {
     return messageHeaderObj.end({prettyPrint: true});
   }
 
-  public static messageHeaderTime = (trainNumber: string, trainUid: string, hourDepartFromOrigin: string) => {
+ public static messageHeaderTime = (trainNumber: string, trainUid: string, hourDepartFromOrigin: number) => {
     const senderReference = TrainRunningInformationMessageHeader.calculateSenderReferenceTime(trainNumber, trainUid, hourDepartFromOrigin);
     const messageHeaderObj = fragment().ele('MessageHeader')
       .ele(TrainRunningInformationMessageHeader.messageReference()).up()

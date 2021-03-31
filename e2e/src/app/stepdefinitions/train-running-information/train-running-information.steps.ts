@@ -25,9 +25,10 @@ When(/^the following train running information? (?:message|messages)? (?:is|are)
     const locationPrimaryCode = trainRunningInfoMessages[i].locationPrimaryCode;
     const locationSubsidiaryCode = trainRunningInfoMessages[i].locationSubsidiaryCode;
     const messageType = trainRunningInfoMessages[i].messageType;
+    const hourDepartFromOrigin = trainRunningInfoMessages[i].hourDepartFromOrigin;
     const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithoutDelay(locationPrimaryCode, locationSubsidiaryCode,
       operationalTrainNumber, trainUID,
-      scheduledStartDate, messageType);
+      scheduledStartDate, messageType, hourDepartFromOrigin);
     const triMessage: string = trainRunningInfo.toString({prettyPrint: true});
     await CucumberLog.addText(triMessage);
     await linxRestClient.postTrainRunningInformation(triMessage);
@@ -54,10 +55,11 @@ When(/^the following train running information? (?:message|messages) with delay 
       const locationSubsidiaryCode = trainRunningInfoMessages[i].locationSubsidiaryCode;
       const messageType = trainRunningInfoMessages[i].messageType;
       const delay = trainRunningInfoMessages[i].delay;
+      const hourDepartFromOrigin = trainRunningInfoMessages[i].hourDepartFromOrigin;
       // tslint:disable-next-line:max-line-length
       const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithDelayAgainstBookedTime(locationPrimaryCode, locationSubsidiaryCode,
         operationalTrainNumber, trainUID,
-        scheduledStartDate, messageType, delay);
+        scheduledStartDate, messageType, delay, hourDepartFromOrigin);
       const triMessage: string = trainRunningInfo.toString({prettyPrint: true});
       await CucumberLog.addText(triMessage);
       await linxRestClient.postTrainRunningInformation(triMessage);

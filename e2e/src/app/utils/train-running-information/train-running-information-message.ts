@@ -11,14 +11,14 @@ export class TrainRunningInformationMessageBuilder {
   }
   public buildMessageWithoutDelay = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                      operationalTrainNumber: string, trainUID: string,
-                                     scheduledStartDate: string, messageType: string) => {
+                                     scheduledStartDate: string, messageType: string, hourDepartFromOrigin: string) => {
     const currentTimeHour = this.currentTimeHour();
     return create().ele('TrainRunningInformationMessage')
       .att('xmlns', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
       .att('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance')
       .att('xmlns:ns0', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
       .att('xsi:schemaLocation', 'http://www.era.europa.eu/schemes/TAFTSI/5.3 taf_cat_complete.xsd')
-      .ele(TrainRunningInformationMessageHeader.messageHeader(operationalTrainNumber, trainUID, currentTimeHour)).root()
+      .ele(TrainRunningInformationMessageHeader.messageHeader(operationalTrainNumber, trainUID, Number(hourDepartFromOrigin))).root()
       .ele(this.messageStatus()).root()
       .ele(TRIOperationalTrainNumberIdentifier.operationalTrainNumberIdentifier(operationalTrainNumber)).root()
       .ele(TRITrainOperationalIdentification.trainOperationalIdentification(trainUID, operationalTrainNumber, scheduledStartDate)).root()
@@ -50,11 +50,11 @@ export class TrainRunningInformationMessageBuilder {
   public buildMessageWithDelayAgainstBookedTime = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                                    operationalTrainNumber: string, trainUID: string,
                                                    scheduledStartDate: string, messageType: string,
-                                                   delay: string) => {
+                                                   delay: string, hourDepartFromOrigin: string) => {
     const currentTimeHour = this.currentTimeHour();
     return create().ele('TrainRunningInformationMessage').att('xmlns:ns0', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
       .att('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance').att('xsi:schemaLocation', 'http://www.era.europa.eu/schemes/TAFTSI/5.3 taf_cat_complete.xsd')
-      .ele(TrainRunningInformationMessageHeader.messageHeader(operationalTrainNumber, trainUID, currentTimeHour)).root()
+      .ele(TrainRunningInformationMessageHeader.messageHeader(operationalTrainNumber, trainUID, Number(hourDepartFromOrigin))).root()
       .ele(this.messageStatus()).root()
       .ele(TRIOperationalTrainNumberIdentifier.operationalTrainNumberIdentifier(operationalTrainNumber)).root()
       .ele(TRITrainOperationalIdentification.trainOperationalIdentification(trainUID, operationalTrainNumber, scheduledStartDate)).root()
@@ -69,7 +69,7 @@ export class TrainRunningInformationMessageBuilder {
                                  hourDepartFromOrigin: string) => {
     return create().ele('TrainRunningInformationMessage').att('xmlns:ns0', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
       .att('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance').att('xsi:schemaLocation', 'http://www.era.europa.eu/schemes/TAFTSI/5.3 taf_cat_complete.xsd')
-      .ele(TrainRunningInformationMessageHeader.messageHeaderTime(operationalTrainNumber, trainUID, hourDepartFromOrigin)).root()
+      .ele(TrainRunningInformationMessageHeader.messageHeaderTime(operationalTrainNumber, trainUID, Number(hourDepartFromOrigin))).root()
       .ele(this.messageStatus()).root()
       .ele(TRIOperationalTrainNumberIdentifier.operationalTrainNumberIdentifier(operationalTrainNumber)).root()
       .ele(TRITrainOperationalIdentification.trainOperationalIdentification(trainUID, operationalTrainNumber, scheduledStartDate)).root()
