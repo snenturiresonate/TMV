@@ -1,4 +1,4 @@
-@bug @bug_58561
+@bug @bug_56581
 Feature: 52232 - Replay page Schematic Object State Scenarios
   As a TMV User
   I want the view schematic maps in replay mode

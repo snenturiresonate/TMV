@@ -16,7 +16,7 @@ Feature: 46482 - TMV Key - select key
       | Train Describer |
     And the active tab is 'Colour'
 
-  @bug @bug_58561 @newSession
+  @bug @bug_56581 @newSession
   Scenario: 34085-1b The TMV Key modal window is launched when a map is displayed in the replay view
     Given I am on the replay page as existing user
     And I select Next
@@ -62,7 +62,7 @@ Feature: 46482 - TMV Key - select key
     And I toggle the 'Platform' toggle 'on'
     Then the platform layer is shown
     And a modal displays with title 'Key'
-    
+
   Scenario: 34085-1h Verify the map still updates whilst the TMV Modal Key is open
     Given I am viewing the map GW01paddington.v
     When I click on the Help icon
