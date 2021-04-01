@@ -188,6 +188,30 @@ export class TrainsListPageObject {
     }
   }
 
+  public async trainDescriptionWithScheduleTypeHasDisappeared(trainDescription: string, scheduleType: string): Promise<boolean> {
+    return browser.wait(async () => {
+      try {
+        const trainDescriptions = await this.getTrainsListValuesForColumn('train-description');
+        const scheduleTypes = await this.getTrainsListValuesForColumn('schedule-type');
+        for (let i = 0; i < trainDescriptions.length; i++)
+        {
+          if (trainDescriptions[i] === trainDescription && scheduleTypes[i] === scheduleType)
+          {
+            return false;
+          }
+        }
+        return true;
+      }
+      catch (error) {
+        if (error.name === 'StaleElementReferenceError')
+        {
+          // whilst checking, we may get a stale element as the row is dynamic, so must have disappeared
+          return true;
+        }
+      }
+    }, browser.displayTimeout, 'Train description with schedule type ${scheduleType} did not disappear');
+  }
+
   public async getTrainsListRowColFill(scheduleId: string): Promise<string> {
     const trainDescriptionEntry: ElementFinder = element(by.css('#trains-list-row-' + scheduleId));
     const backgroundColour: string = await trainDescriptionEntry.getCssValue('background-color');

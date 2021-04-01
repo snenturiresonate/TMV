@@ -1,0 +1,18 @@
+HDTPS.UCFR1LX.PD2103313103211651CFR1LXACFR1LXAFA310321300421                    
+BSNB111112001013001011111111 FH41B11    157610310        060Q                  N
+BX         ZZY                                                                  
+LOPADTON  1200 0000          TB                                                 
+LTOLDOXRS 1230 0000      TF                                                     
+BSNC111112001013001011111111 FH41B11    157610310        060Q                  N
+BX         ZZY                                                                  
+LOPADTON  1200 0000          TB                                                 
+LTOLDOXRS 1230 0000      TF                                                     
+BSNB222222001013001011111111 FH41B12    157610310        060Q                  N
+BX         ZZY                                                                  
+LOBHAMNWS 1200 0000          TB                                                 
+LTEUSTON  1400 0000      TF                                                     
+BSNB333332001013001011111111 FH41B13    157610310        060Q                  N
+BX         ZZY                                                                  
+LOOLDOXRS 1200 0000          TB                                                 
+LTPADTON  1230 0000      TF                                                     
+ZZ                                                                              

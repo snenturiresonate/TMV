@@ -89,6 +89,12 @@ Then('train description {string} disappears from the trains list', async (trainD
   expect(hasDisappeared).to.equal(true);
 });
 
+Then('train description {string} with schedule type {string} disappears from the trains list',
+  async (trainDescription: string, scheduleType: string) => {
+    const hasDisappeared: boolean = await trainsListPage.trainDescriptionWithScheduleTypeHasDisappeared(trainDescription, scheduleType);
+    expect(hasDisappeared).to.equal(true);
+});
+
 When('I wait for the context menu to display', async () => {
   await trainsListPage.waitForContextMenu();
 });
