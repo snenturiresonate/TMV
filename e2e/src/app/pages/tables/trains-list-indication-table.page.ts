@@ -35,7 +35,7 @@ export abstract class TrainsListIndicationTable {
   }
 
   public async updateTrainIndicationColourTextOfSetting(name: string, text: string): Promise<void> {
-    const elm: ElementFinder = this.getSettingRow(name).element(by.css('.punctuality-name'));
+    const elm: ElementFinder = this.getSettingRow(name).element(by.css('.punctuality-colour'));
     await this.scrollToElement(elm);
     await InputBox.updateColourPickerBox(elm, text);
   }

@@ -103,6 +103,14 @@ When('the service {string} is not active', async (serviceId: string) => {
   expect(isScheduleVisible).to.equal(false);
 });
 
+When('the following service is not active', async (table: any) => {
+  const tableValues = table.hashes();
+  const serviceId = tableValues.trainId;
+  const trainUId = tableValues.trainUId;
+  const isScheduleVisible: boolean = await trainsListPage.isScheduleVisible(trainUId);
+  expect(isScheduleVisible, `${serviceId} is displayed`).to.equal(false);
+});
+
 When('the service {string} is active', async (serviceId: string) => {
   const isScheduleVisible: boolean = await trainsListPage.isScheduleVisible(serviceId);
   expect(isScheduleVisible).to.equal(true);
@@ -180,13 +188,13 @@ Then('the service is displayed in the trains list with the following indication'
   }
 });
 
-Then('I should see the trains list columns as', async (table: any) => {
+Then('I should see the trains list columns as', {timeout: 2 * 20000}, async (table: any) => {
   const expectedColHeaders = table.hashes();
   const expectedNoOfCols = table.hashes().length;
   const actualColHeader = await trainsListPage.getTrainsListColHeaders();
   const actualNoOfCols = await trainsListPage.getTrainsListColHeaderCount();
   expectedColHeaders.forEach((expectedColHeaderName: any) => {
-    expect(actualColHeader).to.contain(expectedColHeaderName.header);
+    expect(actualColHeader, `Actual column headers ${actualColHeader.toString()}`).to.contain(expectedColHeaderName.header);
   });
   expect(actualNoOfCols).to.equal(expectedNoOfCols);
 });
@@ -386,7 +394,7 @@ Then('I should see the trains list table to not display the following trains', a
     expectedTrainDescriptionArray.push(expectedTrainDescriptionValues[i].trainDescription);
   }
   const actualTrainDescriptionsArray: string[] = await trainsListPage.getTrainsListValuesForColumn('train-description');
-  expect(actualTrainDescriptionsArray).not.to.include.members(expectedTrainDescriptionArray);
+  expect(actualTrainDescriptionsArray).to.not.include(expectedTrainDescriptionArray);
 
 });
 

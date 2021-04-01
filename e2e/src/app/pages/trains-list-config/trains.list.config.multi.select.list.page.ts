@@ -3,7 +3,6 @@ import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {GeneralUtils} from '../common/utilities/generalUtils';
 
 export abstract class TrainsListConfigMultiSelectListPageObject {
-
   constructor(public trainListConfigTabs: ElementArrayFinder,
               public trainListConfig: ElementArrayFinder,
               public trainListConfigUnselected: ElementArrayFinder,

@@ -415,7 +415,7 @@ async function acceptUnexpectedAlert(): Promise<any> {
 }
 
 async function OpenNewTab(): Promise<any> {
-  return browser.executeScript('window.open()');
+  return browser.executeAsyncScript('window.open()');
 }
 
 When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {

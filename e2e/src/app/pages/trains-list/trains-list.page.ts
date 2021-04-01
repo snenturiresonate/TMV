@@ -136,11 +136,9 @@ export class TrainsListPageObject {
   public async openManualMatch(): Promise<void> {
     return CommonActions.waitAndClick(this.matchUnmatchLink);
   }
-  public async isScheduleVisible(scheduleId: string): Promise<boolean> {
-    browser.wait(async () => {
-      return element(by.css('#trains-list-row-' + scheduleId)).isPresent();
-    }, browser.displayTimeout, 'The schedule should be displayed');
-    const trainScheduleId: ElementFinder = element(by.css('#trains-list-row-' + scheduleId));
+  public async isScheduleVisible(trainUId: string): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(element.all(by.css(`[id^='trains-list-row-']`)).first());
+    const trainScheduleId: ElementFinder = element(by.css('#trains-list-row-' + trainUId));
     return trainScheduleId.isPresent();
   }
 
