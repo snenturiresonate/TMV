@@ -9,6 +9,7 @@ import {browser} from 'protractor';
 import {expect} from 'chai';
 import {DateAndTimeUtils} from "../pages/common/utilities/DateAndTimeUtils";
 import {LocalDate} from "@js-joda/core";
+import {CucumberLog} from "../logging/cucumber-log";
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
@@ -73,6 +74,7 @@ When('the access plan located in CIF file {string} is amended so that all servic
     }
     // put it all back together and load
     const newData = cifLines.join('');
+    await CucumberLog.addText(`Access Plan: ${newData}`);
     linxRestClient.addAccessPlan('', newData);
 });
 
@@ -103,7 +105,8 @@ When ('the train in CIF file below is updated accordingly so time at the referen
     }
     // put it all back together and load
     const newData = cifLines.join('');
-    linxRestClient.addAccessPlan('', newData);
+    await linxRestClient.addAccessPlan('', newData);
+    await linxRestClient.waitMaxTransmissionTime();
   });
 
 

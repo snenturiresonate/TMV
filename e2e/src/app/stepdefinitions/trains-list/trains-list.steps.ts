@@ -3,7 +3,9 @@ import {TrainsListPageObject} from '../../pages/trains-list/trains-list.page';
 import { expect } from 'chai';
 import {browser, protractor} from 'protractor';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
+import {AppPage} from '../../pages/app.po';
 
+const page: AppPage = new AppPage();
 const trainsListPage: TrainsListPageObject = new TrainsListPageObject();
 const defaultClasses = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 const defaultOperators = ['HW', 'HY', 'HZ', 'HV', 'HU', 'HT', 'HS', 'HR', 'HQ'];
@@ -109,12 +111,21 @@ When('the service {string} is not active', async (serviceId: string) => {
   expect(isScheduleVisible).to.equal(false);
 });
 
-When('the following service is not active', async (table: any) => {
-  const tableValues = table.hashes();
+When('the following service is not displayed on the trains list', async (table: any) => {
+  const tableValues = table.hashes()[0];
   const serviceId = tableValues.trainId;
-  const trainUId = tableValues.trainUId;
-  const isScheduleVisible: boolean = await trainsListPage.isScheduleVisible(trainUId);
-  expect(isScheduleVisible, `${serviceId} is displayed`).to.equal(false);
+  const trainUID = tableValues.trainUId;
+  const isTrainVisible: boolean = await trainsListPage.isTrainVisible(serviceId, trainUID);
+  expect(isTrainVisible, `Service ${serviceId} with trainUId ${trainUID} is displayed`).to.equal(false);
+});
+
+When('the following service is displayed on the trains list', async (table: any) => {
+  const tableValues = table.hashes()[0];
+  const serviceId = tableValues.trainId;
+  const trainUID = tableValues.trainUId;
+  await page.navigateTo('/tmv/trains-list');
+  const isTrainVisible: boolean = await trainsListPage.isTrainVisible(serviceId, trainUID);
+  expect(isTrainVisible, `Service ${serviceId} with trainUId ${trainUID} is not displayed`).to.equal(true);
 });
 
 When('the service {string} is active', async (serviceId: string) => {
