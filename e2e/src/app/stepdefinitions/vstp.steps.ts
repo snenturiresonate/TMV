@@ -1,4 +1,4 @@
-import {Before, Given, Then, When} from 'cucumber';
+import {Before, Given, When} from 'cucumber';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 import {CucumberLog} from '../logging/cucumber-log';
 import {LinxRestClient} from '../api/linx/linx-rest-client';

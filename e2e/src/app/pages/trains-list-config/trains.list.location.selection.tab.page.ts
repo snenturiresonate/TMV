@@ -1,7 +1,7 @@
-import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
+import {by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {InputBox} from '../common/ui-element-handlers/inputBox';
-import {CheckBox} from "../common/ui-element-handlers/checkBox";
+import {CheckBox} from '../common/ui-element-handlers/checkBox';
 
 export class TrainsListLocationSelectionTab {
 
@@ -66,6 +66,9 @@ export class TrainsListLocationSelectionTab {
   public async clickLocationResult(): Promise<void> {
     return this.locationSearchResult.click();
   }
+  public async chooseLocationFromResult(locationName: string): Promise<void> {
+      return CommonActions.waitAndClick(element.all(by.cssContainingText('app-search li', `${locationName}`)).first());
+  }
   public async getLocationCancel(): Promise<string> {
     return this.locationCancel.getText();
   }
@@ -103,8 +106,7 @@ export class TrainsListLocationSelectionTab {
   public async getStopTypeOfRow(rowIndex: number, elementOrder: number): Promise<string> {
       const rowIndexForCss = rowIndex + 1;
       const orderIndex = elementOrder + 2;
-      return InputBox.waitAndGetTextOfInputBox(this.locationTableRow.get(rowIndexForCss)
-        .element(by.css(`.stoptypes span:nth-child(${orderIndex}) input`)));
+      return CommonActions.waitAndGetText(element(by.css(`#location-selection-table tr:nth-child(${rowIndexForCss}) .stoptypes span:nth-child(${orderIndex}) label`)));
   }
   public async getLocationTableRowCount(): Promise<number> {
       return this.locationTableRow.count();
@@ -140,7 +142,12 @@ export class TrainsListLocationSelectionTab {
   }
   public async setStopTypeCheckedState(type: string, locationName: string, updatedState: string): Promise<void> {
     await CommonActions.waitForElementToBeVisible(this.locationTableRow.first());
-    return CheckBox.updateCheckBox(this.getStopTypeOfLocation(type, locationName), updatedState);
+    const chkBox = this.getStopTypeOfLocation(type, locationName);
+    if (await chkBox.isEnabled()) {
+      return CheckBox.updateCheckBox(chkBox, updatedState);
+    } else {
+      return;
+    }
   }
   public async locationTableArrowsDisplay(): Promise<any> {
       return this.locationTableArrows.isDisplayed();

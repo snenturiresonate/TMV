@@ -84,7 +84,7 @@ const mapObjectColourHex = {
   manual_trust_berth: ['#ffff00']
 };
 
-Given(/^I am viewing the map (.*)$/, {timeout: 1 * 40000}, async (mapId: string) => {
+Given(/^I am viewing the map (.*)$/, {timeout: 40000}, async (mapId: string) => {
   const url = '/tmv/maps/' + mapId;
   await appPage.navigateTo(url);
 });
@@ -685,7 +685,12 @@ When(/^I toggle path (?:on|off) from the map context menu$/, async () => {
 
 Then('the map context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
   const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
-  expect(actualContextMenuItem).to.contain(expectedText);
+  expect(actualContextMenuItem, `Map menu item not as expected`).to.contain(expectedText);
+});
+
+Then('the map context menu has {string} on line {int}', async (expectedText: string, rowNum: number) => {
+  const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
+  expect(actualContextMenuItem, `Map menu item not as expected`).to.equal(expectedText);
 });
 
 Then('the track state width for {string} is {string}',
@@ -792,6 +797,21 @@ Then('the train headcode {string} is {string} on the map', async (trainDesc: str
     expect(found, 'Headcode not expected to be present on map').to.equal(false);
   }
 });
+
+Then('the punctuality color for berth {string} is {word}',
+  async (berthId: string, expectedColor: string) => {
+    const expectedColorHex = mapColourHex[expectedColor];
+    const actualColorHex: string = await mapPageObject.getBerthColor(berthId);
+    expect(actualColorHex, 'Punctuality colour is not ' + expectedColor)
+      .to.equal(expectedColorHex);
+  });
+
+Then('the manual trust berth type for {string} is {word}',
+  async (berthId: string, expectedType: string) => {
+    const actualType: string = await mapPageObject.getManualBerthType(berthId);
+    expect(actualType, 'Manual Berth type is not ' + expectedType)
+      .to.equal(expectedType);
+  });
 
 Then(/^the (Matched|Unmatched) version of the context menu is displayed$/, async (matchType: string) => {
   await mapPageObject.waitForContextMenu();

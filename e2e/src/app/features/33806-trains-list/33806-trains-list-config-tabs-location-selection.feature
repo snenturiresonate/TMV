@@ -7,6 +7,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
   Background:
     Given the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
     And I am on the trains list Config page
+    And I restore to default train list config
+    And I refresh the browser
     And I have navigated to the 'Locations' configuration tab
 
 
@@ -20,9 +22,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
       | At least one location        |
       | All locations                |
       | All locations, order applied |
-@tdd
-  #Needs a step to add all desired locations
+
   Scenario: Trains list location stop types
+  When I type 'ABDARE' into the location search box
+  And I click the first suggested location
     Then I should see the following stop types in the given order within each location
       | stopTypes |
       | Originate |
@@ -48,8 +51,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
   #And the user has performed a location search
   #When the user selects the location from the results
   #Then the location is added to the list of configured locations
-  @tdd
-    #Needs a step to add all desired locations
   Scenario: 33806 -15 Trains list location search auto suggest list
     When I type 'ABDARE' into the location search box
     And I click the first suggested location
@@ -83,23 +84,27 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
     #Given the user has locations in the list
     #When the user removes a location
     #Then the location is removed from the list
-  @tdd
-    #Needs a step to add all desired locations
 Scenario: 33806 -17 Trains location list ability to remove location and move the location elements to desired order
   #Below scenario covers both 33806 -16 & 33806 -17. They have been made as single scenario to avoid any data related false failures due to removing locations in different scenarios
-  When I choose the location filter as 'All locations, order applied'
+    When I choose the location filter as 'All locations, order applied'
+    And I have only the following locations and stop types selected
+      | locationNameValue | Originate  | Stop       | Pass       | Terminate  |
+      | PADTON            | Checked    | un-checked | un-checked | un-checked |
+      | SLOUGH            | Checked    | un-Checked | checked    | unchecked  |
+      | RDGLNJ            | un-checked | checked    | checked    | un-checked |
+      | SDON              | un-checked | Checked    | un-checked | un-checked |
+      | PBRO              | un-checked | checked    | unchecked  | checked    |
+      | OXFD              | checked    | checked    | checked    | checked    |
   And I move 'up' the location 'Slough'
-  And I move 'down' the location 'Reading Lane Junction'
+  And I move 'down' the location 'Reading Lane Jn'
   And I remove the location 'Oxford'
   Then the following can be seen on the location order type table
-    | locationNameValue              | Originate  | Stop       | Pass       | Terminate  |
-    | Slough (SLOUGH)                | Checked    | un-Checked | checked    | unchecked  |
-    | Paddington (PADTON)            | Checked    | un-checked | un-checked | un-checked |
-    | Swindon (SDON)                 | un-checked | Checked    | un-checked | un-checked |
-    | Reading Lane Junction (RDGLNJ) | un-checked | checked    | checked    | un-checked |
-    | Peterborough (PBRO)            | un-checked | checked    | unchecked  | checked    |
-    | Reading (RDNGSTN)              | un-checked | un-checked | checked    | un-checked |
-    | Leeds (LEEDS)                  | un-checked | un-checked | checked    | checked    |
+    | locationNameValue          | Originate  | Stop       | Pass       | Terminate  |
+    | Slough (SLOUGH)            | Checked    | un-Checked | checked    | unchecked  |
+    | London Paddington (PADTON) | Checked    | un-checked | un-checked | un-checked |
+    | Swindon (SDON)             | un-checked | Checked    | un-checked | un-checked |
+    | Reading Lane Jn (RDGLNJ)   | un-checked | checked    | checked    | un-checked |
+    | Peterborough (PBRO)        | un-checked | checked    | unchecked  | checked    |
 
 #33806 -18 Trains List Config (Location Applied)
   #Given the user has made changes to the trains list Location selection
@@ -116,38 +121,42 @@ Scenario: 33806 -17 Trains location list ability to remove location and move the
       | locationNameValue              | Originate  | Stop       | Pass       | Terminate  |
       | Paddington (PADTON)            | Checked    | un-checked | un-checked | un-checked |
 
-  @tdd
   Scenario: 33806 -18 Trains list config for location types - Stop type 'Originate'
     And I have only the following locations and stop types selected
       | locationNameValue | Originate | Stop       | Pass       | Terminate  |
       | PADTON            | Checked   | un-checked | un-checked | un-checked |
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     #Services to be displayed might have to change based on data once the integration is done
-    Then '1S42' are then displayed
+    Then '5G44' are then displayed
+    And I restore to default train list config
 
-  @tdd
   Scenario: 33806 -18 Trains list config for location types - Stop type 'Terminate'
     And I have only the following locations and stop types selected
       | locationNameValue | Originate  | Stop       | Pass       | Terminate |
-      | DDIDCOTP          | un-checked | un-checked | un-checked | Checked   |
-    And I open 'trains list' page in a new tab
+      | PADTON          | un-checked | un-checked | un-checked | Checked   |
+    And I save the trains list config
+    And I am on the trains list page
     #Services to be displayed might have to change based on data once the integration is done
-    Then '1S42' are then displayed
+    Then '2P77' are then displayed
+    And I restore to default train list config
 
-  @tdd
   Scenario: 33806 -18 Trains list config for location types - Stop type 'Pass'
     And I have only the following locations and stop types selected
       | locationNameValue | Originate  | Stop       | Pass    | Terminate  |
       | ACTONW            | un-checked | un-checked | Checked | un-checked |
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     #Services to be displayed might have to change based on data once the integration is done
-    Then '1S42' are then displayed
+    Then '2P77' are then displayed
+    And I restore to default train list config
 
-  @tdd
   Scenario: 33806 -18 Trains list config for location types - Stop type 'Stop'
     And I have only the following locations and stop types selected
       | locationNameValue | Originate  | Stop    | Pass       | Terminate  |
       | EALINGB           | un-checked | checked | un-checked | un-checked |
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     #Services to be displayed might have to change based on data once the integration is done
-    Then '1S42' are then displayed
+    Then '2P77' are then displayed
+    And I restore to default train list config

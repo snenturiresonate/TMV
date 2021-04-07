@@ -7,6 +7,7 @@ import {TrainJourneyModification} from './train-journey-modification';
 import {TransportOperationalIdentifiersBuilder} from './train-operational-identifiers';
 import {jsonIgnore, jsonIgnoreReplacer} from 'json-ignore';
 import {CucumberLog} from '../../logging/cucumber-log';
+import {SenderReferenceCalculator} from '../sender-reference-calculator';
 
 export class TrainJourneyModificationMessage {
   public MessageHeader?: MessageHeader;
@@ -126,7 +127,7 @@ export class TrainJourneyModificationMessageBuilder {
       .withHour(Number(valueArray[0]))
       .withMinute(Number(valueArray[1]))
       .withSecond(Number(valueArray[2]))
-      .format(DateTimeFormatter.ofPattern('yyyy-MM-dd\'T\'HH:mm:ss')) + '-00:00';;
+      .format(DateTimeFormatter.ofPattern('yyyy-MM-dd\'T\'HH:mm:ss')) + '-00:00';
     return this;
   }
 
@@ -146,10 +147,14 @@ export class TrainJourneyModificationMessageBuilder {
     trainJourneyModificationMessage.TrainJourneyModification = this.TrainJourneyModification;
     trainJourneyModificationMessage.ModificationReason = this.ModificationReason;
     trainJourneyModificationMessage.TrainJourneyModificationTime = this.TrainJourneyModificationTime;
-    trainJourneyModificationMessage.MessageHeader.calculateSenderReference(
-      this.OperationalTrainNumberIdentifier.OperationalTrainNumber,
-      this.trainUid,
-      this.departureHour);
+    const senderReference = SenderReferenceCalculator.encodeToSenderReference(this.trainUid, this.departureHour);
+    if (trainJourneyModificationMessage.TrainJourneyModification.TrainJourneyModificationIndicator === '07') {
+      trainJourneyModificationMessage.MessageHeader.SenderReference =
+        `${this.OperationalTrainNumberIdentifier.OperationalTrainNumber}${senderReference},${this.ReferenceOTN.OperationalTrainNumberIdentifier.OperationalTrainNumber}${senderReference}`;
+    } else {
+      trainJourneyModificationMessage.MessageHeader.SenderReference =
+        `${this.OperationalTrainNumberIdentifier.OperationalTrainNumber}${senderReference}`;
+    }
     if (this.nationalDelayCode != null) {
       trainJourneyModificationMessage.setNationalDelayCode(this.nationalDelayCode);
     }

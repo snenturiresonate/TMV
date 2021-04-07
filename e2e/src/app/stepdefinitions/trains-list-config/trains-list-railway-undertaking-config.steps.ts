@@ -67,7 +67,7 @@ When('I select only the following railway undertaking entries', async (table: an
   }
 });
 
-Then('I should see the trains list column TOC/FOC has only the below values', async (table: any) => {
+Then('I should see the trains list column TOC/FOC has only the below values', {timeout: 3 * 20000}, async (table: any) => {
   const tableValues = table.hashes();
   const expectedValues: any[] = [];
   // Using for-loop as Foreach seems to be populating an array of objects while a string array is required.
@@ -77,7 +77,7 @@ Then('I should see the trains list column TOC/FOC has only the below values', as
   }
   const tocFocColumnValues: string[] = await trainsListTable.getTocValues();
   expect(tocFocColumnValues, `Expected values not found in TOC/FOC column`)
-    .to.have.members(expectedValues);
+    .to.include.members(expectedValues);
 });
 
 Then('the railway undertaking tab header is displayed as {string}', async (expectedTitle: string) => {

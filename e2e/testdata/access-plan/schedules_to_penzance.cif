@@ -323,5 +323,57 @@ LITRURO   2234H2236H     223522362        T
 LIREDRUTH 2247 2249      22472249         T                                     
 LICBORNE            2253H00000000                                               
 LISTERTH            2301H000000001                    1                         
-LTPENZNCE 2310 23102     TF                                                     
+LTPENZNCE 2310 23102     TF                                  
+BSNC565941010124051831111111 POO2C56    125474001 DMUS   075      S            P
+BX         GWY                                                                  
+LOPLYMTH  1901 19013         TB                                                 
+LIDEVNPRT 1904 1904H     190419041        T                                     
+LIDOCKYDP 1905H1906      190519051        R                                     
+LIKEYHAM  1907H1908      190719071        T                                     
+LISTBDXFR 1910 1910H     191019101        T                                     
+LISASH    1914 1915      191419141        T                                     
+LISTGRMNS 1921 1922      192119211        T                                     
+LIMENHENT 1929H1930      192919291        R                                     
+LTLISKARD 1936 19361     TF    
+BSNC565931101012405181111111 POO2C90    125474001 DMUS   075      S            P
+BX         GWY                                                                  
+LIDEVNPRT 1600 1601      TB               T                                     
+LIDOCKYDP 1602 1603      160116021        R                                     
+LIKEYHAM  1604H1605H     160416041        T                                     
+LISTBDXFR 1607H1608      160816081        T                                     
+LISASH    1611H1612H     161216121        T                                     
+LISTGRMNS 1618H1619H     161916191        T                                     
+LIMENHENT 1627 1627H     162616261        R                                     
+LILISKARD 1632H1633H     163316331        T                                     
+LIBODMNPW 1644H1645H     16451645         T                                     
+LILSTWTHL 1650 1650H     165016502        T           1                         
+LIPARR    1657H1658H     165816581        T                                     
+LISTAUSTL 1705 1706      17051706         T                                     
+LITRURO   1722 1723      172217232        T                                     
+LIREDRUTH 1735H1736H     17361736         T                                     
+LICBORNE  1741H1742H     17421742         T                                     
+LIHAYLE   1749 1750      174917501        T           1                         
+LISTERTH  1753H1754H     175417541        T           1                         
+LTPENZNCE 1804 18043     TF                                        
+BSNC565932101012405181111111 POO2C91    125474001 DMUS   075      S            P
+BX         GWY                                                                  
+LOPLYMTH  1557 15575         TB                                                 
+LIDEVNPRT 1600 1601      160016001        T                                     
+LIDOCKYDP 1602 1603      160116021        R                                     
+LIKEYHAM  1604H1605H     160416041        T                                     
+LISTBDXFR 1607H1608      160816081        T                                     
+LISASH    1611H1612H     161216121        T                                     
+LISTGRMNS 1618H1619H     161916191        T                                     
+LIMENHENT 1627 1627H     162616261        R                                     
+LILISKARD 1632H1633H     163316331        T                                     
+LIBODMNPW 1644H1645H     16451645         T                                     
+LILSTWTHL 1650 1650H     165016502        T           1                         
+LIPARR    1657H1658H     165816581        T                                     
+LISTAUSTL 1705 1706      17051706         T                                     
+LITRURO   1722 1723      172217232        T                                     
+LIREDRUTH 1735H1736H     17361736         T                                     
+LICBORNE  1741H1742H     17421742         T                                     
+LIHAYLE   1749 1750      174917501        T           1                         
+LISTERTH  1753H1754H     175417541        T           1                         
+LTPENZNCE 1804 18043     TF                                                                             
 ZZ                                                                               

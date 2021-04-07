@@ -1,10 +1,52 @@
-import {After, Before, Then, When} from 'cucumber';
+import {Then, When} from 'cucumber';
 import {expect} from 'chai';
 
 import {HomePageObject} from '../pages/home.page';
 import {browser} from 'protractor';
+import {WelcomeModalPage} from '../pages/welcome-modal-dialogue.page';
 
 const homePage: HomePageObject = new HomePageObject();
+const welcomeModal = new WelcomeModalPage();
+
+Then('the home icon is displayed', async () => {
+  const isDisplayed: boolean = await homePage.homeIconIsDispayed();
+  expect(isDisplayed, 'Home icon is not displayed').to.equal(true);
+});
+
+Then('the new tab icon is displayed', async () => {
+  const isDisplayed: boolean = await homePage.newTabIconIsDispayed();
+  expect(isDisplayed, 'New tab icon is not displayed').to.equal(true);
+});
+
+Then('the user profile icon is displayed', async () => {
+  const isDisplayed: boolean = await homePage.userProfileIconIsDispayed();
+  expect(isDisplayed, 'User profile icon is not displayed').to.equal(true);
+});
+
+Then('the help icon is displayed', async () => {
+  const isDisplayed: boolean = await homePage.helpIconIsDispayed();
+  expect(isDisplayed, 'Help icon is not displayed').to.equal(true);
+});
+
+Then('the time is displayed', async () => {
+  const isDisplayed: boolean = await homePage.timeIsDispayed();
+  expect(isDisplayed, 'Time is not displayed').to.equal(true);
+});
+
+Then('the map search box is displayed', async () => {
+  const isDisplayed: boolean = await homePage.mapSearchBoxIsDispayed();
+  expect(isDisplayed, 'Map search box is not displayed').to.equal(true);
+});
+
+Then('the recent maps are displayed', async () => {
+  const isDisplayed: boolean = await homePage.recentMapsBoxIsDispayed();
+  expect(isDisplayed, 'Recent maps are not displayed').to.equal(true);
+});
+
+Then('all maps are displayed', async () => {
+  const isDisplayed: boolean = await homePage.allMapsHeaderIsDispayed();
+  expect(isDisplayed, 'All maps are not displayed').to.equal(true);
+});
 
 Then('the welcome message should read {string}', async (expectedMessage: string) => {
   const message: string = await homePage.getWelcomeMessageText();
@@ -39,6 +81,16 @@ Then('the app list contains the following apps', async (appsDataTable: any) => {
   expectedAppNames.forEach((expectedAppName: any) => {
     expect(actualAppNames, `${expectedAppName.app} not found in the apps list`)
       .to.contain(expectedAppName.app);
+  });
+});
+
+Then('the app list does not contain the following apps', async (appsDataTable: any) => {
+  const expectedAppNames: any = appsDataTable.hashes();
+  const actualAppNames: string = await homePage.getAppNames();
+
+  expectedAppNames.forEach((expectedAppName: any) => {
+    expect(actualAppNames, `${expectedAppName.app} was found in the apps list`)
+      .to.not.contain(expectedAppName.app);
   });
 });
 
@@ -178,6 +230,11 @@ Then('the maps search results list has no scroll', async () => {
   expect(totalTableHeight, `Table height is larger than visible table height, there should be no scroll`)
     .to.be.at.most(visibleTableHeight);
 });
+
 When(/^I select the replay button from the home page$/, async () => {
   await homePage.replayButton.click();
+});
+
+When(/^I dismiss the welcome message$/, async () => {
+  await welcomeModal.dismissModal();
 });

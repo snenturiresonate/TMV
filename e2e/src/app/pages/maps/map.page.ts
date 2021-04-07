@@ -127,6 +127,13 @@ export class MapPageObject {
     return sClassBerth.isPresent();
   }
 
+  public async waitUntilSClassBerthElementIsPresent(berthId: string): Promise<void> {
+    const sClassBerth: ElementFinder = await this.getSClassBerthElementFinder(berthId);
+    await CommonActions.waitForElementToBePresent(sClassBerth,
+      10000,
+      `S class berth ${berthId} not present in time limit`);
+  }
+
   public async isReleaseIndicationPresent(releaseId: string): Promise<boolean> {
     const release: ElementFinder = await this.getSClassBerthElementFinder(releaseId);
     return release.isPresent();
@@ -169,6 +176,7 @@ export class MapPageObject {
   }
 
   public async getSClassBerthElementText(elementId: string): Promise<string> {
+    await this.waitUntilSClassBerthElementIsPresent(elementId);
     const textElement: ElementFinder = await this.getSClassBerthElementFinder(elementId);
     return textElement.getText();
   }
@@ -354,6 +362,17 @@ export class MapPageObject {
     return CssColorConverterService.rgb2Hex(berthColourRgb);
   }
 
+  public async getBerthType(berthId: string): Promise<string> {
+    const berth: ElementFinder = element(by.id('berth-element-text-' + berthId));
+    const berthType: string = await berth.getCssValue('class');
+    return berthType;
+  }
+
+  public async getManualBerthType(berthId: string): Promise<string> {
+    const manualBerth: ElementFinder = element(by.id('manual-berth-element-text-' + berthId));
+    const manualBerthType: string = await manualBerth.getText();
+    return manualBerthType;
+  }
   public async getBerthRectangleColour(berthId: string): Promise<string> {
     const berthRectangleElement: ElementFinder = element(by.id('berth-element-rect-' + berthId));
     const berthRectangleColourRgb: string = await berthRectangleElement.getCssValue('fill');

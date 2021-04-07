@@ -6,6 +6,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
 
   Background:
     Given I am on the trains list Config page
+    And I restore to default train list config
     And I have navigated to the 'TOC/FOC' configuration tab
 
   #33806 -11 Trains List Config (TOC/FOC Selection)
@@ -22,7 +23,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
       | configColumnName |
       | Available        |
       | Selected         |
-@tdd
+
   Scenario: 33806 -11c Trains list railway undertaking config tab - default selected and unselected entries
     Then the following can be seen on the unselected railway undertaking config
       | unSelectedColumn                    | arrowType            |
@@ -254,29 +255,19 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
     #Given the user has made changes to the trains list TOC/FOC selection
     #When the user views the trains list
     #Then the view is updated to reflect the user's TOC/FOC selection
-  @tdd
+
   Scenario Outline: 33806 -13 Selecting required columns and verifying if they are reflected in the trains list
+    Given the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
     When I select only the following railway undertaking entries
       | items                    |
       | <columnToSelectInConfig> |
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     Then I should see the trains list column TOC has only the below values
       | expectedValues               |
       | <valuesToExpectInTrainsList> |
+    And I restore to default train list config
     Examples:
-      | columnToSelectInConfig           | valuesToExpectInTrainsList |
-      | Advenza Freight (PI)             | PI                         |
-      | AMEY Fleet Services (RE)         | RE                         |
-      | Arriva Trains Wales (HL)         | HL                         |
-      | COLAS (RG)                       | RG                         |
-      | Cross Country Trains (EH)        | EH                         |
-      | Deven and Cornwall Railways (PO) | PO                         |
-      | Great Western Railways (GW)      | GW                         |
-      | Heathrow Express (HE)            | HE                         |
-      | Cross country (CC)               | CC                         |
-      | South Western Railways (SW)      | SW                         |
-      | Tfl Rail (TR)                    | TR                         |
-      | Others (OT)                      | OT                         |
-      | East Midlands Trains (EM)        | EM                         |
-      | Chiltern Railways (HO)           | HO                         |
-      | C2C Rail (HT)                    | HT                         |
+      | columnToSelectInConfig        | valuesToExpectInTrainsList |
+      | GREAT WESTERN RAILWAY (EF)    | EF                         |
+      | Govia Thameslink Railway (ET) | ET                         |

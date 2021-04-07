@@ -9,6 +9,10 @@ export class TrainRunningInformationMessageHeader {
     return (trainNumber + SenderReferenceCalculator.encodeToSenderReference(trainUid, hourDepartFromOrigin));
   }
 
+  static calculateSenderReferenceTime(trainNumber: string, trainUid: string, hourDepartFromOrigin: any): string {
+    return (trainNumber + SenderReferenceCalculator.encodeToSenderReference(trainUid, hourDepartFromOrigin));
+  }
+
   public static messageReference = (messageDateTime: any = TrainRunningInformationMessageHeader.runDateTime) => {
     const messageReferenceObj = fragment().ele('MessageReference')
       .ele('MessageType').txt('4005').up()
@@ -26,6 +30,17 @@ export class TrainRunningInformationMessageHeader {
       .ele('Sender', {'ns0:CI_InstanceNumber': '01'}).txt('0070').up()
       .ele('Recipient', {'ns0:CI_InstanceNumber': '99'}).txt('9999').up()
       .ele(TrainRunningInformationMessageHeader.messageReference()).up()
+      .doc();
+    return messageHeaderObj.end({prettyPrint: true});
+  }
+
+  public static messageHeaderTime = (trainNumber: string, trainUid: string, hourDepartFromOrigin: string) => {
+    const senderReference = TrainRunningInformationMessageHeader.calculateSenderReferenceTime(trainNumber, trainUid, hourDepartFromOrigin);
+    const messageHeaderObj = fragment().ele('MessageHeader')
+      .ele(TrainRunningInformationMessageHeader.messageReference()).up()
+      .ele('SenderReference').txt(senderReference).up()
+      .ele('Sender', {'ns0:CI_InstanceNumber': '01'}).txt('0070').up()
+      .ele('Recipient', {'ns0:CI_InstanceNumber': '99'}).txt('9999').up()
       .doc();
     return messageHeaderObj.end({prettyPrint: true});
   }

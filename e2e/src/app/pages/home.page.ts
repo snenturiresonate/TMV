@@ -7,6 +7,12 @@ export class HomePageObject {
   public mapList: ElementArrayFinder;
   public appList: ElementArrayFinder;
 
+  public homeIcon: ElementFinder;
+  public newTabIcon: ElementFinder;
+  public userProfileIcon: ElementFinder;
+  public helpIcon: ElementFinder;
+  public timeDisplay: ElementFinder;
+
   public mapSearchBox: ElementFinder;
   public mapAutoSuggestSearchResultList: ElementFinder;
   public mapAutoSuggestSearchResults: ElementArrayFinder;
@@ -18,6 +24,8 @@ export class HomePageObject {
   public recentHistoryNextPageButton: ElementFinder;
   public recentHistoryPreviousPageButton: ElementFinder;
   public recentSearchedMap: ElementFinder;
+  public recentMapsBox: ElementFinder;
+  public allMapsHeader: ElementFinder;
 
   public replayButton: ElementFinder;
   public adminIcon: ElementFinder;
@@ -39,6 +47,54 @@ export class HomePageObject {
     this.recentSearchedMap = element(by.css('.recent-history-item-entry'));
     this.adminIcon = element(by.css('.btn-box .app-button-link-text'));
     this.replayButton = element(by.id('icon-replay'));
+
+    this.homeIcon = element(by.css('img[alt="logo"]'));
+    this.newTabIcon = element(by.xpath('//span[contains(text(),\'launch\')]'));
+    this.userProfileIcon = element(by.id('user-profile-menu-button'));
+    this.helpIcon = element(by.xpath('//span[contains(text(),\'help\')]'));
+    this.timeDisplay = element(by.id('nav-bar-current-time'));
+    this.recentMapsBox = element(by.tagName('app-recent-maps'));
+    this.allMapsHeader = element(by.xpath('//h2[contains(text(),\'All Maps\')]'));
+  }
+
+  public async homeIconIsDispayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.homeIcon);
+    return this.homeIcon.isDisplayed();
+  }
+
+  public async newTabIconIsDispayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.newTabIcon);
+    return this.newTabIcon.isDisplayed();
+  }
+
+  public async userProfileIconIsDispayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.userProfileIcon);
+    return this.userProfileIcon.isDisplayed();
+  }
+
+  public async helpIconIsDispayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.helpIcon);
+    return this.helpIcon.isDisplayed();
+  }
+
+  public async timeIsDispayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.timeDisplay);
+    return this.timeDisplay.isDisplayed();
+  }
+
+  public async mapSearchBoxIsDispayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.mapSearchBox);
+    return this.mapSearchBox.isDisplayed();
+  }
+
+  public async recentMapsBoxIsDispayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.recentMapsBox);
+    return this.recentMapsBox.isDisplayed();
+  }
+
+  public async allMapsHeaderIsDispayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.allMapsHeader);
+    return this.allMapsHeader.isDisplayed();
   }
 
   public async getWelcomeMessageText(): Promise<string> {

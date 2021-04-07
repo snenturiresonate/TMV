@@ -136,11 +136,9 @@ export class TrainsListPageObject {
   public async openManualMatch(): Promise<void> {
     return CommonActions.waitAndClick(this.matchUnmatchLink);
   }
-  public async isScheduleVisible(scheduleId: string): Promise<boolean> {
-    browser.wait(async () => {
-      return element(by.css('#trains-list-row-' + scheduleId)).isPresent();
-    }, browser.displayTimeout, 'The schedule should be displayed');
-    const trainScheduleId: ElementFinder = element(by.css('#trains-list-row-' + scheduleId));
+  public async isScheduleVisible(trainUId: string): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(element.all(by.css(`[id^='trains-list-row-']`)).first());
+    const trainScheduleId: ElementFinder = element(by.css('#trains-list-row-' + trainUId));
     return trainScheduleId.isPresent();
   }
 
@@ -188,6 +186,30 @@ export class TrainsListPageObject {
         return true;
       }
     }
+  }
+
+  public async trainDescriptionWithScheduleTypeHasDisappeared(trainDescription: string, scheduleType: string): Promise<boolean> {
+    return browser.wait(async () => {
+      try {
+        const trainDescriptions = await this.getTrainsListValuesForColumn('train-description');
+        const scheduleTypes = await this.getTrainsListValuesForColumn('schedule-type');
+        for (let i = 0; i < trainDescriptions.length; i++)
+        {
+          if (trainDescriptions[i] === trainDescription && scheduleTypes[i] === scheduleType)
+          {
+            return false;
+          }
+        }
+        return true;
+      }
+      catch (error) {
+        if (error.name === 'StaleElementReferenceError')
+        {
+          // whilst checking, we may get a stale element as the row is dynamic, so must have disappeared
+          return true;
+        }
+      }
+    }, browser.displayTimeout, 'Train description with schedule type ${scheduleType} did not disappear');
   }
 
   public async getTrainsListRowColFill(scheduleId: string): Promise<string> {

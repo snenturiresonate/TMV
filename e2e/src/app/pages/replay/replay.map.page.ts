@@ -3,7 +3,6 @@ import {DateTimeFormatter, LocalDateTime, LocalTime} from '@js-joda/core';
 import {ContinuationLinkContextMenu} from '../sections/replay.continuationlink.contextmenu';
 import {BerthContextMenu} from '../sections/replay.berth.contextmenu';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
-import moment = require('moment');
 
 export class ReplayMapPage {
   public bufferingIndicator: ElementFinder;

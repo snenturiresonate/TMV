@@ -1,6 +1,6 @@
 import {Then, When} from 'cucumber';
-import { expect } from 'chai';
-import {by, element, protractor} from 'protractor';
+import {expect} from 'chai';
+import {protractor} from 'protractor';
 import {ReplayTrainPositionReportPage} from '../../pages/replay/replay.train.position.report.page';
 
 

@@ -1,4 +1,4 @@
-@bug @bug_58561
+@bug @bug_56581
 @newSession
 Feature: 34393 - TMV replay - Schematic Maps - Render Objects
 

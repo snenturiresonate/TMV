@@ -29,14 +29,14 @@ Feature: 34080 - Last Berth
     And berth '<lB1>' in train describer '<lBTD>' contains '<lTD1>' and is visible
     And berth '<lB2>' in train describer '<lBTD>' contains '<lTD2>' and is visible
     And I use the secondary mouse on last berth <TDandBerthId1>
-    Then the user is presented with a list of the last '<numTrains1>' services that have finished at this berth
+    Then the user is presented with a list of the last '<numTrains1>' services that have 'finished at' this berth
       | serviceDescription | operatorCode | punct   | arrivalTime | arrivalDate |
       | 2B55               | GW           | +7m     | 12:50:00    | today       |
       | 2B53               | GW           | +2m     | 11:45:00    | today       |
       | 2B51               | GW           | on time | 10:43:00    | today       |
     And the records in the last berth service list are in reverse date-time order
     When I use the secondary mouse on last berth <TDandBerthId2>
-    Then the user is presented with a list of the last '<numTrains2>' services that have finished at this berth
+    Then the user is presented with a list of the last '<numTrains2>' services that have 'finished at' this berth
       | serviceDescription | operatorCode | punct   | arrivalTime | arrivalDate |
       | 2B57               |              | unknown | 13:50:00    | today       |
 
@@ -85,7 +85,7 @@ Feature: 34080 - Last Berth
     When I am viewing the map <map>
     And berth '<lastBerth>' in train describer '<lastBerthTD>' contains '<lastTrainDesc>' and is visible
     And I use the secondary mouse on last berth <TDandBerthId>
-    Then the user is presented with a list of the last '<numberTrains>' services that have finished at this berth
+    Then the user is presented with a list of the last '<numberTrains>' services that have 'finished at' this berth
       | serviceDescription | operatorCode | punct   | arrivalTime | arrivalDate |
       | 1W42               | GW           | +50m    | 23:04:30    | today       |
       | 1W39               | GW           | -1m     | 21:32:30    | today       |
@@ -131,7 +131,7 @@ Feature: 34080 - Last Berth
     When I am viewing the map <map>
     And berth '<lastBerth>' in train describer '<lastBerthTD>' contains '<lastTrainDesc>' and is visible
     And I use the secondary mouse on last berth <TDandBerthId>
-    Then the user is presented with a list of the last '9' services that have finished at this berth
+    Then the user is presented with a list of the last '9' services that have 'finished at' this berth
       | serviceDescription | operatorCode | punct   | arrivalTime | arrivalDate |
       | 1V60               | XC           | on time | 20:07       | today       |
       | 1V58               | XC           | on time | 19:19       | today       |
@@ -148,7 +148,7 @@ Feature: 34080 - Last Berth
       | V95541   | 2C48        | today              | 85734               | PENZNCE                | Arrival at Destination |
       | V95541   | 1C99        | yesterday          | 85734               | PENZNCE                | Arrival at Destination |
     And I use the secondary mouse on last berth lastBerth
-    Then the user is presented with a list of the last '7' services that have finished at this berth
+    Then the user is presented with a list of the last '7' services that have 'finished at' this berth
       | serviceDescription | operatorCode | punct   | arrivalTime | arrivalDate |
       | 1V60               | XC           | on time | 20:07       | today       |
       | 1V58               | XC           | on time | 19:19       | today       |
@@ -165,7 +165,7 @@ Feature: 34080 - Last Berth
       | LD36      | 21:42:00  | LD35    | D5             | 1C92             |
     Then berth '<lastBerth>' in train describer '<lastBerthTD>' contains '1C92' and is visible
     And I use the secondary mouse on last berth <TDandBerthId>
-    Then the user is presented with a list of the last '8' services that have finished at this berth
+    Then the user is presented with a list of the last '8' services that have 'finished at' this berth
       | serviceDescription | operatorCode | punct   | arrivalTime | arrivalDate |
       | 1C92               | GW           | on time | 21:42       | today       |
       | 1V60               | XC           | on time | 20:07       | today       |

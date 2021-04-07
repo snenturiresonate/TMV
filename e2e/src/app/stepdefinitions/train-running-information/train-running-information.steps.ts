@@ -60,3 +60,26 @@ When(/^the following train running information? (?:message|messages) with delay 
     await linxRestClient.waitMaxTransmissionTime();
   }
 });
+
+When(/^the following train running info? (?:message|messages) with time? (?:is|are) sent from LINX$/,
+  async (trainRunningInfoMessageTable: any) => {
+    const trainRunningInfoMessages = trainRunningInfoMessageTable.hashes();
+    for (let i = 0; i < trainRunningInfoMessages.length; i++){
+      const trainRunningInformationMessageBuilder: TrainRunningInformationMessageBuilder = new TrainRunningInformationMessageBuilder();
+      const trainUID = trainRunningInfoMessages[i].trainUID;
+      const operationalTrainNumber = trainRunningInfoMessages[i].trainNumber;
+      const scheduledStartDate = trainRunningInfoMessages[i].scheduledStartDate;
+      const locationPrimaryCode = trainRunningInfoMessages[i].locationPrimaryCode;
+      const locationSubsidiaryCode = trainRunningInfoMessages[i].locationSubsidiaryCode;
+      const messageType = trainRunningInfoMessages[i].messageType;
+      const timeInfo = trainRunningInfoMessages[i].timeInfo;
+      // tslint:disable-next-line:max-line-length
+      const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithTime(locationPrimaryCode, locationSubsidiaryCode,
+        operationalTrainNumber, trainUID,
+        scheduledStartDate, messageType, timeInfo);
+      await linxRestClient.postTrainActivation(trainRunningInfo.toString({prettyPrint: true}));
+
+      await linxRestClient.waitMaxTransmissionTime();
+    }
+  });
+

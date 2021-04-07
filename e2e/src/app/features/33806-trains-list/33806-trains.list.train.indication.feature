@@ -7,6 +7,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
   Background:
     Given I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
+    And I restore to default train list config
 
   Scenario: Trains list punctuality config header
     Then the train indication config header is displayed as 'Trains List Indication'
@@ -80,53 +81,62 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #Then the view is updated to reflect the user's train indication changes
   @tdd
   Scenario: 33806 -24-a Trains indication table - Train Cancellation - Train cancelled before it has started
-    Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    When a TJM is received for train modification
-      | tjmType          | trainNumber | locationPrimaryCode | locationSubsidiaryCode |
-      | Cancel at origin | IS42        | 99999               | PADTON                 |
+    Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
+    When the following TJM is received
+        #tjmType-Cancel at origin
+      | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
+      | L55285   | 1S42        | 12            | create | 91        | 91              | 99999       | PADTON        | 12:00:00 | 91                 | PG                |
     And I update only the below train list indication config settings as
       | name         | colour |  toggleValue |
       | Cancellation | #dde   |  on          |
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     Then I should see the train list row coloured as
-    #Below colour will have to be verified/changed once integration is done
-    |trainDescriberId|backgroundColour|
-    |IS42            |rgb(221, 221, 238)|
+    |trainDescriberId|trainUID|backgroundColour|
+    |1S42            | L55285 |rgba(221, 221, 238, 1)|
+    And I restore to default train list config
 
   @tdd
   Scenario: 33806 -24-b Trains indication table - Train Cancellation - Train terminates short of planned destination
-    Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    When a TJM is received for train modification
-      | tjmType          | trainNumber | locationPrimaryCode | locationSubsidiaryCode |
-      | Cancel en route | IS42        | 99999               | PADTON                 |
+    Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
+    When the following TJM is received
+        #tjmType-Cancel en route
+      | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
+      | L55285   | IS42        | 12            | create | 92        | 92              | 99999       | PADTON        | 12:00:00 | 92                 | PG                |
     And I update only the below train list indication config settings as
       | name         | colour |  toggleValue |
       | Cancellation | #dde   |  on          |
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     Then I should see the train list row coloured as
-    #Below colour will have to be verified/changed once integration is done
-      |trainDescriberId|backgroundColour|
-      |IS42            |rgb(221, 221, 238)|
+      |trainDescriberId|trainUID|backgroundColour|
+      |IS42            | L55285 |rgba(221, 221, 238, 1)|
+    And I restore to default train list config
 
   @tdd
   Scenario: 33806 -24-c Trains indication table - Train Reinstatement - Train terminates at a location not in the plan
-    Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    When a TJM is received for train modification
-      | tjmType                  | trainNumber | locationPrimaryCode | locationSubsidiaryCode |
-      | Out of plan cancellation | IS42        | 99999               | PADTON                 |
+    Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
+    When the following TJM is received
+        #tjmType-Out of plan cancellation
+      | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
+      | L55285   | 1S42        | 12            | create | 93        | 93              | 99999       | PADTON        | 12:00:00 | 93                 | TB                |
     And I update only the below train list indication config settings as
       | name         | colour |  toggleValue |
       | Cancellation | #dde   |  on          |
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     Then I should see the train list row coloured as
-    #Below colour will have to be verified/changed once integration is done
-      |trainDescriberId|backgroundColour|
-      |IS42            |rgb(221, 221, 238)|
+      |trainDescriberId|trainUID|backgroundColour|
+      |IS42            | L55285 |rgba(221, 221, 238, 1)|
+    And I restore to default train list config
 
   @tdd
   Scenario: 33806 -24-d Train Activation for a valid service with a change of origin matching current origin
-    And the service '0F00' is not active
-    And there is a Schedule for '0F00'
+    And I am on the trains list page
+    And the following service is not active
+      | trainId | trainUId |
+      | 0A00    | W15214   |
+    And there is a Schedule for '0A00'
     And it has Origin Details
       | tiploc | scheduledDeparture             | line |
       | PADTON | 10:15 SAME AS CURRENT ORIGIN   |      |
@@ -144,64 +154,77 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
-      | Origin called             | 0A00       | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
+      | Origin called             | W15214     | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
+    And I restore to default train list config
 
   @tdd
   Scenario: 33806 -24-e Trains reinstatement - Whole train has been reinstated
-    Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    When a TJM is received for train modification
-      | tjmType                            | trainNumber | locationPrimaryCode | locationSubsidiaryCode |
-      | Trains reinstatement - Whole train | IS42        | 99999               | PADTON                 |
+    Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
+    #Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+    #  | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+    #  | access-plan/1S42_PADTON_DIDCOTP.cif | PADTON      | WTT_arr       | IE42          | L12346  |
+    When the following TJM is received
+        #tjmType-Trains reinstatement - Whole train
+      | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
+      | L55285   | 1S42        | 12            | create | 96        | 96              | 99999       | PADTON        | 12:00:00 | 96                 | PG                |
     And I update only the below train list indication config settings as
       | name         | colour |  toggleValue |
       | Reinstatement | #dde   |  on          |
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     Then I should see the train list row coloured as
-    #Below colour will have to be verified/changed once integration is done
-      |trainDescriberId|backgroundColour|
-      |IS42            |rgb(221, 221, 238)|
+      |trainDescriberId|trainUID|backgroundColour|
+      |1S42            | L55285 |rgba(221, 221, 238, 1)|
+    And I restore to default train list config
 
   @tdd
   Scenario: 33806 -24-f Change Of Origin - Train starts at a different planned location (start forward)
-    Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    When a TJM is received for train modification
-      | tjmType          | trainNumber | locationPrimaryCode | locationSubsidiaryCode |
-      | Change of Origin | IS42        | 99999               | PADTON                 |
+    Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
+    #Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+    #  | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+    #  | access-plan/1S42_PADTON_OXFD.cif | PADTON      | WTT_arr       | IG42          | L12345  |
+    When the following TJM is received
+        #tjmType-Change of Origin
+      | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
+      | L55285   | 1S42        | 12            | create | 94        | 94              | 99999       | PADTON        | 12:00:00 | 94                 | PL                |
     And I update only the below train list indication config settings as
       | name         | colour |  toggleValue |
       | Change of Origin | #dde   |  on          |
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     Then I should see the train list row coloured as
-    #Below colour will have to be verified/changed once integration is done
-      |trainDescriberId|backgroundColour|
-      |IS42            |rgb(221, 221, 238)|
+      |trainDescriberId|trainUID|backgroundColour|
+      |1S42            | L55285 |rgba(221, 221, 238, 1)|
+    And I restore to default train list config
 
   @tdd
   Scenario: 33806 -24-g Off route - Train has moved off route
-    Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
+    Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
     When the following live berth step message is sent from LINX (causing service to go off route)
        | fromBerth | toBerth | trainDescriber| trainDescription |
-       | 0099      | 9999    | GW            | IS42             |
+       | 0099      | 9999    | GW            | 1S42             |
     And I update only the below train list indication config settings as
       | name      | colour |  toggleValue |
       | Off-route | #dde   |  on          |
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     Then I should see the train list row coloured as
-    #Below colour will have to be verified/changed once integration is done
-      |trainDescriberId|backgroundColour|
-      |IS42            |rgb(221, 221, 238)|
+      |trainDescriberId|trainUID|backgroundColour|
+      |1S42            | L55285 |rgba(221, 221, 238, 1)|
+    And I restore to default train list config
 
   @tdd
   Scenario: 33806 -24-h Change Of Identity - Train running has a change of Train Id
-    Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    When a TJM is received for train modification
-      | tjmType          | trainNumber | locationPrimaryCode | locationSubsidiaryCode |
-      | Change of Identity | IS42        | 99999               | PADTON                 |
+    Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
+    When the following change of ID TJM is received
+      | trainUid | newTrainNumber | oldTrainNumber | departureHour | modificationTime | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
+      | L55285   | 1X42           | 1S42           | 12            | 10:00:00         | create | 07        | 07              | 99999       | PADTON         | 12:00:00 |
     And I update only the below train list indication config settings as
       | name         | colour |  toggleValue |
       | Change of Identity | #dde   |  on          |
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     Then I should see the train list row coloured as
-    #Below colour will have to be verified/changed once integration is done
-      |trainDescriberId|backgroundColour|
-      |IS42            |rgb(221, 221, 238)|
+      | trainDescriberId | trainUID | backgroundColour       |
+      | IX42             | L55285   | rgba(221, 221, 238, 1) |
+    And I restore to default train list config

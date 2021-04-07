@@ -1,7 +1,7 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {AuthenticationModalDialoguePage} from './authentication-modal-dialogue.page';
 import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
-import {UserCredentials} from "../user-credentials/user-credentials";
+import {UserCredentials} from '../user-credentials/user-credentials';
 
 const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
 const userCreds: UserCredentials = new UserCredentials();
@@ -124,6 +124,9 @@ export class AppPage {
   private async authenticationRouter(role: string): Promise<any> {
     let authentication;
     switch (role.toLowerCase()) {
+      case('adminonly'):
+        authentication = this.authenticateAsAdminOnlyUser();
+        break;
       case('admin'):
         authentication = this.authenticateAsAdminUser();
         break;
@@ -151,7 +154,7 @@ export class AppPage {
     return this.modalWindowButtons.getText();
   }
 
-  public async defaultAuthentication(): Promise<any> {
+  public async  defaultAuthentication(): Promise<any> {
     await browser.waitForAngularEnabled(false);
     await this.authenticateAsAdminUser();
     await this.waitForAppLoad();
@@ -168,6 +171,12 @@ export class AppPage {
   public async authenticateAsAdminUser(): Promise<void> {
     const userName = userCreds.userAdmin().userName;
     const Password = userCreds.userAdmin().password;
+    await authPage.authenticate(userName, Password);
+  }
+
+  public async authenticateAsAdminOnlyUser(): Promise<void> {
+    const userName = userCreds.userAdminOnly().userName;
+    const Password = userCreds.userAdminOnly().password;
     await authPage.authenticate(userName, Password);
   }
 

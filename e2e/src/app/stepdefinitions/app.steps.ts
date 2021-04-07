@@ -28,6 +28,11 @@ const linxRestClient: LinxRestClient = new LinxRestClient();
 const adminRestClient: AdminRestClient = new AdminRestClient();
 const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
 
+const userForRole = {
+  matching: 'admin',
+};
+
+
 Before(() => {
   TestData.resetTJMsCaptured();
 });
@@ -85,6 +90,10 @@ Given(/^I am authenticated to use TMV$/, async () => {
   await page.navigateTo('');
 });
 
+Given('I am authenticated to use TMV with {string} role', {timeout: 5 * 10000},  async (userRole: string) => {
+  await page.navigateTo('', userForRole[userRole]);
+});
+
 Given(/^I have not opened the trains list before$/, async () => {
 // something here about resetting to the defaults
 });
@@ -100,8 +109,12 @@ Given(/^The admin setting defaults are as originally shipped$/, async () => {
 When(/^I do nothing$/, async () => {
   await browser.sleep(5000);
 });
+When(/^I give the system (.*) seconds? to load$/, async (seconds: number) => {
+  await browser.sleep(seconds * 1000);
+});
 
-When(/^the following berth interpose messages? (?:is|are) sent from LINX (.*)$/,
+
+When(/^the following berth interpose messages? (?:is|are) sent from LINX(.*)$/,
   async (explanation: string, berthInterposeMessageTable: any) => {
   const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
 
@@ -120,21 +133,21 @@ When(/^the following berth interpose messages? (?:is|are) sent from LINX (.*)$/,
 
 When(/^the following live berth interpose messages? (?:is|are) sent from LINX(.*)$/,
   async (explanation: string, berthInterposeMessageTable: any) => {
-  const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
-  const now = new Date();
+    const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
+    const now = new Date();
 
-  berthInterposeMessages.forEach((berthInterposeMessage: any) => {
-    const berthInterpose: BerthInterpose = new BerthInterpose(
-      now.toTimeString().substr(0, 8),
-      berthInterposeMessage.toBerth,
-      berthInterposeMessage.trainDescriber,
-      berthInterposeMessage.trainDescription
-    );
-    CucumberLog.addJson(berthInterpose);
-    linxRestClient.postBerthInterpose(berthInterpose);
+    berthInterposeMessages.forEach((berthInterposeMessage: any) => {
+      const berthInterpose: BerthInterpose = new BerthInterpose(
+        now.toTimeString().substr(0, 8),
+        berthInterposeMessage.toBerth,
+        berthInterposeMessage.trainDescriber,
+        berthInterposeMessage.trainDescription
+      );
+      CucumberLog.addJson(berthInterpose);
+      linxRestClient.postBerthInterpose(berthInterpose);
+    });
+    await linxRestClient.waitMaxTransmissionTime();
   });
-  await linxRestClient.waitMaxTransmissionTime();
-});
 
 
 When(/^the following berth step messages? (?:is|are) sent from LINX(.*)$/, async (explanation: string, berthStepMessageTable: any) => {
@@ -156,22 +169,22 @@ When(/^the following berth step messages? (?:is|are) sent from LINX(.*)$/, async
 
 When(/^the following live berth step messages? (?:is|are) sent from LINX (.*)$/,
   async (explanation: string, berthStepMessageTable: any) => {
-  const berthStepMessages: any = berthStepMessageTable.hashes();
-  const now = new Date();
+    const berthStepMessages: any = berthStepMessageTable.hashes();
+    const now = new Date();
 
-  berthStepMessages.forEach((berthStepMessage: any) => {
-    const berthStep: BerthStep = new BerthStep(
-      berthStepMessage.fromBerth,
-      now.toTimeString().substr(0, 8),
-      berthStepMessage.toBerth,
-      berthStepMessage.trainDescriber,
-      berthStepMessage.trainDescription
-    );
-    CucumberLog.addJson(berthStep);
-    linxRestClient.postBerthStep(berthStep);
+    berthStepMessages.forEach((berthStepMessage: any) => {
+      const berthStep: BerthStep = new BerthStep(
+        berthStepMessage.fromBerth,
+        now.toTimeString().substr(0, 8),
+        berthStepMessage.toBerth,
+        berthStepMessage.trainDescriber,
+        berthStepMessage.trainDescription
+      );
+      CucumberLog.addJson(berthStep);
+      linxRestClient.postBerthStep(berthStep);
+    });
+    await linxRestClient.waitMaxTransmissionTime();
   });
-  await linxRestClient.waitMaxTransmissionTime();
-});
 
 When(/^the following berth cancel messages? (?:is|are) sent from LINX$/, async (berthCancelMessageTable: any) => {
   const berthCancelMessages: any = berthCancelMessageTable.hashes();
@@ -207,20 +220,20 @@ When(/^the following signalling update messages? (?:is|are) sent from LINX$/, as
 
 When(/^the following live signalling update messages? (?:is|are) sent from LINX (.*)$/,
   async (explanation: string, signallingUpdateMessageTable: any) => {
-  const signallingUpdateMessages: any = signallingUpdateMessageTable.hashes();
-  const now = new Date();
-  signallingUpdateMessages.forEach((signallingUpdateMessage: any) => {
-    const signallingUpdate: SignallingUpdate = new SignallingUpdate(
-      signallingUpdateMessage.address,
-      signallingUpdateMessage.data,
-      now.toTimeString().substr(0, 8),
-      signallingUpdateMessage.trainDescriber
-    );
-    CucumberLog.addJson(signallingUpdate);
-    linxRestClient.postSignallingUpdate(signallingUpdate);
+    const signallingUpdateMessages: any = signallingUpdateMessageTable.hashes();
+    const now = new Date();
+    signallingUpdateMessages.forEach((signallingUpdateMessage: any) => {
+      const signallingUpdate: SignallingUpdate = new SignallingUpdate(
+        signallingUpdateMessage.address,
+        signallingUpdateMessage.data,
+        now.toTimeString().substr(0, 8),
+        signallingUpdateMessage.trainDescriber
+      );
+      CucumberLog.addJson(signallingUpdate);
+      linxRestClient.postSignallingUpdate(signallingUpdate);
+    });
+    await linxRestClient.waitMaxTransmissionTime();
   });
-  await linxRestClient.waitMaxTransmissionTime();
-});
 
 When(/^the following heartbeat messages? (?:is|are) sent from LINX$/, async (heartbeatMessageTable: any) => {
   const heartbeatMessages: any = heartbeatMessageTable.hashes();
@@ -259,18 +272,19 @@ When(/^the following train journey modification change of id messages? (?:is|are
 
 When(/^the following train activation? (?:message|messages)? (?:is|are) sent from LINX$/, async (trainActivationMessageTable: any) => {
   const trainActivationMessages = trainActivationMessageTable.hashes();
-  for (let i = 0; i < trainActivationMessages.length; i++){
-  const trainActivationMessageBuilder: TrainActivationMessageBuilder = new TrainActivationMessageBuilder();
-  const trainUID = trainActivationMessages[i].trainUID;
-  const trainNumber = trainActivationMessages[i].trainNumber;
-  const scheduledDepartureTime = trainActivationMessages[i].scheduledDepartureTime;
-  const locationPrimaryCode = trainActivationMessages[i].locationPrimaryCode;
-  const locationSubsidiaryCode = trainActivationMessages[i].locationSubsidiaryCode;
-  const trainActMss = trainActivationMessageBuilder.buildMessage(locationPrimaryCode, locationSubsidiaryCode,
-    scheduledDepartureTime, trainNumber, trainUID);
-  await linxRestClient.postTrainActivation(trainActMss.toString({prettyPrint: true}));
+  // tslint:disable-next-line:prefer-for-of
+  for (let i = 0; i < trainActivationMessages.length; i++) {
+    const trainActivationMessageBuilder: TrainActivationMessageBuilder = new TrainActivationMessageBuilder();
+    const trainUID = trainActivationMessages[i].trainUID;
+    const trainNumber = trainActivationMessages[i].trainNumber;
+    const scheduledDepartureTime = trainActivationMessages[i].scheduledDepartureTime;
+    const locationPrimaryCode = trainActivationMessages[i].locationPrimaryCode;
+    const locationSubsidiaryCode = trainActivationMessages[i].locationSubsidiaryCode;
+    const trainActMss = trainActivationMessageBuilder.buildMessage(locationPrimaryCode, locationSubsidiaryCode,
+      scheduledDepartureTime, trainNumber, trainUID);
+    await linxRestClient.postTrainActivation(trainActMss.toString({prettyPrint: true}));
 
-  await linxRestClient.waitMaxTransmissionTime();
+    await linxRestClient.waitMaxTransmissionTime();
   }
 });
 
@@ -401,7 +415,7 @@ async function acceptUnexpectedAlert(): Promise<any> {
 }
 
 async function OpenNewTab(): Promise<any> {
-  return browser.executeScript('window.open()');
+  return browser.executeAsyncScript('window.open()');
 }
 
 When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
@@ -413,7 +427,7 @@ When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
         message.primaryCode,
         message.subsidiaryCode,
         message.time)
-         .build())
+        .build())
       .withModificationReason(message.modificationReason)
       .withNationalDelayCode(message.nationalDelayCode);
     if (message.modificationTime !== undefined) {
@@ -432,11 +446,14 @@ When(/^the following change of ID TJM is received$/, async (table: any) => {
 
   messages.forEach((message: any) => {
     const tjmBuilder = createBaseTjmMessage(message.newTrainNumber, message.trainUid, message.departureHour)
-      .withTrainJourneyModification(createBaseTjm(message.indicator,
-        message.statusIndicator,
-        message.primaryCode,
-        message.subsidiaryCode,
-        message.time)
+      .withTrainJourneyModification(new TrainJourneyModificationBuilder()
+        .withTrainJourneyModificationIndicator(message.indicator)
+        .withLocationModified(new LocationModifiedBuilder()
+          .withModificationStatusIndicator(message.statusIndicator)
+          .withLocation(new LocationBuilder()
+            .withLocationPrimaryCode(message.primaryCode)
+            .build())
+          .build())
         .build())
       .withReferenceOTN(new ReferenceOTNBuilder()
         .withOperationalTrainNumberIdentifier(new OperationalTrainNumberIdentifierBuilder()
@@ -482,3 +499,33 @@ function createBaseTjmMessage(trainNumber, trainUid, departureHour): TrainJourne
       .build())
     .calculateSenderReferenceWith(trainUid, departureHour);
 }
+
+When(/^I step through the Berth Level Schedule '(.*)'$/, (filepath: string) => {
+  const data = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), filepath), 'utf8');
+  const berthLevelSchedule = JSON.parse(data);
+  let lastBerth = '';
+  let lastBerthDescriber = '';
+  berthLevelSchedule.pathEntries.forEach(pathEntry => {
+    if (pathEntry.berths.length > 0) {
+      const berth = pathEntry.berths[0];
+      const berthInterpose: BerthInterpose = new BerthInterpose(
+        berth.plannedStepTime,
+        berth.berthName,
+        berth.trainDescriberCode,
+        berthLevelSchedule.plannedTrainDescription
+      );
+      linxRestClient.postBerthInterpose(berthInterpose);
+      if (lastBerth !== '') {
+        const berthCancel: BerthCancel = new BerthCancel(
+          lastBerth,
+          berth.plannedStepTime,
+          lastBerthDescriber,
+          berthLevelSchedule.plannedTrainDescription
+        );
+        linxRestClient.postBerthCancel(berthCancel);
+      }
+      lastBerth = berth.berthName;
+      lastBerthDescriber = berth.trainDescriberCode;
+    }
+  });
+});

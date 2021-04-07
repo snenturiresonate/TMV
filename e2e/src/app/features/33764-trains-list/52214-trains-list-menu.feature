@@ -60,7 +60,7 @@ Feature: 52214 - TMV Trains List - menu
     When I invoke the context menu from train '2P77' on the trains list
     And I wait for the context menu to display
     Then the context menu contains '2P77' on line 1
-    And the context menu contains 'Unmatch' on line 3
+    And the context menu contains 'Unmatch / Rematch' on line 3
     And the context menu contains 'D11664' on line 6
     And the context menu contains 'T1664' on line 7
     And the context menu contains 'RDNGSTN' on line 8

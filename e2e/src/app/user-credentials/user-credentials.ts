@@ -7,6 +7,13 @@ export class UserCredentials {
     };
   }
 
+  public userAdminOnly = () => {
+    return {
+      userName: 'adminOnly',
+      password: 'password'
+    };
+  }
+
   public userStandard = () => {
     return {
       userName: 'userStandard',
