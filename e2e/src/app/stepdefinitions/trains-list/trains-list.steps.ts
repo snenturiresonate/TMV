@@ -3,7 +3,9 @@ import {TrainsListPageObject} from '../../pages/trains-list/trains-list.page';
 import { expect } from 'chai';
 import {browser, protractor} from 'protractor';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
+import {AppPage} from '../../pages/app.po';
 
+const page: AppPage = new AppPage();
 const trainsListPage: TrainsListPageObject = new TrainsListPageObject();
 const defaultClasses = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 const defaultOperators = ['HW', 'HY', 'HZ', 'HV', 'HU', 'HT', 'HS', 'HR', 'HQ'];
@@ -73,6 +75,28 @@ When('I invoke the context menu from train {string} on the trains list', async (
   await trainsListPage.rightClickTrainListItem(itemNum);
 });
 
+Then('Train description {string} is visible on the trains list', async (scheduleNum: string) => {
+  const itemNum = await trainsListPage.getRowForSchedule(scheduleNum) + 1;
+  expect(itemNum).to.not.equal(-1);
+});
+
+Then('train description {string} is visible on the trains list with schedule type {string}',
+  async (trainDescription: string, scheduleType: string) => {
+    const scheduleFound: boolean = await trainsListPage.trainDescriptionHasScheduleType(trainDescription, scheduleType);
+    expect(scheduleFound).to.equal(true);
+});
+
+Then('train description {string} disappears from the trains list', async (trainDescription: string) => {
+  const hasDisappeared: boolean = await trainsListPage.trainDescriptionHasDisappeared(trainDescription);
+  expect(hasDisappeared).to.equal(true);
+});
+
+Then('train description {string} with schedule type {string} disappears from the trains list',
+  async (trainDescription: string, scheduleType: string) => {
+    const hasDisappeared: boolean = await trainsListPage.trainDescriptionWithScheduleTypeHasDisappeared(trainDescription, scheduleType);
+    expect(hasDisappeared).to.equal(true);
+});
+
 When('I wait for the context menu to display', async () => {
   await trainsListPage.waitForContextMenu();
 });
@@ -85,6 +109,23 @@ Then('The trains list table is visible', async () => {
 When('the service {string} is not active', async (serviceId: string) => {
   const isScheduleVisible: boolean = await trainsListPage.isScheduleVisible(serviceId);
   expect(isScheduleVisible).to.equal(false);
+});
+
+When('the following service is not displayed on the trains list', async (table: any) => {
+  const tableValues = table.hashes()[0];
+  const serviceId = tableValues.trainId;
+  const trainUID = tableValues.trainUId;
+  const isTrainVisible: boolean = await trainsListPage.isTrainVisible(serviceId, trainUID);
+  expect(isTrainVisible, `Service ${serviceId} with trainUId ${trainUID} is displayed`).to.equal(false);
+});
+
+When('the following service is displayed on the trains list', async (table: any) => {
+  const tableValues = table.hashes()[0];
+  const serviceId = tableValues.trainId;
+  const trainUID = tableValues.trainUId;
+  await page.navigateTo('/tmv/trains-list');
+  const isTrainVisible: boolean = await trainsListPage.isTrainVisible(serviceId, trainUID);
+  expect(isTrainVisible, `Service ${serviceId} with trainUId ${trainUID} is not displayed`).to.equal(true);
 });
 
 When('the service {string} is active', async (serviceId: string) => {
@@ -100,14 +141,23 @@ Then('I open timetable from the context menu', async () => {
   await trainsListPage.timeTableLink.click();
 });
 
+Then('the open timetable option is present on the context menu', async () => {
+  await trainsListPage.timeTableLink.isPresent();
+});
+
 Then('the trains list context menu is displayed', async () => {
   const isTrainsContextMenuVisible: boolean = await trainsListPage.isTrainsListContextMenuDisplayed();
-  expect(isTrainsContextMenuVisible).to.equal(true);
+  expect(isTrainsContextMenuVisible, 'Trains list menu is not visible').to.equal(true);
 });
 
 Then('the context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
   const actualContextMenuItem: string = await trainsListPage.getTrainsListContextMenuItem(rowNum);
-  expect(actualContextMenuItem).to.contain(expectedText);
+  expect(actualContextMenuItem, 'Trains list menu item is not as expected').to.contain(expectedText);
+});
+
+Then('the trains list context menu has {string} on line {int}', async (expectedText: string, rowNum: number) => {
+  const actualContextMenuItem: string = await trainsListPage.getTrainsListContextMenuItem(rowNum);
+  expect(actualContextMenuItem, 'Trains list menu item is not as expected').to.equal(expectedText);
 });
 
 Then('the context menu contains the {word} {string} of train {int} on line {int}',
@@ -155,13 +205,13 @@ Then('the service is displayed in the trains list with the following indication'
   }
 });
 
-Then('I should see the trains list columns as', async (table: any) => {
+Then('I should see the trains list columns as', {timeout: 2 * 20000}, async (table: any) => {
   const expectedColHeaders = table.hashes();
   const expectedNoOfCols = table.hashes().length;
   const actualColHeader = await trainsListPage.getTrainsListColHeaders();
   const actualNoOfCols = await trainsListPage.getTrainsListColHeaderCount();
   expectedColHeaders.forEach((expectedColHeaderName: any) => {
-    expect(actualColHeader).to.contain(expectedColHeaderName.header);
+    expect(actualColHeader, `Actual column headers ${actualColHeader.toString()}`).to.contain(expectedColHeaderName.header);
   });
   expect(actualNoOfCols).to.equal(expectedNoOfCols);
 });
@@ -323,6 +373,46 @@ Then('{string} are {word} displayed', async (expectedTrainDescriptions: string, 
     }
 
   }
+});
+
+Then('I should see the trains list table to only display train description {string}', async (expectedTrainDescription: string) => {
+  const actualTrainDescriptionsArray: string[] = await trainsListPage.getTrainsListValuesForColumn('train-description');
+  actualTrainDescriptionsArray.forEach(trainDescriber => {
+    expect(trainDescriber, `Unexpected train describer ${trainDescriber} seen`).to.equal(expectedTrainDescription);
+  });
+});
+
+Then('I should see the trains list table to only display the following trains', async (expectedTrainDescriptionTable: any) => {
+  const expectedTrainDescriptionValues = expectedTrainDescriptionTable.hashes();
+  const expectedTrainDescriptionArray: string[] = [];
+  for (const i in expectedTrainDescriptionValues) {
+    expectedTrainDescriptionArray.push(expectedTrainDescriptionValues[i].trainDescription);
+  }
+  const actualTrainDescriptionsArray: string[] = await trainsListPage.getTrainsListValuesForColumn('train-description');
+  expect(actualTrainDescriptionsArray).to.include.all.members(expectedTrainDescriptionArray);
+
+});
+
+Then('I should see the trains list table to display the following trains', async (expectedTrainDescriptionTable: any) => {
+  const expectedTrainDescriptionValues = expectedTrainDescriptionTable.hashes();
+  const expectedTrainDescriptionArray: string[] = [];
+  for (const i in expectedTrainDescriptionValues) {
+    expectedTrainDescriptionArray.push(expectedTrainDescriptionValues[i].trainDescription);
+  }
+  const actualTrainDescriptionsArray: string[] = await trainsListPage.getTrainsListValuesForColumn('train-description');
+  expect(actualTrainDescriptionsArray).to.include.members(expectedTrainDescriptionArray);
+
+});
+
+Then('I should see the trains list table to not display the following trains', async (expectedTrainDescriptionTable: any) => {
+  const expectedTrainDescriptionValues = expectedTrainDescriptionTable.hashes();
+  const expectedTrainDescriptionArray: string[] = [];
+  for (const i in expectedTrainDescriptionValues) {
+    expectedTrainDescriptionArray.push(expectedTrainDescriptionValues[i].trainDescription);
+  }
+  const actualTrainDescriptionsArray: string[] = await trainsListPage.getTrainsListValuesForColumn('train-description');
+  expect(actualTrainDescriptionsArray).to.not.include(expectedTrainDescriptionArray);
+
 });
 
 function checkOrdering(thisString: string, nextString: string, colName: string, direction: string): void {

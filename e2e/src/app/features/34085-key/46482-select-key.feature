@@ -16,7 +16,7 @@ Feature: 46482 - TMV Key - select key
       | Train Describer |
     And the active tab is 'Colour'
 
-  @bug @bug_58561 @newSession
+  @bug @bug_56581 @newSession
   Scenario: 34085-1b The TMV Key modal window is launched when a map is displayed in the replay view
     Given I am on the replay page as existing user
     And I select Next
@@ -69,10 +69,10 @@ Feature: 46482 - TMV Key - select key
     And I select the TMV Key option
     And I click on the layers icon in the nav bar
     And I toggle the 'Berth' toggle 'on'
-    And the following berth interpose message is sent from LINX
+    And the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1G69             |
-    And the following berth interpose message is sent from LINX
+    And the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0092    | D3            | 1G70             |
     Then berth '0099' in train describer 'D3' does not contain '1G69'

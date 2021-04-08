@@ -52,7 +52,7 @@ Feature: 52214 - TMV Trains List - menu
   @tdd
   Scenario: 33764-5c Trains List Context menu - matched service
     Given the access plan located in CIF file 'access-plan/2P77_RDNGSTN_PADTON.cif' is amended so that all services start within the next hour and then received from LINX
-    And the following live berth step message is sent from LINX
+    And the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 1668      | 1664    | D1             | 2P77             |
     And I am on the trains list page
@@ -60,7 +60,7 @@ Feature: 52214 - TMV Trains List - menu
     When I invoke the context menu from train '2P77' on the trains list
     And I wait for the context menu to display
     Then the context menu contains '2P77' on line 1
-    And the context menu contains 'Unmatch' on line 3
+    And the context menu contains 'Unmatch / Rematch' on line 3
     And the context menu contains 'D11664' on line 6
     And the context menu contains 'T1664' on line 7
     And the context menu contains 'RDNGSTN' on line 8
@@ -81,7 +81,7 @@ Feature: 52214 - TMV Trains List - menu
 
   @tdd
   Scenario: 33764-5d Trains List Context menu - unmatched train with unknown direction
-    Given the following live berth interpose message is sent from LINX
+    Given the following live berth interpose message is sent from LINX (which won't match anything)
       | toBerth | trainDescriber | trainDescription |
       | 0535    | 5N68           | D6               |
     And I am on the trains list page

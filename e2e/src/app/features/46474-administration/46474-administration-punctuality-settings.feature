@@ -1,3 +1,4 @@
+@bug @bug_58056
 Feature: 46474 - Administration Display Settings - full end to end testing - punctuality settings
 
   As a tester
@@ -83,7 +84,8 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #ff009c              | 20       |        | 20 minutes or more late  |
 
   Scenario: User should be able to add, edit and save a punctuality time-band
-    When I update the admin punctuality settings as
+    When I add a punctuality time-band
+    And I update the admin punctuality settings as
       | punctualityColorText | fromTime | toTime | entryValue      |
       | #dddddd              |          | -21    | Time band Added |
     And I save the punctuality settings
@@ -107,7 +109,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
     And I save the punctuality settings
     Then the following can be seen on the admin punctuality settings table
       | punctualityColorText | fromTime | toTime | entryValue              |
-      | #ffb4b4              | -21      | -20    | 20 to 21 minutes early  |
       | #e5b4ff              | -20      | -10    | 10 to 19 minutes early   |
       | #78e7ff              | -10      | -5     | 5 to 9 minutes early     |
       | #78ff78              | -5       | -1     | 1 to 4 minutes early     |

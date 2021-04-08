@@ -34,7 +34,9 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
-    And the activation message from location 'linx/0a00_train_activation.xml' is sent from LINX
+    And the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 09:58                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
@@ -56,7 +58,9 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:14            |      |
     And that service has the cancellation status 'T'
     When the schedule is received from LINX
-    And the activation message from location 'linx/0a00_train_activation.xml' is sent from LINX
+    And the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 09:59                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
@@ -78,7 +82,9 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:14            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
-    And the activation message from location 'linx/0a00_train_activation.xml' is sent from LINX
+    And the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 09:59                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
@@ -100,7 +106,9 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
-    And the activation message from location 'linx/0a00_train_activation.xml' is sent from LINX
+    And the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 09:58                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
@@ -122,7 +130,9 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
-    And the activation message from location 'linx/0a00_train_activation.xml' is sent from LINX
+    And the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 09:58                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
@@ -144,7 +154,9 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
-    And the activation message from location 'linx/0a00_train_activation.xml' is sent from LINX
+    And the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 10:15                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |

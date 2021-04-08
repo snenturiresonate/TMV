@@ -18,6 +18,19 @@ When('I toggle the {string} toggle {string}', async (toggle: string, toState: st
   await navBarPage.toggle(toggle, toState);
 });
 
+When('I toggle path off from the nav bar', async () => {
+  await navBarPage.toggleMapPathOff();
+});
+
+When('I open map {string} via the recent map list', async (mapName: string) => {
+  await navBarPage.changeToRecentMap(mapName);
+});
+
+When('I search for map {string} via the recent map list', async (mapName: string) => {
+  await navBarPage.mapChanger.click();
+  await navBarPage.enterMapSearchString(mapName);
+});
+
 Then('the following map layer toggles can be seen', async (toggleName: any) => {
   const expectedToggleNames = toggleName.hashes();
   const actualToggleNames = await navBarPage.getToggleNames();
@@ -28,9 +41,23 @@ Then('the following map layer toggles can be seen', async (toggleName: any) => {
   });
 });
 
-Then('the {string} toggle is {string}', async (toggle: string, expectedToggleState: string) => {
-  const actualToggleState: string = await navBarPage.getToggleState(toggle);
-  expect(actualToggleState, `Toggle ${toggle} is not ${expectedToggleState}`)
+Then('{string} toggle is displayed in the title bar', async (expectedState: string) => {
+  const actualState: boolean = await browser.isElementPresent(navBarPage.mapPathToggle);
+  if (expectedState === 'no') {
+    expect(actualState, `PATH toggle is being displayed when it shouldn't be`)
+      .to.equal(false);
+  }
+  else {
+    const mapPathIndicator = await navBarPage.mapPathToggle.getText();
+    expect(mapPathIndicator, `PATH toggle is not shown when it should be`)
+      .to.equal(expectedState);
+  }
+});
+
+Then('the {string} toggle is {string}', async (toggle: string, expectedToggleString: string) => {
+  const actualToggleState: boolean = await navBarPage.getToggleState(toggle);
+  const expectedToggleState: boolean = (expectedToggleString.toLowerCase() === 'on');
+  expect(actualToggleState, `Toggle ${toggle} is not ${expectedToggleString}`)
     .to.equal(expectedToggleState);
 });
 
@@ -44,6 +71,15 @@ Then('The user profile shows role name as {string}', async (roleName: string) =>
   const roleNameText: string = await navBarPage.getUserProfileMenuRoleName();
   expect(roleName, 'User profile role is not correct')
     .to.equal(roleNameText);
+});
+
+Then('The user profile shows user roles as', async (table: any) => {
+  const tableValues = table.hashes();
+  const roleNameText: string = await navBarPage.getUserProfileMenuRoleName();
+  tableValues.forEach(row => {
+    expect(roleNameText, 'User profile role is not correct')
+      .to.equal(row.roleName);
+  });
 });
 
 Then('the following icons can be seen on the navigation bar', async (iconNameDataTable: any) => {
@@ -146,6 +182,18 @@ When('I invoke the context menu from the nav bar', async () => {
 Then('the Train search table is shown', async () => {
   const actualTrainTable = await navBarPage.isTrainTablePresent();
   expect(actualTrainTable, `Train search table is not displayed`)
+    .to.equal(true);
+});
+
+Then('the timetable search table is shown', async () => {
+  const actualTimetable = await navBarPage.isTimetablePresent();
+  expect(actualTimetable, `Timetable is not displayed`)
+    .to.equal(true);
+});
+
+Then('the signal search table is shown', async () => {
+  const actualSignalTable = await navBarPage.isSignalTablePresent();
+  expect(actualSignalTable, `Signal search table is not displayed`)
     .to.equal(true);
 });
 
@@ -259,6 +307,10 @@ Then('the train search context menu contains {string} on line {int}', async (exp
   const actualContextMenuItem: string = await navBarPage.getTrainsSearchContextMenuItem(rowNum);
   expect(actualContextMenuItem, `Item ${rowNum} in train search context menu was not ${expectedText}`)
     .to.contain(expectedText);
+});
+
+Then('I select map {string} on line {int} from the search context menu', async (expectedText: string, rowNum: number) => {
+  await navBarPage.clickTrainsSearchContextMenuItem(rowNum);
 });
 
 Then('the {string} search context menu contains {string} on line {int}',

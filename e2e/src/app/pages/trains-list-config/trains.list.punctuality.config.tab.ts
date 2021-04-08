@@ -1,7 +1,7 @@
-import { by, element, ElementArrayFinder, ElementFinder} from 'protractor';
+import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {InputBox} from '../common/ui-element-handlers/inputBox';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
-import {CheckBox} from "../common/ui-element-handlers/checkBox";
+import {CheckBox} from '../common/ui-element-handlers/checkBox';
 
 export class TrainsListPunctualityConfigTab {
   public punctualityHeader: ElementFinder;

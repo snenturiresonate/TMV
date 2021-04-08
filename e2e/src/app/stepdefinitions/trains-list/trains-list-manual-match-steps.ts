@@ -15,6 +15,12 @@ Then('a matched service is visible', async () =>  {
     .equals(true);
 });
 
+Then('the matched service is shown as {string}', async (expectedMatchedServiceText: string) =>  {
+  const actualMatchedServiceText = await trainsListManualMatchPage.matchedTrainDesc.getText();
+  expect(actualMatchedServiceText, `Matched service is not visible`)
+    .equals(expectedMatchedServiceText);
+});
+
 Then('no matched service is visible', async () =>  {
   const matchedService = await trainsListManualMatchPage.isMatchedServiceVisible();
   expect(matchedService, `Matched service is visible when shouldn't be`)

@@ -8,6 +8,10 @@ import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {AppPage} from '../app.po';
 import assert = require('assert');
 import path = require('path');
+import {BerthInterpose} from '../../../../../src/app/api/linx/models/berth-interpose';
+import {LinxRestClient} from '../../api/linx/linx-rest-client';
+
+let linxRestClient: LinxRestClient;
 
 const SCALEFACTORX_START = 7;
 const appPage: AppPage = new AppPage();
@@ -55,6 +59,7 @@ export class MapPageObject {
     this.aesBoundaryElements = element(by.css('#aes-boundaries-elements'));
 
     this.headcodeOnMap = element.all(by.css('text[data-train-description]:not([data-train-description=""])'));
+    linxRestClient = new LinxRestClient();
   }
 
   public async isPlatformLayerPresent(): Promise<boolean> {
@@ -99,9 +104,17 @@ export class MapPageObject {
     return berth.getText();
   }
 
+  public async getHeadcodesOnMap(): Promise<string[]> {
+    return this.headcodeOnMap.map((el: ElementFinder) => {
+      return el.getText();
+    });
+  }
+
   public async waitUntilBerthTextIs(berthId: string, trainDescriber: string, expectedString: string): Promise<void> {
     const berth: ElementFinder = await this.getBerthElementFinder(berthId, trainDescriber);
-    browser.wait(ExpectedConditions.textToBePresentInElement(berth, expectedString));
+    await browser.wait(ExpectedConditions.textToBePresentInElement(berth, expectedString),
+      15000,
+      `Berth text was not ${expectedString} in Berth ${trainDescriber}${berthId}`);
   }
 
   public async isBerthPresent(berthId: string, trainDescriber: string): Promise<boolean> {
@@ -112,6 +125,13 @@ export class MapPageObject {
   public async isSClassBerthElementPresent(berthId: string): Promise<boolean> {
     const sClassBerth: ElementFinder = await this.getSClassBerthElementFinder(berthId);
     return sClassBerth.isPresent();
+  }
+
+  public async waitUntilSClassBerthElementIsPresent(berthId: string): Promise<void> {
+    const sClassBerth: ElementFinder = await this.getSClassBerthElementFinder(berthId);
+    await CommonActions.waitForElementToBePresent(sClassBerth,
+      10000,
+      `S class berth ${berthId} not present in time limit`);
   }
 
   public async isReleaseIndicationPresent(releaseId: string): Promise<boolean> {
@@ -156,6 +176,7 @@ export class MapPageObject {
   }
 
   public async getSClassBerthElementText(elementId: string): Promise<string> {
+    await this.waitUntilSClassBerthElementIsPresent(elementId);
     const textElement: ElementFinder = await this.getSClassBerthElementFinder(elementId);
     return textElement.getText();
   }
@@ -180,7 +201,7 @@ export class MapPageObject {
   public async getBerthElementFinder(berthId: string, trainDescriber: string): Promise<ElementFinder> {
     // id for berths can be either berth-element-text-bth.[train_id] or berth-element-text-btl.[train_id]
     // using $= to get element based on just train_id
-    const berth: ElementFinder = element(by.css('text[id$=' + trainDescriber + berthId + ']'));
+    const berth: ElementFinder = element(by.css('text[id$=' + trainDescriber + berthId + ']:not(text[id^=s-class])'));
     return berth;
   }
 
@@ -204,7 +225,7 @@ export class MapPageObject {
   }
 
   public async waitForContextMenu(): Promise<boolean> {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       return this.mapContextMenuItems.isPresent();
     }, browser.displayTimeout, 'The context menu should be displayed');
     return this.mapContextMenuItems.isPresent();
@@ -213,11 +234,49 @@ export class MapPageObject {
   public async openContextMenuForTrainDescription(trainDescription: string): Promise<void> {
     const berth: ElementFinder = element(by.xpath('//*[@data-train-description=\"' + trainDescription + '\"]'));
     await CommonActions.waitForElementInteraction(berth);
-    browser.actions().click(berth, protractor.Button.RIGHT).perform();
+    await browser.actions().click(berth, protractor.Button.RIGHT).perform();
     await this.waitForContextMenu();
   }
+
+  public async closeContextMenuForTrainDescription(trainDescription: string): Promise<void> {
+    const berth: ElementFinder = element(by.xpath('//*[@data-train-description=\"' + trainDescription + '\"]'));
+    await CommonActions.waitForElementInteraction(berth);
+    await berth.click();
+  }
+
   public async getMapContextMenuItem(rowIndex: number): Promise<string> {
     return this.mapContextMenuItems.get(rowIndex - 1).getText();
+  }
+
+  public async waitForMatchType(trainDescription: string, matchType: string, berth: string, describer: string): Promise<boolean> {
+    return browser.wait(async () => {
+      try {
+        await this.openContextMenuForTrainDescription(trainDescription);
+        await this.waitForContextMenu();
+        const contextMenuItem = await this.getMapContextMenuItem(3);
+        if (contextMenuItem.includes(matchType)) {
+          return true;
+        }
+        await this.closeContextMenuForTrainDescription(trainDescription);
+        await linxRestClient.postBerthInterpose(
+          new BerthInterpose(
+            new Date().toTimeString().substr(0, 8),
+            berth,
+            describer,
+            trainDescription
+          )
+        );
+      }
+      catch (exception) {
+        if (exception.toString().includes('StaleElementReferenceError'))
+        {
+          // the train has been removed which constitutes a change in state
+          return true;
+        }
+      }
+      return false;
+    },
+    browser.displayTimeout, 'The train description did not disappear');
   }
 
   public async getMapContextMenuElementByRow(rowIndex: number): Promise<ElementFinder> {
@@ -301,6 +360,23 @@ export class MapPageObject {
     const berthLink: ElementFinder = element(by.id('berth-element-text-' + berthId));
     const berthColourRgb: string = await berthLink.getCssValue('fill');
     return CssColorConverterService.rgb2Hex(berthColourRgb);
+  }
+
+  public async getBerthType(berthId: string): Promise<string> {
+    const berth: ElementFinder = element(by.id('berth-element-text-' + berthId));
+    const berthType: string = await berth.getCssValue('class');
+    return berthType;
+  }
+
+  public async getManualBerthType(berthId: string): Promise<string> {
+    const manualBerth: ElementFinder = element(by.id('manual-berth-element-text-' + berthId));
+    const manualBerthType: string = await manualBerth.getText();
+    return manualBerthType;
+  }
+  public async getBerthRectangleColour(berthId: string): Promise<string> {
+    const berthRectangleElement: ElementFinder = element(by.id('berth-element-rect-' + berthId));
+    const berthRectangleColourRgb: string = await berthRectangleElement.getCssValue('fill');
+    return CssColorConverterService.rgb2Hex(berthRectangleColourRgb);
   }
 
   public async getBerthContextMenuSignalName(signalId: string): Promise<string> {

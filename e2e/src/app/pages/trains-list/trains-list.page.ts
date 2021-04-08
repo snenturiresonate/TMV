@@ -144,9 +144,86 @@ export class TrainsListPageObject {
     return trainScheduleId.isPresent();
   }
 
+  public async isTrainVisible(serviceId: string, trainUId: string): Promise<boolean> {
+    const timeToWaitForTrain = 50000;
+    await CommonActions.waitForElementToBeVisible(element.all(by.css(`[id^='trains-list-row-']`)).first());
+    const trainScheduleId: ElementFinder = element.all(by.cssContainingText(`[id^=trains-list-row-entry-train-description-${trainUId}`, `${serviceId}`)).first();
+    try {
+      await CommonActions.waitForElementToBePresent(trainScheduleId, timeToWaitForTrain, `The Schedule is not displayed in first ${timeToWaitForTrain} milliseconds`);
+    } catch (err) {
+      await CommonActions.waitForElementToBePresent(trainScheduleId, timeToWaitForTrain, 'The Schedule is not displayed');
+    }
+    return trainScheduleId.isPresent();
+  }
+
   public async getRowForSchedule(scheduleId: string): Promise<number> {
     const schedules = await this.getTrainsListValuesForColumn('train-description');
     return schedules.indexOf(scheduleId);
+  }
+
+  public async trainDescriptionHasScheduleType(trainDescription: string, scheduleType: string): Promise<boolean> {
+    return browser.wait(async () => {
+      try {
+        const trainDescriptions = await this.getTrainsListValuesForColumn('train-description');
+        const scheduleTypes = await this.getTrainsListValuesForColumn('schedule-type');
+        for (let i = 0; i < trainDescriptions.length; i++)
+        {
+          if (trainDescriptions[i] === trainDescription && scheduleTypes[i] === scheduleType)
+          {
+            return true;
+          }
+        }
+        return false;
+      }
+      catch (error) {
+        if (error.name === 'StaleElementReferenceError')
+        {
+          // whilst checking, we may get a stale element as the row is dynamic, we will just try again
+          return false;
+        }
+      }
+    }, browser.displayTimeout, 'Cound not find train description with schedule type ${scheduleType}');
+  }
+
+  public async trainDescriptionHasDisappeared(trainDescription: string): Promise<boolean> {
+    try {
+      const trainRow: ElementFinder = element(by.css('#trains-list-row-' + trainDescription));
+      await browser.wait(async () => {
+        return !(await trainRow.isPresent());
+      }, browser.displayTimeout, 'The train description did not disappear');
+      return !(await trainRow.isPresent());
+    }
+    catch (error) {
+      if (error.name === 'StaleElementReferenceError')
+      {
+        // whilst checking, we may get a stale element as the train has been removed, this is good so just return
+        return true;
+      }
+    }
+  }
+
+  public async trainDescriptionWithScheduleTypeHasDisappeared(trainDescription: string, scheduleType: string): Promise<boolean> {
+    return browser.wait(async () => {
+      try {
+        const trainDescriptions = await this.getTrainsListValuesForColumn('train-description');
+        const scheduleTypes = await this.getTrainsListValuesForColumn('schedule-type');
+        for (let i = 0; i < trainDescriptions.length; i++)
+        {
+          if (trainDescriptions[i] === trainDescription && scheduleTypes[i] === scheduleType)
+          {
+            return false;
+          }
+        }
+        return true;
+      }
+      catch (error) {
+        if (error.name === 'StaleElementReferenceError')
+        {
+          // whilst checking, we may get a stale element as the row is dynamic, so must have disappeared
+          return true;
+        }
+      }
+    }, browser.displayTimeout, 'Train description with schedule type ${scheduleType} did not disappear');
   }
 
   public async getTrainsListRowColFill(scheduleId: string): Promise<string> {
