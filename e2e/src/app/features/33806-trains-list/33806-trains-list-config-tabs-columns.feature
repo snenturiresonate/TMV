@@ -169,15 +169,14 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
     And I restore to default train list config
 
   Scenario: 33806 -4d Changing the order of the selected column items and verifying the changes are reflected in trains list
-    When I set trains list columns to the default
-    And I move 'Up' the selected column item 'Service'
+    When I move 'Up' the selected column item 'Service'
     And I move 'Down' the selected column item 'Last Reported Time'
     And I save the trains list config
     And I am on the trains list page
     Then I should see the trains list columns as
       | header           |
       | SERVICE          |
-      | SCHED. UID       |
+      | SCHED.           |
       | REPORT           |
       | TIME             |
       | PUNCT.           |
