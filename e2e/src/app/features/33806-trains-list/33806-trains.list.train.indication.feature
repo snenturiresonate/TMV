@@ -1,4 +1,4 @@
-@bug @bug_55994
+abug @bug_55994
 Feature: 33806 - TMV User Preferences - full end to end testing - TL config - train indication
 
   As a tester
@@ -79,7 +79,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #Given the user has made changes to the trains list train indication
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
-  @tdd
+
   Scenario: 33806 -24-a Trains indication table - Train Cancellation - Train cancelled before it has started
     Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
     When a TJM is received for train modification
@@ -94,7 +94,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     |trainDescriberId|backgroundColour|
     |IS42            |rgb(221, 221, 238)|
 
-  @tdd
+
   Scenario: 33806 -24-b Trains indication table - Train Cancellation - Train terminates short of planned destination
     Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
     When a TJM is received for train modification
@@ -109,7 +109,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       |trainDescriberId|backgroundColour|
       |IS42            |rgb(221, 221, 238)|
 
-  @tdd
   Scenario: 33806 -24-c Trains indication table - Train Reinstatement - Train terminates at a location not in the plan
     Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
     When a TJM is received for train modification
@@ -124,7 +123,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       |trainDescriberId|backgroundColour|
       |IS42            |rgb(221, 221, 238)|
 
-  @tdd
   Scenario: 33806 -24-d Train Activation for a valid service with a change of origin matching current origin
     And the service '0F00' is not active
     And there is a Schedule for '0F00'
@@ -145,7 +143,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
       | Origin called             | 0A00       | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
 
-  @tdd
   Scenario: 33806 -24-e Trains reinstatement - Whole train has been reinstated
     Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
     When a TJM is received for train modification
@@ -160,7 +157,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       |trainDescriberId|backgroundColour|
       |IS42            |rgb(221, 221, 238)|
 
-  @tdd
   Scenario: 33806 -24-f Change Of Origin - Train starts at a different planned location (start forward)
     Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
     When a TJM is received for train modification
@@ -175,7 +171,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       |trainDescriberId|backgroundColour|
       |IS42            |rgb(221, 221, 238)|
 
-  @tdd
   Scenario: 33806 -24-g Off route - Train has moved off route
     Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
     When the following live berth step message is sent from LINX
@@ -190,7 +185,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       |trainDescriberId|backgroundColour|
       |IS42            |rgb(221, 221, 238)|
 
-  @tdd
   Scenario: 33806 -24-h Change Of Identity - Train running has a change of Train Id
     Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
     When a TJM is received for train modification
