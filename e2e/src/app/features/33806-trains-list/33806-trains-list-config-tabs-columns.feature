@@ -168,6 +168,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
       | ACTUAL / PREDICT |
     And I restore to default train list config
 
+  @bug @bug_59973
   Scenario: 33806 -4d Changing the order of the selected column items and verifying the changes are reflected in trains list
     When I move 'Up' the selected column item 'Service'
     And I move 'Down' the selected column item 'Last Reported Time'

@@ -325,18 +325,14 @@ export class MapPageObject {
   }
 
   public async getTrackWidth(trackId: string): Promise<string> {
-    const trackWidth: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
-    return trackWidth.getCssValue('stroke-width');
+    const track: ElementFinder = element(by.name('track-element-path-' + trackId));
+    return track.getCssValue('stroke-width');
   }
 
   public async getTrackColour(trackId: string): Promise<string> {
-    const track: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
+    const track: ElementFinder = element(by.name('track-element-path-' + trackId));
     const trackColourRgb: string = await track.getCssValue('stroke');
     return CssColorConverterService.rgb2Hex(trackColourRgb);
-  }
-  public async getRouteIndication(trackId: string): Promise<string> {
-    const routeIndication: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
-    return routeIndication.getCssValue('class');
   }
 
   public async getLvlCrossingBarrierState(lvlCrossingId: string): Promise<string> {

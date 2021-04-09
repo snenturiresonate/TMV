@@ -138,16 +138,16 @@ export class TrainsListPageObject {
   }
   public async isScheduleVisible(scheduleId: string): Promise<boolean> {
     browser.wait(async () => {
-      return element(by.css('#trains-list-row-' + scheduleId)).isPresent();
+      return element(by.css('[id=\'trains-list-row-' + scheduleId + '\'')).isPresent();
     }, browser.displayTimeout, 'The schedule should be displayed');
-    const trainScheduleId: ElementFinder = element(by.css('#trains-list-row-' + scheduleId));
+    const trainScheduleId: ElementFinder = element(by.css('[id=\'trains-list-row-' + scheduleId + '\''));
     return trainScheduleId.isPresent();
   }
 
   public async isTrainVisible(serviceId: string, trainUId: string): Promise<boolean> {
     const timeToWaitForTrain = 50000;
     await CommonActions.waitForElementToBeVisible(element.all(by.css(`[id^='trains-list-row-']`)).first());
-    const trainScheduleId: ElementFinder = element.all(by.cssContainingText(`[id^=trains-list-row-entry-train-description-${trainUId}`, `${serviceId}`)).first();
+    const trainScheduleId: ElementFinder = element.all(by.cssContainingText(`[id^=\'trains-list-row-entry-train-description-${trainUId}\'`, `${serviceId}`)).first();
     try {
       await CommonActions.waitForElementToBePresent(trainScheduleId, timeToWaitForTrain, `The Schedule is not displayed in first ${timeToWaitForTrain} milliseconds`);
     } catch (err) {
@@ -184,6 +184,22 @@ export class TrainsListPageObject {
       }
     }, browser.displayTimeout, 'Cound not find train description with schedule type ${scheduleType}');
   }
+
+  public async columnsAre(expectedColHeaders: string[]): Promise<boolean> {
+    const expectedNoOfCols = expectedColHeaders.length;
+
+    return browser.wait(async () => {
+      const actualColHeaders = await this.getTrainsListColHeaders();
+      for (let i = 0; i < expectedNoOfCols; i++)
+      {
+        if (actualColHeaders[i] !== expectedColHeaders[i])
+        {
+          return false;
+        }
+      }
+      return true;
+      }, browser.displayTimeout, 'Columns have not updated to reflect config changes');
+   }
 
   public async trainDescriptionHasDisappeared(trainDescription: string): Promise<boolean> {
     try {
@@ -227,7 +243,7 @@ export class TrainsListPageObject {
   }
 
   public async getTrainsListRowColFill(scheduleId: string): Promise<string> {
-    const trainDescriptionEntry: ElementFinder = element(by.css('#trains-list-row-' + scheduleId));
+    const trainDescriptionEntry: ElementFinder = element(by.css('[id=\'trains-list-row-' + scheduleId + '\']'));
     const backgroundColour: string = await trainDescriptionEntry.getCssValue('background-color');
 
     const oddRowDefaultBackgroundColour = 'rgba(44, 44, 44, 1)';
@@ -237,7 +253,7 @@ export class TrainsListPageObject {
   }
 
   public async getTrainsListTrainDescriptionEntryColFill(scheduleId: string): Promise<string> {
-    const trainDescriptionEntry: ElementFinder = element(by.css('#trains-list-row-entry-train-description-' + scheduleId));
+    const trainDescriptionEntry: ElementFinder = element(by.css('[id=\'trains-list-row-entry-train-description-' + scheduleId + '\']'));
     return trainDescriptionEntry.getCssValue('background-color');
   }
 
@@ -247,6 +263,20 @@ export class TrainsListPageObject {
       return colValue.getText();
     });
   }
+
+  public async getTrainsListValuesForSchedule(scheduleId: string): Promise<string[]> {
+    const entryRowValues: ElementArrayFinder = element.all(by.css('[id=\'trains-list-row-' + scheduleId + '\'] td'));
+    return entryRowValues.map((rowValue: ElementFinder) => {
+      return rowValue.getText();
+    });
+  }
+
+  public async getTrainsListValueForColumnAndSchedule(column: string, scheduleId: string): Promise<string> {
+    const gridElement: ElementFinder = element(by.css
+    ('[id=\'trains-list-row-' + scheduleId + '\'] .trains-list-row-entry-' + column));
+    return gridElement.getText();
+  }
+
   public async getTrainsListIndicationColoursRgb(): Promise<string[]> {
     const rowEntries: ElementArrayFinder = element.all(by.css('tr[id^=trains-list-row]'));
     return rowEntries.map((colValue: ElementFinder) => {
