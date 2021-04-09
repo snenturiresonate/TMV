@@ -82,19 +82,31 @@ export class HomePageObject {
     return this.timeDisplay.isDisplayed();
   }
 
-  public async mapSearchBoxIsDispayed(): Promise<boolean> {
+  public async mapSearchBoxIsDisplayed(): Promise<boolean> {
     await CommonActions.waitForElementToBeVisible(this.mapSearchBox);
     return this.mapSearchBox.isDisplayed();
   }
 
-  public async recentMapsBoxIsDispayed(): Promise<boolean> {
+  public async mapSearchBoxIsNotDisplayed(): Promise<boolean> {
+    return ! await this.mapSearchBox.isPresent();
+  }
+
+  public async recentMapsBoxIsDisplayed(): Promise<boolean> {
     await CommonActions.waitForElementToBeVisible(this.recentMapsBox);
     return this.recentMapsBox.isDisplayed();
   }
 
-  public async allMapsHeaderIsDispayed(): Promise<boolean> {
+  public async recentMapsBoxIsNotDisplayed(): Promise<boolean> {
+    return ! await this.recentMapsBox.isPresent();
+  }
+
+  public async allMapsHeaderIsDisplayed(): Promise<boolean> {
     await CommonActions.waitForElementToBeVisible(this.allMapsHeader);
     return this.allMapsHeader.isDisplayed();
+  }
+
+  public async allMapsHeaderIsNotDisplayed(): Promise<boolean> {
+    return ! await this.allMapsHeader.isPresent();
   }
 
   public async getWelcomeMessageText(): Promise<string> {
