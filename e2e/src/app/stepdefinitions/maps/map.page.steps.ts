@@ -700,13 +700,6 @@ Then('the track state width for {string} is {string}',
       .to.equal(expectedWidth);
   });
 
-Then('the route indication for {string} is {string}',
-  async (trackId: string, expectedValue: string) => {
-    const actualValue = await mapPageObject.getRouteIndication(trackId);
-    expect(actualValue, `Route Indication for ${trackId} is not correct`)
-      .to.equal(expectedValue);
-  });
-
 Then('the track colour for track {string} is {word}',
   async (trackId: string, expectedValue: string) => {
     const expectedSignalStatusHex = mapColourHex[expectedValue];

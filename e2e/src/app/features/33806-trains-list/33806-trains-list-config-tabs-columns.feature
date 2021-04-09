@@ -126,7 +126,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
     #Given the user has made changes to the trains list columns selection
     #When the user views the trains list
     #Then the view is updated to reflect the user's column selection
-
+  @bug @bug_59973
   Scenario: 33806 -4a Moving all selected to un-selected columns and verifying the changes are reflected in trains list
     When I click on all the selected column entries
     And I save the trains list config
@@ -138,6 +138,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
       | PUNCT.  |
     And I restore to default train list config
 
+  @bug @bug_59973
   Scenario: 33806 -4b Selecting the 'origin' column includes the columns 'Origin', 'Planned' & 'Actual/Predict' columns in trains list
     When I set trains list columns to include 'Origin' along with the mandatory columns
     And I save the trains list config
@@ -152,6 +153,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
       | ACTUAL / PREDICT |
     And I restore to default train list config
 
+  @bug @bug_59973
   Scenario: 33806 -4c Selecting the 'Destination' column includes the columns 'Dest.', 'Planned' & 'Actual/Predict' columns in trains list
     When I set trains list columns to include 'Destination' along with the mandatory columns
     And I save the trains list config
@@ -166,16 +168,16 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
       | ACTUAL / PREDICT |
     And I restore to default train list config
 
+  @bug @bug_59973
   Scenario: 33806 -4d Changing the order of the selected column items and verifying the changes are reflected in trains list
-    When I set trains list columns to the default
-    And I move 'Up' the selected column item 'Service'
+    When I move 'Up' the selected column item 'Service'
     And I move 'Down' the selected column item 'Last Reported Time'
     And I save the trains list config
     And I am on the trains list page
     Then I should see the trains list columns as
       | header           |
       | SERVICE          |
-      | SCHED. UID       |
+      | SCHED.           |
       | REPORT           |
       | TIME             |
       | PUNCT.           |
