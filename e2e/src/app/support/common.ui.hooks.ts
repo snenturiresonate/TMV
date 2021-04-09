@@ -8,7 +8,7 @@ import {ReplayRecordings} from '../utils/replay/replay-recordings';
 
 BeforeAll(async () => {
   const {setDefaultTimeout} = require('cucumber');
-  setDefaultTimeout(20 * 1000);
+  setDefaultTimeout(40 * 1000);
   browser.driver.manage().window().maximize();
 });
 

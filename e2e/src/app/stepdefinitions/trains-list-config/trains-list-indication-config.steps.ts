@@ -110,6 +110,7 @@ Then('the train indication config header is displayed as {string}', async (expec
 Then('I should see the train list row coloured as', async (table: any) => {
   const expectedEntries = table.hashes();
   const results: any[] = [];
+  // tslint:disable-next-line:prefer-for-of
   for (let i = 0; i < expectedEntries.length; i++) {
     const expectedBackgroundColour = expectedEntries[i].backgroundColour;
     const trainDescriberId = expectedEntries[i].trainDescriberId;

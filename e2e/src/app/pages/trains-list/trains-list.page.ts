@@ -136,9 +136,23 @@ export class TrainsListPageObject {
   public async openManualMatch(): Promise<void> {
     return CommonActions.waitAndClick(this.matchUnmatchLink);
   }
-  public async isScheduleVisible(trainUId: string): Promise<boolean> {
+  public async isScheduleVisible(scheduleId: string): Promise<boolean> {
+    browser.wait(async () => {
+      return element(by.css('#trains-list-row-' + scheduleId)).isPresent();
+    }, browser.displayTimeout, 'The schedule should be displayed');
+    const trainScheduleId: ElementFinder = element(by.css('#trains-list-row-' + scheduleId));
+    return trainScheduleId.isPresent();
+  }
+
+  public async isTrainVisible(serviceId: string, trainUId: string): Promise<boolean> {
+    const timeToWaitForTrain = 50000;
     await CommonActions.waitForElementToBeVisible(element.all(by.css(`[id^='trains-list-row-']`)).first());
-    const trainScheduleId: ElementFinder = element(by.css('#trains-list-row-' + trainUId));
+    const trainScheduleId: ElementFinder = element.all(by.cssContainingText(`[id^=trains-list-row-entry-train-description-${trainUId}`, `${serviceId}`)).first();
+    try {
+      await CommonActions.waitForElementToBePresent(trainScheduleId, timeToWaitForTrain, `The Schedule is not displayed in first ${timeToWaitForTrain} milliseconds`);
+    } catch (err) {
+      await CommonActions.waitForElementToBePresent(trainScheduleId, timeToWaitForTrain, 'The Schedule is not displayed');
+    }
     return trainScheduleId.isPresent();
   }
 
