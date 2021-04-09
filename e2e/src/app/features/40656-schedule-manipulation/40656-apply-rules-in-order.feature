@@ -20,13 +20,12 @@ Feature: 40656 - Schedule Manipulation - Apply Rules In Order
       | tiploc  | scheduledArrival | path |
       | OLDOXRS | 10:13            |      |
     And the schedule is received from LINX
-    When I am on the timetable view for service '1F09'
+    When I am on the timetable view for service 'H39407'
     And the Inserted toggle is 'on'
     Then the path code for Location is correct
       | location        | pathCode |
       | Ealing Broadway | LIN      |
 
-  @tdd
   Scenario: 40656-10 Schedule with locations updated by path to line rules to match line to path
   #J0044	DIDCOTP
   #K005A	DIDCOTP	DIDCWCJ
@@ -42,7 +41,7 @@ Feature: 40656 - Schedule Manipulation - Apply Rules In Order
       | tiploc  | scheduledArrival | path |
       | OLDOXRS | 10:13            |      |
     And the schedule is received from LINX
-    When I am on the timetable view for service '1F10'
+    When I am on the timetable view for service 'H39407'
     Then the line code for Location is correct
       | location       | lineCode |
       | Didcot Parkway | PAT      |
@@ -50,7 +49,7 @@ Feature: 40656 - Schedule Manipulation - Apply Rules In Order
       | location             | pathCode |
       | Didcot West Curve Jn | PAT      |
 
-  @tdd
+  @check
   Scenario: 40656-11 Schedule with locations updated by line to path to match path to line rules
   #K005A	DIDCOTP	DIDCWCJ
   #J0046	DIDCWCJ
@@ -66,7 +65,7 @@ Feature: 40656 - Schedule Manipulation - Apply Rules In Order
       | tiploc  | scheduledArrival | path |
       | OLDOXRS | 10:13            |      |
     And the schedule is received from LINX
-    When I am on the timetable view for service '1F11'
+    When I am on the timetable view for service 'H39407'
     Then the line code for Location is correct
       | location             | lineCode |
       | Didcot West Curve Jn | LIN      |

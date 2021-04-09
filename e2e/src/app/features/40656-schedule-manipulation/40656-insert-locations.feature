@@ -4,7 +4,6 @@ Feature: 40656 - Schedule Manipulation - Add locations
   I want schedules which have been imported to be manipulated such that passing locations are inserted
   So that the schedule has a full set of locations that the service will stop or pass
 
-  @tdd
   Scenario: 40656-1 Schedule with no inserted locations
     Given there is a Schedule for '1F01'
     And it has Origin Details
@@ -17,7 +16,7 @@ Feature: 40656 - Schedule Manipulation - Add locations
       | tiploc  | scheduledArrival | path |
       | OLDOXRS | 10:13            |      |
     And the schedule is received from LINX
-    When I am on the timetable view for service '1F01'
+    When I am on the timetable view for service 'H39407'
     And the Inserted toggle is 'on'
     Then no inserted locations are displayed
 
@@ -36,7 +35,7 @@ Feature: 40656 - Schedule Manipulation - Add locations
       | tiploc  | scheduledArrival | path |
       | OLDOXRS | 10:13            |      |
     And the schedule is received from LINX
-    When I am on the timetable view for service '1F02'
+    When I am on the timetable view for service 'H39407'
     And the Inserted toggle is 'on'
     Then the inserted location 'Acton Main Line' is displayed in square brackets
     And the inserted location Acton Main Line is after Ladbroke Grove
