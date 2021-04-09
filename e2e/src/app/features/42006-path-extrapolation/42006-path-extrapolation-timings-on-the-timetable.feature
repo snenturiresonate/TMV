@@ -127,7 +127,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       #Passing
       | access-plan/42006-schedules/42006-4.cif | C14260   | 1U36             | Rugeley North Jn | 14:03:00  | 14:43:00   |
 
-  @devtest
   Scenario Outline: 42006-5 Calculated arrival time for a location is not displayed when a TRI has already been received
     Given I am on the trains list page
     And the following basic schedule is received from LINX
@@ -153,7 +152,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       #Destination
       | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | London Euston | 15:52:00  | WY             | B012    | 15:53:00     | EUSTON  | Arrival at Termination |
 
-  @devtest
   Scenario Outline: 42006-6 Calculated arrival time for a location is not displayed when a TRI has already been received
     Given I am on the trains list page
     And the following basic schedule is received from LINX
@@ -179,13 +177,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       # Destination
       | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | London Euston | 15:52:00  | WY             | B012    | 15:53:00     | EUSTON  | Arrival at Termination |
 
-
+  @wip
   Scenario Outline: 42006-7 Display calculated actual punctuality following an arrival
-#    Given a valid schedule exists
-#    And a berth timing has been received to step into a location in that schedule with the <Location Type>
-#    When a user views the timetable
-#    Then calculated actual punctuality is displayed in the timetable for that location
-
     Given I am on the trains list page
     And the following basic schedule is received from LINX
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
@@ -193,11 +186,17 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
     And train description '<trainDescription>' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And Train description '<trainDescription>' is visible on the trains list
-
-    # WIP TEST
+    When the following berth step messages is sent from LINX
+      | fromBerth   | timestamp   | toBerth   | trainDescriber   | trainDescription   |
+      | <fromBerth> | <timestamp> | <toBerth> | <trainDescriber> | <trainDescription> |
+    And I am on the timetable view for service '<trainUid>'
+    And I toggle the inserted locations on
+    Then the expected arrival time for inserted location <location> is 500 percent between <timestampBefore> and <timestampAfter>
 
     Examples:
-    | cif |
-    #Stopping
-    | planname.cif |
-    #Destination
+      | cif                                     | trainUid | trainDescription | location      | timestamp | timestampBefore | timestampAfter |  trainDescriber | toBerth | fromBerth |
+      #Stopping
+      | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | Stafford      | 13:50:00  | 13:48:00        | 13:52:00       | R3              | 5582    |           |
+      # Destination
+      | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | London Euston | 15:52:00  | 15:50:00        | 15:54:00       | WY              | B012    |           |
+
