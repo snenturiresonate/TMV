@@ -6,21 +6,21 @@ import {browser, protractor} from 'protractor';
 const trainsListColumnConfigPage: TrainsListColumnConfigTabPageObject = new TrainsListColumnConfigTabPageObject();
 
 const mapTLColumns = new Map([
-  ['Schedule', ['SCHED.']],
+  ['Schedule Type', ['SCHED.']],
   ['Service', ['SERVICE']],
-  ['Time', ['TIME']],
-  ['Report', ['REPORT']],
+  ['Last Reported Time', ['TIME']],
+  ['Last Reported Location', ['REPORT']],
   ['Punctuality', ['PUNCT.']],
-  ['Origin', ['ORIGIN.', 'PLANNED', 'ACTUAL / PREDICT']],
+  ['Origin', ['ORIGIN', 'PLANNED', 'ACTUAL / PREDICT']],
   ['Destination', ['DEST.', 'PLANNED', 'ACTUAL / PREDICT']],
   ['Next location', ['NEXT LOC.']],
-  ['TOC/FOC', ['OPERATOR']],
-  ['TRUST UID', ['TRUST UID']],
+  ['Operator', ['OPERATOR']],
+  ['TRUST ID', ['TRUST ID']],
   ['Schedule UID', ['SCHED. UID']],
   ['Cancellation Reason Code', ['REASON']],
   ['Cancellation Type', ['CANCEL']],
-  ['GBTT Destination Arrival Time', ['PUB ARR.']],
-  ['GBTT Origin Departure Time', ['PUB DEPT.']],
+  ['GBTT Destination Arrival Time', ['PUB. ARR.']],
+  ['GBTT Origin Departure Time', ['PUB. DEPT.']],
   ['Time expected at next Location', ['NEXT TIME']],
   ['Last Reported Line', ['LINE']],
   ['Last Reported Platform', ['PLT.']],
@@ -141,8 +141,8 @@ When('I set trains list columns to be {string}', {timeout: 15 * 1000}, async (wa
 
 When('I set trains list columns to the default', {timeout: 15 * 1000}, async () => {
   await trainsListColumnConfigPage.trainListConfigSelectedSecondElements.click();
-  const wantedColumns = 'Schedule UID, Service, Last Reported Location, Origin, Destination, Next location, Operator';
-  const userTLColumns = wantedColumns.split(',', 16).map(item => item.trim());
+  const defaultColumns = 'Schedule Type, Service, Last Reported Time, Last Reported Location, Punctuality, Origin, Destination, Next location, Operator';
+  const userTLColumns = defaultColumns.split(',', 16).map(item => item.trim());
   for (let i = 0; i < userTLColumns.length; i++) {
     await trainsListColumnConfigPage.moveToSelectedList(userTLColumns[i], i);
   }

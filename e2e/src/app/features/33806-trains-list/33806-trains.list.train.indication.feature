@@ -79,11 +79,11 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #Given the user has made changes to the trains list train indication
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
+  @bug @bug_59960
   Scenario: 33806 -24-a Trains indication table - Train Cancellation - Train cancelled before it has started
     Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    And the following service is displayed on the trains list
-      | trainId | trainUId |
-      | 1S42    | L55285   |
+    And I am on the trains list page
+    And train '1S42' with schedule id 'L55285' for today is visible on the trains list
     When the following TJM is received
         #tjmType-Cancel at origin
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
@@ -100,11 +100,11 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     |1S42            | L55285 |rgba(221, 221, 238, 1)|
     And I restore to default train list config
 
+  @bug @bug_59960
   Scenario: 33806 -24-b Trains indication table - Train Cancellation - Train terminates short of planned destination
     Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    And the following service is displayed on the trains list
-      | trainId | trainUId |
-      | 1S42    | L55285   |
+    And I am on the trains list page
+    And train '1S42' with schedule id 'L55285' for today is visible on the trains list
     When the following TJM is received
         #tjmType-Cancel en route
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
@@ -124,9 +124,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
   @bug @bug_59960
   Scenario: 33806 -24-c Trains indication table - Train Reinstatement - Train terminates at a location not in the plan
     Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    And the following service is displayed on the trains list
-      | trainId | trainUId |
-      | 1S42    | L55285   |
+    And I am on the trains list page
+    And train '1S42' with schedule id 'L55285' for today is visible on the trains list
     When the following TJM is received
         #tjmType-Out of plan cancellation
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
@@ -170,11 +169,11 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       | Origin called             | W15214     | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
     And I restore to default train list config
 
+  @bug @bug_59960
   Scenario: 33806 -24-e Trains reinstatement - Whole train has been reinstated
     Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    And the following service is displayed on the trains list
-      | trainId | trainUId |
-      | 1S42    | L55285   |
+    And I am on the trains list page
+    And train '1S42' with schedule id 'L55285' for today is visible on the trains list
     When the following TJM is received
         #tjmType-Trains reinstatement - Whole train
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
@@ -194,9 +193,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
   @bug @bug_59960
   Scenario: 33806 -24-f Change Of Origin - Train starts at a different planned location (start forward)
     Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    And the following service is displayed on the trains list
-      | trainId | trainUId |
-      | 1S42    | L55285   |
+    And I am on the trains list page
+    And train '1S42' with schedule id 'L55285' for today is visible on the trains list
     When the following TJM is received
         #tjmType-Change of Origin
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
@@ -216,9 +214,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
   @bug @bug_59960
   Scenario: 33806 -24-g Off route - Train has moved off route
     Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    And the following service is displayed on the trains list
-      | trainId | trainUId |
-      | 1S42    | L55285   |
+    And I am on the trains list page
+    And train '1S42' with schedule id 'L55285' for today is visible on the trains list
     When the following live berth step message is sent from LINX (causing service to go off route)
        | fromBerth | toBerth | trainDescriber| trainDescription |
        | 0099      | 9999    | GW            | 1S42             |
@@ -237,9 +234,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
   @bug @bug_59960
   Scenario: 33806 -24-h Change Of Identity - Train running has a change of Train Id
     Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    And the following service is displayed on the trains list
-      | trainId | trainUId |
-      | 1S42    | L55285   |
+    And I am on the trains list page
+    And train '1S42' with schedule id 'L55285' for today is visible on the trains list
     When the following change of ID TJM is received
       | trainUid | newTrainNumber | oldTrainNumber | departureHour | modificationTime | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
       | L55285   | 1X42           | 1S42           | 12            | 10:00:00         | create | 07        | 07              | 99999       | PADTON         | 12:00:00 |

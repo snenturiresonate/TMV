@@ -8,7 +8,6 @@ Feature: 33753 - TMV Timetable
     * I am on the home page
     * I restore to default train list config
 
-  @bug @bug:58145
   Scenario Outline: 33753-1 -Open Timetable (Trains List)
      #Open Timetable (Trains List)
      #Given the user is authenticated to use TMV
@@ -21,7 +20,7 @@ Feature: 33753 - TMV Timetable
       | access-plan/1D46_PADTON_OXFD.cif | RDNGSTN     | WTT_arr       | <trainNum>          | <planningUid>  |
     And I am on the trains list page
     And The trains list table is visible
-    And train description '<trainNum>' is visible on the trains list with schedule type 'LTP'
+    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
     When I invoke the context menu from train '<trainNum>' on the trains list
     And I wait for the context menu to display
     And the trains list context menu is displayed
@@ -44,10 +43,13 @@ Feature: 33753 - TMV Timetable
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |
     And I am on the trains list page
     And The trains list table is visible
-    And Train description '<trainNum>' is visible on the trains list
-    And the following live berth interpose message is sent from LINX (creating a match)
+    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth | trainDescriber | trainDescription |
       | 0037    | D3             | <trainNum>       |
+    And the following live berth step message is sent from LINX (creating a match)
+      | fromBerth | toBerth | trainDescriber | trainDescription |
+      | 0037      | 0057    | D3             | <trainNum>       |
     And I am viewing the map HDGW01paddington.v
     When I invoke the context menu on the map for train <trainNum>
     And I open timetable from the map context menu

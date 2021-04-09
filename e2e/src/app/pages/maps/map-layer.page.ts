@@ -25,7 +25,7 @@ export class MapLayerPageObject {
 
   private setActiveMapLayerItems(): void {
     this.mapLayerItems.set(MapLayerType.active_track_section,
-      [new MapLayerItem('stroke', element.all(by.css('#track-layer path:not(#track-element-path-track)')))]);
+      [new MapLayerItem('stroke', element.all(by.css('#track-layer path:not([name=track-element-path-track]')))]);
     this.mapLayerItems.set(MapLayerType.active_main_signal,
       [new MapLayerItem('fill', element.all(by.css('[id^=signal-element-lamp]')))]);
     this.mapLayerItems.set(MapLayerType.active_shunt_signal,
@@ -64,7 +64,7 @@ export class MapLayerPageObject {
 
   private setOtherMapLayerItems(): void {
     this.mapLayerItems.set(MapLayerType.dashed_track_section,
-      [new MapLayerItem('stroke', element.all(by.css('#track-element-path-track')))]);
+    [new MapLayerItem('stroke', element.all(by.css('[name=track-element-path-track]')))]);
     this.mapLayerItems.set(MapLayerType.continuation_button,
       [new MapLayerItem('fill', element.all(by.css('#continuation-links-layer rect')))]);
   }

@@ -1,0 +1,85 @@
+Feature: 42006 - Path Extrapolation - Unscheduled services
+
+  As a TMV user
+  I want the actual train movements to be incorporated into the schedule
+  So that they can be displayed in the UI and used to predict future timings and punctuality
+
+  Background:
+    Given I am on the trains list Config page
+    And I restore to default train list config
+    And I refresh the browser
+    And I have navigated to the 'Columns' configuration tab
+    And I click on all the unselected column entries
+    And I have navigated to the 'Misc' configuration tab
+    And I set 'Unmatched' to be 'on'
+    And I save the trains list config
+
+  Scenario Outline: 42006-13a Unscheduled service is displayed when an unmatched interpose is received
+#    Given no valid schedule exists
+#    When a berth stepping message of the <Type> is received
+#    Then a corresponding unscheduled service is displayed in the trains list
+    When the following live berth interpose message is sent from LINX (creating an unmatched service)
+      | toBerth | trainDescriber | trainDescription |
+      | 1224    | D7             | <trainDesc>      |
+    And I am on the trains list page
+    And I see all the available trains list columns with defaults first
+    Then Train description '<trainDesc>' is visible on the trains list
+    And all grid entries for <case> train <trainDesc> are blank except for SERVICE, PUNCT.
+    And the PUNCT. entry for <case> train <trainDesc> is UNKNOWN
+    And the service is displayed in the trains list with the following indication
+      | rowType | rowId       | rowColFill          | trainDescriptionFill |
+      | <case>  | <trainDesc> | rgba(20, 14, 43, 1) | rgba(0, 255, 0, 1)   |
+    # clean up
+    * I restore to default train list config
+
+    Examples:
+      | case                | trainDesc |
+      | unmatched interpose | 2P01      |
+
+
+  Scenario Outline: 42006-13b Unscheduled service is displayed when an unmatched step is received
+    When the following live berth step messages is sent from LINX (creating an unmatched service)
+      | fromBerth | toBerth | trainDescriber | trainDescription |
+      | 1577      | 1583    | D9             | <trainDesc>      |
+    And I am on the trains list page
+    And I see all the available trains list columns with defaults first
+    Then Train description '<trainDesc>' is visible on the trains list
+    And all grid entries for <case> train <trainDesc> are blank except for SERVICE, PUNCT.
+    And the PUNCT. entry for <case> train <trainDesc> is UNKNOWN
+    And the service is displayed in the trains list with the following indication
+      | rowType | rowId       | rowColFill          | trainDescriptionFill |
+      | <case>  | <trainDesc> | rgba(20, 14, 43, 1) | rgba(0, 255, 0, 1)   |
+    # clean up
+    * I restore to default train list config
+
+    Examples:
+      | case           | trainDesc |
+      | unmatched step | 2P02      |
+
+
+  Scenario Outline: 42006-14  Unscheduled service is displayed when an unmatched TRI is received
+#    Given no valid schedule exists
+#    And a TRI timing has been received for a location with the <TRI type>
+#    Then a corresponding unscheduled service is displayed in the trains list
+    When the following train running information message is sent from LINX
+      | trainUID   | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType |
+      | <trainUID> | <trainDesc> | today              | <locCode>           | <locSubCode>           | <triType>   |
+    And I am on the trains list page
+    And I see all the available trains list columns with defaults first
+    Then Train description '<trainDesc>' is visible on the trains list
+    And all grid entries for <case> train <trainUID> are blank except for SERVICE, TIME, REPORT, PUNCT., TRUST ID, SCHED. UID
+    And the service is displayed in the trains list with the following indication
+      | rowType | rowId       | trainUID   | rowColFill          | trainDescriptionFill |
+      | <case>  | <trainDesc> | <trainUID> | rgba(20, 14, 43, 1) | rgba(0, 255, 0, 1)   |
+    # clean up
+    * I restore to default train list config
+
+
+    Examples:
+      | case          | trainDesc | trainUID | triType                | locCode | locSubCode |
+      | unmatched TRI | 2P03      | P77803   | Arrival at Termination | 84139   | PLYMTH     |
+      | unmatched TRI | 2P04      | P77804   | Departure from Origin  | 63631   | STPANCI    |
+      | unmatched TRI | 2P05      | P77805   | Arrival at Station     | 15220   | WCROYDN    |
+      | unmatched TRI | 2P06      | P77806   | Departure from Station | 87613   | STRETHM    |
+      | unmatched TRI | 2P07      | P77807   | Passing Location       | 73775   | HTRWAJN    |
+
