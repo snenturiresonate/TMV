@@ -293,6 +293,15 @@ export class MapPageObject {
     await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
   }
 
+  public async trainHighlight(): Promise<void> {
+    const highlightLink: ElementFinder = element(by.id(''));
+    return highlightLink.click();
+  }
+
+  public async getTrainHighlightText(): Promise<string> {
+    return element(by.id('')).getText();
+  }
+
   public async getBerthContextInfoText(): Promise<string> {
     return element(by.id('berthContextMenu')).getText();
   }
