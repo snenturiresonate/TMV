@@ -69,7 +69,7 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
       |map                | trainDescription | toTrainDescriber | toBerth | timestamp | sClassBerth | sclassDisplayCode  |
       |hdgw06gloucester.v | DnDC             | GL               | Q070    | 10:02:06  | GLQ070      | DC                 |
 
-  @replaySetup
+  @bug @replaySetup @bug_52196
   Scenario: 34081 - 32a TRTS (Set - from red)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
@@ -84,7 +84,7 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Then the TRTS status for signal 'SN1' is white
     And the TRTS visibility status for 'SN1' is visible
 
-  @replaySetup
+  @bug @replaySetup @bug_52196
   Scenario: 34081 - 32b TRTS (Set - from green)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
@@ -99,7 +99,7 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Then the TRTS status for signal 'SN1' is white
     And the TRTS visibility status for 'SN1' is visible
 
-  @replaySetup
+  @bug @replaySetup @bug_52196
   Scenario:34081 - 33a TRTS (Not Set back)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
@@ -120,7 +120,7 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Then the signal roundel for signal 'SN1' is red
     And the TRTS visibility status for 'SN1' is hidden
 
-  @replaySetup
+  @bug @replaySetup @bug_52196
   Scenario:34081 - 33b TRTS (Not Set)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
