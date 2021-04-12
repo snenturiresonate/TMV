@@ -40,6 +40,9 @@ export class TrainsListServiceFilterTabPage {
     return this.addTrustIdBtn.click();
   }
 
+  public async clickSaveBtn(): Promise<void> {
+    return CommonActions.waitAndClick(this.saveServiceFiltersBtn);
+  }
   public async clickTrustIdSaveBtn(): Promise<void> {
     return CommonActions.waitAndClick(this.saveTrustFiltersBtn);
   }
