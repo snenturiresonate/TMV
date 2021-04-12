@@ -744,6 +744,10 @@ When('I right click on berth with id {string}', async (berthId: string) => {
   await mapPageObject.rightClickBerth(berthId);
 });
 
+When('I click on {string} link', async (berthId: string) => {
+  await mapPageObject.trainHighlight();
+});
+
 Then('the berth context menu is displayed with berth name {string}', async (expectedBerthName: string) => {
   const berthName: string = await mapPageObject.getBerthName();
   expect(berthName).to.equal(expectedBerthName);
@@ -755,6 +759,20 @@ Then('the train headcode color for berth {string} is {word}',
     const actualSignalStatus: string = await mapPageObject.getBerthColor(berthId);
     expect(actualSignalStatus, 'Headcode colour is not ' + expectedColor)
       .to.equal(expectedColorHex);
+  });
+
+Then('the train highlight color for berth {string} is {word}',
+  async (berthId: string, expectedColor: string) => {
+    const expectedColorHex = mapColourHex[expectedColor];
+    const actualColorHex: string = await mapPageObject.getBerthColor(berthId);
+    expect(actualColorHex, 'Headcode colour is not ' + expectedColor)
+      .to.equal(expectedColorHex);
+  });
+
+Then('the menu is displayed with {string} option',
+  async (expectedText: string) => {
+    const actualText = await mapPageObject.getTrainHighlightText();
+    expect(actualText).to.equal(expectedText);
   });
 
 Then(/^the rectangle colour for berth (\w+) (is|is not) (\w+) meaning (.*)$/,
