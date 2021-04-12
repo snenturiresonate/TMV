@@ -8,6 +8,7 @@ CUCUMBER_TAGS=${CUCUMBER_TAGS:-"not (@bug or @tdd)"}
 
 # ensure aws cli is installed
 sudo apt-get -y install awscli
+pip3 install --upgrade awscli
 
 if [[ -z "$STACK_NAME" ]]
 then
