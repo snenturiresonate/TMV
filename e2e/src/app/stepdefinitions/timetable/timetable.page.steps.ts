@@ -813,3 +813,10 @@ Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instan
     });
 });
 
+Then(/^the punctuality for location "(.*)" instance (\d+) is correctly calculated based on "(.*)" & "(.*)"$/,
+  async (location, instance, expectedTime, actualTime) => {
+    await timetablePage.getRowByLocation(location, instance).then(async row => {
+      const field = row.punctuality;
+      expect(await field.getText(), `Actual punctuality not correct for location ${location}`).to.equal(expectedTime - actualTime);
+    });
+});

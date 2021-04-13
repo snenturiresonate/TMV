@@ -152,7 +152,7 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       #Destination
       | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | London Euston | 15:52:00  | WY             | B012    | 15:53:00     | EUSTON  | Arrival at Termination |
 
-  Scenario Outline: 42006-6 Calculated arrival time for a location is not displayed when a TRI has already been received
+  Scenario Outline: 42006-6 Calculated departure time for a location is not displayed when a TRI has already been received
     Given I am on the trains list page
     And the following basic schedule is received from LINX
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
@@ -177,7 +177,7 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       # Destination
       | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | London Euston | 15:52:00  | WY             | B012    | 15:53:00     | EUSTON  | Arrival at Termination |
 
-  @wip
+  @wip @test
   Scenario Outline: 42006-7 Display calculated actual punctuality following an arrival
     Given I am on the trains list page
     And the following basic schedule is received from LINX
@@ -191,12 +191,12 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | <fromBerth> | <timestamp> | <toBerth> | <trainDescriber> | <trainDescription> |
     And I am on the timetable view for service '<trainUid>'
     And I toggle the inserted locations on
-    Then the expected arrival time for inserted location <location> is 500 percent between <timestampBefore> and <timestampAfter>
+    Then the punctuality for location "<location>" instance 1 is correctly calculated based on "<timestamp>" & "<expectedArrivalTime>"
 
     Examples:
-      | cif                                     | trainUid | trainDescription | location      | timestamp | timestampBefore | timestampAfter |  trainDescriber | toBerth | fromBerth |
+      | cif                                     | trainUid | trainDescription | location      | timestamp | expectedArrivalTime | trainDescriber | toBerth | fromBerth |
       #Stopping
-      | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | Stafford      | 13:50:00  | 13:48:00        | 13:52:00       | R3              | 5582    |           |
+      | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | Stafford      | 13:50:00  | 13:51:00            | R3             | 5582    | 3594      |
       # Destination
-      | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | London Euston | 15:52:00  | 15:50:00        | 15:54:00       | WY              | B012    |           |
+      | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | London Euston | 15:50:00  | 15:52:00            | WY             | B012    | 0284      |
 
