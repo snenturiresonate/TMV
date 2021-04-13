@@ -22,6 +22,7 @@ import {TestData} from '../logging/test-data';
 import {LocalStorage} from '../../../local-storage/local-storage';
 import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dialogue.page';
 import {TrainActivationMessageBuilder} from '../utils/train-activation/train-activation-message';
+import {DateTimeFormatter, LocalDateTime} from '@js-joda/core';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
@@ -421,12 +422,21 @@ async function OpenNewTab(): Promise<any> {
 When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
   const messages: any = table.hashes();
   messages.forEach((message: any) => {
-    const tjmBuilder = createBaseTjmMessage(message.trainNumber, message.trainUid, message.departureHour)
+    const now = LocalDateTime.now();
+    let depHour = now.format(DateTimeFormatter.ofPattern('HH'));
+    let timeStamp = now.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+    if (message.departureHour !== 'now') {
+      depHour = message.departureHour;
+    }
+    if (message.time !== 'now') {
+      timeStamp = message.time;
+    }
+    const tjmBuilder = createBaseTjmMessage(message.trainNumber, message.trainUid, depHour)
       .withTrainJourneyModification(createBaseTjm(message.indicator,
         message.statusIndicator,
         message.primaryCode,
         message.subsidiaryCode,
-        message.time)
+        timeStamp)
         .build())
       .withModificationReason(message.modificationReason)
       .withNationalDelayCode(message.nationalDelayCode);
