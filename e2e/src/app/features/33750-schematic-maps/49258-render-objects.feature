@@ -1,3 +1,4 @@
+@bug @bug_60319
 Feature: 33750 - Schematic Maps - Render Objects
 
   As a TMV User
@@ -41,7 +42,7 @@ Feature: 33750 - Schematic Maps - Render Objects
       | active_shunt_markerboard     | gw15cambrian.v           | 17               |
       | active_shunt_signal          | hdgw05bristoltm.v        | 68               |
       | berth                        | md22hinckleymanton.v     | 162              |
-      | manual_trust_berth           | md22hinckleymanton.v     | 35               |
+#      | manual_trust_berth           | md22hinckleymanton.v     | 35               |
       | aes_boundaries_text_label    | gw15cambrian.v           | 12               |
       | direction_lock_text_label    | gw15cambrian.v           | 11               |
       | connector_text_label         | ne08darlington.v         | 8                |
