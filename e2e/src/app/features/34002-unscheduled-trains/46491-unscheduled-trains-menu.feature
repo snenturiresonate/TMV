@@ -52,7 +52,7 @@ Feature: 34002 - Unscheduled Trains Menu
       | trainNum | planningUid |
       | 2B03     | L20003      |
 
-
+  @bug @task_60227
   Scenario Outline:34002-4a Select Service for Rematching (Map)
 #    Given the user is viewing a live schematic map or trains list
 #    And there are matched services viewable
@@ -76,7 +76,7 @@ Feature: 34002 - Unscheduled Trains Menu
       | trainNum | planningUid |
       | 2B04     | L20004      |
 
-
+  @bug @task_60227
   Scenario Outline:34002-4b Select Service for Rematching (Trains List)
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |

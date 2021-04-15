@@ -48,6 +48,7 @@ Feature: 37659 - Schedule Matching - Consistent Stepping has a time limit
       | D3             | A011  | PADTON   | 401         | location     | green  |
       | D3             | 0106  | PRTOBJP  | 401         | sub-division | green  |
 
+  @bug @task_60227
   Scenario Outline: 37659 -9  Context menu when too old for consistent stepping
     When the following berth step messages is sent from LINX (to move train)
       | timestamp | fromBerth | toBerth | trainDescriber | trainDescription |

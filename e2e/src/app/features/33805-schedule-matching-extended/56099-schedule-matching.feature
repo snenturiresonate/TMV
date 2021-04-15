@@ -8,6 +8,7 @@ Feature: 33805 TMV Schedule Matching
     And I am on the home page
     And I restore to default train list config
 
+  @bug @task_60227
   Scenario Outline: 1. Interpose - Match old ID after Change of ID - <matchLevel> match
     #    Given there is a valid schedule
     #    And a TJM has been received with the type 07 (change of ID) for that schedule
@@ -45,6 +46,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 1B11          | 2B70         | B11111   | PADTON   | 401         | location     |
       | D3             | 0106  | 1B11          | 3B70         | B11111   | PRTOBJP  | 401         | sub-division |
 
+  @bug @task_60227
   Scenario Outline: 1. Step - Match old ID after Change of ID - <matchLevel> match
     #    Given there is a valid schedule
     #    And a TJM has been received with the type 07 (change of ID) for that schedule
@@ -158,6 +160,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 0041        | 1B11          | 2B72         | B11111   | PADTON   | 401         | location     |
       | D3             | 0107  | 0125        | 1B11          | 3B72         | B11111   | PRTOBJP  | 401         | sub-division |
 
+  @bug @task_60227
   Scenario Outline: 3. Interpose - Check if the berth should be schedule matched - <berthType> berth
       #      Given there is a valid schedule
       #      And a TD update with the type <Step Type> has been received for the same train description
@@ -188,6 +191,7 @@ Feature: 33805 TMV Schedule Matching
       | BN             | 0181  | 1B12      | B22222   | Matched      | Unmatch     | NORMAL    |
       | BN             | NCAP  | 1B12      | B22222   | Unmatched    | Match       | EXCLUDE   |
 
+  @bug @task_60227
   Scenario Outline: 3. Step - Check if the berth should be schedule matched - <berthType> berth
       #      Given there is a valid schedule
       #      And a TD update with the type <Step Type> has been received for the same train description
@@ -221,6 +225,7 @@ Feature: 33805 TMV Schedule Matching
       | BN             | 0181  | 0209      | 1B12      | B22222   | Matched      | Unmatch     | NORMAL    |
       | BN             | NCAP  | 0144      | 1B12      | B22222   | Unmatched    | Match       | EXCLUDE   |
 
+  @bug @task_60227
   Scenario Outline: 4. Interpose - Cancelled schedules are not matched - <matchLevel> match
     #    Given there is a valid schedule has a STP indicator of Cancelled  (C or CV)
     #    And a TD update with the type <Step Type> has been received for the same train description

@@ -77,6 +77,7 @@ Feature: 33768-3: TMV User Management
       | restriction      |
       | schedulematching |
 
+  @bug @task_60227
   Scenario Outline: 15 Displaying matching for user with Schedule Matching Role - <matchType>
     #  Given I have signed in
     #  And I have a valid TMV role of Schedule Matching
