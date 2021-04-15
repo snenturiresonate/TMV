@@ -16,7 +16,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     #Then the user is presented with the misc settings view (defaulted to system settings)
   Scenario: 33806 -25 a Trains list misc config header
     Then the misc class header is displayed as 'Misc'
-  @tdd
+
     #Step to reset to defaults using the delete end point needs to be implemented and added before the validations
   Scenario: 33806 -25 b Trains list misc config default values
     Then the following can be seen on the class table
@@ -164,7 +164,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Class 8    | off         |
       | Class 9    | off         |
     And I save the service filter changes
-    And I open 'trains list' page in a new tab
+    And I am on the trains list page
     Then I should see the trains list table to only display the following trains
       | trainDescription |
       | 2P77             |
@@ -172,7 +172,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     # clean up
     * I restore to default train list config
 
-  @tdd
+
   Scenario: 33806 -32b Trains List Config (Train Misc Settings Applied) - Ignore PD cancel toggle on
     Given the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
@@ -185,14 +185,14 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | classValue        | toggleValue |
       | Ignore PD Cancels | on          |
     And I save the service filter changes
-    And I open 'trains list' page in a new tab
+    And I am on the trains list page
     Then I should see the trains list table to not display the following trains
       | trainDescription |
       | 2P77             |
     # clean up
     * I restore to default train list config
 
-  @tdd
+
   Scenario: 33806 -32c Trains List Config (Train Misc Settings Applied) - Ignore PD cancel toggle off
     Given the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
@@ -205,14 +205,14 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | classValue        | toggleValue |
       | Ignore PD Cancels | off         |
     And I save the service filter changes
-    And I open 'trains list' page in a new tab
+    And I am on the trains list page
     Then I should see the trains list table to display the following trains
       | trainDescription |
       | 2P77             |
     # clean up
     * I restore to default train list config
 
-  @tdd
+
   Scenario: 33806 -32d Trains List Config (Train Misc Settings Applied) - Unmatched toggle on
     #Schedule is not available for the train IG65
     When the following berth step message is sent from LINX (to move train)
@@ -222,14 +222,14 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | classValue | toggleValue |
       | Unmatched  | on          |
     And I save the service filter changes
-    And I open 'trains list' page in a new tab
+    And I am on the trains list page
     Then I should see the trains list table to display the following trains
       | trainDescription |
       | 1G65             |
     # clean up
     * I restore to default train list config
 
-  @tdd
+
   Scenario: 33806 -32e Trains List Config (Train Misc Settings Applied) - Unmatched toggle off
     #Schedule is not available for the train IG65
     Given the following berth step message is sent from LINX (to move train)
@@ -239,35 +239,35 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | classValue | toggleValue |
       | Unmatched  | on          |
     And I save the service filter changes
-    And I open 'trains list' page in a new tab
+    And I am on the trains list page
     Then I should see the trains list table to not display the following trains
       | trainDescription |
       | 1G65             |
     # clean up
     * I restore to default train list config
 
-  @tdd
+
   Scenario: 33806 -32f Trains List Config (Train Misc Settings Applied) - Uncalled toggle on
     #Services not activated from the loaded access plan - 5G44
     When I update the following misc options
       | classValue | toggleValue |
       | Uncalled   | on          |
     And I save the service filter changes
-    And I open 'trains list' page in a new tab
+    And I am on the trains list page
     And I should see the trains list table to display the following trains
       | trainDescription |
       | 5G44             |
     # clean up
     * I restore to default train list config
 
-  @tdd
+
   Scenario: 33806 -32g Trains List Config (Train Misc Settings Applied) - Uncalled toggle off
     #Services not activated from the loaded access plan - 5G44
     When I update the following misc options
       | classValue | toggleValue |
       | Uncalled   | off         |
     And I save the service filter changes
-    And I open 'trains list' page in a new tab
+    And I am on the trains list page
     And I should see the trains list table to not display the following trains
       | trainDescription |
       | 5G44             |

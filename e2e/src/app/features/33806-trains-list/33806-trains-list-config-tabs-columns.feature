@@ -12,6 +12,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
 
   Background:
     Given I am on the trains list Config page
+    And I restore to default train list config
+    And I refresh the browser
 
   Scenario: 33806 -2a Verify that columns tab is displayed with the available and selected tables
     Then I see the train list config tab title as 'Columns'
@@ -124,21 +126,23 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
     #Given the user has made changes to the trains list columns selection
     #When the user views the trains list
     #Then the view is updated to reflect the user's column selection
-
-  @tdd
+  @bug @bug_59973
   Scenario: 33806 -4a Moving all selected to un-selected columns and verifying the changes are reflected in trains list
     When I click on all the selected column entries
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     Then I should see the trains list columns as
       | header  |
       | SERVICE |
       | TIME    |
       | PUNCT.  |
+    And I restore to default train list config
 
-  @tdd
+  @bug @bug_59973
   Scenario: 33806 -4b Selecting the 'origin' column includes the columns 'Origin', 'Planned' & 'Actual/Predict' columns in trains list
     When I set trains list columns to include 'Origin' along with the mandatory columns
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     Then I should see the trains list columns as
       | header           |
       | SERVICE          |
@@ -147,11 +151,13 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
       | ORIGIN           |
       | PLANNED          |
       | ACTUAL / PREDICT |
+    And I restore to default train list config
 
-  @tdd
+  @bug @bug_59973
   Scenario: 33806 -4c Selecting the 'Destination' column includes the columns 'Dest.', 'Planned' & 'Actual/Predict' columns in trains list
     When I set trains list columns to include 'Destination' along with the mandatory columns
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     Then I should see the trains list columns as
       | header           |
       | SERVICE          |
@@ -160,12 +166,14 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
       | DEST.            |
       | PLANNED          |
       | ACTUAL / PREDICT |
+    And I restore to default train list config
 
+  @bug @bug_59973
   Scenario: 33806 -4d Changing the order of the selected column items and verifying the changes are reflected in trains list
-    When I set trains list columns to the default
-    And I move 'Up' the selected column item 'Service'
+    When I move 'Up' the selected column item 'Service'
     And I move 'Down' the selected column item 'Last Reported Time'
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     Then I should see the trains list columns as
       | header           |
       | SERVICE          |
@@ -181,4 +189,5 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
       | ACTUAL / PREDICT |
       | NEXT LOC.        |
       | OPERATOR         |
+    And I restore to default train list config
 

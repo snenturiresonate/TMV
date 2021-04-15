@@ -85,8 +85,8 @@ Feature: 33768-2: TMV User Management
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     * the map search box is displayed
-    * the recent maps are displayed
-    * all maps are displayed
+    * the recent maps section is displayed
+    * the all maps section is displayed
     # clean up
     * I have not already authenticated
 

@@ -685,7 +685,12 @@ When(/^I toggle path (?:on|off) from the map context menu$/, async () => {
 
 Then('the map context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
   const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
-  expect(actualContextMenuItem).to.contain(expectedText);
+  expect(actualContextMenuItem, `Map menu item not as expected`).to.contain(expectedText);
+});
+
+Then('the map context menu has {string} on line {int}', async (expectedText: string, rowNum: number) => {
+  const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
+  expect(actualContextMenuItem, `Map menu item not as expected`).to.equal(expectedText);
 });
 
 Then('the track state width for {string} is {string}',
@@ -693,13 +698,6 @@ Then('the track state width for {string} is {string}',
     const actualWidth = await mapPageObject.getTrackWidth(trackId);
     expect(actualWidth, `Track width for ${trackId} is not as expected`)
       .to.equal(expectedWidth);
-  });
-
-Then('the route indication for {string} is {string}',
-  async (trackId: string, expectedValue: string) => {
-    const actualValue = await mapPageObject.getRouteIndication(trackId);
-    expect(actualValue, `Route Indication for ${trackId} is not correct`)
-      .to.equal(expectedValue);
   });
 
 Then('the track colour for track {string} is {word}',
@@ -746,6 +744,10 @@ When('I right click on berth with id {string}', async (berthId: string) => {
   await mapPageObject.rightClickBerth(berthId);
 });
 
+When('I click on {string} link', async (berthId: string) => {
+  await mapPageObject.trainHighlight();
+});
+
 Then('the berth context menu is displayed with berth name {string}', async (expectedBerthName: string) => {
   const berthName: string = await mapPageObject.getBerthName();
   expect(berthName).to.equal(expectedBerthName);
@@ -757,6 +759,20 @@ Then('the train headcode color for berth {string} is {word}',
     const actualSignalStatus: string = await mapPageObject.getBerthColor(berthId);
     expect(actualSignalStatus, 'Headcode colour is not ' + expectedColor)
       .to.equal(expectedColorHex);
+  });
+
+Then('the train highlight color for berth {string} is {word}',
+  async (berthId: string, expectedColor: string) => {
+    const expectedColorHex = mapColourHex[expectedColor];
+    const actualColorHex: string = await mapPageObject.getBerthColor(berthId);
+    expect(actualColorHex, 'Headcode colour is not ' + expectedColor)
+      .to.equal(expectedColorHex);
+  });
+
+Then('the menu is displayed with {string} option',
+  async (expectedText: string) => {
+    const actualText = await mapPageObject.getTrainHighlightText();
+    expect(actualText).to.equal(expectedText);
   });
 
 Then(/^the rectangle colour for berth (\w+) (is|is not) (\w+) meaning (.*)$/,

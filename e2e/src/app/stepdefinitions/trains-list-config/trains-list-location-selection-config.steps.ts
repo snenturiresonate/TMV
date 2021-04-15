@@ -128,7 +128,7 @@ Then('I should see the following stop types in the given order within each locat
   for (let i = 0; i < locationRowCount; i++) {
       for (let elmOrder = 0; elmOrder < tableValues.length; elmOrder++) {
         const actualResult: string = await trainsListLocationSelectionConfig.getStopTypeOfRow(i, elmOrder);
-        results.push(expect(actualResult, `Stop type not correct for row ${i + 1}`)
+        results.push(expect(actualResult, `Stop type not correct for location at row ${i + 1}`)
           .to.equal(tableValues[elmOrder].stopTypes));
       }
   }
@@ -160,13 +160,13 @@ Then('I should not see the location re-ordering arrows', async () => {
     .to.not.include(true);
 });
 
-When('I have only the following locations and stop types selected', async (table: any) => {
+When('I have only the following locations and stop types selected', {timeout: 2 * 20000}, async (table: any) => {
   const tableValues = table.hashes();
   await trainsListLocationSelectionConfig.removeAllLocations();
   for (let i = 0; i < tableValues.length; i++) {
     const locationName = tableValues[i].locationNameValue;
     await trainsListLocationSelectionConfig.enterLocationSearchString(locationName);
-    await trainsListLocationSelectionConfig.clickLocationResult();
+    await trainsListLocationSelectionConfig.chooseLocationFromResult(locationName);
     await trainsListLocationSelectionConfig.setStopTypeCheckedState('Originate', locationName, tableValues[i].Originate);
     await trainsListLocationSelectionConfig.setStopTypeCheckedState('Stop', locationName, tableValues[i].Stop);
     await trainsListLocationSelectionConfig.setStopTypeCheckedState('Pass', locationName, tableValues[i].Pass);

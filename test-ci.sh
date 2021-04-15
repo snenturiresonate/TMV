@@ -6,6 +6,10 @@ cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" || echo "Could not change
 STACK_NAME=${STACK_NAME:-tmv-national-test-coverage}
 CUCUMBER_TAGS=${CUCUMBER_TAGS:-"not (@bug or @tdd)"}
 
+# ensure aws cli is installed
+sudo apt-get -y install awscli
+pip3 install --upgrade awscli
+
 if [[ -z "$STACK_NAME" ]]
 then
   echo "Error: No stack name provided, exiting."
@@ -20,7 +24,7 @@ fi
 ##aws --region eu-west-2 ecr get-login-password &> /dev/null
 
 echo "Looking for environment with the Stack Name: $STACK_NAME"
-STACK_DETAILS=$(aws cloudformation describe-stacks --stack-name "$STACK_NAME" 2> /dev/null)
+STACK_DETAILS=$(aws cloudformation describe-stacks --stack-name "$STACK_NAME" --region eu-west-2 2> /dev/null)
 
 if [[ -z "$STACK_DETAILS" ]]
 then

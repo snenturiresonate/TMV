@@ -110,12 +110,14 @@ Then('the train indication config header is displayed as {string}', async (expec
 Then('I should see the train list row coloured as', async (table: any) => {
   const expectedEntries = table.hashes();
   const results: any[] = [];
+  // tslint:disable-next-line:prefer-for-of
   for (let i = 0; i < expectedEntries.length; i++) {
     const expectedBackgroundColour = expectedEntries[i].backgroundColour;
     const trainDescriberId = expectedEntries[i].trainDescriberId;
+    const trainUID = expectedEntries[i].trainUID;
     results.push(
-      expect(trainsListTable.getBackgroundColourOfRow(trainDescriberId), `Row Colour for ${trainDescriberId} not correct`)
-        .to.include(expectedEntries));
+      expect(await trainsListTable.getBackgroundColourOfRow(trainUID), `Row Colour for ${trainDescriberId} not correct`)
+        .to.contain(expectedBackgroundColour));
   }
   return protractor.promise.all(results);
 });
