@@ -1,4 +1,4 @@
-@bug @bug_60319
+#@bug @bug_60319
 Feature: 33750 - Schematic Maps - Render Objects
 
   As a TMV User
@@ -103,6 +103,7 @@ Feature: 33750 - Schematic Maps - Render Objects
       | CSCNUW  | CSCNUW       |
       | MHSB11  | MHSB11       |
 
+  @bug @bug_60319
   Scenario Outline: 33750-4c Berth Menu (Secondary Click - manual berths)
     Given I am authenticated to use TMV
     And I am viewing the map gw13exeter.v
