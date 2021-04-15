@@ -362,7 +362,7 @@ export class MapPageObject {
   }
 
   public async getBerthColor(berthId: string): Promise<string> {
-    const berthLink: ElementFinder = element(by.id('berth-element-text-' + berthId));
+    const berthLink: ElementFinder = element(by.id('berth-element-rect-' + berthId));
     const berthColourRgb: string = await berthLink.getCssValue('fill');
     return CssColorConverterService.rgb2Hex(berthColourRgb);
   }

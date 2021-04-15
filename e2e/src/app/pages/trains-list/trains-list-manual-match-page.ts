@@ -13,6 +13,7 @@ export class TrainsListManualMatchPageObject {
   public serviceFilter: ElementFinder;
   public matchedTable: ElementFinder;
   public matchedTrainDesc: ElementFinder;
+  public matchedTrainUID: ElementFinder;
   public matchedColumn: ElementArrayFinder;
   public matchedValue: ElementArrayFinder;
   public saveButton: ElementFinder;
@@ -34,6 +35,7 @@ export class TrainsListManualMatchPageObject {
     this.serviceFilter = element(by.id('services-filter-box'));
     this.matchedTable = element(by.css('.div-container.tmv-matched-margin'));
     this.matchedTrainDesc = element(by.css('#trainDesc'));
+    this.matchedTrainUID = element(by.css('#planningUid'));
     this.matchedColumn = element.all(by.css('.tmv-matched-margin .col-md-5'));
     this.matchedValue = element.all(by.css('.tmv-matched-margin .col-md-6'));
     this.saveButton = element(by.id('saveManualMatching'));
@@ -54,6 +56,18 @@ export class TrainsListManualMatchPageObject {
   public async getNumServicesListed(): Promise<number> {
     await this.componentLoad();
     return this.trainService.count();
+  }
+
+  public async isServiceListed(planningUID: string): Promise<boolean> {
+    await this.componentLoad();
+    const numServices = await this.getNumServicesListed();
+    let i = 0;
+    for (i; i < numServices; i++) {
+      if (await this.getPlanUid(i) === planningUID) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public async getSearchEntryValues(planningUID: string): Promise<string[]> {

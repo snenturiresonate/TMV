@@ -31,7 +31,7 @@ const mapColourHex = {
   red: '#ff0000',
   blue: '#0000ff',
   green: '#00ff00',
-  yellow: '#fffe3c',
+  yellow: '#ffff00',
   white: '#ffffff',
   orange: '#ffa700',
   stone: '#f9cb9c',
