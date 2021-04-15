@@ -81,5 +81,5 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     And I click the add button for TRUST Service Filter
     And I save the service filter changes for Trust Id
     And I am on the trains list page
-    Then I should see the trains list table to only display train description 'IB25'
+    Then I should see the trains list table to only display train description '1B25'
 
