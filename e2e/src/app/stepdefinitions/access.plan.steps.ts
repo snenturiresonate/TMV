@@ -7,9 +7,9 @@ import {ProjectDirectoryUtil} from '../utils/project-directory.util';
 import * as path from 'path';
 import {browser} from 'protractor';
 import {expect} from 'chai';
-import {DateAndTimeUtils} from "../pages/common/utilities/DateAndTimeUtils";
-import {LocalDate} from "@js-joda/core";
-import {CucumberLog} from "../logging/cucumber-log";
+import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
+import {LocalDate} from '@js-joda/core';
+import {CucumberLog} from '../logging/cucumber-log';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
@@ -163,7 +163,11 @@ function dealWithLOOrLTRecord(cifLine: string, trainStartHours, hoursVal: number
   const LO2 = pickCorrectHoursString(LO2DepWTTHours, trainStartHours, hoursVal);
   const LO3 = cifLine.substr(12, 3);
   const LO4DepPTHours = cifLine.substr(15, 2);
-  const LO4 = pickCorrectHoursString(LO4DepPTHours, trainStartHours, hoursVal);
+  let LO4 = '00';
+  const pubTime = cifLine.substr(15, 4);
+  if (pubTime !== '0000') {
+    LO4 = pickCorrectHoursString(LO4DepPTHours, trainStartHours, hoursVal);
+  }
   const LO5 = cifLine.substr(17, 63);
   const LO6 = '\r\n';
   return LO1 + LO2 + LO3 + LO4 + LO5 + padToEighty + LO6;
@@ -193,10 +197,18 @@ function dealWithLIRecord(cifLine: string, trainStartHours, hoursVal: number): s
     const LI4 = pickCorrectHoursString(LI4DepWTTHours, trainStartHours, hoursVal);
     const LI5 = cifLine.substr(17, 8);
     const LI6ArrPTHours = cifLine.substr(25, 2);
-    const LI6 = pickCorrectHoursString(LI6ArrPTHours, trainStartHours, hoursVal);
+    let LI6 = '00';
+    const pubArrTime = cifLine.substr(25, 4);
+    if (pubArrTime !== '0000') {
+      LI6 = pickCorrectHoursString(LI6ArrPTHours, trainStartHours, hoursVal);
+    }
     const LI7 = cifLine.substr(27, 2);
     const LI8DepPTHours = cifLine.substr(29, 2);
-    const LI8 = pickCorrectHoursString(LI8DepPTHours, trainStartHours, hoursVal);
+    let LI8 = '00';
+    const pubDepTime = cifLine.substr(29, 4);
+    if (pubDepTime !== '0000') {
+      LI8 = pickCorrectHoursString(LI8DepPTHours, trainStartHours, hoursVal);
+    }
     const LI9 = cifLine.substr(31, 49);
     const LI10 = '\r\n';
     return LI1 + LI2 + LI3 + LI4 + LI5 + LI6 + LI7 + LI8 + LI9 + padToEighty + LI10;
