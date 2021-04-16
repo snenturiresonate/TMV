@@ -177,15 +177,15 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       # Destination
       | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | London Euston | 15:52:00  | WY             | B012    | 15:53:00     | EUSTON  | Arrival at Termination |
 
-  @wip @test
+  @bug @bug:60339
   Scenario Outline: 42006-7 Display calculated actual punctuality following an arrival
     Given I am on the trains list page
     And the following basic schedule is received from LINX
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
       | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' disappears from the trains list
+    And train description '<trainDescription>' with schedule type 'STP' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
-    And Train description '<trainDescription>' is visible on the trains list
+    And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
     When the following berth step messages is sent from LINX
       | fromBerth   | timestamp   | toBerth   | trainDescriber   | trainDescription   |
       | <fromBerth> | <timestamp> | <toBerth> | <trainDescriber> | <trainDescription> |
@@ -196,7 +196,35 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
     Examples:
       | cif                                     | trainUid | trainDescription | location      | timestamp | expectedArrivalTime | trainDescriber | toBerth | fromBerth |
       #Stopping
-      | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | Stafford      | 13:50:00  | 13:51:00            | R3             | 5582    | 3594      |
+      | access-plan/42006-schedules/42006-6.cif | C14261   | 1U38             | Stafford      | 13:50:00  | 13:51:00            | R3             | 5582    | 3594      |
       # Destination
-      | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | London Euston | 15:50:00  | 15:52:00            | WY             | B012    | 0284      |
+      | access-plan/42006-schedules/42006-6.cif | C14261   | 1U38             | London Euston | 15:50:00  | 15:52:00            | WY             | B012    | 0284      |
 
+  @wip
+  Scenario Outline: 42006-8 Display calculated actual punctuality following an departure
+    Given I am on the trains list page
+    And the following basic schedule is received from LINX
+      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
+      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
+    And train description '<trainDescription>' with schedule type 'STP' disappears from the trains list
+    And the access plan located in CIF file '<cif>' is received from LINX
+    And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
+    When the following berth step messages is sent from LINX
+      | fromBerth   | timestamp   | toBerth   | trainDescriber   | trainDescription   |
+      | <fromBerth> | <timestamp> | <toBerth> | <trainDescriber> | <trainDescription> |
+
+    # Do I need to add another berth step from the location we are monitoring here?
+
+    And I am on the timetable view for service '<trainUid>'
+    And I toggle the inserted locations on
+    Then the punctuality for location "<location>" instance 1 is correctly calculated based on "<timestamp>" & "<expectedArrivalTime>"
+
+    # for a stopping location actual arrival punctuality will only be displayed until a departure time is received
+    Examples:
+      | cif                                     | trainUid | trainDescription | location      | timestamp | expectedArrivalTime | trainDescriber | toBerth | fromBerth |
+      #Stopping
+      | access-plan/42006-schedules/42006-7.cif | C14261   | 1U39             | Stafford      | 13:50:00  | 13:51:00            | R3             | 5582    | 3594      |
+      # Destination
+      | access-plan/42006-schedules/42006-7.cif | C14261   | 1U39             | London Euston | 15:50:00  | 15:52:00            | WY             | B012    | 0284      |
+      # Passing
+      | access-plan/42006-schedules/42006-7.cif | C14261   | 1U39             | ?? | ??  | ??            | ??             | ??    | ??      |
