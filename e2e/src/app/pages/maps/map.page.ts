@@ -248,13 +248,14 @@ export class MapPageObject {
     return this.mapContextMenuItems.get(rowIndex - 1).getText();
   }
 
-  public async waitForMatchType(trainDescription: string, matchType: string, berth: string, describer: string): Promise<boolean> {
+  public async waitForMatchIndication(trainDescription: string, indication: string,
+                                      berth: string, describer: string, row: number): Promise<boolean> {
     return browser.wait(async () => {
       try {
         await this.openContextMenuForTrainDescription(trainDescription);
         await this.waitForContextMenu();
-        const contextMenuItem = await this.getMapContextMenuItem(3);
-        if (contextMenuItem.includes(matchType)) {
+        const contextMenuItem = await this.getMapContextMenuItem(row);
+        if (contextMenuItem.includes(indication)) {
           return true;
         }
         await this.closeContextMenuForTrainDescription(trainDescription);

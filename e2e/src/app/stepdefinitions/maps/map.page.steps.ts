@@ -824,24 +824,37 @@ Then('the manual trust berth type for {string} is {word}',
       .to.equal(expectedType);
   });
 
-Then(/^the (Matched|Unmatched) version of the context menu is displayed$/, async (matchType: string) => {
+Then(/^the (Matched|Unmatched) version of the map context menu is displayed$/, async (matchType: string) => {
   await mapPageObject.waitForContextMenu();
-  let expected;
+  let expected1;
+  let expected2;
   if (matchType === 'Matched') {
-    expected = 'Unmatch';
+    expected1 = 'Open timetable';
+    expected2 = 'Turn Path';
+
   } else {
-    expected = 'Match';
+    expected1 = 'No timetable';
+    expected2 = 'Match';
   }
-  const contextMenuItem: string = await mapPageObject.getMapContextMenuItem(3);
-  expect(contextMenuItem, `${matchType} option not found in the context menu`)
-    .to.contain(expected);
+  const contextMenuItem1: string = await mapPageObject.getMapContextMenuItem(2);
+  const contextMenuItem2: string = await mapPageObject.getMapContextMenuItem(3);
+  expect(contextMenuItem1, `Context menu does not imply ${matchType} state - does not contain ${expected1}`)
+    .to.contain(expected1);
+  expect(contextMenuItem2, `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
+    .to.contain(expected2);
 });
 
 When(/^I wait for the option to (Match|Unmatch) train description (\w+) in berth (\w+), describer (\w+) to be available$/,
-  async (matchType: string, trainDescription: string, berth: string, describer: string) => {
-    const disappeared: boolean = await mapPageObject.waitForMatchType(trainDescription, matchType, berth, describer);
-    expect(disappeared).to.equal(true);
+  async (matchIndicator: string, trainDescription: string, berth: string, describer: string) => {
+    const optionAvailable: boolean = await mapPageObject.waitForMatchIndication(trainDescription, matchIndicator, berth, describer, 3);
+    expect(optionAvailable).to.equal(true);
 });
+
+When(/^I wait for the (Open|No) timetable option for train description (\w+) in berth (\w+), describer (\w+) to be available$/,
+  async (matchIndicator: string, trainDescription: string, berth: string, describer: string) => {
+    const optionAvailable: boolean = await mapPageObject.waitForMatchIndication(trainDescription, matchIndicator, berth, describer, 2);
+    expect(optionAvailable).to.equal(true);
+  });
 
 Given(/^I have cleared out all headcodes$/, async () => {
   await browser.wait(ExpectedConditions.visibilityOf(mapPageObject.berthElements), 60 * 1000);

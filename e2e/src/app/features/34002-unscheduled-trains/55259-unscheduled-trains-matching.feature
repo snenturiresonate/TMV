@@ -155,7 +155,7 @@ Feature: 34002 - Unscheduled Trains Matching
       | trainNum | planningUid1 | planningUid2 |
       | 1C13     | L12007       | L12008       |
 
-
+  @tdd @ref_60199
   Scenario Outline: 34002:7a Make Rematch - matching matched step to an unmatched service
 #    Given the user is viewing the manual matching view
 #    And the user has the schedule matching role
@@ -199,6 +199,7 @@ Feature: 34002 - Unscheduled Trains Matching
       | trainNum | planningUid1 | planningUid2 |
       | 1C14     | L12009       | L12010       |
 
+  @tdd @ref_60199
   Scenario Outline: 34002:7b Make ReMatch - matching matched step to a different matched service
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                                    | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -243,7 +244,7 @@ Feature: 34002 - Unscheduled Trains Matching
       | trainNum | planningUid1 | planningUid2 |
       | 1C15     | L12011       | L12012       |
 
-
+  @tdd @ref_60199
   Scenario Outline: 34002:8 Unmatch
 #    Given the user is viewing the manual matching view
 #    And the user has the matching role
