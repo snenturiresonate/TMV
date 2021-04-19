@@ -61,7 +61,7 @@ Feature: 49634 - Schematic State - marker-board state
       | MH             | 31      | 01   | 10:45:00  |
     Then the shunt marker board 'MH1199' will display a Movement Authority given [white triangle with blue inner triangle]
 
-  @replaySetup @bug @bug_51929
+  @replaySetup
   Scenario: 34081-13 - Shunt Marker Board State (Movement Authority Not Given)
     #    Given an S-Class message is received and processed
     #    And the S-Class message is associated with a shunt marker board
