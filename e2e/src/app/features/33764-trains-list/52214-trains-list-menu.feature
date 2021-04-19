@@ -1,4 +1,3 @@
-@bug @bug_54441
 Feature: 52214 - TMV Trains List - menu
   (From Gherkin for Feature 33764)
 
@@ -49,7 +48,6 @@ Feature: 52214 - TMV Trains List - menu
       | 4        |
       | 5        |
 
-  @tdd
   Scenario: 33764-5c Trains List Context menu - matched service
     Given the access plan located in CIF file 'access-plan/2P77_RDNGSTN_PADTON.cif' is amended so that all services start within the next hour and then received from LINX
     And the following live berth step message is sent from LINX
@@ -79,7 +77,6 @@ Feature: 52214 - TMV Trains List - menu
     And a matched service is visible
 
 
-  @tdd
   Scenario: 33764-5d Trains List Context menu - unmatched train with unknown direction
     Given the following live berth interpose message is sent from LINX
       | toBerth | trainDescriber | trainDescription |
