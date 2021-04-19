@@ -124,6 +124,10 @@ export class NavBarPageObject {
     this.routeSetCodeIndicator = element(by.css('#routesetcodetoggle .toggle-switch'));
   }
 
+  public async navBarIsDisplayed(): Promise<boolean> {
+    return this.navBar.isPresent();
+  }
+
   public async getNavbarIconNames(): Promise<string> {
     return this.navBarIcons.getText();
   }

@@ -84,11 +84,6 @@ const mapObjectColourHex = {
   manual_trust_berth: ['#ffff00']
 };
 
-Given(/^I am viewing the map (.*)$/, {timeout: 40000}, async (mapId: string) => {
-  const url = '/tmv/maps/' + mapId;
-  await appPage.navigateTo(url);
-});
-
 Given('I view a schematic that contains a continuation button', async () => {
   const randomMap = await homePage.chooseRandomMap();
   const url = '/tmv/maps/' + randomMap;

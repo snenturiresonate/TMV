@@ -22,12 +22,17 @@ import {TestData} from '../logging/test-data';
 import {LocalStorage} from '../../../local-storage/local-storage';
 import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dialogue.page';
 import {TrainActivationMessageBuilder} from '../utils/train-activation/train-activation-message';
+import {HomePageObject} from '../pages/home.page';
+import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 import {DateTimeFormatter, LocalDateTime} from '@js-joda/core';
+import {NavBarPageObject} from '../pages/nav-bar.page';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
 const adminRestClient: AdminRestClient = new AdminRestClient();
 const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
+const homePage: HomePageObject = new HomePageObject();
+const navBar: NavBarPageObject = new NavBarPageObject();
 
 const userForRole = {
   matching: 'admin',
@@ -69,6 +74,118 @@ Given(/^I navigate to (.*) page$/, async (pageName: string) => {
       await page.navigateTo('/tmv/administration');
       break;
   }
+});
+
+Given(/^I navigate to (.*) page as (.*) user$/, async (pageName: string, user: string) => {
+
+  switch (pageName) {
+    case 'Home':
+      await page.navigateTo('', user);
+      break;
+    case 'TrainsList':
+      await page.navigateTo('/tmv/trains-list', user);
+      break;
+    case 'LogViewer':
+      await page.navigateTo('/tmv/log-viewer', user);
+      break;
+    case 'Replay':
+      await page.navigateTo('/tmv/replay', user);
+      break;
+    case 'Maps':
+      await page.navigateTo(`/tmv/maps/1`, user);
+      break;
+    case 'TrainsListConfig':
+      await page.navigateTo('/tmv/trains-list-config', user);
+      break;
+    case 'Admin':
+      await page.navigateTo('/tmv/administration', user);
+      break;
+    case 'Enquiries':
+      await page.navigateTo('/tmv/enquiries', user);
+      break;
+  }
+});
+
+Given(/^I navigate to (.*) page without prior authentication$/, async (pageName: string) => {
+
+  switch (pageName) {
+    case 'Home':
+      await page.navigateToWithoutSignIn('');
+      break;
+    case 'TrainsList':
+      await page.navigateToWithoutSignIn('/tmv/trains-list');
+      break;
+    case 'LogViewer':
+      await page.navigateToWithoutSignIn('/tmv/log-viewer');
+      break;
+    case 'Replay':
+      await page.navigateToWithoutSignIn('/tmv/replay');
+      break;
+    case 'Maps':
+      await page.navigateToWithoutSignIn(`/tmv/maps/1`);
+      break;
+    case 'TrainsListConfig':
+      await page.navigateToWithoutSignIn('/tmv/trains-list-config');
+      break;
+    case 'Admin':
+      await page.navigateToWithoutSignIn('/tmv/administration');
+      break;
+    case 'Enquiries':
+      await page.navigateToWithoutSignIn('/tmv/enquiries');
+      break;
+  }
+});
+
+Given(/^I am viewing the map (.*)$/, {timeout: 40000}, async (mapId: string) => {
+  const url = '/tmv/maps/' + mapId;
+  await page.navigateTo(url);
+});
+
+Given(/^I view the map (.*) as (.*) user$/, {timeout: 40000}, async (mapId: string, user: string) => {
+  const url = '/tmv/maps/' + mapId;
+  await page.navigateTo(url, user);
+});
+
+Given(/^I view the map (.*) without prior authentication$/, {timeout: 40000}, async (mapId: string) => {
+  const url = '/tmv/maps/' + mapId;
+  await page.navigateToWithoutSignIn(url);
+});
+
+// tslint:disable-next-line:max-line-length
+Then(/^I navigate to the timetable page of train UID (.*) and date (.*) as (.*) user$/, async (trainUID: string, date: string, user: string) => {
+  const dateInFormat = DateAndTimeUtils.convertToDesiredDateAndFormat(date, 'yyyy-MM-dd');
+  const url = `/tmv/live-timetable/${trainUID}:${dateInFormat}`;
+  await page.navigateTo(url, user);
+});
+
+// tslint:disable-next-line:max-line-length
+Then(/^I navigate to the timetable page of train UID (.*) and date (.*) without prior authentication$/, async (trainUID: string, date: string) => {
+  const dateInFormat = DateAndTimeUtils.convertToDesiredDateAndFormat(date, 'yyyy-MM-dd');
+  const url = `/tmv/live-timetable/${trainUID}:${dateInFormat}`;
+  await page.navigateToWithoutSignIn(url);
+});
+
+Then(/^I navigate to the schedule matching page for the following train$/, async (table: any) => {
+  const trainDetails = table.hashes()[0];
+  const dateInFormat = DateAndTimeUtils.convertToDesiredDateAndFormat(trainDetails.scheduleDate, 'yyyy-MM-dd');
+  const trainUID = trainDetails.trainUID;
+  const trainDescription = trainDetails.trainDesc;
+  const url = `/tmv/manual-match-selection?scheduleId=${trainUID}:${dateInFormat}&trainDesc=${trainDescription}`;
+  await browser.get(url);
+});
+
+Then(/^I navigate to the restrictions page for track id (.*)$/, async (trackId: string) => {
+  const url = `/tmv/restrictions?trackId=${trackId}`;
+  await browser.get(url);
+});
+
+Then(/^I am re-directed to home page$/, async () => {
+  expect(await homePage.getWelcomeMessageText()).to.contain('Welcome to TMV');
+});
+
+Then(/^I am not re-directed to home page$/, async () => {
+  expect(await navBar.navBarIsDisplayed()).to.equal(true);
+  expect(await homePage.homePageDisplayed()).to.equal(false);
 });
 
 Given(/^I have not already authenticated$/, {timeout: 5 * 10000}, async () => {

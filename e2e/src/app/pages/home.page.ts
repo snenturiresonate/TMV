@@ -2,6 +2,8 @@ import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} fro
 import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
 
 export class HomePageObject {
+  public homePageContent: ElementFinder;
+
   public wecomeMessage: ElementFinder;
   public mapGroupingIcons: ElementArrayFinder;
   public mapList: ElementArrayFinder;
@@ -31,6 +33,7 @@ export class HomePageObject {
   public adminIcon: ElementFinder;
 
   constructor() {
+    this.homePageContent = element(by.css('app-home #home-body'));
     this.wecomeMessage = element(by.css('.tmv-container h1'));
     this.mapGroupingIcons = element.all(by.css('app-map-list .material-icons'));
     this.mapList = element.all(by.css('.mapLink'));
@@ -111,6 +114,10 @@ export class HomePageObject {
 
   public async getWelcomeMessageText(): Promise<string> {
     return this.wecomeMessage.getText();
+  }
+
+  public async homePageDisplayed(): Promise<boolean> {
+    return this.homePageContent.isPresent();
   }
 
   public async expandMapGrouping(position: number): Promise<void>
