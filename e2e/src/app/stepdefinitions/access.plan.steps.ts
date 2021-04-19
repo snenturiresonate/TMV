@@ -8,7 +8,6 @@ import * as path from 'path';
 import {browser} from 'protractor';
 import {expect} from 'chai';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
-import {LocalDate} from '@js-joda/core';
 import {CucumberLog} from '../logging/cucumber-log';
 
 let page: AppPage;
@@ -39,7 +38,7 @@ When('the access plan located in CIF file {string} is amended so that all servic
     const now = new Date();
     const startHours = Number(now.getHours());
     const startMins = Number(now.getMinutes());
-    const timeOfExtract = `${startHours}${startMins}`;
+    const timeOfExtract = `${startHours.toString().padStart(2, '0')}${startMins.toString().padStart(2, '0')}`;
     const dateOfExtract = DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'ddMMyy');
     const endDateOfExtract = DateAndTimeUtils.convertToDesiredDateAndFormat('tomorrow', 'ddMMyy');
     let setHours = startHours;
