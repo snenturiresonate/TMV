@@ -7,6 +7,7 @@ import {CssColorConverterService} from '../../services/css-color-converter.servi
 
 export class TimeTablePageObject {
   public timetableTab: ElementFinder;
+  public detailsTab: ElementFinder;
   public headerLabels: ElementArrayFinder;
   public headerScheduleType: ElementFinder;
   public headerSignal: ElementFinder;
@@ -27,6 +28,7 @@ export class TimeTablePageObject {
   constructor() {
     this.headerLabels = element.all(by.css('.tmv-header-content [id$=Label]'));
     this.timetableTab = element(by.id('timetable-table-tab'));
+    this.detailsTab = element(by.id('timetable-details-tab'));
     this.headerScheduleType = element(by.id('timetableHeaderScheduleType'));
     this.headerHeadcode = element(by.id('timetable-header-service-information-current-train-description'));
     this.headerOldHeadcode = element(by.id('timetable-header-service-information-planned-train-description'));
@@ -45,12 +47,9 @@ export class TimeTablePageObject {
     this.timetableHeaderThElements = element.all(by.css('[id^=tmv-timetable-header-row] th'));
   }
 
-  navigateTo(service: string): Promise<unknown> {
-    return browser.get(browser.baseUrl + '/tmv/live-timetable/' + service) as Promise<unknown>;
-  }
-
   async getTableRows(): Promise<TimetableTableRowPageObject[]> {
     await browser.wait(ExpectedConditions.visibilityOf(this.rows.first()), 4000, 'wait for timetable to load');
+    await browser.sleep(2000);
     return this.rows.map(row => row.getAttribute('id'))
       .then(list => list.map(id => new TimetableTableRowPageObject(element(by.id(id.toString())))));
   }
@@ -69,9 +68,26 @@ export class TimeTablePageObject {
     return Promise.all(rows.map(row => row.getLocation()));
   }
 
-  async getLocationRowIndex(location: string): Promise<number> {
+  async getLocationRowIndex(location: string, instance: number): Promise<number> {
     const locations = await this.getLocations();
-    return locations.indexOf(location);
+    let index = -1;
+    let instanceFound = 0;
+    // indexOf doesn't work due to need for == rather than ===, all values are strings but they won't always match.
+    for (let i = 0; i < locations.length; i ++) {
+      // tslint:disable-next-line:triple-equals
+      if (location == locations[i]) {
+        instanceFound++;
+        // tslint:disable-next-line:triple-equals
+        if (instance == instanceFound) {
+          index = i;
+          break;
+        }
+      }
+    }
+    if (index === -1) {
+      assert.fail(`no row for location ${location} instance ${instance}, locations available are ${locations.join(',')}`);
+    }
+    return index;
   }
 
   ensureInsertedLocationFormat(location: string): string {
@@ -82,25 +98,21 @@ export class TimeTablePageObject {
   }
 
   async pathTextToEqual(location: string, expectPathText: string): Promise<void> {
-    const row = await this.getRowByLocation(location);
+    const row = await this.getRowByLocation(location, 1);
     const actualPathText = await row.path.getText();
     assert(expectPathText === actualPathText,
       `location ${location} should have path code ${expectPathText}, was ${actualPathText}`);
   }
 
   async lineTextToEqual(location: string, expectLineText: string): Promise<void> {
-    const row = await this.getRowByLocation(location);
+    const row = await this.getRowByLocation(location, 1);
     const actualLineText = await row.path.getText();
     assert(expectLineText === actualLineText,
       `location ${location} should have path code ${expectLineText}, was ${actualLineText}`);
   }
 
-  async getRowByLocation(location: string): Promise<TimetableTableRowPageObject> {
-    const rowIndex = await this.getLocationRowIndex(location);
-    if (rowIndex === -1)
-    {
-      assert.fail('no row for location ' + location);
-    }
+  async getRowByLocation(location: string, instance: number): Promise<TimetableTableRowPageObject> {
+    const rowIndex = await this.getLocationRowIndex(location, instance);
     const rows = await this.getTableRows();
     return rows[rowIndex];
   }
@@ -126,6 +138,15 @@ export class TimeTablePageObject {
       ? ' ' + await this.headerOldHeadcode.getText() : '';
 
     return of(currentDescription + plannedDescription).toPromise();
+  }
+
+  public async getHeaderTrainUID(): Promise<string> {
+    await browser.wait(async () => {
+      return this.headerTrainUid.isPresent();
+    }, browser.displayTimeout, 'The timetable header train UID should be displayed');
+
+    const trainUID: string = await this.headerTrainUid.getText();
+    return of(trainUID).toPromise();
   }
 
   public async getTimetableEntryColValues(timetableEntryId: string): Promise<string[]> {
@@ -165,13 +186,20 @@ export class TimeTablePageObject {
   }
 
   public async openDetailsTab(): Promise<void> {
-    await element(by.id('timetable-details-tab')).click();
+    await this.detailsTab.click();
+    await element(by.css('.tmv-tab-timetable-active')).getText()
+      .then(async text => {
+        if (text !== 'Details') {
+          await this.detailsTab.click();
+        }
+      });
   }
 
   public async getModificationsTableRows(): Promise<ModificationsTablerowPage[]> {
-    browser.wait(ExpectedConditions.visibilityOf(element(by.css('table.modification-table tbody tr'))));
+    const rowLocator = by.css('table.modification-table tbody tr');
+    await browser.wait(ExpectedConditions.visibilityOf(element(rowLocator)), 15000, 'Modifications table is not shown');
     const array = new Array<ModificationsTablerowPage>();
-    await element.all(by.css('table.modification-table tbody tr'))
+    await element.all(rowLocator)
       .each((row, index) => {
         array.push(new ModificationsTablerowPage(element(by.css(`table.modification-table tbody tr:nth-child(${index + 1})`))));
       });

@@ -1,4 +1,3 @@
-@bug @bug_55994
 Feature: 33806 - TMV User Preferences - full end to end testing - TL config - punctuality
 
   As a tester
@@ -16,7 +15,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
 
   Scenario: 33806 -5a Trains list punctuality config header
     Then the punctuality header is displayed as 'Punctuality'
-
+  @bug @bug_56589
   Scenario: 33806 -5b Trains list punctuality config default color and entries
     Then the following can be seen on the punctuality table
       | punctualityColorText | fromTime | toTime | entryValue               | include |
@@ -116,7 +115,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
     #Given the user has made changes to the trains list punctuality
     #When the user views the trains list
     #Then the view is updated to reflect the user's punctuality changes
-  @tdd
   Scenario: 33806 -10 Verify if the trains list punctuality config update is reflected in trains list table
     When I update the trains list punctuality settings as
       | punctualityColorText | fromTime | toTime | entryValue                   | include |
@@ -131,7 +129,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
       | #c4d                 | 3        | 5      | 3 to 5 minutes late-edit     | on      |
       | #de7                 | 15       | 20     | 15 to 20 minutes late-edit   | on      |
       | #ff6                 | 21       |        | 21 minutes or more late-edit | on      |
-    And I open 'trains list' page in a new tab
+    And I save the trains list config
+    And I am on the trains list page
     Then I should see the punctuality colour for the time-bands as
       | punctualityColor   | fromTime | toTime |
       #End time-bands blanked out
@@ -147,4 +146,4 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
       | rgb(0, 0, 0)       | 5        | 15     |
       | rgb(221, 238, 119) | 15       | 20     |
       | rgb(255, 255, 102) | 21       |        |
-
+    And I restore to default train list config

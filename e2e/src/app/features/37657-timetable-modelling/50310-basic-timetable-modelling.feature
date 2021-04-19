@@ -148,7 +148,7 @@ Feature: 37657 - Basic Timetable Modelling
     And I am on the trains list page
     And The trains list table is visible
     And I invoke the context menu from train '<trainUid>' on the trains list
-    And I wait for the context menu to display
+    And I wait for the trains list context menu to display
     When I open timetable from the context menu
     And I switch to the new tab
     Then The values for the header properties are as follows
@@ -175,7 +175,7 @@ Feature: 37657 - Basic Timetable Modelling
     And I am on the trains list page
     And The trains list table is visible
     And I invoke the context menu from train '<trainUid>' on the trains list
-    And I wait for the context menu to display
+    And I wait for the trains list context menu to display
     When I open timetable from the context menu
     And I switch to the new tab
     Then The timetable entries contains the following data
@@ -214,7 +214,7 @@ Feature: 37657 - Basic Timetable Modelling
     And I am on the trains list page
     And The trains list table is visible
     And I invoke the context menu from train '1D46' on the trains list
-    And I wait for the context menu to display
+    And I wait for the trains list context menu to display
     And I open timetable from the context menu
     And I switch to the new tab
     When I switch to the timetable details tab
@@ -232,7 +232,7 @@ Feature: 37657 - Basic Timetable Modelling
     And I am on the trains list page
     And The trains list table is visible
     And I invoke the context menu from train '1D46' on the trains list
-    And I wait for the context menu to display
+    And I wait for the trains list context menu to display
     And I open timetable from the context menu
     And I switch to the new tab
     When I switch to the timetable details tab

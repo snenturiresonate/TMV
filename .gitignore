@@ -51,3 +51,4 @@ Thumbs.db
 tmp
 
 e2e/debug.log
+__pycache__

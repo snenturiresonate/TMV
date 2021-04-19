@@ -1,14 +1,24 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
+import {CheckBox} from './common/ui-element-handlers/checkBox';
+import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
 
 export class NavBarPageObject {
   public navBarIcons: ElementArrayFinder;
   public mapLayerToggles: ElementArrayFinder;
+  public berthToggle: ElementFinder;
+  public platformToggle: ElementFinder;
+  public routeSetTrackToggle: ElementFinder;
+  public routeSetCodeToggle: ElementFinder;
   public platformToggleIndicator: ElementFinder;
   public berthToggleIndicator: ElementFinder;
   public platformToggleOn: ElementFinder;
   public platformToggleOff: ElementFinder;
   public berthToggleOn: ElementFinder;
   public berthToggleOff: ElementFinder;
+  public routeSetCodeToggleOn: ElementFinder;
+  public routeSetCodeToggleOff: ElementFinder;
+  public routeSetTrackToggleOn: ElementFinder;
+  public routeSetTrackToggleOff: ElementFinder;
   public version: ElementFinder;
   public configOption: ElementFinder;
   public trainSearchBox: ElementFinder;
@@ -18,6 +28,8 @@ export class NavBarPageObject {
   public timeTableOption: ElementFinder;
   public navBar: ElementFinder;
   public trainTable: ElementFinder;
+  public timeTable: ElementFinder;
+  public signalTable: ElementFinder;
   public searchTable: ElementFinder;
   public trainTableCloseIcon: ElementFinder;
   public trainTableCloseBtn: ElementFinder;
@@ -44,14 +56,28 @@ export class NavBarPageObject {
   public helpMenu: ElementFinder;
   public searchFilterToggle: ElementFinder;
   public mapLink: ElementArrayFinder;
+  public mapPathToggle: ElementArrayFinder;
+  public recentMaps: ElementArrayFinder;
+  public mapChanger: ElementFinder;
+  public mapSearchBox: ElementFinder;
+  public routeSetTrackIndicator: ElementFinder;
+  public routeSetCodeIndicator: ElementFinder;
   constructor() {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
+    this.berthToggle = element(by.css('#berthtoggle .toggle-switch'));
+    this.platformToggle = element(by.css('#platformtoggle .toggle-switch'));
+    this.routeSetTrackToggle = element(by.css('#routesettracktoggle .toggle-switch'));
+    this.routeSetCodeToggle = element(by.css('#routesetcodetoggle .toggle-switch'));
     this.platformToggleIndicator = element(by.css('#platformtoggle .toggle-switch'));
     this.platformToggleOn = element(by.css('#platformtoggle .absolute-on'));
     this.platformToggleOff = element(by.css('#platformtoggle .absolute-off'));
     this.berthToggleOn = element(by.css('#berthtoggle .absolute-on'));
     this.berthToggleOff = element(by.css('#berthtoggle .absolute-off'));
+    this.routeSetTrackToggleOn = element(by.css('#routesettracktoggle .absolute-on'));
+    this.routeSetTrackToggleOff = element(by.css('#routesettracktoggle .absolute-off'));
+    this.routeSetCodeToggleOn = element(by.css('#routesetcodetoggle .absolute-on'));
+    this.routeSetCodeToggleOff = element(by.css('#routesetcodetoggle .absolute-off'));
     this.version = element(by.id('settings-menu-tmvVersion'));
     this.configOption = element(by.css('li.dropdown-item.dropdown-item-Menu.trains-config-button'));
     this.trainSearchBox = element(by.id('national-search-box'));
@@ -64,6 +90,8 @@ export class NavBarPageObject {
     this.berthToggleIndicator = element(by.css('#berthtoggle .toggle-switch'));
     this.searchTable = element(by.css('.modalbody:nth-child(2)'));
     this.trainTable = element(by.css('.modalbody:nth-child(2)'));
+    this.timeTable = element(by.css('.modalbody:nth-child(2)'));
+    this.signalTable = element(by.css('.modalbody:nth-child(2)'));
     this.trainTableCloseIcon = element(by.css('.closemodal:nth-child(1)'));
     this.trainTableCloseBtn = element(by.css('.tmv-btn-cancel:nth-child(1)'));
     this.trainTableWindow = element(by.css('.modaltitle:nth-child(1)'));
@@ -88,6 +116,16 @@ export class NavBarPageObject {
     this.modalWindow = element.all(by.css('.modalpopup'));
     this.helpMenu = element(by.id('help-menu-button'));
     this.mapLink = element.all(by.css('#signal-map-list>ul>li>span'));
+    this.mapPathToggle = element.all(by.css('#map-path-toggle-button'));
+    this.recentMaps = element.all(by.css('.map-details'));
+    this.mapChanger = element(by.css('a[title=\'Change map\']'));
+    this.mapSearchBox = element(by.id('map-search-box'));
+    this.routeSetTrackIndicator = element(by.css('#routesettracktoggle .toggle-switch'));
+    this.routeSetCodeIndicator = element(by.css('#routesetcodetoggle .toggle-switch'));
+  }
+
+  public async navBarIsDisplayed(): Promise<boolean> {
+    return this.navBar.isPresent();
   }
 
   public async getNavbarIconNames(): Promise<string> {
@@ -107,36 +145,33 @@ export class NavBarPageObject {
     return this.mapLayerToggles.getText();
   }
 
-  public async getToggleState(toggleName: string): Promise<string> {
+  public async getToggleState(toggleName: string): Promise<boolean> {
+    const elm = await this.getToggle(toggleName);
+    return await CheckBox.getToggleCurrentState(elm);
+  }
+
+  private async getToggle(toggleName): Promise<ElementFinder> {
     if (toggleName === 'Platform') {
-      return this.platformToggleIndicator.getText();
+      return this.platformToggle;
     }
-    if (toggleName === 'Berth') {
-      return this.berthToggleIndicator.getText();
+    else if (toggleName === 'Berth') {
+      return this.berthToggle;
     }
-    return 'Unknown';
+    else if (toggleName === 'Route Set - Track') {
+      return this.routeSetTrackToggle;
+    }
+    else if (toggleName === 'Route Set - Code') {
+      return this.routeSetCodeToggle;
+    }
   }
 
   public async toggle(toggleName: string, requiredState: string): Promise<void> {
-    const currentState: string = await this.getToggleState(toggleName);
-    if (currentState === requiredState)
-    {
-      return;
-    }
-    if (toggleName === 'Platform') {
-      if (requiredState === 'on') {
-        await this.platformToggleOff.click();
-      } else {
-        await this.platformToggleOn.click();
-      }
-    }
-    else if (toggleName === 'Berth') {
-      if (requiredState === 'on') {
-        await this.berthToggleOff.click();
-      } else {
-        await this.berthToggleOn.click();
-      }
-    }
+    const elm = await this.getToggle(toggleName);
+    return await CheckBox.updateToggle(elm, requiredState);
+  }
+
+  public async toggleMapPathOff(): Promise<void> {
+    await this.mapPathToggle.click();
   }
 
   public async getServiceWithStatus(statusType: string, searchType: string): Promise<number> {
@@ -207,6 +242,15 @@ export class NavBarPageObject {
     return this.trainSearchBox.getAttribute('placeholder');
   }
 
+  public async trainSearchBoxIsVisible(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.trainSearchBox);
+    return true;
+  }
+
+  public async trainSearchBoxIsNotVisible(): Promise<boolean> {
+    return ! await this.trainSearchBox.isDisplayed();
+  }
+
   public async getTrainSearchValue(): Promise<string> {
     return this.trainSearchOption.getText();
   }
@@ -249,6 +293,14 @@ export class NavBarPageObject {
     return browser.isElementPresent(this.trainTable);
   }
 
+  public async isTimetablePresent(): Promise<boolean> {
+    return browser.isElementPresent(this.timeTable);
+  }
+
+  public async isSignalTablePresent(): Promise<boolean> {
+    return browser.isElementPresent(this.signalTable);
+  }
+
   public async isSearchTablePresent(): Promise<boolean> {
     return browser.isElementPresent(this.searchTable);
   }
@@ -287,6 +339,11 @@ export class NavBarPageObject {
 
   public async getTrainsSearchContextMenuItem(rowIndex: number): Promise<string> {
     return this.trainsContextListItems.get(rowIndex - 1).getText();
+  }
+
+  public async clickTrainsSearchContextMenuItem(rowIndex: number): Promise<void> {
+    const trainContextList = this.trainsContextListItems.get(rowIndex - 1);
+    browser.actions().click(trainContextList);
   }
 
   public async getSearchContextMenuItem(rowIndex: number): Promise<string> {
@@ -387,6 +444,17 @@ export class NavBarPageObject {
       await this.mapLink.click();
       await element(by.buttonText(mapName)).click();
     }
+  }
+
+  public async enterMapSearchString(searchString: string): Promise<void> {
+    this.mapSearchBox.clear();
+    return this.mapSearchBox.sendKeys(searchString);
+  }
+
+  public async changeToRecentMap(mapName: string): Promise<void> {
+    await this.mapChanger.click();
+    const recentMap = element(by.css('[id^=map-search-menu-recent-history-item-map-name-' + mapName.toLowerCase() + ']'));
+    await recentMap.click();
   }
 
   public async getHighlightStatus(signalId: string): Promise<string> {

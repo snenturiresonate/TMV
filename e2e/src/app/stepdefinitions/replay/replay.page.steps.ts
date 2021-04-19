@@ -13,6 +13,7 @@ import {ReplaySelectMapPage} from '../../pages/replay/replay.selectmap.page';
 import {ReplaySelectTimerangePage} from '../../pages/replay/replay.selecttimerange.page';
 import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
 import moment = require('moment');
+// this import looks like its not used but is by expect().to.be.closeToTime()
 import * as chaiDateTime from 'chai-datetime';
 
 const replayPage: ReplayMapPage = new ReplayMapPage();
@@ -210,6 +211,14 @@ When('I click Pause button', async () => {
   await replayPage.selectPause();
 });
 
+When('I click replay button', async () => {
+  await replayPage.selectReplay();
+});
+
+When('I click minimise button', async () => {
+  await replayPage.clickMinimise();
+});
+
 Then('the replay playback speed is {string}', async (expectedSpeed: string) => {
   const actualSpeed = await replayPage.getSpeedValue();
   return expect(actualSpeed, `replay playback speed is not as expected`)
@@ -224,6 +233,12 @@ When('I increase the replay speed at position {int}', async (position: number) =
 Then('the replay button {string} is {string}', async (button: string, expectedType: string) => {
   const actualType = await replayPage.getButtonType(button);
   return expect(actualType, `replay button ${button} is not as expected`)
+    .to.contain(expectedType);
+});
+
+Then('the replay play back control is {string}', async (expectedType: string) => {
+  const actualType = await replayPage.getPlaybackControl();
+  return expect(actualType, `replay playback control is not as expected`)
     .to.contain(expectedType);
 });
 
@@ -249,6 +264,13 @@ Then('my replay should skip {string} minute when I click backward button', async
 
   return expect(actualTime, `replay playback speed is not as expected`)
     .to.be.closeToTime(expectedTime, 3);
+});
+
+Then('the replay is paused', async () => {
+  browser.capturedReplayTimestamp = await replayPage.getReplayTimestamp();
+  browser.Sleep(2000);
+  const latestReplayTimestamp = await replayPage.getReplayTimestamp();
+  expect(latestReplayTimestamp, 'Replay has not been paused').to.equal(browser.capturedReplayTimestamp);
 });
 
 async function formulateDateTime(timeStamp: string): Promise<any> {

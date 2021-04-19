@@ -1,0 +1,379 @@
+HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
+BSNC117322101012405181111111 PXX1V581670120183000 DMUV   125      B S T        P
+BX         XCY                                                                  
+LOGLGC    0900 09002  A1     TB                                                 
+LIMOTHRWL 0914 0915H     091409151        T                                     
+LISHILDMR           0917H00000000                                               
+LICRSTRS            0928H000000002                                              
+LISLATEFD           0950 00000000                       3                       
+LIHAYMRKT 0955H0957      095609573  US    T             1                       
+CREDINBUR XX1V581670120183000 DMUV   125      B S T                             
+LIEDINBUR 1002 1010      100210108E SL W  T                                     
+LIPPAN              1017 00000000                         1                     
+LIDREMJ             1022H00000000                                               
+LIDUNBAR            1029 00000000                                               
+LIBRWCKUT 1049H1051      105010511        T                                     
+LIALNMOTH           1109 000000001                                              
+LIMRPTHRP 1121 1122H     112111221        T           1                         
+LINWCSTLE 1136 1144      113611444        T                                     
+LIDRHM    1155 1156H     115511561        T                                     
+LIDLTN    1212H1214      121312141        T                                     
+LINLRTN             1223 00000000   FL                                          
+LITHIRSK            1226H00000000   FL                                          
+LIYORK    1239H1245      123912459  LSL   T                                     
+LICHFN              1253H00000000TL                                             
+LIMCKLFLD           1257 000000002                      1H                      
+LICSGT              1302H000000002                        1                     
+LILEEDS   1309 1311      1309131112CD     T                                     
+LIWKFLDWG 1321H1323      132213231        T                                     
+LIMORTHRP           1333 000000001                       H                      
+LISWINTN            1339 00000000                         1                     
+LISHEFFLD 1351 1355      135113556        T                                     
+LICHFD    1405H1407      140614072        T                                     
+LIDRBY    1424 1428      142414283        T              H                      
+LIBURTNOT           1437 000000002                       H                      
+LITMWTHHL 1446 1447H     14461447         T           1                         
+LIWTRORTN           1457 00000000   ML                1                         
+CRBHAMNWS XX1V581670120184000 DMUV   125      B S T                             
+LIBHAMNWS 1508 1520      1508151711B   DELT             1                       
+LISELYOAK           1527 00000000                       2                       
+LIKNORTON           1531 00000000   FL                                          
+LILONB              1533 00000000                     1                         
+LIBGRN              1536H000000002                                              
+LIBRMSGRV           1539 000000004                                              
+LIASHCHRC           1554 000000002                    1 1H                      
+LICHLTNHM 1602 1604      155816001        T                                     
+LIYATE              1626H00000000                                               
+LIBRSTPWY 1633 1634H     163016312        T                                     
+LIFILTNEW           1637 000000001                    1                         
+LIBRSTLTM 1643H1646H     1643164510 DM    T                                     
+LIBRDGWTR           1708H00000000                                               
+LITAUNTON 1716 1717H     171617172        T                                     
+LITIVIPW  1728 1729H     172817291        T                                     
+LIEXETRSD 1741H1745      174217454        T             1H                      
+LIDAWLSHW           1755 00000000                       2H                      
+LIDAWLISH           1759 00000000                       2                       
+LITEINMTH           1804 00000000                       2                       
+LINABT    1810H1812H     181118122        T                                     
+LITOTNES  1822H1824      182318241        T                                     
+LIIVYBDGE           1836H000000001                                              
+CRPLYMTH  XX1V581670120184000 DMUV   125      B S                               
+LIPLYMTH  1849 1901      184919014        T                                     
+LISASH              1908H000000001                                              
+LISTGRMNS           1913H000000001                                              
+LILISKARD 1922H1924      192319241        T                                     
+LIBODMNPW 1934H1936      19351936         T                                     
+LILSTWTHL           1939H000000002                                              
+LIPARR    1944H1946      194519461        T                                     
+LISTAUSTL 1951 1952H     19511952         T                                     
+LITRURO   2007 2018      200720182        T                                     
+LIREDRUTH 2027H2029      20282029         T                                     
+LICBORNE  2034 2035H     20342035         T                                     
+LISTERTH  2044 2046      204420461        T           1                         
+LTPENZNCE 2054 20542     TF                                                     
+BSNC117342101012405181111111 PXX1V601690120183000 DMUV   125      B R T        P
+BX         XCY                                                                  
+LOABRDEEN 0820 08204         TB                                                 
+LISHVN    0836 0838      08360838         T                                     
+LILRNCKRK           0849H00000000                                               
+LIMONTRSE 0857 0859      085708591        T                                     
+LIARBROTH 0913H0915      091409151        T                                     
+LICNST              0921 00000000                                               
+LIDUNDETB 0930H0934H     093109341        T                                     
+LILEUCHRS 0946 0947H     094609471        T                                     
+LICUPAR   0953 0954H     09530954         T                                     
+LILADYBNK 1000 1001H     100010011        T                                     
+LIMKIN    1007H1009      100810091        T                                     
+LIKCLD    1016 1017H     101610171        T                                     
+LIBISLND            1024 00000000                                               
+LIIVRKTHG 1031 1032H     103110321        T                                     
+LIHAYMRKT 1048H1051      104910511  UN    T                                     
+CREDINBUR XX1V601690120183000 DMUV   125      B S T                             
+LIEDINBUR 1055 1106      1055110619 NL Z  T                                     
+LIPPAN              1113 00000000                         1                     
+LIDREMJ             1118H00000000                                               
+LIDUNBAR  1126 1128      11261128         T                                     
+LIBRWCKUT 1150 1151H     115011511        T                                     
+LIALNMOTH 1210H1212      121112121        T                                     
+LIMRPTHRP           1224H000000001                    1                         
+LINWCSTLE 1237H1241      123812414        T                                     
+LIDRHM    1252 1254      125212541        T                                     
+LIDLTN    1310 1313      131013131        T                                     
+LINLRTN             1322 00000000   FL                                          
+LITHIRSK            1325H00000000   FL                                          
+LIYORK    1339 1345      1339134510 LSL   T                                     
+LICHFN              1353H00000000TL                                             
+LIMCKLFLD           1357 000000002                       H                      
+LICSGT              1401H000000002                        1                     
+LILEEDS   1408 1411      1408141111CDS    T                                     
+LIWKFLDWG 1421H1423      142214231        T                                     
+LIMORTHRP           1433H000000001                                              
+LISWINTN            1439 00000000                         1                     
+LISHEFFLD 1451 1455      145214558        T                                     
+LICHFD    1505H1507      150615072        T                                     
+LIDRBY    1524 1528      152415283        T                                     
+LIBURTNOT 1537 1538H     153715382        T                                     
+LITMWTHHL           1547 00000000                     1                         
+LIWTRORTN           1553 00000000   ML                1                         
+CRBHAMNWS XX1V601690120184000 DMUV   125      B S T                             
+LIBHAMNWS 1602 1612      1602161211B   DELT                                     
+LISELYOAK           1618 00000000                                               
+LIKNORTON           1620 00000000   FL                                          
+LILONB              1622 00000000                     1 2                       
+LIBGRN              1627H000000002                                              
+LIBRMSGRV           1630 000000004                                              
+LICHLTNHM 1651 1653      164916511        T                                     
+LIYATE              1715 00000000                         1H                    
+LIBRSTPWY 1724H1726H     172517262        T                                     
+LIFILTNEW           1729 000000001                    1  H                      
+LIBRSTLTM 1740 1744      1740174410 DM    T                                     
+LIBRDGWTR           1807H00000000                                               
+LITAUNTON 1815 1816H     181518162        T                                     
+LITIVIPW  1827 1828H     182718281        T                                     
+LIEXETRSD 1840H1846      184118464        T             1                       
+LIDAWLSHW           1855H00000000                                               
+LINABT    1904H1906H     190519062        T                                     
+LITOTNES  1916H1918      191719181        T                                     
+LIIVYBDGE           1930H000000001                                              
+CRPLYMTH  XX1V601690120184000 DMUV   125      B S                               
+LIPLYMTH  1943 1949      194319494        T                                     
+LISASH              1956H000000001                                              
+LISTGRMNS           2001H000000001                                              
+LILISKARD 2010H2012H     201120121        T                                     
+LIBODMNPW 2023 2024H     20232024         T                                     
+LILSTWTHL           2028 000000002                                              
+LIPARR    2033 2034H     203320341        T                                     
+LISTAUSTL 2039H2041H     20402041         T                                     
+LITRURO   2100 2102      210021022        T                                     
+LIREDRUTH 2116H2118H     21172118         T                                     
+LICBORNE  2123H2125      21242125         T                                     
+LISTERTH  2133H2135      213421351        T           1                         
+LTPENZNCE 2143 21433     TF                                                     
+BSNC117292101012405181111111 PXX1C091900120184000 DMUV   125      B S T        O
+BX         XCY                                                                  
+LOPLYMTH  0628 06288         TB                                                 
+LISASH              0635H000000001        X                                     
+LISTGRMNS           0640H000000001                                              
+LILISKARD 0649H0651      065006511        T                                     
+LIBODMNPW 0701H0703      07020703         T                                     
+LILSTWTHL 0707 0708H     070707082        T                                     
+LIPARR    0713H0715      071407151        T                                     
+LISTAUSTL 0720 0721H     07200721         T                                     
+LITRURO   0736 0738      073607382        T                                     
+LIREDRUTH 0747H0749      07480749         T                                     
+LICBORNE  0754 0755H     07540755         T                                     
+LIHAYLE   0802 0803H     080208031        T                                     
+LISTERTH  0806 0807H     080608071        T           1                         
+LTPENZNCE 0816 08162     TF                                                     
+BSNC553972101012405181111111 PXX1C041101125397003 HST    125      B S C        P
+BX         GWY                                                                  
+LOPADTON  0730 07303  1      TB                                                 
+LISTHALL            0738H000000001  ML                                          
+LISLOUGH            0743H000000002  ML                                          
+LIMDNHEAD           0746H000000001  ML                                          
+LITWYFORD           0749H000000001                                              
+LIRDNGSTN 0755 0757      075507579  ML    T                                     
+LIGORASTR           0803 00000000                     1                         
+LIDIDCOTP           0809 000000001                                              
+LISDON    0822H0824H     082308244        T           1                         
+LICHIPNHM 0837 0839      083708391        T                                     
+LIBATHSPA 0852H0854H     085308541        T           1 3                       
+CRBRSTLTM XX1C041101125397003 HST    125      B S C                             
+LIBRSTLTM 0909H0912H     0910091212 DM    T                                     
+LIBRDGWTR           0935H00000000                                               
+LITAUNTON 0943H0945H     094409452        T                                     
+LITIVIPW            0956H000000001                                              
+LIEXETRSD 1008H1011      100910114        T                                     
+LIDAWLSHW           1020H00000000                                               
+LIDAWLISH           1022 00000000                                               
+LITEINMTH           1025 00000000                                               
+LINABT    1030 1032      103010322        T                                     
+LITOTNES  1043 1044H     104310441        T                                     
+LIIVYBDGE           1057H000000001                                              
+LIPLYMTH  1111 1119      111111194        T                                     
+LISASH              1127H000000001                                              
+LISTGRMNS           1133 000000001                                              
+LILISKARD 1142 1144      114211441        T                                     
+LIBODMNPW 1155 1157      11551157         T                                     
+LILSTWTHL           1201 000000002                                              
+LIPARR    1206 1208      120612081        T                                     
+LISTAUSTL 1213H1215H     12141215         T                                     
+LITRURO   1231 1233H     123112332        T                                     
+LIREDRUTH 1244 1246      12441246         T                                     
+LICBORNE  1251 1253      12511253         T                                     
+LISTERTH  1301H1303H     130213031        T           1                         
+LTPENZNCE 1313 13131     TF                                                     
+BSNC555292101012405181111111 POO1C999999125396002 D      075                   P
+BX         GWY                                                                  
+LOPADTON  2345 2345          TB                                                 
+LISTHALL            2358 00000000                                               
+LISLOUGH            0009 00000000                                               
+LIMDNHEAD           0015 00000000                                               
+LITWYFORD           0021 00000000                                               
+LIRDNGSTN 0046 0046      00460046         U                                     
+LINEWBURY           0102 00000000                                               
+LIBEDYN             0113 00000000                                               
+LIWSTBRYW           0141 00000000                                               
+LICCARY             0201 00000000                                               
+LITAUNTON 0226 0238      02260238         T                                     
+LITIVIPW            0251 00000000                                               
+LIEXETRSD 0307 0411      03070411         T                                     
+LIDAWLSHW           0421 00000000                                               
+LIDAWLISH           0422 00000000                                               
+LITEINMTH           0425 00000000                                               
+LINABT    0431 0432      04310432         T                                     
+LITOTNES            0444 00000000                                               
+LIIVYBDGE           0457 00000000                                               
+LIPLYMTH  0511 0549      05110549         T                                     
+LISASH              0557 00000000                                               
+LISTGRMNS           0603 00000000                                               
+LILISKARD 0613 0615      06130615         T                                     
+LIBODMNPW 0627 0629      06270629         T                                     
+LILSTWTHL 0634 0635      06340635         T                                     
+LIPARR    0642 0643      06420643         T                                     
+LISTAUSTL 0650 0652      06500652         T                                     
+LITRURO   0708 0710      07080710         T                                     
+LIREDRUTH 0722 0723      07220723         T                                     
+LICBORNE  0729 0731      07290731         T                                     
+LIHAYLE   0739 0740      07390740         T                                     
+LISTERTH  0743 0745      07430745         T                                     
+LTPENZNCE 0755 0755          TF                                                 
+BSNC566142101012405181111111 POO2C74    125473001 DMUS   075      S            P
+BX         GWY                                                                  
+LOGUNISLK 1729 1729          TB                                                 
+LICALSTCK 1740H1741      17401740         T                                     
+LIBEREALS 1747 1750      17471749         T RM                                  
+LIBEREFRS 1754H1755      17541754         T                                     
+LISTBDXVR 1802 1803H     18021803         T                                     
+LIKEYHAM  1806 1806H     180518052        T                                     
+LIDOCKYDP 1808 1808H     180718072        R                                     
+LIDEVNPRT 1810 1810H     180918092        T                                     
+CRPLYMTH  OO2C74    125474001 DMUS   075      S                                 
+LIPLYMTH  1814 1817      181418173        T RM                                  
+LIDEVNPRT21820 1820H     182018201        T                                     
+LIDOCKYDP21821H1822      182118211        R                                     
+LIKEYHAM 21823H1824      182318231        T                                     
+LISTBDXFR 1826 1826H     182518251        T                                     
+LISASH    1830 1831      183018311        T                                     
+LISTGRMNS 1837 1838      183718381        T                                     
+LIMENHENT 1845H1846      184518451        R                                     
+LTLISKARD 1852 18521     TF                                                     
+BSNC565942101012405181111111 POO2C50    125474001 DMUS   075      S            P
+BX         GWY                                                                  
+LOPLYMTH  1701 17013         TB                                                 
+LIDEVNPRT 1704 1704H     170417041        T                                     
+LIDOCKYDP 1705H1706      170517051        R                                     
+LIKEYHAM  1707H1708      170717071        T                                     
+LISTBDXFR 1710 1710H     171017101        T                                     
+LISASH    1714 1715      171417141        T                                     
+LISTGRMNS 1721 1722      172117211        T                                     
+LIMENHENT 1729H1730      172917291        R                                     
+LTLISKARD 1736 17361     TF                                                     
+BSNC565922101012405181111111 POO2C48    125474001 DMUS   075      S            P
+BX         GWY                                                                  
+LOPLYMTH  1557 15575         TB                                                 
+LIDEVNPRT 1600 1601      160016001        T                                     
+LIDOCKYDP 1602 1603      160116021        R                                     
+LIKEYHAM  1604H1605H     160416041        T                                     
+LISTBDXFR 1607H1608      160816081        T                                     
+LISASH    1611H1612H     161216121        T                                     
+LISTGRMNS 1618H1619H     161916191        T                                     
+LIMENHENT 1627 1627H     162616261        R                                     
+LILISKARD 1632H1633H     163316331        T                                     
+LIBODMNPW 1644H1645H     16451645         T                                     
+LILSTWTHL 1650 1650H     165016502        T           1                         
+LIPARR    1657H1658H     165816581        T                                     
+LISTAUSTL 1705 1706      17051706         T                                     
+LITRURO   1722 1723      172217232        T                                     
+LIREDRUTH 1735H1736H     17361736         T                                     
+LICBORNE  1741H1742H     17421742         T                                     
+LIHAYLE   1749 1750      174917501        T           1                         
+LISTERTH  1753H1754H     175417541        T           1                         
+LTPENZNCE 1804 18043     TF                                                     
+BSNC555132101012405181111111 PXX1C921112125397003 HST    125      B S R        P
+BX         GWY                                                                  
+LOPADTON  1803 18034  3      TB                                                 
+LISTHALL            1811H000000001  ML                                          
+LISLOUGH            1816H000000002  ML                                          
+LIMDNHEAD           1819H000000001  ML                                          
+LITWYFORD           1822H000000001                    1                         
+LIRDNGSTN 1828 1830      182818307  WL    T                                     
+LINEWBURY 1845 1847      184518471        T                                     
+LIBEDYN             1857H000000001                                              
+LICCARY             1930 000000002                                              
+CRTAUNTON XX1C921112125397003 HST    125      B S C                             
+LITAUNTON 1949 1951      194919512        T                                     
+LITIVIPW            2002 000000001                                              
+LIEXETRSD 2014 2016      201420164        T                                     
+LIDAWLSHW           2025H00000000                                               
+LIDAWLISH           2027 00000000                                               
+LITEINMTH           2030 00000000                                               
+LINABT    2035 2037      203520372        T                                     
+LITOTNES  2048 2050      204820501        T                                     
+LIIVYBDGE           2103 000000001                                              
+LIPLYMTH  2116H2121H     211721214        T                                     
+LISASH              2130 000000001                                              
+LISTGRMNS           2135H000000001                                              
+LILISKARD 2144H2146H     214521461        T                                     
+LIBODMNPW 2157H2200H     21582200         T                                     
+LILSTWTHL           2204H000000002                                              
+LIPARR    2209H2211H     221022111        T                                     
+LISTAUSTL 2217 2219      22172219         T                                     
+LITRURO   2234H2236H     223522362        T                                     
+LIREDRUTH 2247 2249      22472249         T                                     
+LICBORNE            2253H00000000                                               
+LISTERTH            2301H000000001                    1                         
+LTPENZNCE 2310 23102     TF                                  
+BSNC565941010124051831111111 POO2C56    125474001 DMUS   075      S            P
+BX         GWY                                                                  
+LOPLYMTH  1901 19013         TB                                                 
+LIDEVNPRT 1904 1904H     190419041        T                                     
+LIDOCKYDP 1905H1906      190519051        R                                     
+LIKEYHAM  1907H1908      190719071        T                                     
+LISTBDXFR 1910 1910H     191019101        T                                     
+LISASH    1914 1915      191419141        T                                     
+LISTGRMNS 1921 1922      192119211        T                                     
+LIMENHENT 1929H1930      192919291        R                                     
+LTLISKARD 1936 19361     TF    
+BSNC565931101012405181111111 POO2C90    125474001 DMUS   075      S            P
+BX         GWY                                                                  
+LIDEVNPRT 1600 1601      TB               T                                     
+LIDOCKYDP 1602 1603      160116021        R                                     
+LIKEYHAM  1604H1605H     160416041        T                                     
+LISTBDXFR 1607H1608      160816081        T                                     
+LISASH    1611H1612H     161216121        T                                     
+LISTGRMNS 1618H1619H     161916191        T                                     
+LIMENHENT 1627 1627H     162616261        R                                     
+LILISKARD 1632H1633H     163316331        T                                     
+LIBODMNPW 1644H1645H     16451645         T                                     
+LILSTWTHL 1650 1650H     165016502        T           1                         
+LIPARR    1657H1658H     165816581        T                                     
+LISTAUSTL 1705 1706      17051706         T                                     
+LITRURO   1722 1723      172217232        T                                     
+LIREDRUTH 1735H1736H     17361736         T                                     
+LICBORNE  1741H1742H     17421742         T                                     
+LIHAYLE   1749 1750      174917501        T           1                         
+LISTERTH  1753H1754H     175417541        T           1                         
+LTPENZNCE 1804 18043     TF                                        
+BSNC565932101012405181111111 POO2C91    125474001 DMUS   075      S            P
+BX         GWY                                                                  
+LOPLYMTH  1557 15575         TB                                                 
+LIDEVNPRT 1600 1601      160016001        T                                     
+LIDOCKYDP 1602 1603      160116021        R                                     
+LIKEYHAM  1604H1605H     160416041        T                                     
+LISTBDXFR 1607H1608      160816081        T                                     
+LISASH    1611H1612H     161216121        T                                     
+LISTGRMNS 1618H1619H     161916191        T                                     
+LIMENHENT 1627 1627H     162616261        R                                     
+LILISKARD 1632H1633H     163316331        T                                     
+LIBODMNPW 1644H1645H     16451645         T                                     
+LILSTWTHL 1650 1650H     165016502        T           1                         
+LIPARR    1657H1658H     165816581        T                                     
+LISTAUSTL 1705 1706      17051706         T                                     
+LITRURO   1722 1723      172217232        T                                     
+LIREDRUTH 1735H1736H     17361736         T                                     
+LICBORNE  1741H1742H     17421742         T                                     
+LIHAYLE   1749 1750      174917501        T           1                         
+LISTERTH  1753H1754H     175417541        T           1                         
+LTPENZNCE 1804 18043     TF                                                                             
+ZZ                                                                               

@@ -8,7 +8,7 @@ import {ReplayRecordings} from '../utils/replay/replay-recordings';
 
 BeforeAll(async () => {
   const {setDefaultTimeout} = require('cucumber');
-  setDefaultTimeout(20 * 1000);
+  setDefaultTimeout(60 * 1000);
   browser.driver.manage().window().maximize();
 });
 
@@ -29,6 +29,14 @@ After('@replaySetup', async function(scenario: Scenario): Promise<void> {
 
 Before('@newSession', async () => {
   await LocalStorage.reset();
+});
+
+Before('@loginPageTest', async () => {
+  await browser.waitForAngularEnabled(false);
+});
+
+After('@loginPageTest', async () => {
+  await browser.waitForAngularEnabled(true);
 });
 
 // None arrow methods required to avoid the binding of keyword this

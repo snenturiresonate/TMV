@@ -1,0 +1,1804 @@
+{
+  "currentPlanScheduleId": {
+    "planningUid": "C14260",
+    "scheduledOriginDepartureDate": "2021-03-25"
+  },
+  "stpIndicator": "P",
+  "plannedTrainDescription": "1U36",
+  "pathEntries": [
+    {
+      "trackDivisionName": "CECE55",
+      "berths": [
+        {
+          "trainDescriberCode": "CE",
+          "berthName": "A120",
+          "plannedStepTime": "13:33:00"
+        },
+        {
+          "trainDescriberCode": "CE",
+          "berthName": "B120",
+          "plannedStepTime": "13:33:00"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CECEBD",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEBF",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEBH",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEQL",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECE67",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEBK",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECE69",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECE76",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEAG",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEAF",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEDU",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEDV",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEDW",
+      "berths": [
+        {
+          "trainDescriberCode": "CE",
+          "berthName": "0104",
+          "plannedStepTime": "13:34:07"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CECEQT",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEDX",
+      "berths": [
+        {
+          "trainDescriberCode": "CE",
+          "berthName": "H056",
+          "plannedStepTime": "13:35:18"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CECEDY",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEDY",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECERH",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBG0",
+      "berths": [
+        {
+          "trainDescriberCode": "CE",
+          "berthName": "H114",
+          "plannedStepTime": "13:35:46"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBG1",
+      "berths": [
+        {
+          "trainDescriberCode": "CE",
+          "berthName": "H112",
+          "plannedStepTime": "13:36:10"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBG2",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBG3",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3654",
+          "plannedStepTime": "13:36:44"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBG4",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3652",
+          "plannedStepTime": "13:37:13"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBG5",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3650",
+          "plannedStepTime": "13:37:42"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBMQ",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3648",
+          "plannedStepTime": "13:38:06"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBG6",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3646",
+          "plannedStepTime": "13:38:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBMP",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3644",
+          "plannedStepTime": "13:38:58"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBG7",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3642",
+          "plannedStepTime": "13:39:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBGP",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5646",
+          "plannedStepTime": "13:39:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBGR",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBGT",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5642",
+          "plannedStepTime": "13:39:49"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFA",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5640",
+          "plannedStepTime": "13:40:01"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFB",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5638",
+          "plannedStepTime": "13:40:26"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFC",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5636",
+          "plannedStepTime": "13:40:46"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFD",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5634",
+          "plannedStepTime": "13:41:05"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFE",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5632",
+          "plannedStepTime": "13:41:26"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBET",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3630",
+          "plannedStepTime": "13:41:05"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBES",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3628",
+          "plannedStepTime": "13:41:26"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBER",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3626",
+          "plannedStepTime": "13:42:00"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBEQ",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3624",
+          "plannedStepTime": "13:42:27"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBMK",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3620",
+          "plannedStepTime": "13:42:53"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBEP",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3618",
+          "plannedStepTime": "13:43:20"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBEO",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3616",
+          "plannedStepTime": "13:43:46"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBEN",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3614",
+          "plannedStepTime": "13:44:07"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBMI",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3612",
+          "plannedStepTime": "13:44:34"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBEF",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3610",
+          "plannedStepTime": "13:45:03"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBDT",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3606",
+          "plannedStepTime": "13:45:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBDX",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBQI",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBDZ",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBQI",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBDZ",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBDQ",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3604",
+          "plannedStepTime": "13:46:51"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBDR",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3602",
+          "plannedStepTime": "13:47:47"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBHC",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3600",
+          "plannedStepTime": "13:48:35"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBHD",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3598",
+          "plannedStepTime": "13:49:14"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBHE",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3596",
+          "plannedStepTime": "13:49:53"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBHF",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3594",
+          "plannedStepTime": "13:50:28"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBHM",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBHQ",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBJ0",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBJ2",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBJ3",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBHH",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBR0",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBJU",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5582",
+          "plannedStepTime": "13:51:01"
+        },
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "9355",
+          "plannedStepTime": "13:51:01"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBJY",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "4310",
+          "plannedStepTime": "13:55:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBJV",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBL9",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBJX",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBK0",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBK1",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBKK",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBRB",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBKL",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5572",
+          "plannedStepTime": "13:55:49"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH21",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3576",
+          "plannedStepTime": "13:56:27"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH22",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH23",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3574",
+          "plannedStepTime": "13:56:58"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH24",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH25",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3572",
+          "plannedStepTime": "13:57:36"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBR8",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH26",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3570",
+          "plannedStepTime": "13:58:17"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH27",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3568",
+          "plannedStepTime": "13:58:47"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH28",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0101",
+          "plannedStepTime": "13:59:16"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH29",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0102",
+          "plannedStepTime": "14:00:02"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH30",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0008",
+          "plannedStepTime": "14:00:40"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBPI",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH67",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH51",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0005",
+          "plannedStepTime": "14:01:14"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBPM",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH69",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH56",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0117",
+          "plannedStepTime": "14:01:46"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH57",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0050",
+          "plannedStepTime": "14:02:15"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBQA",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0052",
+          "plannedStepTime": "14:02:50"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH58",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXHA1",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH77",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXHA2",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH84",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXHA3",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH90",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH95",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBPO",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH96",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH98",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH73",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0060",
+          "plannedStepTime": "14:05:05"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH74",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0125",
+          "plannedStepTime": "14:05:47"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH75",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0129",
+          "plannedStepTime": "14:06:23"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS01",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "5532",
+          "plannedStepTime": "14:07:06"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS13",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "3532",
+          "plannedStepTime": "14:07:36"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS14",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "3530",
+          "plannedStepTime": "14:08:11"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS15",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "3528",
+          "plannedStepTime": "14:08:46"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS16",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "3524",
+          "plannedStepTime": "14:09:14"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS17",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "3522",
+          "plannedStepTime": "14:09:51"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLSA4",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS18",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS24",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS29",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS85",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "9492",
+          "plannedStepTime": "14:10:29"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS28",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "1308",
+          "plannedStepTime": "14:10:39"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS27",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS26",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS95",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "9488",
+          "plannedStepTime": "14:11:15"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS96",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS57",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS56",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLSA2",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS55",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS54",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "4261",
+          "plannedStepTime": "14:13:51"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS11",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS22",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS25",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS28",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS85",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS38",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS41",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "5519",
+          "plannedStepTime": "14:16:09"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS42",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CHLS43",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "5521",
+          "plannedStepTime": "14:18:00"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS44",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "5525",
+          "plannedStepTime": "14:20:17"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS45",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "5527",
+          "plannedStepTime": "14:22:28"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS46",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "5529",
+          "plannedStepTime": "14:24:13"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS47",
+      "berths": [
+        {
+          "trainDescriberCode": "R2",
+          "berthName": "5531",
+          "plannedStepTime": "14:26:43"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CHLS36",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH89",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0127",
+          "plannedStepTime": "14:28:45"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH88",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0123",
+          "plannedStepTime": "14:30:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH87",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0065",
+          "plannedStepTime": "14:32:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH86",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0057",
+          "plannedStepTime": "14:34:09"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH96",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0062",
+          "plannedStepTime": "14:36:50"
+        },
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0059",
+          "plannedStepTime": "14:36:50"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBPO",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH95",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH90",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH66",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBPV",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0105",
+          "plannedStepTime": "14:45:57"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH65",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0103",
+          "plannedStepTime": "14:48:16"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH64",
+      "berths": [
+        {
+          "trainDescriberCode": "SK",
+          "berthName": "0018",
+          "plannedStepTime": "14:51:00"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH50",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3567",
+          "plannedStepTime": "14:51:00"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH49",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3569",
+          "plannedStepTime": "14:51:00"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH48",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3571",
+          "plannedStepTime": "14:51:00"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH48",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH43",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5567",
+          "plannedStepTime": "14:51:00"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH42",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "RYXH41",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5571",
+          "plannedStepTime": "14:51:00"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH40",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5573",
+          "plannedStepTime": "14:51:00"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "RYXH39",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5575",
+          "plannedStepTime": "14:51:00"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBL0",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBQV",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBQN",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBQO",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "1296",
+          "plannedStepTime": "14:51:00"
+        },
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "4311",
+          "plannedStepTime": "14:51:00"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBQO",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "1296",
+          "plannedStepTime": "14:51:00"
+        },
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "4311",
+          "plannedStepTime": "14:51:00"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBQP",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBQQ",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBQR",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBRD",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBJM",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBJU",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5582",
+          "plannedStepTime": "14:55:30"
+        },
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "9355",
+          "plannedStepTime": "14:55:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBR0",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBHH",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBHT",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBHS",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBR4",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBHR",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "1300",
+          "plannedStepTime": "14:55:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBHQ",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBHN",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBHL",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3595",
+          "plannedStepTime": "14:55:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBHK",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3597",
+          "plannedStepTime": "14:55:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBHJ",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3599",
+          "plannedStepTime": "14:55:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBHI",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3601",
+          "plannedStepTime": "14:55:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBE2",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3603",
+          "plannedStepTime": "14:55:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBE1",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "3605",
+          "plannedStepTime": "14:55:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBQF",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBDY",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBQI",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBQH",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBDP",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBEJ",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5611",
+          "plannedStepTime": "14:55:51"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBEI",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5615",
+          "plannedStepTime": "14:56:05"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBDF",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBEH",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5617",
+          "plannedStepTime": "14:56:26"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFL",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5619",
+          "plannedStepTime": "14:56:43"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFM",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5621",
+          "plannedStepTime": "14:56:59"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFN",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5623",
+          "plannedStepTime": "14:57:15"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFO",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5625",
+          "plannedStepTime": "14:57:26"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFP",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5629",
+          "plannedStepTime": "14:57:49"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBMN",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5631",
+          "plannedStepTime": "14:58:06"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFQ",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5633",
+          "plannedStepTime": "14:58:26"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFR",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5635",
+          "plannedStepTime": "14:58:38"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFS",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5637",
+          "plannedStepTime": "14:58:50"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFT",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5639",
+          "plannedStepTime": "14:59:04"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBFU",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5641",
+          "plannedStepTime": "14:59:16"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBH6",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5643",
+          "plannedStepTime": "14:59:30"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBQC",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBQL",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBH5",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBH4",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5647",
+          "plannedStepTime": "14:59:43"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBQC",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBQL",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBH5",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "NBNBH4",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5647",
+          "plannedStepTime": "14:59:36"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBH3",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5649",
+          "plannedStepTime": "14:59:45"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBH2",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5651",
+          "plannedStepTime": "14:59:51"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBH1",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5653",
+          "plannedStepTime": "14:59:58"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBH0",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5655",
+          "plannedStepTime": "15:00:05"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBGW",
+      "berths": [
+        {
+          "trainDescriberCode": "R3",
+          "berthName": "5657",
+          "plannedStepTime": "15:00:12"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBGV",
+      "berths": [
+        {
+          "trainDescriberCode": "CE",
+          "berthName": "H105",
+          "plannedStepTime": "15:00:20"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "NBNBGU",
+      "berths": [
+        {
+          "trainDescriberCode": "CE",
+          "berthName": "H015",
+          "plannedStepTime": "15:00:25"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CECERC",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECECV",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECECU",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECECT",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECECS",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECECR",
+      "berths": [
+        {
+          "trainDescriberCode": "CE",
+          "berthName": "0101",
+          "plannedStepTime": "15:00:38"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CECECQ",
+      "berths": [
+        {
+          "trainDescriberCode": "CE",
+          "berthName": "0105",
+          "plannedStepTime": "15:00:48"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CECECP",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECESX",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECECO",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEQR",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECE70",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECE69",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEBK",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEBQ",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEBR",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEBR",
+      "berths": [
+        {
+          "trainDescriberCode": "CE",
+          "berthName": "0110",
+          "plannedStepTime": "15:02:16"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CECEBQ",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEBK",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECE69",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECE76",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEAG",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEAF",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEDU",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEDV",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEDW",
+      "berths": [
+        {
+          "trainDescriberCode": "CE",
+          "berthName": "0104",
+          "plannedStepTime": "15:03:26"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CECEQT",
+      "berths": []
+    },
+    {
+      "trackDivisionName": "CECEDX",
+      "berths": [
+        {
+          "trainDescriberCode": "CE",
+          "berthName": "H056",
+          "plannedStepTime": "15:04:45"
+        }
+      ]
+    },
+    {
+      "trackDivisionName": "CECEDY",
+      "berths": []
+    }
+  ]
+}

@@ -7,6 +7,8 @@ import {ProjectDirectoryUtil} from '../utils/project-directory.util';
 import * as path from 'path';
 import {browser} from 'protractor';
 import {expect} from 'chai';
+import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
+import {CucumberLog} from '../logging/cucumber-log';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
@@ -36,10 +38,17 @@ When('the access plan located in CIF file {string} is amended so that all servic
     const now = new Date();
     const startHours = Number(now.getHours());
     const startMins = Number(now.getMinutes());
+    const timeOfExtract = `${startHours.toString().padStart(2, '0')}${startMins.toString().padStart(2, '0')}`;
+    const dateOfExtract = DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'ddMMyy');
+    const endDateOfExtract = DateAndTimeUtils.convertToDesiredDateAndFormat('tomorrow', 'ddMMyy');
     let setHours = startHours;
     let trainWTTStartHours = 0;
     let trainWTTStartMins = 0;
     for (let i = 0; i < cifLines.length; i++) {
+      // Header record setup to current date
+      if (i === 0) {
+        cifLines[i] = dealWithHDRecord(cifLines[i], dateOfExtract, timeOfExtract, endDateOfExtract);
+      }
       if (cifLines[i].indexOf('LO') === 0) {
         // for each LO record, set up the trainWTTStartHours, setHours values which are then used for subsequest LI and LT records
         trainWTTStartHours = Number(cifLines[i].substr(10, 2));
@@ -64,6 +73,7 @@ When('the access plan located in CIF file {string} is amended so that all servic
     }
     // put it all back together and load
     const newData = cifLines.join('');
+    await CucumberLog.addText(`Access Plan: ${newData}`);
     linxRestClient.addAccessPlan('', newData);
 });
 
@@ -94,7 +104,8 @@ When ('the train in CIF file below is updated accordingly so time at the referen
     }
     // put it all back together and load
     const newData = cifLines.join('');
-    linxRestClient.addAccessPlan('', newData);
+    await linxRestClient.addAccessPlan('', newData);
+    await linxRestClient.waitMaxTransmissionTime();
   });
 
 
@@ -124,6 +135,25 @@ When(/^the access (?:plan is|plans are) received from LINX$/, async (cifFilePath
     });
   });
 
+function dealWithHDRecord(cifLine: string, dateOfExtract: string, timeOfExtract: string, extractEndDate: string): string {
+  // replace positions 22-28 for date of extract in ddmmyy
+  // replace positions 28-32 for time of extract in hhmm
+  const padToEighty = ' '.repeat(80 - cifLine.length);
+  const HD = cifLine.substr(0, 2);
+  const fileMainframeId = cifLine.substr(2, 20);
+  const DOE = cifLine.substr(22, 6);
+  const newDOE = cifLine.replace(DOE, dateOfExtract).substr(22, 6);
+  const TOE = cifLine.substr(28, 4);
+  const newTOE = cifLine.replace(TOE, timeOfExtract).substr(28, 4);
+  const fileRefs = cifLine.substr(32, 16);
+  const userExtractStartDate = cifLine.substr(48, 6);
+  const newUserExtractStartDate = cifLine.replace(userExtractStartDate, dateOfExtract).substr(48, 6);
+  const userExtractEndDate = cifLine.substr(54, 6);
+  const newUserExtractEndDate = cifLine.replace(userExtractEndDate, extractEndDate).substr(54, 6);
+  // tslint:disable-next-line:max-line-length
+  return HD + fileMainframeId + newDOE + newTOE + fileRefs + newUserExtractStartDate + newUserExtractEndDate + padToEighty;
+}
+
 function dealWithLOOrLTRecord(cifLine: string, trainStartHours, hoursVal: number): string {
   // replace positions 11-12 and 16-17
   const padToEighty = ' '.repeat(80 - cifLine.length);
@@ -132,7 +162,11 @@ function dealWithLOOrLTRecord(cifLine: string, trainStartHours, hoursVal: number
   const LO2 = pickCorrectHoursString(LO2DepWTTHours, trainStartHours, hoursVal);
   const LO3 = cifLine.substr(12, 3);
   const LO4DepPTHours = cifLine.substr(15, 2);
-  const LO4 = pickCorrectHoursString(LO4DepPTHours, trainStartHours, hoursVal);
+  let LO4 = '00';
+  const pubTime = cifLine.substr(15, 4);
+  if (pubTime !== '0000') {
+    LO4 = pickCorrectHoursString(LO4DepPTHours, trainStartHours, hoursVal);
+  }
   const LO5 = cifLine.substr(17, 63);
   const LO6 = '\r\n';
   return LO1 + LO2 + LO3 + LO4 + LO5 + padToEighty + LO6;
@@ -162,10 +196,18 @@ function dealWithLIRecord(cifLine: string, trainStartHours, hoursVal: number): s
     const LI4 = pickCorrectHoursString(LI4DepWTTHours, trainStartHours, hoursVal);
     const LI5 = cifLine.substr(17, 8);
     const LI6ArrPTHours = cifLine.substr(25, 2);
-    const LI6 = pickCorrectHoursString(LI6ArrPTHours, trainStartHours, hoursVal);
+    let LI6 = '00';
+    const pubArrTime = cifLine.substr(25, 4);
+    if (pubArrTime !== '0000') {
+      LI6 = pickCorrectHoursString(LI6ArrPTHours, trainStartHours, hoursVal);
+    }
     const LI7 = cifLine.substr(27, 2);
     const LI8DepPTHours = cifLine.substr(29, 2);
-    const LI8 = pickCorrectHoursString(LI8DepPTHours, trainStartHours, hoursVal);
+    let LI8 = '00';
+    const pubDepTime = cifLine.substr(29, 4);
+    if (pubDepTime !== '0000') {
+      LI8 = pickCorrectHoursString(LI8DepPTHours, trainStartHours, hoursVal);
+    }
     const LI9 = cifLine.substr(31, 49);
     const LI10 = '\r\n';
     return LI1 + LI2 + LI3 + LI4 + LI5 + LI6 + LI7 + LI8 + LI9 + padToEighty + LI10;

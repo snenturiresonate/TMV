@@ -1,3 +1,4 @@
+@bug @bug_58056
 Feature: 46474 - Administration Common - full end to end testing
 
   As a tester
@@ -25,4 +26,3 @@ Feature: 46474 - Administration Common - full end to end testing
       | Display Settings    |
       | Sign In Message     |
       | System Defaults     |
-      | Users               |

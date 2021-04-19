@@ -1,4 +1,4 @@
-@bug @bug_58561
+@bug @bug_56581
 Feature: 34393 - Replay page Schematic Object State Scenarios - Route Indication
   (From Gherkin for Feature 40680 and functionality developed in US34081)
   As a TMV User

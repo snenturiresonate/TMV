@@ -2,10 +2,18 @@ import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} fro
 import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
 
 export class HomePageObject {
+  public homePageContent: ElementFinder;
+
   public wecomeMessage: ElementFinder;
   public mapGroupingIcons: ElementArrayFinder;
   public mapList: ElementArrayFinder;
   public appList: ElementArrayFinder;
+
+  public homeIcon: ElementFinder;
+  public newTabIcon: ElementFinder;
+  public userProfileIcon: ElementFinder;
+  public helpIcon: ElementFinder;
+  public timeDisplay: ElementFinder;
 
   public mapSearchBox: ElementFinder;
   public mapAutoSuggestSearchResultList: ElementFinder;
@@ -18,11 +26,14 @@ export class HomePageObject {
   public recentHistoryNextPageButton: ElementFinder;
   public recentHistoryPreviousPageButton: ElementFinder;
   public recentSearchedMap: ElementFinder;
+  public recentMapsBox: ElementFinder;
+  public allMapsHeader: ElementFinder;
 
   public replayButton: ElementFinder;
   public adminIcon: ElementFinder;
 
   constructor() {
+    this.homePageContent = element(by.css('app-home #home-body'));
     this.wecomeMessage = element(by.css('.tmv-container h1'));
     this.mapGroupingIcons = element.all(by.css('app-map-list .material-icons'));
     this.mapList = element.all(by.css('.mapLink'));
@@ -39,10 +50,74 @@ export class HomePageObject {
     this.recentSearchedMap = element(by.css('.recent-history-item-entry'));
     this.adminIcon = element(by.css('.btn-box .app-button-link-text'));
     this.replayButton = element(by.id('icon-replay'));
+
+    this.homeIcon = element(by.css('img[alt="logo"]'));
+    this.newTabIcon = element(by.xpath('//span[contains(text(),\'launch\')]'));
+    this.userProfileIcon = element(by.id('user-profile-menu-button'));
+    this.helpIcon = element(by.xpath('//span[contains(text(),\'help\')]'));
+    this.timeDisplay = element(by.id('nav-bar-current-time'));
+    this.recentMapsBox = element(by.tagName('app-recent-maps'));
+    this.allMapsHeader = element(by.xpath('//h2[contains(text(),\'All Maps\')]'));
+  }
+
+  public async homeIconIsDispayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.homeIcon);
+    return this.homeIcon.isDisplayed();
+  }
+
+  public async newTabIconIsDispayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.newTabIcon);
+    return this.newTabIcon.isDisplayed();
+  }
+
+  public async userProfileIconIsDispayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.userProfileIcon);
+    return this.userProfileIcon.isDisplayed();
+  }
+
+  public async helpIconIsDispayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.helpIcon);
+    return this.helpIcon.isDisplayed();
+  }
+
+  public async timeIsDispayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.timeDisplay);
+    return this.timeDisplay.isDisplayed();
+  }
+
+  public async mapSearchBoxIsDisplayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.mapSearchBox);
+    return this.mapSearchBox.isDisplayed();
+  }
+
+  public async mapSearchBoxIsNotDisplayed(): Promise<boolean> {
+    return ! await this.mapSearchBox.isPresent();
+  }
+
+  public async recentMapsBoxIsDisplayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.recentMapsBox);
+    return this.recentMapsBox.isDisplayed();
+  }
+
+  public async recentMapsBoxIsNotDisplayed(): Promise<boolean> {
+    return ! await this.recentMapsBox.isPresent();
+  }
+
+  public async allMapsHeaderIsDisplayed(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.allMapsHeader);
+    return this.allMapsHeader.isDisplayed();
+  }
+
+  public async allMapsHeaderIsNotDisplayed(): Promise<boolean> {
+    return ! await this.allMapsHeader.isPresent();
   }
 
   public async getWelcomeMessageText(): Promise<string> {
     return this.wecomeMessage.getText();
+  }
+
+  public async homePageDisplayed(): Promise<boolean> {
+    return this.homePageContent.isPresent();
   }
 
   public async expandMapGrouping(position: number): Promise<void>

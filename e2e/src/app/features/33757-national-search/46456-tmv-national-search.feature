@@ -204,7 +204,7 @@ Feature: 33757 - TMV National Search
     #Then the user is presented with a menu to either view the timetable or open a map(s) that contains the train
     Given I navigate to <pageName> page
     And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
-    And the following berth interpose message is sent from LINX
+    And the following berth interpose message is sent from LINX (to create a match)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 10:02:06  | 0209      | D3 		             | 1F23  		          |
     And I search Train for 'A82345'
@@ -221,7 +221,7 @@ Feature: 33757 - TMV National Search
     |GW01   |
     |GW02   |
     |HDGW01 |
-    And the following berth step message is sent from LINX
+    And the following berth step message is sent from LINX (to move train)
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
       | 0209      | 10:02:06  | 0211    | D3             | 1F23             |
     And I invoke the context menu from trains '1'
@@ -267,7 +267,7 @@ Feature: 33757 - TMV National Search
     #Then the user is presented with a menu to either view the timetable or open a map(s) that contains the train (if running)
     Given I navigate to <pageName> page
     And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
-    And the following berth interpose message is sent from LINX
+    And the following berth interpose message is sent from LINX (to create a match)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 10:02:06  | 0209      | D3 		             | 1F23  		          |
     And I search Timetable for 'A82345'
@@ -283,7 +283,7 @@ Feature: 33757 - TMV National Search
       |GW01   |
       |GW02   |
       |HDGW01 |
-    And the following berth step message is sent from LINX
+    And the following berth step message is sent from LINX (to move train)
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
       | 0209      | 10:02:06  | 0211    | D3             | 1F23             |
     And I invoke the context menu from timetable '1'
@@ -362,7 +362,7 @@ Feature: 33757 - TMV National Search
     #And the train is highlighted for a brief period
     Given I navigate to <pageName> page
     And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
-    And the following berth interpose message is sent from LINX
+    And the following berth interpose message is sent from LINX (to create a match)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 10:02:06  | 0209      | D3 		             | 1F23  		          |
     And I search Train for 'A82345'
@@ -383,7 +383,7 @@ Feature: 33757 - TMV National Search
     And I switch to the new tab
     And I toggle the 'Berth' toggle 'On'
     And the berth '0209' is 'highlighted'
-    And the following berth step message is sent from LINX
+    And the following berth step message is sent from LINX (to move train)
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
       | 0209      | 10:02:06  | 0211    | D3             | 1F23             |
     And I invoke the context menu from trains '1'

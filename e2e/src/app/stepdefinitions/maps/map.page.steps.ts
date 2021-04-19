@@ -31,13 +31,15 @@ const mapColourHex = {
   red: '#ff0000',
   blue: '#0000ff',
   green: '#00ff00',
-  yellow: '#fffe3c',
+  yellow: '#ffff00',
   white: '#ffffff',
   orange: '#ffa700',
+  stone: '#f9cb9c',
   grey: '#969696',
   palegrey: '#b2b2b2',
   paleblue: '#00d2ff',
-  purple: '#ff3cb1'
+  purple: '#ff3cb1',
+  lightgrey: '#e1e1e1'
 };
 
 const mapLineWidth = {
@@ -81,11 +83,6 @@ const mapObjectColourHex = {
   berth: ['#e1e1e1', '#ffd6b6'],
   manual_trust_berth: ['#ffff00']
 };
-
-Given(/^I am viewing the map (.*)$/, {timeout: 1 * 40000}, async (mapId: string) => {
-  const url = '/tmv/maps/' + mapId;
-  await appPage.navigateTo(url);
-});
 
 Given('I view a schematic that contains a continuation button', async () => {
   const randomMap = await homePage.chooseRandomMap();
@@ -156,6 +153,20 @@ When('I use the secondary mouse click on a continuation button', async () => {
   await browser.actions().click(continuationTextElements[randomIndex], protractor.Button.RIGHT).perform();
 });
 
+When('I move to map {string} via continuation link', async (mapName: string) => {
+  const mapNumber = mapName.substr(mapName.length - 2, 2);
+  const continuationTextLayerItems: MapLayerItem[]
+    = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType.connector_text_label);
+  const continuationTextLayerItem: MapLayerItem = continuationTextLayerItems[0];
+  const continuationTextElements: any[] = await continuationTextLayerItem.layerItems.getWebElements();
+  for (const textItem of continuationTextElements) {
+    const textString = await textItem.getText();
+    if (textString === mapNumber) {
+      return textItem.click();
+    }
+  }
+});
+
 When('I select "Open" map from the menu', async () => {
   const openMapLink: ElementFinder = await mapPageObject.getMapContextMenuElementByRow(3);
   await openMapLink.click();
@@ -176,6 +187,9 @@ When('I use the secondary mouse on {word} berth {word}', async (berthType: strin
   }
   if (berthType === 'manual-trust') {
     await mapPageObject.rightClickManualTrustBerth(berthId);
+  }
+  if (berthType === 'last') {
+    await mapPageObject.rightClickBerth(berthId);
   }
 });
 
@@ -660,9 +674,18 @@ When('I open schedule matching screen from the map context menu', async () => {
   await mapPageObject.mapContextMenuItems.get(2).click();
 });
 
+When(/^I toggle path (?:on|off) from the map context menu$/, async () => {
+  await mapPageObject.mapContextMenuItems.get(3).click();
+});
+
 Then('the map context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
   const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
-  expect(actualContextMenuItem).to.contain(expectedText);
+  expect(actualContextMenuItem, `Map menu item not as expected`).to.contain(expectedText);
+});
+
+Then('the map context menu has {string} on line {int}', async (expectedText: string, rowNum: number) => {
+  const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
+  expect(actualContextMenuItem, `Map menu item not as expected`).to.equal(expectedText);
 });
 
 Then('the track state width for {string} is {string}',
@@ -670,13 +693,6 @@ Then('the track state width for {string} is {string}',
     const actualWidth = await mapPageObject.getTrackWidth(trackId);
     expect(actualWidth, `Track width for ${trackId} is not as expected`)
       .to.equal(expectedWidth);
-  });
-
-Then('the route indication for {string} is {string}',
-  async (trackId: string, expectedValue: string) => {
-    const actualValue = await mapPageObject.getRouteIndication(trackId);
-    expect(actualValue, `Route Indication for ${trackId} is not correct`)
-      .to.equal(expectedValue);
   });
 
 Then('the track colour for track {string} is {word}',
@@ -723,6 +739,10 @@ When('I right click on berth with id {string}', async (berthId: string) => {
   await mapPageObject.rightClickBerth(berthId);
 });
 
+When('I click on {string} link', async (berthId: string) => {
+  await mapPageObject.trainHighlight();
+});
+
 Then('the berth context menu is displayed with berth name {string}', async (expectedBerthName: string) => {
   const berthName: string = await mapPageObject.getBerthName();
   expect(berthName).to.equal(expectedBerthName);
@@ -736,18 +756,100 @@ Then('the train headcode color for berth {string} is {word}',
       .to.equal(expectedColorHex);
   });
 
-Then(/^the (Matched|Unmatched) version of the context menu is displayed$/, async (matchType: string) => {
-  await mapPageObject.waitForContextMenu();
-  let expected;
-  if (matchType === 'Matched') {
-    expected = 'Unmatch';
-  } else {
-    expected = 'Match';
-  }
-  const contextMenuItem: string = await mapPageObject.getMapContextMenuItem(3);
-  expect(contextMenuItem, `${matchType} option not found in the context menu`)
-    .to.equal(expected);
+Then('the train highlight color for berth {string} is {word}',
+  async (berthId: string, expectedColor: string) => {
+    const expectedColorHex = mapColourHex[expectedColor];
+    const actualColorHex: string = await mapPageObject.getBerthColor(berthId);
+    expect(actualColorHex, 'Headcode colour is not ' + expectedColor)
+      .to.equal(expectedColorHex);
+  });
+
+Then('the menu is displayed with {string} option',
+  async (expectedText: string) => {
+    const actualText = await mapPageObject.getTrainHighlightText();
+    expect(actualText).to.equal(expectedText);
+  });
+
+Then(/^the rectangle colour for berth (\w+) (is|is not) (\w+) meaning (.*)$/,
+  async (berthId: string, negate: string, verificationColour: string, explanation: string) => {
+    const expectedRectangleColourHex = mapColourHex[verificationColour];
+    const actualRectangleColour: string = await mapPageObject.getBerthRectangleColour(berthId);
+    if (negate === 'is not')
+    {
+      expect(actualRectangleColour,
+        'Berth rectangle colour is ' + verificationColour + ' meaning ' + explanation + ', which is unexpected')
+        .to.not.equal(expectedRectangleColourHex);
+    }
+    else
+    {
+      expect(actualRectangleColour,
+        'Berth rectangle colour is not ' + verificationColour + ' - ' + explanation + ', it is ' + actualRectangleColour)
+        .to.equal(expectedRectangleColourHex);
+    }
 });
+
+Then('the train headcode {string} is {string} on the map', async (trainDesc: string, visibilityType: string) => {
+  const headcodes: string[] = await mapPageObject.getHeadcodesOnMap();
+  let found = false;
+  for (const hcode of headcodes) {
+    if (hcode === trainDesc) {
+      found = true;
+      break;
+    }
+  }
+  if (visibilityType === 'displayed') {
+    expect(found, 'Headcode expected to be present on map').to.equal(true);
+  } else {
+    expect(found, 'Headcode not expected to be present on map').to.equal(false);
+  }
+});
+
+Then('the punctuality color for berth {string} is {word}',
+  async (berthId: string, expectedColor: string) => {
+    const expectedColorHex = mapColourHex[expectedColor];
+    const actualColorHex: string = await mapPageObject.getBerthColor(berthId);
+    expect(actualColorHex, 'Punctuality colour is not ' + expectedColor)
+      .to.equal(expectedColorHex);
+  });
+
+Then('the manual trust berth type for {string} is {word}',
+  async (berthId: string, expectedType: string) => {
+    const actualType: string = await mapPageObject.getManualBerthType(berthId);
+    expect(actualType, 'Manual Berth type is not ' + expectedType)
+      .to.equal(expectedType);
+  });
+
+Then(/^the (Matched|Unmatched) version of the map context menu is displayed$/, async (matchType: string) => {
+  await mapPageObject.waitForContextMenu();
+  let expected1;
+  let expected2;
+  if (matchType === 'Matched') {
+    expected1 = 'Open timetable';
+    expected2 = 'Turn Path';
+
+  } else {
+    expected1 = 'No timetable';
+    expected2 = 'Match';
+  }
+  const contextMenuItem1: string = await mapPageObject.getMapContextMenuItem(2);
+  const contextMenuItem2: string = await mapPageObject.getMapContextMenuItem(3);
+  expect(contextMenuItem1, `Context menu does not imply ${matchType} state - does not contain ${expected1}`)
+    .to.contain(expected1);
+  expect(contextMenuItem2, `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
+    .to.contain(expected2);
+});
+
+When(/^I wait for the option to (Match|Unmatch) train description (\w+) in berth (\w+), describer (\w+) to be available$/,
+  async (matchIndicator: string, trainDescription: string, berth: string, describer: string) => {
+    const optionAvailable: boolean = await mapPageObject.waitForMatchIndication(trainDescription, matchIndicator, berth, describer, 3);
+    expect(optionAvailable).to.equal(true);
+});
+
+When(/^I wait for the (Open|No) timetable option for train description (\w+) in berth (\w+), describer (\w+) to be available$/,
+  async (matchIndicator: string, trainDescription: string, berth: string, describer: string) => {
+    const optionAvailable: boolean = await mapPageObject.waitForMatchIndication(trainDescription, matchIndicator, berth, describer, 2);
+    expect(optionAvailable).to.equal(true);
+  });
 
 Given(/^I have cleared out all headcodes$/, async () => {
   await browser.wait(ExpectedConditions.visibilityOf(mapPageObject.berthElements), 60 * 1000);

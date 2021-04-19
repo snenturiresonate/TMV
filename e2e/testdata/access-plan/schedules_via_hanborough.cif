@@ -1,0 +1,361 @@
+HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
+BSNC560632101012405181111111 PXX1W007303125392003 HST    125D     B S T        P
+BX         GWY                                                                  
+LOPADTON  0821 08211  1      TB                                                 
+LISTHALL            0829H000000001  ML                                          
+LISLOUGH  0835H0837      083608372  ML    T                                     
+LIMDNHEAD           0842 000000001  ML                                          
+LITWYFORD           0845 000000001                    1                         
+LIRDNGSTN 0851H0853H     085208539  ML    T                                     
+LIGORASTR           0900 00000000                     1                         
+CROXFD    XX1W007303125392003 HST    125      B S T                             
+LIOXFD    0919 0923H     091909234        T                                     
+LIHANDBRO 0932 0933H     09320933         T                                     
+LICHBURY  0940 0941H     09400941         T X                                   
+LIASCTUWD           0945H000000001                                              
+LIKINGHAM 0949H0951      09500951         T                                     
+LIMINMARS 0959 1000H     095910001        T                                     
+LIHONYBRN 1010H1012      101110121        T           1                         
+LIEVESHAM 1019H1030      10201030         T X                                   
+LIPERSHOR 1036 1037H     10361037         T                                     
+LIWORCSSH 1047H1049H     104810491        T                                     
+LIWORCSFS 1051H1053H     105210531        T                                     
+LIMLVRNLK 1101 1102H     11011102         T                                     
+LIGTMLVRN 1105 1107      11051107         T                                     
+LICLWALL  1111H1113      11121113         T           1                         
+LILDBURY  1119H1122H     11201122         T           1                         
+LTHEREFRD 1138 11401     TF                                                     
+BSNC560652101012405181111111 PXX1W017507125392003 HST    125      B S C        P
+BX         GWY                                                                  
+LOPADTON  1022 10222  1      TB                                                 
+LISTHALL            1030H000000001  ML                                          
+LISLOUGH  1036H1038      103710382  ML    T                                     
+LIMDNHEAD           1043 000000001  ML                                          
+LITWYFORD           1046 000000001                    1                         
+LIRDNGSTN 1051H1053H     105210538  ML    T                                     
+LIGORASTR           1059H00000000                     1                         
+LIDIDCOTP           1107 000000003                       H                      
+LIOXFD    1123 1125      112311254        T                                     
+LIHANDBRO 1133H1135      11341135         T                                     
+LICHBURY  1141H1143      11421143         T                                     
+LIASCTUWD           1147 000000001                                              
+LIKINGHAM 1151 1152H     11511152         T                                     
+LIMINMARS 1200H1202      120112021        T                                     
+LIHONYBRN 1212 1213H     121212131        T           1                         
+LIEVESHAM 1221 1222H     12211222         T X                                   
+LIPERSHOR 1228H1230      12291230         T                                     
+LIWORCSSH 1240 1243H     124012431        T                                     
+LIWORCSFS 1245H1247H     124612471        T                                     
+LIMLVRNLK 1255 1256H     12551256         T                                     
+LIGTMLVRN 1259 1308H     12591308         T                                     
+LICLWALL  1313 1314H     13131314         T           1                         
+LILDBURY  1321 1331H     13211331         T X         1                         
+LTHEREFRD 1347 13471     TF                                                     
+BSNC560672101012405181111111 PXX1W027309125392003 HST    125      B S C        P
+BX         GWY                                                                  
+LOPADTON  1722 172210 3      TB                                                 
+LISTHALL            1730H000000001  ML                                          
+LISLOUGH            1736H000000002  ML                  2                       
+LIMDNHEAD           1741H000000001  ML                                          
+LITWYFORD           1744H000000001                    1                         
+LIRDNGSTN 1750 1752      175017529  ML    T                                     
+LIGORASTR           1758 00000000                     1                         
+LIOXFD    1815H1817H     181618174        T                                     
+LIHANDBRO 1826 1827H     18261827         T                                     
+LICHBURY  1834 1835H     18341835         T                                     
+LIASCTUWD           1839H000000001                                              
+LIKINGHAM 1843H1845      18441845         T                                     
+LIMINMARS 1853 1854H     185318541        T                                     
+LIHONYBRN 1904H1906      190519061        T           1                         
+LIEVESHAM 1913H1915      19141915         T X                                   
+LIPERSHOR 1921 1922H     19211922         T                                     
+LIWORCSSH 1932H1935H     193319351        T                                     
+LIWORCSFS 1937H1939H     193819391        T                                     
+LIMLVRNLK 1947 1948H     19471948         T                                     
+LIGTMLVRN 1951 1952H     19511952         T                                     
+LICLWALL  1957 1958H     19571958         T           1                         
+LILDBURY  2006 2008      20062008         T X         1                         
+LTHEREFRD 2024 20261     TF                                                     
+BSNC560692101012405181111111 PXX1W037311125392003 HST    125      B S C        P
+BX         GWY                                                                  
+LOPADTON  1822 18223  2      TB                                                 
+LISTHALL            1830H000000001  ML                                          
+LISLOUGH            1836H000000002  ML                  1H                      
+LIMDNHEAD           1841 000000001  ML                                          
+LITWYFORD           1844 000000001                    1                         
+LIRDNGSTN 1849H1851H     185018519  ML    T                                     
+LIGORASTR           1857H00000000                     1 1H                      
+LIOXFD    1922 1924      192219244        T                                     
+LIHANDBRO 1932H1934      19331934         T                                     
+LICHBURY  1940H1942H     19411942         T                                     
+LIASCTUWD           1946H000000001                                              
+LIKINGHAM 1950H1952H     19511952         T                                     
+LIMINMARS 2000H2002      200120021        T                                     
+LIHONYBRN 2012 2013H     201220131        T           1                         
+LIEVESHAM 2021 2022H     20212022         T X                                   
+LIPERSHOR 2028H2030      20292030         T                                     
+LIWORCSSH 2040 2042      204020421        T                                     
+LIWORCSFS 2044 2046      204420461        T                                     
+LIMLVRNLK 2053H2055      20542055         T                                     
+LIGTMLVRN 2057H2059H     20582059         T                                     
+LICLWALL  2104 2106      21042106         T           1                         
+LILDBURY  2113H2115H     21142115         T X         1                         
+LTHEREFRD 2131 21331     TF                                                     
+BSNC560712101012405181111111 PXX1W047312125392003 HST    125      B S C        P
+BX         GWY                                                                  
+LOPADTON  1922 19228  3      TB                                                 
+LISTHALL            1930H000000001  ML                                          
+LISLOUGH  1936H1938      193719382  ML    T                                     
+LIMDNHEAD           1943 000000001  ML                                          
+LITWYFORD           1946 000000001                    1                         
+LIRDNGSTN 1951H1953H     195219539  ML    T                                     
+LIGORASTR           1959H00000000                     1                         
+LIOXFD    2021 2023      202120234        T                                     
+LIHANDBRO 2031H2033H     20322033         T                                     
+LICHBURY  2040 2043      20402043         T                                     
+LIASCTUWD           2047 000000001                                              
+LIKINGHAM 2051 2053      20512053         T                                     
+LIMINMARS 2101 2106      210121061        T                                     
+LIHONYBRN 2116 2118      211621181        T           1                         
+LIEVESHAM 2125H2131      21262131         T                                     
+LIPERSHOR 2137 2139      21372139         T                                     
+LIWORCSSH 2149 2158H     214921581        T                                     
+LIWORCSFS 2200H2202H     220122021        T                                     
+LIMLVRNLK 2210 2212      22102212         T                                     
+LIGTMLVRN 2214H2220      22152220         T                                     
+LICLWALL  2224H2226      22252226         T           1                         
+LILDBURY  2232H2234H     22332234         T           1                         
+LTHEREFRD 2250 22521     TF                                                     
+BSNC560762101012405181111111 PXX1W127301125392003 HST    125      B S          P
+BX         GWY                                                                  
+LOPADTON  0547 05474  1      TB                                                 
+LISTHALL            0555H000000001  ML                                          
+LISLOUGH  0601H0603      060206032  ML    T                                     
+LIMDNHEAD           0608 000000001  ML                                          
+LITWYFORD           0611 000000001                    1                         
+LIRDNGSTN 0616H0618H     061706188  ML    T                                     
+LIGORASTR           0624H00000000                     1                         
+LIDIDCOTP 0632H0634      063306343        T                                     
+CROXFD    XX1W127301125392003 HST    125      B S T                             
+LIOXFD    0650 0652      065006524        T                                     
+LIHANDBRO 0700H0702      07010702         T                                     
+LICHBURY  0708H0710      07090710         T                                     
+LIASCTUWD           0714 000000001                                              
+LIKINGHAM 0718 0719H     07180719         T                                     
+LIMINMARS 0727H0729      072807291        T                                     
+LIHONYBRN 0739 0740H     073907401        T           1                         
+LIEVESHAM 0748 0751      07480751         T                                     
+LIPERSHOR 0757 0758H     07570758         T                                     
+LIWORCSSH 0808H0813      080908131        T                                     
+LTWORCSFS 0815 08151     TF                                                     
+BSNC560782101012405181111111 PXX1W147302125392003 HST    125      B S          P
+BX         GWY                                                                  
+LOPADTON  0652 06529  3      TB                                                 
+LISTHALL            0700H000000001  ML                                          
+LISLOUGH  0706H0708      070707082  ML    T                                     
+LIMDNHEAD           0713 000000001  ML                                          
+LITWYFORD           0716 000000001                    1                         
+LIRDNGSTN 0721H0723H     072107229  ML    T                                     
+LIGORASTR           0730 00000000                     1 2                       
+LIDIDCOTP 0740 0743      074007433        T                                     
+CROXFD    XX1W147302125392003 HST    125      B S T                             
+LIOXFD    0756H0801      075708014        T             3H                      
+LIHANDBRO 0813 0814H     08130814         T                                     
+LICHBURY  0821 0822H     08210822         T                                     
+LIASCTUWD           0826H000000001                                              
+LIKINGHAM 0830H0832      08310832         T                                     
+LIMINMARS 0840 0841H     084008411        T                                     
+LIHONYBRN 0851H0853      085208531        T           1                         
+LIEVESHAM 0900H0902      09010902         T                                     
+LIPERSHOR 0908 0909H     09080909         T                                     
+LIWORCSSH 0919H0921H     092009211        T                                     
+LIWORCSFS 0923H0925H     092409251        T                                     
+LIMLVRNLK 0933 0934H     09330934         T                                     
+LTGTMLVRN 0937 0937      TF                                                     
+BSNC560792101012405181111111 PXX1W167504125392003 DMUT   090D     S S          P
+BX         GWY                                                                  
+LOPADTON  0750 07502  2      TB                                                 
+LISTHALL            0759 000000001  ML                                          
+LISLOUGH  0806 0807      080608072  ML    T                                     
+LIMDNHEAD           0812H000000001  ML                                          
+LITWYFORD           0817 000000001                    1                         
+LIRDNGSTN 0822H0823H     082308238  ML    T                                     
+LIGORASTR           0830H00000000                                               
+LIDIDCOTP           0837H000000003                                              
+CROXFD    XX1W167504125392003 DMUT   090      S S                               
+LIOXFD    0849 0851      084908514        T                                     
+LIHANDBRO 0859H0900H     09000900         T                                     
+LICHBURY  0907 0908      09070908         T                                     
+LIASCTUWD           0912 000000001                                              
+LIKINGHAM 0916 0917      09160917         T                                     
+LIMINMARS 0924H0929H     092509291        T -D                                  
+LIEVESHAM 0943H0944H     09440944         T                                     
+LIWORCSSH 0958H1000H     095910001A       T                                     
+LIWORCSFS 1002H1003H     100310031        T                                     
+LIMLVRNLK 1011H1012H     10121012         T                                     
+LTGTMLVRN 1015 1015      TF                                                     
+BSNC560832101012405181111111 PXX1W237508125392003 HST    125      B S T        P
+BX         GWY                                                                  
+LOPADTON  1122 11229  3      TB                                                 
+LISTHALL            1130H000000001  ML                                          
+LISLOUGH  1136H1138      113711382  ML    T                                     
+LIMDNHEAD           1143 000000001  ML                                          
+LITWYFORD           1146 000000001                    1                         
+LIRDNGSTN 1151H1153H     115211538  ML    T                                     
+LIGORASTR           1159H00000000                     1                         
+LIOXFD    1221 1224      122112244        T             1                       
+LIHANDBRO 1233H1235      12341235         T                                     
+LICHBURY  1241H1243      12421243         T                                     
+LIASCTUWD           1247 000000001                                              
+LIKINGHAM 1251 1252H     12511252         T                                     
+LIMINMARS 1300H1302      130113021        T                                     
+LIHONYBRN 1312 1313H     131213131        T           1                         
+LIEVESHAM 1321 1322H     13211322         T                                     
+LIPERSHOR 1328H1330      13291330         T                                     
+LIWORCSSH 1340 1342      134013421        T                                     
+LTWORCSFS 1344 13441     TF                                                     
+BSNC560852101012405181111111 PXX1W257509125392003 HST    125      B S C        P
+BX         GWY                                                                  
+LOPADTON  1221 122110 3      TB                                                 
+LISTHALL            1229H000000001  ML                                          
+LISLOUGH  1235H1237      123612372  ML    T                                     
+LIMDNHEAD           1242 000000001  ML                                          
+LITWYFORD           1245 000000001                    1                         
+LIRDNGSTN 1250H1252H     125112528  ML    T                                     
+LIGORASTR           1258H00000000                     1                         
+LIDIDCOTP           1306 000000003                                              
+LIOXFD    1321 1323      132113234        T                                     
+LIHANDBRO 1331H1333      13321333         T                                     
+LICHBURY  1339H1341      13401341         T                                     
+LIASCTUWD           1345 000000001                                              
+LIKINGHAM 1349 1350H     13491350         T                                     
+LIMINMARS 1358H1400      135914001        T                                     
+LIHONYBRN 1410 1411H     141014111        T           1                         
+LIEVESHAM 1419 1420H     14191420         T                                     
+LIPERSHOR 1426H1428      14271428         T                                     
+LTWORCSSH 1438 14381     TF                                                     
+BSNC560872101012405181111111 PXX1W277511125392003 HST    125      B S C        P
+BX         GWY                                                                  
+LOPADTON  1322 13225  1      TB                                                 
+LISTHALL            1330H000000001  ML                                          
+LISLOUGH  1336H1338      133713382  ML    T                                     
+LIMDNHEAD           1343 000000001  ML                                          
+LITWYFORD           1346 000000001                    1                         
+LIRDNGSTN 1351H1353H     135213538  ML    T                                     
+LIGORASTR           1359H00000000                     1                         
+CROXFD    XX1W277511125392003 HST    125      B S T                             
+LIOXFD    1417 1419      141714194        T                                     
+LIHANDBRO 1427H1429      14281429         T                                     
+LICHBURY  1435H1437      14361437         T                                     
+LIASCTUWD           1441 000000001                                              
+LIKINGHAM 1445 1446H     14451446         T                                     
+LIMINMARS 1454H1456      145514561        T                                     
+LIHONYBRN           1505H000000001                    1                         
+LIEVESHAM 1511H1513      15121513         T                                     
+LIWORCSSH 1527 1539      152715391        T                                     
+LTWORCSFS 1541 15411     TF                                                     
+BSNC560932101012405181111111 PXX1W327308125392003 HST    125      B S T        P
+BX         GWY                                                                  
+LOPADTON  1552 15524  3      TB                                                 
+LISTHALL            1600H000000001  ML                                          
+LISLOUGH  1606H1608      160716082  ML    T                                     
+LIMDNHEAD           1613 000000001  ML                                          
+LITWYFORD           1616 000000001                    1                         
+LIRDNGSTN 1621H1623H     162216238  ML    T                                     
+LIGORASTR           1629H00000000                     1                         
+LIOXFD    1647 1650H     164716504        T                                     
+LIHANDBRO 1659 1700H     16591700         T                                     
+LICHBURY  1707 1708H     17071708         T                                     
+LIASCTUWD           1712H000000001                                              
+LIKINGHAM 1716H1718      17171718         T                                     
+LTMINMARS 1726 17261     TF                                                     
+BSNC560952101012405181111111 PXX1W337515125392003 HST    125      B S T        P
+BX         GWY                                                                  
+LOPADTON  1622 16228  3      TB                                                 
+LISTHALL            1630H000000001  ML                                          
+LISLOUGH  1636H1638      000016382  ML    U                                     
+LIMDNHEAD           1643 000000001  ML                                          
+LITWYFORD           1646 000000001                    1                         
+LIRDNGSTN 1651H1653H     000016539  ML    U                                     
+LIGORASTR           1659H00000000                     1                         
+LIOXFD    1724 1726      172417264        T                                     
+LIHANDBRO 1734H1736      17351736         T                                     
+LICOMBE   1739 1740H     17391740         T                                     
+LIFINSTCK 1745H1747H     17461747         T                                     
+LICHBURY  1751 1752H     17511752         T                                     
+LIASCTUWD 1756H1758H     175717581        T                                     
+LISPTN    1801 1802H     180118021        T                                     
+LIKINGHAM 1807 1809      18071809         T                                     
+LIMINMARS 1817 1818H     181718181        T                                     
+LIHONYBRN 1828H1830      182918301        T           1                         
+LIEVESHAM 1837H1839      18381839         T                                     
+LIPERSHOR 1845 1846H     18451846         T                                     
+LIWORCSSH 1856H1909      185719091        T X                                   
+LIWORCSFS 1911 1913      191119131        T                                     
+LIMLVRNLK 1920H1922H     19211922         T           1                         
+LTGTMLVRN 1926 1926      TF                                                     
+BSNC560972101012405181111111 PXX1W367310125392003 HST    125      B S C        P
+BX         GWY                                                                  
+LOPADTON  1752 17523  3      TB                                                 
+LISTHALL            1800H000000001  ML                                          
+LISLOUGH            1805H000000002  ML                  2H                      
+LIMDNHEAD           1811 000000001  ML                                          
+LITWYFORD           1814 000000001                    1                         
+LIRDNGSTN 1819H1821H     182018218  ML    T                                     
+LIGORASTR           1827H00000000                     1                         
+LIDIDCOTP           1835 000000003                                              
+LIOXFD    1848H1850H     184918504        T                                     
+LIHANDBRO 1859 1900H     18591900         T                                     
+LICHBURY  1907 1908H     19071908         T                                     
+LIASCTUWD           1912H000000001                                              
+LISPTN    1914H1916      191519161        T                                     
+LIKINGHAM 1920H1922      19211922         T                                     
+LIMINMARS 1930 1931H     193019311        T                                     
+LIHONYBRN           1941 000000001                    1                         
+LIEVESHAM 1947 1948H     19471948         T X                                   
+LIPERSHOR 1954H1956      19551956         T                                     
+LTWORCSSH 2006 20061     TF                                                     
+BSNC560982101012405181111111 PXX1W397313125392003 HST    125      B S T        P
+BX         GWY                                                                  
+LOPADTON  2022 20229  3      TB                                                 
+LISTHALL            2030H000000001  ML                                          
+LISLOUGH  2036H2038      203720382  ML    T                                     
+LIMDNHEAD           2043 000000001  ML                                          
+LITWYFORD           2046 000000001                    1                         
+LIRDNGSTN 2051H2053H     205220539  ML    T                                     
+LIGORASTR           2059H00000000                                               
+CROXFD    XX1W397313125392003 HST    125      B S                               
+LIOXFD    2122 2124      212221244        T                                     
+LIHANDBRO 2132H2134      21332134         T                                     
+LICHBURY  2140H2142      21412142         T                                     
+LIASCTUWD           2146 000000001                                              
+LIKINGHAM 2150 2151H     21502151         T                                     
+LIMINMARS 2159H2201      220022011        T                                     
+LIHONYBRN 2211 2212H     221122121        T           1                         
+LIEVESHAM 2220 2221H     22202221         T                                     
+LIPERSHOR 2227H2229      22282229         T                                     
+LIWORCSSH 2239 2241      223922411        T                                     
+LIWORCSFS 2243 2245      224322451        T                                     
+LIMLVRNLK 2252H2254      22532254         T                                     
+LTGTMLVRN 2257 2257      TF                                                     
+BSNC561002101012405181111111 PXX1W427314125392003 HST    125      B S C        P
+BX         GWY                                                                  
+LOPADTON  2148 21483  1      TB                                                 
+LISTHALL            2156H000000001  ML                                          
+LISLOUGH  2202H2204      220322042  ML    T                                     
+LIMDNHEAD           2209 000000001  ML                                          
+LITWYFORD           2213 000000003                    1                         
+LIRDNGSTN 2218H2220H     2219222012 RL    T                                     
+LIGORASTR           2232H00000000                     1 1                       
+LIOXFD    2254 2256      225422564        T                                     
+LIHANDBRO 2304H2306      23052306         T                                     
+LICHBURY  2312H2314      23132314         T                                     
+LIASCTUWD           2318 000000001                                              
+LISPTN    2320 2321H     232023211        T                                     
+LIKINGHAM 2326 2327H     23262327         T                                     
+LIMINMARS 2335H2337      233623371        T                                     
+LIHONYBRN 2347 2348H     234723481        T           1                         
+LIEVESHAM 2356 2357H     23562357         T                                     
+LIPERSHOR 0003H0005      00040005         T                                     
+LTWORCSSH 0015 00151     TF                                                     
+ZZ                                                                               

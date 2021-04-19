@@ -35,7 +35,7 @@ export class TrainsListTableColumnsPage {
     this.toc = element.all(by.css('td.trains-list-row-entry-operator'));
   }
   public async waitForTableToLoad(): Promise<void> {
-    await CommonActions.waitForElementToBeVisible(element.all(by.css('tr')).first());
+    await CommonActions.waitForElementToBeVisible(element.all(by.css('app-train-list-table-results tr')).first());
   }
   public async valuesWithinRange(tableCol: ElementArrayFinder, max: number, min: number): Promise<ElementArrayFinder> {
     await this.waitForTableToLoad();
@@ -64,14 +64,9 @@ export class TrainsListTableColumnsPage {
     return valueArr;
   }
 
-  public async getBackgroundColourOfRow(trainDescriberId: string): Promise<string[]> {
-    const colourOfEachRowArray: any[] = [];
+  public async getBackgroundColourOfRow(trainDescriberId: string): Promise<string> {
     await this.waitForTableToLoad();
-    const elm = element.all(by.css(`#trains-list-row-${trainDescriberId}`));
-    elm.each(el => {
-      GeneralUtils.scrollToElement(el);
-      colourOfEachRowArray.push(el.getCssValue('background-color'));
-    });
-    return colourOfEachRowArray;
+    const elm = element.all(by.css(`[id^=trains-list-row-${trainDescriberId}]`)).first();
+    return elm.getCssValue('background-color');
   }
 }
