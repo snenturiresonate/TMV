@@ -63,7 +63,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     And I click the clear all button for TRUST Service Filter
     Then I see the selected trusts table to not have any items
 
-  @tdd
+    @bug @bug_60432
   Scenario: 33806 -37 Trains List Config (TRUST IDs Applied)
   #Given the user has made changes to the TRUST ID settings
   #When the user views the trains list
@@ -80,7 +80,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     And I click the clear all button for TRUST Service Filter
     And I input '1B25V95541' in the TRUST input field
     And I click the add button for TRUST Service Filter
-    And I save the service filter changes
-    And I open 'trains list' page in a new tab
-    Then I should see the trains list table to only display train description 'IB25'
+    And I save the service filter changes for Trust Id
+    And I am on the trains list page
+    Then I should see the trains list table to only display train description '1B25'
 
