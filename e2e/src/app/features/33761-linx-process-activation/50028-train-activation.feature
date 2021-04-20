@@ -17,7 +17,7 @@ Feature: 33761-2 Train activation for a valid service
       | Next report overdue       | #ffff00 | 10      | off         |
       | Origin Called             | #9999ff | 50      | on          |
       | Origin Departure Overdue  | #339966 | 20      | on          |
-
+@check
   Scenario: 33761-2 Train Activation for a valid service
     Given I am on the trains list page
     And I restore to default train list config
@@ -34,8 +34,9 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'N'
     When the schedule is received from LINX
-    And I am on the trains list page
-    #    And the train description <> is visible on the trains list with schedule type 'STP'
+    And the following service is displayed on the trains list
+      | trainId | trainUId |
+      | 0A00    | W15214   |
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
       | W15214   | 0A00        | 09:58                  | 99999               | PADTON                 |
@@ -43,7 +44,7 @@ Feature: 33761-2 Train activation for a valid service
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
       | Origin called             | 0A00       | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
-
+  @check
   Scenario: 33761-3 Train Activation for a cancelled service
     Given I am on the trains list page
     And the service '0B00' is not active
@@ -59,14 +60,17 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:14            |      |
     And that service has the cancellation status 'C'
     When the schedule is received from LINX
+    And the following service is displayed on the trains list
+      | trainId | trainUId |
+      | 0B00    | W15214   |
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | W15214   | 0A00        | 09:59                  | 99999               | PADTON                 |
+      | W15214   | 0B00        | 09:59                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
       | Cancellation              | 0B00       | rgba(0, 255, 0, 1)    | rgba(0, 255, 0, 1)     |
-
+  @check
   Scenario: 33761-4 Train Activation for an active service
     Given I am on the trains list page
     And the service '0C00' is active
@@ -82,14 +86,17 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:14            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
+    And the following service is displayed on the trains list
+      | trainId | trainUId |
+      | 0C00    | W15214   |
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | W15214   | 0A00        | 09:59                  | 99999               | PADTON                 |
+      | W15214   | 0C00        | 09:59                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
       | Origin called             | 0C00       | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
-
+  @check
   Scenario: 33761-5 Train Activation for a valid service with a different origin
     Given I am on the trains list page
     And the service '0D00' is not active
@@ -105,14 +112,17 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
+    And the following service is displayed on the trains list
+      | trainId | trainUId |
+      | 0D00    | W15214   |
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | W15214   | 0A00        | 09:58                  | 99999               | PADTON                 |
+      | W15214   | 0D00        | 09:58                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
       | Origin called             | 0D00       | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
-
+  @check
   Scenario: 33761-6 Train Activation for a valid service with a change of origin
     Given I am on the trains list page
     And the service '0E00' is not active
@@ -128,14 +138,17 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
+    And the following service is displayed on the trains list
+      | trainId | trainUId |
+      | 0E00    | W15214   |
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | W15214   | 0A00        | 09:58                  | 99999               | PADTON                 |
+      | W15214   | 0E00        | 09:58                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
       | Change of origin          | 0E00       | rgba(204, 204, 0, 1)  | rgba(0, 255, 0, 1)     |
-
+  @check
   Scenario: 33761-8 Train Activation for a valid service with a change of origin matching current origin
     Given I am on the trains list page
     And the service '0F00' is not active
@@ -151,9 +164,12 @@ Feature: 33761-2 Train activation for a valid service
       | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
+    And the following service is displayed on the trains list
+      | trainId | trainUId |
+      | 0F00    | W15214   |
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | W15214   | 0A00        | 10:15                  | 99999               | PADTON                 |
+      | W15214   | 0F00        | 10:15                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |

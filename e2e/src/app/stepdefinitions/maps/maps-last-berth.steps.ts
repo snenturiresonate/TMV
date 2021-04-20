@@ -32,7 +32,7 @@ Then('the user is presented with a list of the last {string} services that have 
       const expectedOperator = expectedRecord.operatorCode;
       const expectedPunctuality = expectedRecord.punct;
       const expectedArrivalTime = expectedRecord.arrivalTime;
-      const expectedArrivalDate = DateAndTimeUtils.convertToDesiredDateAndFormat(expectedRecord.arrivalDate, 'DD-MM-YY');
+      const expectedArrivalDate = DateAndTimeUtils.convertToDesiredDateAndFormat(expectedRecord.arrivalDate, 'dd-MM-yy');
       for (const row of actualServiceTable) {
         const service = await row.getService() === expectedService;
         const operator = await row.getOperator() === expectedOperator;

@@ -1,3 +1,4 @@
+@manual
 Feature: Example Scenarios
   Navigate to the homepage and receive LINX messages
 
