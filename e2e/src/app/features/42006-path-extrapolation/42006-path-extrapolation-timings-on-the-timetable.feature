@@ -210,21 +210,22 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
     And the access plan located in CIF file '<cif>' is received from LINX
     And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
     When the following berth step messages is sent from LINX
-      | fromBerth   | timestamp   | toBerth   | trainDescriber   | trainDescription   |
-      | <fromBerth> | <timestamp> | <toBerth> | <trainDescriber> | <trainDescription> |
-
-    # Do I need to add another berth step from the location we are monitoring here?
-
+      | fromBerth   | timestamp    | toBerth         | trainDescriber   | trainDescription   |
+      | <fromBerth> | <timestamp>  | <toBerth>       | <trainDescriber> | <trainDescription> |
+      | <toBerth>   | <timestamp2> | <secondToBerth> | <trainDescriber> | <trainDescription> |
     And I am on the timetable view for service '<trainUid>'
     And I toggle the inserted locations on
-    Then the punctuality for location "<location>" instance 1 is correctly calculated based on "<timestamp>" & "<expectedArrivalTime>"
+    Then the punctuality for location "<location>" instance 1 is correctly calculated based on "<timestamp>" & "<plannedTime>"
 
-    # for a stopping location actual arrival punctuality will only be displayed until a departure time is received
     Examples:
-      | cif                                     | trainUid | trainDescription | location      | timestamp | expectedArrivalTime | trainDescriber | toBerth | fromBerth |
+      | cif                                     | trainUid | trainDescription | location              | timestamp | plannedTime | timestamp2 | trainDescriber | toBerth | fromBerth | secondToBerth |
+      #Passing
+      | access-plan/42006-schedules/42006-7.cif | C14261   | 1U39             | Crewe Basford Hall Jn | 13:32:00  | 13:35:30    | 13:32:00   | CE             | H056    | A120      | H114          |
       #Stopping
-      | access-plan/42006-schedules/42006-7.cif | C14261   | 1U39             | Stafford      | 13:50:00  | 13:51:00            | R3             | 5582    | 3594      |
+      | access-plan/42006-schedules/42006-7.cif | C14261   | 1U39             | NAME                  |           |             |            |                |         |           |               |
+
+
+
+
       # Destination
-      | access-plan/42006-schedules/42006-7.cif | C14261   | 1U39             | London Euston | 15:50:00  | 15:52:00            | WY             | B012    | 0284      |
-      # Passing
-      | access-plan/42006-schedules/42006-7.cif | C14261   | 1U39             | ?? | ??  | ??            | ??             | ??    | ??      |
+      #| access-plan/42006-schedules/42006-7.cif | C14261   | 1U39             | London Euston | 15:50:00  | 15:52:00            | WY             | B012    | 0284     |                  |
