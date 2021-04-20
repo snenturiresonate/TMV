@@ -21,34 +21,39 @@ Feature: 33761-2 Train activation for a valid service
   Scenario: 33761-2 Train Activation for a valid service
     Given I am on the trains list page
     And I restore to default train list config
-    And the service '1L23 ' is not active
-    And the access plan located in CIF file 'access-plan/schedules_BS_type_C' is amended so that all services start within the next hour and then received from LINX
-#    And it has Origin Details
-#      | tiploc | scheduledDeparture | line |
-#      | PADTON | 09:58              |      |
-#    And it has Intermediate Details
-#      | tiploc  | scheduledArrival | scheduledDeparture | path | line |
-#      | ROYAOJN | 10:00            | 10:01              |      |      |
-#    And it has Terminating Details
-#      | tiploc  | scheduledArrival | path |
-#      | OLDOXRS | 10:13            |      |
+    #And the service '0A00' is not active
+    And the following service is not displayed on the trains list
+      | trainId | trainUId |
+      | 0A00    | W15214   |
+#    And the access plan located in CIF file 'access-plan/' is received from LINX
+    And it has Origin Details
+      | tiploc | scheduledDeparture | line |
+      | PADTON | 09:58              |      |
+    And it has Intermediate Details
+      | tiploc  | scheduledArrival | scheduledDeparture | path | line |
+      | ROYAOJN | 10:00            | 10:01              |      |      |
+    And it has Terminating Details
+      | tiploc  | scheduledArrival | path |
+      | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'N'
     When the schedule is received from LINX
-    And I am on the trains list page
     And the following service is displayed on the trains list
       | trainId | trainUId |
       | 0A00    | W15214   |
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | W15214   | 1L23        | 09:58                  | 99999               | PADTON                 |
+      | W15214   | 0A00        | 09:58                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
-      | Origin called             | 1L23       | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
+      | Origin called             | 0A00       | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
 
   Scenario: 33761-3 Train Activation for a cancelled service
     Given I am on the trains list page
-    And the service '0B00' is not active
+    #And the service '0B00' is not active
+    And the following service is not displayed on the trains list
+      | trainId | trainUId |
+      | 0B00    | W15214   |
     And there is a Schedule for '0B00'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -74,7 +79,10 @@ Feature: 33761-2 Train activation for a valid service
 
   Scenario: 33761-4 Train Activation for an active service
     Given I am on the trains list page
-    And the service '0C00' is active
+    #And the service '0C00' is active
+    And the following service is not displayed on the trains list
+      | trainId | trainUId |
+      | 0C00    | W15214   |
     And there is a Schedule for '0C00'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -100,7 +108,10 @@ Feature: 33761-2 Train activation for a valid service
 
   Scenario: 33761-5 Train Activation for a valid service with a different origin
     Given I am on the trains list page
-    And the service '0D00' is not active
+    #And the service '0D00' is not active
+    And the following service is not displayed on the trains list
+      | trainId | trainUId |
+      | 0D00    | W15214   |
     And there is a Schedule for '0D00'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -126,7 +137,10 @@ Feature: 33761-2 Train activation for a valid service
 
   Scenario: 33761-6 Train Activation for a valid service with a change of origin
     Given I am on the trains list page
-    And the service '0E00' is not active
+    #And the service '0E00' is not active
+    And the following service is not displayed on the trains list
+      | trainId | trainUId |
+      | 0E00    | W15214   |
     And there is a Schedule for '0E00'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -152,7 +166,10 @@ Feature: 33761-2 Train activation for a valid service
 
   Scenario: 33761-8 Train Activation for a valid service with a change of origin matching current origin
     Given I am on the trains list page
-    And the service '0F00' is not active
+    #And the service '0F00' is not active
+    And the following service is not displayed on the trains list
+      | trainId | trainUId |
+      | 0F00    | W15214   |
     And there is a Schedule for '0F00'
     And it has Origin Details
       | tiploc | scheduledDeparture             | line |
