@@ -31,7 +31,7 @@ Feature: 34002 - Unscheduled Trains Menu
       | 1777    | D1             | <trainNum>       |
     And I navigate to TrainsList page
     When I invoke the context menu from train '<trainNum>' on the trains list
-    And I wait for the context menu to display
+    And I wait for the trains list context menu to display
     Then the trains list context menu is displayed
     And the trains list context menu has 'Match' on line 3
     Examples:
@@ -45,14 +45,14 @@ Feature: 34002 - Unscheduled Trains Menu
       | <planningUid> | <trainNum>  | today              | 73822               | SLOUGH                 | Departure from Origin |
     And I navigate to TrainsList page
     When I invoke the context menu from train '<trainNum>' on the trains list
-    And I wait for the context menu to display
+    And I wait for the trains list context menu to display
     Then the trains list context menu is displayed
     And the trains list context menu has 'Match' on line 3
     Examples:
       | trainNum | planningUid |
       | 2B03     | L20003      |
 
-
+  @tdd @ref_60199
   Scenario Outline:34002-4a Select Service for Rematching (Map)
 #    Given the user is viewing a live schematic map or trains list
 #    And there are matched services viewable
@@ -64,27 +64,33 @@ Feature: 34002 - Unscheduled Trains Menu
       | access-plan/1D46_PADTON_OXFD.cif | RDNGSTN     | WTT_dep       | <trainNum>          | <planningUid>  |
     And I am viewing the map HDGW02reading.v
     And I have cleared out all headcodes
-    And the following live berth interpose message is sent from LINX (creating a match)
+    And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth | trainDescriber | trainDescription |
       | 1711    | D1             | <trainNum>       |
+    And the following live berth step message is sent from LINX (creating a match)
+      | fromBerth | toBerth | trainDescriber | trainDescription |
+      | 1711      | 1733    | D1             | <trainNum>       |
     When I invoke the context menu on the map for train <trainNum>
     Then the map context menu has 'Unmatch / Rematch' on line 3
     Examples:
       | trainNum | planningUid |
       | 2B04     | L20004      |
 
-
-  @bug @bug_58145
+  @tdd @ref_60199
   Scenario Outline:34002-4b Select Service for Rematching (Trains List)
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1D46_PADTON_OXFD.cif | STHALL      | WTT_dep       | <trainNum>          | <planningUid>  |
-    And the following live berth interpose message is sent from LINX (creating a match)
+      | access-plan/1D46_PADTON_OXFD.cif | STHALL      | WTT_pass      | <trainNum>          | <planningUid>  |
+    And I navigate to TrainsList page
+    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth | trainDescriber | trainDescription |
       | 0255    | D4             | <trainNum>       |
-    And I navigate to TrainsList page
+    And the following live berth step message is sent from LINX (creating a match)
+      | fromBerth | toBerth | trainDescriber | trainDescription |
+      | 0255      | 0271    | D4             | <trainNum>       |
     When I invoke the context menu from train '<trainNum>' on the trains list
-    And I wait for the context menu to display
+    And I wait for the trains list context menu to display
     Then the trains list context menu is displayed
     And the map context menu has 'Unmatch / Rematch' on line 3
     Examples:

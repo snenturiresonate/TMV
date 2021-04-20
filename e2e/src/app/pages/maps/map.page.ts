@@ -248,13 +248,14 @@ export class MapPageObject {
     return this.mapContextMenuItems.get(rowIndex - 1).getText();
   }
 
-  public async waitForMatchType(trainDescription: string, matchType: string, berth: string, describer: string): Promise<boolean> {
+  public async waitForMatchIndication(trainDescription: string, indication: string,
+                                      berth: string, describer: string, row: number): Promise<boolean> {
     return browser.wait(async () => {
       try {
         await this.openContextMenuForTrainDescription(trainDescription);
         await this.waitForContextMenu();
-        const contextMenuItem = await this.getMapContextMenuItem(3);
-        if (contextMenuItem.includes(matchType)) {
+        const contextMenuItem = await this.getMapContextMenuItem(row);
+        if (contextMenuItem.includes(indication)) {
           return true;
         }
         await this.closeContextMenuForTrainDescription(trainDescription);
@@ -293,6 +294,15 @@ export class MapPageObject {
     await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
   }
 
+  public async trainHighlight(): Promise<void> {
+    const highlightLink: ElementFinder = element(by.id(''));
+    return highlightLink.click();
+  }
+
+  public async getTrainHighlightText(): Promise<string> {
+    return element(by.id('')).getText();
+  }
+
   public async getBerthContextInfoText(): Promise<string> {
     return element(by.id('berthContextMenu')).getText();
   }
@@ -325,18 +335,14 @@ export class MapPageObject {
   }
 
   public async getTrackWidth(trackId: string): Promise<string> {
-    const trackWidth: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
-    return trackWidth.getCssValue('stroke-width');
+    const track: ElementFinder = element(by.name('track-element-path-' + trackId));
+    return track.getCssValue('stroke-width');
   }
 
   public async getTrackColour(trackId: string): Promise<string> {
-    const track: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
+    const track: ElementFinder = element(by.name('track-element-path-' + trackId));
     const trackColourRgb: string = await track.getCssValue('stroke');
     return CssColorConverterService.rgb2Hex(trackColourRgb);
-  }
-  public async getRouteIndication(trackId: string): Promise<string> {
-    const routeIndication: ElementFinder = element(by.css('[id^=track-element-path-' + trackId  + ']'));
-    return routeIndication.getCssValue('class');
   }
 
   public async getLvlCrossingBarrierState(lvlCrossingId: string): Promise<string> {
@@ -357,7 +363,7 @@ export class MapPageObject {
   }
 
   public async getBerthColor(berthId: string): Promise<string> {
-    const berthLink: ElementFinder = element(by.id('berth-element-text-' + berthId));
+    const berthLink: ElementFinder = element(by.id('berth-element-rect-' + berthId));
     const berthColourRgb: string = await berthLink.getCssValue('fill');
     return CssColorConverterService.rgb2Hex(berthColourRgb);
   }

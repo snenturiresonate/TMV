@@ -33,19 +33,34 @@ Then('the time is displayed', async () => {
   expect(isDisplayed, 'Time is not displayed').to.equal(true);
 });
 
-Then('the map search box is displayed', async () => {
-  const isDisplayed: boolean = await homePage.mapSearchBoxIsDispayed();
-  expect(isDisplayed, 'Map search box is not displayed').to.equal(true);
+Then(/^the map search box (is|is not) displayed$/, async (adverb: string) => {
+  if (adverb === 'is') {
+    const isDisplayed: boolean = await homePage.mapSearchBoxIsDisplayed();
+    expect(isDisplayed, 'Map search box is not displayed').to.equal(true);
+    return;
+  }
+  const isNotDisplayed: boolean = await homePage.mapSearchBoxIsNotDisplayed();
+  expect(isNotDisplayed, 'Map search box is displayed').to.equal(true);
 });
 
-Then('the recent maps are displayed', async () => {
-  const isDisplayed: boolean = await homePage.recentMapsBoxIsDispayed();
-  expect(isDisplayed, 'Recent maps are not displayed').to.equal(true);
+Then(/^the recent maps section (is|is not) displayed$/, async (adverb: string) => {
+  if (adverb === 'is') {
+    const isDisplayed: boolean = await homePage.recentMapsBoxIsDisplayed();
+    expect(isDisplayed, 'Recent maps are not displayed').to.equal(true);
+    return;
+  }
+  const isNotDisplayed: boolean = await homePage.recentMapsBoxIsNotDisplayed();
+  expect(isNotDisplayed, 'Recent maps are displayed').to.equal(true);
 });
 
-Then('all maps are displayed', async () => {
-  const isDisplayed: boolean = await homePage.allMapsHeaderIsDispayed();
-  expect(isDisplayed, 'All maps are not displayed').to.equal(true);
+Then(/^the all maps section (is|is not) displayed$/, async (adverb: string) => {
+  if (adverb === 'is') {
+    const isDisplayed: boolean = await homePage.allMapsHeaderIsDisplayed();
+    expect(isDisplayed, 'All maps are not displayed').to.equal(true);
+    return;
+  }
+  const isNotDisplayed: boolean = await homePage.allMapsHeaderIsNotDisplayed();
+  expect(isNotDisplayed, 'All maps are displayed').to.equal(true);
 });
 
 Then('the welcome message should read {string}', async (expectedMessage: string) => {

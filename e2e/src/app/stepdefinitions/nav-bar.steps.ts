@@ -130,6 +130,16 @@ Then('The current time is displayed as {string}', async (currentTime: string) =>
     .to.equal(currentTimeText);
 });
 
+Then('the train search box is visible', async () => {
+  expect(await navBarPage.trainSearchBoxIsVisible(), 'Train search box was not visible')
+    .to.equal(true);
+});
+
+Then('the train search box is not visible', async () => {
+  expect(await navBarPage.trainSearchBoxIsNotVisible(), 'Train search box was visible')
+    .to.equal(true);
+});
+
 Then('the Train Search Box has the value {string}', async (expectedText: string) => {
   const actualPlaceHolder: string = await navBarPage.getTrainSearchBoxText();
   expect(actualPlaceHolder, 'The train search box value is not correct')

@@ -1,5 +1,6 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {CheckBox} from './common/ui-element-handlers/checkBox';
+import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
 
 export class NavBarPageObject {
   public navBarIcons: ElementArrayFinder;
@@ -123,6 +124,10 @@ export class NavBarPageObject {
     this.routeSetCodeIndicator = element(by.css('#routesetcodetoggle .toggle-switch'));
   }
 
+  public async navBarIsDisplayed(): Promise<boolean> {
+    return this.navBar.isPresent();
+  }
+
   public async getNavbarIconNames(): Promise<string> {
     return this.navBarIcons.getText();
   }
@@ -235,6 +240,15 @@ export class NavBarPageObject {
 
   public async getTrainSearchBoxText(): Promise<string> {
     return this.trainSearchBox.getAttribute('placeholder');
+  }
+
+  public async trainSearchBoxIsVisible(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.trainSearchBox);
+    return true;
+  }
+
+  public async trainSearchBoxIsNotVisible(): Promise<boolean> {
+    return ! await this.trainSearchBox.isDisplayed();
   }
 
   public async getTrainSearchValue(): Promise<string> {
