@@ -177,7 +177,7 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       # Destination
       | access-plan/42006-schedules/42006-6.cif | C14261   | 1U38             | London Euston | 15:52:00  | WY             | B012    | 15:53:00     | EUSTON  | Arrival at Termination |
 
-  @wip @bug
+  @wip @bug @bug:60490
   Scenario Outline: 42006-7 Display calculated actual punctuality following an arrival
     Given I am on the trains list page
     And the following basic schedule is received from LINX
@@ -197,7 +197,7 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | cif                                     | trainUid | trainDescription | location      | timestamp | expectedArrivalTime | trainDescriber | toBerth | fromBerth |
       #Stopping
       | access-plan/42006-schedules/42006-7.cif | C14261   | 1U39             | Stafford      | 13:50:00  | 13:51:00            | R3             | 9355    | 3598      |
-      # Destination
+      #Destination
       | access-plan/42006-schedules/42006-7.cif | C14261   | 1U39             | London Euston | 15:50:00  | 15:52:00            | WY             | B012    | 0284      |
 
   Scenario Outline: 42006-8a Display calculated actual punctuality following an departure

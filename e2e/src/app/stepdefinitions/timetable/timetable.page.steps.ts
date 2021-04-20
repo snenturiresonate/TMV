@@ -826,7 +826,6 @@ Then(/^the punctuality for location "(.*)" instance (\d+) is correctly calculate
     await timetablePage.getRowByLocation(location, instance).then(async row => {
       const field = row.punctuality;
       const expectedPunctuality = getExpectedPunctuality(expectedTime, actualTime);
-      await CucumberLog.addText(expectedPunctuality);
       expect(await field.getText(), `Actual punctuality not correct for location ${location}`).to.equal(expectedPunctuality);
     });
 });
