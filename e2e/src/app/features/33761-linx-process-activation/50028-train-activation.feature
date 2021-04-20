@@ -17,7 +17,7 @@ Feature: 33761-2 Train activation for a valid service
       | Next report overdue       | #ffff00 | 10      | off         |
       | Origin Called             | #9999ff | 50      | on          |
       | Origin Departure Overdue  | #339966 | 20      | on          |
-@check
+
   Scenario: 33761-2 Train Activation for a valid service
     Given I am on the trains list page
     And I restore to default train list config
@@ -44,7 +44,7 @@ Feature: 33761-2 Train activation for a valid service
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
       | Origin called             | 0A00       | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
-  @check
+
   Scenario: 33761-3 Train Activation for a cancelled service
     Given I am on the trains list page
     And the service '0B00' is not active
@@ -70,7 +70,7 @@ Feature: 33761-2 Train activation for a valid service
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
       | Cancellation              | 0B00       | rgba(0, 255, 0, 1)    | rgba(0, 255, 0, 1)     |
-  @check
+
   Scenario: 33761-4 Train Activation for an active service
     Given I am on the trains list page
     And the service '0C00' is active
@@ -96,7 +96,7 @@ Feature: 33761-2 Train activation for a valid service
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
       | Origin called             | 0C00       | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
-  @check
+
   Scenario: 33761-5 Train Activation for a valid service with a different origin
     Given I am on the trains list page
     And the service '0D00' is not active
@@ -122,7 +122,7 @@ Feature: 33761-2 Train activation for a valid service
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
       | Origin called             | 0D00       | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
-  @check
+
   Scenario: 33761-6 Train Activation for a valid service with a change of origin
     Given I am on the trains list page
     And the service '0E00' is not active
@@ -148,7 +148,7 @@ Feature: 33761-2 Train activation for a valid service
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
       | Change of origin          | 0E00       | rgba(204, 204, 0, 1)  | rgba(0, 255, 0, 1)     |
-  @check
+
   Scenario: 33761-8 Train Activation for a valid service with a change of origin matching current origin
     Given I am on the trains list page
     And the service '0F00' is not active
