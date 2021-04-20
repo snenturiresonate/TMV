@@ -21,28 +21,27 @@ Feature: 33761-2 Train activation for a valid service
   Scenario: 33761-2 Train Activation for a valid service
     Given I am on the trains list page
     And I restore to default train list config
-    And the service '0A00' is not active
-#    And the access plan located in CIF file 'access-plan/' is received from LINX
-    And it has Origin Details
-      | tiploc | scheduledDeparture | line |
-      | PADTON | 09:58              |      |
-    And it has Intermediate Details
-      | tiploc  | scheduledArrival | scheduledDeparture | path | line |
-      | ROYAOJN | 10:00            | 10:01              |      |      |
-    And it has Terminating Details
-      | tiploc  | scheduledArrival | path |
-      | OLDOXRS | 10:13            |      |
+    And the service '1L23 ' is not active
+    And the access plan located in CIF file 'access-plan/schedules_BS_type_C' is amended so that all services start within the next hour and then received from LINX
+#    And it has Origin Details
+#      | tiploc | scheduledDeparture | line |
+#      | PADTON | 09:58              |      |
+#    And it has Intermediate Details
+#      | tiploc  | scheduledArrival | scheduledDeparture | path | line |
+#      | ROYAOJN | 10:00            | 10:01              |      |      |
+#    And it has Terminating Details
+#      | tiploc  | scheduledArrival | path |
+#      | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'N'
     When the schedule is received from LINX
     And I am on the trains list page
-    #    And the train description <> is visible on the trains list with schedule type 'STP'
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | W15214   | 0A00        | 09:58                  | 99999               | PADTON                 |
+      | W15214   | 1L23        | 09:58                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
-      | Origin called             | 0A00       | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
+      | Origin called             | 1L23       | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
 
   Scenario: 33761-3 Train Activation for a cancelled service
     Given I am on the trains list page
