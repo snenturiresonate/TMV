@@ -24,6 +24,7 @@ Feature: 46482 - TMV Key - display key
       | 7        | 10 to 19 minutes late    | #ff0000          | #ffffff |
       | 8        | 20 minutes or more late  | #ff009c          | #ffffff |
 
+  @bug @task_60470
   Scenario: 34085-2b The TMV Key berth table is displayed within the modal when the tmv icon is clicked
     When I click on the Help icon
     And I select the TMV Key option

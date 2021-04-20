@@ -109,7 +109,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
   #Given the user has made changes to the trains list Location selection
   #When the user views the trains list
   #Then the view is updated to reflect the user's Location selection
-  @bug @bug_54025
   Scenario: 33806 -18 Trains list config for location types - Location applied while navigating away
     And I have only the following locations and stop types selected
       | locationNameValue | Originate | Stop       | Pass       | Terminate  |

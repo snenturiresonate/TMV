@@ -284,7 +284,7 @@ Feature: 33753 - TMV Timetable
       | 1A07     | L10007      |
 
 
-  @tdd @replayTest @bug @bug_55114
+  @tdd @replayTest
   Scenario Outline: 33753-5 - View Timetable (Schedule Not Matched - becoming matched)
 #    Given the user is authenticated to use TMV
 #    And the user has opened a timetable
