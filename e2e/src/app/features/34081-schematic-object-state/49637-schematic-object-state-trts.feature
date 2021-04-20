@@ -99,7 +99,7 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Then the TRTS status for signal 'SN1' is white
     And the TRTS visibility status for 'SN1' is visible
 
-  @bug @replaySetup
+  @replaySetup
   Scenario:34081 - 33a TRTS (Not Set back)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
@@ -120,7 +120,7 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Then the signal roundel for signal 'SN1' is red
     And the TRTS visibility status for 'SN1' is hidden
 
-  @bug @replaySetup
+  @replaySetup
   Scenario:34081 - 33b TRTS (Not Set)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
