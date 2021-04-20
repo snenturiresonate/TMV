@@ -8,15 +8,15 @@ Feature: 33761-2 Train activation for a valid service
     And I have navigated to the 'Train Indication' configuration tab
     And I wait for the indication config data to be retrieved
     And the following can be seen on the trains list indication table
-      | name                      | colour  | minutes | toggleValue |
-      | Change of Origin          | #cccc00 |         | on          |
-      | Change of Identity        | #ccff66 |         | off         |
-      | Cancellation              | #00ff00 |         | on          |
-      | Reinstatement             | #00ffff |         | off         |
-      | Off-route                 | #cc6600 |         | on          |
-      | Next report overdue       | #ffff00 | 10      | off         |
-      | Origin Called             | #9999ff | 50      | on          |
-      | Origin Departure Overdue  | #339966 | 20      | on          |
+      | name                     | colour  | minutes | toggleValue |
+      | Change of Origin         | #ffffff |         | on          |
+      | Change of Identity       | #ffffff |         | on          |
+      | Cancellation             | #ffffff |         | on          |
+      | Reinstatement            | #ffffff |         | on          |
+      | Off-route                | #ffffff |         | on          |
+      | Next report overdue      | #0000ff | 15      | off         |
+      | Origin Called            | #ffb578 | 15      | on          |
+      | Origin Departure Overdue | #ffffff | 1       | on          |
 
   Scenario: 33761-2 Train Activation for a valid service
     Given I am on the trains list page
