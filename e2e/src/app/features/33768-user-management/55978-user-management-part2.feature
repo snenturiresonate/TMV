@@ -7,6 +7,7 @@ Feature: 33768-2: TMV User Management
   Background:
     Given I have not already authenticated
 
+  @bug @bug:60513
   Scenario Outline: 6. Displaying generic icons available for all users - <role>
     #    Given I am on the sign in screen
     #    And I have a valid TMV role of <Role Type>
