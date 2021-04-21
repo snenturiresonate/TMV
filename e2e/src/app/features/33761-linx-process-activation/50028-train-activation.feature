@@ -36,8 +36,8 @@ Feature: 33761-2 Train activation for a valid service
       | L10001   | 1A01        | 09:58                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
-      | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
-      | Origin called             | 1A01       | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
+      | rowType                   | trainUID      | rowColFill            | trainDescriptionFill   |
+      | Origin called             | L10001        | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
 
   Scenario: 33761-3 Train Activation for a cancelled service
     Given I am on the trains list page
