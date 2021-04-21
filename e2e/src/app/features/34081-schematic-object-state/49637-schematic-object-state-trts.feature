@@ -77,7 +77,7 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Given I am viewing the map hdgw01paddington.v
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be not-proceed
-    Then the signal roundel for signal 'SN1' is red
+    Then the signal roundel for signal 'SN9' is red
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 01   | 10:45:00  |
@@ -92,7 +92,7 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Given I am viewing the map hdgw01paddington.v
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be proceed
-    Then the signal roundel for signal 'SN1' is green
+    Then the signal roundel for signal 'SN9' is green
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 01   | 10:45:00  |
@@ -107,8 +107,8 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Given I am viewing the map hdgw01paddington.v
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be not-proceed
-    And the signal roundel for signal 'SN1' is red
-    And the TRTS visibility status for 'SN1' is hidden
+    And the signal roundel for signal 'SN9' is red
+    #And the TRTS visibility status for 'SN1' is hidden
     And the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 01   | 10:45:00  |
@@ -128,8 +128,8 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Given I am viewing the map hdgw01paddington.v
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be proceed
-    And the signal roundel for signal 'SN1' is green
-    And the TRTS visibility status for 'SN1' is hidden
+    And the signal roundel for signal 'SN9' is green
+    #And the TRTS visibility status for 'SN1' is hidden
     And the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 01   | 10:45:00  |
