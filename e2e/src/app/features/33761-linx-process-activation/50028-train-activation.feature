@@ -25,12 +25,9 @@ Feature: 33761-2 Train activation for a valid service
     And the following service is not displayed on the trains list
       | trainId | trainUId |
       | 1D46    | W15214   |
-    And the access plan located in CIF file 'access-plan/schedules_BS_type_C.cif' is amended so that all services start within the next hour and then received from LINX
-    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+    When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | RDNGSTN     | WTT_arr       | 1A01                | L10001         |
-    And that service has the cancellation status 'N'
-    When the schedule is received from LINX
     And the following service is displayed on the trains list
       | trainId | trainUId |
       | 1A01    | L10001   |
