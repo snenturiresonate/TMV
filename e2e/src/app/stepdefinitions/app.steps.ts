@@ -395,11 +395,18 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
     const trainActivationMessageBuilder: TrainActivationMessageBuilder = new TrainActivationMessageBuilder();
     const trainUID = trainActivationMessages[i].trainUID;
     const trainNumber = trainActivationMessages[i].trainNumber;
-    const scheduledDepartureTime = trainActivationMessages[i].scheduledDepartureTime;
+    const scheduledDepartureTime = () => {
+      if ((trainActivationMessages[i].scheduledDepartureTime).toLowerCase() === 'now') {
+        const now = new Date();
+        return Number(now.getHours()).toString();
+      } else {
+          return trainActivationMessages[i].scheduledDepartureTime;
+      }
+    };
     const locationPrimaryCode = trainActivationMessages[i].locationPrimaryCode;
     const locationSubsidiaryCode = trainActivationMessages[i].locationSubsidiaryCode;
     const trainActMss = trainActivationMessageBuilder.buildMessage(locationPrimaryCode, locationSubsidiaryCode,
-      scheduledDepartureTime, trainNumber, trainUID);
+      scheduledDepartureTime.toString(), trainNumber, trainUID);
     await linxRestClient.postTrainActivation(trainActMss.toString({prettyPrint: true}));
 
     await linxRestClient.waitMaxTransmissionTime();

@@ -45,28 +45,31 @@ Feature: 33761-2 Train activation for a valid service
     #And the following service is not displayed on the trains list
     #  | trainId | trainUId |
     #  | 0B00    | W15214   |
-    And there is a Schedule for '0B00'
-    And it has Origin Details
-      | tiploc | scheduledDeparture | line |
-      | PADTON | 09:59              |      |
-    And it has Intermediate Details
-      | tiploc  | scheduledArrival | scheduledDeparture | path | line |
-      | ROYAOJN | 10:01            | 10:02              |      |      |
-    And it has Terminating Details
-      | tiploc  | scheduledArrival | path |
-      | OLDOXRS | 10:14            |      |
-    And that service has the cancellation status 'C'
-    When the schedule is received from LINX
+    #And there is a Schedule for '0B00'
+    #And it has Origin Details
+    #  | tiploc | scheduledDeparture | line |
+    #  | PADTON | 09:59              |      |
+    #And it has Intermediate Details
+    #  | tiploc  | scheduledArrival | scheduledDeparture | path | line |
+    #  | ROYAOJN | 10:01            | 10:02              |      |      |
+    #And it has Terminating Details
+    #  | tiploc  | scheduledArrival | path |
+    #  | OLDOXRS | 10:14            |      |
+    #And that service has the cancellation status 'C'
+    #When the schedule is received from LINX
+    When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/schedules_BS_type_C.cif | PADTON     | WTT_arr       | 0B00                | B10001         |
     And the following service is displayed on the trains list
       | trainId | trainUId |
-      | 0B00    | W15214   |
+      | 0B00    | B10001   |
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | W15214   | 0B00        | 09:59                  | 99999               | PADTON                 |
+      | B10001   | 0B00        | now                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
-      | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
-      | Cancellation              | 0B00       | rgba(0, 255, 0, 1)    | rgba(0, 255, 0, 1)     |
+      | rowType                   | trainUID      | rowColFill            | trainDescriptionFill   |
+      | Cancellation              | B10001       | rgba(0, 255, 0, 1)    | rgba(0, 255, 0, 1)     |
 
   Scenario: 33761-4 Train Activation for an active service
     Given I am on the trains list page
