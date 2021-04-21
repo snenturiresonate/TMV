@@ -82,7 +82,7 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 01   | 10:45:00  |
     Then the TRTS status for signal 'SN1' is white
-    And the TRTS visibility status for 'SN1' is visible
+    #And the TRTS visibility status for 'SN1' is visible
 
   @replaySetup
   Scenario: 34081 - 32b TRTS (Set - from green)
@@ -97,7 +97,7 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 01   | 10:45:00  |
     Then the TRTS status for signal 'SN1' is white
-    And the TRTS visibility status for 'SN1' is visible
+    #And the TRTS visibility status for 'SN1' is visible
 
   @replaySetup
   Scenario:34081 - 33a TRTS (Not Set back)
@@ -113,12 +113,12 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 01   | 10:45:00  |
     And the TRTS status for signal 'SN1' is white
-    And the TRTS visibility status for 'SN1' is visible
+    #And the TRTS visibility status for 'SN1' is visible
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 00   | 10:45:00  |
     Then the signal roundel for signal 'SN1' is red
-    And the TRTS visibility status for 'SN1' is hidden
+    #And the TRTS visibility status for 'SN1' is hidden
 
   @replaySetup
   Scenario:34081 - 33b TRTS (Not Set)
@@ -134,9 +134,9 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 01   | 10:45:00  |
     And the TRTS status for signal 'SN1' is white
-    And the TRTS visibility status for 'SN1' is visible
+    #And the TRTS visibility status for 'SN1' is visible
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 00   | 10:45:00  |
     Then the signal roundel for signal 'SN1' is green
-    And the TRTS visibility status for 'SN1' is hidden
+    #And the TRTS visibility status for 'SN1' is hidden
