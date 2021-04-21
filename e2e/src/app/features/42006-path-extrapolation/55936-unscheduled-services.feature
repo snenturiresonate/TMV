@@ -28,7 +28,7 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
     And the PUNCT. entry for <case> train <trainDesc> is UNKNOWN
     And the service is displayed in the trains list with the following indication
       | rowType | rowId       | rowColFill          | trainDescriptionFill |
-      | <case>  | <trainDesc> | rgba(20, 14, 43, 1) | rgba(0, 255, 0, 1)   |
+      | <case>  | <trainDesc> | rgba(20, 14, 43, 1) | rgba(0, 0, 255, 1)   |
     # clean up
     * I restore to default train list config
 
@@ -48,7 +48,7 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
     And the PUNCT. entry for <case> train <trainDesc> is UNKNOWN
     And the service is displayed in the trains list with the following indication
       | rowType | rowId       | rowColFill          | trainDescriptionFill |
-      | <case>  | <trainDesc> | rgba(20, 14, 43, 1) | rgba(0, 255, 0, 1)   |
+      | <case>  | <trainDesc> | rgba(20, 14, 43, 1) | rgba(0, 0, 255, 1)   |
     # clean up
     * I restore to default train list config
 
@@ -70,7 +70,7 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
     And all grid entries for <case> train <trainUID> are blank except for SERVICE, TIME, REPORT, PUNCT., TRUST ID, SCHED. UID
     And the service is displayed in the trains list with the following indication
       | rowType | rowId       | trainUID   | rowColFill          | trainDescriptionFill |
-      | <case>  | <trainDesc> | <trainUID> | rgba(20, 14, 43, 1) | rgba(0, 255, 0, 1)   |
+      | <case>  | <trainDesc> | <trainUID> | rgba(20, 14, 43, 1) | rgba(0, 0, 255, 1)   |
     # clean up
     * I restore to default train list config
 
