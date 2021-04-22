@@ -330,7 +330,7 @@ export class MapPageObject {
   }
 
   public async getVisibilityStatus(signalId: string): Promise<string> {
-    const signalVisibility: ElementFinder = element(by.css('[id^=signal-latch-cross-element-' + signalId  + ']'));
+    const signalVisibility: ElementFinder = element(by.css('[id=signal-latch-cross-element-' + signalId  + ']'));
     return signalVisibility.getCssValue('visibility');
   }
 

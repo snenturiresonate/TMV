@@ -80,9 +80,9 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Then the signal roundel for signal 'SN9' is red
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 01   | 10:45:00  |
-    Then the TRTS status for signal 'SN1' is white
-    #And the TRTS visibility status for 'SN1' is visible
+      | D3             | 50      | 10   | 10:45:00  |
+    Then the TRTS status for signal 'SN8' is white
+    And the TRTS visibility status for 'SN9' is visible
 
   @replaySetup
   Scenario: 34081 - 32b TRTS (Set - from green)
@@ -95,9 +95,9 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Then the signal roundel for signal 'SN9' is green
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 01   | 10:45:00  |
-    Then the TRTS status for signal 'SN1' is white
-    #And the TRTS visibility status for 'SN1' is visible
+      | D3             | 50      | 10   | 10:45:00  |
+    Then the TRTS status for signal 'SN9' is white
+    And the TRTS visibility status for 'SN9' is visible
 
   @replaySetup
   Scenario:34081 - 33a TRTS (Not Set back)
@@ -108,17 +108,17 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be not-proceed
     And the signal roundel for signal 'SN9' is red
-    #And the TRTS visibility status for 'SN1' is hidden
+    And the TRTS visibility status for 'SN9' is hidden
     And the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 01   | 10:45:00  |
-    And the TRTS status for signal 'SN1' is white
-    #And the TRTS visibility status for 'SN1' is visible
+      | D3             | 50      | 10   | 10:45:00  |
+    And the TRTS status for signal 'SN9' is white
+    And the TRTS visibility status for 'SN9' is visible
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 00   | 10:45:00  |
+      | D3             | 50      | 10   | 10:45:00  |
     Then the signal roundel for signal 'SN9' is red
-    #And the TRTS visibility status for 'SN1' is hidden
+    And the TRTS visibility status for 'SN9' is hidden
 
   @replaySetup
   Scenario:34081 - 33b TRTS (Not Set)
@@ -132,11 +132,11 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     #And the TRTS visibility status for 'SN1' is hidden
     And the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 01   | 10:45:00  |
-    And the TRTS status for signal 'SN1' is white
-    #And the TRTS visibility status for 'SN1' is visible
+      | D3             | 50      | 10   | 10:45:00  |
+    And the TRTS status for signal 'SN9' is white
+    And the TRTS visibility status for 'SN9' is visible
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 00   | 10:45:00  |
+      | D3             | 50      | 10   | 10:45:00  |
     Then the signal roundel for signal 'SN9' is green
-    #And the TRTS visibility status for 'SN1' is hidden
+    And the TRTS visibility status for 'SN9' is hidden
