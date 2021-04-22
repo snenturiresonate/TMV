@@ -26,6 +26,10 @@ export class TrainActivationMessageBuilder {
                          time: string, operationalTrainNumber: string, trainUID: string) => {
     const hourOfDeparture = parseInt(time.split(':')[0], 2);
     return create().ele('PathDetailsMessage')
+      .att('xmlns', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
+      .att('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance')
+      .att('xmlns:ns0', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
+      .att('xsi:schemaLocation', 'http://www.era.europa.eu/schemes/TAFTSI/5.3 taf_cat_complete.xsd')
       .ele(TrainActivationMessageHeader.messageHeader(operationalTrainNumber, trainUID, hourOfDeparture)).root()
       .ele(AdminContactInfo.adminContactInfo()).root()
       .ele(this.messageStatus()).root()
