@@ -59,7 +59,6 @@ Feature: 46446 - Schematic State - Signals
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN128' is red
 
-  @bug @bug_51929
   Scenario: 34081 - 4  Main Signal State (Unknown)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a main signal
