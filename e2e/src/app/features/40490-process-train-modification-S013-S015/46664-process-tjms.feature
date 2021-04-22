@@ -167,6 +167,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | trainDescriberId | backgroundColour   |
       | 1X13             | rgb(221, 221, 238) |
 
+
   Scenario: 40490-10 Invalid reinstate followed by cancellation display in trains list
     # Given a TJM with <TJM 1 type> has been received for a schedule followed by <TJM 2 type> with a later modification datetime
     # And the trains list configuration has cancellation indication turned on
