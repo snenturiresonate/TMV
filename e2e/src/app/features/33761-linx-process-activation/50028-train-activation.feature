@@ -18,7 +18,7 @@ Feature: 33761-2 Train activation for a valid service
     #  | Next report overdue      | #0000ff | 15      | off         |
     #  | Origin Called            | #ffb578 | 15      | on          |
     #  | Origin Departure Overdue | #ffffff | 1       | on          |
-
+@check
   Scenario: 33761-2 Train Activation for a valid service
     Given I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
@@ -32,21 +32,28 @@ Feature: 33761-2 Train activation for a valid service
     #  | 1D46    | W15214   |
     When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1D46_PADTON_OXFD.cif | RDNGSTN     | WTT_arr       | 1A01                | L10001         |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON     | WTT_dep       | 1A01                | L10001         |
     And the following service is displayed on the trains list
       | trainId | trainUId |
       | 1A01    | L10001   |
-    And the following train activation message is sent from LINX
-      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | L10001   | 1A01        | now                  | 99999               | PADTON                 |
+    #And the following train activation message is sent from LINX
+    #  | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+    #  | L10001   | 1A01        | now                  | 99999               | PADTON                 |
+  When the following train running information message is sent from LINX
+    | trainUID | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           |
+    | L10001   | 1A01        | today              | 30870               | PADTON                | Departure from Origin |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | trainUID      | rowColFill            | trainDescriptionFill   |
       | Origin called             | L10001        | rgba(221, 221, 238, 1)| rgba(0, 255, 0, 1)     |
     And I restore to default train list config
-
+@check
   Scenario: 33761-3 Train Activation for a cancelled service
     Given I am on the trains list page
+    And I have navigated to the 'Train Indication' configuration tab
+    And I update only the below train list indication config settings as
+      | name      | colour |  toggleValue |
+      | Cancellation | #dde   |  on          |
     #And the service '0B00' is not active
     #And the following service is not displayed on the trains list
     #  | trainId | trainUId |
@@ -65,7 +72,7 @@ Feature: 33761-2 Train activation for a valid service
     #When the schedule is received from LINX
     When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/schedules_BS_type_C.cif | PADTON     | WTT_arr       | 0B00                | B10001         |
+      | access-plan/schedules_BS_type_C.cif | PADTON     | WTT_dep       | 0B00                | B10001         |
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
       | B10001   | 0B00        | now                  | 99999               | PADTON                 |
