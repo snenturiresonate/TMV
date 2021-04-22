@@ -398,7 +398,7 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
     const scheduledDepartureTime = () => {
       if ((trainActivationMessages[i].scheduledDepartureTime).toLowerCase() === 'now') {
         const now = new Date();
-        return Number(now.getHours()).toString();
+        return `${Number(now.getHours()).toString().padStart(2, '0')}:${Number(now.getMinutes()).toString().padStart(2, '0')}`;
       } else {
           return trainActivationMessages[i].scheduledDepartureTime;
       }
@@ -406,9 +406,9 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
     const locationPrimaryCode = trainActivationMessages[i].locationPrimaryCode;
     const locationSubsidiaryCode = trainActivationMessages[i].locationSubsidiaryCode;
     const trainActMss = trainActivationMessageBuilder.buildMessage(locationPrimaryCode, locationSubsidiaryCode,
-      scheduledDepartureTime.toString(), trainNumber, trainUID);
+      scheduledDepartureTime().toString(), trainNumber, trainUID);
     await linxRestClient.postTrainActivation(trainActMss.toString({prettyPrint: true}));
-
+    await CucumberLog.addText(`Train Activation message: ${trainActMss.toString({prettyPrint: true})}`);
     await linxRestClient.waitMaxTransmissionTime();
   }
 });

@@ -5,22 +5,27 @@ Feature: 33761-2 Train activation for a valid service
 
   Background:
     Given I am on the trains list Config page
-    And I have navigated to the 'Train Indication' configuration tab
-    And I wait for the indication config data to be retrieved
-    And the following can be seen on the trains list indication table
-      | name                     | colour  | minutes | toggleValue |
-      | Change of Origin         | #ffffff |         | on          |
-      | Change of Identity       | #ffffff |         | on          |
-      | Cancellation             | #ffffff |         | on          |
-      | Reinstatement            | #ffffff |         | on          |
-      | Off-route                | #ffffff |         | on          |
-      | Next report overdue      | #0000ff | 15      | off         |
-      | Origin Called            | #ffb578 | 15      | on          |
-      | Origin Departure Overdue | #ffffff | 1       | on          |
+    And I restore to default train list config
+    #And I have navigated to the 'Train Indication' configuration tab
+    #And I wait for the indication config data to be retrieved
+    #And the following can be seen on the trains list indication table
+    #  | name                     | colour  | minutes | toggleValue |
+    #  | Change of Origin         | #ffffff |         | on          |
+    #  | Change of Identity       | #ffffff |         | on          |
+    #  | Cancellation             | #ffffff |         | on          |
+    #  | Reinstatement            | #ffffff |         | on          |
+    #  | Off-route                | #ffffff |         | on          |
+    #  | Next report overdue      | #0000ff | 15      | off         |
+    #  | Origin Called            | #ffb578 | 15      | on          |
+    #  | Origin Departure Overdue | #ffffff | 1       | on          |
 
   Scenario: 33761-2 Train Activation for a valid service
-    Given I am on the trains list page
-    And I restore to default train list config
+    Given I am on the trains list Config page
+    And I have navigated to the 'Train Indication' configuration tab
+    And I update only the below train list indication config settings as
+      | name      | colour |  toggleValue |
+      | Origin Called | #dde   |  on          |
+    And I save the trains list config
     #And the service '0A00' is not active
     #And the following service is not displayed on the trains list
     #  | trainId | trainUId |
@@ -33,11 +38,12 @@ Feature: 33761-2 Train activation for a valid service
       | 1A01    | L10001   |
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | L10001   | 1A01        | 09:58                  | 99999               | PADTON                 |
+      | L10001   | 1A01        | now                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | trainUID      | rowColFill            | trainDescriptionFill   |
-      | Origin called             | L10001        | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
+      | Origin called             | L10001        | rgba(221, 221, 238, 1)| rgba(0, 255, 0, 1)     |
+    And I restore to default train list config
 
   Scenario: 33761-3 Train Activation for a cancelled service
     Given I am on the trains list page
@@ -60,13 +66,13 @@ Feature: 33761-2 Train activation for a valid service
     When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/schedules_BS_type_C.cif | PADTON     | WTT_arr       | 0B00                | B10001         |
-    And the following service is displayed on the trains list
-      | trainId | trainUId |
-      | 0B00    | B10001   |
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
       | B10001   | 0B00        | now                  | 99999               | PADTON                 |
     Then The trains list table is visible
+    And the following service is displayed on the trains list
+      | trainId | trainUId |
+      | 0B00    | B10001   |
     And the service is displayed in the trains list with the following indication
       | rowType                   | trainUID      | rowColFill            | trainDescriptionFill   |
       | Cancellation              | B10001       | rgba(0, 255, 0, 1)    | rgba(0, 255, 0, 1)     |

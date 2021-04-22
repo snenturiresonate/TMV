@@ -243,9 +243,8 @@ export class TrainsListPageObject {
   }
 
   public async getTrainsListRowColFill(scheduleId: string): Promise<string> {
-    const trainDescriptionEntry: ElementFinder = element(by.css('[id=\'trains-list-row-' + scheduleId + '\']'));
+    const trainDescriptionEntry: ElementFinder = element(by.css(`[id^='trains-list-row-${scheduleId}']`));
     const backgroundColour: string = await trainDescriptionEntry.getCssValue('background-color');
-
     const oddRowDefaultBackgroundColour = 'rgba(44, 44, 44, 1)';
     const evenRowDefaultBackgroundColour = 'rgba(0, 0, 0, 0)';
     return of(backgroundColour !== oddRowDefaultBackgroundColour && backgroundColour !== evenRowDefaultBackgroundColour
