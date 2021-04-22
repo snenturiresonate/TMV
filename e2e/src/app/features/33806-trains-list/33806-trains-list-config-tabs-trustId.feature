@@ -63,7 +63,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     And I click the clear all button for TRUST Service Filter
     Then I see the selected trusts table to not have any items
 
-    @bug @bug_60432
+  @tdd @story_56299
   Scenario: 33806 -37 Trains List Config (TRUST IDs Applied)
   #Given the user has made changes to the TRUST ID settings
   #When the user views the trains list
