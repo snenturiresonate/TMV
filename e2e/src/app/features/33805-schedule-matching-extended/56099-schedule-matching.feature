@@ -33,9 +33,10 @@ Feature: 33805 TMV Schedule Matching
       | <berth> | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
-    When I wait for the option to Unmatch train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
+    # @tdd:ref_60199  When I wait for the option to Unmatch train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
+    When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the context menu is displayed
+    Then the Matched version of the map context menu is displayed
     # @tdd:33606 And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
     And I see todays schedule for '<trainUid>' has loaded by looking at the timetable page
 
@@ -70,9 +71,10 @@ Feature: 33805 TMV Schedule Matching
       | <berth>   | 12:00:00  | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
-    When I wait for the option to Unmatch train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
+    # @tdd:ref_60199  When I wait for the option to Unmatch train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
+    When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the context menu is displayed
+    Then the Matched version of the map context menu is displayed
     # @tdd:33606 And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
     And I see todays schedule for '<trainUid>' has loaded by looking at the timetable page
 
@@ -101,16 +103,17 @@ Feature: 33805 TMV Schedule Matching
     And I am on the trains list page
     And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
     When the following change of ID TJM is received
-      | trainUid   | newTrainNumber  | oldTrainNumber  | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
-      | <trainUid> | <newTrainDesc>  | <origTrainDesc> | 12            | create | 07        | 07              | 99999       | PADTON         | 12:00:00 |
+      | trainUid   | newTrainNumber | oldTrainNumber  | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
+      | <trainUid> | <newTrainDesc> | <origTrainDesc> | 12            | create | 07        | 07              | 99999       | PADTON         | 12:00:00 |
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <newTrainDesc>   |
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<newTrainDesc>' and is visible
-    When I wait for the option to Unmatch train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
+    # @tdd:ref_60199  When I wait for the option to Unmatch train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
+    When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <newTrainDesc>
-    Then the Matched version of the context menu is displayed
+    Then the Matched version of the map context menu is displayed
     # @tdd:33606 And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
     And I see todays schedule for '<trainUid>' has loaded by looking at the timetable page
 
@@ -146,9 +149,10 @@ Feature: 33805 TMV Schedule Matching
       | <berth>   | 12:00:00  | <secondBerth> | <trainDescriber> | <newTrainDesc>   |
     And I am viewing the map HDGW01paddington.v
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<newTrainDesc>' and is visible
-    When I wait for the option to Unmatch train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
+    # @tdd:ref_60199  When I wait for the option to Unmatch train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
+    When I wait for the Open timetable option for train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <newTrainDesc>
-    Then the Matched version of the context menu is displayed
+    Then the Matched version of the map context menu is displayed
     # @tdd:33606 And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
     And I see todays schedule for '<trainUid>' has loaded by looking at the timetable page
 
@@ -178,15 +182,16 @@ Feature: 33805 TMV Schedule Matching
       | <berth> | <trainDescriber> | <trainDesc>      |
     And I am viewing the map md09crosscity.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<trainDesc>' and is visible
-    When I wait for the option to <matchAction> train description <trainDesc> in berth <berth>, describer <trainDescriber> to be available
+    # @tdd:ref_60199  When I wait for the option to <matchAction> train description <trainDesc> in berth <berth>, describer <trainDescriber> to be available
+    When I wait for the <ttOption> timetable option for train description <trainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <trainDesc>
-    Then the <matchedState> version of the context menu is displayed
+    Then the <matchedState> version of the map context menu is displayed
     # @tdd:33606 And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
 
     Examples:
-      | trainDescriber | berth | trainDesc | trainUid | matchedState | matchAction | berthType |
-      | BN             | 0181  | 1B12      | B22222   | Matched      | Unmatch     | NORMAL    |
-      | BN             | NCAP  | 1B12      | B22222   | Unmatched    | Match       | EXCLUDE   |
+      | trainDescriber | berth | trainDesc | trainUid | matchedState | matchAction | ttOption | berthType |
+      | BN             | 0181  | 1B12      | B22222   | Matched      | Unmatch     | Open     | NORMAL    |
+      | BN             | NCAP  | 1B12      | B22222   | Unmatched    | Match       | No       | EXCLUDE   |
 
   Scenario Outline: 3. Step - Check if the berth should be schedule matched - <berthType> berth
       #      Given there is a valid schedule
@@ -211,15 +216,16 @@ Feature: 33805 TMV Schedule Matching
       | <fromBerth> | 12:00:00  | <berth> | <trainDescriber> | <trainDesc>      |
     And I am viewing the map md09crosscity.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<trainDesc>' and is visible
-    When I wait for the option to <matchAction> train description <trainDesc> in berth <berth>, describer <trainDescriber> to be available
+    # @tdd:ref_60199  When I wait for the option to <matchAction> train description <trainDesc> in berth <berth>, describer <trainDescriber> to be available
+    When I wait for the <ttOption> timetable option for train description <trainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <trainDesc>
-    Then the <matchedState> version of the context menu is displayed
+    Then the <matchedState> version of the map context menu is displayed
     # @tdd:33606 And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
 
     Examples:
-      | trainDescriber | berth | fromBerth | trainDesc | trainUid | matchedState | matchAction | berthType |
-      | BN             | 0181  | 0209      | 1B12      | B22222   | Matched      | Unmatch     | NORMAL    |
-      | BN             | NCAP  | 0144      | 1B12      | B22222   | Unmatched    | Match       | EXCLUDE   |
+      | trainDescriber | berth | fromBerth | trainDesc | trainUid | matchedState | matchAction | ttOption | berthType |
+      | BN             | 0181  | 0209      | 1B12      | B22222   | Matched      | Unmatch     | Open     | NORMAL    |
+      | BN             | NCAP  | 0144      | 1B12      | B22222   | Unmatched    | Match       | No       | EXCLUDE   |
 
   Scenario Outline: 4. Interpose - Cancelled schedules are not matched - <matchLevel> match
     #    Given there is a valid schedule has a STP indicator of Cancelled  (C or CV)
@@ -244,7 +250,7 @@ Feature: 33805 TMV Schedule Matching
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the option to Match train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Unmatched version of the context menu is displayed
+    Then the Unmatched version of the map context menu is displayed
     And the rectangle colour for berth <trainDescriber><berth> is lightgrey meaning 'no timetable'
 
     Examples:
@@ -277,7 +283,7 @@ Feature: 33805 TMV Schedule Matching
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the option to Match train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Unmatched version of the context menu is displayed
+    Then the Unmatched version of the map context menu is displayed
     And the rectangle colour for berth <trainDescriber><berth> is lightgrey meaning 'no timetable'
 
     Examples:
@@ -304,8 +310,8 @@ Feature: 33805 TMV Schedule Matching
     And I am on the trains list page
     And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
     When the following train running information message is sent from LINX
-      | trainUID   | trainNumber     | scheduledStartDate | locationPrimaryCode   | locationSubsidiaryCode | messageType          |
-      | <trainUid> | <origTrainDesc> | today              | 73000                 | PADTON                 | arrivalattermination |
+      | trainUID   | trainNumber     | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType          |
+      | <trainUid> | <origTrainDesc> | today              | 73000               | PADTON                 | arrivalattermination |
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
@@ -313,7 +319,7 @@ Feature: 33805 TMV Schedule Matching
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the option to Match train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Unmatched version of the context menu is displayed
+    Then the Unmatched version of the map context menu is displayed
     And the rectangle colour for berth <trainDescriber><berth> is lightgrey meaning 'no timetable'
 
     Examples:
@@ -340,8 +346,8 @@ Feature: 33805 TMV Schedule Matching
     And I am on the trains list page
     And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
     When the following train running information message are sent from LINX
-      | trainUID   | trainNumber     | scheduledStartDate | locationPrimaryCode   | locationSubsidiaryCode | messageType          |
-      | <trainUid> | <origTrainDesc> | today              | 73000                 | PADTON                 | arrivalattermination |
+      | trainUID   | trainNumber     | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType          |
+      | <trainUid> | <origTrainDesc> | today              | 73000               | PADTON                 | arrivalattermination |
     And the following berth step message is sent from LINX (creating a match)
       | fromBerth | timestamp | toBerth       | trainDescriber   | trainDescription |
       | <berth>   | 12:00:00  | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
@@ -349,7 +355,7 @@ Feature: 33805 TMV Schedule Matching
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the option to Match train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Unmatched version of the context menu is displayed
+    Then the Unmatched version of the map context menu is displayed
     And the rectangle colour for berth <trainDescriber><berth> is lightgrey meaning 'no timetable'
 
     Examples:
@@ -383,9 +389,10 @@ Feature: 33805 TMV Schedule Matching
       | <berth> | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
-    When I wait for the option to Unmatch train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
+    # @tdd:ref_60199  When I wait for the option to Unmatch train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
+    When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the context menu is displayed
+    Then the Matched version of the map context menu is displayed
     When I open timetable from the map context menu
     And I switch to the new tab
     And the tab title is 'TMV Timetable'
@@ -422,9 +429,10 @@ Feature: 33805 TMV Schedule Matching
       | <berth>   | 12:00:00  | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
-    When I wait for the option to Unmatch train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
+    # @tdd:ref_60199  When I wait for the option to Unmatch train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
+    When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the context menu is displayed
+    Then the Matched version of the map context menu is displayed
     When I open timetable from the map context menu
     And I switch to the new tab
     And the tab title is 'TMV Timetable'

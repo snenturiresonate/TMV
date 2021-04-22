@@ -41,17 +41,16 @@ Feature: 34002 - Unscheduled Trains Matching
       | 0519    | D6             | <trainNum>       |
     When I am viewing the map gw2aslough.v
     And I invoke the context menu on the map for train <trainNum>
-    And I wait for the context menu to display
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
     Then the tab title is 'TMV Schedule Matching <trainNum>'
     And no matched service is visible
     And the unmatched search results show the following 4 results
-      | trainNumber | planUID        | status    | sched | date  | origin            | time     | dest              |
-      | <trainNum>  | <planningUid1> | UNMATCHED | LTP   | today | London Paddington | now - 7  | Oxford            |
-      | <trainNum>  | <planningUid2> | ACTIVATED | LTP   | today | London Paddington | now - 12 | Didcot Parkway    |
-      | <trainNum>  | <planningUid3> | CANCELLED | LTP   | today | London Paddington | now - 30 | Swansea           |
-      | <trainNum>  | <planningUid4> | UNMATCHED | LTP   | today | Reading           | now - 35 | London Paddington |
+      | trainNumber | planUID        | status    | sched | date  | origin            | originTime | dest              |
+      | <trainNum>  | <planningUid1> | UNMATCHED | LTP   | today | London Paddington | now - 7    | Oxford            |
+      | <trainNum>  | <planningUid2> | ACTIVATED | LTP   | today | London Paddington | now - 12   | Didcot Parkway    |
+      | <trainNum>  | <planningUid3> | CANCELLED | LTP   | today | London Paddington | now - 30   | Swansea           |
+      | <trainNum>  | <planningUid4> | UNMATCHED | LTP   | today | Reading           | now - 35   | London Paddington |
 
     Examples:
       | trainNum | planningUid1 | planningUid2 | planningUid3 | planningUid4 |
@@ -64,7 +63,6 @@ Feature: 34002 - Unscheduled Trains Matching
       | 0864    | D2             | <trainNum>       |
     When I am viewing the map gw12newbury.v
     And I invoke the context menu on the map for train <trainNum>
-    And I wait for the context menu to display
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
     Then the tab title is 'TMV Schedule Matching <trainNum>'
@@ -95,20 +93,19 @@ Feature: 34002 - Unscheduled Trains Matching
     And train '<trainNum>' with schedule id '<planningUid2>' for today is visible on the trains list
     And I am viewing the map gw2aslough.v
     And I invoke the context menu on the map for train <trainNum>
-    And I wait for the context menu to display
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
     And no matched service is visible
     And the unmatched search results show the following 2 results
-      | trainNumber | planUID        | status    | sched | date  | origin            | time     | dest           |
-      | <trainNum>  | <planningUid1> | UNMATCHED | LTP   | today | London Paddington | now - 5  | Oxford         |
-      | <trainNum>  | <planningUid2> | UNMATCHED | LTP   | today | London Paddington | now - 28 | Didcot Parkway |
+      | trainNumber | planUID        | status    | sched | date  | origin            | originTime | dest           |
+      | <trainNum>  | <planningUid1> | UNMATCHED | LTP   | today | London Paddington | now - 5    | Oxford         |
+      | <trainNum>  | <planningUid2> | UNMATCHED | LTP   | today | London Paddington | now - 28   | Didcot Parkway |
     When I select to match the result for planning Id '<planningUid2>'
-    Then the matched service is shown as '<planningUid2>'
+    Then the matched service uid is shown as '<planningUid2>'
     And the unmatched search results show the following 2 results
-      | trainNumber | planUID        | status    | sched | date  | origin            | time     | dest           |
-      | <trainNum>  | <planningUid1> | UNMATCHED | LTP   | today | London Paddington | now - 3  | Oxford         |
-      | <trainNum>  | <planningUid2> | ACTIVATED | LTP   | today | London Paddington | now - 28 | Didcot Parkway |
+      | trainNumber | planUID        | status    | sched | date  | origin            | originTime | dest           |
+      | <trainNum>  | <planningUid1> | UNMATCHED | LTP   | today | London Paddington | now - 3    | Oxford         |
+      | <trainNum>  | <planningUid2> | ACTIVATED | LTP   | today | London Paddington | now - 28   | Didcot Parkway |
 
 
     Examples:
@@ -134,47 +131,159 @@ Feature: 34002 - Unscheduled Trains Matching
     And I am viewing the map gw2aslough.v
     And the headcode displayed for 'D71115' is <trainNum>
     And the headcode displayed for 'D71201' is <trainNum>
-    And the train headcode color for berth 'D71115' is grey
+    And the train headcode color for berth 'D71115' is lightgrey
     And the train headcode color for berth 'D71201' is green
     And I right click on berth with id 'D71115'
-    And I invoke the context menu on the map for train <trainNum>
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
-    And I wait for the context menu to display
     And no matched service is visible
     And the unmatched search results show the following 2 results
-      | trainNumber | planUID        | status    | sched | date  | origin            | time     | dest              |
-      | <trainNum>  | <planningUid1> | ACTIVATED | LTP   | today | London Paddington | now - 61 | Swansea           |
-      | <trainNum>  | <planningUid2> | UNMATCHED | LTP   | today | Reading           | now - 0  | London Paddington |
+      | trainNumber | planUID        | status    | sched | date  | origin            | originTime | dest              |
+      | <trainNum>  | <planningUid1> | ACTIVATED | LTP   | today | London Paddington | now - 61   | Swansea           |
+      | <trainNum>  | <planningUid2> | UNMATCHED | LTP   | today | Reading           | now - 0    | London Paddington |
     When I select to match the result for planning Id '<planningUid1>'
-    Then the matched service is shown as '<planningUid1>'
+    Then the matched service uid is shown as '<planningUid1>'
     And the unmatched search results show the following 2 results
-      | trainNumber | planUID        | status    | sched | date  | origin            | time     | dest              |
-      | <trainNum>  | <planningUid1> | ACTIVATED | LTP   | today | London Paddington | now - 61 | Swansea           |
-      | <trainNum>  | <planningUid2> | UNMATCHED | LTP   | today | Reading           | now - 0  | London Paddington |
+      | trainNumber | planUID        | status    | sched | date  | origin            | originTime | dest              |
+      | <trainNum>  | <planningUid1> | ACTIVATED | LTP   | today | London Paddington | now - 61   | Swansea           |
+      | <trainNum>  | <planningUid2> | UNMATCHED | LTP   | today | Reading           | now - 0    | London Paddington |
     And I switch to the second-newest tab
     And the train headcode color for berth 'D71115' is yellow
-    And the train headcode color for berth 'D71201' is grey
+    And the train headcode color for berth 'D71201' is lightgrey
 
     Examples:
       | trainNum | planningUid1 | planningUid2 |
       | 1C13     | L12007       | L12008       |
 
-
-  Scenario: 34002:7a Make Rematch - matching matched step to an unmatched service
+  @tdd @ref_60199
+  Scenario Outline: 34002:7a Make Rematch - matching matched step to an unmatched service
 #    Given the user is viewing the manual matching view
 #    And the user has the schedule matching role
 #    And the user is presented with at least one new schedule to match with (other than the currently matched schedule)
 #    When the user selects an entry to match
 #    Then the system will create a match
 #    And unmatching the previously match service
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_pass      | <trainNum>          | <planningUid1> |
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1S42_PADTON_DIDCOTP.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid2> |
+    And I am on the trains list page
+    And The trains list table is visible
+    And train '<trainNum>' with schedule id '<planningUid2>' for today is visible on the trains list
+    And the following live berth interpose message is sent from LINX (to create a match at Paddington)
+      | toBerth | trainDescriber | trainDescription |
+      | A007    | D3             | <trainNum>       |
+    And I am viewing the map hdgw01paddington.v
+    And the train headcode color for berth 'D3A007' is green
+    And I right click on berth with id 'D3A007'
+    And the map context menu contains 'Unmatch / Rematch' on line 3
+    And I open schedule matching screen from the map context menu
+    And I switch to the new tab
+    And the matched service uid is shown as '<planningUid1>'
+    And the unmatched search results show the following 2 results
+      | trainNumber | planUID        | status    | sched | date  | origin            | originTime | dest           |
+      | <trainNum>  | <planningUid1> | ACTIVATED | LTP   | today | London Paddington | now - 0    | Oxford         |
+      | <trainNum>  | <planningUid2> | UNMATCHED | LTP   | today | London Paddington | now - 0    | Didcot Parkway |
+    When I select to match the result for planning Id '<planningUid2>'
+    Then the matched service uid is shown as '<planningUid2>'
+    And the unmatched search results show the following 2 results
+      | trainNumber | planUID        | status    | sched | date  | origin            | originTime    | dest           |
+      | <trainNum>  | <planningUid1> | UNMATCHED | LTP   | today | London Paddington | now - 0 | Oxford         |
+      | <trainNum>  | <planningUid2> | ACTIVATED | LTP   | today | London Paddington | now - 0 | Didcot Parkway |
+    And I switch to the second-newest tab
+    And the train headcode color for berth 'D3A007' is green
 
-  Scenario: 34002:7b Make ReMatch - matching matched step to a different matched service
+    Examples:
+      | trainNum | planningUid1 | planningUid2 |
+      | 1C14     | L12009       | L12010       |
 
+  @tdd @ref_60199
+  Scenario Outline: 34002:7b Make ReMatch - matching matched step to a different matched service
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                                    | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/2P04_RDNGSTN_PADTON_STOPPER.cif | TWYFORD     | WTT_pass      | <trainNum>          | <planningUid1> |
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/2P77_RDNGSTN_PADTON.cif | SLOUGH      | WTT_pass      | <trainNum>          | <planningUid2> |
+    And I am on the trains list page
+    And The trains list table is visible
+    And train '<trainNum>' with schedule id '<planningUid2>' for today is visible on the trains list
+    And the following live berth interpose message is sent from LINX (to create a match at Twyford)
+      | toBerth | trainDescriber | trainDescription |
+      | 1630    | D1             | <trainNum>       |
+    And the following live berth interpose message is sent from LINX (to create a match at Slough)
+      | toBerth | trainDescriber | trainDescription |
+      | 0514    | D6             | <trainNum>       |
+    And I am viewing the map gw2aslough.v
+    And the headcode displayed for 'D11630' is <trainNum>
+    And the headcode displayed for 'D60514' is <trainNum>
+    And the train headcode color for berth 'D11630' is green
+    And the train headcode color for berth 'D60514' is green
+    And I right click on berth with id 'D11630'
+    And the map context menu contains 'Unmatch / Rematch' on line 3
+    And I open schedule matching screen from the map context menu
+    And I switch to the new tab
+    And the matched service uid is shown as '<planningUid1>'
+    And the unmatched search results show the following 2 results
+      | trainNumber | planUID        | status    | sched | date  | origin  | originTime | dest              |
+      | <trainNum>  | <planningUid1> | ACTIVATED | LTP   | today | Reading | now - 6    | London Paddington |
+      | <trainNum>  | <planningUid2> | ACTIVATED | LTP   | today | Reading | now - 21   | London Paddington |
+    When I select to match the result for planning Id '<planningUid2>'
+    Then the matched service uid is shown as '<planningUid2>'
+    And the unmatched search results show the following 2 results
+      | trainNumber | planUID        | status    | sched | date  | origin  | originTime | dest              |
+      | <trainNum>  | <planningUid1> | UNMATCHED | LTP   | today | Reading | now - 6    | London Paddington |
+      | <trainNum>  | <planningUid2> | ACTIVATED | LTP   | today | Reading | now - 21   | London Paddington |
+    And I switch to the second-newest tab
+    And the train headcode color for berth 'D11630' is red
+    And the train headcode color for berth 'D60514' is lightgrey
 
-  Scenario: 34002:8 Unmatch
+    Examples:
+      | trainNum | planningUid1 | planningUid2 |
+      | 1C15     | L12011       | L12012       |
+
+  @tdd @ref_60199
+  Scenario Outline: 34002:8 Unmatch
 #    Given the user is viewing the manual matching view
 #    And the user has the matching role
 #    And the user is presented with at least one new schedule to match with (other than the currently matched schedule)
 #    When the user opts not to match to any services
 #    Then the system will unmatch the service
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                                    | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/2P04_RDNGSTN_PADTON_STOPPER.cif | WEALING     | WTT_pass      | <trainNum>          | <planningUid1> |
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/2P77_RDNGSTN_PADTON.cif | ACTONW      | WTT_pass      | <trainNum>          | <planningUid2> |
+    And I am on the trains list page
+    And The trains list table is visible
+    And train '<trainNum>' with schedule id '<planningUid2>' for today is visible on the trains list
+    And the following live berth interpose message is sent from LINX (to create a match at West Ealing)
+      | toBerth | trainDescriber | trainDescription |
+      | 0214    | D3             | <trainNum>       |
+    And I am viewing the map gw2aslough.v
+    And the headcode displayed for 'D30214' is <trainNum>
+    And the train headcode color for berth 'D30214' is green
+    And I right click on berth with id 'D30214'
+    And the map context menu contains 'Unmatch / Rematch' on line 3
+    And I open schedule matching screen from the map context menu
+    And I switch to the new tab
+    And the matched service uid is shown as '<planningUid1>'
+    And the unmatched search results show the following 2 results
+      | trainNumber | planUID        | status    | sched | date  | origin  | originTime | dest              |
+      | <trainNum>  | <planningUid1> | ACTIVATED | LTP   | today | Reading | now - 38   | London Paddington |
+      | <trainNum>  | <planningUid2> | UNMATCHED | LTP   | today | Reading | now - 43   | London Paddington |
+    When I un-match the currently matched schedule
+    Then no matched service is visible
+    And the unmatched search results show the following 2 results
+      | trainNumber | planUID        | status    | sched | date  | origin  | originTime | dest              |
+      | <trainNum>  | <planningUid1> | UNMATCHED | LTP   | today | Reading | now - 38   | London Paddington |
+      | <trainNum>  | <planningUid2> | UNMATCHED | LTP   | today | Reading | now - 43   | London Paddington |
+    And I switch to the second-newest tab
+    And the train headcode color for berth 'D30214' is lightgrey
+
+    Examples:
+      | trainNum | planningUid1 | planningUid2 |
+      | 1C16     | L12013       | L12014       |

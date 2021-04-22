@@ -1,3 +1,4 @@
+@bug @bug_60513
 Feature: 33768-3: TMV User Management
   As a TMV user
   I want to be able to log into the TMV application
@@ -21,9 +22,9 @@ Feature: 33768-3: TMV User Management
     * I have not already authenticated
 
     Examples:
-      | roleType         | adverb      |
-      | standard         | is          |
-      | adminOnly        | is not      |
+      | roleType  | adverb |
+      | standard  | is     |
+      | adminOnly | is not |
 
   Scenario: 12 Displaying search for user with Standard Role
     #  Given I am on the sign in screen
@@ -46,17 +47,17 @@ Feature: 33768-3: TMV User Management
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     Then the app list does not contain the following apps
-      | app          |
-      | Trains List  |
-      | Enquiries    |
-      | Replay       |
-      | Logs         |
+      | app         |
+      | Trains List |
+      | Enquiries   |
+      | Replay      |
+      | Logs        |
     # clean up
     * I have not already authenticated
 
     Examples:
-      | roleType         |
-      | adminOnly        |
+      | roleType  |
+      | adminOnly |
 
   @bug @bug:60066
   Scenario Outline: 14 Hiding search for user without Standard Role - <roleType>
@@ -77,6 +78,7 @@ Feature: 33768-3: TMV User Management
       | restriction      |
       | schedulematching |
 
+  @bug @task_60518
   Scenario Outline: 15 Displaying matching for user with Schedule Matching Role - <matchType>
     #  Given I have signed in
     #  And I have a valid TMV role of Schedule Matching
@@ -92,16 +94,16 @@ Feature: 33768-3: TMV User Management
     And I have cleared out all headcodes
     And I am on the trains list page
     When the following live berth interpose message is sent from LINX <description>
-      | toBerth | trainDescriber   | trainDescription   |
-      | A001    | D3               | <trainDescription> |
+      | toBerth | trainDescriber | trainDescription   |
+      | A001    | D3             | <trainDescription> |
     And train description '<trainDescription>' is visible on the trains list with schedule type '<scheduleType>'
     And I invoke the context menu from train '<trainDescription>' on the trains list
-    And I wait for the context menu to display
-    Then the context menu contains '<matchMenuOption>' on line 3
+    And I wait for the trains list context menu to display
+    Then the <matchType> version of the trains list context menu is displayed
     # cleanup
     * the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching-cancelled.cif' is received from LINX
 
     Examples:
-      | matchType | matchMenuOption | trainDescription | description            | scheduleType |
-      | Matched   | Unmatch         | 1B13             | (creating a match)     | STP          |
-      | Unmatched | Match           | 1X13             | (not creating a match) |              |
+      | matchType | trainDescription | description            | scheduleType |
+      | Matched   | 1B13             | (creating a match)     | STP          |
+      | Unmatched | 1X13             | (not creating a match) |              |
