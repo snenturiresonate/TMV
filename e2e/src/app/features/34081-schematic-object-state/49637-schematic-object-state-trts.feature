@@ -116,7 +116,7 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     And the TRTS visibility status for 'SN9' is visible
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 10   | 10:45:00  |
+      | D3             | 50      | 00   | 10:45:00  |
     Then the signal roundel for signal 'SN9' is red
     And the TRTS visibility status for 'SN9' is hidden
 
@@ -137,6 +137,6 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     And the TRTS visibility status for 'SN9' is visible
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 10   | 10:45:00  |
+      | D3             | 50      | 00   | 10:45:00  |
     Then the signal roundel for signal 'SN9' is green
     And the TRTS visibility status for 'SN9' is hidden
