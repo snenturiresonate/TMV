@@ -18,7 +18,7 @@ Feature: 33761-2 Train activation for a valid service
     #  | Next report overdue      | #0000ff | 15      | off         |
     #  | Origin Called            | #ffb578 | 15      | on          |
     #  | Origin Departure Overdue | #ffffff | 1       | on          |
-@check
+
   Scenario: 33761-2 Train Activation for a valid service
     Given I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
@@ -36,18 +36,15 @@ Feature: 33761-2 Train activation for a valid service
     And the following service is displayed on the trains list
       | trainId | trainUId |
       | 1A01    | L10001   |
-    #And the following train activation message is sent from LINX
-    #  | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-    #  | L10001   | 1A01        | now                  | 99999               | PADTON                 |
-  When the following train running information message is sent from LINX
-    | trainUID | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           |
-    | L10001   | 1A01        | today              | 30870               | PADTON                | Departure from Origin |
+    And the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |departureDate|actualDepartureHour|
+      | L10001   | 1A01        | now                  | 99999               | PADTON                 | today         |now                   |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | trainUID      | rowColFill            | trainDescriptionFill   |
       | Origin called             | L10001        | rgba(221, 221, 238, 1)| rgba(0, 255, 0, 1)     |
     And I restore to default train list config
-@check
+
   Scenario: 33761-3 Train Activation for a cancelled service
     Given I am on the trains list page
     And I have navigated to the 'Train Indication' configuration tab

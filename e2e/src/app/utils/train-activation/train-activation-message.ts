@@ -3,6 +3,7 @@ import {LocalDateTime} from '@js-joda/core';
 import {TrainActivationMessageHeader} from './message-header';
 import {AdminContactInfo} from './admin-contact-info';
 import {TrainActivationPathInformationBuilder} from './path-information';
+import {Identifiers} from "./identifiers";
 
 export class TrainActivationMessageBuilder {
   public runDateTime = LocalDateTime.now();
@@ -23,7 +24,8 @@ export class TrainActivationMessageBuilder {
   }
 
   public buildMessage = (locationPrimaryCode: string, locationSubsidiaryCode: string,
-                         time: string, operationalTrainNumber: string, trainUID: string) => {
+                         time: string, operationalTrainNumber: string, trainUID: string, departureDate: string,
+                         actualDepartureHour: string) => {
     const hourOfDeparture = parseInt(time.split(':')[0], 2);
     return create().ele('PathDetailsMessage')
       .att('xmlns', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
@@ -32,6 +34,7 @@ export class TrainActivationMessageBuilder {
       .att('xsi:schemaLocation', 'http://www.era.europa.eu/schemes/TAFTSI/5.3 taf_cat_complete.xsd')
       .ele(TrainActivationMessageHeader.messageHeader(operationalTrainNumber, trainUID, hourOfDeparture)).root()
       .ele(AdminContactInfo.adminContactInfo()).root()
+      .ele(Identifiers.identifiers(operationalTrainNumber, trainUID, departureDate, actualDepartureHour)).root()
       .ele(this.messageStatus()).root()
       .ele(this.typeOfRequest()).root()
       .ele(this.typeOfInformation()).root()

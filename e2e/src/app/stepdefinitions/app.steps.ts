@@ -403,10 +403,30 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
           return trainActivationMessages[i].scheduledDepartureTime;
       }
     };
+    const departureDate = () => {
+      if ((trainActivationMessages[i].departureDate).toLowerCase() === 'today' ||
+        (trainActivationMessages[i].departureDate).toLowerCase() === 'yesterday' ||
+        (trainActivationMessages[i].departureDate).toLowerCase() === 'tomorrow') {
+        return DateAndTimeUtils.convertToDesiredDateAndFormat((trainActivationMessages[i].departureDate).toLowerCase(), 'yyyy-MM-dd');
+      } else if (trainActivationMessages[i].departureDate === undefined){
+        return DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
+      } else {
+        return trainActivationMessages[i].scheduledDepartureTime;
+      }
+    };
+    const actualDepartureHour = () => {
+      // tslint:disable-next-line:max-line-length
+      if ((trainActivationMessages[i].actualDepartureHour).toLowerCase() === 'now' || trainActivationMessages[i].departureDate === undefined) {
+        const now = new Date();
+        return `${Number(now.getHours()).toString().padStart(2, '0')}`;
+      } else {
+        return trainActivationMessages[i].actualDepartureHour;
+      }
+    };
     const locationPrimaryCode = trainActivationMessages[i].locationPrimaryCode;
     const locationSubsidiaryCode = trainActivationMessages[i].locationSubsidiaryCode;
     const trainActMss = trainActivationMessageBuilder.buildMessage(locationPrimaryCode, locationSubsidiaryCode,
-      scheduledDepartureTime().toString(), trainNumber, trainUID);
+      scheduledDepartureTime().toString(), trainNumber, trainUID, departureDate().toString(), actualDepartureHour().toString());
     await linxRestClient.postTrainActivation(trainActMss.toString({prettyPrint: true}));
     await CucumberLog.addText(`Train Activation message: ${trainActMss.toString({prettyPrint: true})}`);
     await linxRestClient.waitMaxTransmissionTime();
