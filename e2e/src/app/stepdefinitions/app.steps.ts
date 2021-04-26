@@ -398,7 +398,7 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
     const scheduledDepartureTime = () => {
       if ((trainActivationMessages[i].scheduledDepartureTime).toLowerCase() === 'now') {
         const now = new Date();
-        return `${Number(now.getHours()).toString().padStart(2, '0')}:${Number(now.getMinutes()).toString().padStart(2, '0')}::${Number(now.getSeconds()).toString().padStart(2, '0')}`;
+        return `${Number(now.getHours()).toString().padStart(2, '0')}:${Number(now.getMinutes()).toString().padStart(2, '0')}:${Number(now.getSeconds()).toString().padStart(2, '0')}`;
       } else {
           return trainActivationMessages[i].scheduledDepartureTime;
       }
