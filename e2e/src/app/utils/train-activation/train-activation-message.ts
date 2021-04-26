@@ -25,7 +25,7 @@ export class TrainActivationMessageBuilder {
 
   public buildMessage = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                          time: string, operationalTrainNumber: string, trainUID: string, departureDate: string,
-                         actualDepartureHour: string) => {
+                         actualDepartureHour: string, asmVal: string) => {
     const hourOfDeparture = parseInt(time.split(':')[0], 2);
     return create().ele('ns0:PathDetailsMessage')
       .att('xmlns:ns0', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
@@ -38,7 +38,7 @@ export class TrainActivationMessageBuilder {
       .ele(this.typeOfRequest()).root()
       .ele(this.typeOfInformation()).root()
       .ele(TrainActivationPathInformationBuilder.pathInformation(locationPrimaryCode, locationSubsidiaryCode,
-      time, operationalTrainNumber, trainUID)).root()
+      time, operationalTrainNumber, trainUID, asmVal)).root()
       .doc();
   }
 

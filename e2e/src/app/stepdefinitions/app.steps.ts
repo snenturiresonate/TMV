@@ -388,6 +388,14 @@ When(/^the following train journey modification change of id messages? (?:is|are
     await linxRestClient.waitMaxTransmissionTime();
   });
 
+/**
+ * Used for sending train activation message with the following fields
+ * | trainUID (mandatory) | trainNumber (mandatory) | scheduledDepartureTime (mandatory - hh:mm accepts 'now')
+ * | locationPrimaryCode (mandatory) | locationSubsidiaryCode (mandatory)
+ * |departureDate (mandatory-dd-mm-yyyy accepts 'yesterday', 'today', 'tomorrow')
+ * |actualDepartureHour (Optional - hh:mm accepts 'now' Defaults to current hour)|asm (Optional - Defaults to '0')|
+ */
+
 When(/^the following train activation? (?:message|messages)? (?:is|are) sent from LINX$/, async (trainActivationMessageTable: any) => {
   const trainActivationMessages = trainActivationMessageTable.hashes();
   // tslint:disable-next-line:prefer-for-of
@@ -425,8 +433,9 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
     };
     const locationPrimaryCode = trainActivationMessages[i].locationPrimaryCode;
     const locationSubsidiaryCode = trainActivationMessages[i].locationSubsidiaryCode;
+    const asmVal = trainActivationMessages[i].asm ? trainActivationMessages[i].asm : 0;
     const trainActMss = trainActivationMessageBuilder.buildMessage(locationPrimaryCode, locationSubsidiaryCode,
-      scheduledDepartureTime().toString(), trainNumber, trainUID, departureDate().toString(), actualDepartureHour().toString());
+      scheduledDepartureTime().toString(), trainNumber, trainUID, departureDate().toString(), actualDepartureHour().toString(), asmVal);
     await linxRestClient.postTrainActivation(trainActMss.toString({prettyPrint: true}));
     await CucumberLog.addText(`Train Activation message: ${trainActMss.toString({prettyPrint: true})}`);
     await linxRestClient.waitMaxTransmissionTime();
