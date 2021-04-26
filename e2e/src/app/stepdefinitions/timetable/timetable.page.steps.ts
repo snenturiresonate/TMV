@@ -813,3 +813,19 @@ Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instan
     });
 });
 
+function getExpectedPunctuality(actualTime, expectedTime): string {
+  const minutes = ChronoUnit.MINUTES.between(LocalTime.parse(expectedTime), LocalTime.parse(actualTime));
+  const seconds = ChronoUnit.SECONDS.between(LocalTime.parse(expectedTime), LocalTime.parse(actualTime));
+  const plusMinus = (seconds < 0) ? `-` : `+`;
+  // tslint:disable-next-line:triple-equals
+  return (seconds % 60 == 0) ? `${plusMinus}${Math.abs(minutes)}m` : `${plusMinus}${Math.abs(minutes)}m ${Math.abs(seconds % 60)}s`;
+}
+
+Then(/^the punctuality for location "(.*)" instance (\d+) is correctly calculated based on "(.*)" & "(.*)"$/,
+  async (location, instance, expectedTime, actualTime) => {
+    await timetablePage.getRowByLocation(location, instance).then(async row => {
+      const field = row.punctuality;
+      const expectedPunctuality = getExpectedPunctuality(expectedTime, actualTime);
+      expect(await field.getText(), `Actual punctuality not correct for location ${location}`).to.equal(expectedPunctuality);
+    });
+});
