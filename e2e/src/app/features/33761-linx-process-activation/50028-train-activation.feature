@@ -18,7 +18,7 @@ Feature: 33761-2 Train activation for a valid service
     #  | Next report overdue      | #0000ff | 15      | off         |
     #  | Origin Called            | #ffb578 | 15      | on          |
     #  | Origin Departure Overdue | #ffffff | 1       | on          |
-
+@check
   Scenario: 33761-2 Train Activation for a valid service
     Given I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
@@ -26,10 +26,6 @@ Feature: 33761-2 Train activation for a valid service
       | name      | colour |  toggleValue |
       | Origin Called | #dde   |  on          |
     And I save the trains list config
-    #And the service '0A00' is not active
-    #And the following service is not displayed on the trains list
-    #  | trainId | trainUId |
-    #  | 1D46    | W15214   |
     When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON     | WTT_dep       | 1A01                | L10001         |

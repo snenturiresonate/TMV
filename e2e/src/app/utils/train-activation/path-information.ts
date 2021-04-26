@@ -6,7 +6,7 @@ export class TrainActivationPathInformationBuilder {
 
   public static pathInformation = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                    time: string, operationalTrainNumber: string, trainUID: string) => {
-    const pathInformation = fragment().ele('PathInformation')
+    const pathInformation = fragment().ele('ns0:PathInformation')
       .ele(TrainActivationPlannedJourneyLocationBuilder.plannedJourneyLocation(locationPrimaryCode, locationSubsidiaryCode,
         time, operationalTrainNumber, trainUID)).up()
       .ele(TrainActivationPlannedCalendarBuilder.plannedCalendar())
