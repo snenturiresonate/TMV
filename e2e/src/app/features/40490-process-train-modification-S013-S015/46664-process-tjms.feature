@@ -161,7 +161,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | name          | colour | minutes | toggleValue |
       | Cancellation  | #ff7   |         | on          |
       | Reinstatement | #dde   |         | on          |
-    When I open 'trains list' page in a new tab
+    When I am on the trains list page
     And The trains list table is visible
     Then I should see the train list row coloured as
       | trainDescriberId | backgroundColour   |
@@ -192,7 +192,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | name          | colour | minutes | toggleValue |
       | Cancellation  | #dde   |         | on          |
       | Reinstatement | #ff7   |         | on          |
-    When I open 'trains list' page in a new tab
+    When I am on the trains list page
     And The trains list table is visible
     Then I should see the train list row coloured as
       | trainDescriberId | backgroundColour   |
