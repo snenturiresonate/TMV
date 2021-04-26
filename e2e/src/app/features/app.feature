@@ -61,9 +61,9 @@ Feature: Example Scenarios
 
   Scenario: Example - Receive train running information message from LINX
     Given I am on the home page
-    When the following train running information message is sent from LINX
-      | trainUID | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           |
-      | V95541   | 1B25        | today              | 15220               | WCROYDN                | Departure from Origin |
+    When the following train running info message with time is sent from LINX
+      | trainUID | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           | timestamp | hourDepartFromOrigin |
+      | V95541   | 1B25        | today              | 15220               | CREWBHJ                | Departure from Origin | 13:52:00  | 13                   |
     Then I should see nothing
 
   Scenario: Example - Receive access plan from JSON file example

@@ -128,7 +128,7 @@ export class SenderReferenceCalculator {
     const binary = amPmIndicator.toString(2).padStart(amPmIndicatorBitLength, '0') +
       trainIdAlpha.toString(2).padStart(trainIdAlphaBitLength, '0') +
       trainIdNumeric.toString(2).padStart(trainIdNumericBitLength, '0') +
-      hourDepartFromOrigin.toString(2).padStart(hourBitLength, '0') +
+      Number(hourDepartFromOrigin).toString(2).padStart(hourBitLength, '0') +
       day.toString(2).padStart(dayBitLength, '0') +
       month.toString(2).padStart(monthBitLength, '0') +
       year.toString(2).padStart(yearBitLength, '0');
