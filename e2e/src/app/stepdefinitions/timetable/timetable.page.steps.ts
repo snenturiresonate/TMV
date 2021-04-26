@@ -181,7 +181,7 @@ Then(/^the sent TJMs are in the modifications table$/, async () => {
     const expectedLocation = tiplocToLocation(
       expectedRecord.TrainJourneyModification.LocationModified.Location.LocationSubsidiaryIdentification.LocationSubsidiaryCode);
     const expectedTime = LocalDateTime
-        .parse(expectedRecord.TrainJourneyModificationTime.replace('-00:00', ''))
+        .parse(expectedRecord.TrainJourneyModificationTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         .format(DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm').withLocale(Locale.ENGLISH));
     const expectedReason = expectedRecord.ModificationReason;
     for (const row of modificationsTable) {
@@ -269,7 +269,7 @@ async function assertLastTJM(tjmMessage: TrainJourneyModificationMessage): Promi
   const expectedLocation = tiplocToLocation(
     tjmMessage.TrainJourneyModification.LocationModified.Location.LocationSubsidiaryIdentification.LocationSubsidiaryCode);
   const expectedTime = LocalDateTime
-    .parse(tjmMessage.TrainJourneyModificationTime.replace('-00:00', ''))
+    .parse(tjmMessage.TrainJourneyModificationTime)
     .format(DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm').withLocale(Locale.ENGLISH));
   const expectedReason = tjmMessage.ModificationReason;
 
