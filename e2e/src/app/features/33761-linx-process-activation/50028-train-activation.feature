@@ -6,7 +6,7 @@ Feature: 33761-2 Train activation for a valid service
   Background:
     Given I am on the trains list Config page
     And I restore to default train list config
-
+  @bug @bug_60104
   Scenario: 33761-2 Train Activation for a valid service
     Given I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
@@ -42,7 +42,7 @@ Feature: 33761-2 Train activation for a valid service
       | trainId | trainUId |
       | 0B00    | B10001   |
     And I restore to default train list config
-
+  @bug @bug_60104
   Scenario: 33761-4 Train Activation for an active service
     Given I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
@@ -59,18 +59,12 @@ Feature: 33761-2 Train activation for a valid service
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | C10001   | 1C01        | now                    | 99999               | PADTON                 | today         | now                 |
-    And the following service is displayed on the trains list
-      | trainId | trainUId |
-      | 1C01    | C10001   |
-    And the following train activation message is sent from LINX
-      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
-      | C10001   | 1C01        | now                    | 99999               | PADTON                 | today         | now                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType       | trainUID | rowColFill             | trainDescriptionFill |
       | Origin called | C10001   | rgba(221, 221, 238, 1) | rgba(0, 255, 0, 1)   |
     And I restore to default train list config
-
+  @bug @bug_60104
   Scenario: 33761-5 Train Activation for a valid service with a different origin
     Given I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
@@ -94,7 +88,7 @@ Feature: 33761-2 Train activation for a valid service
       | rowType       | trainUID | rowColFill           | trainDescriptionFill |
       | Origin called | D10001   | rgba(85, 85, 255, 1) | rgba(0, 255, 0, 1)   |
     And I restore to default train list config
-
+  @bug @bug_60104
   Scenario: 33761-6 Train Activation for a valid service with a change of origin
     Given I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
@@ -122,7 +116,7 @@ Feature: 33761-2 Train activation for a valid service
       | rowType          | trainUID | rowColFill             | trainDescriptionFill |
       | Change of origin | W15214   | rgba(102, 170, 102, 1) | rgba(0, 255, 0, 1)   |
     And I restore to default train list config
-
+  @bug @bug_60104
   Scenario: 33761-8 Train Activation for a valid service with a change of origin matching current origin
     Given I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
