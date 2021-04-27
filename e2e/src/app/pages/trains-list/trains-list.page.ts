@@ -151,7 +151,7 @@ export class TrainsListPageObject {
     try {
       await CommonActions.waitForElementToBePresent(trainScheduleId, timeToWaitForTrain, `The Schedule is not displayed in first ${timeToWaitForTrain} milliseconds`);
     } catch (err) {
-      await CommonActions.waitForElementToBePresent(trainScheduleId, timeToWaitForTrain, 'The Schedule is not displayed');
+      return trainScheduleId.isPresent();
     }
     return trainScheduleId.isPresent();
   }

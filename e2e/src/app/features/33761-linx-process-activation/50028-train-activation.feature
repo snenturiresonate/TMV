@@ -29,26 +29,18 @@ Feature: 33761-2 Train activation for a valid service
       | Origin called | L10001   | rgba(221, 221, 238, 1) | rgba(0, 255, 0, 1)   |
     And I restore to default train list config
 
-  @tdd
   Scenario: 33761-3 Train Activation for a cancelled service
-    Given I am on the trains list Config page
-    And I have navigated to the 'Train Indication' configuration tab
-    And I update only the below train list indication config settings as
-      | name         | colour | toggleValue |
-      | Cancellation | #d22   | on          |
-    And I save the trains list config
+      # A cancelled service that has been planned to be cancelled will not appear even when activated.
+      # Only services that are cancelled via a TJM are displayed with the cancelled indication
     When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/schedules_BS_type_C.cif | PADTON      | WTT_dep       | 0B00                | B10001         |
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | B10001   | 0B00        | now                    | 99999               | PADTON                 | today         | now                 |
-    And the following service is displayed on the trains list
+    And the following service is not displayed on the trains list
       | trainId | trainUId |
       | 0B00    | B10001   |
-    And the service is displayed in the trains list with the following indication
-      | rowType      | trainUID | rowColFill           | trainDescriptionFill |
-      | Cancellation | B10001   | rgba(221, 34, 34, 1) | rgba(0, 255, 0, 1)   |
     And I restore to default train list config
 
   Scenario: 33761-4 Train Activation for an active service
@@ -131,7 +123,6 @@ Feature: 33761-2 Train activation for a valid service
       | Change of origin | W15214   | rgba(102, 170, 102, 1) | rgba(0, 255, 0, 1)   |
     And I restore to default train list config
 
-  @tdd
   Scenario: 33761-8 Train Activation for a valid service with a change of origin matching current origin
     Given I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
