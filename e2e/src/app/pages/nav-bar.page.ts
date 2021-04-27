@@ -196,9 +196,9 @@ export class NavBarPageObject {
     return icon.getText();
   }
 
-  public async getUserProfileMenuRoleName(): Promise<string> {
-    const icon: ElementFinder = element(by.id('user-profile-menu-role-name'));
-    return icon.getText();
+  public async getUserProfileMenuRoleName(row: number): Promise<string> {
+    const roleNames: ElementArrayFinder = element.all(by.id('user-profile-menu-role-name'));
+    return roleNames.get(row - 1).getText();
   }
 
   public async getCurrentTimeText(): Promise<string> {
