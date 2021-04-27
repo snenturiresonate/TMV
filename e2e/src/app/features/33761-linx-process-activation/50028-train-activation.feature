@@ -95,7 +95,8 @@ Feature: 33761-2 Train activation for a valid service
       | Origin called | D10001   | rgba(85, 85, 255, 1) | rgba(0, 255, 0, 1)   |
     And I restore to default train list config
   @bug @bug_60104
-  Scenario: 33761-6 Train Activation for a valid service with a change of origin
+  Scenario: 33761-6 & 7 Train Activation for a valid service with a change of origin
+    # A TJM for Change of origin will be required to bring about a Change of Origin indication
     Given I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
