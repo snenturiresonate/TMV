@@ -1,7 +1,7 @@
 {
   "currentPlanScheduleId": {
     "planningUid": "C14260",
-    "scheduledOriginDepartureDate": "2021-03-25"
+    "scheduledOriginDepartureDate": "2021-04-27"
   },
   "stpIndicator": "P",
   "plannedTrainDescription": "1U36",
@@ -12,12 +12,12 @@
         {
           "trainDescriberCode": "CE",
           "berthName": "A120",
-          "plannedStepTime": "13:33:00"
+          "plannedStepTime": "2021-04-27T12:33:00Z"
         },
         {
           "trainDescriberCode": "CE",
           "berthName": "B120",
-          "plannedStepTime": "13:33:00"
+          "plannedStepTime": "2021-04-27T12:33:00Z"
         }
       ]
     },
@@ -75,7 +75,7 @@
         {
           "trainDescriberCode": "CE",
           "berthName": "0104",
-          "plannedStepTime": "13:34:07"
+          "plannedStepTime": "2021-04-27T12:34:07Z"
         }
       ]
     },
@@ -89,7 +89,7 @@
         {
           "trainDescriberCode": "CE",
           "berthName": "H056",
-          "plannedStepTime": "13:35:18"
+          "plannedStepTime": "2021-04-27T12:35:18Z"
         }
       ]
     },
@@ -111,7 +111,7 @@
         {
           "trainDescriberCode": "CE",
           "berthName": "H114",
-          "plannedStepTime": "13:35:46"
+          "plannedStepTime": "2021-04-27T12:35:46Z"
         }
       ]
     },
@@ -121,7 +121,7 @@
         {
           "trainDescriberCode": "CE",
           "berthName": "H112",
-          "plannedStepTime": "13:36:10"
+          "plannedStepTime": "2021-04-27T12:36:10Z"
         }
       ]
     },
@@ -135,7 +135,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3654",
-          "plannedStepTime": "13:36:44"
+          "plannedStepTime": "2021-04-27T12:36:44Z"
         }
       ]
     },
@@ -145,7 +145,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3652",
-          "plannedStepTime": "13:37:13"
+          "plannedStepTime": "2021-04-27T12:37:13Z"
         }
       ]
     },
@@ -155,7 +155,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3650",
-          "plannedStepTime": "13:37:42"
+          "plannedStepTime": "2021-04-27T12:37:42Z"
         }
       ]
     },
@@ -165,7 +165,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3648",
-          "plannedStepTime": "13:38:06"
+          "plannedStepTime": "2021-04-27T12:38:06Z"
         }
       ]
     },
@@ -175,7 +175,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3646",
-          "plannedStepTime": "13:38:30"
+          "plannedStepTime": "2021-04-27T12:38:30Z"
         }
       ]
     },
@@ -185,7 +185,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3644",
-          "plannedStepTime": "13:38:58"
+          "plannedStepTime": "2021-04-27T12:38:58Z"
         }
       ]
     },
@@ -195,7 +195,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3642",
-          "plannedStepTime": "13:39:30"
+          "plannedStepTime": "2021-04-27T12:39:30Z"
         }
       ]
     },
@@ -205,7 +205,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5646",
-          "plannedStepTime": "13:39:30"
+          "plannedStepTime": "2021-04-27T12:39:30Z"
         }
       ]
     },
@@ -219,7 +219,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5642",
-          "plannedStepTime": "13:39:49"
+          "plannedStepTime": "2021-04-27T12:39:49Z"
         }
       ]
     },
@@ -229,7 +229,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5640",
-          "plannedStepTime": "13:40:01"
+          "plannedStepTime": "2021-04-27T12:40:01Z"
         }
       ]
     },
@@ -239,7 +239,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5638",
-          "plannedStepTime": "13:40:26"
+          "plannedStepTime": "2021-04-27T12:40:26Z"
         }
       ]
     },
@@ -249,7 +249,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5636",
-          "plannedStepTime": "13:40:46"
+          "plannedStepTime": "2021-04-27T12:40:46Z"
         }
       ]
     },
@@ -259,7 +259,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5634",
-          "plannedStepTime": "13:41:05"
+          "plannedStepTime": "2021-04-27T12:41:05Z"
         }
       ]
     },
@@ -269,7 +269,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5632",
-          "plannedStepTime": "13:41:26"
+          "plannedStepTime": "2021-04-27T12:41:26Z"
         }
       ]
     },
@@ -279,7 +279,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3630",
-          "plannedStepTime": "13:41:05"
+          "plannedStepTime": "2021-04-27T12:41:05Z"
         }
       ]
     },
@@ -289,7 +289,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3628",
-          "plannedStepTime": "13:41:26"
+          "plannedStepTime": "2021-04-27T12:41:26Z"
         }
       ]
     },
@@ -299,7 +299,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3626",
-          "plannedStepTime": "13:42:00"
+          "plannedStepTime": "2021-04-27T12:42:00Z"
         }
       ]
     },
@@ -309,7 +309,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3624",
-          "plannedStepTime": "13:42:27"
+          "plannedStepTime": "2021-04-27T12:42:27Z"
         }
       ]
     },
@@ -319,7 +319,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3620",
-          "plannedStepTime": "13:42:53"
+          "plannedStepTime": "2021-04-27T12:42:53Z"
         }
       ]
     },
@@ -329,7 +329,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3618",
-          "plannedStepTime": "13:43:20"
+          "plannedStepTime": "2021-04-27T12:43:20Z"
         }
       ]
     },
@@ -339,7 +339,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3616",
-          "plannedStepTime": "13:43:46"
+          "plannedStepTime": "2021-04-27T12:43:46Z"
         }
       ]
     },
@@ -349,7 +349,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3614",
-          "plannedStepTime": "13:44:07"
+          "plannedStepTime": "2021-04-27T12:44:07Z"
         }
       ]
     },
@@ -359,7 +359,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3612",
-          "plannedStepTime": "13:44:34"
+          "plannedStepTime": "2021-04-27T12:44:34Z"
         }
       ]
     },
@@ -369,7 +369,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3610",
-          "plannedStepTime": "13:45:03"
+          "plannedStepTime": "2021-04-27T12:45:03Z"
         }
       ]
     },
@@ -379,7 +379,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3606",
-          "plannedStepTime": "13:45:30"
+          "plannedStepTime": "2021-04-27T12:45:30Z"
         }
       ]
     },
@@ -409,7 +409,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3604",
-          "plannedStepTime": "13:46:51"
+          "plannedStepTime": "2021-04-27T12:46:51Z"
         }
       ]
     },
@@ -419,7 +419,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3602",
-          "plannedStepTime": "13:47:47"
+          "plannedStepTime": "2021-04-27T12:47:47Z"
         }
       ]
     },
@@ -429,7 +429,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3600",
-          "plannedStepTime": "13:48:35"
+          "plannedStepTime": "2021-04-27T12:48:35Z"
         }
       ]
     },
@@ -439,7 +439,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3598",
-          "plannedStepTime": "13:49:14"
+          "plannedStepTime": "2021-04-27T12:49:14Z"
         }
       ]
     },
@@ -449,7 +449,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3596",
-          "plannedStepTime": "13:49:53"
+          "plannedStepTime": "2021-04-27T12:49:53Z"
         }
       ]
     },
@@ -459,7 +459,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3594",
-          "plannedStepTime": "13:50:28"
+          "plannedStepTime": "2021-04-27T12:50:28Z"
         }
       ]
     },
@@ -497,12 +497,12 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5582",
-          "plannedStepTime": "13:51:01"
+          "plannedStepTime": "2021-04-27T12:51:01Z"
         },
         {
           "trainDescriberCode": "R3",
           "berthName": "9355",
-          "plannedStepTime": "13:51:01"
+          "plannedStepTime": "2021-04-27T12:51:01Z"
         }
       ]
     },
@@ -512,7 +512,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "4310",
-          "plannedStepTime": "13:55:30"
+          "plannedStepTime": "2021-04-27T12:55:30Z"
         }
       ]
     },
@@ -550,7 +550,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5572",
-          "plannedStepTime": "13:55:49"
+          "plannedStepTime": "2021-04-27T12:55:49Z"
         }
       ]
     },
@@ -560,7 +560,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3576",
-          "plannedStepTime": "13:56:27"
+          "plannedStepTime": "2021-04-27T12:56:27Z"
         }
       ]
     },
@@ -574,7 +574,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3574",
-          "plannedStepTime": "13:56:58"
+          "plannedStepTime": "2021-04-27T12:56:58Z"
         }
       ]
     },
@@ -588,7 +588,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3572",
-          "plannedStepTime": "13:57:36"
+          "plannedStepTime": "2021-04-27T12:57:36Z"
         }
       ]
     },
@@ -602,7 +602,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3570",
-          "plannedStepTime": "13:58:17"
+          "plannedStepTime": "2021-04-27T12:58:17Z"
         }
       ]
     },
@@ -612,7 +612,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3568",
-          "plannedStepTime": "13:58:47"
+          "plannedStepTime": "2021-04-27T12:58:47Z"
         }
       ]
     },
@@ -622,7 +622,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0101",
-          "plannedStepTime": "13:59:16"
+          "plannedStepTime": "2021-04-27T12:59:16Z"
         }
       ]
     },
@@ -632,7 +632,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0102",
-          "plannedStepTime": "14:00:02"
+          "plannedStepTime": "2021-04-27T13:00:02Z"
         }
       ]
     },
@@ -642,7 +642,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0008",
-          "plannedStepTime": "14:00:40"
+          "plannedStepTime": "2021-04-27T13:00:40Z"
         }
       ]
     },
@@ -660,7 +660,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0005",
-          "plannedStepTime": "14:01:14"
+          "plannedStepTime": "2021-04-27T13:01:14Z"
         }
       ]
     },
@@ -678,7 +678,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0117",
-          "plannedStepTime": "14:01:46"
+          "plannedStepTime": "2021-04-27T13:01:46Z"
         }
       ]
     },
@@ -688,7 +688,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0050",
-          "plannedStepTime": "14:02:15"
+          "plannedStepTime": "2021-04-27T13:02:15Z"
         }
       ]
     },
@@ -698,7 +698,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0052",
-          "plannedStepTime": "14:02:50"
+          "plannedStepTime": "2021-04-27T13:02:50Z"
         }
       ]
     },
@@ -752,7 +752,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0060",
-          "plannedStepTime": "14:05:05"
+          "plannedStepTime": "2021-04-27T13:05:05Z"
         }
       ]
     },
@@ -762,7 +762,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0125",
-          "plannedStepTime": "14:05:47"
+          "plannedStepTime": "2021-04-27T13:05:47Z"
         }
       ]
     },
@@ -772,7 +772,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0129",
-          "plannedStepTime": "14:06:23"
+          "plannedStepTime": "2021-04-27T13:06:23Z"
         }
       ]
     },
@@ -782,7 +782,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "5532",
-          "plannedStepTime": "14:07:06"
+          "plannedStepTime": "2021-04-27T13:07:06Z"
         }
       ]
     },
@@ -792,7 +792,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "3532",
-          "plannedStepTime": "14:07:36"
+          "plannedStepTime": "2021-04-27T13:07:36Z"
         }
       ]
     },
@@ -802,7 +802,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "3530",
-          "plannedStepTime": "14:08:11"
+          "plannedStepTime": "2021-04-27T13:08:11Z"
         }
       ]
     },
@@ -812,7 +812,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "3528",
-          "plannedStepTime": "14:08:46"
+          "plannedStepTime": "2021-04-27T13:08:46Z"
         }
       ]
     },
@@ -822,7 +822,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "3524",
-          "plannedStepTime": "14:09:14"
+          "plannedStepTime": "2021-04-27T13:09:14Z"
         }
       ]
     },
@@ -832,7 +832,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "3522",
-          "plannedStepTime": "14:09:51"
+          "plannedStepTime": "2021-04-27T13:09:51Z"
         }
       ]
     },
@@ -858,7 +858,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "9492",
-          "plannedStepTime": "14:10:29"
+          "plannedStepTime": "2021-04-27T13:10:29Z"
         }
       ]
     },
@@ -868,7 +868,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "1308",
-          "plannedStepTime": "14:10:39"
+          "plannedStepTime": "2021-04-27T13:10:39Z"
         }
       ]
     },
@@ -886,7 +886,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "9488",
-          "plannedStepTime": "14:11:15"
+          "plannedStepTime": "2021-04-27T13:11:15Z"
         }
       ]
     },
@@ -916,7 +916,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "4261",
-          "plannedStepTime": "14:13:51"
+          "plannedStepTime": "2021-04-27T13:13:51Z"
         }
       ]
     },
@@ -950,7 +950,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "5519",
-          "plannedStepTime": "14:16:09"
+          "plannedStepTime": "2021-04-27T13:16:09Z"
         }
       ]
     },
@@ -964,7 +964,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "5521",
-          "plannedStepTime": "14:18:00"
+          "plannedStepTime": "2021-04-27T13:18:00Z"
         }
       ]
     },
@@ -974,7 +974,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "5525",
-          "plannedStepTime": "14:20:17"
+          "plannedStepTime": "2021-04-27T13:20:17Z"
         }
       ]
     },
@@ -984,7 +984,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "5527",
-          "plannedStepTime": "14:22:28"
+          "plannedStepTime": "2021-04-27T13:22:28Z"
         }
       ]
     },
@@ -994,7 +994,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "5529",
-          "plannedStepTime": "14:24:13"
+          "plannedStepTime": "2021-04-27T13:24:13Z"
         }
       ]
     },
@@ -1004,7 +1004,7 @@
         {
           "trainDescriberCode": "R2",
           "berthName": "5531",
-          "plannedStepTime": "14:26:43"
+          "plannedStepTime": "2021-04-27T13:26:43Z"
         }
       ]
     },
@@ -1018,7 +1018,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0127",
-          "plannedStepTime": "14:28:45"
+          "plannedStepTime": "2021-04-27T13:28:45Z"
         }
       ]
     },
@@ -1028,7 +1028,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0123",
-          "plannedStepTime": "14:30:30"
+          "plannedStepTime": "2021-04-27T13:30:30Z"
         }
       ]
     },
@@ -1038,7 +1038,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0065",
-          "plannedStepTime": "14:32:30"
+          "plannedStepTime": "2021-04-27T13:32:30Z"
         }
       ]
     },
@@ -1048,7 +1048,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0057",
-          "plannedStepTime": "14:34:09"
+          "plannedStepTime": "2021-04-27T13:34:09Z"
         }
       ]
     },
@@ -1058,12 +1058,12 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0062",
-          "plannedStepTime": "14:36:50"
+          "plannedStepTime": "2021-04-27T13:36:50Z"
         },
         {
           "trainDescriberCode": "SK",
           "berthName": "0059",
-          "plannedStepTime": "14:36:50"
+          "plannedStepTime": "2021-04-27T13:36:50Z"
         }
       ]
     },
@@ -1089,7 +1089,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0105",
-          "plannedStepTime": "14:45:57"
+          "plannedStepTime": "2021-04-27T13:45:57Z"
         }
       ]
     },
@@ -1099,7 +1099,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0103",
-          "plannedStepTime": "14:48:16"
+          "plannedStepTime": "2021-04-27T13:48:16Z"
         }
       ]
     },
@@ -1109,7 +1109,7 @@
         {
           "trainDescriberCode": "SK",
           "berthName": "0018",
-          "plannedStepTime": "14:51:00"
+          "plannedStepTime": "2021-04-27T13:51:00Z"
         }
       ]
     },
@@ -1119,7 +1119,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3567",
-          "plannedStepTime": "14:51:00"
+          "plannedStepTime": "2021-04-27T13:51:00Z"
         }
       ]
     },
@@ -1129,7 +1129,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3569",
-          "plannedStepTime": "14:51:00"
+          "plannedStepTime": "2021-04-27T13:51:00Z"
         }
       ]
     },
@@ -1139,7 +1139,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3571",
-          "plannedStepTime": "14:51:00"
+          "plannedStepTime": "2021-04-27T13:51:00Z"
         }
       ]
     },
@@ -1153,7 +1153,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5567",
-          "plannedStepTime": "14:51:00"
+          "plannedStepTime": "2021-04-27T13:51:00Z"
         }
       ]
     },
@@ -1167,7 +1167,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5571",
-          "plannedStepTime": "14:51:00"
+          "plannedStepTime": "2021-04-27T13:51:00Z"
         }
       ]
     },
@@ -1177,7 +1177,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5573",
-          "plannedStepTime": "14:51:00"
+          "plannedStepTime": "2021-04-27T13:51:00Z"
         }
       ]
     },
@@ -1187,7 +1187,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5575",
-          "plannedStepTime": "14:51:00"
+          "plannedStepTime": "2021-04-27T13:51:00Z"
         }
       ]
     },
@@ -1209,12 +1209,12 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "1296",
-          "plannedStepTime": "14:51:00"
+          "plannedStepTime": "2021-04-27T13:51:00Z"
         },
         {
           "trainDescriberCode": "R3",
           "berthName": "4311",
-          "plannedStepTime": "14:51:00"
+          "plannedStepTime": "2021-04-27T13:51:00Z"
         }
       ]
     },
@@ -1224,12 +1224,12 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "1296",
-          "plannedStepTime": "14:51:00"
+          "plannedStepTime": "2021-04-27T13:51:00Z"
         },
         {
           "trainDescriberCode": "R3",
           "berthName": "4311",
-          "plannedStepTime": "14:51:00"
+          "plannedStepTime": "2021-04-27T13:51:00Z"
         }
       ]
     },
@@ -1259,12 +1259,12 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5582",
-          "plannedStepTime": "14:55:30"
+          "plannedStepTime": "2021-04-27T13:55:30Z"
         },
         {
           "trainDescriberCode": "R3",
           "berthName": "9355",
-          "plannedStepTime": "14:55:30"
+          "plannedStepTime": "2021-04-27T13:55:30Z"
         }
       ]
     },
@@ -1294,7 +1294,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "1300",
-          "plannedStepTime": "14:55:30"
+          "plannedStepTime": "2021-04-27T13:55:30Z"
         }
       ]
     },
@@ -1312,7 +1312,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3595",
-          "plannedStepTime": "14:55:30"
+          "plannedStepTime": "2021-04-27T13:55:30Z"
         }
       ]
     },
@@ -1322,7 +1322,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3597",
-          "plannedStepTime": "14:55:30"
+          "plannedStepTime": "2021-04-27T13:55:30Z"
         }
       ]
     },
@@ -1332,7 +1332,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3599",
-          "plannedStepTime": "14:55:30"
+          "plannedStepTime": "2021-04-27T13:55:30Z"
         }
       ]
     },
@@ -1342,7 +1342,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3601",
-          "plannedStepTime": "14:55:30"
+          "plannedStepTime": "2021-04-27T13:55:30Z"
         }
       ]
     },
@@ -1352,7 +1352,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3603",
-          "plannedStepTime": "14:55:30"
+          "plannedStepTime": "2021-04-27T13:55:30Z"
         }
       ]
     },
@@ -1362,7 +1362,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "3605",
-          "plannedStepTime": "14:55:30"
+          "plannedStepTime": "2021-04-27T13:55:30Z"
         }
       ]
     },
@@ -1392,7 +1392,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5611",
-          "plannedStepTime": "14:55:51"
+          "plannedStepTime": "2021-04-27T13:55:51Z"
         }
       ]
     },
@@ -1402,7 +1402,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5615",
-          "plannedStepTime": "14:56:05"
+          "plannedStepTime": "2021-04-27T13:56:05Z"
         }
       ]
     },
@@ -1416,7 +1416,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5617",
-          "plannedStepTime": "14:56:26"
+          "plannedStepTime": "2021-04-27T13:56:26Z"
         }
       ]
     },
@@ -1426,7 +1426,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5619",
-          "plannedStepTime": "14:56:43"
+          "plannedStepTime": "2021-04-27T13:56:43Z"
         }
       ]
     },
@@ -1436,7 +1436,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5621",
-          "plannedStepTime": "14:56:59"
+          "plannedStepTime": "2021-04-27T13:56:59Z"
         }
       ]
     },
@@ -1446,7 +1446,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5623",
-          "plannedStepTime": "14:57:15"
+          "plannedStepTime": "2021-04-27T13:57:15Z"
         }
       ]
     },
@@ -1456,7 +1456,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5625",
-          "plannedStepTime": "14:57:26"
+          "plannedStepTime": "2021-04-27T13:57:26Z"
         }
       ]
     },
@@ -1466,7 +1466,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5629",
-          "plannedStepTime": "14:57:49"
+          "plannedStepTime": "2021-04-27T13:57:49Z"
         }
       ]
     },
@@ -1476,7 +1476,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5631",
-          "plannedStepTime": "14:58:06"
+          "plannedStepTime": "2021-04-27T13:58:06Z"
         }
       ]
     },
@@ -1486,7 +1486,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5633",
-          "plannedStepTime": "14:58:26"
+          "plannedStepTime": "2021-04-27T13:58:26Z"
         }
       ]
     },
@@ -1496,7 +1496,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5635",
-          "plannedStepTime": "14:58:38"
+          "plannedStepTime": "2021-04-27T13:58:38Z"
         }
       ]
     },
@@ -1506,7 +1506,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5637",
-          "plannedStepTime": "14:58:50"
+          "plannedStepTime": "2021-04-27T13:58:50Z"
         }
       ]
     },
@@ -1516,7 +1516,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5639",
-          "plannedStepTime": "14:59:04"
+          "plannedStepTime": "2021-04-27T13:59:04Z"
         }
       ]
     },
@@ -1526,7 +1526,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5641",
-          "plannedStepTime": "14:59:16"
+          "plannedStepTime": "2021-04-27T13:59:16Z"
         }
       ]
     },
@@ -1536,7 +1536,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5643",
-          "plannedStepTime": "14:59:30"
+          "plannedStepTime": "2021-04-27T13:59:30Z"
         }
       ]
     },
@@ -1558,7 +1558,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5647",
-          "plannedStepTime": "14:59:43"
+          "plannedStepTime": "2021-04-27T13:59:43Z"
         }
       ]
     },
@@ -1580,7 +1580,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5647",
-          "plannedStepTime": "14:59:36"
+          "plannedStepTime": "2021-04-27T13:59:36Z"
         }
       ]
     },
@@ -1590,7 +1590,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5649",
-          "plannedStepTime": "14:59:45"
+          "plannedStepTime": "2021-04-27T13:59:45Z"
         }
       ]
     },
@@ -1600,7 +1600,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5651",
-          "plannedStepTime": "14:59:51"
+          "plannedStepTime": "2021-04-27T13:59:51Z"
         }
       ]
     },
@@ -1610,7 +1610,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5653",
-          "plannedStepTime": "14:59:58"
+          "plannedStepTime": "2021-04-27T13:59:58Z"
         }
       ]
     },
@@ -1620,7 +1620,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5655",
-          "plannedStepTime": "15:00:05"
+          "plannedStepTime": "2021-04-27T14:00:05Z"
         }
       ]
     },
@@ -1630,7 +1630,7 @@
         {
           "trainDescriberCode": "R3",
           "berthName": "5657",
-          "plannedStepTime": "15:00:12"
+          "plannedStepTime": "2021-04-27T14:00:12Z"
         }
       ]
     },
@@ -1640,7 +1640,7 @@
         {
           "trainDescriberCode": "CE",
           "berthName": "H105",
-          "plannedStepTime": "15:00:20"
+          "plannedStepTime": "2021-04-27T14:00:20Z"
         }
       ]
     },
@@ -1650,7 +1650,7 @@
         {
           "trainDescriberCode": "CE",
           "berthName": "H015",
-          "plannedStepTime": "15:00:25"
+          "plannedStepTime": "2021-04-27T14:00:25Z"
         }
       ]
     },
@@ -1680,7 +1680,7 @@
         {
           "trainDescriberCode": "CE",
           "berthName": "0101",
-          "plannedStepTime": "15:00:38"
+          "plannedStepTime": "2021-04-27T14:00:38Z"
         }
       ]
     },
@@ -1690,7 +1690,7 @@
         {
           "trainDescriberCode": "CE",
           "berthName": "0105",
-          "plannedStepTime": "15:00:48"
+          "plannedStepTime": "2021-04-27T14:00:48Z"
         }
       ]
     },
@@ -1736,7 +1736,7 @@
         {
           "trainDescriberCode": "CE",
           "berthName": "0110",
-          "plannedStepTime": "15:02:16"
+          "plannedStepTime": "2021-04-27T14:02:16Z"
         }
       ]
     },
@@ -1778,7 +1778,7 @@
         {
           "trainDescriberCode": "CE",
           "berthName": "0104",
-          "plannedStepTime": "15:03:26"
+          "plannedStepTime": "2021-04-27T14:03:26Z"
         }
       ]
     },
@@ -1792,7 +1792,7 @@
         {
           "trainDescriberCode": "CE",
           "berthName": "H056",
-          "plannedStepTime": "15:04:45"
+          "plannedStepTime": "2021-04-27T14:04:45Z"
         }
       ]
     },

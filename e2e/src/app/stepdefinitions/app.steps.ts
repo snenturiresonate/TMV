@@ -24,7 +24,8 @@ import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dia
 import {TrainActivationMessageBuilder} from '../utils/train-activation/train-activation-message';
 import {HomePageObject} from '../pages/home.page';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
-import {DateTimeFormatter, LocalDateTime} from '@js-joda/core';
+import {DateTimeFormatter, LocalDateTime, ZonedDateTime, ZoneId} from '@js-joda/core';
+import '@js-joda/timezone';
 import {NavBarPageObject} from '../pages/nav-bar.page';
 
 const page: AppPage = new AppPage();
@@ -208,7 +209,7 @@ Given(/^I am authenticated to use TMV$/, async () => {
   await page.navigateTo('');
 });
 
-Given('I am authenticated to use TMV with {string} role', {timeout: 5 * 10000},  async (userRole: string) => {
+Given('I am authenticated to use TMV with {string} role', {timeout: 5 * 10000}, async (userRole: string) => {
   await page.navigateTo('', userForRole[userRole]);
 });
 
@@ -234,20 +235,20 @@ When(/^I give the system (.*) seconds? to load$/, async (seconds: number) => {
 
 When(/^the following berth interpose messages? (?:is|are) sent from LINX(.*)$/,
   async (explanation: string, berthInterposeMessageTable: any) => {
-  const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
+    const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
 
-  berthInterposeMessages.forEach((berthInterposeMessage: any) => {
-    const berthInterpose: BerthInterpose = new BerthInterpose(
-      berthInterposeMessage.timestamp,
-      berthInterposeMessage.toBerth,
-      berthInterposeMessage.trainDescriber,
-      berthInterposeMessage.trainDescription
-    );
-    CucumberLog.addJson(berthInterpose);
-    linxRestClient.postBerthInterpose(berthInterpose);
+    berthInterposeMessages.forEach((berthInterposeMessage: any) => {
+      const berthInterpose: BerthInterpose = new BerthInterpose(
+        berthInterposeMessage.timestamp,
+        berthInterposeMessage.toBerth,
+        berthInterposeMessage.trainDescriber,
+        berthInterposeMessage.trainDescription
+      );
+      CucumberLog.addJson(berthInterpose);
+      linxRestClient.postBerthInterpose(berthInterpose);
+    });
+    await linxRestClient.waitMaxTransmissionTime();
   });
-  await linxRestClient.waitMaxTransmissionTime();
-});
 
 When(/^the following live berth interpose messages? (?:is|are) sent from LINX(.*)$/,
   async (explanation: string, berthInterposeMessageTable: any) => {
@@ -630,29 +631,51 @@ function createBaseTjmMessage(trainNumber, trainUid, departureHour): TrainJourne
 When(/^I step through the Berth Level Schedule '(.*)'$/, (filepath: string) => {
   const data = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), filepath), 'utf8');
   const berthLevelSchedule = JSON.parse(data);
-  let lastBerth = '';
-  let lastBerthDescriber = '';
+  let currentBerth = '';
+  let currentBerthDescriber = '';
   berthLevelSchedule.pathEntries.forEach(pathEntry => {
     if (pathEntry.berths.length > 0) {
       const berth = pathEntry.berths[0];
-      const berthInterpose: BerthInterpose = new BerthInterpose(
-        berth.plannedStepTime,
-        berth.berthName,
-        berth.trainDescriberCode,
-        berthLevelSchedule.plannedTrainDescription
-      );
-      linxRestClient.postBerthInterpose(berthInterpose);
-      if (lastBerth !== '') {
-        const berthCancel: BerthCancel = new BerthCancel(
-          lastBerth,
-          berth.plannedStepTime,
-          lastBerthDescriber,
+      const plannedStepTime = ZonedDateTime.parse(berth.plannedStepTime)
+        .withZoneSameInstant(ZoneId.of('Europe/London'))
+        .format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+      if (currentBerth === '') {
+        linxRestClient.postBerthInterpose(new BerthInterpose(
+          plannedStepTime,
+          berth.berthName,
+          berth.trainDescriberCode,
           berthLevelSchedule.plannedTrainDescription
-        );
-        linxRestClient.postBerthCancel(berthCancel);
+        ));
       }
-      lastBerth = berth.berthName;
-      lastBerthDescriber = berth.trainDescriberCode;
+      else {
+        if (currentBerth !== berth.berthName) {
+          if (currentBerthDescriber !== berth.trainDescriberCode) {
+            linxRestClient.postBerthCancel(new BerthCancel(
+              currentBerth,
+              plannedStepTime,
+              currentBerthDescriber,
+              berthLevelSchedule.plannedTrainDescription
+            ));
+            linxRestClient.postBerthInterpose(new BerthInterpose(
+              plannedStepTime,
+              berth.berthName,
+              berth.trainDescriberCode,
+              berthLevelSchedule.plannedTrainDescription
+            ));
+          }
+          else {
+            linxRestClient.postBerthStep(new BerthStep(
+              currentBerth,
+              plannedStepTime,
+              berth.berthName,
+              berth.trainDescriberCode,
+              berthLevelSchedule.plannedTrainDescription
+            ));
+          }
+        }
+      }
+      currentBerth = berth.berthName;
+      currentBerthDescriber = berth.trainDescriberCode;
     }
   });
 });

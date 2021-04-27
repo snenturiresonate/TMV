@@ -1,0 +1,24 @@
+HDTPS.UCFT1LX.PD2010292910201954CFT1LXMCFT1LXLFA291020291120                    
+BSRC142502005185012111111100 PXX1U501032122330000 EMU506 110      B S          P
+BX         LMY                                                                  
+LOCREWE   1333 13337  FL     TB                                                
+LICREWBHJ           1335H00000000                                              
+LIMADELEY           1339H00000000                                              
+LINTNB              1345H00000000                     1                        
+LISTAFFRD 1351 1355H     13511355         T                                    
+LICOLWICH           1401 00000000                                              
+LIRUGLYNJ           1403 00000000                                              
+LIRUGL    1404 1405      14041405         T                                    
+LILCHTNJ            1410H00000000                                              
+LILCHTTVL 1411H1413      14121413         T                                    
+LILCHTNJ 2          1415H00000000                                              
+LIRUGL   21434 1435      14341435         T                                    
+LIRUGLYNJ2          1443 00000000                                              
+LICOLWICH2          1451 00000000                                              
+LISTAFFRD21451 1455H     14511455         T                                    
+LINTNB   2          1455H00000000                     1                        
+LIMADELEY2          1459H00000000                                              
+LICREWBHJ2          1500H00000000                                              
+LICREWE  2          1501 00000000                                              
+LTCREWBHJ31505 150512    TF                                                    
+ZZ                                                                              
