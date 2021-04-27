@@ -9,8 +9,8 @@ const defaultClasses = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 const defaultOperators = ['HW', 'HY', 'HZ', 'HV', 'HU', 'HT', 'HS', 'HR', 'HQ'];
 const defaultScheduleTypes = ['LTP', 'STP', 'VSTP', 'VAR', 'CAN', 'VSTP VAR', 'VSTP CAN', ''];
 const defaultScheduleTypesNoCancelled = ['LTP', 'STP', 'VSTP', 'VSTP VAR', ''];
-const defaultColumns = ['Sched.', 'Service', 'time', 'Report', 'Punct.', 'Origin',
-  'Planned', 'Actual / Predict', 'Dest.', 'Planned', 'Actual / Predict', 'Nextloc.', 'TOC/FOC'];
+const defaultColumns = ['SCHED.', 'SERVICE', 'TIME', 'REPORT', 'PUNCT.', 'ORIGIN',
+  'PLANNED', 'ACTUAL / PREDICT', 'DEST.', 'PLANNED', 'ACTUAL / PREDICT', 'NEXT LOC.', 'OPERATOR'];
 
 // tests also assuming the following - but not actively used at the moment
 // const defaultShowCancelled = 'on';
@@ -34,16 +34,19 @@ const mapTLColIds = new Map([
   ['DEST.', 'destination-location-id'],
   ['DEST.>PLANNED', 'destination-current-time'],
   ['DEST.>ACTUAL / PREDICT', 'destination-actual-predicted-time'],
-  ['NEXTLOC.', 'next-location'],
-  ['TOC/FOC.', 'operator'],
+  ['NEXT LOC.', 'next-location'],
+  ['OPERATOR.', 'operator'],
   ['TRUST UID', 'trust-uid'],
-  ['SCHEDULE UID', 'schedule-uid'],
-  ['CANCELLATION REASON CODE', 'modification-reason'],
-  ['CANCELLATION TYPE', 'modification-type'],
-  ['LAST REPORTED>LAST REPORTED LINE', 'last-reported-line'],
-  ['LAST REPORTED>LAST REPORTED PLATFORM', 'last-reported-platform'],
-  ['TRAIN CATEGORY', 'train-category'],
-  ['TRAIN SERVICE CODE', 'train-service-code']
+  ['SCHED. UID', 'schedule-uid'],
+  ['REASON', 'modification-reason'],
+  ['CANCEL', 'modification-type'],
+  ['PUB ARR.', 'working-destination-arrival-time'],
+  ['PUB DEPT.', 'working-origin-departure-time'],
+  ['NEXT TIME', 'next-time'],
+  ['LINE', 'last-reported-line'],
+  ['PLT.', 'last-reported-platform'],
+  ['CATEGORY', 'train-category'],
+  ['SERVICE CODE', 'train-service-code']
 ]);
 
 enum DefaultTrainsListIndicationColours {
@@ -65,7 +68,7 @@ When('I invoke the context menu from train {int} on the trains list', async (ite
 });
 
 When('I invoke the context menu from train {string} on the trains list', async (scheduleNum: string) => {
-  const itemNum = await trainsListPage.getRowForSchedule(scheduleNum);
+  const itemNum = await trainsListPage.getRowForSchedule(scheduleNum) + 1;
   expect(itemNum).to.not.equal(-1);
   await trainsListPage.rightClickTrainListItem(itemNum);
 });

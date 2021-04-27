@@ -1,4 +1,5 @@
-Feature: 33806 - TMV User Preferences - full end to end testing
+@bug @bug_55994
+Feature: 33806 - TMV User Preferences - full end to end testing - TL config - misc
 
   As a tester
   I want to verify the train list config tab - punctuality
@@ -43,12 +44,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing
 
   Scenario: 33806 -26 a Trains list misc config Train class update
     When the following class table updates are made
-    |classValue|toggleValue|
-    |Class 0   |off         |
-    | Class 1    | on          |
-    | Class 2    | on         |
-    | Class 3    | off          |
-    | Class 4    | off          |
+      | classValue | toggleValue |
+      | Class 0    | off         |
+      | Class 1    | on          |
+      | Class 2    | on          |
+      | Class 3    | off         |
+      | Class 4    | off         |
+      | Class 5    | on          |
+      | Class 6    | off         |
+      | Class 7    | on          |
+      | Class 8    | off         |
+      | Class 9    | off         |
     Then the following can be seen on the class table
       | classValue | toggleValue |
       | Class 0    | off         |
@@ -56,11 +62,11 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       | Class 2    | on          |
       | Class 3    | off         |
       | Class 4    | off         |
-      | Class 5    | off         |
-      | Class 6    | on          |
-      | Class 7    | off         |
-      | Class 8    | on          |
-      | Class 9    | on          |
+      | Class 5    | on          |
+      | Class 6    | off         |
+      | Class 7    | on          |
+      | Class 8    | off         |
+      | Class 9    | off         |
 
   Scenario: 33806 -26 b Trains list misc config Train class update using - Select all
     When I click on the Select All button
@@ -81,16 +87,16 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     When I click on the Clear All button
     Then the following can be seen on the class table
       | classValue | toggleValue |
-      | Class 0    | off          |
-      | Class 1    | off          |
-      | Class 2    | off          |
-      | Class 3    | off          |
-      | Class 4    | off          |
-      | Class 5    | off          |
-      | Class 6    | off          |
-      | Class 7    | off          |
-      | Class 8    | off          |
-      | Class 9    | off          |
+      | Class 0    | off         |
+      | Class 1    | off         |
+      | Class 2    | off         |
+      | Class 3    | off         |
+      | Class 4    | off         |
+      | Class 5    | off         |
+      | Class 6    | off         |
+      | Class 7    | off         |
+      | Class 8    | off         |
+      | Class 9    | off         |
 
   #33806 -27 Trains List Config (Misc Ignore PD On/Off)
     #Given the user is viewing the trains list train indication view

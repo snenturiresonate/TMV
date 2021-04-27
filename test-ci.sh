@@ -28,20 +28,22 @@ then
   exit 1;
 fi
 
-HOST=${HOST:-$(echo "$STACK_DETAILS" | grep -A 4 Outputs | grep OutputValue | cut -d'"' -f 4)}
+TEST_HARNESS_IP=${TEST_HARNESS_IP:-$(echo "$STACK_DETAILS" | grep -A 4 Outputs | grep OutputValue | cut -d'"' -f 4)}
 CREATION_TIME=$(echo "$STACK_DETAILS" | grep CreationTime | cut -d'"' -f 4)
+TMV_DOMAIN=${TMV_DOMAIN:-"tmv-national-test-fe2e.tmv.resonate.tech"}
 
-if [[ -z "$HOST" ]] || [[ -z "$CREATION_TIME" ]]
+if [[ -z "$TEST_HARNESS_IP" ]] || [[ -z "$CREATION_TIME" ]]
 then
   echo "Could not find an environment with the Stack Name: $STACK_NAME, exiting."
   exit 1;
 fi
 
-echo "Found $HOST created at $CREATION_TIME"
+echo "Found $TEST_HARNESS_IP created at $CREATION_TIME"
 
 # Run the full end to end tests
 echo "CUCUMBER_TAGS: ${CUCUMBER_TAGS}"
-export npm_config_ci_ip="${HOST}"; export cucumber_tags="${CUCUMBER_TAGS}"; npm run e2e-ci
+echo "test_harness_ci_ip: ${TEST_HARNESS_IP}"
+export npm_config_ci_ip="${TMV_DOMAIN}"; export npm_config_test_harness_ip="${TEST_HARNESS_IP}"; export cucumber_tags="${CUCUMBER_TAGS}"; npm run fe2e
 
 # Generate JUnit style XML to support VSTS reporting
 npm run junit-xml

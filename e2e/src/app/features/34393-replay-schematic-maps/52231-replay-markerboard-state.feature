@@ -1,3 +1,4 @@
+@bug @bug_58561
 Feature: 34393 - Replay page Schematic Object State Scenarios
   (From Gherkin for Feature 40680 and functionality developed in US34081)
   As a TMV User
@@ -13,10 +14,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
 #    Then the marker board will display a Movement Authority given (green triangle on blue background)
     Given I load the replay data from scenario '34081-8 - Marker Board State (Movement Authority Given)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw15cambrian.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the marker board 'MH1201' will display a Movement Authority given [green triangle on blue background]
@@ -30,10 +31,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
 #    Then the marker board will display a Movement Authority not given (red triangle on blue background)
     Given I load the replay data from scenario '34081-9 - Marker Board State (Movement Authority Not Given)'
     And I am on the replay page
-    When I expand the replay group of maps with name 'Wales & Western'
+    When I have set replay time and date from the recorded session
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'gw15cambrian.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I wait for the buffer to fill
     And I select skip forward until the end of the replay is reached
     Then the marker board 'MH1201' will display a Movement Authority not-given [red triangle on blue background]

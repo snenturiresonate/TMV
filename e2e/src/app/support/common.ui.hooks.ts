@@ -29,12 +29,14 @@ After('@replaySetup', async function(scenario: Scenario): Promise<void> {
 
 Before('@newSession', async () => {
   await LocalStorage.reset();
-  browser.manage().deleteAllCookies().catch(() => console.log('cannot delete browser cookies'));
 });
 
-// tslint:disable-next-line:typedef only-arrow-functions
-Before(async () => {
-  await LocalStorage.reset();
+Before('@loginPageTest', async () => {
+  await browser.waitForAngularEnabled(false);
+});
+
+After('@loginPageTest', async () => {
+  await browser.waitForAngularEnabled(true);
 });
 
 // None arrow methods required to avoid the binding of keyword this

@@ -1,8 +1,9 @@
-import {browser, by, element, ElementFinder, protractor} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {DateTimeFormatter, LocalDateTime, LocalTime} from '@js-joda/core';
 import {ContinuationLinkContextMenu} from '../sections/replay.continuationlink.contextmenu';
 import {BerthContextMenu} from '../sections/replay.berth.contextmenu';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
+import moment = require('moment');
 
 export class ReplayMapPage {
   public bufferingIndicator: ElementFinder;
@@ -18,7 +19,10 @@ export class ReplayMapPage {
   public timestamp: ElementFinder;
   public replaySpeedButton: ElementFinder;
   public mapName: ElementFinder;
-
+  public speedValue: ElementFinder;
+  public replayTimestamp: ElementFinder;
+  public replayIncreaseSpeed: ElementArrayFinder;
+  public replayMinimise: ElementFinder;
   constructor() {
     // Replay Map Page
     this.continuationLinkContextMenu = new ContinuationLinkContextMenu();
@@ -34,6 +38,10 @@ export class ReplayMapPage {
     this.timestamp = element(by.css('.playback-status div'));
     this.replaySpeedButton = element(by.xpath('//button[@title="Playback speed"]'));
     this.mapName = element(by.css('.map-dropdown-button h2'));
+    this.speedValue = element(by.css('button[title*=speed]>span'));
+    this.replayTimestamp = element(by.css('.playback-status >div'));
+    this.replayIncreaseSpeed = element.all(by.css('.speed-editor-popup .speeds .speed'));
+    this.replayMinimise = element(by.css('.collapse-button'));
   }
 
   public async selectContinuationLink(linkText): Promise<void> {
@@ -105,6 +113,7 @@ export class ReplayMapPage {
   }
 
   private async setReplaySpeed(speed: ReplaySpeed): Promise<void> {
+    LocalDateTime.parse('120100', DateTimeFormatter.ofPattern('HHmmss'));
     await browser.wait(() => this.replaySpeedButton.isPresent(), 20 * 1000);
     await this.replaySpeedButton.click();
     const el = element(by.css('.speeds .speed:nth-child(' + speed.valueOf() + ')'));
@@ -114,6 +123,42 @@ export class ReplayMapPage {
 
   public async getMapName(): Promise<string> {
     return this.mapName.getText();
+  }
+
+  public async getSpeedValue(): Promise<string> {
+    return this.speedValue.getText();
+  }
+
+  public async getPlaybackControl(): Promise<string>{
+    return this.replayMinimise.getAttribute('class');
+  }
+
+  public async getButtonType(button: string): Promise<string> {
+    if (button === 'backward'){
+      return this.skipBackButton.getAttribute('class');
+    }
+    if (button === 'forward'){
+      return this.skipForwardButton.getAttribute('class');
+    }
+    if (button === 'play'){
+      return this.playButton.getAttribute('class');
+    }
+  }
+  public async getReplayTimestamp(): Promise<any> {
+    return this.replayTimestamp.getText();
+  }
+
+  public async clickReplaySpeed(): Promise<void> {
+    return this.replaySpeedButton.click();
+  }
+
+  public async clickMinimise(): Promise<void> {
+    return this.replayMinimise.click();
+  }
+
+  public async increaseReplaySpeed(position: number): Promise<void> {
+    const speed = this.replayIncreaseSpeed;
+    await speed.get(position).click();
   }
 
 }

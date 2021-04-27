@@ -1,5 +1,5 @@
 @tdd
-Feature: 46448 - TMV Trains List
+Feature: 46448 - TMV Trains List - access
   (From Gherkin for Feature 33764)
 
   As a TMV User
@@ -42,6 +42,7 @@ Feature: 46448 - TMV Trains List
 #    Then the trains list opened in a new browser tab with column selection and filters applied
 #    And is populated with a selection of services based on activation, unscheduled and cancelled states
     Given I am authenticated to use TMV
+    And I have not opened the trains list before
     And I am on the trains list Config page
     And I set trains list columns to be '<columns>'
     And I have navigated to the 'TOC/FOC' configuration tab
@@ -64,6 +65,6 @@ Feature: 46448 - TMV Trains List
     And A selection of services are shown which match the configured filters and settings
 
     Examples:
-      | columns                                                                  | tocs                        | classes          | ignorePDCancelsFlag | uncalledFlag | unmatchedFlag | filteredServices | filteredOutServices          |
-      | Schedule, Time, Service, Origin, Destination, Punctuality, Last Reported | Great Western Railways (GW) | Class 1, Class 2 | off                 | on           | on            | 2P77             | 5G44, 1M34, 1Z27, 3J41, 2C45 |
+      | columns                                                                                              | tocs                        | classes          | ignorePDCancelsFlag | uncalledFlag | unmatchedFlag | filteredServices | filteredOutServices          |
+      | Schedule Type, Last Reported Time, Service, Origin, Destination, Punctuality, Last Reported Location | Great Western Railways (GW) | Class 1, Class 2 | off                 | on           | on            | 2P77             | 5G44, 1M34, 1Z27, 3J41, 2C45 |
 

@@ -7,6 +7,7 @@ Feature: 46474 - Administration System Defaults - full end to end testing
   Background:
     Given I am on the admin page
     And I navigate to the 'System Defaults' admin tab
+    And The admin setting defaults are as originally shipped
 
   Scenario: Replay system settings
     Then the following can be seen on the system default settings
@@ -15,14 +16,12 @@ Feature: 46474 - Administration System Defaults - full end to end testing
       | Maximum Number of Replays                         |
       | Maximum Number of Schematic Map Display Instances |
       | Maximum Number of Trains List View Instances      |
-
-  @bug @bug_54385
+  @bug @bug_57070
   Scenario: Replay system setting values display
     Then I should see the system default settings as
       | ReplayBackgroundColour | MaxNoOfMapsPerReplay | MaxNoofReplays | MaxNoofSchematicMapDisplayInstances | MaxNoofTrainsListViewInstances |
       | #20373e                | 16                   | 2              | 16                                  | 16                             |
 
-  @bug @bug_54385
   Scenario: Replay system setting values update and save
     When I update the system default settings as
       | ReplayBackgroundColour | MaxNoOfMapsPerReplay | MaxNoofReplays | MaxNoofSchematicMapDisplayInstances | MaxNoofTrainsListViewInstances |
@@ -34,7 +33,7 @@ Feature: 46474 - Administration System Defaults - full end to end testing
       | ReplayBackgroundColour | MaxNoOfMapsPerReplay | MaxNoofReplays | MaxNoofSchematicMapDisplayInstances | MaxNoofTrainsListViewInstances |
       | #663377                | 16                   | 2              | 16                                  | 16                             |
 
-  @bug @bug_54385
+  @bug @bug:57224
   Scenario: Replay system setting values reset
     When I update the system default settings as
       | ReplayBackgroundColour | MaxNoOfMapsPerReplay | MaxNoofReplays | MaxNoofSchematicMapDisplayInstances | MaxNoofTrainsListViewInstances |

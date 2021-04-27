@@ -2,7 +2,7 @@ import {Before, Given, Then, When} from 'cucumber';
 import {expect} from 'chai';
 import {MapPageObject} from '../../pages/maps/map.page';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
-import {browser, ElementFinder, protractor} from 'protractor';
+import {browser, ElementFinder, ExpectedConditions, protractor} from 'protractor';
 import {SignallingUpdate} from '../../../../../src/app/api/linx/models/signalling-update';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {MapLayerPageObject} from '../../pages/maps/map-layer.page';
@@ -10,8 +10,12 @@ import {MapLayerType} from '../../pages/maps/map-layer-type.enum';
 import {MapLayerItem} from '../../pages/maps/map-layer-item.model';
 import {HomePageObject} from '../../pages/home.page';
 import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
+import {AppPage} from '../../pages/app.po';
+import {BerthCancel} from '../../../../../src/app/api/linx/models/berth-cancel';
+import {CucumberLog} from '../../logging/cucumber-log';
 
 let page: MapPageObject;
+const appPage: AppPage = new AppPage();
 let linxRestClient: LinxRestClient;
 
 Before(() => {
@@ -30,6 +34,7 @@ const mapColourHex = {
   yellow: '#fffe3c',
   white: '#ffffff',
   orange: '#ffa700',
+  stone: '#f9cb9c',
   grey: '#969696',
   palegrey: '#b2b2b2',
   paleblue: '#00d2ff',
@@ -78,19 +83,15 @@ const mapObjectColourHex = {
   manual_trust_berth: ['#ffff00']
 };
 
-Given(/^I am viewing the map (.*)$/, async (mapId: string) => {
-  await mapPageObject.navigateTo(mapId);
-});
-
-Given('I am viewing a schematic map', async () => {
-  const randomMap = await homePage.chooseRandomMap();
-  await mapPageObject.navigateTo(randomMap);
-  mapPageObject.originallyOpenedMapTitle = await browser.getTitle();
+Given(/^I am viewing the map (.*)$/, {timeout: 1 * 40000}, async (mapId: string) => {
+  const url = '/tmv/maps/' + mapId;
+  await appPage.navigateTo(url);
 });
 
 Given('I view a schematic that contains a continuation button', async () => {
   const randomMap = await homePage.chooseRandomMap();
-  await mapPageObject.navigateTo(randomMap);
+  const url = '/tmv/maps/' + randomMap;
+  await appPage.navigateTo(url);
   mapPageObject.originallyOpenedMapTitle = await browser.getTitle();
   const continuationTextLayerItems: MapLayerItem[]
     = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType.connector_text_label);
@@ -154,6 +155,20 @@ When('I use the secondary mouse click on a continuation button', async () => {
   const randomIndex = Math.floor(Math.random() * numContinuationLinks);
   mapPageObject.lastMapLinkSelectedCode  = await continuationTextElements[randomIndex].getText();
   await browser.actions().click(continuationTextElements[randomIndex], protractor.Button.RIGHT).perform();
+});
+
+When('I move to map {string} via continuation link', async (mapName: string) => {
+  const mapNumber = mapName.substr(mapName.length - 2, 2);
+  const continuationTextLayerItems: MapLayerItem[]
+    = mapLayerPageObject.getStaticLinesideFeatureLayerSvgElements(MapLayerType.connector_text_label);
+  const continuationTextLayerItem: MapLayerItem = continuationTextLayerItems[0];
+  const continuationTextElements: any[] = await continuationTextLayerItem.layerItems.getWebElements();
+  for (const textItem of continuationTextElements) {
+    const textString = await textItem.getText();
+    if (textString === mapNumber) {
+      return textItem.click();
+    }
+  }
 });
 
 When('I select "Open" map from the menu', async () => {
@@ -358,17 +373,18 @@ Then('the map has not moved', async () => {
 
 Then('berth {string} in train describer {string} contains {string}',
   async (berthId: string, trainDescriber: string, berthContents: string) => {
-  const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
-  expect(trainDescription, 'Train description is not in the berth text')
-    .equals(berthContents);
+    const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
+    expect(trainDescription, 'Train description is not in the berth text')
+      .equals(berthContents);
 });
 
 Then('berth {string} in train describer {string} contains {string} and is visible',
   async (berthId: string, trainDescriber: string, berthContents: string) => {
-  const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
-  expect(trainDescription, 'Train description is not in the berth text')
-    .equals(berthContents);
-  expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber), 'Berth text is not visible');
+    await mapPageObject.waitUntilBerthTextIs(berthId, trainDescriber, berthContents);
+    const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
+    expect(trainDescription, 'Train description is not in the berth text')
+      .equals(berthContents);
+    expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber), 'Berth text is not visible');
 });
 
 Then('it is {string} that berth {string} in train describer {string} is present',
@@ -652,7 +668,20 @@ When(/^I invoke the context menu on the map for train (.*)$/, async (trainDescri
 });
 
 When('I open timetable from the map context menu', async () => {
-  mapPageObject.mapContextMenuItems.get(1).click();
+  await mapPageObject.mapContextMenuItems.get(1).click();
+});
+
+When('I open schedule matching screen from the map context menu', async () => {
+  await mapPageObject.mapContextMenuItems.get(2).click();
+});
+
+When(/^I toggle path (?:on|off) from the map context menu$/, async () => {
+  await mapPageObject.mapContextMenuItems.get(3).click();
+});
+
+Then('the map context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
+  const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
+  expect(actualContextMenuItem).to.contain(expectedText);
 });
 
 Then('the track state width for {string} is {string}',
@@ -722,5 +751,57 @@ Then('the train headcode color for berth {string} is {word}',
   async (berthId: string, expectedColor: string) => {
     const expectedColorHex = mapColourHex[expectedColor];
     const actualSignalStatus: string = await mapPageObject.getBerthColor(berthId);
-    expect(actualSignalStatus).to.equal(expectedColorHex);
+    expect(actualSignalStatus, 'Headcode colour is not ' + expectedColor)
+      .to.equal(expectedColorHex);
   });
+
+Then('the train headcode {string} is {string} on the map', async (trainDesc: string, visibilityType: string) => {
+  const headcodes: string[] = await mapPageObject.getHeadcodesOnMap();
+  let found = false;
+  for (const hcode of headcodes) {
+    if (hcode === trainDesc) {
+      found = true;
+      break;
+    }
+  }
+  if (visibilityType === 'displayed') {
+    expect(found, 'Headcode expected to be present on map').to.equal(true);
+  } else {
+    expect(found, 'Headcode not expected to be present on map').to.equal(false);
+  }
+});
+
+Then(/^the (Matched|Unmatched) version of the context menu is displayed$/, async (matchType: string) => {
+  await mapPageObject.waitForContextMenu();
+  let expected;
+  if (matchType === 'Matched') {
+    expected = 'Unmatch';
+  } else {
+    expected = 'Match';
+  }
+  const contextMenuItem: string = await mapPageObject.getMapContextMenuItem(3);
+  expect(contextMenuItem, `${matchType} option not found in the context menu`)
+    .to.equal(expected);
+});
+
+Given(/^I have cleared out all headcodes$/, async () => {
+  await browser.wait(ExpectedConditions.visibilityOf(mapPageObject.berthElements), 60 * 1000);
+  await browser.sleep(1000);
+  await CucumberLog.addScreenshot();
+  await mapPageObject.headcodeOnMap.each((el) => {
+    el.getAttribute('id').then((id) => {
+      const berthID = id.replace('berth-element-text-', '');
+      el.getText().then(headcode => {
+        CucumberLog.addText(`Clearing headcode ${headcode} from ${berthID}`);
+        const berthCancel: BerthCancel = new BerthCancel(
+          berthID.substring(2, 6),
+          '00:00:00',
+          berthID.substring(0, 2),
+          headcode
+        );
+        linxRestClient.postBerthCancel(berthCancel);
+      });
+    });
+  });
+  await linxRestClient.waitMaxTransmissionTime();
+});

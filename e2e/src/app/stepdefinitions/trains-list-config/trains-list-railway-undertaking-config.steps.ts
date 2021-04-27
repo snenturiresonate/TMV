@@ -3,6 +3,7 @@ import {expect} from 'chai';
 import {TrainsListRailwayUndertakingConfigTabPageObject} from '../../pages/trains-list-config/trains.list.railway.undertaking.config.tab.page';
 import {browser} from 'protractor';
 import {TrainsListTableColumnsPage} from '../../pages/trains-list/trains-list.tablecolumns.page';
+import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
 
 const trainsListRailwayUndertakingConfigPage: TrainsListRailwayUndertakingConfigTabPageObject =
   new TrainsListRailwayUndertakingConfigTabPageObject();
@@ -18,7 +19,8 @@ Then('the following header can be seen on the railway undertaking columns', asyn
   });
 });
 
-Then('the following can be seen on the unselected railway undertaking config', async (unSelectedEntryDataTable: any) => {
+// tslint:disable-next-line:max-line-length
+Then('the following can be seen on the unselected railway undertaking config', {timeout: 2 * 20000}, async (unSelectedEntryDataTable: any) => {
   const expectedUnselectedEntries = unSelectedEntryDataTable.hashes();
   const actualUnselectedEntries = await trainsListRailwayUndertakingConfigPage.getTrainConfigUnselected();
   const actualUnselectedArrow = await trainsListRailwayUndertakingConfigPage.getConfigUnselectedArrow();
@@ -32,7 +34,7 @@ Then('the following can be seen on the unselected railway undertaking config', a
   });
 });
 
-Then('the following appear in the selected railway undertaking config', async (selectedEntriesDataTable: any) => {
+Then('the following appear in the selected railway undertaking config', {timeout: 2 * 20000}, async (selectedEntriesDataTable: any) => {
   const expectedSelectedEntries = selectedEntriesDataTable.hashes();
   if (expectedSelectedEntries[0].selectedColumn !== '') {
     const actualSelectedEntries = await trainsListRailwayUndertakingConfigPage.getSecondElementsInSelectedGrid();
@@ -48,6 +50,7 @@ Then('the following appear in the selected railway undertaking config', async (s
 });
 
 Then('I click on all the unselected railway undertaking entries', async () => {
+  await CommonActions.waitForElementInteraction(trainsListRailwayUndertakingConfigPage.trainListConfigUnselected.last());
   await trainsListRailwayUndertakingConfigPage.trainListConfigUnselected.click();
 });
 
@@ -72,10 +75,7 @@ Then('I should see the trains list column TOC/FOC has only the below values', as
   for (let i = 0; i < tableValues.length; i++) {
     expectedValues.push(tableValues[i].expectedValues);
   }
-  const actualValues: any = [];
   const tocFocColumnValues: string[] = await trainsListTable.getTocValues();
-  console.log('Actual values: ' + tocFocColumnValues);
-  console.log('Expected values: ' + expectedValues);
   expect(tocFocColumnValues, `Expected values not found in TOC/FOC column`)
     .to.have.members(expectedValues);
 });

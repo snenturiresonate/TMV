@@ -1,4 +1,5 @@
-Feature: 33806 - TMV User Preferences - full end to end testing
+@bug @bug_55994
+Feature: 33806 - TMV User Preferences - full end to end testing - TL config - location selection
 
   As a tester
   I want to verify the train list config tab - Locations

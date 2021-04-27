@@ -1,15 +1,16 @@
-import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder, ExpectedConditions, protractor} from 'protractor';
 import {of} from 'rxjs';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
 import * as fs from 'fs';
 import {CucumberLog} from '../../logging/cucumber-log';
 import {ProjectDirectoryUtil} from '../../utils/project-directory.util';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
+import {AppPage} from '../app.po';
 import assert = require('assert');
 import path = require('path');
 
 const SCALEFACTORX_START = 7;
-
+const appPage: AppPage = new AppPage();
 export class MapPageObject {
   public platformLayer: ElementFinder;
   public berthElements: ElementFinder;
@@ -30,6 +31,8 @@ export class MapPageObject {
   public liveMap: ElementFinder;
   public sClassBerthTextElements: ElementFinder;
   public aesBoundaryElements: ElementFinder;
+  public headcodeOnMap: ElementArrayFinder;
+
   constructor() {
     this.platformLayer = element(by.id('platform-layer'));
     this.berthElements = element(by.id('berth-elements'));
@@ -50,10 +53,8 @@ export class MapPageObject {
     this.liveMap = element(by.css('#live-map'));
     this.sClassBerthTextElements = element(by.css('#s-class-berth-text-elements'));
     this.aesBoundaryElements = element(by.css('#aes-boundaries-elements'));
-  }
 
-  navigateTo(mapId: string): Promise<unknown> {
-    return browser.get(browser.baseUrl + '/tmv/maps/' + mapId) as Promise<unknown>;
+    this.headcodeOnMap = element.all(by.css('text[data-train-description]:not([data-train-description=""])'));
   }
 
   public async isPlatformLayerPresent(): Promise<boolean> {
@@ -96,6 +97,19 @@ export class MapPageObject {
   public async getBerthText(berthId: string, trainDescriber: string): Promise<string> {
     const berth: ElementFinder = await this.getBerthElementFinder(berthId, trainDescriber);
     return berth.getText();
+  }
+
+  public async getHeadcodesOnMap(): Promise<string[]> {
+    return this.headcodeOnMap.map((el: ElementFinder) => {
+      return el.getText();
+    });
+  }
+
+  public async waitUntilBerthTextIs(berthId: string, trainDescriber: string, expectedString: string): Promise<void> {
+    const berth: ElementFinder = await this.getBerthElementFinder(berthId, trainDescriber);
+    await browser.wait(ExpectedConditions.textToBePresentInElement(berth, expectedString),
+      10000,
+      `Berth text was not ${expectedString} in Berth ${trainDescriber}${berthId}`);
   }
 
   public async isBerthPresent(berthId: string, trainDescriber: string): Promise<boolean> {
@@ -193,7 +207,8 @@ export class MapPageObject {
     const filtered = mapBerthData.filter((mapObj) => mapObj.berths.includes(trainDescriber + berthId));
     assert(filtered.length > 0, 'no map found containing berth ' + berthId + ' in train describer ' + trainDescriber + ' found');
     await CucumberLog.addText(browser.baseUrl + '/tmv/maps/' + filtered[0].map);
-    await this.navigateTo(filtered[0].map);
+    const url = '/tmv/maps/' + filtered[0].map;
+    await appPage.navigateTo(url);
   }
 
   public async waitForContextMenu(): Promise<boolean> {
@@ -204,7 +219,8 @@ export class MapPageObject {
   }
 
   public async openContextMenuForTrainDescription(trainDescription: string): Promise<void> {
-    const berth: ElementFinder = element(by.xpath('//*[@data-train-description=' + trainDescription + ']'));
+    const berth: ElementFinder = element(by.xpath('//*[@data-train-description=\"' + trainDescription + '\"]'));
+    await CommonActions.waitForElementInteraction(berth);
     browser.actions().click(berth, protractor.Button.RIGHT).perform();
     await this.waitForContextMenu();
   }

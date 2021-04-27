@@ -18,6 +18,14 @@ When('I toggle the {string} toggle {string}', async (toggle: string, toState: st
   await navBarPage.toggle(toggle, toState);
 });
 
+When('I toggle path off from the nav bar', async () => {
+  await navBarPage.toggleMapPathOff();
+});
+
+When('I open map {string} via the recent map list', async (mapName: string) => {
+  await navBarPage.changeToRecentMap(mapName);
+});
+
 Then('the following map layer toggles can be seen', async (toggleName: any) => {
   const expectedToggleNames = toggleName.hashes();
   const actualToggleNames = await navBarPage.getToggleNames();
@@ -26,6 +34,19 @@ Then('the following map layer toggles can be seen', async (toggleName: any) => {
     expect(actualToggleNames, `Toggle ${expectedToggleName.toggle} is not present in the map toggles`)
       .to.contain(expectedToggleName.toggle);
   });
+});
+
+Then('{string} toggle is displayed in the title bar', async (expectedState: string) => {
+  const actualState: boolean = await browser.isElementPresent(navBarPage.mapPathToggle);
+  if (expectedState === 'no') {
+    expect(actualState, `PATH toggle is being displayed when it shouldn't be`)
+      .to.equal(false);
+  }
+  else {
+    const mapPathIndicator = await navBarPage.mapPathToggle.getText();
+    expect(mapPathIndicator, `PATH toggle is not shown when it should be`)
+      .to.equal(expectedState);
+  }
 });
 
 Then('the {string} toggle is {string}', async (toggle: string, expectedToggleState: string) => {
@@ -44,6 +65,15 @@ Then('The user profile shows role name as {string}', async (roleName: string) =>
   const roleNameText: string = await navBarPage.getUserProfileMenuRoleName();
   expect(roleName, 'User profile role is not correct')
     .to.equal(roleNameText);
+});
+
+Then('The user profile shows user roles as', async (table: any) => {
+  const tableValues = table.hashes();
+  const roleNameText: string = await navBarPage.getUserProfileMenuRoleName();
+  tableValues.forEach(row => {
+    expect(roleNameText, 'User profile role is not correct')
+      .to.equal(row.roleName);
+  });
 });
 
 Then('the following icons can be seen on the navigation bar', async (iconNameDataTable: any) => {
@@ -149,6 +179,24 @@ Then('the Train search table is shown', async () => {
     .to.equal(true);
 });
 
+Then('the timetable search table is shown', async () => {
+  const actualTimetable = await navBarPage.isTimetablePresent();
+  expect(actualTimetable, `Timetable is not displayed`)
+    .to.equal(true);
+});
+
+Then('the signal search table is shown', async () => {
+  const actualSignalTable = await navBarPage.isSignalTablePresent();
+  expect(actualSignalTable, `Signal search table is not displayed`)
+    .to.equal(true);
+});
+
+Then('the search table is shown', async () => {
+  const actualSearchTable = await navBarPage.isSearchTablePresent();
+  expect(actualSearchTable, `Search table is not displayed`)
+    .to.equal(true);
+});
+
 Then('Warning Message is displayed for minimum characters', async () => {
   const trainWarningMessage = await navBarPage.isTrainTableWarningPresent();
   expect(trainWarningMessage, `Minimum characters warning is not displayed`)
@@ -203,6 +251,34 @@ Then('the trains context menu is not shown', async () => {
     .to.equal(false);
 });
 
+Then('the {string} context menu is not displayed', async (searchType: string) => {
+  let isContextMenuVisible = true;
+  if (searchType === 'Train') {
+    isContextMenuVisible = await navBarPage.isContextMenuDisplayed();
+  }
+  if (searchType === 'Timetable') {
+    isContextMenuVisible = await navBarPage.isTimetableContextMenuDisplayed();
+  }
+  if (searchType === 'Signal') {
+    isContextMenuVisible = await navBarPage.isSignalContextMenuDisplayed();
+  }
+  expect(isContextMenuVisible, `The ${searchType} context menu is shown when it shouldn't be`).to.equal(false);
+});
+
+Then('the {string} context menu is displayed', async (searchType: string) => {
+  let isContextMenuVisible = false;
+  if (searchType === 'Train') {
+    isContextMenuVisible = await navBarPage.isContextMenuDisplayed();
+  }
+  if (searchType === 'Timetable') {
+    isContextMenuVisible = await navBarPage.isTimetableContextMenuDisplayed();
+  }
+  if (searchType === 'Signal') {
+    isContextMenuVisible = await navBarPage.isSignalContextMenuDisplayed();
+  }
+  expect(isContextMenuVisible, `The ${searchType} context menu is not shown`).to.equal(true);
+});
+
 Then('the trains context menu is displayed', async () => {
   const isTrainsContextMenuVisible: boolean = await navBarPage.isContextMenuDisplayed();
   expect(isTrainsContextMenuVisible, `Trains context menu is not shown`)
@@ -227,8 +303,31 @@ Then('the train search context menu contains {string} on line {int}', async (exp
     .to.contain(expectedText);
 });
 
+Then('I select map {string} on line {int} from the search context menu', async (expectedText: string, rowNum: number) => {
+  await navBarPage.clickTrainsSearchContextMenuItem(rowNum);
+});
+
+Then('the {string} search context menu contains {string} on line {int}',
+  async (searchType: string, expectedText: string, rowNum: number) => {
+  const actualContextMenuItem = await navBarPage.getSearchContextMenuItem(rowNum);
+  expect(actualContextMenuItem, `Item ${rowNum} in ${searchType} search context menu was not ${expectedText}`)
+    .to.contain(expectedText);
+});
+
+When('I wait for the {string} search context menu to display', async (searchType: string) => {
+  if (searchType === 'Train') {
+    await navBarPage.waitForTrainContext();
+  }
+  else if (searchType === 'Timetable') {
+    await navBarPage.waitForTimetableContext();
+  }
+  else if (searchType === 'Signal') {
+    await navBarPage.waitForSignalContext();
+  }
+});
+
 When('I wait for the train search context menu to display', async () => {
-  await navBarPage.waitForContext();
+  await navBarPage.waitForTrainContext();
 });
 
 When('I wait for the timetable search context menu to display', async () => {
@@ -282,6 +381,19 @@ Then(/^I invoke the context menu from trains (.*)$/, async (itemNum: number) => 
 
 });
 
+Then(/^I invoke the context menu from an? (.*) service in the (.*) list$/, async (statusType: string, searchType: string) => {
+  const itemNum = await navBarPage.getServiceWithStatus(statusType, searchType.toLowerCase()) + 1;
+  expect(itemNum, `No service with status ${statusType}`).to.not.equal(-1);
+  if (searchType === 'Train') {
+    await navBarPage.rightClickTrainList(itemNum);
+    browser.selectedTrain = await navBarPage.getSearchListValueForColumnAndRow(searchType.toLowerCase(), 'TrainDesc', itemNum);
+  }
+  else if (searchType === 'Timetable') {
+    await navBarPage.rightClickTimeTableList(itemNum);
+    browser.selectedTrain = await navBarPage.getSearchListValueForColumnAndRow(searchType.toLowerCase(), 'TrainDesc', itemNum);
+  }
+});
+
 Then(/^I invoke the context menu from timetable (.*)$/, async (itemNum: number) => {
   await navBarPage.rightClickTimeTableList(itemNum);
 });
@@ -322,3 +434,18 @@ Then('the following map names can be seen', async (mapNameDataTable: any) => {
   });
 });
 
+Then('I open the Map {string}', async (mapName: string) => {
+  await navBarPage.openMap(mapName);
+});
+
+Then('the signal {string} is {word}',
+  async (signalId: string, expectedStatus: string) => {
+    const actualStatus = await navBarPage.getHighlightStatus(signalId);
+    expect(actualStatus).to.equal(expectedStatus);
+  });
+
+Then('the berth {string} is {word}',
+  async (berthId: string, expectedStatus: string) => {
+    const actualStatus = await navBarPage.getBerthHighlightStatus(berthId);
+    expect(actualStatus).to.equal(expectedStatus);
+  });

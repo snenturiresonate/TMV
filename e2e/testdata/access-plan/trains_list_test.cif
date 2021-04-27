@@ -1,5 +1,5 @@
 HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
-BSNY956861912212105161111110 POO2P77    125516005 DMUT   090D     S            P
+BSNY956861912212405161111111 POO2P77    125516005 DMUT   090D     S            P
 BX         GWY                                                                  
 LORDNGSTN 2130 213015AURL    TB                                                 
 LIRDNGKBJ           2132 00000000   RL                                          

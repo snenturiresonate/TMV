@@ -16,11 +16,12 @@ Feature: 46482 - TMV Key - select key
       | Train Describer |
     And the active tab is 'Colour'
 
+  @bug @bug_58561 @newSession
   Scenario: 34085-1b The TMV Key modal window is launched when a map is displayed in the replay view
-    Given I am on the replay page
+    Given I am on the replay page as existing user
+    And I select Next
     And I expand the replay group of maps with name 'Eastern'
     And I select the map 'ea01liverpoolst.v'
-    And I select Start
     When I click on the Help icon
     And I select the TMV Key option
     Then a modal displays with title 'Key'

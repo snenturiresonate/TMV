@@ -1,7 +1,8 @@
 import {Given, Then, When} from 'cucumber';
 import {expect} from 'chai';
 import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
-import {Duration, LocalTime} from '@js-joda/core';
+import {Locale} from '@js-joda/locale_en';
+import {ChronoUnit, DateTimeFormatter, Duration, LocalDate, LocalDateTime, LocalTime} from '@js-joda/core';
 import {ScheduleBuilder} from '../../utils/access-plan-requests/schedule-builder';
 import {LocationBuilder} from '../../utils/access-plan-requests/location-builder';
 import {OriginLocationBuilder} from '../../utils/access-plan-requests/origin-location-builder';
@@ -14,6 +15,14 @@ import {CucumberLog} from '../../logging/cucumber-log';
 import {ScheduleIdentifierBuilder} from '../../utils/access-plan-requests/schedule-identifier-builder';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {DaysBuilder} from '../../utils/access-plan-requests/days-builder';
+import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
+import {AppPage} from '../../pages/app.po';
+import {browser, ExpectedConditions} from 'protractor';
+import {ReplayScenario} from '../../utils/replay/replay-scenario';
+import {TestData} from '../../logging/test-data';
+import {TrainJourneyModificationMessage} from '../../utils/train-journey-modifications/train-journey-modification-message';
+
+const appPage: AppPage = new AppPage();
 
 const timetablePage: TimeTablePageObject = new TimeTablePageObject();
 // No plans for parallel running, should be fine
@@ -74,6 +83,8 @@ Then('The live timetable tab will be titled {string}', async (expectedTabName: s
 Then('The values for the header properties are as follows',
   async (headerPropertyValues: any) => {
     const expectedHeaderPropertyValues: any = headerPropertyValues.hashes()[0];
+    await CommonActions.waitForElementToBeVisible(timetablePage.headerHeadcode);
+    const actualHeaderHeadcode = await timetablePage.headerHeadcode.getText();
     const actualHeaderScheduleType: string = await timetablePage.headerScheduleType.getText();
     const actualHeaderSignal: string = await timetablePage.headerSignal.getText();
     const actualHeaderLastReported: string = await timetablePage.headerLastReported.getText();
@@ -81,6 +92,8 @@ Then('The values for the header properties are as follows',
     const actualHeaderTrustId: string = await timetablePage.headerTrustId.getText();
     const actualHeaderTJM: string = await timetablePage.headerTJM.getText();
 
+    expect(actualHeaderHeadcode, 'Headcode is not as expected')
+      .to.equal(expectedHeaderPropertyValues.headCode);
     expect(actualHeaderScheduleType, 'Schedule type is not as expected')
       .to.equal(expectedHeaderPropertyValues.schedType);
     expect(actualHeaderSignal, 'Last Signal is not as expected')
@@ -93,6 +106,19 @@ Then('The values for the header properties are as follows',
       .to.equal(expectedHeaderPropertyValues.trustId);
     expect(actualHeaderTJM, 'Last TJM is not as expected')
       .to.equal(expectedHeaderPropertyValues.lastTJM);
+  });
+
+Then('The values for {string} are the following as time passes',
+  async (propertyName: string, expectedValues: any) => {
+    const expectedVals = expectedValues.split(',', 10).map(item => item.trim());
+    for (const val of expectedVals) {
+      if (val === 'blank') {
+        await timetablePage.waitUntilPropertyValueIs(propertyName, '');
+      }
+      else {
+        await timetablePage.waitUntilPropertyValueIs(propertyName, val);
+      }
+    }
   });
 
 When('I switch to the timetable details tab', async () => {
@@ -122,18 +148,120 @@ Then(/^there is a record in the modifications table$/, async (table: any) => {
       const time = await row.getTime() === expectedRecord.time;
       const type = await row.getModificationReason() === expectedRecord.type;
       found = (reason && location && time && type);
+      if (found) {
+        break;
+      }
     }
     expect(found, 'No record with value found in the modifications table')
       .to.equal(true);
   }
 });
 
-Then(/^the last TJM is$/, async (table: any) => {
-  const lastTjm = await timetablePage.headerTJM.getText();
-  const expected = table.hashes()[0];
-  expect(lastTjm, 'Last TJM is not as expected')
-    .to.equal(`${expected.description}, ${expected.location}, ${expected.time}`);
+Then(/^the sent TJMs are in the modifications table$/, async () => {
+  const modificationsTable = await timetablePage.getModificationsTableRows();
+  for (const expectedRecord of TestData.getTJMs()) {
+    let found = false;
+    const expectedTypeOfModification = getExpectedModificationType(
+      expectedRecord.TrainJourneyModification.TrainJourneyModificationIndicator);
+    const expectedLocation = tiplocToLocation(
+      expectedRecord.TrainJourneyModification.LocationModified.Location.LocationSubsidiaryIdentification.LocationSubsidiaryCode);
+    const expectedTime = LocalDateTime
+        .parse(expectedRecord.TrainJourneyModificationTime.replace('-00:00', ''))
+        .format(DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm').withLocale(Locale.ENGLISH));
+    const expectedReason = expectedRecord.ModificationReason;
+    for (const row of modificationsTable) {
+      const reason = await row.getTypeOfModification() === expectedTypeOfModification;
+      const location = await row.getLocation() === expectedLocation;
+      const time = await row.getTime() === expectedTime;
+      const type = await row.getModificationReason() === expectedReason;
+      found = (reason && location && time && type);
+      if (found) {
+        break;
+      }
+    }
+    expect(found,
+      `No record found in the modifications table with ${expectedTypeOfModification}, ${expectedLocation}, ${expectedTime}, ${expectedReason}`)
+      .to.equal(true);
+  }
 });
+
+
+Then(/^the sent TJMs in the modifications table are in time order$/, async () => {
+  const modificationsTable = await timetablePage.getModificationsTableRows();
+  const times = modificationsTable.map(async (row) => await row.getTime());
+
+  for (let i = 0; i < (times.length - 1); i++) {
+    const dateFormat = 'dd/MM/yyyy HH:mm';
+    const rowTime = LocalDateTime.parse(await times[i], DateTimeFormatter.ofPattern(dateFormat));
+    const nextRowTime = LocalDateTime.parse(await times[i + 1], DateTimeFormatter.ofPattern(dateFormat));
+
+    expect(rowTime.isBefore(nextRowTime) || rowTime.isEqual(nextRowTime),
+      `Modifications are not in time order. ${times[i]} not before ${times[i + 1]}`)
+      .to.equal(true);
+  }
+});
+
+
+
+function tiplocToLocation(tiploc: string): string {
+  // config needed
+  return tiploc;
+}
+
+function getExpectedModificationType(trainJourneyModificationIndicator): string {
+  switch (trainJourneyModificationIndicator) {
+    case '06':
+      return 'Change Of Location';
+    case '07':
+      return 'Change Of Identity';
+    case '91':
+      return 'Cancellation';
+    case '92':
+      return 'Cancellation';
+    case '94':
+      return 'Change Of Origin';
+    case '96':
+      return 'Cancellation';
+    default:
+      return 'Unknown Modification Type';
+  }
+}
+
+Then(/^there are no records in the modifications table$/, async () => {
+  const modificationEntries: boolean = await timetablePage.modification.isPresent();
+  expect(modificationEntries, 'Modification entries found when expected there to be none').to.equal(false);
+});
+
+Then(/^the last TJM is correct$/, async () => {
+  const tjmsSent = TestData.getTJMs();
+  await assertLastTJM(tjmsSent[tjmsSent.length - 1]);
+});
+
+Then(/^the last TJM is the TJM with the latest time$/, async () => {
+  const lastTjmSent = sortTJMsByDateTime(TestData.getTJMs());
+  await assertLastTJM(lastTjmSent[lastTjmSent.length - 1]);
+});
+
+function sortTJMsByDateTime(array): TrainJourneyModificationMessage[] {
+  return array.sort((a, b) => {
+    return Number(a.MessageHeader.MessageReference.MessageDateTime) - Number(b.MessageHeader.MessageReference.MessageDateTime);
+  });
+}
+
+async function assertLastTJM(tjmMessage: TrainJourneyModificationMessage): Promise<void> {
+  const lastTjm = await timetablePage.headerTJM.getText();
+  const expectedTypeOfModification = getExpectedModificationType(
+    tjmMessage.TrainJourneyModification.TrainJourneyModificationIndicator);
+  const expectedLocation = tiplocToLocation(
+    tjmMessage.TrainJourneyModification.LocationModified.Location.LocationSubsidiaryIdentification.LocationSubsidiaryCode);
+  const expectedTime = LocalDateTime
+    .parse(tjmMessage.TrainJourneyModificationTime.replace('-00:00', ''))
+    .format(DateTimeFormatter.ofPattern('HH:mm:ss, d MMM yyyy').withLocale(Locale.ENGLISH));
+  const expectedReason = tjmMessage.ModificationReason;
+
+  expect(lastTjm, 'Last TJM is not as expected')
+    .to.equal(`${expectedTypeOfModification}, ${expectedLocation}, ${expectedReason}, ${expectedTime}`);
+}
 
 When('I toggle the inserted locations on', async () => {
   await timetablePage.toggleInsertedLocationsOn();
@@ -231,6 +359,83 @@ Then('The timetable entries contains the following data',
     }
   });
 
+Then('The live timetable entries are populated as follows:', async (timetableEntryDataTable: any) => {
+  const expectedTimetableEntryColValues: any[] = timetableEntryDataTable.hashes();
+  for (const expectedTimetableEntryCol of expectedTimetableEntryColValues) {
+    const actualTimetableEntryColValues: string[] = await timetablePage.getTimetableEntryColValues(expectedTimetableEntryCol.location);
+    const colIndex = timetableColumnIndexes[expectedTimetableEntryCol.column];
+    if (expectedTimetableEntryCol.value === 'actual') {
+      expect(actualTimetableEntryColValues[colIndex],
+        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing predicted time when should be actual`)
+        .to.not.contain('[');
+      expect(actualTimetableEntryColValues[colIndex],
+        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing predicted time when should be actual`)
+        .to.not.contain(']');
+    }
+    if (expectedTimetableEntryCol.value === 'predicted') {
+      expect(actualTimetableEntryColValues[colIndex],
+        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing actual time when should be predicted`)
+        .to.contain('[');
+      expect(actualTimetableEntryColValues[colIndex],
+        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing actual time when should be predicted`)
+        .to.contain(']');
+    }
+    if (expectedTimetableEntryCol.value === 'absent') {
+      expect(actualTimetableEntryColValues[colIndex],
+        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing time when should be nothing`)
+        .to.equal('');
+      expect(actualTimetableEntryColValues[colIndex],
+        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing time when should be nothing`)
+        .to.equal('');
+    }
+    else {
+      expect(actualTimetableEntryColValues[colIndex],
+        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} not as expected`)
+        .to.equal(expectedTimetableEntryCol.value);
+    }
+  }
+});
+
+Then('The timetable entries contains the following data, with timings having {word} offset from {string} at {string}', {timeout: 2 * 20000},
+  async (liveOrRecorded: string, referenceScenario: string, referenceTime: string, timetableEntryDataTable: any) => {
+    let offsetMs = 0;
+    if (liveOrRecorded === 'live') {
+      offsetMs = browser.timeAdjustMs;
+    }
+    else if (liveOrRecorded === 'recorded') {
+      const replayScenario: ReplayScenario = new ReplayScenario(referenceScenario);
+      offsetMs = calculateOriginalTimeAdjustment(replayScenario.startTime, referenceTime);
+    }
+    const expectedTimetableEntryColValues: any[] = timetableEntryDataTable.hashes();
+    for (const expectedTimetableEntryCol of expectedTimetableEntryColValues) {
+      const actualTimetableEntryColValues: string[] = await timetablePage.getTimetableEntryValsForLoc(expectedTimetableEntryCol.location);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.location],
+        `${expectedTimetableEntryCol.location} entry not present`).to.equal(expectedTimetableEntryCol.location);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.workingArrivalTime],
+        `workingArrivalTime for ${expectedTimetableEntryCol.location} not as expected`)
+        .to.equal(applyTimeAdjustment(expectedTimetableEntryCol.workingArrivalTime, offsetMs));
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.workingDeptTime],
+        `workingDeptTime for ${expectedTimetableEntryCol.location} not as expected`)
+        .to.equal(applyTimeAdjustment(expectedTimetableEntryCol.workingDeptTime, offsetMs));
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.publicArrivalTime],
+        `publicArrivalTime for ${expectedTimetableEntryCol.location} not as expected`)
+        .to.equal(applyTimeAdjustment(expectedTimetableEntryCol.publicArrivalTime, offsetMs));
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.publicDeptTime],
+        `publicDeptTime for ${expectedTimetableEntryCol.location} not as expected`)
+        .to.equal(applyTimeAdjustment(expectedTimetableEntryCol.publicDeptTime, offsetMs));
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalAssetCode],
+        `Platform for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.originalAssetCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalPathCode],
+        `pathCode for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.originalPathCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalLineCode],
+        `lineCode for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.originalLineCode);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.allowances],
+        `allowances for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.allowances);
+      expect(actualTimetableEntryColValues[timetableColumnIndexes.activities],
+        `activities for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.activities);
+    }
+  });
+
 Then('the navbar punctuality indicator is displayed as {string}', async (expectedColor: string) => {
   const actualColorHex: string = await timetablePage.getNavBarIndicatorColorHex();
   const expectedColourHex = punctualityColourHex[expectedColor];
@@ -285,8 +490,9 @@ Then('The timetable details table contains the following data in each row', asyn
     .to.equal(expectedDetailsRowValues.serviceBranding);
 });
 
-When('I am on the timetable view for service {string}', {timeout: 15 * 1000}, async (service: string) => {
-  await timetablePage.navigateTo(service);
+When('I am on the timetable view for service {string}', {timeout: 40 * 1000}, async (service: string) => {
+  await appPage.navigateTo(`/tmv/live-timetable/${service}:${LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`);
+  await browser.wait(ExpectedConditions.presenceOf(timetablePage.timetableTab), 20000, 'Timetable page loading timed out');
 });
 
 When(/^the Inserted toggle is '(on|off)'$/, async (state: string) => {
@@ -395,6 +601,13 @@ When('that service has the cancellation status {string}', (service: string) => {
   schedule.withTrainStatus(service);
 });
 
+Given('I see todays schedule for {string} has loaded by looking at the timetable page', async (scheduleId: string) => {
+  await appPage.navigateTo(`/tmv/live-timetable/${scheduleId}:`
+    +  LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd')));
+  await CommonActions.waitForElementToBeVisible(timetablePage.headerHeadcode);
+});
+
+
 Given(/^it has Origin Details$/, async (table: any) => {
   const location: any = table.hashes()[0];
   schedule.withOriginLocation(new OriginLocationBuilder()
@@ -428,7 +641,7 @@ Given(/^it has Terminating Details$/, async (table: any) => {
 
 Given(/^the schedule has a basic timetable$/, () => {
   schedule.withOriginLocation(new OriginLocationBuilder()
-    .withLocation(new LocationBuilder().withTiploc('OLDOXRS').build())
+    .withLocation(new LocationBuilder().withTiploc('PADTON').build())
     .withScheduledDeparture('12:00')
     .withLine('')
     .build());
@@ -476,8 +689,8 @@ Given(/^the schedule does not run on a day that is today$/, () => {
 
 
 Given(/^the schedule does not run on a day that is tommorow$/, () => {
-  const tommorow = DateAndTimeUtils.dayOfWeekPlusDays(1);
-  schedule.noRunDay(tommorow, schedule);
+  const tomorrow = DateAndTimeUtils.dayOfWeekPlusDays(1);
+  schedule.noRunDay(tomorrow, schedule);
 });
 
 
@@ -515,3 +728,15 @@ Given(/^the following basic schedules? (?:is|are) received from LINX$/, async (t
     new LinxRestClient().writeAccessPlan(accessPlan);
   });
 });
+
+function applyTimeAdjustment(colonSeparatedTimeStringHhMmSs: string, adjustmentMs: number): string {
+  if ((colonSeparatedTimeStringHhMmSs === '') || (colonSeparatedTimeStringHhMmSs === '00:00:00') || adjustmentMs === 0) {
+    return colonSeparatedTimeStringHhMmSs;
+  }
+  return LocalTime.parse(colonSeparatedTimeStringHhMmSs).plusNanos(adjustmentMs * 1000000)
+    .format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+}
+
+function calculateOriginalTimeAdjustment(scenarioStart: string, originalTime: string): number {
+  return LocalTime.parse(scenarioStart).until(LocalTime.parse(originalTime), ChronoUnit.MILLIS);
+}

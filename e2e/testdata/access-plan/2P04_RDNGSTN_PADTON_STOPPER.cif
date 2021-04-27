@@ -1,0 +1,22 @@
+HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
+BSNL585552101042402211111111 PXX2P047572125516005 EMU    090D     B A          P
+BX         GWY                                                                  
+LORDNGSTN 1620 162015AURL    TB                                                 
+LIRDNGKBJ           1622 00000000   RL                                          
+LITWYFORD 1625H1626H     162616264  RL    T                                     
+LIMDNHEAD 1633H1634H     163416344  RL    T                                     
+LISLOUGH  1641 1642      164116425  RL    T              H                      
+LILANGLEY 1643H1644H     164416444        T                                     
+LIIVER    1645 1646      164516464        T                                     
+LIWDRYTON 1648 1649      16481649         T                                     
+LIHTRWAJN           1649H00000000   RL                                          
+LIHAYESAH 1650H1651H     165116514     RL T             1                       
+LISTHALL            1655 000000004  RL                  1                       
+LIWEALING           1658 000000004  RL                  1H                      
+LIEALINGB 1701 1702      170117024  RL    T                                     
+LIACTONW            1703H00000000   RL RL               1                       
+LILDBRKJ            1707H00000000   6  RL                                       
+LIPRTOBJP           1708H00000000   5                 1  H                      
+LIROYAOJN           1711 00000000                                               
+LTPADTON  1713 171310    TF                                                     
+ZZ                                                                               

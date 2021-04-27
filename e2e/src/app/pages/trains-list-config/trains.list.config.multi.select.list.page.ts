@@ -46,7 +46,7 @@ export abstract class TrainsListConfigMultiSelectListPageObject {
   }
 
   public async openTab(tabId: string): Promise<void> {
-    return element(by.id(tabId)).click();
+    return CommonActions.waitAndClick(element(by.id(tabId)));
   }
 
   public async clickArrowUpDown(position: number): Promise<void> {

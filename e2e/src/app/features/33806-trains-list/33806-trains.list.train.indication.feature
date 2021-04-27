@@ -1,4 +1,5 @@
-Feature: 33806 - TMV User Preferences - full end to end testing
+@bug @bug_55994
+Feature: 33806 - TMV User Preferences - full end to end testing - TL config - train indication
 
   As a tester
   I want to verify the train list config tab - train indication
@@ -138,7 +139,9 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       | OLDOXRS | 10:13            |      |
     And that service has the cancellation status 'F'
     When the schedule is received from LINX
-    And the activation message from location 'linx/0a00_train_activation.xml' is sent from LINX
+    And the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 09:59                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
       | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
@@ -177,7 +180,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
   @tdd
   Scenario: 33806 -24-g Off route - Train has moved off route
     Given the access plan located in CIF file 'access-plan/IS42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    When the following live berth step message is sent from LINX
+    When the following live berth step message is sent from LINX (causing service to go off route)
        | fromBerth | toBerth | trainDescriber| trainDescription |
        | 0099      | 9999    | GW            | IS42             |
     And I update only the below train list indication config settings as

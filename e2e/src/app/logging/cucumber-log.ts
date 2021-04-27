@@ -9,8 +9,7 @@ export class CucumberLog
   }
   public static async addScreenshotOnFailure(scenario: any): Promise<void> {
     if (scenario.result.status === Status.FAILED){
-      const screenShotFail = await browser.takeScreenshot();
-      CucumberLog.cucumberLog.attach(screenShotFail, 'image/png');
+      await CucumberLog.addScreenshot();
     }
   }
   public static async addJson(obj: any): Promise<void> {
@@ -18,5 +17,10 @@ export class CucumberLog
   }
   public static async addText(message: string): Promise<void> {
     CucumberLog.cucumberLog.attach(message);
+  }
+
+  public static async addScreenshot(): Promise<void> {
+    const screenShotFail = await browser.takeScreenshot();
+    await CucumberLog.cucumberLog.attach(screenShotFail, 'image/png');
   }
 }

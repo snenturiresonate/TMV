@@ -18,6 +18,9 @@ export class NavBarPageObject {
   public timeTableOption: ElementFinder;
   public navBar: ElementFinder;
   public trainTable: ElementFinder;
+  public timeTable: ElementFinder;
+  public signalTable: ElementFinder;
+  public searchTable: ElementFinder;
   public trainTableCloseIcon: ElementFinder;
   public trainTableCloseBtn: ElementFinder;
   public trainTableWindow: ElementFinder;
@@ -26,6 +29,7 @@ export class NavBarPageObject {
   public trainContextMenu: ElementFinder;
   public timeTableContextMenu: ElementFinder;
   public trainsContextListItems: ElementArrayFinder;
+  public contextListItems: ElementArrayFinder;
   public trainSearchWarningMsg: ElementFinder;
   public timeTableLink: ElementFinder;
   public contextMapArrowLink: ElementFinder;
@@ -42,6 +46,9 @@ export class NavBarPageObject {
   public helpMenu: ElementFinder;
   public searchFilterToggle: ElementFinder;
   public mapLink: ElementArrayFinder;
+  public mapPathToggle: ElementArrayFinder;
+  public recentMaps: ElementArrayFinder;
+  public mapChanger: ElementFinder;
   constructor() {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
@@ -60,7 +67,10 @@ export class NavBarPageObject {
     this.timeTableOption = element(by.css('#national-search-dropdown-menu >button:nth-child(2)'));
     this.navBar = element(by.id('collapsibleNavbar'));
     this.berthToggleIndicator = element(by.css('#berthtoggle .toggle-switch'));
+    this.searchTable = element(by.css('.modalbody:nth-child(2)'));
     this.trainTable = element(by.css('.modalbody:nth-child(2)'));
+    this.timeTable = element(by.css('.modalbody:nth-child(2)'));
+    this.signalTable = element(by.css('.modalbody:nth-child(2)'));
     this.trainTableCloseIcon = element(by.css('.closemodal:nth-child(1)'));
     this.trainTableCloseBtn = element(by.css('.tmv-btn-cancel:nth-child(1)'));
     this.trainTableWindow = element(by.css('.modaltitle:nth-child(1)'));
@@ -69,6 +79,7 @@ export class NavBarPageObject {
     this.trainSearchRow = element.all(by.css('#trainSearchResults-tbody tr'));
     this.timeTableSearchRow = element.all(by.css('#timetableSearchResults-tbody tr'));
     this.trainsContextListItems = element.all(by.css('.dropdown-item-menu:nth-child(1)'));
+    this.contextListItems = element.all(by.css('.dropdown-item-menu:nth-child(1)'));
     this.trainSearchWarningMsg = element(by.css('.div-warning-msg:nth-child(1)'));
     this.timeTableLink = element(by.id('btn-open-timetable'));
     this.contextMapArrowLink = element(by.css('#right-arrow:nth-child(1)'));
@@ -83,7 +94,10 @@ export class NavBarPageObject {
     this.tmvKeyButton = element(by.id('tmv-key-button'));
     this.modalWindow = element.all(by.css('.modalpopup'));
     this.helpMenu = element(by.id('help-menu-button'));
-    this.mapLink = element.all(by.css('#map-list>ul>li>span'));
+    this.mapLink = element.all(by.css('#signal-map-list>ul>li>span'));
+    this.mapPathToggle = element.all(by.css('#map-path-toggle-button'));
+    this.recentMaps = element.all(by.css('.map-details'));
+    this.mapChanger = element(by.css('a[title=\'Change map\']'));
   }
 
   public async getNavbarIconNames(): Promise<string> {
@@ -133,6 +147,27 @@ export class NavBarPageObject {
         await this.berthToggleOn.click();
       }
     }
+  }
+
+  public async toggleMapPathOff(): Promise<void> {
+    await this.mapPathToggle.click();
+  }
+
+  public async getServiceWithStatus(statusType: string, searchType: string): Promise<number> {
+    const statuses = await this.getSearchListValuesForColumn(searchType, 'Status');
+    return statuses.indexOf(statusType);
+  }
+
+  public async getSearchListValuesForColumn(list: string, column: string): Promise<string[]> {
+    const entryColValues: ElementArrayFinder = element.all(by.id(list + 'Search' + column));
+    return entryColValues.map((colValue: ElementFinder) => {
+      return colValue.getText();
+    });
+  }
+
+  public async getSearchListValueForColumnAndRow(list: string, column: string, row: number): Promise<string> {
+    const entryColValues: ElementArrayFinder = element.all(by.id(list + 'Search' + column));
+    return entryColValues.get(row - 1).getText();
   }
 
   public async getUserProfileMenuDisplayName(): Promise<string> {
@@ -219,11 +254,25 @@ export class NavBarPageObject {
   }
 
   public async enterSearchValue(searchValue: string): Promise<void> {
-    await this.trainSearchBox.sendKeys(searchValue);
+    const elm = this.trainSearchBox;
+    await elm.clear();
+    await elm.sendKeys(searchValue);
   }
 
   public async isTrainTablePresent(): Promise<boolean> {
     return browser.isElementPresent(this.trainTable);
+  }
+
+  public async isTimetablePresent(): Promise<boolean> {
+    return browser.isElementPresent(this.timeTable);
+  }
+
+  public async isSignalTablePresent(): Promise<boolean> {
+    return browser.isElementPresent(this.signalTable);
+  }
+
+  public async isSearchTablePresent(): Promise<boolean> {
+    return browser.isElementPresent(this.searchTable);
   }
 
   public async isTrainTableWarningPresent(): Promise<boolean> {
@@ -260,6 +309,15 @@ export class NavBarPageObject {
 
   public async getTrainsSearchContextMenuItem(rowIndex: number): Promise<string> {
     return this.trainsContextListItems.get(rowIndex - 1).getText();
+  }
+
+  public async clickTrainsSearchContextMenuItem(rowIndex: number): Promise<void> {
+    const trainContextList = this.trainsContextListItems.get(rowIndex - 1);
+    browser.actions().click(trainContextList);
+  }
+
+  public async getSearchContextMenuItem(rowIndex: number): Promise<string> {
+    return this.contextListItems.get(rowIndex - 1).getText();
   }
 
   public async isContextMenuDisplayed(): Promise<boolean> {
@@ -318,8 +376,7 @@ export class NavBarPageObject {
     browser.actions().click(targetRow, protractor.Button.RIGHT).perform();
   }
 
-
-  public async waitForContext(): Promise<boolean> {
+  public async waitForTrainContext(): Promise<boolean> {
     browser.wait(async () => {
       return this.trainContextMenu.isPresent();
     }, browser.displayTimeout, 'The trains list context menu should be displayed');
@@ -334,7 +391,7 @@ export class NavBarPageObject {
   }
 
   public async openHelpMenu(): Promise<void> {
-    return this.helpMenu.click();
+    await this.helpMenu.click();
   }
 
   public async openTMVKey(): Promise<void> {
@@ -350,5 +407,28 @@ export class NavBarPageObject {
 
   public async getMapNames(): Promise<string> {
     return this.mapLink.getText();
+  }
+
+  public async openMap(mapName: string): Promise<void> {
+    if (mapName !== (await this.mapLink.getText())) {
+      await this.mapLink.click();
+      await element(by.buttonText(mapName)).click();
+    }
+  }
+
+  public async changeToRecentMap(mapName: string): Promise<void> {
+    await this.mapChanger.click();
+    const recentMap = element(by.css('[id^=map-search-menu-recent-history-item-map-name-' + mapName.toLowerCase() + ']'));
+    await recentMap.click();
+  }
+
+  public async getHighlightStatus(signalId: string): Promise<string> {
+    const signalHighlight: ElementFinder = element(by.css('[id^=signal-latch-cross-element-' + signalId  + ']'));
+    return signalHighlight.getCssValue('highlighted');
+  }
+
+  public async getBerthHighlightStatus(berthId: string): Promise<string> {
+    const berthHighlight: ElementFinder = element(by.css('[id^=berth-element-text-' + berthId  + ']'));
+    return berthHighlight.getCssValue('highlighted');
   }
 }

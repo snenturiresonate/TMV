@@ -46,8 +46,8 @@ Feature: Example Scenarios
   Scenario: Example - Receive train activation message from LINX
     Given I am on the home page
     When the following train activation message is sent from LINX
-      | asXml            |
-      | </exampleNeeded> |
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
+      | W15214   | 0A00        | 10:15                  | 99999               | PADTON                 |
     Then I should see nothing
 
   Scenario: Example - Receive VSTP message from LINX
@@ -105,10 +105,10 @@ Feature: Example Scenarios
   Scenario: Replay Test - Scenario Example
     Given I load the replay data from scenario 'Replay Setup - Scenario Example'
     And I am on the replay page
+    And I have set replay time and date from the recorded session
+    And I select Next
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
-    And I have set replay time and date from the recorded session
-    And I select Start
     And I move the replay to the end of the captured scenario
 
 
