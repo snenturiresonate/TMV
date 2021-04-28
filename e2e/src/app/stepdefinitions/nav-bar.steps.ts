@@ -67,19 +67,13 @@ Then('The user profile shows display name as {string}', async (displayName: stri
     .to.equal(displayNameText);
 });
 
-Then('The user profile shows role name as {string}', async (roleName: string) => {
-  const roleNameText: string = await navBarPage.getUserProfileMenuRoleName();
-  expect(roleName, 'User profile role is not correct')
-    .to.equal(roleNameText);
-});
-
 Then('The user profile shows user roles as', async (table: any) => {
   const tableValues = table.hashes();
-  const roleNameText: string = await navBarPage.getUserProfileMenuRoleName();
-  tableValues.forEach(row => {
+  for (const row of tableValues) {
+    const roleNameText: string = await navBarPage.getUserProfileMenuRoleName(row.rowNum);
     expect(roleNameText, 'User profile role is not correct')
       .to.equal(row.roleName);
-  });
+  }
 });
 
 Then('the following icons can be seen on the navigation bar', async (iconNameDataTable: any) => {
@@ -128,6 +122,16 @@ Then('The current time is displayed as {string}', async (currentTime: string) =>
   const currentTimeText: string = await navBarPage.getCurrentTimeText();
   expect(currentTime, `Current time is not displayed as ${currentTimeText}`)
     .to.equal(currentTimeText);
+});
+
+Then('the train search box is visible', async () => {
+  expect(await navBarPage.trainSearchBoxIsVisible(), 'Train search box was not visible')
+    .to.equal(true);
+});
+
+Then('the train search box is not visible', async () => {
+  expect(await navBarPage.trainSearchBoxIsNotVisible(), 'Train search box was visible')
+    .to.equal(true);
 });
 
 Then('the Train Search Box has the value {string}', async (expectedText: string) => {

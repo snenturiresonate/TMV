@@ -12,6 +12,7 @@ export class TrainsListServiceFilterTabPage {
   public selectedServicesTableHeader: ElementFinder;
   public selectedServicesTableItems: ElementArrayFinder;
   public saveServiceFiltersBtn: ElementFinder;
+  public saveTrustFiltersBtn: ElementFinder;
   constructor() {
     this.addTrustIdBtn = element(by.id('addTrustId'));
     this.clearAllBtn = element(by.id('clearAllTrustIds'));
@@ -21,6 +22,7 @@ export class TrainsListServiceFilterTabPage {
     this.selectedServicesTableHeader = element(by.css('table.services-filter-table th'));
     this.selectedServicesTableItems = element.all(by.css('table.services-filter-table td.services-filter-table-trust-id'));
     this.saveServiceFiltersBtn = element(by.css('#saveTLMiscConfig'));
+    this.saveTrustFiltersBtn = element(by.css('#saveTLServiceFilterConfig'));
   }
 
   public async waitForTrustIds(): Promise<boolean> {
@@ -38,8 +40,11 @@ export class TrainsListServiceFilterTabPage {
     return this.addTrustIdBtn.click();
   }
 
-  public async clickTrustIdSaveBtn(): Promise<void> {
+  public async clickSaveBtn(): Promise<void> {
     return CommonActions.waitAndClick(this.saveServiceFiltersBtn);
+  }
+  public async clickTrustIdSaveBtn(): Promise<void> {
+    return CommonActions.waitAndClick(this.saveTrustFiltersBtn);
   }
 
   public async inputTrustId(trustId: string): Promise<void> {

@@ -30,13 +30,11 @@ Feature: 46482 - TMV Key - display key
     Then a modal displays with title 'Key'
     And The key berth table contains the following data
       | position | text                     | backgroundColour | colour  |
-      | 0        | Attention                | #2b78e4          | #ffffff |
-      | 1        | Unknown Delay            | #ffffff          | #000000 |
-      | 2        | No Timetable             | #dddddd          | #000000 |
-      | 3        | Left Behind              | #999999          | #000000 |
-      | 4        | Last Berth               | #f9cb9c          | #000000 |
+      | 0        | Left Behind              | #969696          | #000000 |
+      | 1        | No Timetable             | #e1e1e1          | #000000 |
+      | 2        | Last Berth               | #ffffff          | #000000 |
+      | 3        | Unknown Delay            | #ffffff          | #000000 |
 
-  @tdd @tdd_54867
   Scenario: 34085-3 The TMV Key Symbol table is displayed when the Symbol tab is clicked
     When I click on the Help icon
     And I select the TMV Key option
@@ -44,9 +42,9 @@ Feature: 46482 - TMV Key - display key
     And I switch to the 'Symbol' key tab
     Then the active tab is 'Symbol'
     And the key table has columns
-      | colName                |
-      | Lineside Features      |
-      | Line Status            |
+      | colName           |
+      | Lineside Features |
+      | Line Status       |
     And the Lineside Features list contains the following data
       | position | feature              |
       | 0        | HABD                 |
@@ -56,12 +54,12 @@ Feature: 46482 - TMV Key - display key
     And the Line Status list contains the following data
       | position | status     |
       | 0        | Blockage   |
-      | 1        | Not in use |
+      | 1        | TSR        |
       | 2        | ESR        |
-      | 3        | TSR        |
-      | 4        | Possession |
+      | 3        | Possession |
+      | 4        | Not in use |
 
-  @tdd @tdd_54867
+  @tdd @tdd_51729
   Scenario: 34085-4 The TMV Key train describer table is displayed when the Train Describer tab is clicked
     When I click on the Help icon
     And I select the TMV Key option
@@ -73,21 +71,21 @@ Feature: 46482 - TMV Key - display key
       | ID      |
       | Name    |
     And the TD list contains the following data
-      | position | name                   |
-      | 1        | WY Wembley             |
-      | 2        | WS Willesden           |
-      | 3        | WH West Hampstead      |
-      | 4        | KX Kings Cross         |
-      | 5        | PB Peterborough        |
-      | 6        | AS Ashford             |
-      | 7        | TB Three Bridges       |
-      | 8        | SX Saxmundham          |
-      | 9        | TB Three Bridges       |
-      | 10       | TB Three Bridges       |
-      | 11       | LB London Bridge       |
-      | 12       | AW Acton Wells         |
-      | 13       | NX New Cross           |
-      | 14       | CC Colchester TD       |
-      | 15       | SO South Tottenham TD  |
-      | 16       | CT Channel Tunnel      |
-      | 17       | CA Cambridge           |
+      | position | name                  |
+      | 1        | WY Wembley            |
+      | 2        | WS Willesden          |
+      | 3        | WH West Hampstead     |
+      | 4        | KX Kings Cross        |
+      | 5        | PB Peterborough       |
+      | 6        | AS Ashford            |
+      | 7        | TB Three Bridges      |
+      | 8        | SX Saxmundham         |
+      | 9        | TB Three Bridges      |
+      | 10       | TB Three Bridges      |
+      | 11       | LB London Bridge      |
+      | 12       | AW Acton Wells        |
+      | 13       | NX New Cross          |
+      | 14       | CC Colchester TD      |
+      | 15       | SO South Tottenham TD |
+      | 16       | CT Channel Tunnel     |
+      | 17       | CA Cambridge          |

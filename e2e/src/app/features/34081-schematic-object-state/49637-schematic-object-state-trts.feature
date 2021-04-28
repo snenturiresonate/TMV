@@ -69,7 +69,7 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
       |map                | trainDescription | toTrainDescriber | toBerth | timestamp | sClassBerth | sclassDisplayCode  |
       |hdgw06gloucester.v | DnDC             | GL               | Q070    | 10:02:06  | GLQ070      | DC                 |
 
-  @bug @replaySetup @bug_52196
+  @replaySetup
   Scenario: 34081 - 32a TRTS (Set - from red)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
@@ -77,14 +77,14 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Given I am viewing the map hdgw01paddington.v
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be not-proceed
-    Then the signal roundel for signal 'SN1' is red
+    Then the signal roundel for signal 'SN9' is red
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 01   | 10:45:00  |
-    Then the TRTS status for signal 'SN1' is white
-    And the TRTS visibility status for 'SN1' is visible
+      | D3             | 50      | 10   | 10:45:00  |
+    Then the TRTS status for signal 'SN8' is white
+    And the TRTS visibility status for 'SN9' is visible
 
-  @bug @replaySetup @bug_52196
+  @replaySetup
   Scenario: 34081 - 32b TRTS (Set - from green)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
@@ -92,14 +92,14 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Given I am viewing the map hdgw01paddington.v
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be proceed
-    Then the signal roundel for signal 'SN1' is green
+    Then the signal roundel for signal 'SN9' is green
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 01   | 10:45:00  |
-    Then the TRTS status for signal 'SN1' is white
-    And the TRTS visibility status for 'SN1' is visible
+      | D3             | 50      | 10   | 10:45:00  |
+    Then the TRTS status for signal 'SN9' is white
+    And the TRTS visibility status for 'SN9' is visible
 
-  @bug @replaySetup @bug_52196
+  @replaySetup
   Scenario:34081 - 33a TRTS (Not Set back)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
@@ -107,20 +107,20 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Given I am viewing the map hdgw01paddington.v
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be not-proceed
-    And the signal roundel for signal 'SN1' is red
-    And the TRTS visibility status for 'SN1' is hidden
+    And the signal roundel for signal 'SN9' is red
+    And the TRTS visibility status for 'SN9' is hidden
     And the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 01   | 10:45:00  |
-    And the TRTS status for signal 'SN1' is white
-    And the TRTS visibility status for 'SN1' is visible
+      | D3             | 50      | 10   | 10:45:00  |
+    And the TRTS status for signal 'SN9' is white
+    And the TRTS visibility status for 'SN9' is visible
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 00   | 10:45:00  |
-    Then the signal roundel for signal 'SN1' is red
-    And the TRTS visibility status for 'SN1' is hidden
+    Then the signal roundel for signal 'SN9' is red
+    And the TRTS visibility status for 'SN9' is hidden
 
-  @bug @replaySetup @bug_52196
+  @replaySetup
   Scenario:34081 - 33b TRTS (Not Set)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
@@ -128,15 +128,15 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Given I am viewing the map hdgw01paddington.v
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be proceed
-    And the signal roundel for signal 'SN1' is green
-    And the TRTS visibility status for 'SN1' is hidden
+    And the signal roundel for signal 'SN9' is green
+    #And the TRTS visibility status for 'SN1' is hidden
     And the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 01   | 10:45:00  |
-    And the TRTS status for signal 'SN1' is white
-    And the TRTS visibility status for 'SN1' is visible
+      | D3             | 50      | 10   | 10:45:00  |
+    And the TRTS status for signal 'SN9' is white
+    And the TRTS visibility status for 'SN9' is visible
     When the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D3             | 50      | 00   | 10:45:00  |
-    Then the signal roundel for signal 'SN1' is green
-    And the TRTS visibility status for 'SN1' is hidden
+    Then the signal roundel for signal 'SN9' is green
+    And the TRTS visibility status for 'SN9' is hidden

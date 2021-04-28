@@ -1,3 +1,4 @@
+@bug @bug_60513
 Feature: 33768-2: TMV User Management
   As a TMV user
   I want to be able to log into the TMV application
@@ -6,6 +7,7 @@ Feature: 33768-2: TMV User Management
   Background:
     Given I have not already authenticated
 
+  @bug @bug:60513
   Scenario Outline: 6. Displaying generic icons available for all users - <role>
     #    Given I am on the sign in screen
     #    And I have a valid TMV role of <Role Type>
@@ -85,8 +87,8 @@ Feature: 33768-2: TMV User Management
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     * the map search box is displayed
-    * the recent maps are displayed
-    * all maps are displayed
+    * the recent maps section is displayed
+    * the all maps section is displayed
     # clean up
     * I have not already authenticated
 

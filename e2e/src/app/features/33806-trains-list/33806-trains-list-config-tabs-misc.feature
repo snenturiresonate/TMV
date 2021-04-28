@@ -175,8 +175,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
 
   Scenario: 33806 -32b Trains List Config (Train Misc Settings Applied) - Ignore PD cancel toggle on
     Given the following train activation message is sent from LINX
-      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | Y95686   | 2P77        | 12:00                  | 99999               | RDNGSTN                |
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |departureDate |actualDepartureHour |
+      | Y95686   | 2P77        | 12:00                  | 99999               | RDNGSTN                |today         |now                 |
     When the following TJM is received
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
       | Y95686   | 2P77        | 12            | create | 91        | 91              | 99999       | RDNGSTN        | 12:00:00 | 91                 | PD                |
@@ -195,8 +195,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
 
   Scenario: 33806 -32c Trains List Config (Train Misc Settings Applied) - Ignore PD cancel toggle off
     Given the following train activation message is sent from LINX
-      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | Y95686   | 2P77        | 12:00                  | 99999               | RDNGSTN                |
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |departureDate |actualDepartureHour |
+      | Y95686   | 2P77        | 12:00                  | 99999               | RDNGSTN                |today         |now                 |
     When the following TJM is received
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
       | Y95686   | 2P77        | 12            | create | 91        | 91              | 99999       | RDNGSTN        | 12:00:00 | 91                 | PD                |

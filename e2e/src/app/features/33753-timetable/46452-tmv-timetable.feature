@@ -22,7 +22,7 @@ Feature: 33753 - TMV Timetable
     And The trains list table is visible
     And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
     When I invoke the context menu from train '<trainNum>' on the trains list
-    And I wait for the context menu to display
+    And I wait for the trains list context menu to display
     And the trains list context menu is displayed
     And I open timetable from the context menu
     And I switch to the new tab
@@ -59,7 +59,7 @@ Feature: 33753 - TMV Timetable
       | trainNum | planningUid |
       | 1A02     | L10002      |
 
-  @replaySetup
+  @tdd @tdd:60684 @replaySetup
   Scenario Outline: 33753-2b -Open Timetable (from Map - Unmatched)
     Given I am viewing the map HDGW01paddington.v
     And I have cleared out all headcodes
@@ -96,7 +96,7 @@ Feature: 33753 - TMV Timetable
       | Timetable  | 1A        | ACTIVATED     |
       | Timetable  | 1A        | UNMATCHED     |
 
-  @replaySetup
+  @tdd @tdd:60684 @replaySetup
   Scenario Outline: 33753-3b Open Timetable (from Search Result - unmatched service (Train) has no timetable)
     Given I am on the home page
     And I search <searchType> for '<searchVal>'
@@ -151,8 +151,8 @@ Feature: 33753 - TMV Timetable
     Given I am on the trains list page
     And The trains list table is visible
     When I invoke the context menu from train '<trainNum>' on the trains list
-    And I wait for the context menu to display
-    And the context menu contains 'Unmatch' on line 3
+    And I wait for the trains list context menu to display
+    And the trains list context menu contains 'Unmatch' on line 3
     And I open timetable from the context menu
     And I switch to the new tab
     Then The values for the header properties are as follows
@@ -284,7 +284,7 @@ Feature: 33753 - TMV Timetable
       | 1A07     | L10007      |
 
 
-  @tdd @replayTest @bug @bug_55114
+  @tdd @replayTest
   Scenario Outline: 33753-5 - View Timetable (Schedule Not Matched - becoming matched)
 #    Given the user is authenticated to use TMV
 #    And the user has opened a timetable
@@ -303,8 +303,8 @@ Feature: 33753 - TMV Timetable
     And I am on the trains list page
     And The trains list table is visible
     When I invoke the context menu from train '<trainNum>' on the trains list
-    And I wait for the context menu to display
-    And the context menu contains 'Match' on line 3
+    And I wait for the trains list context menu to display
+    And the trains list context menu contains 'Match' on line 3
     And I open timetable from the context menu
     And I switch to the new tab
     And The values for the header properties are as follows
@@ -445,8 +445,8 @@ Feature: 33753 - TMV Timetable
     And I am on the trains list page
     And The trains list table is visible
     When I invoke the context menu from train '<trainNum>' on the trains list
-    And I wait for the context menu to display
-    And the context menu contains 'Match' on line 3
+    And I wait for the trains list context menu to display
+    And the trains list context menu contains 'Match' on line 3
     And I open timetable from the context menu
     And I switch to the new tab
     Then The values for the header properties are as follows

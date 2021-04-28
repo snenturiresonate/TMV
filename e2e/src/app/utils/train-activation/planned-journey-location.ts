@@ -7,17 +7,19 @@ import {TrainActivationNetworkSpecificParameter} from './network-specific-parame
 export class TrainActivationPlannedJourneyLocationBuilder {
 
   public static plannedJourneyLocation = (locationPrimaryCode: string, locationSubsidiaryCode: string,
-                                          time: string, operationalTrainNumber: string, trainUID: string) => {
-    const plannedJourneyLocation = fragment().ele('PlannedJourneyLocation').att('JourneyLocationTypeCode', '01')
+                                          time: string, operationalTrainNumber: string, trainUID: string, asmVal: string) => {
+    const plannedJourneyLocation = fragment().ele('ns0:PlannedJourneyLocation').att('JourneyLocationTypeCode', '01')
       .ele(TrainActivationLocationSubsidiaryIdentificationBuilder.locationSubsidiaryIdentification(locationSubsidiaryCode))
       .ele(TrainActivationTimingAtLocationBuilder.timingAtLocation(time))
       .ele(TrainActivationTrainActivityBuilder.trainActivity())
       .ele(TrainActivationNetworkSpecificParameter.networkSpecificParameter('UID', trainUID))
-      .ele('CountryCodeISO').txt('GB').up()
-      .ele('LocationPrimaryCode').txt(locationPrimaryCode).up()
-      .ele('ResponsibleRU').txt('9984').up()
-      .ele('ResponsibleIM').txt('0070').up()
-      .ele('OperationalTrainNumber').txt(operationalTrainNumber).up()
+      .ele(TrainActivationNetworkSpecificParameter.networkSpecificParameter('SER', operationalTrainNumber))
+      .ele(TrainActivationNetworkSpecificParameter.networkSpecificParameter('ASM', asmVal))
+      .ele('ns0:CountryCodeISO').txt('GB').up()
+      .ele('ns0:LocationPrimaryCode').txt(locationPrimaryCode).up()
+      .ele('ns0:ResponsibleRU').txt('9984').up()
+      .ele('ns0:ResponsibleIM').txt('0070').up()
+      .ele('ns0:OperationalTrainNumber').txt(operationalTrainNumber).up()
       .doc();
     return plannedJourneyLocation.end({prettyPrint: true});
   }
