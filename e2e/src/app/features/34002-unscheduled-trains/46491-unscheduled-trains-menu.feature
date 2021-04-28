@@ -7,6 +7,7 @@ Feature: 34002 - Unscheduled Trains Menu
   Background:
     Given I am authenticated to use TMV with 'matching' role
 
+  @tdd @tdd:60684
   Scenario Outline:34002-3a Select Service for Matching (Map)
 #    Given the user is viewing a live schematic map or trains list
 #    And there are unmatched services viewable

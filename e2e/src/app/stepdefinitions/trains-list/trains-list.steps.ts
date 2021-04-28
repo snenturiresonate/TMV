@@ -123,6 +123,7 @@ When('the following service is not displayed on the trains list', async (table: 
   const tableValues = table.hashes()[0];
   const serviceId = tableValues.trainId;
   const trainUID = tableValues.trainUId;
+  await page.navigateTo('/tmv/trains-list');
   const isTrainVisible: boolean = await trainsListPage.isTrainVisible(serviceId, trainUID);
   expect(isTrainVisible, `Service ${serviceId} with trainUId ${trainUID} is displayed`).to.equal(false);
 });
