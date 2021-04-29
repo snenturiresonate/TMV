@@ -669,6 +669,7 @@ When(/^I step through the Berth Level Schedule '(.*)'$/, (filepath: string) => {
   const berthLevelSchedule = JSON.parse(data);
   let currentBerth = '';
   let currentBerthDescriber = '';
+  let lastTiming = '';
   berthLevelSchedule.pathEntries.forEach(pathEntry => {
     if (pathEntry.berths.length > 0) {
       const berth = pathEntry.berths[0];
@@ -688,7 +689,7 @@ When(/^I step through the Berth Level Schedule '(.*)'$/, (filepath: string) => {
           if (currentBerthDescriber !== berth.trainDescriberCode) {
             linxRestClient.postBerthCancel(new BerthCancel(
               currentBerth,
-              plannedStepTime,
+              lastTiming,
               currentBerthDescriber,
               berthLevelSchedule.plannedTrainDescription
             ));
@@ -712,6 +713,7 @@ When(/^I step through the Berth Level Schedule '(.*)'$/, (filepath: string) => {
       }
       currentBerth = berth.berthName;
       currentBerthDescriber = berth.trainDescriberCode;
+      lastTiming = plannedStepTime;
     }
   });
 });

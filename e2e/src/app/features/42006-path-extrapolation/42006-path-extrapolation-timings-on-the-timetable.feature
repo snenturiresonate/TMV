@@ -5,12 +5,11 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
   I want the actual train movements to be incorporated into the schedule
   So that they can be displayed in the UI and used to predict future timings and punctuality
 
+  Background:
+    Given I remove all trains from the trains list
+
   Scenario Outline: 42006-1 Display calculated arrival time
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And Train description '<trainDescription>' is visible on the trains list
     When I am on the timetable view for service '<trainUid>'
@@ -29,10 +28,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   Scenario Outline: 42006-2 Display calculated departure time
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And Train description '<trainDescription>' is visible on the trains list
     When I am on the timetable view for service '<trainUid>'
@@ -53,10 +48,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   Scenario Outline: 42006-3 Display calculated arrival time for a location that appears more than once
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And Train description '<trainDescription>' is visible on the trains list
     When I am on the timetable view for service '<trainUid>'
@@ -80,10 +71,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   Scenario Outline: 42006-3b Display calculated arrival time for a location that appears more than once - same location
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And Train description '<trainDescription>' is visible on the trains list
     When I am on the timetable view for service '<trainUid>'
@@ -102,13 +89,9 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | cif                                      | trainUid | trainDescription | location | timestamp | trainDescriber | toBerth | nextBerth |
       | access-plan/42006-schedules/42006-3b.cif | C14259   | 1U35             | Stafford | 13:50:00  | R3             | 5582    | 9355      |
 
-  @bug @bug:58193
+  @bug @bug:58193 @test
   Scenario Outline: 42006-4 Display calculated departure time for a location that appears more than once
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' with schedule type 'LTP' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
     When I am on the timetable view for service '<trainUid>'
@@ -129,10 +112,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   Scenario Outline: 42006-5 Calculated arrival time for a location is not displayed when a TRI has already been received
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And Train description '<trainDescription>' is visible on the trains list
     When the following berth interpose messages is sent from LINX
@@ -154,10 +133,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   Scenario Outline: 42006-6 Calculated departure time for a location is not displayed when a TRI has already been received
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And Train description '<trainDescription>' is visible on the trains list
     When the following berth interpose messages is sent from LINX
@@ -179,10 +154,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   Scenario Outline: 42006-7 Display calculated actual punctuality following an arrival
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' with schedule type 'STP' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
     When the following berth step messages is sent from LINX
@@ -199,10 +170,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   Scenario Outline: 42006-8a Display calculated actual punctuality following an departure
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' with schedule type 'STP' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
     When the following berth step messages is sent from LINX
@@ -223,10 +190,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   Scenario Outline: 42006-8b Display calculated actual punctuality following a departure
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' with schedule type 'STP' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
     When the following berth step messages is sent from LINX
@@ -243,10 +206,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   Scenario Outline: 42006-5 Calculated arrival time for a location is not displayed when a TRI has already been received
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And Train description '<trainDescription>' is visible on the trains list
     When the following berth interpose messages is sent from LINX
@@ -268,10 +227,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   Scenario Outline: 42006-6 Calculated departure time for a location is not displayed when a TRI has already been received
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And Train description '<trainDescription>' is visible on the trains list
     When the following berth interpose messages is sent from LINX
@@ -293,10 +248,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   Scenario Outline: 42006-7 Display calculated actual punctuality following an arrival
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' with schedule type 'STP' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
     When the following berth step messages is sent from LINX
@@ -313,10 +264,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   Scenario Outline: 42006-8a Display calculated actual punctuality following an departure
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' with schedule type 'STP' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
     When the following berth step messages is sent from LINX
@@ -337,10 +284,6 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   Scenario Outline: 42006-8b Display calculated actual punctuality following a departure
     Given I am on the trains list page
-    And the following basic schedule is received from LINX
-      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
-      | <trainUid> | C            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
-    And train description '<trainDescription>' with schedule type 'STP' disappears from the trains list
     And the access plan located in CIF file '<cif>' is received from LINX
     And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
     When the following berth step messages is sent from LINX
