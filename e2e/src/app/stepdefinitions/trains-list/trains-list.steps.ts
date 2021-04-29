@@ -497,6 +497,10 @@ Then('I should see the trains list table to not display the following trains', a
 
 });
 
+When('I remove all trains from the trains list', async () => {
+  await trainsListPage.removeAllTrainsFromTrainsList();
+});
+
 function checkOrdering(thisString: string, nextString: string, colName: string, direction: string): void {
 
   let orderCheck = thisString.localeCompare(nextString);
