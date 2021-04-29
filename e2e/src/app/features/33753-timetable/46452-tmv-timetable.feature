@@ -59,7 +59,7 @@ Feature: 33753 - TMV Timetable
       | trainNum | planningUid |
       | 1A02     | L10002      |
 
-  @replaySetup
+  @tdd @tdd:60684 @replaySetup
   Scenario Outline: 33753-2b -Open Timetable (from Map - Unmatched)
     Given I am viewing the map HDGW01paddington.v
     And I have cleared out all headcodes
@@ -96,7 +96,7 @@ Feature: 33753 - TMV Timetable
       | Timetable  | 1A        | ACTIVATED     |
       | Timetable  | 1A        | UNMATCHED     |
 
-  @replaySetup
+  @tdd @tdd:60684 @replaySetup
   Scenario Outline: 33753-3b Open Timetable (from Search Result - unmatched service (Train) has no timetable)
     Given I am on the home page
     And I search <searchType> for '<searchVal>'

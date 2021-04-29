@@ -1,6 +1,7 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {of} from 'rxjs';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
+import {RedisClient} from '../../api/redis/redis-client';
 
 
 export class TrainsListPageObject {
@@ -20,6 +21,8 @@ export class TrainsListPageObject {
   public primarySortCol: ElementFinder;
   public secondarySortCol: ElementFinder;
 
+  private redisClient: RedisClient;
+
   constructor() {
     this.trainsListItems = element.all(by.css('#train-tbody tr'));
     this.trainsListContextMenu = element(by.id('trainlistcontextmenu'));
@@ -34,9 +37,9 @@ export class TrainsListPageObject {
     this.trainsListTableCols = element.all(by.css('#trainList th[id^=tmv-train-table-header] span:nth-child(1)'));
     this.trainListSettingsBtn = element(by.css('#settings-menu-button'));
     this.matchUnmatchLink = element(by.css('#match-unmatch-selection-item'));
-
     this.primarySortCol = element(by.css('.primary-sort-header'));
     this.secondarySortCol = element(by.css('.secondary-sort-header'));
+    this.redisClient = new RedisClient();
   }
 
   public async getTrainsListEntryColValues(scheduleId: string): Promise<string[]> {
@@ -151,7 +154,7 @@ export class TrainsListPageObject {
     try {
       await CommonActions.waitForElementToBePresent(trainScheduleId, timeToWaitForTrain, `The Schedule is not displayed in first ${timeToWaitForTrain} milliseconds`);
     } catch (err) {
-      await CommonActions.waitForElementToBePresent(trainScheduleId, timeToWaitForTrain, 'The Schedule is not displayed');
+      return trainScheduleId.isPresent();
     }
     return trainScheduleId.isPresent();
   }
@@ -159,6 +162,11 @@ export class TrainsListPageObject {
   public async getRowForSchedule(scheduleId: string): Promise<number> {
     const schedules = await this.getTrainsListValuesForColumn('train-description');
     return schedules.indexOf(scheduleId);
+  }
+
+  public async removeAllTrainsFromTrainsList(): Promise<void> {
+    const trainslistRowKeys: string[] = await this.redisClient.listKeys('trainlist*');
+    trainslistRowKeys.forEach(trainListRowKey => this.redisClient.keyDelete(trainListRowKey));
   }
 
   public async trainDescriptionHasScheduleType(trainDescription: string, scheduleType: string): Promise<boolean> {
@@ -243,9 +251,8 @@ export class TrainsListPageObject {
   }
 
   public async getTrainsListRowColFill(scheduleId: string): Promise<string> {
-    const trainDescriptionEntry: ElementFinder = element(by.css('[id=\'trains-list-row-' + scheduleId + '\']'));
+    const trainDescriptionEntry: ElementFinder = element(by.css(`[id^='trains-list-row-${scheduleId}']`));
     const backgroundColour: string = await trainDescriptionEntry.getCssValue('background-color');
-
     const oddRowDefaultBackgroundColour = 'rgba(44, 44, 44, 1)';
     const evenRowDefaultBackgroundColour = 'rgba(0, 0, 0, 0)';
     return of(backgroundColour !== oddRowDefaultBackgroundColour && backgroundColour !== evenRowDefaultBackgroundColour
@@ -261,6 +268,14 @@ export class TrainsListPageObject {
     const entryColValues: ElementArrayFinder = element.all(by.css('.trains-list-row-entry-' + column));
     return entryColValues.map((colValue: ElementFinder) => {
       return colValue.getText();
+    });
+  }
+
+  public async getTrainsListSchedules(): Promise<string[]> {
+    const rows: ElementArrayFinder = element.all(by.css(`[id^='trains-list-row-entry-train-description-']`));
+    return rows.map(async (row: ElementFinder) => {
+      const rowId: string = await row.getAttribute('Id');
+      return rowId.slice(40);
     });
   }
 

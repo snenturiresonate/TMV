@@ -389,6 +389,14 @@ When(/^the following train journey modification change of id messages? (?:is|are
     await linxRestClient.waitMaxTransmissionTime();
   });
 
+/**
+ * Used for sending train activation message with the following fields
+ * | trainUID (mandatory) | trainNumber (mandatory) | scheduledDepartureTime (mandatory - hh:mm accepts 'now')
+ * | locationPrimaryCode (mandatory) | locationSubsidiaryCode (mandatory)
+ * |departureDate (mandatory-dd-mm-yyyy accepts 'yesterday', 'today', 'tomorrow')
+ * |actualDepartureHour (Optional - hh:mm accepts 'now' Defaults to current hour)|asm (Optional - Defaults to '0')|
+ */
+
 When(/^the following train activation? (?:message|messages)? (?:is|are) sent from LINX$/, async (trainActivationMessageTable: any) => {
   const trainActivationMessages = trainActivationMessageTable.hashes();
   // tslint:disable-next-line:prefer-for-of
@@ -396,13 +404,41 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
     const trainActivationMessageBuilder: TrainActivationMessageBuilder = new TrainActivationMessageBuilder();
     const trainUID = trainActivationMessages[i].trainUID;
     const trainNumber = trainActivationMessages[i].trainNumber;
-    const scheduledDepartureTime = trainActivationMessages[i].scheduledDepartureTime;
+    const scheduledDepartureTime = () => {
+      if ((trainActivationMessages[i].scheduledDepartureTime).toLowerCase() === 'now') {
+        const now = new Date();
+        return `${Number(now.getHours()).toString().padStart(2, '0')}:${Number(now.getMinutes()).toString().padStart(2, '0')}:${Number(now.getSeconds()).toString().padStart(2, '0')}`;
+      } else {
+          return trainActivationMessages[i].scheduledDepartureTime;
+      }
+    };
+    const departureDate = () => {
+      if ((trainActivationMessages[i].departureDate).toLowerCase() === 'today' ||
+        (trainActivationMessages[i].departureDate).toLowerCase() === 'yesterday' ||
+        (trainActivationMessages[i].departureDate).toLowerCase() === 'tomorrow') {
+        return DateAndTimeUtils.convertToDesiredDateAndFormat((trainActivationMessages[i].departureDate).toLowerCase(), 'yyyy-MM-dd');
+      } else if (trainActivationMessages[i].departureDate === undefined){
+        return DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
+      } else {
+        return trainActivationMessages[i].scheduledDepartureTime;
+      }
+    };
+    const actualDepartureHour = () => {
+      // tslint:disable-next-line:max-line-length
+      if ((trainActivationMessages[i].actualDepartureHour).toLowerCase() === 'now' || trainActivationMessages[i].departureDate === undefined) {
+        const now = new Date();
+        return `${Number(now.getHours()).toString().padStart(2, '0')}`;
+      } else {
+        return trainActivationMessages[i].actualDepartureHour;
+      }
+    };
     const locationPrimaryCode = trainActivationMessages[i].locationPrimaryCode;
     const locationSubsidiaryCode = trainActivationMessages[i].locationSubsidiaryCode;
+    const asmVal = trainActivationMessages[i].asm ? trainActivationMessages[i].asm : 0;
     const trainActMss = trainActivationMessageBuilder.buildMessage(locationPrimaryCode, locationSubsidiaryCode,
-      scheduledDepartureTime, trainNumber, trainUID);
+      scheduledDepartureTime().toString(), trainNumber, trainUID, departureDate().toString(), actualDepartureHour().toString(), asmVal);
     await linxRestClient.postTrainActivation(trainActMss.toString({prettyPrint: true}));
-
+    await CucumberLog.addText(`Train Activation message: ${trainActMss.toString({prettyPrint: true})}`);
     await linxRestClient.waitMaxTransmissionTime();
   }
 });

@@ -4,7 +4,8 @@ Feature: 33805 TMV Schedule Matching
   So that the system selects the most appropriate match
 
   Background:
-    Given the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
+    Given I remove all trains from the trains list
+    And the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
     And I am on the home page
     And I restore to default train list config
 
@@ -162,6 +163,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 0041        | 1B11          | 2B72         | B11111   | PADTON   | 401         | location     |
       | D3             | 0107  | 0125        | 1B11          | 3B72         | B11111   | PRTOBJP  | 401         | sub-division |
 
+  @tdd @tdd:60684
   Scenario Outline: 3. Interpose - Check if the berth should be schedule matched - <berthType> berth
       #      Given there is a valid schedule
       #      And a TD update with the type <Step Type> has been received for the same train description
@@ -193,6 +195,7 @@ Feature: 33805 TMV Schedule Matching
       | BN             | 0181  | 1B12      | B22222   | Matched      | Unmatch     | Open     | NORMAL    |
       | BN             | NCAP  | 1B12      | B22222   | Unmatched    | Match       | No       | EXCLUDE   |
 
+  @tdd @tdd:60684
   Scenario Outline: 3. Step - Check if the berth should be schedule matched - <berthType> berth
       #      Given there is a valid schedule
       #      And a TD update with the type <Step Type> has been received for the same train description
@@ -227,6 +230,7 @@ Feature: 33805 TMV Schedule Matching
       | BN             | 0181  | 0209      | 1B12      | B22222   | Matched      | Unmatch     | Open     | NORMAL    |
       | BN             | NCAP  | 0144      | 1B12      | B22222   | Unmatched    | Match       | No       | EXCLUDE   |
 
+  @tdd @tdd:60684
   Scenario Outline: 4. Interpose - Cancelled schedules are not matched - <matchLevel> match
     #    Given there is a valid schedule has a STP indicator of Cancelled  (C or CV)
     #    And a TD update with the type <Step Type> has been received for the same train description
@@ -364,7 +368,6 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 0041        | 1B13          | B33333   | PADTON   | 401         | location     |
       | D3             | 0107  | 0125        | 1B13          | B33333   | PRTOBJP  | 401         | sub-division |
 
-  @bug @bug:60104
   Scenario Outline: 6. Interpose - activated schedules take precedence - <matchLevel> match
     #    Given there two valid schedule
     #    And a Train Activation message has been received for 1 schedule
@@ -377,13 +380,23 @@ Feature: 33805 TMV Schedule Matching
     #      | berth |
     #      | location |
     #      | sub division |
-    Given I am viewing the map HDGW01paddington.v
+    Given I delete '<trainUid>:today' from hash 'schedule-modifications'
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
+    And I am viewing the map HDGW01paddington.v
     And I have cleared out all headcodes
     And I am on the trains list page
-    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
+    And the following service is displayed on the trains list
+      | trainId         | trainUId   |
+      | <origTrainDesc> | <trainUid> |
     When the following train activation message is sent from LINX
-      | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | <trainUid> | <origTrainDesc> | 12:00                  | 73000               | PADTON                 |
+      | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 |
+    And The trains list table is visible
+    And the service is displayed in the trains list with the following indication
+      | rowType                   | trainUID      | rowColFill             | trainDescriptionFill   |
+      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) | rgba(0, 255, 0, 1)     |
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
@@ -397,14 +410,16 @@ Feature: 33805 TMV Schedule Matching
     And I switch to the new tab
     And the tab title is 'TMV Timetable'
     Then the timetable header train UID is '<trainUid>'
+    # clean up
+    * I remove schedule '<trainUid>' from the trains list
+
 
     Examples:
-      | trainDescriber | berth | origTrainDesc | trainUid | secondTrainUid | location | subdivision | matchLevel   |
-      | D3             | A001  | 1B11          | B11111   | C11111         | PADTON   | 401         | berth        |
-      | D3             | A011  | 1B11          | B11111   | C11111         | PADTON   | 401         | location     |
-      | D3             | 0106  | 1B11          | B11111   | C11111         | PRTOBJP  | 401         | sub-division |
+      | trainDescriber | berth | origTrainDesc | trainUid | location | subdivision | matchLevel   |
+      | D3             | A001  | 2B11          | B33311   | PADTON   | 401         | berth        |
+      | D3             | A011  | 2B12          | B33312   | PADTON   | 401         | location     |
+      | D3             | 0106  | 2B13          | B33313   | PRTOBJP  | 401         | sub-division |
 
-  @bug @bug:60104
   Scenario Outline: 6. Step - activated schedules take precedence - <matchLevel> match
     #    Given there two valid schedule
     #    And a Train Activation message has been received for 1 schedule
@@ -417,13 +432,23 @@ Feature: 33805 TMV Schedule Matching
     #      | berth |
     #      | location |
     #      | sub division |
-    Given I am viewing the map HDGW01paddington.v
+    Given I delete '<trainUid>:today' from hash 'schedule-modifications'
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
+    And I am viewing the map HDGW01paddington.v
     And I have cleared out all headcodes
     And I am on the trains list page
-    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
+    And the following service is displayed on the trains list
+      | trainId         | trainUId   |
+      | <origTrainDesc> | <trainUid> |
     When the following train activation message is sent from LINX
-      | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | <trainUid> | <origTrainDesc> | 12:00                  | 73000               | PADTON                 |
+      | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 |
+    And The trains list table is visible
+    And the service is displayed in the trains list with the following indication
+      | rowType                   | trainUID      | rowColFill             | trainDescriptionFill   |
+      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) | rgba(0, 255, 0, 1)     |
     And the following berth step message is sent from LINX (creating a match)
       | fromBerth | timestamp | toBerth       | trainDescriber   | trainDescription |
       | <berth>   | 12:00:00  | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
@@ -437,9 +462,11 @@ Feature: 33805 TMV Schedule Matching
     And I switch to the new tab
     And the tab title is 'TMV Timetable'
     Then the timetable header train UID is '<trainUid>'
+    # clean up
+    * I remove schedule '<trainUid>' from the trains list
 
     Examples:
-      | trainDescriber | berth | secondBerth | origTrainDesc | trainUid | secondTrainUid | location | subdivision | matchLevel   |
-      | D3             | A001  | 6003        | 1B11          | B11111   | C11111         | PADTON   | 401         | berth        |
-      | D3             | A011  | 0041        | 1B11          | B11111   | C11111         | PADTON   | 401         | location     |
-      | D3             | 0107  | 0125        | 1B11          | B11111   | C11111         | PRTOBJP  | 401         | sub-division |
+      | trainDescriber | berth | secondBerth | origTrainDesc | trainUid | location | subdivision | matchLevel   |
+      | D3             | A001  | 6003        | 2B21          | B44441   | PADTON   | 401         | berth        |
+      | D3             | A011  | 0041        | 2B22          | B44442   | PADTON   | 401         | location     |
+      | D3             | 0107  | 0125        | 2B23          | B44443   | PRTOBJP  | 401         | sub-division |

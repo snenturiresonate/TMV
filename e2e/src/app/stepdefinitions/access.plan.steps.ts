@@ -104,6 +104,7 @@ When ('the train in CIF file below is updated accordingly so time at the referen
     }
     // put it all back together and load
     const newData = cifLines.join('');
+    await CucumberLog.addText(`Access Plan: ${newData}`);
     await linxRestClient.addAccessPlan('', newData);
     await linxRestClient.waitMaxTransmissionTime();
   });
