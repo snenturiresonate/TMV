@@ -4,9 +4,10 @@ Feature: 46482 - TMV Key - display key
   So that I can understand what the schematic objects mean
 
   Background:
-    Given The admin setting defaults are as originally shipped
+    Given I have not already authenticated
     And I am viewing the map GW01paddington.v
-
+    And The admin setting defaults are as originally shipped
+    And I refresh the browser
 
   Scenario: 34085-2a The TMV Key punctuality table is displayed within the modal when the tmv icon is clicked
     When I click on the Help icon

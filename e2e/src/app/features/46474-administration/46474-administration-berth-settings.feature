@@ -1,4 +1,3 @@
-@bug @bug_58056
 Feature: 46474 - Administration Display Settings - full end to end testing - berth settings
 
   As a tester
@@ -6,7 +5,8 @@ Feature: 46474 - Administration Display Settings - full end to end testing - ber
   So, that I can identify if the build meet the end to end requirements
 
   Background:
-    Given I am on the admin page
+    Given I have not already authenticated
+    And I am on the admin page
     And The admin setting defaults are as originally shipped
 
   Scenario: Berth settings header
@@ -35,3 +35,4 @@ Feature: 46474 - Administration Display Settings - full end to end testing - ber
       | No Timetable   | #e1e1e1 | On          |
       | Last Berth     | #ffffff | On          |
       | Unknown Delay  | #ffffff | On          |
+    And The admin setting defaults are as originally shipped
