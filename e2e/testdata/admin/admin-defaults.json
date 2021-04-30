@@ -101,7 +101,6 @@
       "defaultPunctualityTimeBandColourId": "1",
       "fromPunctuality": null,
       "name": "20 minutes or more early",
-      "punctualityDisplay": true,
       "toPunctuality": -1200
     },
     {
@@ -109,7 +108,6 @@
       "defaultPunctualityTimeBandColourId": "2",
       "fromPunctuality": -1200,
       "name": "10 to 19 minutes early",
-      "punctualityDisplay": true,
       "toPunctuality": -600
     },
     {
@@ -117,7 +115,6 @@
       "defaultPunctualityTimeBandColourId": "3",
       "fromPunctuality": -600,
       "name": "5 to 9 minutes early",
-      "punctualityDisplay": true,
       "toPunctuality": -300
     },
     {
@@ -125,7 +122,6 @@
       "defaultPunctualityTimeBandColourId": "4",
       "fromPunctuality": -300,
       "name": "1 to 4 minutes early",
-      "punctualityDisplay": true,
       "toPunctuality": -60
     },
     {
@@ -133,7 +129,6 @@
       "defaultPunctualityTimeBandColourId": "5",
       "fromPunctuality": -60,
       "name": "Right Time",
-      "punctualityDisplay": true,
       "toPunctuality": 60
     },
     {
@@ -141,7 +136,6 @@
       "defaultPunctualityTimeBandColourId": "6",
       "fromPunctuality": 60,
       "name": "1 to 4 minutes late",
-      "punctualityDisplay": true,
       "toPunctuality": 300
     },
     {
@@ -149,7 +143,6 @@
       "defaultPunctualityTimeBandColourId": "7",
       "fromPunctuality": 300,
       "name": "5 to 9 minutes late",
-      "punctualityDisplay": true,
       "toPunctuality": 600
     },
     {
@@ -157,7 +150,6 @@
       "defaultPunctualityTimeBandColourId": "8",
       "fromPunctuality": 600,
       "name": "10 to 19 minutes late",
-      "punctualityDisplay": true,
       "toPunctuality": 1200
     },
     {
@@ -165,7 +157,6 @@
       "defaultPunctualityTimeBandColourId": "9",
       "fromPunctuality": 1200,
       "name": "20 minutes or more late",
-      "punctualityDisplay": true,
       "toPunctuality": null
     }
   ],

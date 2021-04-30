@@ -1,4 +1,3 @@
-@bug @bug_58056
 Feature: 46474 - Administration Common - full end to end testing
 
   As a tester
@@ -11,7 +10,8 @@ Feature: 46474 - Administration Common - full end to end testing
   #Then the admin view is opened with the display settings displayed as default
 
   Background:
-    Given I am on the home page
+    Given I have not already authenticated
+    And I access the homepage as admin
 
   Scenario: Administration page tabs
     When I click the app 'admin'
@@ -26,3 +26,4 @@ Feature: 46474 - Administration Common - full end to end testing
       | Display Settings    |
       | Sign In Message     |
       | System Defaults     |
+    And The admin setting defaults are as originally shipped

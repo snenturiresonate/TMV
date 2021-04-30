@@ -4,6 +4,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
   I want the system process LINX train stepping messages
   So that I can view the train stepping on the schematic
 
+  @bug @bug:56878 @tdd @tdd:53405
   Scenario: 40490-1 Single Change of ID received
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
@@ -17,6 +18,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the sent TJMs are in the modifications table
     And the last TJM is correct
 
+  @bug @bug:56878 @tdd @tdd:53405
   Scenario Outline: 40490-2a Single Cancellation at Origin or Cancellation at location received
     Given the following basic schedules are received from LINX
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
@@ -34,6 +36,38 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | H41102   | 1X02             | 91   | 12                 | PD                |
       | H41103   | 1X03             | 92   | 19                 | OZ                |
 
+  Scenario Outline: Activated service is cancelled
+    Given I delete '<trainUid>:today' from hash 'schedule-modifications'
+    When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <trainDescription>  | <trainUid>     |
+    And I am on the home page
+    And I restore to default train list config
+    And I am on the trains list page
+    And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
+    And the following berth interpose message is sent from LINX
+      | timestamp | toBerth | trainDescriber| trainDescription   |
+      | 09:59:00  | A001    | D3            | <trainDescription> |
+    And the following train activation message is sent from LINX
+      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <trainUid> | <trainDescription> | now                    | 73000               | PADTON                 | today         | now                 |
+    And The trains list table is visible
+    And the service is displayed in the trains list with the following indication
+      | rowType                   | trainUID      | rowColFill             | trainDescriptionFill   |
+      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) | rgba(0, 255, 0, 1)     |
+    When the following TJM is received
+      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason   | nationalDelayCode   |
+      | <trainUid> | <trainDescription> | 12            | create | <type>    | <type>          | 99999       | PADTON         | 12:00:00 | <modificationReason> | <nationalDelayCode> |
+    And The trains list table is visible
+    Then the service is displayed in the trains list with the following indication
+      | rowType                   | trainUID      | rowColFill             | trainDescriptionFill   |
+      | Origin called             | <trainUid>    | rgba(255, 255, 255, 1) | rgba(0, 255, 0, 1)     |
+
+    Examples:
+      | trainUid | trainDescription | type | modificationReason | nationalDelayCode |
+      | H41103   | 1X03             | 92   | 19                 | OZ                |
+
+  @bug @bug:56878 @tdd @tdd:53405
   Scenario: 40490-2b Single Change of Origin at location received
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
@@ -46,6 +80,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     Then the sent TJMs are in the modifications table
     And the last TJM is correct
 
+  @bug @bug:56878 @tdd @tdd:53405
   Scenario Outline: 40490-3 Cancellation received followed by reinstatement at the same location
     Given the following basic schedules are received from LINX
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
@@ -64,6 +99,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | H41105   | 1X05             | 91   | 12                 | PD                |
       | H41106   | 1X06             | 92   | 19                 | OZ                |
 
+  @bug @bug:56878 @tdd @tdd:53405
   Scenario: 40490-4 Multiple changes of Origin
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
@@ -77,6 +113,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     Then the sent TJMs are in the modifications table
     And the last TJM is correct
 
+  @bug @bug:56878 @tdd @tdd:53405
   Scenario: 40490-5 Multiple changes of ID
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
@@ -91,6 +128,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the sent TJMs are in the modifications table
     And the last TJM is correct
 
+  @bug @bug:56878 @tdd @tdd:53405
   Scenario: 40490-6 Multiple out of order changes of Origin
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
@@ -105,6 +143,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the sent TJMs in the modifications table are in time order
     And the last TJM is the TJM with the latest time
 
+  @bug @bug:56878 @tdd @tdd:53405
   Scenario: 40490-7 Multiple out of order changes of ID
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
@@ -119,6 +158,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the sent TJMs are in the modifications table
     And the last TJM is the TJM with the latest time
 
+  @bug @bug:56878 @tdd @tdd:53405
   Scenario Outline: 40490-8 Out of order cancel/reinstate display in timetable
     Given the following basic schedules are received from LINX
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
@@ -137,6 +177,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | H41111   | 1X11             | 91   | 12                 | PD                |
       | H41112   | 1X12             | 92   | 19                 | OZ                |
 
+  @bug @bug:56878 @tdd @tdd:53405
   Scenario: 40490-9 Out of order cancel/reinstate display in trains list
   #  Given a TJM with <TJM 1 type> has been received for a schedule followed by <TJM 2 type> with an earlier modification datetime
   #  And the trains list configuration has cancellation indication turned on
@@ -161,13 +202,13 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | name          | colour | minutes | toggleValue |
       | Cancellation  | #ff7   |         | on          |
       | Reinstatement | #dde   |         | on          |
-    When I am on the trains list page
+    When I open 'trains list' page in a new tab
     And The trains list table is visible
     Then I should see the train list row coloured as
       | trainDescriberId | backgroundColour   |
       | 1X13             | rgb(221, 221, 238) |
 
-
+  @bug @bug:56878 @tdd @tdd:53405
   Scenario: 40490-10 Invalid reinstate followed by cancellation display in trains list
     # Given a TJM with <TJM 1 type> has been received for a schedule followed by <TJM 2 type> with a later modification datetime
     # And the trains list configuration has cancellation indication turned on
@@ -192,7 +233,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | name          | colour | minutes | toggleValue |
       | Cancellation  | #dde   |         | on          |
       | Reinstatement | #ff7   |         | on          |
-    When I am on the trains list page
+    When I open 'trains list' page in a new tab
     And The trains list table is visible
     Then I should see the train list row coloured as
       | trainDescriberId | backgroundColour   |
