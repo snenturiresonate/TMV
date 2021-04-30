@@ -114,7 +114,7 @@ Feature: 33750 - Schematic Maps - Render Objects
     Examples:
       | berthId | berthIdnoTD |
       | 83311X  | 311X        |
-      | 83321O  | 321O        |
+      | 83232D  | 232D        |
       | 83475A  | 475A        |
 
 

@@ -36,6 +36,37 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | H41102   | 1X02             | 91   | 12                 | PD                |
       | H41103   | 1X03             | 92   | 19                 | OZ                |
 
+  Scenario Outline: Activated service is cancelled
+    Given I delete '<trainUid>:today' from hash 'schedule-modifications'
+    When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <trainDescription>  | <trainUid>     |
+    And I am on the home page
+    And I restore to default train list config
+    And I am on the trains list page
+    And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
+    And the following berth interpose message is sent from LINX
+      | timestamp | toBerth | trainDescriber| trainDescription   |
+      | 09:59:00  | A001    | D3            | <trainDescription> |
+    And the following train activation message is sent from LINX
+      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <trainUid> | <trainDescription> | now                    | 73000               | PADTON                 | today         | now                 |
+    And The trains list table is visible
+    And the service is displayed in the trains list with the following indication
+      | rowType                   | trainUID      | rowColFill             | trainDescriptionFill   |
+      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) | rgba(0, 255, 0, 1)     |
+    When the following TJM is received
+      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason   | nationalDelayCode   |
+      | <trainUid> | <trainDescription> | 12            | create | <type>    | <type>          | 99999       | PADTON         | 12:00:00 | <modificationReason> | <nationalDelayCode> |
+    And The trains list table is visible
+    Then the service is displayed in the trains list with the following indication
+      | rowType                   | trainUID      | rowColFill             | trainDescriptionFill   |
+      | Origin called             | <trainUid>    | rgba(255, 255, 255, 1) | rgba(0, 255, 0, 1)     |
+
+    Examples:
+      | trainUid | trainDescription | type | modificationReason | nationalDelayCode |
+      | H41103   | 1X03             | 92   | 19                 | OZ                |
+
   @bug @bug:56878 @tdd @tdd:53405
   Scenario: 40490-2b Single Change of Origin at location received
     Given the following basic schedules are received from LINX
