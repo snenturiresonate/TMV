@@ -4,7 +4,6 @@ Feature: 37657 - Basic Timetable Modelling
   I want the schedules received in a CIF format to be transformed and loaded into TMV as agreed and current timetables
   So that the data is available for the system to use schedule match and display purposes
 
-  @tdd
   Scenario Outline: 37657-1 Old Schedules are not displayed
     # Given a schedule has been received with <STP indicator> which has a 'Date Runs To' before the current time period
     # When a user searches for that timetable
@@ -25,7 +24,6 @@ Feature: 37657 - Basic Timetable Modelling
       | 4F01             | A137657  | 2020-01-01   | yesterday  | P            | LTP         |
       | 4F02             | A237657  | 2020-01-01   | yesterday  | N            | STP         |
 
-  @tdd
   Scenario Outline: 37657-2 Future Schedules are not displayed
     # Given a schedule has been received with <STP indicator>which has a 'Date Runs From' after the current time period
     # When a user searches for that timetable
@@ -45,7 +43,6 @@ Feature: 37657 - Basic Timetable Modelling
       | 4F03             | A337657  | tomorrow     | P            | LTP         |
       | 4F04             | A437657  | tomorrow     | N            | STP         |
 
-  @tdd
   Scenario Outline: 37657-3 Days run outside current time period are not displayed
     # Given a schedule has been received with <STP indicator> where the 'Days Runs' is not in the current time period
     # When a user searches for that timetable
@@ -205,7 +202,6 @@ Feature: 37657 - Basic Timetable Modelling
       | access-plan/schedules_BS_type_N.cif             | A12245    |
       | access-plan/schedules_BS_type_O.cif             | A12345    |
 
-  @tdd
   Scenario: 37657-10 Schedule associations are displayed
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # When a user views that timetable
