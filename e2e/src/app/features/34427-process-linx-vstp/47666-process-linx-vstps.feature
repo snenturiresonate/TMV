@@ -3,7 +3,6 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
   I want the system process LINX VSTP messages
   So that I can view a train's VSTP timetable and respective on the day updates
 
-  @tdd
   Scenario Outline: 34427-1 Old Schedules are not displayed
     #Given a schedule has been received with <STP indicator> which has a 'Date Runs To' before the current time period
     #When a user searches for that timetable
@@ -19,7 +18,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | trainUid |scheduleEndDate | stpIndicator |  scheduleDaysRuns |
       | A137657  | 2050-01-01     | NV           |  1111111          |
 
-  @tdd
+
   Scenario Outline: 34427-2 Future Schedules are not displayed
     #Given a schedule has been received with <STP indicator>which has a 'Date Runs From' after the current time period
     #When a user searches for that timetable
@@ -35,7 +34,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | trainUid |scheduleEndDate | stpIndicator |  scheduleDaysRuns |
       | A137657  | 2050-01-01      | NV          |  1111111          |
 
-  @tdd
+
   Scenario Outline: 34427-3 Days run outside current time period are not displayed
     #Given a schedule has been received with <STP indicator> where the 'Days Runs' is not in the current time period
     #When a user searches for that timetable
@@ -190,7 +189,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | A63345   | 2050-01-01      | 1111111            | OV             |
       | A73345   | 2050-01-01      | 1111111            | CV             |
 
-  @tdd
+
   Scenario: 34427-11 Schedule associations are displayed
     #Given schedule(s) has been received via a CIF which has an association to a schedule received via a VSTP
     #When a user views the timetable for the VSTP schedule

@@ -51,7 +51,6 @@ Feature: 47637 - Process C Class Messages - Berth Translation
       | 1E05             | D5               | 2494    |
       | 1E06             | RA               | 0626    |
 
-  @tdd
   Scenario Outline: 33758 Berth Translation - Step With Matching Config - To
     # Has Type T
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
