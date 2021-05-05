@@ -242,6 +242,23 @@ Then('the service is displayed in the trains list with the following indication'
   }
 });
 
+Then('the service is displayed in the trains list with the following row colour', async (trainsListRowsDataTable: any) => {
+  const trainsListRowValues: any[] = trainsListRowsDataTable.hashes();
+
+  for (const expectedTrainsListRow of trainsListRowValues) {
+    let rowIdentifier = '';
+    if (expectedTrainsListRow.rowType === 'unmatched step' || expectedTrainsListRow.rowType === 'unmatched interpose') {
+      rowIdentifier = expectedTrainsListRow.rowId;
+    }
+    else {
+      rowIdentifier = expectedTrainsListRow.trainUID + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
+    }
+    const actualRowColFill: string = await trainsListPage.getTrainsListRowColFill(rowIdentifier);
+
+    expect(actualRowColFill, 'Row colour is not as expected').to.equal(expectedTrainsListRow.rowColour);
+  }
+});
+
 Then('I should see the trains list columns as', {timeout: 2 * 20000}, async (table: any) => {
   const expectedColHeaders: string[] = table.hashes().map((Value: any) => {
     return Value.header;
