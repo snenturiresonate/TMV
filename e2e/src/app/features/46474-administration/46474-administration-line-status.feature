@@ -78,6 +78,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
       | Possession | #ff0000 |
       | Not in use | #ffa700 |
 
+  @bug @bug:61408
   Scenario: Update Line Status -Route type settings
     When I update the Line Status route type settings table as
       | name      | colour  | lineWidth | lineStyle |

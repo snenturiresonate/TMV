@@ -36,6 +36,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | H41102   | 1X02             | 91   | 12                 | PD                |
       | H41103   | 1X03             | 92   | 19                 | OZ                |
 
+  @bug @bug:61409
   Scenario Outline: Activated service is cancelled
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
@@ -52,9 +53,9 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUid> | <trainDescription> | now                    | 73000               | PADTON                 | today         | now                 |
     And The trains list table is visible
-    And the service is displayed in the trains list with the following indication
-      | rowType                   | trainUID      | rowColFill             | trainDescriptionFill   |
-      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) | rgba(0, 255, 0, 1)     |
+    And the service is displayed in the trains list with the following row colour
+      | rowType                   | trainUID      | rowColFill             |
+      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) |
     When the following TJM is received
       | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason   | nationalDelayCode   |
       | <trainUid> | <trainDescription> | 12            | create | <type>    | <type>          | 99999       | PADTON         | 12:00:00 | <modificationReason> | <nationalDelayCode> |
