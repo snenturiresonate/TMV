@@ -57,6 +57,7 @@ Feature: 47637 - Process C Class Messages - Berth Translation
     When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
+    And the maximum amount of time is allowed for end to end transmission
     Then berth '<fromBerth>' in train describer '<fromTrainDescriber>' does not contain '<trainDescription>'
     And berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible
 
