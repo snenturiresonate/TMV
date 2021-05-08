@@ -215,7 +215,7 @@ export class MapPageObject {
   }
 
   public async navigateToMapWithBerth(berthId: string, trainDescriber: string): Promise<void> {
-    const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), 'maps/maps-western.json'));
+    const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), 'maps/maps-national.json'));
     const mapBerthData = JSON.parse(rawData.toString());
     const filtered = mapBerthData.filter((mapObj) => mapObj.berths.includes(trainDescriber + berthId));
     assert(filtered.length > 0, 'no map found containing berth ' + berthId + ' in train describer ' + trainDescriber + ' found');

@@ -25,7 +25,6 @@ Feature: 34002 - Unscheduled Trains Menu
       | trainNum |
       | 2B01     |
 
-
   Scenario Outline:34002-3b Select Service for Matching (Trains List - unmatched stepping)
     And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth | trainDescriber | trainDescription |
@@ -38,7 +37,6 @@ Feature: 34002 - Unscheduled Trains Menu
     Examples:
       | trainNum |
       | 2B02     |
-
 
   Scenario Outline:34002-3c Select Service for Matching (Trains List - unmatched TRI)
     And the following train running information message is sent from LINX
