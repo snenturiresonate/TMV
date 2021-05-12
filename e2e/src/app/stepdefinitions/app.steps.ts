@@ -27,6 +27,7 @@ import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 import {DateTimeFormatter, LocalDateTime, ZonedDateTime, ZoneId} from '@js-joda/core';
 import '@js-joda/timezone';
 import {NavBarPageObject} from '../pages/nav-bar.page';
+import {RedisClient} from '../api/redis/redis-client';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
@@ -716,4 +717,7 @@ When(/^I step through the Berth Level Schedule '(.*)'$/, (filepath: string) => {
       lastTiming = plannedStepTime;
     }
   });
+});
+Given(/^I log the berth level schedule for '(.*)'$/, async (trainUid) => {
+  await CucumberLog.addJson(await new RedisClient().getBerthLevelSchedule(trainUid));
 });

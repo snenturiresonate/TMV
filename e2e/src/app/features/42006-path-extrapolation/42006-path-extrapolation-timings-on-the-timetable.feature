@@ -11,12 +11,12 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
   Scenario Outline: 42006-1 Display calculated arrival time
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX
-    And Train description '<trainDescription>' is visible on the trains list
-    When I am on the timetable view for service '<trainUid>'
-    And I toggle the inserted locations on
-    And the following berth interpose messages is sent from LINX
+    And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
+    When the following berth interpose messages is sent from LINX
       | timestamp   | toBerth   | trainDescriber   | trainDescription   |
       | <timestamp> | <toBerth> | <trainDescriber> | <trainDescription> |
+    And I am on the timetable view for service '<trainUid>'
+    And I toggle the inserted locations on
     Then the actual/predicted Arrival time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
 
     Examples:
@@ -29,12 +29,12 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
   Scenario Outline: 42006-2 Display calculated departure time
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX
-    And Train description '<trainDescription>' is visible on the trains list
-    When I am on the timetable view for service '<trainUid>'
-    And I toggle the inserted locations on
-    And the following berth step messages is sent from LINX
+    And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
+    When the following berth step messages is sent from LINX
       | timestamp   | fromBerth   | toBerth   | trainDescriber   | trainDescription   |
       | <timestamp> | <fromBerth> | <toBerth> | <trainDescriber> | <trainDescription> |
+    And I am on the timetable view for service '<trainUid>'
+    And I toggle the inserted locations on
     Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
 
     Examples:
@@ -49,55 +49,46 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
   Scenario Outline: 42006-3 Display calculated arrival time for a location that appears more than once
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX
-    And Train description '<trainDescription>' is visible on the trains list
-    When I am on the timetable view for service '<trainUid>'
+    And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
+    And the following berth step messages is sent from LINX
+      | fromBerth | timestamp | toBerth | trainDescriber | trainDescription   |
+      | 3594      | 13:51:00  | 5582    | R3             | <trainDescription> |
+      | 5582      | 13:51:30  | 4310    | R3             | <trainDescription> |
+      | 1296      | 14:50:00  | 5582    | R3             | <trainDescription> |
+    And I am on the timetable view for service '<trainUid>'
     And I toggle the inserted locations on
-    And the following berth interpose messages is sent from LINX
-      | timestamp   | toBerth   | trainDescriber   | trainDescription   |
-      | <timestamp> | <toBerth> | <trainDescriber> | <trainDescription> |
-    And the following berth step messages is sent from LINX
-      | timestamp | fromBerth | toBerth      | trainDescriber   | trainDescription   |
-      | 13:55:00  | <toBerth> | <fromBerth2> | <trainDescriber> | <trainDescription> |
-    And the following berth step messages is sent from LINX
-      | timestamp    | fromBerth    | toBerth   | trainDescriber   | trainDescription   |
-      | <timestamp2> | <fromBerth2> | <toBerth> | <trainDescriber> | <trainDescription> |
-    And I refresh the browser
-    Then the actual/predicted Arrival time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
-    Then the actual/predicted Arrival time for location "<location>" instance 2 is correctly calculated based on "<timestamp2>"
+    Then the actual/predicted Arrival time for location "Stafford" instance 1 is correctly calculated based on "13:51:00"
+    Then the actual/predicted Arrival time for location "Stafford" instance 2 is correctly calculated based on "14:50:00"
 
     Examples:
-      | cif                                     | trainUid | trainDescription | location | timestamp | trainDescriber | toBerth | timestamp2 | fromBerth2 |
-      | access-plan/42006-schedules/42006-3.cif | C14258   | 1U34             | Stafford | 13:50:00  | R3             | 5582    | 15:52:00   | 3580       |
+      | cif                                     | trainUid | trainDescription |
+      | access-plan/42006-schedules/42006-3.cif | C14258   | 1U34             |
 
   Scenario Outline: 42006-3b Display calculated arrival time for a location that appears more than once - same location
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX
-    And Train description '<trainDescription>' is visible on the trains list
-    When I am on the timetable view for service '<trainUid>'
+    And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
+    When the following berth step messages is sent from LINX
+      | fromBerth | timestamp | toBerth | trainDescriber | trainDescription   |
+      | 3594      | 13:51:00  | 5582    | R3             | <trainDescription> |
+    And I am on the timetable view for service '<trainUid>'
     And I toggle the inserted locations on
-    And the following berth interpose messages is sent from LINX
-      | timestamp   | toBerth   | trainDescriber   | trainDescription   |
-      | <timestamp> | <toBerth> | <trainDescriber> | <trainDescription> |
-    And the following berth step messages is sent from LINX
-      | timestamp | fromBerth | toBerth     | trainDescriber   | trainDescription   |
-      | 13:51:00  | <toBerth> | <nextBerth> | <trainDescriber> | <trainDescription> |
-    Then the actual/predicted Arrival time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
-    Then the actual/predicted Departure time for location "<location>" instance 1 is empty
-    Then the actual/predicted Arrival time for location "<location>" instance 2 is empty
+    Then the actual/predicted Arrival time for location "Stafford" instance 1 is correctly calculated based on "13:51:00"
+    And the actual/predicted Departure time for location "Stafford" instance 1 is predicted
+    And the actual/predicted Arrival time for location "Stafford" instance 2 is predicted
 
     Examples:
-      | cif                                      | trainUid | trainDescription | location | timestamp | trainDescriber | toBerth | nextBerth |
-      | access-plan/42006-schedules/42006-3b.cif | C14259   | 1U35             | Stafford | 13:50:00  | R3             | 5582    | 9355      |
+      | cif                                      | trainUid | trainDescription |
+      | access-plan/42006-schedules/42006-3b.cif | C14259   | 1U35             |
 
   @bug @bug:58193
   Scenario Outline: 42006-4 Display calculated departure time for a location that appears more than once
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX
     And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
-    When I am on the timetable view for service '<trainUid>'
+    When I step through the Berth Level Schedule 'access-plan/42006-schedules/42006-berth-level-schedule.json'
+    And I am on the timetable view for service '<trainUid>'
     And I toggle the inserted locations on
-    And I step through the Berth Level Schedule 'access-plan/42006-schedules/42006-berth-level-schedule.json'
-    And I refresh the browser
     Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
     And the actual/predicted Departure time for location "<location>" instance 2 is correctly calculated based on "<timestamp2>"
 
@@ -161,7 +152,7 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | <fromBerth> | <timestamp> | <toBerth> | <trainDescriber> | <trainDescription> |
     And I am on the timetable view for service '<trainUid>'
     And I toggle the inserted locations on
-    Then the punctuality for location "<location>" instance 1 is correctly calculated based on "<timestamp>" & "<expectedArrivalTime>"
+    Then the Arrival punctuality for location "<location>" instance 1 is correctly calculated based on expected time "<expectedArrivalTime>" & actual time "<timestamp>"
 
     Examples:
       | cif                                     | trainUid | trainDescription | location      | timestamp | expectedArrivalTime | trainDescriber | toBerth | fromBerth |
@@ -178,7 +169,7 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | <toBerth>   | <timestamp2> | <secondToBerth> | <trainDescriber> | <trainDescription> |
     And I am on the timetable view for service '<trainUid>'
     And I toggle the inserted locations on
-    Then the punctuality for location "<location>" instance 1 is correctly calculated based on "<timestamp2>" & "<plannedTime>"
+    Then the Departure punctuality for location "<location>" instance 1 is correctly calculated based on expected time "<plannedTime>" & actual time "<timestamp2>"
 
     Examples:
       | cif                                     | trainUid | trainDescription | location              | timestamp | plannedTime | timestamp2 | trainDescriber | toBerth | fromBerth | secondToBerth |
@@ -197,31 +188,34 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | <fromBerth> | <timestamp> | <toBerth> | <trainDescriber> | <trainDescription> |
     And I am on the timetable view for service '<trainUid>'
     And I toggle the inserted locations on
-    Then the punctuality for location "<location>" instance 1 is correctly calculated based on "<timestamp>" & "<plannedTime>"
+    Then the Departure punctuality for location "<location>" instance 1 is correctly calculated based on expected time "<plannedTime>" & actual time "<timestamp>"
 
     Examples:
       | cif                                     | trainUid | trainDescription | location | timestamp | plannedTime | trainDescriber | toBerth | fromBerth |
       #Origin
       | access-plan/42006-schedules/42006-8.cif | C14261   | 1U31             | Crewe    | 13:33:00  | 13:33:00    | CE             | H056    | A120      |
 
-    @test
+  @test
   Scenario: 42006-9 Display calculated punctuality following an arrival for a location that appears more than once (Stopping)
     Given I am on the trains list page
     And the access plan located in CIF file 'access-plan/42006-schedules/42006-9.cif' is received from LINX
     And train description '1U50' is visible on the trains list with schedule type 'LTP'
+    And I log the berth level schedule for 'C14250'
     When the following berth step messages is sent from LINX
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
       | 3594      | 13:51:00  | 5582    | R3             | 1U50             |
       | 5582      | 13:51:30  | 4310    | R3             | 1U50             |
-      | 1296      | 14:50:00  | 5582    | R3             | 1U50             |
+      | 3585      | 14:50:00  | 5582    | R3             | 1U50             |
     And I am on the timetable view for service 'C14250'
     And I toggle the inserted locations on
-    Then the punctuality for location "Stafford" instance 2 is correctly calculated based on "14:50:00" & "14:51:00"
+    Then the Arrival punctuality for location "Stafford" instance 2 is correctly calculated based on expected time "14:51:00" & actual time "14:50:00"
 
+    @test
   Scenario: 42006-9b Display calculated punctuality following an arrival for a location that appears more than once (Destination)
     Given I am on the trains list page
     And the access plan located in CIF file 'access-plan/42006-schedules/42006-9b.cif' is received from LINX
     And train description '1U51' is visible on the trains list with schedule type 'LTP'
+    And I log the berth level schedule for 'C14251'
     When the following berth step messages is sent from LINX
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
       | 3594      | 13:51:00  | 5582    | R3             | 1U51             |
@@ -229,47 +223,53 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | 1296      | 14:50:00  | 5582    | R3             | 1U51             |
     And I am on the timetable view for service 'C14251'
     And I toggle the inserted locations on
-    Then the punctuality for location "Stafford" instance 2 is correctly calculated based on "14:50:00" & "14:51:00"
+    Then the Arrival punctuality for location "Stafford" instance 2 is correctly calculated based on expected time "14:55:00" & actual time "14:50:00"
 
-
+    @test
   Scenario: 42006-10 Display calculated punctuality following a departure for a location that appears more than once (origin)
     Given I am on the trains list page
     And the access plan located in CIF file 'access-plan/42006-schedules/42006-10.cif' is received from LINX
-    And train description '1U51' is visible on the trains list with schedule type 'LTP'
+    And train description '1U52' is visible on the trains list with schedule type 'LTP'
+    And I log the berth level schedule for 'C14252'
     When the following berth step messages is sent from LINX
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
-      | 3594      | 13:51:00  | 5582    | R3             | 1U51             |
-      | 5582      | 13:51:30  | 4310    | R3             | 1U51             |
-      | 1296      | 14:50:00  | 5582    | R3             | 1U51             |
-    And I am on the timetable view for service 'C14251'
+      | A120      | 13:34:00  | 0104    | CE             | 1U52             |
+      | 0105      | 15:02:30  | A136    | CE             | 1U52             |
+      | A136      | 15:03:00  | 0159    | CE             | 1U52             |
+    And I am on the timetable view for service 'C14252'
     And I toggle the inserted locations on
-    Then the punctuality for location "Crewe" instance 2 is correctly calculated based on "14:50:00" & "14:51:00"
+    Then the Departure punctuality for location "Crewe" instance 2 is correctly calculated based on expected time "15:03:30" & actual time "15:03:00"
 
+    @test
   Scenario: 42006-10b Display calculated punctuality following a departure for a location that appears more than once (passing)
     Given I am on the trains list page
     And the access plan located in CIF file 'access-plan/42006-schedules/42006-10b.cif' is received from LINX
-    And train description '1U51' is visible on the trains list with schedule type 'LTP'
+    And train description '1U53' is visible on the trains list with schedule type 'LTP'
+    And I log the berth level schedule for 'C14253'
     When the following berth step messages is sent from LINX
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
-      | 3594      | 13:51:00  | 5582    | R3             | 1U51             |
-      | 5582      | 13:51:30  | 4310    | R3             | 1U51             |
-      | 1296      | 14:50:00  | 5582    | R3             | 1U51             |
-    And I am on the timetable view for service 'C14251'
+      | 3644      | 13:39:30  | 3642    | R3             | 1U53             |
+      | 3642      | 13:40:00  | 3638    | R3             | 1U53             |
+      | 3637      | 14:59:00  | 3639    | R3             | 1U53             |
+      | 3639      | 14:59:01  | 3643    | R3             | 1U53             |
+    And I am on the timetable view for service 'C14253'
     And I toggle the inserted locations on
-    Then the punctuality for location "MADELEY" instance 2 is correctly calculated based on "14:50:00" & "14:51:00"
+    Then the Departure punctuality for location "Madeley (Staffs)" instance 2 is correctly calculated based on expected time "14:59:30" & actual time "14:59:01"
 
+    @test
   Scenario: 42006-10c Display calculated punctuality following a departure for a location that appears more than once (stopping)
     Given I am on the trains list page
     And the access plan located in CIF file 'access-plan/42006-schedules/42006-10c.cif' is received from LINX
-    And train description '1U51' is visible on the trains list with schedule type 'LTP'
+    And train description '1U54' is visible on the trains list with schedule type 'LTP'
+    And I log the berth level schedule for 'C14254'
     When the following berth step messages is sent from LINX
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
-      | 3594      | 13:51:00  | 5582    | R3             | 1U51             |
-      | 5582      | 13:51:30  | 4310    | R3             | 1U51             |
-      | 1296      | 14:50:00  | 5582    | R3             | 1U51             |
-    And I am on the timetable view for service 'C14251'
+      | 3594      | 13:51:00  | 5582    | R3             | 1U54             |
+      | 5582      | 13:51:30  | 4310    | R3             | 1U54             |
+      | 1296      | 14:50:00  | 5582    | R3             | 1U54             |
+    And I am on the timetable view for service 'C14254'
     And I toggle the inserted locations on
-    Then the punctuality for location "Stafford" instance 2 is correctly calculated based on "14:50:00" & "14:51:00"
+    Then the Departure punctuality for location "Stafford" instance 2 is correctly calculated based on expected time "14:51:00" & actual time "14:50:00"
 #
 #  42006-11 Calculated punctuality for a location is not displayed when a TRI has already been received
 #    Given a valid schedule exists

@@ -799,7 +799,7 @@ function actualsTimeRounding(timestamp: string, arrivalOrDeparture: string): str
   }
   return ltTimestamp.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
 }
-Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instance (.*) is empty$/,
+Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instance (.*) is predicted$/,
   async (arrivalOrDeparture, location, instance) => {
     await timetablePage.getRowByLocation(location, instance).then(async row => {
       let field;
@@ -809,23 +809,31 @@ Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instan
       else {
         field = row.actualDep;
       }
-      expect(await field.getText(), `Actual ${arrivalOrDeparture} not correct for location ${location}`).to.equal('');
+      const text = await field.getText();
+      expect(/\(.*\)/.test(text), `expected ${location} ${arrivalOrDeparture} time to be predicted, but was ${text}`).to.equal(true);
     });
 });
 
-function getExpectedPunctuality(actualTime, expectedTime): string {
+function getExpectedPunctuality(arrival, actualTime, expectedTime): string {
   const minutes = ChronoUnit.MINUTES.between(LocalTime.parse(expectedTime), LocalTime.parse(actualTime));
-  const seconds = ChronoUnit.SECONDS.between(LocalTime.parse(expectedTime), LocalTime.parse(actualTime));
-  const plusMinus = (seconds < 0) ? `-` : `+`;
-  // tslint:disable-next-line:triple-equals
-  return (seconds % 60 == 0) ? `${plusMinus}${Math.abs(minutes)}m` : `${plusMinus}${Math.abs(minutes)}m ${Math.abs(seconds % 60)}s`;
+  let seconds = ChronoUnit.SECONDS.between(LocalTime.parse(expectedTime), LocalTime.parse(actualTime));
+  const isLate = (seconds > 0);
+  if (arrival) {
+    // round up nearest 30s
+    seconds =  Math.ceil(seconds / 30) * 30;
+  } else {
+    // round down nearest 30s
+    seconds =  Math.floor(seconds / 30) * 30;
+  }
+  const plusMinus = (isLate) ? `+` : `-`;
+  return (Math.abs(seconds) >= 60) ? `${plusMinus}${Math.abs(minutes)}m` : `${plusMinus}${Math.abs(minutes)}m ${Math.abs(seconds % 60)}s`;
 }
 
-Then(/^the punctuality for location "(.*)" instance (\d+) is correctly calculated based on "(.*)" & "(.*)"$/,
-  async (location, instance, expectedTime, actualTime) => {
+Then(/^the (Arrival|Departure) punctuality for location "(.*)" instance (\d+) is correctly calculated based on expected time "(.*)" & actual time "(.*)"$/,
+  async (arrivalDeparture, location, instance, expectedTime, actualTime) => {
     await timetablePage.getRowByLocation(location, instance).then(async row => {
       const field = row.punctuality;
-      const expectedPunctuality = getExpectedPunctuality(expectedTime, actualTime);
+      const expectedPunctuality = getExpectedPunctuality(arrivalDeparture === 'Arrival', actualTime, expectedTime);
       expect(await field.getText(), `Actual punctuality not correct for location ${location}`).to.equal(expectedPunctuality);
     });
 });
