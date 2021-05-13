@@ -1,4 +1,3 @@
-@bug @bug:58317
 Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   As a TMV user
