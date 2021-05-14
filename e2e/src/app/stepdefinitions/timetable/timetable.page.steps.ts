@@ -817,7 +817,7 @@ Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instan
 function getExpectedPunctuality(arrival, actualTime, expectedTime): string {
   const minutes = ChronoUnit.MINUTES.between(LocalTime.parse(expectedTime), LocalTime.parse(actualTime));
   let seconds = ChronoUnit.SECONDS.between(LocalTime.parse(expectedTime), LocalTime.parse(actualTime));
-  const isLate = (seconds > 0);
+  const isLate = (seconds >= 0);
   if (arrival) {
     // round up nearest 30s
     seconds =  Math.ceil(seconds / 30) * 30;
@@ -826,7 +826,7 @@ function getExpectedPunctuality(arrival, actualTime, expectedTime): string {
     seconds =  Math.floor(seconds / 30) * 30;
   }
   const plusMinus = (isLate) ? `+` : `-`;
-  return (Math.abs(seconds) >= 60) ? `${plusMinus}${Math.abs(minutes)}m` : `${plusMinus}${Math.abs(minutes)}m ${Math.abs(seconds % 60)}s`;
+  return (Math.abs(seconds) % 60 === 0) ? `${plusMinus}${Math.abs(minutes)}m` : `${plusMinus}${Math.abs(minutes)}m ${Math.abs(seconds % 60)}s`;
 }
 
 Then(/^the (Arrival|Departure) punctuality for location "(.*)" instance (\d+) is correctly calculated based on expected time "(.*)" & actual time "(.*)"$/,

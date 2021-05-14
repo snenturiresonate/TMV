@@ -39,4 +39,16 @@ export class RedisClient {
       });
     });
   }
+
+  public async getBerthInformation(berthId: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.client.hget('{schedule-matching}-schedule-matching-berths', berthId, (error, value) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(JSON.parse(value) || {});
+        }
+      });
+    });
+  }
 }

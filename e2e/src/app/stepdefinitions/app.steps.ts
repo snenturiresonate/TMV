@@ -718,6 +718,21 @@ When(/^I step through the Berth Level Schedule '(.*)'$/, (filepath: string) => {
     }
   });
 });
+
 Given(/^I log the berth level schedule for '(.*)'$/, async (trainUid) => {
-  await CucumberLog.addJson(await new RedisClient().getBerthLevelSchedule(trainUid));
+  const berthLevelSchedule = await new RedisClient().getBerthLevelSchedule(trainUid);
+  await CucumberLog.addJson(berthLevelSchedule);
+});
+
+Given(/^I log the berth & locations from the berth level schedule for '(.*)'$/, async (trainUid) => {
+  const client = new RedisClient();
+  const berthLevelSchedule = await client.getBerthLevelSchedule(trainUid);
+
+  for (const pathEntry of berthLevelSchedule.berthLevelSchedule.pathEntries) {
+    if (pathEntry.berths.length > 0) {
+      const berth = pathEntry.berths[0];
+      const info = await client.getBerthInformation(`${berth.trainDescriberCode}${berth.berthName}`);
+      await CucumberLog.addText(`${berth.plannedStepTime} ${info.id} ${info.berthLocation}`);
+    }
+  }
 });
