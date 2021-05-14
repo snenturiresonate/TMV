@@ -5,6 +5,7 @@ import {browser, protractor} from 'protractor';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {AppPage} from '../../pages/app.po';
+import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
 
 const page: AppPage = new AppPage();
 const trainsListPage: TrainsListPageObject = new TrainsListPageObject();
@@ -230,12 +231,14 @@ Then('the service is displayed in the trains list with the following indication'
   for (const expectedTrainsListRow of trainsListRowValues) {
     if (expectedTrainsListRow.rowType === 'unmatched step' || expectedTrainsListRow.rowType === 'unmatched interpose') {
       const rowNum = await trainsListPage.getRowForSchedule(expectedTrainsListRow.rowId);
-      actualRowColFill = await trainsListPage.getTrainsListRowFillForRow(rowNum);
+      actualRowColFill = await CommonActions.waitForFunctionalStringResult(
+        trainsListPage.getTrainsListRowFillForRow, rowNum, expectedTrainsListRow.rowColFill);
       actualTrainDescriptionFill = await trainsListPage.getTrainsListTrainDescriptionEntryColFillForRow(rowNum);
     }
     else {
       const rowIdentifier = expectedTrainsListRow.trainUID + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
-      actualRowColFill = await trainsListPage.getTrainsListRowFillForSchedule(rowIdentifier);
+      actualRowColFill = await CommonActions.waitForFunctionalStringResult(
+        trainsListPage.getTrainsListRowFillForSchedule, rowIdentifier, expectedTrainsListRow.rowColFill);
       actualTrainDescriptionFill = await trainsListPage.getTrainsListTrainDescriptionEntryColFillForSchedule(rowIdentifier);
     }
 
@@ -253,11 +256,13 @@ Then('the service is displayed in the trains list with the following row colour'
     if (expectedTrainsListRow.rowType === 'unmatched step' || expectedTrainsListRow.rowType === 'unmatched interpose') {
       rowIdentifier = expectedTrainsListRow.rowId;
       const rowNum = await trainsListPage.getRowForSchedule(expectedTrainsListRow.rowId);
-      actualRowColFill = await trainsListPage.getTrainsListRowFillForRow(rowNum);
+      actualRowColFill = await CommonActions.waitForFunctionalStringResult(
+        trainsListPage.getTrainsListRowFillForRow, rowNum, expectedTrainsListRow.rowColour);
     }
     else {
       rowIdentifier = expectedTrainsListRow.trainUID + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
-      actualRowColFill = await trainsListPage.getTrainsListRowFillForSchedule(rowIdentifier);
+      actualRowColFill = await CommonActions.waitForFunctionalStringResult(
+        trainsListPage.getTrainsListRowFillForSchedule, rowIdentifier, expectedTrainsListRow.rowColour);
     }
 
     expect(actualRowColFill, 'Row colour is not as expected').to.equal(expectedTrainsListRow.rowColour);
