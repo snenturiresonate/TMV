@@ -1,4 +1,3 @@
-@test
 Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   As a TMV user
@@ -85,13 +84,16 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | cif                                      | trainUid | trainDescription |
       | access-plan/42006-schedules/42006-3b.cif | C14259   | 1U35             |
 
-  @bug @bug:58193
+  @bug @bug:58193 @test
   Scenario Outline: 42006-4 Display calculated departure time for a location that appears more than once
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX
     And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
     And I log the berth & locations from the berth level schedule for '<trainUid>'
-    When I step through the Berth Level Schedule 'access-plan/42006-schedules/42006-berth-level-schedule.json'
+    When I step through the Berth Level Schedule for '<trainUid>'
+    And I do nothing
+    And I do nothing
+    And I do nothing
     And I am on the timetable view for service '<trainUid>'
     And I toggle the inserted locations on
     Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
@@ -100,7 +102,7 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
     Examples:
       | cif                                     | trainUid | trainDescription | location         | timestamp | timestamp2 |
       #Origin
-      | access-plan/42006-schedules/42006-4.cif | C14260   | 1U36             | Crewe            | 13:33:00  | 15:02:00   |
+      | access-plan/42006-schedules/42006-4.cif | C14260   | 1U36             | Crewe            | 13:34:00  | 15:03:00   |
       #Stopping
       | access-plan/42006-schedules/42006-4.cif | C14260   | 1U36             | Stafford         | 13:51:00  | 14:51:00   |
       #Passing

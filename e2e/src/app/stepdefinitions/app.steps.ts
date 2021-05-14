@@ -24,7 +24,7 @@ import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dia
 import {TrainActivationMessageBuilder} from '../utils/train-activation/train-activation-message';
 import {HomePageObject} from '../pages/home.page';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
-import {DateTimeFormatter, LocalDateTime, ZonedDateTime, ZoneId} from '@js-joda/core';
+import {DateTimeFormatter, LocalDateTime, LocalTime, ZonedDateTime, ZoneId} from '@js-joda/core';
 import '@js-joda/timezone';
 import {NavBarPageObject} from '../pages/nav-bar.page';
 import {RedisClient} from '../api/redis/redis-client';
@@ -665,36 +665,42 @@ function createBaseTjmMessage(trainNumber, trainUid, departureHour): TrainJourne
     .calculateSenderReferenceWith(trainUid, departureHour);
 }
 
-When(/^I step through the Berth Level Schedule '(.*)'$/, (filepath: string) => {
-  const data = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), filepath), 'utf8');
-  const berthLevelSchedule = JSON.parse(data);
+When(/^I step through the Berth Level Schedule for '(.*)'$/, async (uid: string) => {
+  const client = new RedisClient();
+  const data = await client.getBerthLevelSchedule(uid);
+
+  const berthLevelSchedule = data.berthLevelSchedule;
   let currentBerth = '';
   let currentBerthDescriber = '';
   let lastTiming = '';
-  berthLevelSchedule.pathEntries.forEach(pathEntry => {
+  for (const pathEntry of berthLevelSchedule.pathEntries) {
     if (pathEntry.berths.length > 0) {
       const berth = pathEntry.berths[0];
       const plannedStepTime = ZonedDateTime.parse(berth.plannedStepTime)
         .withZoneSameInstant(ZoneId.of('Europe/London'))
         .format(DateTimeFormatter.ofPattern('HH:mm:ss'));
       if (currentBerth === '') {
-        linxRestClient.postBerthInterpose(new BerthInterpose(
+        await linxRestClient.postBerthInterpose(new BerthInterpose(
           plannedStepTime,
           berth.berthName,
           berth.trainDescriberCode,
           berthLevelSchedule.plannedTrainDescription
         ));
+        currentBerth = berth.berthName;
+        currentBerthDescriber = berth.trainDescriberCode;
+        lastTiming = plannedStepTime;
       }
       else {
-        if (currentBerth !== berth.berthName) {
+        const stepsOutOfTime = LocalTime.parse(lastTiming).isAfter(LocalTime.parse(plannedStepTime));
+        if (currentBerth !== berth.berthName || !stepsOutOfTime) {
           if (currentBerthDescriber !== berth.trainDescriberCode) {
-            linxRestClient.postBerthCancel(new BerthCancel(
+            await linxRestClient.postBerthCancel(new BerthCancel(
               currentBerth,
               lastTiming,
               currentBerthDescriber,
               berthLevelSchedule.plannedTrainDescription
             ));
-            linxRestClient.postBerthInterpose(new BerthInterpose(
+            await linxRestClient.postBerthInterpose(new BerthInterpose(
               plannedStepTime,
               berth.berthName,
               berth.trainDescriberCode,
@@ -702,7 +708,7 @@ When(/^I step through the Berth Level Schedule '(.*)'$/, (filepath: string) => {
             ));
           }
           else {
-            linxRestClient.postBerthStep(new BerthStep(
+            await linxRestClient.postBerthStep(new BerthStep(
               currentBerth,
               plannedStepTime,
               berth.berthName,
@@ -710,13 +716,13 @@ When(/^I step through the Berth Level Schedule '(.*)'$/, (filepath: string) => {
               berthLevelSchedule.plannedTrainDescription
             ));
           }
+          currentBerth = berth.berthName;
+          currentBerthDescriber = berth.trainDescriberCode;
+          lastTiming = plannedStepTime;
         }
       }
-      currentBerth = berth.berthName;
-      currentBerthDescriber = berth.trainDescriberCode;
-      lastTiming = plannedStepTime;
     }
-  });
+  }
 });
 
 Given(/^I log the berth level schedule for '(.*)'$/, async (trainUid) => {
