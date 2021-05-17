@@ -1,4 +1,3 @@
-@bug @bug_58056
 Feature: 46474 - Administration Display Settings - full end to end testing - punctuality settings
 
   As a tester
@@ -6,8 +5,10 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
   So, that I can identify if the build meet the end to end requirements
 
   Background:
-    Given I am on the admin page
+    Given I have not already authenticated
+    And I am on the admin page
     And The admin setting defaults are as originally shipped
+    And I refresh the browser
 
   Scenario: Admin punctuality settings table header
     Then the admin punctuality header is displayed as 'Punctuality'
@@ -26,7 +27,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
 
-  @manual
   Scenario: Admin punctuality settings default color and entries updated and reset
     And I have navigated to the 'Display Settings' admin tab
     Then the following can be seen on the admin punctuality settings table
@@ -41,19 +41,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
     When I add punctuality time-bands until count of 11
-    Then the following can be seen on the admin punctuality settings table
-      | punctualityColorText | fromTime | toTime | entryValue               |
-      | #ddd                 |          | -22    | 22 minutes or more early |
-      | #ddd                 | -22      | -21    | 21 to 22 minutes early   |
-      | #ffb4b4              | -21      | -20    | 20 to 21 minutes early   |
-      | #e5b4ff              | -20      | -10    | 10 to 19 minutes early   |
-      | #78e7ff              | -10      | -5     | 5 to 9 minutes early     |
-      | #78ff78              | -5       | -1     | 1 to 4 minutes early     |
-      | #00ff00              | -1       | 1      | Right Time               |
-      | #ffff00              | 1        | 5      | 1 to 4 minutes late      |
-      | #ffa700              | 5        | 10     | 5 to 9 minutes late      |
-      | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
-      | #ff009c              | 20       |        | 20 minutes or more late  |
     And I reset the punctuality settings
     Then the following can be seen on the admin punctuality settings table
       | punctualityColorText | fromTime | toTime | entryValue               |
@@ -118,7 +105,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
 
-  @manual
   Scenario: User should see the unsaved dialogue when refreshing the page without saving the changes
     When I add a punctuality time-band
     And I edit the display name of the added time band as "Time band Added"
@@ -136,7 +122,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
       | #ff009c              | 20       |        | 20 minutes or more late  |
 
-  @manual
   Scenario: User should see the unsaved dialogue when closing the page without saving the changes
     When I add a punctuality time-band
     And I edit the display name of the added time band as "Time band Added"

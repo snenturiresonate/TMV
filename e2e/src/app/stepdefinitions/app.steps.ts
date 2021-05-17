@@ -222,7 +222,7 @@ Given(/^The admin setting defaults are as originally shipped$/, async () => {
   const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), 'admin/admin-defaults.json'));
   const adminDefaults = rawData.toString();
   await CucumberLog.addJson(adminDefaults);
-  adminRestClient.postAdminConfiguration(adminDefaults);
+  expect(await adminRestClient.postAdminConfiguration(adminDefaults)).to.equal(200);
   await adminRestClient.waitMaxTransmissionTime();
 });
 

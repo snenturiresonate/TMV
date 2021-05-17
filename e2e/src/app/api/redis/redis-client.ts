@@ -1,7 +1,6 @@
 import {promisify} from 'util';
 
 const redis = require('redis');
-// import {redis} from 'redis';
 import {browser} from 'protractor';
 import {DateTimeFormatter, LocalDate} from '@js-joda/core';
 
@@ -25,6 +24,11 @@ export class RedisClient {
   public async listKeys(fuzzyKey: string): Promise<any> {
     const keysAsync = promisify(this.client.keys).bind(this.client);
     return await keysAsync(fuzzyKey);
+  }
+
+  public async geAllFromStream(stream: string): Promise<string[][][]> {
+    const xrevrangeAsync = promisify(this.client.xrevrange).bind(this.client);
+    return await xrevrangeAsync(stream, '+', '-');
   }
 
   public async getBerthLevelSchedule(trainUid: string): Promise<any> {

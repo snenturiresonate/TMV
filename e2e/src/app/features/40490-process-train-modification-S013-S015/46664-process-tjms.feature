@@ -36,6 +36,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | H41102   | 1X02             | 91   | 12                 | PD                |
       | H41103   | 1X03             | 92   | 19                 | OZ                |
 
+  @bug @bug:61409
   Scenario Outline: Activated service is cancelled
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX

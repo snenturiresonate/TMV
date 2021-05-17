@@ -213,6 +213,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     * I restore to default train list config
 
 
+  @bug @bug:61453
   Scenario: 33806 -32d Trains List Config (Train Misc Settings Applied) - Unmatched toggle on
     #Schedule is not available for the train IG65
     When the following berth step message is sent from LINX (to move train)

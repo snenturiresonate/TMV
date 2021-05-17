@@ -35,16 +35,13 @@ Feature: 49634 - Schematic State - marker-board state
       | MH             | 31      | FC   | 10:45:00  |
     Then the marker board 'MH1201' will display a Movement Authority not-given [red triangle on blue background]
 
-  @replaySetup @bug @bug_51929
+  @replaySetup @bug @bug_61870
   Scenario: 34081-10 - Marker Board State (Movement Authority Unknown)
 #    Given an S-Class message is received and processed
 #    And the S-Class message is associated with a marker board
 #    And the S-Class message is setting the marker board to Movement Authority unknown
 #    When a user is viewing a map that contains the marker board
 #    Then the marker board will display a Movement Authority unknown (grey triangle on blue background)
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | MH             | 31      | 01   | 10:45:00  |
     Then the marker board 'MH1201' will display a Movement Authority unknown [grey triangle on blue background]
 
   @replaySetup
@@ -75,14 +72,11 @@ Feature: 49634 - Schematic State - marker-board state
       | MH             | 31      | FE   | 10:45:00  |
     Then the shunt marker board 'MH1199' will display a Movement Authority not-given [red triangle with blue inner triangle]
 
-  @replaySetup @bug @bug_51929
+  @replaySetup @bug @bug_61870
   Scenario: 34081-14 - Shunt Marker Board State (Movement Authority Unknown)
     #    Given an S-Class message is received and processed
     #    And the S-Class message is associated with a shunt marker board
     #    And the S-Class message is setting the shunt marker board to Movement Authority unknown
     #    When a user is viewing a map that contains the shunt marker board
     #    Then the shunt marker board will display a Movement Authority unknown (grey triangle with blue inner triangle)
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | MH             | 31      | 02   | 10:45:00  |
     Then the shunt marker board 'MH1199' will display a Movement Authority unknown [grey triangle with blue inner triangle]

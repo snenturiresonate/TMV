@@ -394,9 +394,9 @@ Feature: 33805 TMV Schedule Matching
       | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 |
     And The trains list table is visible
-    And the service is displayed in the trains list with the following indication
-      | rowType                   | trainUID      | rowColFill             | trainDescriptionFill   |
-      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) | rgba(0, 255, 0, 1)     |
+    And the service is displayed in the trains list with the following row colour
+      | rowType                   | trainUID      | rowColour              |
+      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) |
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
@@ -446,9 +446,9 @@ Feature: 33805 TMV Schedule Matching
       | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 |
     And The trains list table is visible
-    And the service is displayed in the trains list with the following indication
-      | rowType                   | trainUID      | rowColFill             | trainDescriptionFill   |
-      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) | rgba(0, 255, 0, 1)     |
+    And the service is displayed in the trains list with the following row colour
+      | rowType                   | trainUID      | rowColour              |
+      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) |
     And the following berth step message is sent from LINX (creating a match)
       | fromBerth | timestamp | toBerth       | trainDescriber   | trainDescription |
       | <berth>   | 12:00:00  | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
