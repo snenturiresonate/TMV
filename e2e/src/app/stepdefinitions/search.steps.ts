@@ -1,6 +1,7 @@
 import {When, Then} from 'cucumber';
 import {SearchResultsPageObject} from '../pages/sections/search.results.page';
 import {expect} from 'chai';
+import {browser} from 'protractor';
 
 const searchResultsPage: SearchResultsPageObject = new SearchResultsPageObject();
 
@@ -13,6 +14,9 @@ Then(/^no results are returned with that planning UID '(.*)'$/, async (planningU
 
 Then(/^results are returned with that planning UID '(.*)'$/, async (planningUID: string) => {
   const row = await searchResultsPage.getRowByPlanningUID(planningUID);
+  await browser.wait(async () => await row.isPresent(),
+    browser.displayTimeout,
+    `Waiting for search result row ${planningUID}`);
   expect(await row.isPresent(), `Row with planning UID ${planningUID} is not present`)
     .to.equal(true);
 });

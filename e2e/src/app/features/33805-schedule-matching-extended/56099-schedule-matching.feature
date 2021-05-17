@@ -1,9 +1,10 @@
+@test
 Feature: 33805 TMV Schedule Matching
   As a TMV User
   I want updates to the planned schedule to be considered during schedule matching
   So that the system selects the most appropriate match
 
-  Background:
+  Background
     Given I remove all trains from the trains list
     And the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
     And I am on the home page
@@ -85,7 +86,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 0041        | 1B11          | 5B70         | B11111   | PADTON   | 401         | location     |
       | D3             | 0107  | 0125        | 1B11          | 6B70         | B11111   | PRTOBJP  | 401         | sub-division |
 
-  @bug @bug:58051
+  @bug @bug:58051 @test
   Scenario Outline: 2. Interpose - Match new ID after Change of ID - <matchLevel> match
     #    Given there is a valid schedule
     #    And a TJM has been received with the type 07 (change of ID) for that schedule
@@ -124,7 +125,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 1B11          | 8B70         | B11111   | PADTON   | 401         | location     |
       | D3             | 0106  | 1B11          | 9B70         | B11111   | PRTOBJP  | 401         | sub-division |
 
-  @bug @bug:58051
+  @bug @bug:58051 @test
   Scenario Outline: 2. Step - Match new ID after Change of ID - <matchLevel> match
     #    Given there is a valid schedule
     #    And a TJM has been received with the type 07 (change of ID) for that schedule

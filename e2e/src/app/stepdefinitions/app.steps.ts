@@ -238,16 +238,16 @@ When(/^the following berth interpose messages? (?:is|are) sent from LINX(.*)$/,
   async (explanation: string, berthInterposeMessageTable: any) => {
     const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
 
-    berthInterposeMessages.forEach((berthInterposeMessage: any) => {
+    for (const berthInterposeMessage of berthInterposeMessages) {
       const berthInterpose: BerthInterpose = new BerthInterpose(
         berthInterposeMessage.timestamp,
         berthInterposeMessage.toBerth,
         berthInterposeMessage.trainDescriber,
         berthInterposeMessage.trainDescription
       );
-      CucumberLog.addJson(berthInterpose);
-      linxRestClient.postBerthInterpose(berthInterpose);
-    });
+      await CucumberLog.addJson(berthInterpose);
+      await linxRestClient.postBerthInterpose(berthInterpose);
+    }
     await linxRestClient.waitMaxTransmissionTime();
   });
 
@@ -256,16 +256,16 @@ When(/^the following live berth interpose messages? (?:is|are) sent from LINX(.*
     const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
     const now = new Date();
 
-    berthInterposeMessages.forEach((berthInterposeMessage: any) => {
+    for (const berthInterposeMessage of berthInterposeMessages) {
       const berthInterpose: BerthInterpose = new BerthInterpose(
         now.toTimeString().substr(0, 8),
         berthInterposeMessage.toBerth,
         berthInterposeMessage.trainDescriber,
         berthInterposeMessage.trainDescription
       );
-      CucumberLog.addJson(berthInterpose);
-      linxRestClient.postBerthInterpose(berthInterpose);
-    });
+      await CucumberLog.addJson(berthInterpose);
+      await linxRestClient.postBerthInterpose(berthInterpose);
+    }
     await linxRestClient.waitMaxTransmissionTime();
   });
 
@@ -273,7 +273,7 @@ When(/^the following live berth interpose messages? (?:is|are) sent from LINX(.*
 When(/^the following berth step messages? (?:is|are) sent from LINX(.*)$/, async (explanation: string, berthStepMessageTable: any) => {
   const berthStepMessages: any = berthStepMessageTable.hashes();
 
-  berthStepMessages.forEach((berthStepMessage: any) => {
+  for (const berthStepMessage of berthStepMessages) {
     const berthStep: BerthStep = new BerthStep(
       berthStepMessage.fromBerth,
       berthStepMessage.timestamp,
@@ -281,9 +281,9 @@ When(/^the following berth step messages? (?:is|are) sent from LINX(.*)$/, async
       berthStepMessage.trainDescriber,
       berthStepMessage.trainDescription
     );
-    CucumberLog.addJson(berthStep);
-    linxRestClient.postBerthStep(berthStep);
-  });
+    await CucumberLog.addJson(berthStep);
+    await linxRestClient.postBerthStep(berthStep);
+  }
   await linxRestClient.waitMaxTransmissionTime();
 });
 
@@ -292,7 +292,7 @@ When(/^the following live berth step messages? (?:is|are) sent from LINX (.*)$/,
     const berthStepMessages: any = berthStepMessageTable.hashes();
     const now = new Date();
 
-    berthStepMessages.forEach((berthStepMessage: any) => {
+    for (const berthStepMessage of berthStepMessages) {
       const berthStep: BerthStep = new BerthStep(
         berthStepMessage.fromBerth,
         now.toTimeString().substr(0, 8),
@@ -300,25 +300,25 @@ When(/^the following live berth step messages? (?:is|are) sent from LINX (.*)$/,
         berthStepMessage.trainDescriber,
         berthStepMessage.trainDescription
       );
-      CucumberLog.addJson(berthStep);
-      linxRestClient.postBerthStep(berthStep);
-    });
+      await CucumberLog.addJson(berthStep);
+      await linxRestClient.postBerthStep(berthStep);
+    }
     await linxRestClient.waitMaxTransmissionTime();
   });
 
 When(/^the following berth cancel messages? (?:is|are) sent from LINX$/, async (berthCancelMessageTable: any) => {
   const berthCancelMessages: any = berthCancelMessageTable.hashes();
 
-  berthCancelMessages.forEach((berthCancelMessage: any) => {
+  for (const berthCancelMessage of berthCancelMessages) {
     const berthCancel: BerthCancel = new BerthCancel(
       berthCancelMessage.fromBerth,
       berthCancelMessage.timestamp,
       berthCancelMessage.trainDescriber,
       berthCancelMessage.trainDescription
     );
-    CucumberLog.addJson(berthCancel);
-    linxRestClient.postBerthCancel(berthCancel);
-  });
+    await CucumberLog.addJson(berthCancel);
+    await linxRestClient.postBerthCancel(berthCancel);
+  }
   await linxRestClient.waitMaxTransmissionTime();
 });
 
@@ -630,7 +630,7 @@ When(/^the following change of ID TJM is received$/, async (table: any) => {
     }
     const tjmMessage = tjmBuilder.build();
 
-    linxRestClient.postTrainJourneyModification(tjmMessage.toXML());
+    linxRestClient.postTrainJourneyModificationIdChange(tjmMessage.toXML());
     TestData.addTJM(tjmMessage);
   });
   await linxRestClient.waitMaxTransmissionTime();
