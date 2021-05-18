@@ -1,10 +1,9 @@
-#@test
 Feature: 33805 TMV Schedule Matching
   As a TMV User
   I want updates to the planned schedule to be considered during schedule matching
   So that the system selects the most appropriate match
 
-  Background
+  Background:
     Given I remove all trains from the trains list
     And the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
     And I am on the home page
