@@ -29,7 +29,7 @@ export class AppPage {
       await browser.waitForAngularEnabled(true);
       await this.waitForAppLoad();
     } catch (e) {
-      await CucumberLog.addText('navigateTo first catch:' + e.toString());
+      await CucumberLog.addText('navigateTo() Step 1:' + e.toString());
       try {
         if (role) {
           await this.roleBasedAuthentication(URL, role);
@@ -38,12 +38,12 @@ export class AppPage {
         }
         await browser.get(URL);
       } catch (ex) {
-        await CucumberLog.addText('navigateTo second catch:' + ex.message);
+        await CucumberLog.addText('navigateTo() Step 2:' + ex.message);
         try {
           await this.authenticateOnCurrentRole();
           await browser.get(URL);
         } catch (reason) {
-          await CucumberLog.addText('navigateTo third catch:' + reason.message);
+          await CucumberLog.addText('navigateTo() Step 3:' + reason.message);
           if ((reason.message).includes('unexpected alert open') === false) {
             throw new Error('Unable to signin: ' + reason);
           }

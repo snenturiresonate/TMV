@@ -17,7 +17,7 @@ import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {DaysBuilder} from '../../utils/access-plan-requests/days-builder';
 import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
 import {AppPage} from '../../pages/app.po';
-import {browser, ExpectedConditions} from 'protractor';
+import {browser, by, element, ElementFinder, ExpectedConditions} from 'protractor';
 import {ReplayScenario} from '../../utils/replay/replay-scenario';
 import {TestData} from '../../logging/test-data';
 import {TrainJourneyModificationMessage} from '../../utils/train-journey-modifications/train-journey-modification-message';
@@ -172,9 +172,7 @@ Then(/^there is a record in the modifications table$/, async (table: any) => {
 });
 
 Then(/^the sent TJMs are in the modifications table$/, async () => {
-  const modificationsTable = await timetablePage.getModificationsTableRows();
   for (const expectedRecord of TestData.getTJMs()) {
-    let found = false;
     const expectedTypeOfModification = getExpectedModificationType(
       expectedRecord.TrainJourneyModification.TrainJourneyModificationIndicator);
     const expectedTime = LocalDateTime
@@ -187,34 +185,25 @@ Then(/^the sent TJMs are in the modifications table$/, async () => {
       .LocationSubsidiaryIdentification
       .LocationSubsidiaryCode);
     const expectedReason = (expectedRecord.ModificationReason === undefined ? '' : expectedRecord.ModificationReason);
-    for (const row of modificationsTable) {
-      const reason = await row.getTypeOfModification() === expectedTypeOfModification;
-      const location = await row.getLocation() === expectedLocation;
-      const time = await row.getTime() === expectedTime;
-      const type = await row.getModificationReason() === expectedReason;
-      found = (reason && location && time && type);
-      if (found) {
-        break;
-      }
-    }
-    expect(found,
+
+    const row: ElementFinder = element(by.xpath(`//tbody[@id='details-modification-tbody']//tr[descendant::td[text()='${expectedTypeOfModification}']][descendant::td[text()='${expectedLocation}']][descendant::td[text()='${expectedTime}']][descendant::td[text()='${expectedReason}']]`));
+    await browser.wait(ExpectedConditions.presenceOf(row), 10000);
+    expect(await row.isPresent(),
       `No record found in the modifications table with ${expectedTypeOfModification}, ${expectedLocation}, ${expectedTime}, ${expectedReason}`)
       .to.equal(true);
   }
 });
 
-
 Then(/^the sent TJMs in the modifications table are in time order$/, async () => {
   const modificationsTable = await timetablePage.getModificationsTableRows();
-  const times = modificationsTable.map(async (row) => await row.getTime());
-
+  const times = await Promise.all(modificationsTable.map(async (row) => await row.getTime()));
   for (let i = 0; i < (times.length - 1); i++) {
     const dateFormat = 'dd/MM/yyyy HH:mm';
-    const rowTime = LocalDateTime.parse(await times[i], DateTimeFormatter.ofPattern(dateFormat));
-    const nextRowTime = LocalDateTime.parse(await times[i + 1], DateTimeFormatter.ofPattern(dateFormat));
+    const rowTime = LocalDateTime.parse(times[i], DateTimeFormatter.ofPattern(dateFormat));
+    const nextRowTime = LocalDateTime.parse(times[i + 1], DateTimeFormatter.ofPattern(dateFormat));
 
-    expect(rowTime.isBefore(nextRowTime) || rowTime.isEqual(nextRowTime),
-      `Modifications are not in time order. ${times[i]} not before ${times[i + 1]}`)
+    expect(rowTime.isAfter(nextRowTime) || rowTime.isEqual(nextRowTime),
+      `Modifications are not in time order. ${times[i]} not after ${times[i + 1]}`)
       .to.equal(true);
   }
 });
@@ -238,7 +227,7 @@ function getExpectedModificationType(trainJourneyModificationIndicator): string 
     case '94':
       return 'Change Of Origin';
     case '96':
-      return 'Cancellation';
+      return 'Reinstatement';
     default:
       return 'Unknown Modification Type';
   }
@@ -261,19 +250,33 @@ Then(/^the last TJM is the TJM with the latest time$/, async () => {
 
 function sortTJMsByReceivedDateTime(array): TrainJourneyModificationMessage[] {
   return array.sort((a, b) => {
-    return Number(a.MessageHeader.MessageReference.MessageDateTime) - Number(b.MessageHeader.MessageReference.MessageDateTime);
+    const lta: OffsetDateTime = OffsetDateTime.parse(a.MessageHeader.MessageReference.MessageDateTime);
+    const ltb: OffsetDateTime = OffsetDateTime.parse(b.MessageHeader.MessageReference.MessageDateTime);
+    if (lta.isBefore(ltb)) {
+      return -1;
+    }
+    if (ltb.isBefore(lta)) {
+      return 1;
+    }
+    return 0;
   });
 }
 
 function sortTJMsByModificationTime(array): TrainJourneyModificationMessage[] {
   return array.sort((a, b) => {
-    return Number(a.TrainJourneyModificationTime) - Number(b.TrainJourneyModificationTime);
+    const lta: OffsetDateTime = OffsetDateTime.parse(a.TrainJourneyModificationTime);
+    const ltb: OffsetDateTime = OffsetDateTime.parse(b.TrainJourneyModificationTime);
+    if (lta.isBefore(ltb)) {
+      return -1;
+    }
+    if (ltb.isBefore(lta)) {
+      return 1;
+    }
+    return 0;
   });
 }
 
 async function assertLastTJM(tjmMessage: TrainJourneyModificationMessage): Promise<void> {
-  const lastTjm = await timetablePage.headerTJM.getText();
-
   const expectedTypeOfModification = getExpectedModificationType(
     tjmMessage.TrainJourneyModification.TrainJourneyModificationIndicator);
   const expectedTime = LocalDateTime
@@ -292,8 +295,10 @@ async function assertLastTJM(tjmMessage: TrainJourneyModificationMessage): Promi
   if (Boolean(expectedLocation)) { expectedMessages.push(expectedLocation); }
   if (Boolean(expectedReason)) { expectedMessages.push(expectedReason); }
   expectedMessages.push(expectedTime);
-
-  expect(lastTjm, 'Last TJM is not as expected').to.equal(expectedMessages.join(', '));
+  const expectedLastTjm = expectedMessages.join(', ');
+  const errorMessage = `Last TJM is not ${expectedLastTjm}`;
+  await browser.wait(ExpectedConditions.textToBePresentInElement(timetablePage.headerTJM, expectedLastTjm), 10000, errorMessage);
+  expect(await timetablePage.headerTJM.getText(), errorMessage).to.equal(expectedLastTjm);
 }
 
 When('I toggle the inserted locations on', async () => {
