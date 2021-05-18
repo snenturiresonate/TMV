@@ -1,4 +1,3 @@
-@test
 Feature: TMV Process LINX Train Modification (S013 & S015)
 
   As a TMV User
