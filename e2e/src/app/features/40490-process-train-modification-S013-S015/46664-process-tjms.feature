@@ -190,7 +190,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | trainUid | trainDescription | type | modificationReason | nationalDelayCode |
       | H41111   | 1X11             | 91   | 12                 | PD                |
       | H41112   | 1X12             | 92   | 19                 | OZ                |
-
+  @bug @bug:59960
   Scenario: 40490-9 Out of order cancel/reinstate display in trains list
     Given I am on the trains list page
     And the following basic schedules are received from LINX
@@ -207,12 +207,13 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | name          | colour | minutes | toggleValue |
       | Cancellation  | #ff7   |         | on          |
       | Reinstatement | #dde   |         | on          |
-    When I open 'trains list' page in a new tab
+    And I save the trains list config
+    When I am on the trains list page
     And The trains list table is visible
     Then I should see the train list row coloured as
-      | trainDescriberId | backgroundColour   |
-      | 1X13             | rgb(221, 221, 238) |
-
+      | trainUID | trainDescriberId | backgroundColour   |
+      | H41113   | 1X13             | rgb(221, 221, 238) |
+  @bug @bug:59960
   Scenario: 40490-10 Invalid reinstate followed by cancellation display in trains list
     Given I am on the trains list page
     And the following basic schedules are received from LINX
@@ -229,8 +230,9 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | name          | colour | minutes | toggleValue |
       | Cancellation  | #dde   |         | on          |
       | Reinstatement | #ff7   |         | on          |
-    When I open 'trains list' page in a new tab
+    And I save the trains list config
+    When I am on the trains list page
     And The trains list table is visible
     Then I should see the train list row coloured as
-      | trainDescriberId | backgroundColour   |
-      | 1X14             | rgb(221, 221, 238) |
+      | trainUID | trainDescriberId | backgroundColour   |
+      | H41114   | 1X14             | rgb(221, 221, 238) |
