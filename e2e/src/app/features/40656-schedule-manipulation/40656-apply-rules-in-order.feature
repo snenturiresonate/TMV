@@ -4,7 +4,7 @@ Feature: 40656 - Schedule Manipulation - Apply Rules In Order
   I want schedules which have been imported to be manipulated
   So that the schedule has a the correct path, line and asset codes for each location
 
-  @tdd
+  @check
   Scenario: 40656-9 Schedule with inserted location updated by line to path rules
   #IXXA0	ACTONW 	WEALING	EALINGB	323
   #K1106	ACTONW 	EALINGB
@@ -24,7 +24,7 @@ Feature: 40656 - Schedule Manipulation - Apply Rules In Order
     And the Inserted toggle is 'on'
     Then the path code for Location is correct
       | location        | pathCode |
-      | Ealing Broadway | LIN      |
+      | [Ealing Broadway] | LIN      |
 
   Scenario: 40656-10 Schedule with locations updated by path to line rules to match line to path
   #J0044	DIDCOTP
@@ -49,7 +49,7 @@ Feature: 40656 - Schedule Manipulation - Apply Rules In Order
       | location             | pathCode |
       | Didcot West Curve Jn | PAT      |
 
-  @check
+
   Scenario: 40656-11 Schedule with locations updated by line to path to match path to line rules
   #K005A	DIDCOTP	DIDCWCJ
   #J0046	DIDCWCJ
