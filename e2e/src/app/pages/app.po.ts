@@ -2,6 +2,7 @@ import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protracto
 import {AuthenticationModalDialoguePage} from './authentication-modal-dialogue.page';
 import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
 import {UserCredentials} from '../user-credentials/user-credentials';
+import {CucumberLog} from '../logging/cucumber-log';
 
 const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
 const userCreds: UserCredentials = new UserCredentials();
@@ -28,6 +29,7 @@ export class AppPage {
       await browser.waitForAngularEnabled(true);
       await this.waitForAppLoad();
     } catch (e) {
+      await CucumberLog.addText('navigateTo first catch:' + e.toString());
       try {
         if (role) {
           await this.roleBasedAuthentication(URL, role);
@@ -36,19 +38,20 @@ export class AppPage {
         }
         await browser.get(URL);
       } catch (ex) {
-          try {
-            await this.authenticateOnCurrentRole();
-            await browser.get(URL);
-          } catch (reason) {
-            if ((reason.toString()).includes('UnexpectedAlertOpenError') === false){
-              throw new Error('Unable to signin: ' + reason);
-            }
-            const alert = await browser.switchTo().alert();
-            await alert.accept();
+        await CucumberLog.addText('navigateTo second catch:' + ex.message);
+        try {
+          await this.authenticateOnCurrentRole();
+          await browser.get(URL);
+        } catch (reason) {
+          await CucumberLog.addText('navigateTo third catch:' + reason.message);
+          if ((reason.message).includes('unexpected alert open') === false) {
+            throw new Error('Unable to signin: ' + reason);
           }
+          const alert = await browser.switchTo().alert();
+          await alert.accept();
         }
+      }
     }
-
     await browser.waitForAngularEnabled(true);
   }
 
@@ -59,17 +62,17 @@ export class AppPage {
     const URL = browser.baseUrl + url;
     await browser.waitForAngularEnabled(false);
     try {
-        if (await authPage.reAuthenticationModalIsVisible()) {
-          await authPage.clickSignInAsDifferentUser();
-        }
-        await this.roleBasedAuthentication(URL, role);
-      } catch (reason) {
-          if ((reason.toString()).includes('UnexpectedAlertOpenError') === false){
-            throw new Error('Unable to signin: ' + reason);
-          }
-          const alert = await browser.switchTo().alert();
-          await alert.accept();
-        }
+      if (await authPage.reAuthenticationModalIsVisible()) {
+        await authPage.clickSignInAsDifferentUser();
+      }
+      await this.roleBasedAuthentication(URL, role);
+    } catch (reason) {
+      if ((reason.toString()).includes('UnexpectedAlertOpenError') === false) {
+        throw new Error('Unable to signin: ' + reason);
+      }
+      const alert = await browser.switchTo().alert();
+      await alert.accept();
+    }
     await browser.waitForAngularEnabled(true);
   }
 
@@ -83,15 +86,16 @@ export class AppPage {
     await browser.get(URL);
 
     if (role) {
-        await authPage.clickSignInAsDifferentUser();
-        await this.roleBasedAuthentication(URL, role);
-      } else {
-        await this.authenticateOnCurrentRole();
-      }
+      await authPage.clickSignInAsDifferentUser();
+      await this.roleBasedAuthentication(URL, role);
+    } else {
+      await this.authenticateOnCurrentRole();
+    }
 
     await browser.waitForAngularEnabled(true);
     await browser.get(URL);
   }
+
   /**
    *  To Be used when login is not performed
    */
@@ -154,7 +158,7 @@ export class AppPage {
     return this.modalWindowButtons.getText();
   }
 
-  public async  defaultAuthentication(): Promise<any> {
+  public async defaultAuthentication(): Promise<any> {
     await browser.waitForAngularEnabled(false);
     await this.authenticateAsAdminUser();
     await this.waitForAppLoad();

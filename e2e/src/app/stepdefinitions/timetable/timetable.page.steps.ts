@@ -255,13 +255,19 @@ Then(/^the last TJM is correct$/, async () => {
 });
 
 Then(/^the last TJM is the TJM with the latest time$/, async () => {
-  const lastTjmSent = sortTJMsByDateTime(TestData.getTJMs());
+  const lastTjmSent = sortTJMsByModificationTime(TestData.getTJMs());
   await assertLastTJM(lastTjmSent[lastTjmSent.length - 1]);
 });
 
-function sortTJMsByDateTime(array): TrainJourneyModificationMessage[] {
+function sortTJMsByReceivedDateTime(array): TrainJourneyModificationMessage[] {
   return array.sort((a, b) => {
     return Number(a.MessageHeader.MessageReference.MessageDateTime) - Number(b.MessageHeader.MessageReference.MessageDateTime);
+  });
+}
+
+function sortTJMsByModificationTime(array): TrainJourneyModificationMessage[] {
+  return array.sort((a, b) => {
+    return Number(a.TrainJourneyModificationTime) - Number(b.TrainJourneyModificationTime);
   });
 }
 
@@ -281,8 +287,13 @@ async function assertLastTJM(tjmMessage: TrainJourneyModificationMessage): Promi
     .LocationSubsidiaryCode);
   const expectedReason = (tjmMessage.ModificationReason === undefined ? '' : tjmMessage.ModificationReason);
 
-  expect(lastTjm, 'Last TJM is not as expected')
-    .to.equal(`${expectedTypeOfModification}, ${expectedLocation}, ${expectedReason}, ${expectedTime}`);
+  const expectedMessages = new Array();
+  expectedMessages.push(expectedTypeOfModification);
+  if (Boolean(expectedLocation)) { expectedMessages.push(expectedLocation); }
+  if (Boolean(expectedReason)) { expectedMessages.push(expectedReason); }
+  expectedMessages.push(expectedTime);
+
+  expect(lastTjm, 'Last TJM is not as expected').to.equal(expectedMessages.join(', '));
 }
 
 When('I toggle the inserted locations on', async () => {

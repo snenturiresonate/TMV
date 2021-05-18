@@ -83,8 +83,7 @@ When(/^the following train running info? (?:message|messages) with time? (?:is|a
       const hourDepartFromOrigin = trainRunningInfoMessages[i].hourDepartFromOrigin;
       // tslint:disable-next-line:max-line-length
       const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithTime(locationPrimaryCode, locationSubsidiaryCode,
-        operationalTrainNumber, trainUID,
-        scheduledStartDate, messageType, timestamp, hourDepartFromOrigin);
+        operationalTrainNumber, trainUID, scheduledStartDate, messageType, timestamp, hourDepartFromOrigin);
       const triMessage: string = trainRunningInfo.toString({prettyPrint: true});
       await CucumberLog.addText(triMessage);
       await linxRestClient.postTrainRunningInformation(triMessage);

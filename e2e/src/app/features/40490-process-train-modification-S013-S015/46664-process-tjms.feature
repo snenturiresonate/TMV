@@ -8,7 +8,6 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
   Background:
     Given I remove all trains from the trains list
 
-  @test
   Scenario: 40490-1 Single Change of ID received
     Given I am on the trains list page
     And the following basic schedules are received from LINX
@@ -124,7 +123,6 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     Then the sent TJMs are in the modifications table
     And the last TJM is correct
 
-  @test
   Scenario: 40490-5 Multiple changes of ID
     Given I am on the trains list page
     And the following basic schedules are received from LINX
@@ -157,7 +155,6 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the sent TJMs in the modifications table are in time order
     And the last TJM is the TJM with the latest time
 
-  @test
   Scenario: 40490-7 Multiple out of order changes of ID
     Given I am on the trains list page
     And the following basic schedules are received from LINX

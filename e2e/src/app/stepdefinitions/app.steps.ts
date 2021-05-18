@@ -28,6 +28,7 @@ import {DateTimeFormatter, LocalDateTime, LocalTime, ZonedDateTime, ZoneId} from
 import '@js-joda/timezone';
 import {NavBarPageObject} from '../pages/nav-bar.page';
 import {RedisClient} from '../api/redis/redis-client';
+import {tryCatch} from 'rxjs/internal-compatibility';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
@@ -532,8 +533,11 @@ Then('the tab title contains the selected Train', async () => {
 When('I open {string} page in a new tab', async (pageName: string) => {
   try {
     await OpenNewTab();
-  } catch (UnexpectedAlertOpenError) {
-    await acceptUnexpectedAlert();
+  } catch (e) {
+    await CucumberLog.addText(e.message);
+    if (e.message.includes('unexpected alert')) {
+      await acceptUnexpectedAlert();
+    }
   }
   switch (pageName) {
     case 'admin': {
@@ -566,8 +570,8 @@ async function handleUnexpectedAlertAndNavigateTo(url: string): Promise<any> {
 }
 
 async function acceptUnexpectedAlert(): Promise<any> {
-  const alert = await browser.switchTo().alert();
-  await alert.accept();
+    const alert = await browser.switchTo().alert();
+    await alert.accept();
 }
 
 async function OpenNewTab(): Promise<any> {

@@ -89,7 +89,7 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | cif                                      | trainUid | trainDescription |
       | access-plan/42006-schedules/42006-3b.cif | C14259   | 1U35             |
 
-  @bug @bug:58193 @test
+  @bug @bug:58193
   Scenario Outline: 42006-4 Display calculated departure time for a location that appears more than once
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX
@@ -107,10 +107,11 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       #Origin
       | access-plan/42006-schedules/42006-4.cif | C14260   | 1U36             | Crewe            | 13:34:00  | 15:03:00   |
       #Stopping
-      | access-plan/42006-schedules/42006-4.cif | C14260   | 1U36             | Stafford         | 13:51:00  | 14:51:00   |
+      | access-plan/42006-schedules/42006-4.cif | C14260   | 1U36             | Stafford         | 13:55:30  | 14:55:30   |
       #Passing
-      | access-plan/42006-schedules/42006-4.cif | C14260   | 1U36             | Rugeley North Jn | 14:03:00  | 14:43:00   |
+      | access-plan/42006-schedules/42006-4.cif | C14260   | 1U36             | Rugeley North Jn | 14:05:00  | 14:43:00   |
 
+  @bug @bug:61948
   Scenario Outline: 42006-5 Calculated arrival time for a location is not displayed when a TRI has already been received
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX
@@ -134,6 +135,7 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       #Destination
       | access-plan/42006-schedules/42006-5.cif | C14261   | 1U37             | London Euston | 15:52:00  | WY             | B012    | 15:53:00     | EUSTON  | Arrival at Termination |
 
+  @bug @bug:61948
   Scenario Outline: 42006-6 Calculated departure time for a location is not displayed when a TRI has already been received
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX
@@ -283,7 +285,7 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
       | 3594      | 13:51:00  | 5582    | R3             | 1U54             |
       | 5582      | 13:51:30  | 4310    | R3             | 1U54             |
-      | 1296      | 14:50:00  | 5582    | R3             | 1U54             |
+      | 3585      | 14:50:00  | 5582    | R3             | 1U54             |
     And I do nothing
     And I am on the timetable view for service 'C14254'
     And I toggle the inserted locations on
