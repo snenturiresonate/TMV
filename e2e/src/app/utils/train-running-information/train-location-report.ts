@@ -3,7 +3,7 @@ import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {TRILocation} from './location';
 import {TRITrainDelay} from './train-delay';
 import * as moment from 'moment';
-import {DateTimeFormatter, LocalDate, LocalDateTime} from '@js-joda/core';
+import {DateTimeFormatter, LocalDate} from '@js-joda/core';
 
 export class TRITrainLocationReport {
   public static locationDateTime = DateAndTimeUtils.getCurrentDateTime();
@@ -35,8 +35,17 @@ export class TRITrainLocationReport {
 
   public static trainLocationReportWithDelayAgainstBookedTime = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                                                  trainLocationStatus: string, delay: string) => {
-    const totalDelayMins: number = (parseInt(delay.split(':')[0], 2) * 60) + parseInt(delay.split(':')[1], 2);
-    const bookedLocationDateTime: string = TRITrainLocationReport.delayedLocationDateTime(totalDelayMins);
+    let isEarly = false;
+    let absTimeDiff = delay;
+    if (delay.substr(0, 1) === '-') {
+      absTimeDiff = delay.substr(1, 5);
+      isEarly = true;
+    }
+    let timeDiffMins: number = (parseInt(absTimeDiff.split(':')[0], 10) * 60) + parseInt(absTimeDiff.split(':')[1], 10);
+    if (isEarly) {
+      timeDiffMins = -1 * timeDiffMins;
+    }
+    const bookedLocationDateTime: string = TRITrainLocationReport.delayedLocationDateTime(timeDiffMins);
     const trainLocationReport = fragment().ele('TrainLocationReport')
       .ele(TRILocation.trainLocation(locationPrimaryCode, locationSubsidiaryCode))
       .ele('LocationDateTime').txt(TRITrainLocationReport.locationDateTime).up()

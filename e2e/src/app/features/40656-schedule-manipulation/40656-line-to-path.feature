@@ -4,10 +4,15 @@ Feature: 40656 - Schedule Manipulation - Line To Path
   I want schedules which have been imported to be manipulated
   So that the schedule has a the correct path, line and asset codes for each location
 
-  @tdd
-  Scenario: 40656-6 Schedule with locations matching line code to path code rules
+  Scenario Outline: 40656-6 Schedule with locations matching line code to path code rules
     #K0056	OXFD   	OXFDNNJ
-    Given there is a Schedule for '1F06'
+#    Given A service has a schedule in the current time period
+#    And that schedule includes pairs of locations that match entries in the line code to path code propagation rules
+#    And the line code is populated for the matching from location
+#    And the path code is not populated for the matching to location
+#    When a user selects to see that schedule in the timetable view
+#    Then the path code displayed for the To Location is the same as the line code for the From Location
+    Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
       | PADTON | 09:58              |      |
@@ -18,16 +23,31 @@ Feature: 40656 - Schedule Manipulation - Line To Path
     And it has Terminating Details
       | tiploc  | scheduledArrival | path |
       | PRTOBJP | 10:13            |      |
+    And the schedule has schedule identifier characteristics
+      | trainUid      | stpIndicator | dateRunsFrom |
+      | <planningUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    When I am on the timetable view for service '1F06'
+    And I am on the trains list page
+    And The trains list table is visible
+    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    When I am on the timetable view for service '<planningUid>'
     Then the path code for the To Location matches the line code for the From Location
       | fromLocation | lineCode | toLocation      |
       | Oxford       | LIN      | Oxford North Jn |
 
-  @tdd
-  Scenario: 40656-7 Schedule with locations with existing path code
+    Examples:
+      | trainNum | planningUid |
+      | 1G06     | G30006      |
+
+  Scenario Outline: 40656-7 Schedule with locations with existing path code
     #K0056	OXFD   	OXFDNNJ
-    Given there is a Schedule for '1F07'
+#    Given A service has a schedule in the current time period
+#    And that schedule includes pairs of locations that match entries in the line code to path code propagation rules
+#    And the line code is populated for the matching from location
+#    And the path code is populated for the matching to location
+#    When a user selects to see that schedule in the timetable view
+#    Then then the original path code is displayed for the From Location
+    Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
       | PADTON | 09:58              |      |
@@ -38,16 +58,25 @@ Feature: 40656 - Schedule Manipulation - Line To Path
     And it has Terminating Details
       | tiploc  | scheduledArrival | path |
       | PRTOBJP | 10:13            |      |
+    And the schedule has schedule identifier characteristics
+      | trainUid      | stpIndicator | dateRunsFrom |
+      | <planningUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    When I am on the timetable view for service '1F07'
+    And I am on the trains list page
+    And The trains list table is visible
+    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    When I am on the timetable view for service '<planningUid>'
     Then the locations path code matches the original path code
       | location        | pathCode |
       | Oxford North Jn | PAT      |
 
-  @tdd
-  Scenario: 40656-7b From Locations line is not back filled from To Locations Path with matching rule
+    Examples:
+      | trainNum | planningUid |
+      | 1G07     | G30007      |
+
+  Scenario Outline: 40656-7b From Locations line is not back filled from To Locations Path with matching rule
     #K0056	OXFD   	OXFDNNJ
-    Given there is a Schedule for '1F07'
+    Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
       | PADTON | 09:58              |      |
@@ -58,15 +87,30 @@ Feature: 40656 - Schedule Manipulation - Line To Path
     And it has Terminating Details
       | tiploc  | scheduledArrival | path |
       | PRTOBJP | 10:13            |      |
+    And the schedule has schedule identifier characteristics
+      | trainUid      | stpIndicator | dateRunsFrom |
+      | <planningUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    When I am on the timetable view for service '1F07'
+    And I am on the trains list page
+    And The trains list table is visible
+    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    When I am on the timetable view for service '<planningUid>'
     Then the locations line code matches the original line code
       | location | lineCode |
       | Oxford   | LIN      |
 
-  @tdd
-  Scenario: 40656-8 Schedule with locations without matching line code to path code rules
-    Given there is a Schedule for '1F08'
+    Examples:
+      | trainNum | planningUid |
+      | 1E07     | H40007      |
+
+  Scenario Outline: 40656-8 Schedule with locations without matching line code to path code rules
+#    Given A service has a schedule in the current time period
+#    And that schedule includes a pair of locations that does not match entries in the line code to path code propagation rules
+#    And the line code is populated for the from location that doesn't match
+#    And the path code is null for to location that doesn't match
+#    When a user selects to see that schedule in the timetable view
+#    Then then the path code is not displayed for the to location
+    Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
       | PADTON | 09:58              |      |
@@ -77,8 +121,18 @@ Feature: 40656 - Schedule Manipulation - Line To Path
     And it has Terminating Details
       | tiploc  | scheduledArrival | path |
       | PRTOBJP | 10:13            |      |
+    And the schedule has schedule identifier characteristics
+      | trainUid      | stpIndicator | dateRunsFrom |
+      | <planningUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    When I am on the timetable view for service '1F08'
+    And I am on the trains list page
+    And The trains list table is visible
+    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    When I am on the timetable view for service '<planningUid>'
     Then no path code is displayed for location 'Oxford North Jn'
+
+    Examples:
+      | trainNum | planningUid |
+      | 1G08     | G30008      |
 
 
