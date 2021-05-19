@@ -300,7 +300,7 @@ export class MapPageObject {
   }
 
   public async getTrainHighlightText(): Promise<string> {
-    return element(by.id('')).getText();
+    return element(by.id('schedule-context-menu-highlight-train-on')).getText();
   }
 
   public async getBerthContextInfoText(): Promise<string> {

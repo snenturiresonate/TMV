@@ -1,4 +1,4 @@
-@tdd
+#@tdd
 Feature: 33755 - TMV Highlight Train
 
   As a TMV User
@@ -6,22 +6,32 @@ Feature: 33755 - TMV Highlight Train
   So that I can track or identify a train that may require operational intervention
 
   Background:
-    Given I am viewing the map hdgw01paddington.v
-    And I have cleared out all headcodes
+    * I am viewing the map hdgw01paddington.v
+    * I have cleared out all headcodes
+    * I remove all trains from the trains list
 
+  @blp
   Scenario: 33755-1a Highlight Train (Menu) - Berth Interpose
     #Given the user is viewing a live schematic map
     #And there are services running
     #When the user selects a train for highlighting using the secondary mouse click
     #Then the user is presented with an option to highlight/unhighlight the train
-    When the following berth interpose message is sent from LINX
+    Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | 5B11                | B53311         |
+    And I am on the trains list page
+    Then the following service is displayed on the trains list
+      | trainId         | trainUId   |
+      | 5B11            | B53311     |
+    When the following berth interpose message is sent from LINX (creating a match)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | A001      | D3 		             | 1D34 		          |
+      | 10:02:06  | A001      | D3 		             | 5B11 		          |
+    And I am viewing the map HDGW01paddington.v
+    Then berth 'A001' in train describer 'D3' contains '5B11' and is visible
+    When I wait for the Open timetable option for train description 5B11 in berth A001, describer D3 to be available
     And I right click on berth with id 'D3A001'
-    And the berth context menu is displayed with berth name '1D34'
-    And the headcode displayed for 'D3A001' is R001
-    And the train headcode color for berth 'D3A001' is stone
     Then the menu is displayed with 'Highlight' option
+
 
 
   Scenario: 33755-1b Highlight Train (Menu) - Berth Interpose and Step
