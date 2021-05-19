@@ -828,7 +828,6 @@ Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instan
       }
       expected = `${actualsTimeRounding(expected, arrivalOrDeparture)} c`;
       const error = `Actual ${arrivalOrDeparture} not correct for location ${location}`;
-      await browser.wait(ExpectedConditions.textToBePresentInElement(field, expected), 10000, error);
       expect(await field.getText(), error).to.equal(expected);
     });
   });
