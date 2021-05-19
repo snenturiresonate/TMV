@@ -71,15 +71,15 @@ Feature: 46482 - TMV Key - select key
     And I toggle the 'Berth' toggle 'on'
     And the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
-      | 09:59:00  | 0099    | D3            | 1G69             |
+      | 09:59:00  | 0099    | D3            | 1K56             |
     And the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
-      | 09:59:00  | 0092    | D3            | 1G70             |
-    Then berth '0099' in train describer 'D3' does not contain '1G69'
-    And berth '0092' in train describer 'D3' does not contain '1G70'
+      | 09:59:00  | 0092    | D3            | 1K57             |
+    Then berth '0099' in train describer 'D3' does not contain '1K56'
+    And berth '0092' in train describer 'D3' does not contain '1K57'
     And I toggle the 'Berth' toggle 'off'
-    Then berth '0099' in train describer 'D3' contains '1G69' and is visible
-    And berth '0092' in train describer 'D3' contains '1G70' and is visible
+    Then berth '0099' in train describer 'D3' contains '1K56' and is visible
+    And berth '0092' in train describer 'D3' contains '1K57' and is visible
     And a modal displays with title 'Key'
 
   Scenario: 34085-1i The TMV Key modal window can only be opened one key at a time

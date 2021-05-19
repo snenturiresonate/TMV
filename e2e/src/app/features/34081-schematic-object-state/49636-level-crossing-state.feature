@@ -1,4 +1,3 @@
-@bug @bug_54829
 Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
   (From Gherkin for Feature 34081)
   As a TMV User

@@ -4,6 +4,7 @@ import {browser, by, element, ElementArrayFinder, ElementFinder, ExpectedConditi
 import {TimetableTableRowPageObject} from '../sections/timetable.tablerow.page';
 import * as assert from 'assert';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export class TimeTablePageObject {
   public timetableTab: ElementFinder;
@@ -90,9 +91,11 @@ export class TimeTablePageObject {
     return index;
   }
 
-  ensureInsertedLocationFormat(location: string): string {
-    if (! location.startsWith('[')) {
-      location = '[' + location + ']';
+  ensureInsertedLocationFormat(locationType: string, location: string): string {
+    if (locationType === 'inserted') {
+        if (! location.startsWith('[')) {
+          location = '[' + location + ']';
+        }
     }
     return location;
   }
@@ -106,9 +109,9 @@ export class TimeTablePageObject {
 
   async lineTextToEqual(location: string, expectLineText: string): Promise<void> {
     const row = await this.getRowByLocation(location, 1);
-    const actualLineText = await row.path.getText();
+    const actualLineText = await row.ln.getText();
     assert(expectLineText === actualLineText,
-      `location ${location} should have path code ${expectLineText}, was ${actualLineText}`);
+      `location ${location} should have line code ${expectLineText}, was ${actualLineText}`);
   }
 
   async getRowByLocation(location: string, instance: number): Promise<TimetableTableRowPageObject> {
@@ -309,5 +312,13 @@ export class TimeTablePageObject {
 
   public async waitUntilPropertyValueIs(propertyName: string, expectedString: string): Promise<void> {
     browser.wait(ExpectedConditions.textToBePresentInElement(element(by.id(propertyName)), expectedString));
+  }
+
+  public async waitUntilLastReportLocNameHasLoaded(locName: string): Promise<void> {
+    const timeToWaitForConversion = 2000;
+    const locationName: ElementFinder = element.all
+    (by.cssContainingText(`[id=timetableHeaderTrainRunningInformation]`, locName)).first();
+    await CommonActions.waitForElementToBePresent(locationName, timeToWaitForConversion,
+      `The Locations were not converted within ${timeToWaitForConversion} milliseconds`);
   }
 }
