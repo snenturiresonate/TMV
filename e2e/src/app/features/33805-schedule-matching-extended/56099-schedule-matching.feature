@@ -1,4 +1,3 @@
-@blp
 Feature: 33805 TMV Schedule Matching
   As a TMV User
   I want updates to the planned schedule to be considered during schedule matching
