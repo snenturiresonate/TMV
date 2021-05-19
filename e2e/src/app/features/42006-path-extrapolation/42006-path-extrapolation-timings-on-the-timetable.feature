@@ -24,9 +24,9 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
     Examples:
       | cif                                     | trainUid | trainDescription | location      | timestamp | trainDescriber | toBerth |
       #stopping #STAFFRD
-      | access-plan/42006-schedules/42006-1.cif | C14256   | 1U32             | Stafford      | 13:50:00  | R3             | 5582    |
+      | access-plan/42006-schedules/42006-1.cif | C11101   | 1U01            | Stafford      | 13:50:00  | R3             | 5582    |
       #destination #EUSTON
-      | access-plan/42006-schedules/42006-1.cif | C14256   | 1U32             | London Euston | 15:50:00  | WY             | B012    |
+      | access-plan/42006-schedules/42006-1b.cif | C11102   | 1U02            | London Euston | 15:50:00  | WY             | B012    |
 
   Scenario Outline: 42006-2 Display calculated departure time
     Given I am on the trains list page
