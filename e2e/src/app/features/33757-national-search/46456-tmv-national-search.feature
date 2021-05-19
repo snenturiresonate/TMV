@@ -21,8 +21,8 @@ Feature: 33757 - TMV National Search
     And Warning Message is displayed for minimum characters
     And I search Train for '1234567890ABCDEFGH'
     And Warning Message is displayed for minimum characters
-    And I search Train for 'A82345'
-    Then results are returned with that planning UID 'A82345'
+    And I search Train for 'A12845'
+    Then results are returned with that planning UID 'A12845'
     And the Train search table is shown
     And the window title is displayed as 'Train Search Results'
     And I click close button at the bottom of table
@@ -86,7 +86,6 @@ Feature: 33757 - TMV National Search
       |Home                |
       |TrainsList          |
       |TimeTable           |
-      |Replay              |
       |UserManagement      |
       |TrainsListConfig    |
       |Maps                |
@@ -109,7 +108,6 @@ Feature: 33757 - TMV National Search
       |Home                |
       |TrainsList          |
       |TimeTable           |
-      |Replay              |
       |UserManagement      |
       |TrainsListConfig    |
       |Maps                |
@@ -132,7 +130,6 @@ Feature: 33757 - TMV National Search
       |Home                |
       |TrainsList          |
       |TimeTable           |
-      |Replay              |
       |UserManagement      |
       |TrainsListConfig    |
       |Maps                |
@@ -145,12 +142,12 @@ Feature: 33757 - TMV National Search
     And there is a Schedule for '4F07'
     And the schedule has schedule identifier characteristics
       | trainUid   | stpIndicator   | dateRunsFrom   |
-      | A12345     | P              | 2020-01-01     |
+      | A12349     | P              | 2020-01-01     |
     And the schedule has a Date Run to of '2050-01-01'
     And the schedule has a Days Run of all Days
     And the schedule is received from LINX
     When I search Timetable for '4F07'
-    Then results are returned with that planning UID 'A12345'
+    Then results are returned with that planning UID 'A12349'
 
     Examples:
       |pageName            |
@@ -206,9 +203,9 @@ Feature: 33757 - TMV National Search
     And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
     And the following berth interpose message is sent from LINX (to create a match)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | 0209      | D3 		             | 1F23  		          |
-    And I search Train for 'A82345'
-    And results are returned with that planning UID 'A82345'
+      | 10:02:06  | 0209      | D3 		             | 1L28  		          |
+    And I search Train for 'A12845'
+    And results are returned with that planning UID 'A12845'
     And the Train search table is shown
     And the window title is displayed as 'Train Search Results'
     And I invoke the context menu from trains '1'
@@ -223,7 +220,7 @@ Feature: 33757 - TMV National Search
     |HDGW01 |
     And the following berth step message is sent from LINX (to move train)
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
-      | 0209      | 10:02:06  | 0211    | D3             | 1F23             |
+      | 0209      | 10:02:06  | 0211    | D3             | 1L28             |
     And I invoke the context menu from trains '1'
     And I wait for the train search context menu to display
     Then the trains context menu is displayed
@@ -235,8 +232,8 @@ Feature: 33757 - TMV National Search
       |GW02   |
       |HDGW01 |
     And I click close button at the bottom of table
-    And I search Train for 'A82345'
-    And results are returned with that planning UID 'A82345'
+    And I search Train for 'A12845'
+    And results are returned with that planning UID 'A12845'
     And the Train search table is shown
     And I invoke the context menu from trains '1'
     And I wait for the train search context menu to display
@@ -269,9 +266,9 @@ Feature: 33757 - TMV National Search
     And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
     And the following berth interpose message is sent from LINX (to create a match)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | 0209      | D3 		             | 1F23  		          |
-    And I search Timetable for 'A82345'
-    And results are returned with that planning UID 'A82345'
+      | 10:02:06  | 0209      | D3 		             | 1L28  		          |
+    And I search Timetable for 'A12845'
+    And results are returned with that planning UID 'A12845'
     And the window title is displayed as 'Timetable Search Results'
     And I invoke the context menu from timetable '1'
     And I wait for the train search context menu to display
@@ -285,7 +282,7 @@ Feature: 33757 - TMV National Search
       |HDGW01 |
     And the following berth step message is sent from LINX (to move train)
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
-      | 0209      | 10:02:06  | 0211    | D3             | 1F23             |
+      | 0209      | 10:02:06  | 0211    | D3             | 1L28             |
     And I invoke the context menu from timetable '1'
     And I wait for the timetable search context menu to display
     Then the timetable context menu is displayed
@@ -297,8 +294,8 @@ Feature: 33757 - TMV National Search
       |GW02   |
       |HDGW01 |
     And I click close button at the bottom of table
-    And I search Timetable for 'A82345'
-    And results are returned with that planning UID 'A82345'
+    And I search Timetable for 'A12845'
+    And results are returned with that planning UID 'A12845'
     And I invoke the context menu from timetable '1'
     And I wait for the timetable search context menu to display
     And the timetable context menu is displayed
@@ -364,9 +361,9 @@ Feature: 33757 - TMV National Search
     And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
     And the following berth interpose message is sent from LINX (to create a match)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | 0209      | D3 		             | 1F23  		          |
-    And I search Train for 'A82345'
-    And results are returned with that planning UID 'A82345'
+      | 10:02:06  | 0209      | D3 		             | 1L28  		          |
+    And I search Train for 'A12845'
+    And results are returned with that planning UID 'A12845'
     And the Train search table is shown
     And the window title is displayed as 'Train Search Results'
     And I invoke the context menu from trains '1'
@@ -385,7 +382,7 @@ Feature: 33757 - TMV National Search
     And the berth '0209' is 'highlighted'
     And the following berth step message is sent from LINX (to move train)
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
-      | 0209      | 10:02:06  | 0211    | D3             | 1F23             |
+      | 0209      | 10:02:06  | 0211    | D3             | 1L28             |
     And I invoke the context menu from trains '1'
     And I wait for the train search context menu to display
     Then the trains context menu is displayed
