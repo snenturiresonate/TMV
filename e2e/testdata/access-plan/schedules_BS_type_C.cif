@@ -1,5 +1,5 @@
 HDTPS.UCFT1LX.PD111NOC0112182000CFT1LXQCFT1LXPFA010120010150                    
-BSNA123452001015001011111111 PXX1L23    124749000 E  345 090D     S            C
+BSNW123452001015001011111111 PXX1W23    124749000 E  345 090D     S            C
 BX         XRY                                                                  
 LOPADTON  0933 093312 4      TB                                                 
 LIROYAOJN           0934 00000000   4                                           
@@ -20,5 +20,7 @@ LIMDNHEAD 1015H1016H     101610163  RL    T
 LITWYFORD 1022H1023H     102310233  RL    T           1                         
 LIRDNGKBJ           1028H00000000   DRL                                         
 LTRDNGSTN 1031 103114    TF                                                     
-BSDA12345200101500101                   1                                      P
+BSDW12345200101500101                   1                                      P
+BSDW12345200101500101                   1                                      O
+BSDW12345200101500101                   1                                      N
 ZZ                                                                              

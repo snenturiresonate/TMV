@@ -338,15 +338,25 @@ Then('The entry {int} of the timetable modifications table contains the followin
     });
   });
 
-Then('The entry {int} of the timetable associations table contains the following data in each column',
-  async (index: number, timetableAssociationsDataTable: any) => {
+Then('The timetable associations table contains the following entries',
+  async (timetableAssociationsDataTable: any) => {
     const expectedTimetableAssociationsColValues: any[] = timetableAssociationsDataTable.hashes();
-    const actualTimetableAssociationsColValues: string[] = await timetablePage.getTimetableAssociationsColValues(index);
+    const actualTimetableAssociationsColValues: string[][] = await timetablePage.getAssociationEntries();
+    let found = false;
+    const numActualAssocs = actualTimetableAssociationsColValues.length;
+    let i = 0;
 
-    expectedTimetableAssociationsColValues.forEach((expectedAppName: any, i: number) => {
-      expect(actualTimetableAssociationsColValues[i], `Row ${index} of Associations table, column ${i} doesn't equal ${expectedAppName.column}`)
-        .to.equal(expectedAppName.column);
-    });
+    for (const expectedTimetableAssociation of expectedTimetableAssociationsColValues) {
+      i = 0;
+      while (i < numActualAssocs && !found) {
+        found = ((actualTimetableAssociationsColValues[i][0] === expectedTimetableAssociation.location)
+          && (actualTimetableAssociationsColValues[i][1] === expectedTimetableAssociation.type)
+          && (actualTimetableAssociationsColValues[i][2] === expectedTimetableAssociation.trainDescription));
+        i++;
+      }
+      expect(found, `Associations table doesn't contain ${expectedTimetableAssociation.type}
+          association with ${expectedTimetableAssociation.trainDescription} at ${expectedTimetableAssociation.location}`).to.equal(true);
+    }
   });
 
 Then('The entry of the change en route table contains the following data', async (changeEnRouteDataTable: any) => {
@@ -361,40 +371,39 @@ Then('The entry of the change en route table contains the following data', async
 Then('The timetable entries contains the following data',
   async (timetableEntryDataTable: any) => {
     const expectedTimetableEntryColValues: any[] = timetableEntryDataTable.hashes();
+    const actualTimetableEntries = await timetablePage.getTableEntries();
     for (const expectedTimetableEntryCol of expectedTimetableEntryColValues) {
-      const actualTimetableEntryColValues: string[] = await timetablePage.getTimetableEntryColValues(expectedTimetableEntryCol.entryId);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.location], 'Timetable entry Location is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][0], 'Timetable entry Location is not correct')
         .to.equal(expectedTimetableEntryCol.location);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.workingArrivalTime],
-        'Timetable entry Working Arrival Time is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][1], 'Timetable entry Working Arrival Time is not correct')
         .to.equal(expectedTimetableEntryCol.workingArrivalTime);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.workingDeptTime], 'Timetable entry Working Departure Time is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][2], 'Timetable entry Working Departure Time is not correct')
         .to.equal(expectedTimetableEntryCol.workingDeptTime);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.publicArrivalTime], 'Timetable entry Public Arrival Time is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][3], 'Timetable entry Public Arrival Time is not correct')
         .to.equal(expectedTimetableEntryCol.publicArrivalTime);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.publicDeptTime], 'Timetable entry Public Departure Time is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][4], 'Timetable entry Public Departure Time is not correct')
         .to.equal(expectedTimetableEntryCol.publicDeptTime);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalAssetCode], 'Timetable entry Original Asset Code is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][5], 'Timetable entry Original Asset Code is not correct')
         .to.equal(expectedTimetableEntryCol.originalAssetCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalPathCode], 'Timetable entry Original Path Code is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][6], 'Timetable entry Original Path Code is not correct')
         .to.equal(expectedTimetableEntryCol.originalPathCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalLineCode], 'Timetable entry Original Line Code is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][7], 'Timetable entry Original Line Code is not correct')
         .to.equal(expectedTimetableEntryCol.originalLineCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.allowances], 'Timetable entry Allowances is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][8], 'Timetable entry Allowances is not correct')
         .to.equal(expectedTimetableEntryCol.allowances);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.activities], 'Timetable entry Activities is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][9], 'Timetable entry Activities is not correct')
         .to.equal(expectedTimetableEntryCol.activities);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.arrivalDateTime], 'Timetable entry Arrival Date Time is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][10], 'Timetable entry Arrival Date Time is not correct')
         .to.equal(expectedTimetableEntryCol.arrivalDateTime);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.deptDateTime], 'Timetable entry Departure Date Time is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][11], 'Timetable entry Departure Date Time is not correct')
         .to.equal(expectedTimetableEntryCol.deptDateTime);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.assetCode], 'Timetable entry Asset Code is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][12], 'Timetable entry Asset Code is not correct')
         .to.equal(expectedTimetableEntryCol.assetCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.pathCode], 'Timetable entry Path Code is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][13], 'Timetable entry Path Code is not correct')
         .to.equal(expectedTimetableEntryCol.pathCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.lineCode], 'Timetable entry Line Code is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][14], 'Timetable entry Line Code is not correct')
         .to.equal(expectedTimetableEntryCol.lineCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.punctuality], 'Timetable entry Punctuality is not correct')
+      expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][15], 'Timetable entry Punctuality is not correct')
         .to.equal(expectedTimetableEntryCol.punctuality);
     }
   });
