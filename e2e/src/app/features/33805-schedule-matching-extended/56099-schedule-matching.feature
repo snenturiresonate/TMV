@@ -34,11 +34,10 @@ Feature: 33805 TMV Schedule Matching
       | <berth> | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
-    # @tdd:ref_60199  When I wait for the option to Unmatch train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
     Then the Matched version of the map context menu is displayed
-    # @tdd:33606 And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
+    And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
     And I see todays schedule for '<trainUid>' has loaded by looking at the timetable page
 
     Examples:
@@ -72,11 +71,10 @@ Feature: 33805 TMV Schedule Matching
       | <berth>   | 12:00:00  | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
-    # @tdd:ref_60199  When I wait for the option to Unmatch train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
     Then the Matched version of the map context menu is displayed
-    # @tdd:33606 And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
+    # @bug:60557 And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
     And I see todays schedule for '<trainUid>' has loaded by looking at the timetable page
 
     Examples:
