@@ -23,6 +23,8 @@ export class TimeTablePageObject {
   public navBarIndicatorColor: ElementFinder;
   public navBarIndicatorText: ElementFinder;
   public rows: ElementArrayFinder;
+  public timetableEntries: ElementArrayFinder;
+  public associationEntries: ElementArrayFinder;
   public insertedToggle: ElementFinder;
   public insertedToggleState: ElementFinder;
   public timetableHeaderThElements: ElementArrayFinder;
@@ -43,6 +45,8 @@ export class TimeTablePageObject {
     this.navBarIndicatorColor = element(by.css('.dot-punctuality-text:nth-child(1)'));
     this.navBarIndicatorText = element(by.css('.punctuality-text:nth-child(2)'));
     this.rows = element.all(by.css('[id^=tmv-timetable-row]'));
+    this.timetableEntries = element.all(by.css('[id^=tmv-timetable-row] td'));
+    this.associationEntries = element.all(by.css('[id^=timetable-associations-] td'));
     this.insertedToggle = element(by.css('#live-timetable-toggle-menu .toggle-switch'));
     this.insertedToggleState = element(by.css('#live-timetable-toggle-menu [class^=absolute]'));
     this.timetableHeaderThElements = element.all(by.css('[id^=tmv-timetable-header-row] th'));
@@ -53,6 +57,23 @@ export class TimeTablePageObject {
     await browser.sleep(2000);
     return this.rows.map(row => row.getAttribute('id'))
       .then(list => list.map(id => new TimetableTableRowPageObject(element(by.id(id.toString())))));
+  }
+
+  async getTableEntries(): Promise<string[][]> {
+    await browser.wait(ExpectedConditions.visibilityOf(this.rows.first()), 4000, 'wait for timetable to load');
+    await browser.sleep(2000);
+    const timetableEntryValues = await this.timetableEntries.map(entry => entry.getText());
+    const tableEntryMatrix = [];
+    for (let i = 0, k = -1; i < timetableEntryValues.length; i++) {
+      if (i % 16 === 0) {
+        k++;
+        tableEntryMatrix[k] = [];
+      }
+
+      tableEntryMatrix[k].push(timetableEntryValues[i]);
+    }
+
+    return tableEntryMatrix;
   }
 
   async getHeaderColours(): Promise<string[]> {
@@ -235,6 +256,20 @@ export class TimeTablePageObject {
     return entryColValues.map((colValue: ElementFinder) => {
       return colValue.getText();
     });
+  }
+
+  async getAssociationEntries(): Promise<string[][]> {
+    await browser.wait(ExpectedConditions.visibilityOf(this.associationEntries.first()), 4000, 'wait for details to load');
+    const associationEntryValues = await this.associationEntries.map(entry => entry.getText());
+    const tableEntryMatrix = [];
+    for (let i = 0, k = -1; i < associationEntryValues.length; i++) {
+      if (i % 3 === 0) {
+        k++;
+        tableEntryMatrix[k] = [];
+      }
+      tableEntryMatrix[k].push(associationEntryValues[i]);
+    }
+    return tableEntryMatrix;
   }
 
   public async getChangeEnRouteValues(): Promise<string> {

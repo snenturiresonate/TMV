@@ -73,13 +73,13 @@ When('I invoke the context menu from train {int} on the trains list', async (ite
 
 When('I invoke the context menu from train {string} on the trains list', async (scheduleNum: string) => {
   const itemNum = await trainsListPage.getRowForSchedule(scheduleNum) + 1;
-  expect(itemNum).to.not.equal(-1);
+  expect(itemNum, `Train ${scheduleNum} does not appear on the trains list`).to.not.equal(0);
   await trainsListPage.rightClickTrainListItem(itemNum);
 });
 
 Then('Train description {string} is visible on the trains list', async (scheduleNum: string) => {
   const itemNum = await trainsListPage.getRowForSchedule(scheduleNum) + 1;
-  expect(itemNum, `Train ${scheduleNum} does not appear on the trains list`).to.not.equal(-1);
+  expect(itemNum, `Train ${scheduleNum} does not appear on the trains list`).to.not.equal(0);
 });
 
 Then('train description {string} is visible on the trains list with schedule type {string}',

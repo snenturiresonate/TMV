@@ -1,5 +1,7 @@
-import {by, element, ElementFinder} from 'protractor';
+import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {SearchResultsTableRowPage} from './search.results.tablerow.page';
+import * as assert from 'assert';
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export class SearchResultsPageObject {
 
@@ -17,7 +19,7 @@ export class SearchResultsPageObject {
 
   async getActiveTable(): Promise<ElementFinder> {
     const searchType = await element(by.id('national-search-dropdown-toggle')).getText();
-
+    await CommonActions.waitForElementToBePresent(element.all(by.css(`[id*='SearchResults']`)).first());
     switch (searchType) {
       case 'Train':
         return this.trainSearchResults;
@@ -41,6 +43,19 @@ export class SearchResultsPageObject {
   async getRowByPlanningUID(planningUID: string): Promise<SearchResultsTableRowPage> {
     const activeTable: ElementFinder = await this.getActiveTable();
     return new SearchResultsTableRowPage(activeTable.element(by.xpath(`//tr[descendant::td[text()='${planningUID}']]`)));
+  }
+
+  async getRowByPlanningUIDandDate(planningUID: string, runDate: string): Promise<SearchResultsTableRowPage> {
+    const activeTable: ElementFinder = await this.getActiveTable();
+    const rows: ElementArrayFinder = activeTable.all(by.xpath(`//tr[descendant::td[text()=${planningUID}] and descendant::td[text()='${runDate}']]`));
+    const numRows = await rows.count();
+    if (numRows > 1) {
+      assert.fail(`multiple (${numRows} rows returned for planningUID ${planningUID} and runDate ${runDate}`);
+    }
+    if (numRows < 1) {
+      assert.fail(`no rows returned for planningUID ${planningUID} and runDate ${runDate}`);
+    }
+    return new SearchResultsTableRowPage(rows.get(0));
   }
 
   async getRowByService(service: string): Promise<SearchResultsTableRowPage> {
