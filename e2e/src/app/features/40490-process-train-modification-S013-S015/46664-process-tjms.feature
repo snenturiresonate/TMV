@@ -4,7 +4,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
   I want the system process LINX train stepping messages
   So that I can view the train stepping on the schematic
 
-  @bug @bug:56878 @tdd @tdd:53405
+  @tdd @tdd:53405
   Scenario: 40490-1 Single Change of ID received
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
@@ -18,7 +18,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the sent TJMs are in the modifications table
     And the last TJM is correct
 
-  @bug @bug:56878 @tdd @tdd:53405
+ @tdd @tdd:53405
   Scenario Outline: 40490-2a Single Cancellation at Origin or Cancellation at location received
     Given the following basic schedules are received from LINX
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
@@ -68,7 +68,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | trainUid | trainDescription | type | modificationReason | nationalDelayCode |
       | H41103   | 1X03             | 92   | 19                 | OZ                |
 
-  @bug @bug:56878 @tdd @tdd:53405
+  @tdd @tdd:53405
   Scenario: 40490-2b Single Change of Origin at location received
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
@@ -81,7 +81,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     Then the sent TJMs are in the modifications table
     And the last TJM is correct
 
-  @bug @bug:56878 @tdd @tdd:53405
+  @tdd @tdd:53405
   Scenario Outline: 40490-3 Cancellation received followed by reinstatement at the same location
     Given the following basic schedules are received from LINX
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
@@ -100,7 +100,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | H41105   | 1X05             | 91   | 12                 | PD                |
       | H41106   | 1X06             | 92   | 19                 | OZ                |
 
-  @bug @bug:56878 @tdd @tdd:53405
+  @tdd @tdd:53405
   Scenario: 40490-4 Multiple changes of Origin
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
@@ -114,7 +114,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     Then the sent TJMs are in the modifications table
     And the last TJM is correct
 
-  @bug @bug:56878 @tdd @tdd:53405
+  @tdd @tdd:53405
   Scenario: 40490-5 Multiple changes of ID
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
@@ -129,7 +129,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the sent TJMs are in the modifications table
     And the last TJM is correct
 
-  @bug @bug:56878 @tdd @tdd:53405
+  @tdd @tdd:53405
   Scenario: 40490-6 Multiple out of order changes of Origin
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
@@ -144,7 +144,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the sent TJMs in the modifications table are in time order
     And the last TJM is the TJM with the latest time
 
-  @bug @bug:56878 @tdd @tdd:53405
+  @tdd @tdd:53405
   Scenario: 40490-7 Multiple out of order changes of ID
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
@@ -159,7 +159,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the sent TJMs are in the modifications table
     And the last TJM is the TJM with the latest time
 
-  @bug @bug:56878 @tdd @tdd:53405
+  @tdd @tdd:53405
   Scenario Outline: 40490-8 Out of order cancel/reinstate display in timetable
     Given the following basic schedules are received from LINX
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
@@ -178,7 +178,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | H41111   | 1X11             | 91   | 12                 | PD                |
       | H41112   | 1X12             | 92   | 19                 | OZ                |
 
-  @bug @bug:56878 @tdd @tdd:53405
+ @tdd @tdd:53405
   Scenario: 40490-9 Out of order cancel/reinstate display in trains list
   #  Given a TJM with <TJM 1 type> has been received for a schedule followed by <TJM 2 type> with an earlier modification datetime
   #  And the trains list configuration has cancellation indication turned on
@@ -209,7 +209,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | trainDescriberId | backgroundColour   |
       | 1X13             | rgb(221, 221, 238) |
 
-  @bug @bug:56878 @tdd @tdd:53405
+  @tdd @tdd:53405
   Scenario: 40490-10 Invalid reinstate followed by cancellation display in trains list
     # Given a TJM with <TJM 1 type> has been received for a schedule followed by <TJM 2 type> with a later modification datetime
     # And the trains list configuration has cancellation indication turned on
