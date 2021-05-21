@@ -1,4 +1,5 @@
-import {DateTimeFormatter, LocalDateTime} from '@js-joda/core';
+import {DateTimeFormatter, LocalDateTime, ZoneId} from '@js-joda/core';
+import '@js-joda/timezone';
 import {MessageHeader, MessageHeaderBuilder} from './message-header';
 import {OperationalTrainNumberIdentifier} from './operational-train-number-identifier';
 import {TrainOperationalIdentification, TrainOperationalIdentificationBuilder} from './train-operational-identification';
@@ -60,7 +61,9 @@ export class TrainJourneyModificationMessageBuilder {
 
   constructor() {
     this.MessageHeader = new MessageHeaderBuilder().build();
-    this.TrainJourneyModificationTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd\'T\'HH:mm:ss')) + '-00:00';
+    this.TrainJourneyModificationTime = LocalDateTime.now()
+      .atZone(ZoneId.of('Europe/London'))
+      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     this.TrainOperationalIdentification = new TrainOperationalIdentificationBuilder()
       .withTransportOperationalIdentifiers(new TransportOperationalIdentifiersBuilder().build())
       .build();
@@ -127,7 +130,8 @@ export class TrainJourneyModificationMessageBuilder {
       .withHour(Number(valueArray[0]))
       .withMinute(Number(valueArray[1]))
       .withSecond(Number(valueArray[2]))
-      .format(DateTimeFormatter.ofPattern('yyyy-MM-dd\'T\'HH:mm:ss')) + '-00:00';
+      .atZone(ZoneId.of('Europe/London'))
+      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     return this;
   }
 

@@ -18,7 +18,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #Then the user is presented with the train indication settings view (defaulted to system settings)
   Scenario: 33806 -19 Trains indication table default settings
     Then the following can be seen on the trains indication table of trains list config
-      | name                      | colour  | minutes | toggleValue |
+      | name                     | colour  | minutes | toggleValue |
       | Change of Origin         | #ffffff |         | on          |
       | Change of Identity       | #ffffff |         | on          |
       | Cancellation             | #ffffff |         | on          |
@@ -33,7 +33,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #When the user selects a colour from a timeband
     #Then the user is presented with a colour picker defaulted with the colour for the selected train indication type
   Scenario: 33806 -20 Trains indication table display of colour picker
-  Then I should see the colour picker when any trains list colour box is clicked
+    Then I should see the colour picker when any trains list colour box is clicked
 
   #33806 -21 Trains List Config (Change Trains Indication Select Colour)
     #Given the user is viewing the trains list train indication colour picker
@@ -53,15 +53,15 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
   Scenario: 33806 -21, 22, 23 Trains indication table settings update
     When I update the train list indication config settings as
     #Update to colour minutes & toggle to verify 33806 -21, 22 & 23
-    | name                     | colour | minutes | toggleValue |
-    | Change of Origin         | #bb2   |         | on          |
-    | Change of Identity       | #cc3   |         | on          |
-    | Cancellation             | #dde   |         | off         |
-    | Reinstatement            | #ff7   |         | off         |
-    | Off-route                | #aac   |         | on          |
-    | Next report overdue      | #bbc   | 15      | off         |
-    | Origin Called            | #995   | 60      | on          |
-    | Origin Departure Overdue | #356   | 10      | on          |
+      | name                     | colour | minutes | toggleValue |
+      | Change of Origin         | #bb2   |         | on          |
+      | Change of Identity       | #cc3   |         | on          |
+      | Cancellation             | #dde   |         | off         |
+      | Reinstatement            | #ff7   |         | off         |
+      | Off-route                | #aac   |         | on          |
+      | Next report overdue      | #bbc   | 15      | off         |
+      | Origin Called            | #995   | 60      | on          |
+      | Origin Departure Overdue | #356   | 10      | on          |
     And I have navigated to the 'Columns' configuration tab
     And I have navigated to the 'Train Indication' configuration tab
     Then the following can be seen on the trains list indication table
@@ -87,17 +87,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     When the following TJM is received
         #tjmType-Cancel at origin
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | L55285   | 1S42        | 12            | create | 91        | 91              | 99999       | PADTON        | 12:00:00 | 91                 | PG                |
+      | L55285   | 1S42        | 12            | create | 91        | 91              | 99999       | PADTON         | 12:00:00 | 91                 | PG                |
     And I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
-      | name         | colour |  toggleValue |
-      | Cancellation | #dde   |  on          |
+      | name         | colour | toggleValue |
+      | Cancellation | #dde   | on          |
     And I save the trains list config
     And I am on the trains list page
     Then I should see the train list row coloured as
-    |trainDescriberId|trainUID|backgroundColour|
-    |1S42            | L55285 |rgba(221, 221, 238, 1)|
+      | trainDescriberId | trainUID | backgroundColour       |
+      | 1S42             | L55285   | rgba(221, 221, 238, 1) |
     And I restore to default train list config
 
   @bug @bug_59960
@@ -108,17 +108,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     When the following TJM is received
         #tjmType-Cancel en route
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | L55285   | IS42        | 12            | create | 92        | 92              | 99999       | PADTON        | 12:00:00 | 92                 | PG                |
+      | L55285   | IS42        | 12            | create | 92        | 92              | 99999       | PADTON         | 12:00:00 | 92                 | PG                |
     And I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
-      | name         | colour |  toggleValue |
-      | Cancellation | #dde   |  on          |
+      | name         | colour | toggleValue |
+      | Cancellation | #dde   | on          |
     And I save the trains list config
     And I am on the trains list page
     Then I should see the train list row coloured as
-      |trainDescriberId|trainUID|backgroundColour|
-      |IS42            | L55285 |rgba(221, 221, 238, 1)|
+      | trainDescriberId | trainUID | backgroundColour       |
+      | IS42             | L55285   | rgba(221, 221, 238, 1) |
     And I restore to default train list config
 
   @bug @bug_59960
@@ -129,17 +129,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     When the following TJM is received
         #tjmType-Out of plan cancellation
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | L55285   | 1S42        | 12            | create | 93        | 93              | 99999       | PADTON        | 12:00:00 | 93                 | TB                |
+      | L55285   | 1S42        | 12            | create | 93        | 93              | 99999       | PADTON         | 12:00:00 | 93                 | TB                |
     And I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
-      | name         | colour |  toggleValue |
-      | Cancellation | #dde   |  on          |
+      | name         | colour | toggleValue |
+      | Cancellation | #dde   | on          |
     And I save the trains list config
     And I am on the trains list page
     Then I should see the train list row coloured as
-      |trainDescriberId|trainUID|backgroundColour|
-      |IS42            | L55285 |rgba(221, 221, 238, 1)|
+      | trainDescriberId | trainUID | backgroundColour       |
+      | IS42             | L55285   | rgba(221, 221, 238, 1) |
     And I restore to default train list config
 
   @bug @bug_59960
@@ -150,8 +150,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       | 0A00    | W15214   |
     And there is a Schedule for '0A00'
     And it has Origin Details
-      | tiploc | scheduledDeparture             | line |
-      | PADTON | 10:15 SAME AS CURRENT ORIGIN   |      |
+      | tiploc | scheduledDeparture           | line |
+      | PADTON | 10:15 SAME AS CURRENT ORIGIN |      |
     And it has Intermediate Details
       | tiploc  | scheduledArrival | scheduledDeparture | path | line |
       | ROYAOJN | 10:00            | 10:01              |      |      |
@@ -165,8 +165,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       | W15214   | 0A00        | 09:59                  | 99999               | PADTON                 |
     Then The trains list table is visible
     And the service is displayed in the trains list with the following indication
-      | rowType                   | rowId      | rowColFill            | trainDescriptionFill   |
-      | Origin called             | W15214     | rgba(153, 153, 255, 1)| rgba(0, 255, 0, 1)     |
+      | rowType       | rowId  | rowColFill             | trainDescriptionFill |
+      | Origin called | W15214 | rgba(153, 153, 255, 1) | rgba(0, 255, 0, 1)   |
     And I restore to default train list config
 
   @bug @bug_59960
@@ -177,17 +177,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     When the following TJM is received
         #tjmType-Trains reinstatement - Whole train
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | L55285   | 1S42        | 12            | create | 96        | 96              | 99999       | PADTON        | 12:00:00 | 96                 | PG                |
+      | L55285   | 1S42        | 12            | create | 96        | 96              | 99999       | PADTON         | 12:00:00 | 96                 | PG                |
     And I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
-      | name         | colour |  toggleValue |
-      | Reinstatement | #dde   |  on          |
+      | name          | colour | toggleValue |
+      | Reinstatement | #dde   | on          |
     And I save the trains list config
     And I am on the trains list page
     Then I should see the train list row coloured as
-      |trainDescriberId|trainUID|backgroundColour|
-      |1S42            | L55285 |rgba(221, 221, 238, 1)|
+      | trainDescriberId | trainUID | backgroundColour       |
+      | 1S42             | L55285   | rgba(221, 221, 238, 1) |
     And I restore to default train list config
 
   @bug @bug_59960
@@ -198,17 +198,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     When the following TJM is received
         #tjmType-Change of Origin
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | L55285   | 1S42        | 12            | create | 94        | 94              | 99999       | PADTON        | 12:00:00 | 94                 | PL                |
+      | L55285   | 1S42        | 12            | create | 94        | 94              | 99999       | PADTON         | 12:00:00 | 94                 | PL                |
     And I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
-      | name         | colour |  toggleValue |
-      | Change of Origin | #dde   |  on          |
+      | name             | colour | toggleValue |
+      | Change of Origin | #dde   | on          |
     And I save the trains list config
     And I am on the trains list page
     Then I should see the train list row coloured as
-      |trainDescriberId|trainUID|backgroundColour|
-      |1S42            | L55285 |rgba(221, 221, 238, 1)|
+      | trainDescriberId | trainUID | backgroundColour       |
+      | 1S42             | L55285   | rgba(221, 221, 238, 1) |
     And I restore to default train list config
 
   @bug @bug_59960
@@ -217,18 +217,18 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     And I am on the trains list page
     And train '1S42' with schedule id 'L55285' for today is visible on the trains list
     When the following live berth step message is sent from LINX (causing service to go off route)
-       | fromBerth | toBerth | trainDescriber| trainDescription |
-       | 0099      | 9999    | GW            | 1S42             |
+      | fromBerth | toBerth | trainDescriber | trainDescription |
+      | 0099      | 9999    | GW             | 1S42             |
     And I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
-      | name      | colour |  toggleValue |
-      | Off-route | #dde   |  on          |
+      | name      | colour | toggleValue |
+      | Off-route | #dde   | on          |
     And I save the trains list config
     And I am on the trains list page
     Then I should see the train list row coloured as
-      |trainDescriberId|trainUID|backgroundColour|
-      |1S42            | L55285 |rgba(221, 221, 238, 1)|
+      | trainDescriberId | trainUID | backgroundColour       |
+      | 1S42             | L55285   | rgba(221, 221, 238, 1) |
     And I restore to default train list config
 
   @bug @bug_59960
@@ -242,8 +242,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     And I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
-      | name         | colour |  toggleValue |
-      | Change of Identity | #dde   |  on          |
+      | name               | colour | toggleValue |
+      | Change of Identity | #dde   | on          |
     And I save the trains list config
     And the following service is displayed on the trains list
       | trainId | trainUId |
