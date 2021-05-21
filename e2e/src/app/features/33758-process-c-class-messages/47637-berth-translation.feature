@@ -10,10 +10,10 @@ Feature: 47637 - Process C Class Messages - Berth Translation
   #T = To step
   #F = From Step
 
-  @tdd
   Scenario Outline: 33758 Berth Translation - Interpose With Matching Config
     # Has type I
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
+    And I have cleared out all headcodes
     When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <toBerth> | <toTrainDescriber> | <trainDescription> |
@@ -28,6 +28,7 @@ Feature: 47637 - Process C Class Messages - Berth Translation
   Scenario Outline: 33758 Berth Translation - Interpose With No Matching Config
     # Does not have type I
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
+    And I have cleared out all headcodes
     When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <toBerth> | <toTrainDescriber> | <trainDescription> |
@@ -37,10 +38,10 @@ Feature: 47637 - Process C Class Messages - Berth Translation
       | trainDescription | toTrainDescriber | toBerth | newTrainDescriber | newBerth |
       | 1E04             | EX               | EJ08    | ZY                | EJ08     |
 
-    @bug @bug:55362
   Scenario Outline: 33758 Berth Translation - Interpose to Null
     # Translation is ******
     Given I am on a map showing berth '<toBerth>' and in train describer '<toTrainDescriber>'
+    And I have cleared out all headcodes
     When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <toBerth> | <toTrainDescriber> | <trainDescription> |
@@ -54,6 +55,7 @@ Feature: 47637 - Process C Class Messages - Berth Translation
   Scenario Outline: 33758 Berth Translation - Step With Matching Config - To
     # Has Type T
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
+    And I have cleared out all headcodes
     When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
@@ -67,10 +69,10 @@ Feature: 47637 - Process C Class Messages - Berth Translation
       | 1E08             | C1                 | 1628      | C1               | 1624    | C1                | 1029     |
       | 1E09             | ZY                 | EJ04      | EX               | EJ08    | ZY                | EJ08     |
 
-  @tdd
   Scenario Outline: 33758 Berth Translation - Step With Matching Config - From
     # Has Type F
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
+    And I have cleared out all headcodes
     When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth    | trainDescriber      | trainDescription   |
       | 09:59:00  | <newBerth> | <newTrainDescriber> | <trainDescription> |
@@ -87,25 +89,25 @@ Feature: 47637 - Process C Class Messages - Berth Translation
       | 1E11             | C1                 | 1624      | C1               | 1628    | C1                | 1029     |
       | 1E12             | EX                 | EJ08      | ZY               | EJ04    | ZY                | EJ08     |
 
-  @tdd
-  # no map config for scenario
   Scenario Outline: 33758 Berth Translation - Step With No Matching Config
     # Does not have type T or F
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
+    And I have cleared out all headcodes
     When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
       | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newBerth>' in train describer '<newTrainDescriber>' does not contain '<trainDescription>'
-    And berth '<toBerth>' in train describer '<toTrainDescriber>' contains '<trainDescription>' and is visible
+    When I am on a map showing berth '<toBerth>' and in train describer '<toTrainDescriber>'
+    Then berth '<toBerth>' in train describer '<toTrainDescriber>' contains '<trainDescription>' and is visible
 
     Examples:
       | trainDescription | fromTrainDescriber | fromBerth | toTrainDescriber | toBerth | newTrainDescriber | newBerth |
-      | 1E13             | D4                 | 0466      | D4               | 0310    | Q1                | 0310     |
+      | 1E13             | Q1                 | 0314      | D4               | 0310    | Q1                | 0310     |
 
-  @tdd
   Scenario Outline: 33758 Berth Translation - Cancel With Matching Config
     # Has type C
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
+    And I have cleared out all headcodes
     And the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth    | trainDescriber      | trainDescription   |
       | 09:59:00  | <newBerth> | <newTrainDescriber> | <trainDescription> |
@@ -117,15 +119,14 @@ Feature: 47637 - Process C Class Messages - Berth Translation
 
     Examples:
       | trainDescription | fromTrainDescriber | fromBerth | newTrainDescriber | newBerth |
-      | 1E14             | D3                 | 6067      | D3                | 6068     |
-      | 1E15             | C1                 | 1628      | C1                | 1029     |
-      | 1E16             | ZY                 | EJ04      | ZY                | EJ08     |
+      | 1E14             | D3                 | 6071      | D3                | 6068     |
+      | 1E15             | C1                 | 1624      | C1                | 1029     |
+      | 1E16             | EX                 | EJ08      | ZY                | EJ08     |
 
-  @tdd
-  # no map config for scenario
   Scenario Outline: 33758 Berth Translation - Cancel With No Matching Config
     # Does not have type C
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
+    And I have cleared out all headcodes
     And the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth    | trainDescriber      | trainDescription   |
       | 09:59:00  | <newBerth> | <newTrainDescriber> | <trainDescription> |
@@ -133,7 +134,7 @@ Feature: 47637 - Process C Class Messages - Berth Translation
     When the following berth cancel message is sent from LINX
       | timestamp | fromBerth   | trainDescriber       | trainDescription   |
       | 09:59:00  | <fromBerth> | <fromTrainDescriber> | <trainDescription> |
-    Then berth '<fromBerth>' in train describer '<fromTrainDescriber>' contains '<trainDescription>' and is visible
+    Then berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible
 
     Examples:
       | trainDescription | fromTrainDescriber | fromBerth | newTrainDescriber | newBerth |

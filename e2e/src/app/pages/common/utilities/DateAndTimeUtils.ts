@@ -1,10 +1,10 @@
 import * as moment from 'moment';
-import {DateTimeFormatter, LocalDate, LocalDateTime} from '@js-joda/core';
+import {DateTimeFormatter, LocalDate, LocalDateTime, ZoneId} from '@js-joda/core';
 
 export class DateAndTimeUtils {
 
   public static getCurrentDateTime(): any {
-    return LocalDateTime.now();
+    return LocalDateTime.now().atZone(ZoneId.of('Europe/London'));
   }
 
   public static dayOfWeek(): string {

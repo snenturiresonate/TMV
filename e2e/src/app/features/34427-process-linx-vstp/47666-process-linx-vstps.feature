@@ -190,7 +190,8 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | A73345   | 2050-01-01      | 1111111            | CV             |
 
 
-  Scenario: 34427-11 Schedule associations are displayed
+    @bug @bug_61862
+    Scenario: 34427-11 Schedule associations are displayed
     #Given schedule(s) has been received via a CIF which has an association to a schedule received via a VSTP
     #When a user views the timetable for the VSTP schedule
     #Then the associations displayed match those provided in the CIF
@@ -205,7 +206,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
     When I open timetable from the context menu
     And I switch to the new tab
     And I switch to the timetable details tab
-    Then The entry 1 of the timetable associations table contains the following data in each column
-      | Location            | Type                 | TrainDescription   |
+    Then The timetable associations table contains the following entries
+      | location            | type                 | trainDescription   |
       | Paddington          | Previous Working     | 1C80               |
 

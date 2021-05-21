@@ -59,4 +59,15 @@ export class CommonActions {
     const EC = protractor.ExpectedConditions;
     await browser.wait(EC.invisibilityOf(elm));
   }
+
+  /**
+   * Waits for the result of a function to equal an expected condition
+   */
+  public static async waitForFunctionalStringResult(func, argument, result: string): Promise<string> {
+    browser.wait(async (): Promise<boolean> => {
+      const actual: string = await func(argument);
+      return actual === result;
+    }, browser.displayTimeout, 'The functional result was not achieved within the given timeout');
+    return await func(argument);
+  }
 }
