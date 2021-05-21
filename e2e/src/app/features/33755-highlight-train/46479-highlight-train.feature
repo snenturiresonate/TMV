@@ -9,8 +9,8 @@ Feature: 33755 - TMV Highlight Train
     * I am viewing the map hdgw01paddington.v
     * I have cleared out all headcodes
 
-  @blp
-  Scenario Outline: 33755-1a, 2a Highlight Train (Menu) - Berth Interpose
+#  @blp
+  Scenario Outline: 33755-1a & 2a Highlight Train (Menu) - Berth Interpose
     #Given the user is viewing a live schematic map
     #And there are services running
     #When the user selects a train for highlighting using the secondary mouse click
@@ -40,8 +40,8 @@ Feature: 33755 - TMV Highlight Train
     | 5B11             | B53311      | D3             | A001  |
     | 5C11             | C53311      | D3             | A007  |
 
-  @blp
-  Scenario Outline: 33755-1b, 2b Highlight Train (Menu) - Berth Interpose and Step
+#  @blp
+  Scenario Outline: 33755-1b & 2b Highlight Train (Menu) - Berth Interpose and Step
     #Given the user is viewing a live schematic map
     #And there are services running
     #When the user selects a train for highlighting using the secondary mouse click
@@ -58,15 +58,15 @@ Feature: 33755 - TMV Highlight Train
       | 10:02:06  | <berth>      | <trainDescriber>   | <trainDescription> |
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
+    When I right click on berth with id '<trainDescriber><secondBerth>'
+    Then the menu is displayed with 'Highlight' option
+    When I click on 'Highlight' link
+    Then the train in berth '<trainDescriber><berth>' is highlighted
     When the following berth step message is sent from LINX
       | timestamp | fromBerth | toBerth       | trainDescriber   | trainDescription   |
       | 09:59:00  | <berth>   | <secondBerth> | <trainDescriber> | <trainDescription> |
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
-    When I wait for the Open timetable option for train description <trainDescription> in berth <secondBerth>, describer <trainDescriber> to be available
-    And I right click on berth with id '<trainDescriber><secondBerth>'
-    Then the menu is displayed with 'Highlight' option
-    When I click on 'Highlight' link
-    Then the train in berth '<trainDescriber><secondBerth>' is highlighted
+    And the train in berth '<trainDescriber><secondBerth>' is highlighted
     When I right click on berth with id '<trainDescriber><secondBerth>'
     Then the menu is displayed with 'Unhighlight' option
 
