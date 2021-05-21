@@ -444,6 +444,19 @@ Then('the following map names can be seen', async (mapNameDataTable: any) => {
   });
 });
 
+Then('the following signal map names can be seen', async (mapNameDataTable: any) => {
+  const expectedMapNames = mapNameDataTable.hashes();
+  const actualMapNames = await navBarPage.getSignalMapNames();
+
+  expectedMapNames.forEach((expectedMapName: any) => {
+    expect(actualMapNames).to.contain(expectedMapName.mapName);
+  });
+});
+
+When('I hover over the maps item from search context menu', async () => {
+return browser.actions().mouseMove(navBarPage.mapItemSearchContext).perform();
+});
+
 Then('I open the Map {string}', async (mapName: string) => {
   await navBarPage.openMap(mapName);
 });
@@ -454,8 +467,12 @@ Then('the signal {string} is {word}',
     expect(actualStatus).to.equal(expectedStatus);
   });
 
-Then('the berth {string} is {word}',
-  async (berthId: string, expectedStatus: string) => {
-    const actualStatus = await navBarPage.getBerthHighlightStatus(berthId);
-    expect(actualStatus).to.equal(expectedStatus);
+Then('the following berth status is displayed',
+  async (table: any) => {
+  const tableData = table.hashes()[0];
+  const berthId = tableData.berthId;
+  const trainDescription = tableData.trainDescription;
+  const status = tableData.status;
+  const actualStatus = await navBarPage.getBerthHighlightStatus(trainDescription, berthId);
+  expect(actualStatus).to.equal(status);
   });

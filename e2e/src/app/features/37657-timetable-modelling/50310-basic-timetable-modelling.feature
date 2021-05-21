@@ -66,6 +66,7 @@ Feature: 37657 - Basic Timetable Modelling
       | 4F05             | A537657  | 2020-01-01   | 2050-12-01 | P            | LTP         |
       | 4F06             | A637657  | 2020-01-01   | 2050-12-01 | N            | STP         |
 
+  @bug @task:62113 @flaky
   Scenario Outline: 37657-4 Base Schedule is displayed
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # And no other STPs have been received for that service

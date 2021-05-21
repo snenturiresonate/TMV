@@ -86,7 +86,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And I switch to the timetable details tab
     Then the sent TJMs are in the modifications table
     And the last TJM is correct
-
+  @bug @task:62113 @flaky
   Scenario Outline: 40490-3 Cancellation received followed by reinstatement at the same location
     Given I am on the trains list page
     And the following basic schedules are received from LINX

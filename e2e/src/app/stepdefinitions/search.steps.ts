@@ -50,3 +50,23 @@ When('I invoke the context menu from train with planning UID {string} on the sea
   const targetRow = await searchResultsPage.getRowByPlanningUID(planningUID);
   await targetRow.performRightClick();
 });
+
+// tslint:disable-next-line:max-line-length
+When('I invoke the context menu from train with planning UID {string} and schedule date {string} from the search results', async (planningUID: string, schedDate: string) => {
+  const date = () => {
+    if (schedDate === 'today') {
+      return DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy');
+    } else if (schedDate === 'tomorrow') {
+      return DateAndTimeUtils.convertToDesiredDateAndFormat('tomorrow', 'dd/MM/yyyy');
+    } else {
+      return DateAndTimeUtils.convertToDesiredDateAndFormat(schedDate, 'dd/MM/yyyy');
+    }
+  };
+  const targetRow = await searchResultsPage.getRowByPlanningUIDandDate(planningUID, date());
+  await targetRow.performRightClick();
+});
+
+When('I invoke the context menu for signal with ID {string}', async (signalID: string) => {
+  const targetRow = await searchResultsPage.getRowBySignalID(signalID);
+  await targetRow.performRightClick();
+});
