@@ -295,12 +295,19 @@ export class MapPageObject {
   }
 
   public async trainHighlight(): Promise<void> {
-    const highlightLink: ElementFinder = element(by.id(''));
+    const highlightLink: ElementFinder = element(by.id('schedule-context-menu-highlight-train-on'));
     return highlightLink.click();
   }
 
   public async getTrainHighlightText(): Promise<string> {
-    return element(by.id('schedule-context-menu-highlight-train-on')).getText();
+    const unhighligtedElement: ElementFinder = element(by.id('schedule-context-menu-highlight-train-on'));
+    const highlightedElement: ElementFinder = element(by.id('schedule-context-menu-highlight-train-off'));
+    if (await unhighligtedElement.isPresent()) {
+      return unhighligtedElement.getText();
+    }
+    else {
+      return highlightedElement.getText();
+    }
   }
 
   public async getBerthContextInfoText(): Promise<string> {
@@ -366,6 +373,12 @@ export class MapPageObject {
     const berthLink: ElementFinder = element(by.id('berth-element-rect-' + berthId));
     const berthColourRgb: string = await berthLink.getCssValue('fill');
     return CssColorConverterService.rgb2Hex(berthColourRgb);
+  }
+
+  public async isBerthHighlighted(berthId: string): Promise<boolean> {
+    const berth: ElementFinder = element(by.id('berth-element-rect-' + berthId));
+    const berthClass: string = await berth.getAttribute('class');
+    return Promise.resolve(berthClass.indexOf('berth_highlighted') >= 0);
   }
 
   public async getBerthType(berthId: string): Promise<string> {
