@@ -22,7 +22,7 @@ Feature: 46446 - Schematic State - Signals
     And I refresh the browser
     And the signal roundel for signal 'SN200' is red
 
-  @replaySetup
+  @replaySetup @bug @task:62113 @flaky
   Scenario:34081 - 2  Main Signal State Proceed
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a main signal

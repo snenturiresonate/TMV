@@ -28,7 +28,7 @@ Feature: 33761-2 Train activation for a valid service
       | rowType       | trainUID | rowColFill             | trainDescriptionFill |
       | Origin called | L11001   | rgba(221, 221, 238, 1) | rgba(0, 255, 0, 1)   |
     And I restore to default train list config
-
+  @bug @bug_60104
   Scenario: 33761-3 Train Activation for a cancelled service
       # A cancelled service that has been planned to be cancelled will not appear even when activated.
       # Only services that are cancelled via a TJM are displayed with the cancelled indication

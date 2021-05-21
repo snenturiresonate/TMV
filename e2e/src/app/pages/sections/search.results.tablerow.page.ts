@@ -1,4 +1,5 @@
 import {browser, by, ElementFinder, protractor} from 'protractor';
+import {CommonActions} from "../common/ui-event-handlers/actionsAndWaits";
 
 export class SearchResultsTableRowPage {
 
