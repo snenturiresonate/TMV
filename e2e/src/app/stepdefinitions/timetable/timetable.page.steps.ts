@@ -817,8 +817,8 @@ function calculateOriginalTimeAdjustment(scenarioStart: string, originalTime: st
   return LocalTime.parse(scenarioStart).until(LocalTime.parse(originalTime), ChronoUnit.MILLIS);
 }
 
-Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instance (.*) is correctly calculated based on "(.*)"$/,
-  async (arrivalOrDeparture, location, instance, expected) => {
+Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instance (.*) is correctly calculated based on (Internal|External) timing "(.*)"$/,
+  async (arrivalOrDeparture, location, instance, internalExternal, expected) => {
     await timetablePage.getRowByLocation(location, instance).then(async row => {
       let field;
       if (arrivalOrDeparture === 'Arrival') {
@@ -826,7 +826,9 @@ Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instan
       } else {
         field = row.actualDep;
       }
-      expected = `${actualsTimeRounding(expected, arrivalOrDeparture)} c`;
+      if (internalExternal === 'Internal') {
+        expected = `${actualsTimeRounding(expected, arrivalOrDeparture)} c`;
+      }
       const error = `Actual ${arrivalOrDeparture} not correct for location ${location}`;
       expect(await field.getText(), error).to.equal(expected);
     });
