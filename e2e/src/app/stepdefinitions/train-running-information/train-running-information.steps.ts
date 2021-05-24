@@ -2,7 +2,6 @@ import {When} from 'cucumber';
 import {TrainRunningInformationMessageBuilder} from '../../utils/train-running-information/train-running-information-message';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {CucumberLog} from '../../logging/cucumber-log';
-import {browser} from 'protractor';
 
 const linxRestClient: LinxRestClient = new LinxRestClient();
 
