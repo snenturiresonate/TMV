@@ -1,7 +1,7 @@
 import {NavBarPageObject} from '../pages/nav-bar.page';
 import {Then, When} from 'cucumber';
 import {expect} from 'chai';
-import {browser, by, element} from 'protractor';
+import {browser, by, element, ExpectedConditions} from 'protractor';
 
 const navBarPage: NavBarPageObject = new NavBarPageObject();
 
@@ -153,6 +153,42 @@ When(/^I search (Train|Signal|Timetable) for '(.*)'$/, async (filter: string, se
   await navBarPage.setSearchFilter(filter);
   await navBarPage.enterSearchValue(searchFor);
   await navBarPage.clickSearchIcon();
+});
+
+
+When(/^I search (Train|Signal|Timetable) for '(.*)' and wait for result$/,
+  async (filter: string, searchFor: string, table: any) => {
+  /*
+    takes a data table that is dynamic,
+    column headers should match the last part of the td id
+    example to match below based on train description of 1U10 and start date of 21/05/2021
+
+    When I search Timetable for 'C11110' and wait for result
+      | TrainDesc | StartDate  |
+      | 1U10  | 21/05/2021 |
+
+    <tr _ngcontent-cvf-c94="">
+      <td _ngcontent-cvf-c94="" id="trainSearchTrainDesc">1U10</td>
+      <td _ngcontent-cvf-c94="" id="trainSearchTrainTrustId"></td>
+      <td _ngcontent-cvf-c94="" id="trainSearchPlanningUid">C11110</td>
+      <td _ngcontent-cvf-c94="" id="trainSearchStatus">UNCALLED</td>
+      <td _ngcontent-cvf-c94="" id="trainSearchScheduleType">LTP</td>
+      <td _ngcontent-cvf-c94="" id="trainSearchStartDate">21/05/2021</td>
+      <td _ngcontent-cvf-c94="" id="trainSearchOrigin">CREWE</td>
+      <td _ngcontent-cvf-c94="" id="trainSearchWorkingDeptTime">13:33</td>
+      <td _ngcontent-cvf-c94="" id="trainSearchDestination">CREWBHJ</td>
+    </tr>
+   */
+  let locator = `//table[@id='${filter.toLowerCase()}SearchResults']//tr`;
+  for (const [key, value] of Object.entries(table.hashes()[0])) {
+    locator = locator + `[descendant::td[contains(@id,'${key}')][text()='${value}']]`;
+  }
+  await browser.wait(async () => {
+    await navBarPage.setSearchFilter(filter);
+    await navBarPage.enterSearchValue(searchFor);
+    await navBarPage.clickSearchIcon();
+    return element(by.xpath(locator)).isPresent();
+  }, 10000, `${filter} search result for ${searchFor} did not return a result in the column. locator used ${locator}`);
 });
 
 Then('the option in the train search is displayed as {string}', async (expectedValue: string) => {

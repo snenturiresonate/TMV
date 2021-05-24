@@ -77,7 +77,9 @@ Feature: 37657 - Basic Timetable Modelling
     And I am on the trains list page
     And The trains list table is visible
     And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
-    When I search Timetable for '<trainUid>'
+    When I search Timetable for '<trainUid>' and wait for result
+      | PlanningUid | Scheduletype  |
+      | <trainUid>  | <displayType> |
     Then one result is returned for today with that planning UID '<trainUid>' and it has status <statusType> and sched <displayType> and service <trainDescription>
 
     Examples:
@@ -94,7 +96,9 @@ Feature: 37657 - Basic Timetable Modelling
     Given I am on the home page
     And the access plan located in CIF file '<fileName>' is received from LINX
     And I give the system 3 seconds to load
-    When I search Timetable for '<trainUid>'
+    When I search Timetable for '<trainUid>' and wait for result
+      | PlanningUid | Scheduletype  |
+      | <trainUid>  | <displayType> |
     Then one result is returned for today with that planning UID '<trainUid>' and it has status <statusType> and sched <displayType> and service <trainDescription>
     Examples:
       | fileName                                | trainDescription | trainUid | statusType | displayType |
@@ -114,7 +118,9 @@ Feature: 37657 - Basic Timetable Modelling
     And I am on the trains list page
     And The trains list table is visible
     And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
-    When I search Timetable for '<trainUid>'
+    When I search Timetable for '<trainUid>' and wait for result
+      | PlanningUid | Scheduletype  |
+      | <trainUid>  | <displayType> |
     Then one result is returned for today with that planning UID '<trainUid>' and it has status <statusType> and sched <displayType> and service <trainDescription>
     Examples:
       | fileName                              | trainDescription | trainUid | statusType | displayType |
@@ -132,7 +138,9 @@ Feature: 37657 - Basic Timetable Modelling
     And I am on the trains list page
     And The trains list table is visible
     And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
-    When I search Timetable for '<trainUid>'
+    When I search Timetable for '<trainUid>' and wait for result
+      | PlanningUid | Scheduletype  |
+      | <trainUid>  | <displayType> |
     Then one result is returned for today with that planning UID '<trainUid>' and it has status <statusType> and sched <displayType> and service <trainDescription>
     Examples:
       | fileName                              | trainDescription | trainUid | statusType | displayType |
@@ -149,7 +157,9 @@ Feature: 37657 - Basic Timetable Modelling
     Given I am on the home page
     And the access plan located in CIF file '<fileName>' is received from LINX
     And I give the system 3 seconds to load
-    When I search Timetable for '<trainUid>'
+    When I search Timetable for '<trainUid>' and wait for result
+      | PlanningUid | Scheduletype  |
+      | <trainUid>  | <displayType> |
     Then one result is returned for today with that planning UID '<trainUid>' and it has status <statusType> and sched <displayType> and service <trainDescription>
     Examples:
       | fileName                              | trainDescription | trainUid | statusType | displayType |
