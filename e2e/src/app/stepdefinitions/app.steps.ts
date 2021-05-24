@@ -65,7 +65,7 @@ Given(/^I navigate to (.*) page$/, async (pageName: string) => {
       await page.navigateTo('/tmv/user-management');
       break;
     case 'Maps':
-      await page.navigateTo(`/tmv/maps/1`);
+      await page.navigateTo(`/tmv/maps/hdgw01paddington.v`);
       break;
     case 'TrainsListConfig':
       await page.navigateTo('/tmv/trains-list-config');
