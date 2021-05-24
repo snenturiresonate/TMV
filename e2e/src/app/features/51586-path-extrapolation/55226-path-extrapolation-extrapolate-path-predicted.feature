@@ -288,7 +288,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     When I open timetable from the context menu
     And I switch to the new tab
     Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
-    And the punctuality for location "<location>" instance 1 is correctly calculated based on "<timestamp>" & "<plannedTime>"
+    And the Departure punctuality for location "<location>" instance 1 is correctly calculated based on expected time "<plannedTime>" & actual time "<timestamp>"
     Examples:
       | cif                                     | trainUid | trainDescription | location | timestamp | plannedTime |
       | access-plan/55226-schedules/55226-9.cif | C55234   | 1U38             | CREWE    | 13:33:00  | 13:35:00    |
@@ -328,8 +328,9 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And I switch to the new tab
     Then the actual/predicted Departure time for location "<location>" instance 8 is correctly calculated based on "<timestamp>"
     And the actual/predicted Departure time for location "<location2>" instance 15 is correctly calculated based on "<timestamp2>"
-    And the punctuality for location "<location>" instance 8 is correctly calculated based on "<timestamp>" & "<plannedTime>"
-    And the punctuality for location "<location2>" instance 15 is correctly calculated based on "<timestamp2>" & "<plannedTime2>"
+    And the Departure punctuality for location "<location>" instance 8 is correctly calculated based on expected time "<plannedTime>" & actual time "<timestamp>"
+    And the Departure punctuality for location "<location>" instance 15 is correctly calculated based on expected time "<plannedTime2>" & actual time "<timestamp>"
+
     Examples:
       | cif                                      | trainUid | trainDescription | location | location2 | timestamp | timestamp2 | plannedTime | plannedTime2 |
       | access-plan/55226-schedules/55226-10.cif | C55235   | 1U39             | RUGL     | STAFFRD   | 14:04:00  | 15:01:00   | 14:03:00    | 14:51:00     |
@@ -371,9 +372,9 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     Then the actual/predicted Departure time for location "<location>" instance 4 is correctly calculated based on "<timestamp>"
     And the actual/predicted Departure time for location "<location2>" instance 6 is correctly calculated based on "<timestamp2>"
     And the actual/predicted Departure time for location "<location3>" instance 8 is correctly calculated based on "<timestamp3>"
-    And the punctuality for location "<location>" instance 4 is correctly calculated based on "<timestamp>" & "<plannedTime>"
-    And the punctuality for location "<location2>" instance 6 is correctly calculated based on "<timestamp2>" & "<plannedTime2>"
-    And the punctuality for location "<location3>" instance 8 is correctly calculated based on "<timestamp3>" & "<plannedTime3>"
+    And the Departure punctuality for location "<location>" instance 4 is correctly calculated based on expected time "<plannedTime>" & actual time "<timestamp>"
+    And the Departure punctuality for location "<location>" instance 6 is correctly calculated based on expected time "<plannedTime2>" & actual time "<timestamp2>"
+    And the Departure punctuality for location "<location>" instance 8 is correctly calculated based on expected time "<plannedTime3>" & actual time "<timestamp3>"
 
     Examples:
       | cif                                      | trainUid | trainDescription | location | location2 |location3 | timestamp | timestamp2 |timestamp3  | plannedTime | plannedTime2 |plannedTime3 |
@@ -417,7 +418,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       | cif                                      | trainUid | trainDescription | location | location2 | timestamp | timestamp2 |
       | access-plan/55226-schedules/55226-12.cif | C55237   | 1U41             | CREWE    | RUGL      |           |            |
 
-  Scenario Outline: 51586 - 13  Predicted arrival time not displayed for origin or passing locations
+  Scenario Outline: 51586 - 13  Adjusting punctuality for an early train at a stopping location
     # Given a valid schedule exists
     # And a train activation has been received
     # And there is a stopping location in that schedule
