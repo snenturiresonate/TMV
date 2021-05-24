@@ -1,4 +1,4 @@
-@bug @bug:62108 @test
+@bug @bug:62243 @test
 Feature: 42006 - Path Extrapolation - Timings on the timetable
 
   As a TMV user
@@ -98,13 +98,13 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
     And the actual/predicted Departure time for location "<location>" instance 2 is correctly calculated based on Internal timing "<timestamp2>"
 
     Examples:
-      | cif                                      | trainUid | trainDescription | location         | timestamp | timestamp2 |
+      | cif                                      | trainUid | trainDescription | location      | timestamp | timestamp2 |
       #Origin
-      | access-plan/42006-schedules/42006-4.cif  | C11108   | 1U08             | Crewe            | 13:34:00  | 15:03:00   |
+      | access-plan/42006-schedules/42006-4.cif  | C11108   | 1U08             | Crewe         | 13:34:00  | 15:03:00   |
       #Stopping
-      | access-plan/42006-schedules/42006-4b.cif | C11109   | 1U09             | Stafford         | 13:55:30  | 14:55:30   |
+      | access-plan/42006-schedules/42006-4b.cif | C11109   | 1U09             | Stafford      | 13:55:30  | 14:55:30   |
       #Passing
-      | access-plan/42006-schedules/42006-4c.cif | C11110   | 1U10             | Rugeley North Jn | 14:05:00  | 14:43:00   |
+      | access-plan/42006-schedules/42006-4c.cif | C11110   | 1U10             | Norton Bridge | 13:46:51  | 14:55:30   |
 
   Scenario Outline: 42006-5 Calculated arrival time for a location is not displayed when a TRI has already been received
     Given I am on the trains list page
