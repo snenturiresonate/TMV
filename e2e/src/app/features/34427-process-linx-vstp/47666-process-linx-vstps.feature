@@ -3,7 +3,6 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
   I want the system process LINX VSTP messages
   So that I can view a train's VSTP timetable and respective on the day updates
 
-  @tdd
   Scenario Outline: 34427-1 Old Schedules are not displayed
     #Given a schedule has been received with <STP indicator> which has a 'Date Runs To' before the current time period
     #When a user searches for that timetable
@@ -19,7 +18,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | trainUid |scheduleEndDate | stpIndicator |  scheduleDaysRuns |
       | A137657  | 2050-01-01     | NV           |  1111111          |
 
-  @tdd
+
   Scenario Outline: 34427-2 Future Schedules are not displayed
     #Given a schedule has been received with <STP indicator>which has a 'Date Runs From' after the current time period
     #When a user searches for that timetable
@@ -35,7 +34,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | trainUid |scheduleEndDate | stpIndicator |  scheduleDaysRuns |
       | A137657  | 2050-01-01      | NV          |  1111111          |
 
-  @tdd
+
   Scenario Outline: 34427-3 Days run outside current time period are not displayed
     #Given a schedule has been received with <STP indicator> where the 'Days Runs' is not in the current time period
     #When a user searches for that timetable
@@ -147,7 +146,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
     And I am on the trains list page
     And The trains list table is visible
     And I invoke the context menu from train '<trainUid>' on the trains list
-    And I wait for the context menu to display
+    And I wait for the trains list context menu to display
     When I open timetable from the context menu
     And I switch to the new tab
     Then The values for the header properties are as follows
@@ -177,7 +176,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
     And I am on the trains list page
     And The trains list table is visible
     And I invoke the context menu from train '<trainUid>' on the trains list
-    And I wait for the context menu to display
+    And I wait for the trains list context menu to display
     When I open timetable from the context menu
     And I switch to the new tab
     Then The timetable entries contains the following data
@@ -190,8 +189,9 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | A63345   | 2050-01-01      | 1111111            | OV             |
       | A73345   | 2050-01-01      | 1111111            | CV             |
 
-  @tdd
-  Scenario: 34427-11 Schedule associations are displayed
+
+    @bug @bug_61862
+    Scenario: 34427-11 Schedule associations are displayed
     #Given schedule(s) has been received via a CIF which has an association to a schedule received via a VSTP
     #When a user views the timetable for the VSTP schedule
     #Then the associations displayed match those provided in the CIF
@@ -202,11 +202,11 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
     And I am on the trains list page
     And The trains list table is visible
     And I invoke the context menu from train '5Y22' on the trains list
-    And I wait for the context menu to display
+    And I wait for the trains list context menu to display
     When I open timetable from the context menu
     And I switch to the new tab
     And I switch to the timetable details tab
-    Then The entry 1 of the timetable associations table contains the following data in each column
-      | Location            | Type                 | TrainDescription   |
+    Then The timetable associations table contains the following entries
+      | location            | type                 | trainDescription   |
       | Paddington          | Previous Working     | 1C80               |
 

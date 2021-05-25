@@ -1,5 +1,6 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {CheckBox} from './common/ui-element-handlers/checkBox';
+import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
 
 export class NavBarPageObject {
   public navBarIcons: ElementArrayFinder;
@@ -43,7 +44,7 @@ export class NavBarPageObject {
   public timeTableLink: ElementFinder;
   public contextMapArrowLink: ElementFinder;
   public contextMapLink: ElementFinder;
-  public signalMapLink: ElementFinder;
+  public signalMapLink: ElementArrayFinder;
   public trainSearchRow: ElementArrayFinder;
   public timeTableSearchRow: ElementArrayFinder;
   public signalSearchRow: ElementArrayFinder;
@@ -61,6 +62,7 @@ export class NavBarPageObject {
   public mapSearchBox: ElementFinder;
   public routeSetTrackIndicator: ElementFinder;
   public routeSetCodeIndicator: ElementFinder;
+  public mapItemSearchContext: ElementFinder;
   constructor() {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
@@ -104,7 +106,7 @@ export class NavBarPageObject {
     this.timeTableLink = element(by.id('btn-open-timetable'));
     this.contextMapArrowLink = element(by.css('#right-arrow:nth-child(1)'));
     this.contextMapLink = element(by.css('#map-list >ul >li:nth-child(1)'));
-    this.signalMapLink = element(by.css('#signal-map-list >ul >li:nth-child(1)'));
+    this.signalMapLink = element.all(by.css('#signal-map-list >ul >li'));
     this.statusUnmatched = element(by.cssContainingText('#trainSearchResults-tbody tr', 'UNMATCHED'));
     this.tableColumnHeader = element(by.css('#trainSearchResults thead'));
     this.timeTableColumnHeader = element(by.css('#timetableSearchResults thead'));
@@ -114,13 +116,18 @@ export class NavBarPageObject {
     this.tmvKeyButton = element(by.id('tmv-key-button'));
     this.modalWindow = element.all(by.css('.modalpopup'));
     this.helpMenu = element(by.id('help-menu-button'));
-    this.mapLink = element.all(by.css('#signal-map-list>ul>li>span'));
+    this.mapLink = element.all(by.css('#map-list>ul>li'));
     this.mapPathToggle = element.all(by.css('#map-path-toggle-button'));
     this.recentMaps = element.all(by.css('.map-details'));
     this.mapChanger = element(by.css('a[title=\'Change map\']'));
     this.mapSearchBox = element(by.id('map-search-box'));
     this.routeSetTrackIndicator = element(by.css('#routesettracktoggle .toggle-switch'));
     this.routeSetCodeIndicator = element(by.css('#routesetcodetoggle .toggle-switch'));
+    this.mapItemSearchContext = element(by.css('div.map-link'));
+  }
+
+  public async navBarIsDisplayed(): Promise<boolean> {
+    return this.navBar.isPresent();
   }
 
   public async getNavbarIconNames(): Promise<string> {
@@ -191,9 +198,9 @@ export class NavBarPageObject {
     return icon.getText();
   }
 
-  public async getUserProfileMenuRoleName(): Promise<string> {
-    const icon: ElementFinder = element(by.id('user-profile-menu-role-name'));
-    return icon.getText();
+  public async getUserProfileMenuRoleName(row: number): Promise<string> {
+    const roleNames: ElementArrayFinder = element.all(by.id('user-profile-menu-role-name'));
+    return roleNames.get(row - 1).getText();
   }
 
   public async getCurrentTimeText(): Promise<string> {
@@ -235,6 +242,15 @@ export class NavBarPageObject {
 
   public async getTrainSearchBoxText(): Promise<string> {
     return this.trainSearchBox.getAttribute('placeholder');
+  }
+
+  public async trainSearchBoxIsVisible(): Promise<boolean> {
+    await CommonActions.waitForElementToBeVisible(this.trainSearchBox);
+    return true;
+  }
+
+  public async trainSearchBoxIsNotVisible(): Promise<boolean> {
+    return ! await this.trainSearchBox.isDisplayed();
   }
 
   public async getTrainSearchValue(): Promise<string> {
@@ -300,7 +316,7 @@ export class NavBarPageObject {
   }
 
   public async trainClickCloseBtn(): Promise<void> {
-    return this.trainTableCloseBtn.click();
+    return CommonActions.waitAndClick(this.trainTableCloseBtn);
   }
 
   public async unmatchedStatus(): Promise<void> {
@@ -421,14 +437,24 @@ export class NavBarPageObject {
     }
   }
 
+  public async hoverOverContextMenuMapsLink(): Promise<void> {
+    await browser.actions().mouseMove(this.mapItemSearchContext).perform();
+  }
+
   public async getMapNames(): Promise<string> {
+    await this.hoverOverContextMenuMapsLink();
     return this.mapLink.getText();
+  }
+
+  public async getSignalMapNames(): Promise<string> {
+    await browser.actions().mouseMove(this.mapItemSearchContext).perform();
+    return this.signalMapLink.getText();
   }
 
   public async openMap(mapName: string): Promise<void> {
     if (mapName !== (await this.mapLink.getText())) {
-      await this.mapLink.click();
-      await element(by.buttonText(mapName)).click();
+      await this.hoverOverContextMenuMapsLink();
+      await CommonActions.waitAndClick(element(by.xpath(`//li//span[text() = '${mapName}']`)));
     }
   }
 
@@ -448,8 +474,8 @@ export class NavBarPageObject {
     return signalHighlight.getCssValue('highlighted');
   }
 
-  public async getBerthHighlightStatus(berthId: string): Promise<string> {
-    const berthHighlight: ElementFinder = element(by.css('[id^=berth-element-text-' + berthId  + ']'));
+  public async getBerthHighlightStatus(trainDescription: string, berthId: string): Promise<string> {
+    const berthHighlight: ElementFinder = element(by.css(`[id=berth-element-text-${trainDescription}${berthId}]`));
     return berthHighlight.getCssValue('highlighted');
   }
 }

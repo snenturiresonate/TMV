@@ -1,4 +1,4 @@
-import {DateTimeFormatter, LocalDateTime} from '@js-joda/core';
+import {DateTimeFormatter, LocalDateTime, ZoneId} from '@js-joda/core';
 
 export class MessageReference {
   public MessageType?: string;
@@ -16,7 +16,9 @@ export class MessageReferenceBuilder {
     this.MessageType = '9004';
     this.MessageTypeVersion = '5.3.1.GB';
     this.MessageIdentifier = '414d51204e52504230303920202020205e504839247ce8d0';
-    this.MessageDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd\'T\'HH:mm:ss')) + '-00:00';
+    this.MessageDateTime = LocalDateTime.now()
+      .atZone(ZoneId.of('Europe/London'))
+      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
   }
   withMessageType(value: string): MessageReferenceBuilder {
     this.MessageType = value;

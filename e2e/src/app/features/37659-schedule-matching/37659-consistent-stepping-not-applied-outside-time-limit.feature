@@ -23,6 +23,7 @@ Feature: 37659 - Schedule Matching - Consistent Stepping has a time limit
     Then berth '0222' in train describer 'D3' contains '9F01' and is visible
     And the train headcode color for berth 'D30222' is blue
 
+  @tdd @tdd:60684
   Scenario: 37659 -7  Context menu when too old for consistent stepping
     Given the following berth step messages is sent from LINX (to move train)
       | timestamp | fromBerth | toBerth | trainDescriber | trainDescription |
@@ -32,7 +33,7 @@ Feature: 37659 - Schedule Matching - Consistent Stepping has a time limit
       | 10:20:00  | 0212      | 0222    | D3             | 9F01             |
     Then berth '0222' in train describer 'D3' contains '9F01' and is visible
     And I invoke the context menu on the map for train 9F01
-    And the Unmatched version of the context menu is displayed
+    And the Unmatched version of the map context menu is displayed
 
   @tdd
   Scenario Outline: 37659 -8  Consistent stepping not applied if outside allowed time but schedule rematched
@@ -54,7 +55,7 @@ Feature: 37659 - Schedule Matching - Consistent Stepping has a time limit
       | 10:20:00  | R001      | <berth> | D3             | 9F01             |
     Then berth '<berth>' in train describer 'D3' contains '9F01' and is visible
     And I invoke the context menu on the map for train 9F01
-    And the Matched version of the context menu is displayed
+    And the Matched version of the map context menu is displayed
 
     Examples:
       | trainDescriber | berth | location | subdivision | matchLevel   |

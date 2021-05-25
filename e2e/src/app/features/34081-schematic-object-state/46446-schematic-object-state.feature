@@ -22,7 +22,7 @@ Feature: 46446 - Schematic State - Signals
     And I refresh the browser
     And the signal roundel for signal 'SN200' is red
 
-  @replaySetup
+  @replaySetup @bug @task:62113 @flaky
   Scenario:34081 - 2  Main Signal State Proceed
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a main signal
@@ -59,14 +59,14 @@ Feature: 46446 - Schematic State - Signals
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN128' is red
 
-  @bug @bug_51929
+
   Scenario: 34081 - 4  Main Signal State (Unknown)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a main signal
     #And the S-Class message is setting the main signal to unknown
     #When a user is viewing a map that contains the main signal
     #Then the main signal will display an unknown aspect (grey roundel)
-    Then the signal roundel for signal 'SN128' is grey
+    Then the signal roundel for signal 'SN145' is grey
 
 
   @replaySetup

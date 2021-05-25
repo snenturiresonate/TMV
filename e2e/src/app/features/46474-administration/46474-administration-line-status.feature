@@ -1,4 +1,3 @@
-@bug @bug_58056
 Feature: 46474 - Administration Display Settings - full end to end testing - line status
 
   As a tester
@@ -6,7 +5,8 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
   So, that I can identify if the build meet the end to end requirements
 
   Background:
-    Given I am on the admin page
+    Given I have not already authenticated
+    And I am on the admin page
     And The admin setting defaults are as originally shipped
 
   Scenario: Line Status settings header
@@ -53,7 +53,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
       | Possession | #ff0000 |
       | Not in use | #ffa700 |
 
-  @manual
   Scenario: User should see the unsaved dialogue when refreshing the page without saving the changes
     When I update the Line Status note settings table as
       | name         | colour  | lineWidth | lineStyle |
@@ -79,6 +78,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
       | Possession | #ff0000 |
       | Not in use | #ffa700 |
 
+  @bug @bug:61408
   Scenario: Update Line Status -Route type settings
     When I update the Line Status route type settings table as
       | name      | colour  | lineWidth | lineStyle |
@@ -111,3 +111,4 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
     Then the following can be seen on the Line Status note settings table
       | name         | colour  | lineWidth | lineStyle |
       | Note applied | #bbbb22 | 8         | Dashed    |
+    And The admin setting defaults are as originally shipped

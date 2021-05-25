@@ -34,10 +34,11 @@ export class ReplayRecordings {
         fs.mkdirSync(replayOutputDir, { recursive: true });
       }
       this.scenarios.forEach(step => {
-        fs.writeFileSync(replayOutputDir + `/${step.scenarioName.replace(/ /g, '_')}.json`, JSON.stringify(step));
+        fs.writeFileSync(replayOutputDir + `/${encodeURIComponent(step.scenarioName)}.json`, JSON.stringify(step));
       });
     }
   }
+
   private static lastScenario(): ReplayScenario {
     return this.scenarios[this.scenarios.length - 1];
   }

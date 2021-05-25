@@ -1,4 +1,5 @@
 import {browser, by, ElementFinder, protractor} from 'protractor';
+import {CommonActions} from "../common/ui-event-handlers/actionsAndWaits";
 
 export class SearchResultsTableRowPage {
 
@@ -15,15 +16,15 @@ export class SearchResultsTableRowPage {
 
   constructor(rowLocator: ElementFinder) {
     this.rowLocator = rowLocator;
-    this.service = rowLocator.element(by.id('trainSearchTrainDesc'));
-    this.trustId = rowLocator.element(by.id('trainSearchTrainTrustId'));
-    this.planUID = rowLocator.element(by.id('trainSearchPlanningUid'));
-    this.status = rowLocator.element(by.id('trainSearchStatus'));
-    this.sched = rowLocator.element(by.id('trainSearchScheduleType'));
-    this.schedDate = rowLocator.element(by.id('trainSearchStartDate'));
-    this.origin = rowLocator.element(by.id('trainSearchOrigin'));
-    this.time = rowLocator.element(by.id('trainSearchWorkingDeptTime'));
-    this.dest = rowLocator.element(by.id('trainSearchDestination'));
+    this.service = rowLocator.element(by.css('[id*=SearchTrainDesc]'));
+    this.trustId = rowLocator.element(by.css('[id*=SearchTrainTrustId]'));
+    this.planUID = rowLocator.element(by.css('[id*=SearchPlanningUid]'));
+    this.status = rowLocator.element(by.css('[id*=SearchStatus]'));
+    this.sched = rowLocator.element(by.css('[id*=SearchScheduletype]'));
+    this.schedDate = rowLocator.element(by.css('[id*=SearchStartDate'));
+    this.origin = rowLocator.element(by.css('[id*=SearchOrigin]'));
+    this.time = rowLocator.element(by.css('[id*=SearchWorkingDeptTime]'));
+    this.dest = rowLocator.element(by.css('[id*=SearchDestination]'));
   }
   async isPresent(): Promise<boolean> {
     return this.rowLocator.isPresent();

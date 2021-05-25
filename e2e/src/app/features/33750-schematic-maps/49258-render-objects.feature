@@ -3,6 +3,7 @@ Feature: 33750 - Schematic Maps - Render Objects
   As a TMV User
   I want to view a schematic representation of the railway
   So that I can see the signalling infrastructure of the railway nationally
+
   Background:
     Given I am on the home page
   Scenario Outline: 33750-1 Render specific objects
@@ -111,10 +112,10 @@ Feature: 33750 - Schematic Maps - Render Objects
     Then I am presented with a set of information about the berth
     And the manual trust berth information for <berthId> only contains <berthIdnoTD>
     Examples:
-      | berthId    | berthIdnoTD |
-      | mt1.83311X | 311X        |
-      | mt2.83321O | 321O        |
-      | mt3.83475A | 475A        |
+      | berthId | berthIdnoTD |
+      | 83311X  | 311X        |
+      | 83232D  | 232D        |
+      | 83475A  | 475A        |
 
 
 

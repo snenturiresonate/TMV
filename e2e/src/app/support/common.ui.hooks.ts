@@ -8,7 +8,7 @@ import {ReplayRecordings} from '../utils/replay/replay-recordings';
 
 BeforeAll(async () => {
   const {setDefaultTimeout} = require('cucumber');
-  setDefaultTimeout(40 * 1000);
+  setDefaultTimeout(60 * 1000);
   browser.driver.manage().window().maximize();
 });
 
@@ -48,6 +48,7 @@ After(async function(scenario) {
     .then(logs => expect(logs).not.have.deep.property('level', logging.Level.SEVERE))
     .catch(reason => console.log(scenario.name + ' : ' + reason));
 });
+
 
 AfterAll(async () => {
   ReplayRecordings.writeFiles();

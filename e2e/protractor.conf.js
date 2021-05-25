@@ -7,7 +7,9 @@
 exports.config = {
   allScriptsTimeout: 11000,
   params: {
-    test_harness_ci_ip: ''
+    test_harness_ci_ip: '',
+    redis_port: '',
+    redis_host: ''
   },
   specs: [
     './src/**/features/**/*.feature'

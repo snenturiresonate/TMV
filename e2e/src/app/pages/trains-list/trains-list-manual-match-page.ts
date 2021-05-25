@@ -13,12 +13,13 @@ export class TrainsListManualMatchPageObject {
   public serviceFilter: ElementFinder;
   public matchedTable: ElementFinder;
   public matchedTrainDesc: ElementFinder;
+  public matchedTrainUID: ElementFinder;
   public matchedColumn: ElementArrayFinder;
   public matchedValue: ElementArrayFinder;
   public saveButton: ElementFinder;
   public closeButton: ElementFinder;
-  public confirm: ElementFinder;
-  public unMatch: ElementFinder;
+  public matchButton: ElementFinder;
+  public unMatchButton: ElementFinder;
   public confirmMessage: ElementFinder;
 
   constructor() {
@@ -34,12 +35,13 @@ export class TrainsListManualMatchPageObject {
     this.serviceFilter = element(by.id('services-filter-box'));
     this.matchedTable = element(by.css('.div-container.tmv-matched-margin'));
     this.matchedTrainDesc = element(by.css('#trainDesc'));
+    this.matchedTrainUID = element(by.css('#planningUid'));
     this.matchedColumn = element.all(by.css('.tmv-matched-margin .col-md-5'));
     this.matchedValue = element.all(by.css('.tmv-matched-margin .col-md-6'));
     this.saveButton = element(by.id('saveManualMatching'));
     this.closeButton = element(by.css('.tmv-btn-cancel:nth-child(1)'));
-    this.confirm = element(by.css('.confirm-btn-container #confirmManualMatching'));
-    this.unMatch = element(by.css('.unmatch-btn-container #confirmManualMatching'));
+    this.matchButton = element(by.css('.confirm-btn-container #confirmManualMatching'));
+    this.unMatchButton = element(by.css('.unmatch-btn-container #confirmManualMatching'));
     this.confirmMessage = element(by.css('.confirm-text-area:nth-child(2)'));
   }
   public async componentLoad(): Promise<void> {
@@ -50,6 +52,53 @@ export class TrainsListManualMatchPageObject {
     await this.componentLoad();
     return this.matchedTable.isPresent();
   }
+
+  public async getNumServicesListed(): Promise<number> {
+    await this.componentLoad();
+    return this.trainService.count();
+  }
+
+  public async isServiceListed(planningUID: string): Promise<boolean> {
+    await this.componentLoad();
+    const numServices = await this.getNumServicesListed();
+    let i = 0;
+    for (i; i < numServices; i++) {
+      if (await this.getPlanUid(i) === planningUID) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public async getSearchEntryValues(planningUID: string): Promise<string[]> {
+    await this.componentLoad();
+    const numServices = await this.getNumServicesListed();
+    let i = 0;
+    for (i; i < numServices; i++) {
+      if (await this.getPlanUid(i) === planningUID) {
+        break;
+      }
+    }
+    const entryColValues: ElementArrayFinder = element.all(by.css
+      ('#trainSearchResults-tbody >tr:nth-child(' + i.toString() + ') >span >td'));
+    return entryColValues.map((colValue: ElementFinder) => {
+      return colValue.getText();
+    });
+  }
+
+  public async selectService(planningUID: string): Promise<void> {
+    await this.componentLoad();
+    const numServices = await this.getNumServicesListed();
+    let i = 0;
+    for (i; i < numServices; i++) {
+      if (await this.getPlanUid(i) === planningUID) {
+        break;
+      }
+    }
+    const requiredRowEntry: ElementFinder = element(by.css ('#trainSearchResults-tbody >tr:nth-child(' + i.toString() + ')'));
+    return requiredRowEntry.click();
+  }
+
   public async getService(index: number): Promise<string> {
     await this.componentLoad();
     return this.trainService.get(index).getText();
@@ -100,8 +149,8 @@ export class TrainsListManualMatchPageObject {
     const rows = this.trainService;
     await rows.get(position - 1).click();
   }
-  public async confirmButton(): Promise<void> {
-    return this.confirm.click();
+  public async clickMatch(): Promise<void> {
+    return this.matchButton.click();
   }
   public async clickSaveMessage(): Promise<void> {
     return this.saveButton.click();
@@ -110,6 +159,6 @@ export class TrainsListManualMatchPageObject {
     return this.closeButton.click();
   }
   public async clickUnMatch(): Promise<void> {
-    return this.unMatch.click();
+    return this.unMatchButton.click();
   }
 }

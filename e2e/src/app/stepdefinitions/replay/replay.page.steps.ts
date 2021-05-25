@@ -35,7 +35,7 @@ When('I select Next', async () => {
 });
 
 Given(/^I load the replay data from scenario '(.*)'$/, (filepath) => {
-  const file = '.tmp/replay-recordings/' + filepath.replace(/ /g, '_') + '.json';
+  const file = `.tmp/replay-recordings/${encodeURIComponent(filepath)}.json`;
   if (!fs.existsSync(file)) {
     return 'skipped';
   }
