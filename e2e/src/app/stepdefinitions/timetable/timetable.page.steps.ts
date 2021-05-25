@@ -118,7 +118,7 @@ Then('The values for the header properties are as follows',
 
 Then('the last reported information reflects the TRI message {string} for {string}',
   async (message: string, locName: string) => {
-    const expectedTime = TRITrainLocationReport.locationDateTime.toLocalTime().format(DateTimeFormatter.ofPattern('HH:mm'));
+    const expectedTime = TRITrainLocationReport.locationDateTime.format(DateTimeFormatter.ofPattern('HH:mm'));
     await timetablePage.waitUntilLastReportLocNameHasLoaded(locName);
     const actualHeaderLastReported: string = await timetablePage.headerLastReported.getText();
     expect(actualHeaderLastReported, 'Last Reported is not as expected')
@@ -597,7 +597,7 @@ Then(/^the expected departure time for inserted location (.*) is proportionally 
 
 Then('the actual {string} time displayed for that location {string} matches that provided in the TRI message', async (
   expected: string, location: string) => {
-  const expectedTime = TRITrainLocationReport.locationDateTime.toLocalTime().format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+  const expectedTime = TRITrainLocationReport.locationDateTime.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
   const row = await timetablePage.getRowByLocation(location, 1);
 
   if (expected.toUpperCase() === 'ARRIVAL') {
