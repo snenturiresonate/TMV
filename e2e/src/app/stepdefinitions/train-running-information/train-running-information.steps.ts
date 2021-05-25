@@ -29,7 +29,7 @@ When(/^the following train running information? (?:message|messages)? (?:is|are)
       operationalTrainNumber, trainUID,
       scheduledStartDate, messageType, hourDepartFromOrigin);
     const triMessage: string = trainRunningInfo.toString({prettyPrint: true});
-    await CucumberLog.addText(triMessage);
+    await CucumberLog.addText(`"${triMessage}"`);
     await linxRestClient.postTrainRunningInformation(triMessage);
     await linxRestClient.waitMaxTransmissionTime();
   }
@@ -60,7 +60,7 @@ When(/^the following train running information? (?:message|messages) with delay 
         operationalTrainNumber, trainUID,
         scheduledStartDate, messageType, delay, hourDepartFromOrigin);
       const triMessage: string = trainRunningInfo.toString({prettyPrint: true});
-      await CucumberLog.addText(triMessage);
+      await CucumberLog.addText(`"${triMessage}"`);
       await linxRestClient.postTrainRunningInformation(triMessage);
       await linxRestClient.waitMaxTransmissionTime();
     }
@@ -84,7 +84,7 @@ When(/^the following train running info? (?:message|messages) with time? (?:is|a
       const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithTime(locationPrimaryCode, locationSubsidiaryCode,
         operationalTrainNumber, trainUID, scheduledStartDate, messageType, timestamp, hourDepartFromOrigin);
       const triMessage: string = trainRunningInfo.toString({prettyPrint: true});
-      await CucumberLog.addText(triMessage);
+      await CucumberLog.addText(`"${triMessage}"`);
       await linxRestClient.postTrainRunningInformation(triMessage);
       await linxRestClient.waitMaxTransmissionTime();
     }
@@ -110,7 +110,7 @@ When(/^the following train running info? (?:message|messages) with time? and del
       const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithTimeAgainstBooked(locationPrimaryCode, locationSubsidiaryCode,
         operationalTrainNumber, trainUID, scheduledStartDate, messageType, bookedTime, timestamp, hourDepartFromOrigin);
       const triMessage: string = trainRunningInfo.toString({prettyPrint: true});
-      await CucumberLog.addText(triMessage);
+      await CucumberLog.addText(`"${triMessage}"`);
       await linxRestClient.postTrainRunningInformation(triMessage);
       await linxRestClient.waitMaxTransmissionTime();
     }
