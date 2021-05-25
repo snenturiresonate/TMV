@@ -764,11 +764,18 @@ Then('the train highlight color for berth {string} is {word}',
       .to.equal(expectedColorHex);
   });
 
-Then('the train in berth {string} is highlighted',
-  async (berthId: string) => {
+Then(/^the train in berth (\w+) (is|is not) highlighted$/,
+  async (berthId: string, negate: string) => {
     const berthIsHighlighted: boolean = await mapPageObject.isBerthHighlighted(berthId);
-    expect(berthIsHighlighted, 'Berth was not highlighted: ' + berthId)
-      .to.equal(true);
+
+    if (negate === 'is') {
+      expect(berthIsHighlighted, 'Berth was not highlighted: ' + berthId)
+        .to.equal(true);
+    }
+    else {
+      expect(berthIsHighlighted, 'Berth was highlighted: ' + berthId)
+        .to.equal(false);
+    }
   });
 
 Then('the menu is displayed with {string} option',

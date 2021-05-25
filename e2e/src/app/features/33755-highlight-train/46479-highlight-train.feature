@@ -15,6 +15,8 @@ Feature: 33755 - TMV Highlight Train
     #And there are services running
     #When the user selects a train for highlighting using the secondary mouse click
     #Then the user is presented with an option to highlight/unhighlight the train
+    #When the user selects highlight
+    #Then the train is highlighted
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <trainDescription>  | <planningUid>         |
@@ -31,7 +33,7 @@ Feature: 33755 - TMV Highlight Train
     And I right click on berth with id '<trainDescriber><berth>'
     Then the menu is displayed with 'Highlight' option
     When I click on 'Highlight' link
-    Then the train in berth '<trainDescriber><berth>' is highlighted
+    Then the train in berth <trainDescriber><berth> is highlighted
     When I right click on berth with id '<trainDescriber><berth>'
     Then the menu is displayed with 'Unhighlight' option
 
@@ -46,6 +48,8 @@ Feature: 33755 - TMV Highlight Train
     #And there are services running
     #When the user selects a train for highlighting using the secondary mouse click
     #Then the user is presented with an option to highlight/unhighlight the train
+    #When the user selects highlight
+    #Then the train is highlighted
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <trainDescription>  | <planningUid>         |
@@ -61,12 +65,12 @@ Feature: 33755 - TMV Highlight Train
     When I right click on berth with id '<trainDescriber><secondBerth>'
     Then the menu is displayed with 'Highlight' option
     When I click on 'Highlight' link
-    Then the train in berth '<trainDescriber><berth>' is highlighted
+    Then the train in berth <trainDescriber><berth> is highlighted
     When the following berth step message is sent from LINX
       | timestamp | fromBerth | toBerth       | trainDescriber   | trainDescription   |
       | 09:59:00  | <berth>   | <secondBerth> | <trainDescriber> | <trainDescription> |
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
-    And the train in berth '<trainDescriber><secondBerth>' is highlighted
+    And the train in berth <trainDescriber><secondBerth> is highlighted
     When I right click on berth with id '<trainDescriber><secondBerth>'
     Then the menu is displayed with 'Unhighlight' option
 
@@ -75,6 +79,41 @@ Feature: 33755 - TMV Highlight Train
       | 5B12             | B53312      | D3             | A001  | 6003        |
       | 5C12             | C53312      | D3             | A007  | 0039        |
 
+  @blp
+  Scenario Outline: 33755-2d Highlight Train (Headcode) - Berth Interpose same headcode for two different berths
+    Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <trainDescription>  | <planningUid>  |
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid      |
+      | access-plan/2P77_RDNGSTN_PADTON.cif | PADTON      | LT_WTT_arr    | <trainDescription>  | <secondPlanningUid> |
+    And I am on the trains list page
+    Then the following service is displayed on the trains list
+      | trainId            | trainUId      |
+      | <trainDescription> | <planningUid> |
+    And the following service is displayed on the trains list
+      | trainId            | trainUId            |
+      | <trainDescription> | <secondPlanningUid> |
+    When the following berth interpose message is sent from LINX (creating a match)
+      | timestamp | toBerth   | trainDescriber     | trainDescription   |
+      | 10:02:06  | <berth>   | <trainDescriber>   | <trainDescription> |
+    And I am viewing the map HDGW01paddington.v
+    Then berth '<berth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
+    When I wait for the Open timetable option for train description <trainDescription> in berth <berth>, describer <trainDescriber> to be available
+    And the following berth interpose message is sent from LINX (creating a match)
+      | timestamp | toBerth       | trainDescriber     | trainDescription   |
+      | 10:02:06  | <secondBerth> | <trainDescriber>   | <trainDescription> |
+    Then berth '<berth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
+    When I wait for the Open timetable option for train description <trainDescription> in berth <berth>, describer <trainDescriber> to be available
+    And I right click on berth with id '<trainDescriber><berth>'
+    Then the menu is displayed with 'Highlight' option
+    When I click on 'Highlight' link
+    Then the train in berth <trainDescriber><berth> is highlighted
+    And the train in berth <trainDescriber><secondBerth> is not highlighted
+
+    Examples:
+      | trainDescription | planningUid | secondPlanningUid | trainDescriber | berth | secondBerth |
+      | 5B13             | B53313      | C53313            | D3             | A007  | 0078        |
 
 
 
