@@ -49,6 +49,7 @@ After(async function(scenario) {
     .catch(reason => console.log(scenario.name + ' : ' + reason));
 });
 
+
 AfterAll(async () => {
   ReplayRecordings.writeFiles();
 });

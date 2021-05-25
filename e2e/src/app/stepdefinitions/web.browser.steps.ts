@@ -8,8 +8,8 @@ const defaultBrowserWidth = 1980;
 const defaultBrowserHeight = 1080;
 
 After({timeout: TAB_CLOSE_DOWN_TIMEOUT}, async () => {
-  await closeAllButTheFirstTab();
-  await browser.driver.manage().window().setSize(defaultBrowserWidth, defaultBrowserHeight);
+   await closeAllButTheFirstTab();
+   await browser.driver.manage().window().setSize(defaultBrowserWidth, defaultBrowserHeight);
 });
 
 Given('the number of tabs open is {int}', async (tabs: number) => {
