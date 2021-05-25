@@ -118,12 +118,14 @@ Then('The values for the header properties are as follows',
 
 Then('the last reported information reflects the TRI message {string} for {string}',
   async (message: string, locName: string) => {
-    const expectedTime = TRITrainLocationReport.locationDateTime.format(DateTimeFormatter.ofPattern('HH:mm'));
+    const expectedTime = OffsetDateTime
+      .parse(TRITrainLocationReport.locationDateTime)
+      .format(DateTimeFormatter.ofPattern('HH:mm'));
     await timetablePage.waitUntilLastReportLocNameHasLoaded(locName);
     const actualHeaderLastReported: string = await timetablePage.headerLastReported.getText();
     expect(actualHeaderLastReported, 'Last Reported is not as expected')
       .to.equal(expectedTime + ' ' + message);
-});
+  });
 
 Then('The values for {string} are the following as time passes',
   async (propertyName: string, expectedValues: any) => {
@@ -178,8 +180,8 @@ Then(/^the sent TJMs are in the modifications table$/, async () => {
     const expectedTypeOfModification = getExpectedModificationType(
       expectedRecord.TrainJourneyModification.TrainJourneyModificationIndicator);
     const expectedTime = LocalDateTime
-        .parse(expectedRecord.TrainJourneyModificationTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
-        .format(DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm').withLocale(Locale.ENGLISH));
+      .parse(expectedRecord.TrainJourneyModificationTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+      .format(DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm').withLocale(Locale.ENGLISH));
     const expectedLocation = (expectedTypeOfModification === 'Change Of Identity') ? '' : tiplocToLocation(expectedRecord
       .TrainJourneyModification
       .LocationModified
@@ -294,8 +296,12 @@ async function assertLastTJM(tjmMessage: TrainJourneyModificationMessage): Promi
 
   const expectedMessages = new Array();
   expectedMessages.push(expectedTypeOfModification);
-  if (Boolean(expectedLocation)) { expectedMessages.push(expectedLocation); }
-  if (Boolean(expectedReason)) { expectedMessages.push(expectedReason); }
+  if (Boolean(expectedLocation)) {
+    expectedMessages.push(expectedLocation);
+  }
+  if (Boolean(expectedReason)) {
+    expectedMessages.push(expectedReason);
+  }
   expectedMessages.push(expectedTime);
   const expectedLastTjm = expectedMessages.join(', ');
   const errorMessage = `Last TJM is not ${expectedLastTjm}`;
@@ -502,7 +508,7 @@ Then('the punctuality for {string} location {string} is displayed as {string}',
     const actualLocPunctuality = await row.punctuality.getText();
     expect(actualLocPunctuality, 'Punctuality value is not correct')
       .to.equal(expectedText);
-});
+  });
 
 Then('The timetable details table contains the following data in each row', async (detailsDataTable: any) => {
   const expectedDetailsRowValues: any = detailsDataTable.hashes()[0];
@@ -575,7 +581,7 @@ Then(/^the inserted location (.*) is (before|after) (.*)$/,
   async (insertedLocation: string, beforeAfter: string, otherLocation: string) => {
     const locations = await timetablePage.getLocations();
     const rowOfInserted = await timetablePage.getLocationRowIndex
-      (timetablePage.ensureInsertedLocationFormat('inserted', insertedLocation), 1);
+    (timetablePage.ensureInsertedLocationFormat('inserted', insertedLocation), 1);
     (beforeAfter === 'before') ?
       expect(locations[rowOfInserted + 1], `Inserted location ${insertedLocation} is not ${beforeAfter} ${otherLocation}`)
         .to.equal(otherLocation) :
@@ -597,7 +603,9 @@ Then(/^the expected departure time for inserted location (.*) is proportionally 
 
 Then('the actual {string} time displayed for that location {string} matches that provided in the TRI message', async (
   expected: string, location: string) => {
-  const expectedTime = TRITrainLocationReport.locationDateTime.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+  const expectedTime = OffsetDateTime
+    .parse(TRITrainLocationReport.locationDateTime)
+    .format(DateTimeFormatter.ofPattern('HH:mm:ss'));
   const row = await timetablePage.getRowByLocation(location, 1);
 
   if (expected.toUpperCase() === 'ARRIVAL') {
