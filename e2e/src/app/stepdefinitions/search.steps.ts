@@ -1,6 +1,7 @@
 import {When, Then} from 'cucumber';
 import {SearchResultsPageObject} from '../pages/sections/search.results.page';
 import {expect} from 'chai';
+import {browser} from 'protractor';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 
 const searchResultsPage: SearchResultsPageObject = new SearchResultsPageObject();
@@ -14,6 +15,9 @@ Then(/^no results are returned with that planning UID '(.*)'$/, async (planningU
 
 Then(/^results are returned with that planning UID '(.*)'$/, async (planningUID: string) => {
   const row = await searchResultsPage.getRowByPlanningUID(planningUID);
+  await browser.wait(async () => await row.isPresent(),
+    browser.displayTimeout,
+    `Waiting for search result row ${planningUID}`);
   expect(await row.isPresent(), `Row with planning UID ${planningUID} is not present`)
     .to.equal(true);
 });
@@ -44,5 +48,25 @@ Then('results are returned with planning UID {string} and schedule type {string}
 
 When('I invoke the context menu from train with planning UID {string} on the search results table', async (planningUID: string) => {
   const targetRow = await searchResultsPage.getRowByPlanningUID(planningUID);
+  await targetRow.performRightClick();
+});
+
+// tslint:disable-next-line:max-line-length
+When('I invoke the context menu from train with planning UID {string} and schedule date {string} from the search results', async (planningUID: string, schedDate: string) => {
+  const date = () => {
+    if (schedDate === 'today') {
+      return DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy');
+    } else if (schedDate === 'tomorrow') {
+      return DateAndTimeUtils.convertToDesiredDateAndFormat('tomorrow', 'dd/MM/yyyy');
+    } else {
+      return DateAndTimeUtils.convertToDesiredDateAndFormat(schedDate, 'dd/MM/yyyy');
+    }
+  };
+  const targetRow = await searchResultsPage.getRowByPlanningUIDandDate(planningUID, date());
+  await targetRow.performRightClick();
+});
+
+When('I invoke the context menu for signal with ID {string}', async (signalID: string) => {
+  const targetRow = await searchResultsPage.getRowBySignalID(signalID);
   await targetRow.performRightClick();
 });
