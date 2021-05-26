@@ -294,8 +294,14 @@ export class MapPageObject {
     await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
   }
 
-  public async trainHighlight(): Promise<void> {
-    const highlightLink: ElementFinder = element(by.id('schedule-context-menu-highlight-train-on'));
+  public async trainHighlight(highlightOption: string): Promise<void> {
+    let highlightLink: ElementFinder;
+    if (highlightOption === 'Highlight') {
+      highlightLink = element(by.id('schedule-context-menu-highlight-train-on'));
+    }
+    else {
+      highlightLink = element(by.id('schedule-context-menu-highlight-train-off'));
+    }
     return highlightLink.click();
   }
 
