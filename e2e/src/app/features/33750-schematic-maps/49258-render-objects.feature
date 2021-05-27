@@ -6,6 +6,7 @@ Feature: 33750 - Schematic Maps - Render Objects
 
   Background:
     Given I am on the home page
+
   Scenario Outline: 33750-1 Render specific objects
     When I am viewing the map <map>
     Then <numberOfElements> objects of type <object> are rendered
@@ -110,12 +111,12 @@ Feature: 33750 - Schematic Maps - Render Objects
     And I toggle the 'Berth' toggle 'on'
     When I use the secondary mouse on manual-trust berth <berthId>
     Then I am presented with a set of information about the berth
-    And the manual trust berth information for <berthId> only contains <berthIdnoTD>
+    And the manual trust berth information for <berthId> only contains "<berthIdnoTD>"
     Examples:
-      | berthId | berthIdnoTD |
-      | 83311X  | 311X        |
-      | 83232D  | 232D        |
-      | 83475A  | 475A        |
+      | berthId | berthIdnoTD        |
+      | 83311X  | 311X Dep Off Route |
+      | 83232D  | 232D Dep           |
+      | 83475A  | 475A Arr           |
 
 
 
