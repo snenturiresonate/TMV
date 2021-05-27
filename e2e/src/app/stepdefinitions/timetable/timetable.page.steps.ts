@@ -118,12 +118,14 @@ Then('The values for the header properties are as follows',
 
 Then('the last reported information reflects the TRI message {string} for {string}',
   async (message: string, locName: string) => {
-    const expectedTime = TRITrainLocationReport.locationDateTime.toLocalTime().format(DateTimeFormatter.ofPattern('HH:mm'));
+    const expectedTime = OffsetDateTime
+      .parse(TRITrainLocationReport.locationDateTime)
+      .format(DateTimeFormatter.ofPattern('HH:mm'));
     await timetablePage.waitUntilLastReportLocNameHasLoaded(locName);
     const actualHeaderLastReported: string = await timetablePage.headerLastReported.getText();
     expect(actualHeaderLastReported, 'Last Reported is not as expected')
       .to.equal(expectedTime + ' ' + message);
-});
+  });
 
 Then('The values for {string} are the following as time passes',
   async (propertyName: string, expectedValues: any) => {
@@ -178,8 +180,8 @@ Then(/^the sent TJMs are in the modifications table$/, async () => {
     const expectedTypeOfModification = getExpectedModificationType(
       expectedRecord.TrainJourneyModification.TrainJourneyModificationIndicator);
     const expectedTime = LocalDateTime
-        .parse(expectedRecord.TrainJourneyModificationTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
-        .format(DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm').withLocale(Locale.ENGLISH));
+      .parse(expectedRecord.TrainJourneyModificationTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+      .format(DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm').withLocale(Locale.ENGLISH));
     const expectedLocation = (expectedTypeOfModification === 'Change Of Identity') ? '' : tiplocToLocation(expectedRecord
       .TrainJourneyModification
       .LocationModified
@@ -189,7 +191,6 @@ Then(/^the sent TJMs are in the modifications table$/, async () => {
     const expectedReason = (expectedRecord.ModificationReason === undefined ? '' : expectedRecord.ModificationReason);
 
     const row: ElementFinder = element(by.xpath(`//tbody[@id='details-modification-tbody']//tr[descendant::td[text()='${expectedTypeOfModification}']][descendant::td[text()='${expectedLocation}']][descendant::td[text()='${expectedTime}']][descendant::td[text()='${expectedReason}']]`));
-    await browser.wait(ExpectedConditions.presenceOf(row), 10000);
     expect(await row.isPresent(),
       `No record found in the modifications table with ${expectedTypeOfModification}, ${expectedLocation}, ${expectedTime}, ${expectedReason}`)
       .to.equal(true);
@@ -294,8 +295,12 @@ async function assertLastTJM(tjmMessage: TrainJourneyModificationMessage): Promi
 
   const expectedMessages = new Array();
   expectedMessages.push(expectedTypeOfModification);
-  if (Boolean(expectedLocation)) { expectedMessages.push(expectedLocation); }
-  if (Boolean(expectedReason)) { expectedMessages.push(expectedReason); }
+  if (Boolean(expectedLocation)) {
+    expectedMessages.push(expectedLocation);
+  }
+  if (Boolean(expectedReason)) {
+    expectedMessages.push(expectedReason);
+  }
   expectedMessages.push(expectedTime);
   const expectedLastTjm = expectedMessages.join(', ');
   const errorMessage = `Last TJM is not ${expectedLastTjm}`;
@@ -502,7 +507,7 @@ Then('the punctuality for {string} location {string} is displayed as {string}',
     const actualLocPunctuality = await row.punctuality.getText();
     expect(actualLocPunctuality, 'Punctuality value is not correct')
       .to.equal(expectedText);
-});
+  });
 
 Then('The timetable details table contains the following data in each row', async (detailsDataTable: any) => {
   const expectedDetailsRowValues: any = detailsDataTable.hashes()[0];
@@ -575,7 +580,7 @@ Then(/^the inserted location (.*) is (before|after) (.*)$/,
   async (insertedLocation: string, beforeAfter: string, otherLocation: string) => {
     const locations = await timetablePage.getLocations();
     const rowOfInserted = await timetablePage.getLocationRowIndex
-      (timetablePage.ensureInsertedLocationFormat('inserted', insertedLocation), 1);
+    (timetablePage.ensureInsertedLocationFormat('inserted', insertedLocation), 1);
     (beforeAfter === 'before') ?
       expect(locations[rowOfInserted + 1], `Inserted location ${insertedLocation} is not ${beforeAfter} ${otherLocation}`)
         .to.equal(otherLocation) :
@@ -597,7 +602,9 @@ Then(/^the expected departure time for inserted location (.*) is proportionally 
 
 Then('the actual {string} time displayed for that location {string} matches that provided in the TRI message', async (
   expected: string, location: string) => {
-  const expectedTime = TRITrainLocationReport.locationDateTime.toLocalTime().format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+  const expectedTime = OffsetDateTime
+    .parse(TRITrainLocationReport.locationDateTime)
+    .format(DateTimeFormatter.ofPattern('HH:mm:ss'));
   const row = await timetablePage.getRowByLocation(location, 1);
 
   if (expected.toUpperCase() === 'ARRIVAL') {
@@ -817,8 +824,8 @@ function calculateOriginalTimeAdjustment(scenarioStart: string, originalTime: st
   return LocalTime.parse(scenarioStart).until(LocalTime.parse(originalTime), ChronoUnit.MILLIS);
 }
 
-Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instance (.*) is correctly calculated based on "(.*)"$/,
-  async (arrivalOrDeparture, location, instance, expected) => {
+Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instance (.*) is correctly calculated based on (Internal|External) timing "(.*)"$/,
+  async (arrivalOrDeparture, location, instance, internalExternal, expected) => {
     await timetablePage.getRowByLocation(location, instance).then(async row => {
       let field;
       if (arrivalOrDeparture === 'Arrival') {
@@ -826,21 +833,13 @@ Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instan
       } else {
         field = row.actualDep;
       }
-      expected = `${actualsTimeRounding(expected, arrivalOrDeparture)} c`;
+      if (internalExternal === 'Internal') {
+        expected = `${actualsTimeRounding(expected, arrivalOrDeparture)} c`;
+      }
       const error = `Actual ${arrivalOrDeparture} not correct for location ${location}`;
       expect(await field.getText(), error).to.equal(expected);
     });
   });
-
-function actualsTimeRounding(timestamp: string, arrivalOrDeparture: string): string {
-  let ltTimestamp = LocalTime.parse(timestamp);
-  if (arrivalOrDeparture === 'Arrival') {
-    ltTimestamp = ltTimestamp.second() < 30 ? ltTimestamp.withSecond(30) : ltTimestamp.plusMinutes(1).withSecond(0);
-  } else {
-    ltTimestamp = ltTimestamp.second() < 30 ? ltTimestamp.withSecond(0) : ltTimestamp.withSecond(30);
-  }
-  return ltTimestamp.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
-}
 
 Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instance (.*) is predicted$/,
   async (arrivalOrDeparture, location, instance) => {
@@ -853,6 +852,15 @@ Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instan
       }
       const text = await field.getText();
       expect(/\(.*\)/.test(text), `expected ${location} ${arrivalOrDeparture} time to be predicted, but was ${text}`).to.equal(true);
+    });
+  });
+
+Then(/^the (Arrival|Departure) punctuality for location "(.*)" instance (\d+) is correctly calculated based on expected time "(.*)" & actual time "(.*)"$/,
+  async (arrivalDeparture, location, instance, expectedTime, actualTime) => {
+    await timetablePage.getRowByLocation(location, instance).then(async row => {
+      const field = row.punctuality;
+      const expectedPunctuality = getExpectedPunctuality(arrivalDeparture === 'Arrival', actualTime, expectedTime);
+      expect(await field.getText(), `Actual punctuality not correct for location ${location}`).to.equal(expectedPunctuality);
     });
   });
 
@@ -871,11 +879,12 @@ function getExpectedPunctuality(arrival, actualTime, expectedTime): string {
   return (Math.abs(seconds) % 60 === 0) ? `${plusMinus}${Math.abs(minutes)}m` : `${plusMinus}${Math.abs(minutes)}m ${Math.abs(seconds % 60)}s`;
 }
 
-Then(/^the (Arrival|Departure) punctuality for location "(.*)" instance (\d+) is correctly calculated based on expected time "(.*)" & actual time "(.*)"$/,
-  async (arrivalDeparture, location, instance, expectedTime, actualTime) => {
-    await timetablePage.getRowByLocation(location, instance).then(async row => {
-      const field = row.punctuality;
-      const expectedPunctuality = getExpectedPunctuality(arrivalDeparture === 'Arrival', actualTime, expectedTime);
-      expect(await field.getText(), `Actual punctuality not correct for location ${location}`).to.equal(expectedPunctuality);
-    });
-  });
+function actualsTimeRounding(timestamp: string, arrivalOrDeparture: string): string {
+  let ltTimestamp = LocalTime.parse(timestamp);
+  if (arrivalOrDeparture === 'Arrival') {
+    ltTimestamp = ltTimestamp.second() < 30 ? ltTimestamp.withSecond(30) : ltTimestamp.plusMinutes(1).withSecond(0);
+  } else {
+    ltTimestamp = ltTimestamp.second() < 30 ? ltTimestamp.withSecond(0) : ltTimestamp.withSecond(30);
+  }
+  return ltTimestamp.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+}

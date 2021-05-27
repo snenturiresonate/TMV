@@ -78,6 +78,24 @@ export class TrainRunningInformationMessageBuilder {
       .doc();
   }
 
+  public buildMessageWithTimeAgainstBooked = (locationPrimaryCode: string, locationSubsidiaryCode: string,
+                                              operationalTrainNumber: string, trainUID: string,
+                                              scheduledStartDate: string, messageType: string, bookedTimestamp: string, timestamp: string,
+                                              hourDepartFromOrigin: string) => {
+    return create().ele('TrainRunningInformationMessage')
+      .att('xmlns', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
+      .att('xmlns:ns0', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
+      .att('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance')
+      .att('xsi:schemaLocation', 'http://www.era.europa.eu/schemes/TAFTSI/5.3 taf_cat_complete.xsd')
+      .ele(TrainRunningInformationMessageHeader.messageHeader(operationalTrainNumber, trainUID, Number(hourDepartFromOrigin))).root()
+      .ele(this.messageStatus()).root()
+      .ele(TRIOperationalTrainNumberIdentifier.operationalTrainNumberIdentifier(operationalTrainNumber)).root()
+      .ele(TRITrainOperationalIdentification.trainOperationalIdentification(trainUID, operationalTrainNumber, scheduledStartDate)).root()
+      .ele(TRITrainLocationReport.trainLocationReportAtTimeAgainstBooked(locationPrimaryCode, locationSubsidiaryCode,
+        this.deriveRunningStatusFromMessageType(messageType), bookedTimestamp, timestamp)).root()
+      .doc();
+  }
+
   public messageStatus = (messageStatus: string = '1') => {
     const messageStat = fragment().ele('MessageStatus').txt(messageStatus).doc();
     return messageStat.end({prettyPrint: true});

@@ -597,7 +597,7 @@ Then('the berth information for {word} only contains {word}', async (berthId: st
     .to.equal(expectedBerthInfo);
 });
 
-Then('the manual trust berth information for {word} only contains {word}', async (berthId: string, expectedBerthInfo: string) => {
+Then('the manual trust berth information for {word} only contains {string}', async (berthId: string, expectedBerthInfo: string) => {
   const infoString: string = await mapPageObject.getManualTrustBerthContextInfoText();
   expect(infoString, 'Expected berth information not correct')
     .to.equal(expectedBerthInfo);
@@ -739,8 +739,8 @@ When('I right click on berth with id {string}', async (berthId: string) => {
   await mapPageObject.rightClickBerth(berthId);
 });
 
-When('I click on {string} link', async (berthId: string) => {
-  await mapPageObject.trainHighlight();
+When(/^I click on (Highlight|Unhighlight) link$/, async (highlightOption: string) => {
+  await mapPageObject.trainHighlight(highlightOption);
 });
 
 Then('the berth context menu is displayed with berth name {string}', async (expectedBerthName: string) => {
@@ -762,6 +762,20 @@ Then('the train highlight color for berth {string} is {word}',
     const actualColorHex: string = await mapPageObject.getBerthColor(berthId);
     expect(actualColorHex, 'Headcode colour is not ' + expectedColor)
       .to.equal(expectedColorHex);
+  });
+
+Then(/^the train in berth (\w+) (is|is not) highlighted$/,
+  async (berthId: string, negate: string) => {
+    const berthIsHighlighted: boolean = await mapPageObject.isBerthHighlighted(berthId);
+
+    if (negate === 'is') {
+      expect(berthIsHighlighted, 'Berth was not highlighted: ' + berthId)
+        .to.equal(true);
+    }
+    else {
+      expect(berthIsHighlighted, 'Berth was highlighted: ' + berthId)
+        .to.equal(false);
+    }
   });
 
 Then('the menu is displayed with {string} option',
