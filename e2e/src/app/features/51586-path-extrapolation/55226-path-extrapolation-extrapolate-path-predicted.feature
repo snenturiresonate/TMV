@@ -48,8 +48,8 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       | rowType                   | trainUID      | rowColour              |
       | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) |
     When I am on the timetable view for service '<trainUid>'
-    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
-    And the actual/predicted Departure time for location "<location2>" instance 2 is correctly calculated based on "<timestamp2>"
+    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on Internal timing "<timestamp>"
+    And the actual/predicted Departure time for location "<location2>" instance 2 is correctly calculated based on Internal timing "<timestamp2>"
     Examples:
       | cif                                     | trainUid | trainDescription | location | location2 |timestamp | timestamp2 |
       | access-plan/55226-schedules/55226-2.cif | C55227   | 1U32             | CREWE    | CREWBHJ   | 13:33:00 | 13:36:00   |
@@ -72,8 +72,8 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       | trainId            | trainUId   |
       | <trainDescription> | <trainUid> |
     When I am on the timetable view for service '<trainUid>'
-    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
-    And the actual/predicted Departure time for location "<location2>" instance 2 is correctly calculated based on "<timestamp2>"
+    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on Internal timing "<timestamp>"
+    And the actual/predicted Departure time for location "<location2>" instance 2 is correctly calculated based on Internal timing "<timestamp2>"
     Examples:
       | cif                                     | trainUid | trainDescription | location | location2 | timestamp | timestamp2 |
       | access-plan/55226-schedules/55226-3.cif | C55228   | 1U33             | CREWBHJ  | MADELEY   | 13:33:00  | 13:36:00   |
@@ -96,8 +96,8 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       | trainId            | trainUId   |
       | <trainDescription> | <trainUid> |
     When I am on the timetable view for service '<trainUid>'
-    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
-    And the actual/predicted Departure time for location "<location2>" instance 2 is correctly calculated based on "<timestamp2>"
+    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on Internal timing "<timestamp>"
+    And the actual/predicted Departure time for location "<location2>" instance 2 is correctly calculated based on Internal timing "<timestamp2>"
     Examples:
       | cif                                     | trainUid | trainDescription |location | location2 | timestamp | timestamp2 |
       | access-plan/55226-schedules/55226-4.cif | C55229   | 1U34             | CREWE   | CREWBHJ   | 13:33:00  | 13:36:00   |
@@ -132,8 +132,8 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
-    And the actual/predicted Departure time for location "<location2>" instance 2 is correctly calculated based on "<timestamp2>"
+    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on Internal timing "<timestamp>"
+    And the actual/predicted Departure time for location "<location2>" instance 2 is correctly calculated based on Internal timing "<timestamp2>"
     Examples:
       | cif                                     | trainUid | trainDescription | location | location2  | timestamp | timestamp2 |
       #stopping #STAFFRD
@@ -168,8 +168,8 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
-    And the actual/predicted Departure time for location "<location2>" instance 2 is correctly calculated based on "<timestamp2>"
+    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on Internal timing "<timestamp>"
+    And the actual/predicted Departure time for location "<location2>" instance 2 is correctly calculated based on Internal timing "<timestamp2>"
     Examples:
       | cif                                     | trainUid | trainDescription | location | location2 | timestamp | timestamp2 |
       | access-plan/55226-schedules/55226-6.cif | C55231   | 1U36             | CREWE    | CREWBHJ   |           |            |
@@ -205,9 +205,9 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
-    And the actual/predicted Departure time for location "<location2>" instance 2 is correctly calculated based on "<timestamp2>"
-    And the actual/predicted Departure time for location "<location3>" instance 2 is correctly calculated based on "<timestamp3>"
+    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on Internal timing "<timestamp>"
+    And the actual/predicted Departure time for location "<location2>" instance 2 is correctly calculated based on Internal timing "<timestamp2>"
+    And the actual/predicted Departure time for location "<location3>" instance 2 is correctly calculated based on Internal timing "<timestamp3>"
     Examples:
       | cif                                     | trainUid | trainDescription | location | location2 | location3 | timestamp | timestamp2 |timestamp3 |
       | access-plan/55226-schedules/55226-7.cif | C55232   | 1U37             | CREWE    |  CREWBHJ  | MADELEY   | 13:33:00  | 13:35:00   | 13:37:00  |
@@ -247,9 +247,9 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
-    And the actual/predicted Departure time for location "<location2>" instance 2 is correctly calculated based on "<timestamp2>"
-    And the actual/predicted Departure time for location "<location3>" instance 2 is correctly calculated based on "<timestamp3>"
+    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on Internal timing "<timestamp>"
+    And the actual/predicted Departure time for location "<location2>" instance 2 is correctly calculated based on Internal timing "<timestamp2>"
+    And the actual/predicted Departure time for location "<location3>" instance 2 is correctly calculated based on Internal timing "<timestamp3>"
     Examples:
       | cif                                     | trainUid | trainDescription | location | location2 | location3 | timestamp | timestamp2 |timestamp3 |
       | access-plan/55226-schedules/55226-8.cif | C55233   | 1U38             | CREWE    |  CREWBHJ  | MADELEY   | 13:33:00  | 13:35:00   |13:38:00   |
@@ -287,7 +287,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
+    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on Internal timing "<timestamp>"
     And the Departure punctuality for location "<location>" instance 1 is correctly calculated based on expected time "<plannedTime>" & actual time "<timestamp>"
     Examples:
       | cif                                     | trainUid | trainDescription | location | timestamp | plannedTime |
@@ -326,8 +326,8 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Departure time for location "<location>" instance 8 is correctly calculated based on "<timestamp>"
-    And the actual/predicted Departure time for location "<location2>" instance 15 is correctly calculated based on "<timestamp2>"
+    Then the actual/predicted Departure time for location "<location>" instance 8 is correctly calculated based on Internal timing "<timestamp>"
+    And the actual/predicted Departure time for location "<location2>" instance 15 is correctly calculated based on Internal timing "<timestamp2>"
     And the Departure punctuality for location "<location>" instance 8 is correctly calculated based on expected time "<plannedTime>" & actual time "<timestamp>"
     And the Departure punctuality for location "<location>" instance 15 is correctly calculated based on expected time "<plannedTime2>" & actual time "<timestamp>"
 
@@ -369,9 +369,9 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Departure time for location "<location>" instance 4 is correctly calculated based on "<timestamp>"
-    And the actual/predicted Departure time for location "<location2>" instance 6 is correctly calculated based on "<timestamp2>"
-    And the actual/predicted Departure time for location "<location3>" instance 8 is correctly calculated based on "<timestamp3>"
+    Then the actual/predicted Departure time for location "<location>" instance 4 is correctly calculated based on Internal timing "<timestamp>"
+    And the actual/predicted Departure time for location "<location2>" instance 6 is correctly calculated based on Internal timing "<timestamp2>"
+    And the actual/predicted Departure time for location "<location3>" instance 8 is correctly calculated based on Internal timing "<timestamp3>"
     And the Departure punctuality for location "<location>" instance 4 is correctly calculated based on expected time "<plannedTime>" & actual time "<timestamp>"
     And the Departure punctuality for location "<location>" instance 6 is correctly calculated based on expected time "<plannedTime2>" & actual time "<timestamp2>"
     And the Departure punctuality for location "<location>" instance 8 is correctly calculated based on expected time "<plannedTime3>" & actual time "<timestamp3>"
@@ -411,8 +411,8 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on "<timestamp>"
-    And the actual/predicted Departure time for location "<location2>" instance 8 is correctly calculated based on "<timestamp2>"
+    Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on Internal timing "<timestamp>"
+    And the actual/predicted Departure time for location "<location2>" instance 8 is correctly calculated based on Internal timing "<timestamp2>"
 
     Examples:
       | cif                                      | trainUid | trainDescription | location | location2 | timestamp | timestamp2 |
@@ -454,7 +454,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Departure time for location "<location>" instance 8 is correctly calculated based on "<timestamp>"
+    Then the actual/predicted Departure time for location "<location>" instance 8 is correctly calculated based on Internal timing "<timestamp>"
     And the punctuality is displayed as 'On Time'
     Examples:
       | cif                                      | trainUid | trainDescription | location | timestamp |
@@ -496,7 +496,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Departure time for location "<location>" instance 8 is correctly calculated based on "<timestamp>"
+    Then the actual/predicted Departure time for location "<location>" instance 8 is correctly calculated based on Internal timing "<timestamp>"
     And the punctuality is displayed as 'Late'
     Examples:
       | cif                                      | trainUid | trainDescription | location | timestamp |
@@ -537,11 +537,11 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Arrival time for location "<location>" instance 8 is correctly calculated based on "<timestamp>"
+    Then the actual/predicted Arrival time for location "<location>" instance 8 is correctly calculated based on Internal timing "<timestamp>"
     And the following berth step message is sent from LINX
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription  |
       | 3190      | 15:48:06  | 3188    | R1             | <trainDescription>|
-    And the actual/predicted Arrival time for location "<location2>" instance 32 is correctly calculated based on "<timestamp2>"
+    And the actual/predicted Arrival time for location "<location2>" instance 32 is correctly calculated based on Internal timing "<timestamp2>"
     And the punctuality is displayed as 'On Time'
     Examples:
       | cif                                      | trainUid | trainDescription | location | timestamp |location2 | timestamp2 |
@@ -578,7 +578,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Arrival time for location "<location>" instance 8 is correctly calculated based on "<timestamp>"
+    Then the actual/predicted Arrival time for location "<location>" instance 8 is correctly calculated based on Internal timing "<timestamp>"
     And the punctuality is displayed as 'On Time'
     Examples:
       | cif                                      | trainUid | trainDescription | location | timestamp |
@@ -620,7 +620,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Arrival time for location "<location>" instance 8 is correctly calculated based on "<timestamp>"
+    Then the actual/predicted Arrival time for location "<location>" instance 8 is correctly calculated based on Internal timing "<timestamp>"
     And the punctuality is displayed as 'On Time'
     Examples:
       | cif                                      | trainUid | trainDescription | location | timestamp |
@@ -659,7 +659,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Arrival time for location "<location>" instance 7 is correctly calculated based on "<timestamp>"
+    Then the actual/predicted Arrival time for location "<location>" instance 7 is correctly calculated based on Internal timing "<timestamp>"
     Examples:
       | cif                                      | trainUid | trainDescription | location | timestamp |
       | access-plan/55226-schedules/55226-18.cif | C55243   | 1U47             | RUGLYNJ  |  14:03:00 |
@@ -702,7 +702,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the trains list context menu is displayed
     When I open timetable from the context menu
     And I switch to the new tab
-    Then the actual/predicted Arrival time for location "<location>" instance 7 is correctly calculated based on "<timestamp>"
+    Then the actual/predicted Arrival time for location "<location>" instance 7 is correctly calculated based on Internal timing "<timestamp>"
     Examples:
       | cif                                      | trainUid | trainDescription | location | timestamp |
       | access-plan/55226-schedules/55226-19.cif | C55244   | 1U48             | CREWE    | 13:00:00  |
