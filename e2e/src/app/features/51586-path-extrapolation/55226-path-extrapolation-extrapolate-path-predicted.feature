@@ -210,7 +210,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the actual/predicted Departure time for location "<location3>" instance 2 is correctly calculated based on "<timestamp3>"
     Examples:
       | cif                                     | trainUid | trainDescription | location | location2 | location3 | timestamp | timestamp2 |timestamp3 |
-      | access-plan/55226-schedules/55226-7.cif | C55232   | 1U37             | CREWE    |  CREWBHJ  | MADELEY   | 13:33:00  | 13:35:00   |           |
+      | access-plan/55226-schedules/55226-7.cif | C55232   | 1U37             | CREWE    |  CREWBHJ  | MADELEY   | 13:33:00  | 13:35:00   | 13:37:00  |
 
   Scenario Outline: 51586 -8  Continue to predict to original destination after a reinstatement
     # Given a valid schedule exists
@@ -502,3 +502,207 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       | cif                                      | trainUid | trainDescription | location | timestamp |
       | access-plan/55226-schedules/55226-14.cif | C55239   | 1U43             | RUGL     |  14:07:00 |
 
+  Scenario Outline: 51586 -15  Predicted arrival time after an actual
+    # Given a valid schedule exists
+    # And a train activation has been received
+    # And there is location in that schedule with the <Location Type>
+    # And an actual departure timing has been received for the location prior
+    # When a user views the timetable
+    # Then predicted timing is displayed is current punctuality+ planned location arrival time
+    # And predicted punctuality is displayed
+
+      # | Location type |
+      # | Stopping|
+      # | Destination |
+    Given I am on the trains list page
+    And The trains list table is visible
+    And the following basic schedule is received from LINX
+      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
+      | <trainUid> | O            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
+    And the access plan located in CIF file '<cif>' is received from LINX
+    And the following train activation message is sent from LINX
+      | trainUID  | trainNumber         | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <trainUid>| <trainDescription>  | now                    | 99999               | CREWE                  | today         | now                 |
+    And the following service is displayed on the trains list
+      | trainId            | trainUId   |
+      | <trainDescription> | <trainUid> |
+    And the service is displayed in the trains list with the following row colour
+      | rowType                   | trainUID      | rowColour              |
+      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) |
+    And the following berth step message is sent from LINX
+      | fromBerth | timestamp | toBerth | trainDescriber | trainDescription  |
+      | 5474      | 14:25:06  | 5470    | R2             | <trainDescription>|
+    And I invoke the context menu from train '<trainDescription>' on the trains list
+    And I wait for the trains list context menu to display
+    And the trains list context menu is displayed
+    When I open timetable from the context menu
+    And I switch to the new tab
+    Then the actual/predicted Arrival time for location "<location>" instance 8 is correctly calculated based on "<timestamp>"
+    And the following berth step message is sent from LINX
+      | fromBerth | timestamp | toBerth | trainDescriber | trainDescription  |
+      | 3190      | 15:48:06  | 3188    | R1             | <trainDescription>|
+    And the actual/predicted Arrival time for location "<location2>" instance 32 is correctly calculated based on "<timestamp2>"
+    And the punctuality is displayed as 'On Time'
+    Examples:
+      | cif                                      | trainUid | trainDescription | location | timestamp |location2 | timestamp2 |
+      | access-plan/55226-schedules/55226-15.cif | C55240   | 1U44             | RUGL     |  14:05:00 | EUSTON   |  15:52:00  |
+
+  Scenario Outline: 51586 - 16  Predicted passing location departure time after an actual
+    # Given a valid schedule exists
+    # And a train activation has been received
+    # And there is a passing location in that schedule
+    # And an actual departure timing has been received for the location prior
+    # When a user views the timetable
+    # Then predicted timing is displayed is current punctuality+ planned location departure time
+    # And predicted punctuality is displayed
+    Given I am on the trains list page
+    And The trains list table is visible
+    And the following basic schedule is received from LINX
+      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
+      | <trainUid> | O            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
+    And the access plan located in CIF file '<cif>' is received from LINX
+    And the following train activation message is sent from LINX
+      | trainUID  | trainNumber         | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <trainUid>| <trainDescription>  | now                    | 99999               | CREWE                  | today         | now                 |
+    And the following service is displayed on the trains list
+      | trainId            | trainUId   |
+      | <trainDescription> | <trainUid> |
+    And the service is displayed in the trains list with the following row colour
+      | rowType                   | trainUID      | rowColour              |
+      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) |
+    And the following berth step message is sent from LINX
+      | fromBerth | timestamp | toBerth | trainDescriber | trainDescription  |
+      | 3620      | 13:39:06  | 3618    | R3             | <trainDescription>|
+    And I invoke the context menu from train '<trainDescription>' on the trains list
+    And I wait for the trains list context menu to display
+    And the trains list context menu is displayed
+    When I open timetable from the context menu
+    And I switch to the new tab
+    Then the actual/predicted Arrival time for location "<location>" instance 8 is correctly calculated based on "<timestamp>"
+    And the punctuality is displayed as 'On Time'
+    Examples:
+      | cif                                      | trainUid | trainDescription | location | timestamp |
+      | access-plan/55226-schedules/55226-16.cif | C55241   | 1U45             | NTNB     |  13:39:00 |
+
+  Scenario Outline: 51586 - 17 Predicted stopping location departure time after an actual arrival time
+    # Given there is a valid schedule
+    # And a train activation has been received
+    # And the train has arrived at a stopping location
+    # And no actual departure timing has been received for that location
+    # And the trains <Arrival Time>
+    # When a user views the timetable
+    # Then the predicted departure time is <Predicted departure time>
+    # And the predicted punctuality is <Punctuality>
+
+      # | Arrival time                                                                        | Punctuality | Predicted Departure Time|
+      # | actual arrival time + minimum dwell time is less than the  planned departure time  |  On time    | planned departure time |
+      # | actual arrival time + minimum dwell time is more than the planned departure time  | Late        | arrival time + minimum dwell time |
+    Given I am on the trains list page
+    And The trains list table is visible
+    And the following basic schedule is received from LINX
+      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
+      | <trainUid> | O            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
+    And the access plan located in CIF file '<cif>' is received from LINX
+    And the following train activation message is sent from LINX
+      | trainUID  | trainNumber         | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <trainUid>| <trainDescription>  | now                    | 99999               | CREWE                  | today         | now                 |
+    And the following service is displayed on the trains list
+      | trainId            | trainUId   |
+      | <trainDescription> | <trainUid> |
+    And the service is displayed in the trains list with the following row colour
+      | rowType                   | trainUID      | rowColour              |
+      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) |
+    And the following berth step message is sent from LINX
+      | fromBerth | timestamp | toBerth | trainDescriber | trainDescription  |
+      | 0110      | 13:35:06  | 0112    | WY             | <trainDescription>|
+    And I invoke the context menu from train '<trainDescription>' on the trains list
+    And I wait for the trains list context menu to display
+    And the trains list context menu is displayed
+    When I open timetable from the context menu
+    And I switch to the new tab
+    Then the actual/predicted Arrival time for location "<location>" instance 8 is correctly calculated based on "<timestamp>"
+    And the punctuality is displayed as 'On Time'
+    Examples:
+      | cif                                      | trainUid | trainDescription | location | timestamp |
+      | access-plan/55226-schedules/55226-17.cif | C55242   | 1U46             | RUGL     |  14:05:00 |
+
+  Scenario Outline: 51586 - 18 Actuals received before new origin
+    # Given a valid schedule exists
+    # And a train activation has been received for that schedule
+    # And a Train Journey Modification with the type 94 has been received for that schedule
+    # And a TD update is received for a location before the new origin
+    # When the user views the timetable
+    # Then predicted times and punctuality from the last actual
+    Given I am on the trains list page
+    And The trains list table is visible
+    And the following basic schedule is received from LINX
+      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
+      | <trainUid> | O            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
+    And the access plan located in CIF file '<cif>' is received from LINX
+    And the following train activation message is sent from LINX
+      | trainUID  | trainNumber         | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <trainUid>| <trainDescription>  | now                    | 99999               | CREWE                  | today         | now                 |
+    And the following service is displayed on the trains list
+      | trainId            | trainUId   |
+      | <trainDescription> | <trainUid> |
+    And the service is displayed in the trains list with the following row colour
+      | rowType                   | trainUID      | rowColour              |
+      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) |
+    And the following berth step message is sent from LINX
+      | fromBerth | timestamp | toBerth | trainDescriber | trainDescription  |
+      | A120      | 13:33:06  | B120    | CE             | <trainDescription>|
+    And the following TJM is received
+      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
+      | <trainUid> | <trainDescription> | 12            | create | 94        | 94              | 99999       | COLWICH        | 14:02:00 | 82                 | VA                |
+    And I invoke the context menu from train '<trainDescription>' on the trains list
+    And I wait for the trains list context menu to display
+    And the trains list context menu is displayed
+    When I open timetable from the context menu
+    And I switch to the new tab
+    Then the actual/predicted Arrival time for location "<location>" instance 7 is correctly calculated based on "<timestamp>"
+    Examples:
+      | cif                                      | trainUid | trainDescription | location | timestamp |
+      | access-plan/55226-schedules/55226-18.cif | C55243   | 1U47             | RUGLYNJ  |  14:03:00 |
+
+  Scenario Outline: 51586 - 19  Actuals after a new destination
+    # Given a valid schedule exists
+    # And a train activation has been received for that schedule
+    # And a Train Journey Modification with the <TJM type> has been received for that schedule
+    # And a TD update has been received for a location after the new destination
+    # When the user views the timetable
+    # Then predicted times and punctuality are only present to the new destination
+
+      # | TJM type |
+      # | 91|
+      # | 92|
+    Given I am on the trains list page
+    And The trains list table is visible
+    And the following basic schedule is received from LINX
+      | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
+      | <trainUid> | O            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> |        |           |             |         |
+    And the access plan located in CIF file '<cif>' is received from LINX
+    And the following train activation message is sent from LINX
+      | trainUID  | trainNumber         | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <trainUid>| <trainDescription>  | now                    | 99999               | CREWE                  | today         | now                 |
+    And the following service is displayed on the trains list
+      | trainId            | trainUId   |
+      | <trainDescription> | <trainUid> |
+    And the service is displayed in the trains list with the following row colour
+      | rowType                   | trainUID      | rowColour              |
+      | Origin called             | <trainUid>    | rgba(255, 181, 120, 1) |
+    And the following change of ID TJM is received
+      | trainUid     | trainNumber        | departureHour | modificationTime | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
+      | <trainUid>   | <trainDescription> | 12            | 13:00:00         | create | 92        | 91              | 99999       | CREWE          | 13:00:00 | 82                 | VA                |
+      | <trainUid>   | <trainDescription> | 12            | 13:00:00         | create | 92        | 92              | 99999       | CREWE          | 13:00:00 | 82                 | VA                |
+    And the following berth step message is sent from LINX
+      | fromBerth | timestamp | toBerth | trainDescriber | trainDescription  |
+      | A120      | 13:33:06  | B120    | CE             | <trainDescription>|
+    And I invoke the context menu from train '<trainDescription>' on the trains list
+    And I wait for the trains list context menu to display
+    And the trains list context menu is displayed
+    When I open timetable from the context menu
+    And I switch to the new tab
+    Then the actual/predicted Arrival time for location "<location>" instance 7 is correctly calculated based on "<timestamp>"
+    Examples:
+      | cif                                      | trainUid | trainDescription | location | timestamp |
+      | access-plan/55226-schedules/55226-19.cif | C55244   | 1U48             | CREWE    | 13:00:00  |
