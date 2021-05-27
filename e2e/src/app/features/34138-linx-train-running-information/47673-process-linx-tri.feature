@@ -193,6 +193,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       | H51118   | 5X18             | Departure from station | Departure      | 73108               | Royal Oak Junction | ROYAOJN                | -00:12         |
       | H51119   | 5X19             | Passing Location       | Departure      | 73111               | Ladbroke Grove     | LDBRKJ                 | 02:30          |
 
+
   Scenario Outline: 34138 -5 Update existing time calculated time with TRI
    # Given a TRI message with the <TRI type> is received for a valid schedule
    # And stepping has been received for the same location with a different time (used for calculated timing)

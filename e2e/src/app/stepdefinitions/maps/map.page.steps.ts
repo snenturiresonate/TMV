@@ -597,7 +597,7 @@ Then('the berth information for {word} only contains {word}', async (berthId: st
     .to.equal(expectedBerthInfo);
 });
 
-Then('the manual trust berth information for {word} only contains {word}', async (berthId: string, expectedBerthInfo: string) => {
+Then('the manual trust berth information for {word} only contains {string}', async (berthId: string, expectedBerthInfo: string) => {
   const infoString: string = await mapPageObject.getManualTrustBerthContextInfoText();
   expect(infoString, 'Expected berth information not correct')
     .to.equal(expectedBerthInfo);
