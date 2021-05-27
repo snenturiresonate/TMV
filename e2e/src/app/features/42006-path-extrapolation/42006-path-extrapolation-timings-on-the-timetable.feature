@@ -293,8 +293,7 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | cif                                      | trainUid | trainDescription | location      | bookedTime | timestamp | trainDescriber | toBerth | triTimestamp | tiploc | messageType            |
       | access-plan/42006-schedules/42006-11.cif | C11125   | 1U25             | London Euston | 15:52:00   | 15:52:00  | WY             | B012    | 15:53:00     | EUSTON | Arrival at Termination |
 
-  Scenario Outline: 42006-6 Calculated departure time for a location is not displayed when a TRI has already been received
-    Given I am on the trains list page
+  Scenario Outline: 42006-12 Calculated punctuality for a location is not displayed when a TRI has already been received
     And the access plan located in CIF file '<cif>' is received from LINX
     And train description '<trainDescription>' is visible on the trains list with schedule type 'LTP'
     And I log the berth & locations from the berth level schedule for '<trainUid>'
