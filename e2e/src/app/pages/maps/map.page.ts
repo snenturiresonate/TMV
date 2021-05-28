@@ -10,6 +10,7 @@ import assert = require('assert');
 import path = require('path');
 import {BerthInterpose} from '../../../../../src/app/api/linx/models/berth-interpose';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
+import {RedisClient} from '../../api/redis/redis-client';
 
 let linxRestClient: LinxRestClient;
 
@@ -215,12 +216,9 @@ export class MapPageObject {
   }
 
   public async navigateToMapWithBerth(berthId: string, trainDescriber: string): Promise<void> {
-    const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), 'maps/maps-national.json'));
-    const mapBerthData = JSON.parse(rawData.toString());
-    const filtered = mapBerthData.filter((mapObj) => mapObj.berths.includes(trainDescriber + berthId));
-    assert(filtered.length > 0, 'no map found containing berth ' + berthId + ' in train describer ' + trainDescriber + ' found');
-    await CucumberLog.addText(browser.baseUrl + '/tmv/maps/' + filtered[0].map);
-    const url = '/tmv/maps/' + filtered[0].map;
+    const map = await new RedisClient().getMapForBerth(trainDescriber + berthId);
+    const url = '/tmv/maps/' + map;
+    await CucumberLog.addText(url);
     await appPage.navigateTo(url);
   }
 

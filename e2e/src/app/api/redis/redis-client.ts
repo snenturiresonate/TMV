@@ -55,4 +55,16 @@ export class RedisClient {
       });
     });
   }
+
+  public async getMapForBerth(berthId: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.client.hget('berth-to-maps-hash', berthId, (error, value) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(JSON.parse(value).maps[0].id || {});
+        }
+      });
+    });
+  }
 }

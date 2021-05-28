@@ -4,7 +4,6 @@ Feature: 40656 - Schedule Manipulation - Pre and Post Rules
   I want schedules which have been imported to be manipulated
   So that the schedule has a the correct path, line and asset codes for each location
 
-  @bug @bug_61103
   Scenario Outline: 40656- 12 Pre Change path code
     #19	PRE 	HTHRGRN	LEEE   	   	   	   	   	   	   	[]	[]	DDL
     #J2311	HTHRGRN
@@ -46,6 +45,7 @@ Feature: 40656 - Schedule Manipulation - Pre and Post Rules
       | trainNum | planningUid |
       | 1G12     | G30012      |
 
+  @bug @bug:61103
   Scenario Outline: 40656- 13 Post Change path code
     #241	POST	CAMHTH 	BTHNLGR	   	   	   	FL 	   	S  	[]	[]	   	   	   	S
     #J7010	BTHNLGR
