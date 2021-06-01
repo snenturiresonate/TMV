@@ -406,7 +406,6 @@ Feature: 33805 TMV Schedule Matching
     # clean up
     * I remove schedule '<trainUid>' from the trains list
 
-
     Examples:
       | trainDescriber | berth | origTrainDesc | trainUid | location | subdivision | matchLevel   |
       | D3             | A001  | 2B11          | B33311   | PADTON   | 401         | berth        |

@@ -683,6 +683,11 @@ Then('the map context menu contains {string} on line {int}', async (expectedText
   expect(actualContextMenuItem, `Map menu item not as expected`).to.contain(expectedText);
 });
 
+Then('the map context menu does not contain {string} on line {int}', async (expectedText: string, rowNum: number) => {
+  const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
+  expect(actualContextMenuItem, `Map menu item not as expected`).to.not.contain(expectedText);
+});
+
 Then('the map context menu has {string} on line {int}', async (expectedText: string, rowNum: number) => {
   const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
   expect(actualContextMenuItem, `Map menu item not as expected`).to.equal(expectedText);
