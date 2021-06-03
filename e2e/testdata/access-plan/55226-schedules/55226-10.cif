@@ -1,19 +1,36 @@
 HDTPS.UCFT1LX.PD2010292910201954CFT1LXMCFT1LXLFA291020291120                    
-BSRC552352005185012111111100 PXX1U391032122330000 EMU506 110      B S          P
+BSRC550102005185012111111100 PXX3U101032122330000 EMU506 110      B S          P
 BX         LMY                                                                  
 LOCREWE   1333 13337  FL     TB                                                
 LICREWBHJ           1335H00000000                                              
 LIMADELEY           1339H00000000   FL FL                                      
 LINTNB              1345H00000000   FL FL             1                        
-LISTAFFRD 1351 1355H     135113551  FL FL T                                    
+LISTAFFRD 1351 1352      135113521  FL FL T                                    
 LICOLWICH           1401 00000000   SL FL                                      
 LIRUGLYNJ           1403 00000000   SL SL                                      
 LIRUGL    1404 1405      140414053        T                                    
 LILCHTNJ            1410H00000000   SL SL                                      
-LILCHTTVL 1411H1413      14121413         T                                    
-LILCHTNJ 2          1415H00000000   SL SL                                      
-LIRUGL   21434 1435      143414353        T                                    
-LIRUGLYNJ2          1443 00000000   SL SL                                      
-LICOLWICH2          1451 00000000   SL FL                                      
-LTSTAFFRD 21501 150112    TF                                                    
+LILCHTTVL 1412 1413      14121413         T                                    
+LITMWTHLL 1418 1419      14191419         T                                    
+LIAMNGTNJ           1421H00000000   SL SL                                      
+LIATHRSTN 1428 1429      14281429         T                                    
+LINNTN    1434 1435      143414355  SL SL T           1                        
+LIRUGBTVJ           1448H00000000   UNLSL                                      
+CRRUGBY   XX1U321032122209000 EMU506 110      B S                              
+LIRUGBY   1450 1451      145014515  FL UNLT                                    
+LIHMTNJ             1454H00000000                                              
+LIWEEDON            1501H00000000   FL FL                                      
+LIHANSLPJ           1509 00000000   FL FL                                      
+LIMKNSCEN 1514 1515      151415154  FL FL T                                    
+LIBLTCHLY           1518 000000002  FL FL                                      
+LILEDBRNJ           1523H00000000   FL FL                                      
+LITRING             1526H000000002  FL FL                                      
+LIBONENDJ           1530 00000000   FL FL             1                        
+LIWATFDJ            1535H000000007  FL FL                                      
+LIHROW              1539 00000000   FL FL               1                      
+LIWMBY              1542 00000000                     1                        
+LIWLSDWLJ           1544H00000000   FL FL                                      
+LICMDNJN            1547H00000000   D                                          
+LICMDNSTH           1548 00000000                       1                      
+LTEUSTON  1552 155212    TF                                                    
 ZZ                                                                              

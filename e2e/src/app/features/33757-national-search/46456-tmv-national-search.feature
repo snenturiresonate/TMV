@@ -49,7 +49,7 @@ Feature: 33757 - TMV National Search
 
   @bug @bug_56581
   Scenario: 33757-1b Train search window shown - Train Search entering trainUid - Replay page
-    Given I am on the replay page as existing user
+    Given I am on the replay page
     When I set the date and time for replay to
       | date       | time     | duration |
       | 01/01/2020 | 12:00:00 | 10       |
@@ -240,7 +240,7 @@ Feature: 33757 - TMV National Search
 
   @bug @bug_56581
   Scenario: 33757-3b Signal search window shown- Replay page
-    Given I am on the replay page as existing user
+    Given I am on the replay page
     When I set the date and time for replay to
       | date       | time     | duration |
       | 01/01/2020 | 12:00:00 | 10       |

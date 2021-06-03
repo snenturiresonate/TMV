@@ -62,12 +62,13 @@ export class CommonActions {
 
   /**
    * Waits for the result of a function to equal an expected condition
+   * passed in function cannot contain a this. reference or it will end up with a undefined error
    */
   public static async waitForFunctionalStringResult(func, argument, result: string): Promise<string> {
     browser.wait(async (): Promise<boolean> => {
       const actual: string = await func(argument);
       return actual === result;
-    }, browser.displayTimeout, 'The functional result was not achieved within the given timeout');
+    }, 30 * 1000, 'The functional result was not achieved within the given timeout');
     return await func(argument);
   }
 }

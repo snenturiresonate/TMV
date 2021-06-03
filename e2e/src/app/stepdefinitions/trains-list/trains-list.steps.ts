@@ -1,6 +1,6 @@
 import {Then, When} from 'cucumber';
 import {TrainsListPageObject} from '../../pages/trains-list/trains-list.page';
-import { expect } from 'chai';
+import {expect} from 'chai';
 import {browser, protractor} from 'protractor';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
@@ -86,7 +86,7 @@ Then('train description {string} is visible on the trains list with schedule typ
   async (trainDescription: string, scheduleType: string) => {
     const scheduleFound: boolean = await trainsListPage.trainDescriptionHasScheduleType(trainDescription, scheduleType);
     expect(scheduleFound, `${scheduleType} train ${trainDescription} does not appear on the trains list`).to.equal(true);
-});
+  });
 
 Then('train {string} with schedule id {string} for today is visible on the trains list',
   async (serviceId: string, scheduleId: string) => {
@@ -104,7 +104,7 @@ Then('train description {string} with schedule type {string} disappears from the
   async (trainDescription: string, scheduleType: string) => {
     const hasDisappeared: boolean = await trainsListPage.trainDescriptionWithScheduleTypeHasDisappeared(trainDescription, scheduleType);
     expect(hasDisappeared).to.equal(true);
-});
+  });
 
 When('I wait for the trains list context menu to display', async () => {
   await trainsListPage.waitForContextMenu();
@@ -172,25 +172,25 @@ Then('the trains list context menu has {string} on line {int}', async (expectedT
 
 Then('the trains list context menu contains the {word} {string} of train {int} on line {int}',
   async (occurence: string, colName: string, trainRow: number, menuRow: number) => {
-  const actualTrainsListEntryRowValues: string[] = await trainsListPage.getTrainsListValuesForRow(trainRow);
-  const cols = await trainsListPage.getTrainsListCols();
-  const colsNoArrows = cols.map(item => item.replace('arrow_downward', '')
-    .replace('arrow_upward', ''));
-  let testColIndex = colsNoArrows.indexOf(colName);
-  if (occurence === 'second') {
-    testColIndex = cols.indexOf(colName, testColIndex + 1);
-  }
-  let expectedValue: string = actualTrainsListEntryRowValues[testColIndex];
-  if (colName === 'TOC/FOC') {
-    expectedValue = '(' + expectedValue + ')';
-  }
-  if (expectedValue === '+0m') {
-    expectedValue = 'On time';
-  }
-  const actualContextMenuItem = await trainsListPage.getTrainsListContextMenuItem(menuRow);
+    const actualTrainsListEntryRowValues: string[] = await trainsListPage.getTrainsListValuesForRow(trainRow);
+    const cols = await trainsListPage.getTrainsListCols();
+    const colsNoArrows = cols.map(item => item.replace('arrow_downward', '')
+      .replace('arrow_upward', ''));
+    let testColIndex = colsNoArrows.indexOf(colName);
+    if (occurence === 'second') {
+      testColIndex = cols.indexOf(colName, testColIndex + 1);
+    }
+    let expectedValue: string = actualTrainsListEntryRowValues[testColIndex];
+    if (colName === 'TOC/FOC') {
+      expectedValue = '(' + expectedValue + ')';
+    }
+    if (expectedValue === '+0m') {
+      expectedValue = 'On time';
+    }
+    const actualContextMenuItem = await trainsListPage.getTrainsListContextMenuItem(menuRow);
 
-  expect(actualContextMenuItem).to.contain(expectedValue);
-});
+    expect(actualContextMenuItem).to.contain(expectedValue);
+  });
 
 Then(/^the (Matched|Unmatched) version of the trains list context menu is displayed$/, async (matchType: string) => {
   let expected1;
@@ -223,6 +223,22 @@ Then('I can click away to clear the menu', async () => {
   await trainsListPage.trainsListItems.click();
 });
 
+Then(/^the service is displayed in the trains list with the indication for an unscheduled service$/,
+  async (trainsListRowsDataTable: any) => {
+    const trainsListRowValues: any[] = trainsListRowsDataTable.hashes();
+    let actualRowColFill: string;
+    let actualTrainDescriptionFill: string;
+
+    for (const expectedTrainsListRow of trainsListRowValues) {
+      const rowNum = await trainsListPage.getRowForSchedule(expectedTrainsListRow.rowId);
+      actualRowColFill = await trainsListPage.getTrainsListRowFillForRow(rowNum);
+      actualTrainDescriptionFill = await trainsListPage.getTrainsListTrainDescriptionEntryColFillForRow(rowNum);
+
+      expect(actualRowColFill, 'Row colour is not as expected').to.equal('');
+      expect(actualTrainDescriptionFill, 'Train Description colour is not as expected').to.equal('rgba(0, 0, 255, 1)');
+    }
+  });
+
 Then('the service is displayed in the trains list with the following indication', async (trainsListRowsDataTable: any) => {
   const trainsListRowValues: any[] = trainsListRowsDataTable.hashes();
   let actualRowColFill: string;
@@ -234,8 +250,7 @@ Then('the service is displayed in the trains list with the following indication'
       actualRowColFill = await CommonActions.waitForFunctionalStringResult(
         trainsListPage.getTrainsListRowFillForRow, rowNum, expectedTrainsListRow.rowColFill);
       actualTrainDescriptionFill = await trainsListPage.getTrainsListTrainDescriptionEntryColFillForRow(rowNum);
-    }
-    else {
+    } else {
       const rowIdentifier = expectedTrainsListRow.trainUID + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
       actualRowColFill = await CommonActions.waitForFunctionalStringResult(
         trainsListPage.getTrainsListRowFillForSchedule, rowIdentifier, expectedTrainsListRow.rowColFill);
@@ -254,12 +269,10 @@ Then('the service is displayed in the trains list with the following row colour'
   for (const expectedTrainsListRow of trainsListRowValues) {
     let rowIdentifier = '';
     if (expectedTrainsListRow.rowType === 'unmatched step' || expectedTrainsListRow.rowType === 'unmatched interpose') {
-      rowIdentifier = expectedTrainsListRow.rowId;
       const rowNum = await trainsListPage.getRowForSchedule(expectedTrainsListRow.rowId);
       actualRowColFill = await CommonActions.waitForFunctionalStringResult(
         trainsListPage.getTrainsListRowFillForRow, rowNum, expectedTrainsListRow.rowColour);
-    }
-    else {
+    } else {
       rowIdentifier = expectedTrainsListRow.trainUID + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
       actualRowColFill = await CommonActions.waitForFunctionalStringResult(
         trainsListPage.getTrainsListRowFillForSchedule, rowIdentifier, expectedTrainsListRow.rowColour);
@@ -280,7 +293,7 @@ Then('I should see the trains list columns as', {timeout: 2 * 20000}, async (tab
 When('I see all the available trains list columns with defaults first', {timeout: 2 * 20000}, async () => {
   const allCols = ['SCHED.', 'SERVICE', 'TIME', 'REPORT', 'PUNCT.', 'ORIGIN', 'PLANNED', 'ACTUAL / PREDICT',
     'DEST.', 'PLANNED', 'ACTUAL / PREDICT', 'NEXT LOC.', 'OPERATOR', 'TRUST ID', 'SCHED. UID', 'REASON', 'CANCEL', 'PUB. ARR.',
-     'PUB. DEPT.', 'NEXT TIME', 'LINE', 'PLT.', 'CATEGORY', 'SERVICE CODE'];
+    'PUB. DEPT.', 'NEXT TIME', 'LINE', 'PLT.', 'CATEGORY', 'SERVICE CODE'];
 
   const columnsAsExpected = await trainsListPage.columnsAre(allCols);
 
@@ -322,8 +335,7 @@ Then(/^(.*) is the (primary|secondary) sort column with (green|orange) text and 
     const colStructure = expectedColText.split('>', 2).map(item => item.trim());
     if (colStructure.length === 1) {
       expectedColName = colStructure[0];
-    }
-    else {
+    } else {
       expectedColName = colStructure[1];
     }
     let actualColTextRgbColour: string;
@@ -331,8 +343,7 @@ Then(/^(.*) is the (primary|secondary) sort column with (green|orange) text and 
       actualColText = await trainsListPage.getPrimarySortColumnNameAndArrow();
       actualColTextRgbColour = await trainsListPage.primarySortCol.getCssValue('color');
 
-    }
-    else if (primOrSec === 'secondary') {
+    } else if (primOrSec === 'secondary') {
       actualColText = await trainsListPage.getSecondarySortColumnNameAndArrow();
       actualColTextRgbColour = await trainsListPage.secondarySortCol.getCssValue('color');
     }
@@ -377,8 +388,7 @@ Then(/^all grid entries for (.*) train (.*) are blank except for (.*)$/, async (
 
   if ((sCase === 'unmatched step') || (sCase === 'unmatched interpose')) {
     actualValsForSchedule = await trainsListPage.getTrainsListValuesForFirstScheduleWithDescription(trainIdentifier);
-  }
-  else {
+  } else {
     rowIdentifier = trainIdentifier + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
     actualValsForSchedule = await trainsListPage.getTrainsListValuesForSchedule(rowIdentifier);
   }
@@ -386,8 +396,7 @@ Then(/^all grid entries for (.*) train (.*) are blank except for (.*)$/, async (
     const col = visibleColsNoArrows[colNum];
     if (expectedColsWithValues.indexOf(col) === -1) {
       expect(actualValsForSchedule[colNum].length, `Entry for column ${col} for train ${rowIdentifier} is not empty`).equals(0);
-    }
-    else {
+    } else {
       expect(actualValsForSchedule[colNum].length, `Entry for column ${col} for train ${rowIdentifier} is empty`).not.equals(0);
     }
   }
@@ -399,8 +408,7 @@ Then(/^the (.*) entry for (.*) train (.*) is (.*)$/, async (column: string, sCas
   const colIdentifier = mapTLColIds.get(column);
   if ((sCase === 'unmatched step') || (sCase === 'unmatched interpose')) {
     actualValForSchedule = await trainsListPage.getTrainsListValueForColumnAndUnmatchedTrain(colIdentifier, trainId);
-  }
-  else {
+  } else {
     rowIdentifier = trainId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
     actualValForSchedule = await trainsListPage.getTrainsListValueForColumnAndSchedule(colIdentifier, rowIdentifier);
   }
@@ -475,11 +483,10 @@ Then('{string} are {word} displayed', async (expectedTrainDescriptions: string, 
   const expectedTLServiceValues = expectedTrainDescriptions.split(',', 10).map(item => item.trim());
 
   if (isDisplayed === 'not') {
-      for (const item of expectedTLServiceValues) {
-        expect(actualTLServiceValues).not.contains(item);
+    for (const item of expectedTLServiceValues) {
+      expect(actualTLServiceValues).not.contains(item);
     }
-  }
-  else {
+  } else {
     for (const item of expectedTLServiceValues) {
       expect(actualTLServiceValues).contains(item);
     }
@@ -538,16 +545,14 @@ function checkOrdering(thisString: string, nextString: string, colName: string, 
     const thisStringTrimmed = thisString.replace('(', '').replace(')', '');
     const nextStringTrimmed = nextString.replace('(', '').replace(')', '');
     orderCheck = thisStringTrimmed.localeCompare(nextStringTrimmed);
-  }
-  else if (colName === 'PUNCT.') {
+  } else if (colName === 'PUNCT.') {
     const thisVal = convertPunctTextToSec(thisString);
     const nextVal = convertPunctTextToSec(nextString);
     orderCheck = thisVal - nextVal;
   }
   if (direction === 'descending') {
     expect(orderCheck).to.be.greaterThan(-1, 'expected ' + thisString + ' to be greater than or equal to ' + nextString);
-  }
-  else  {
+  } else {
     expect(orderCheck).to.be.lessThan(1, 'expected ' + thisString + ' to be less than or equal to ' + nextString);
   }
 }
@@ -561,15 +566,13 @@ function convertPunctTextToSec(punctualityString: string): number {
       punctualityStringSeconds = punctualityString.substr(punctualityString.indexOf('m') + 2,
         punctualityString.length - punctualityString.indexOf('m') - 3);
     }
-  }
-  else if (punctualityString.includes('s')) {
+  } else if (punctualityString.includes('s')) {
     punctualityStringSeconds = punctualityString.substr(1, punctualityString.length - 2);
   }
   const punctualitySeconds = (60 * parseFloat(punctualityStringMinutes)) + parseFloat(punctualityStringSeconds);
   if (punctualityString[0] === '+') {
     return punctualitySeconds;
-  }
-  else {
+  } else {
     return 0 - punctualitySeconds;
   }
 }

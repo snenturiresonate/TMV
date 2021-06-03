@@ -841,6 +841,21 @@ Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instan
     });
   });
 
+Then(/^the (Arrival|Departure) time for location "(.*)" instance (.*) is "(.*)"$/,
+  async (arrivalOrDeparture, location, instance, expected) => {
+    await timetablePage.getRowByLocation(location, instance).then(async row => {
+      let field;
+      if (arrivalOrDeparture === 'Arrival') {
+        field = row.actualArr;
+      } else {
+        field = row.actualDep;
+      }
+      const error = `${arrivalOrDeparture} not correct for location ${location}`;
+      expect(await field.getText(), error).to.equal(expected);
+    });
+  });
+
+
 Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instance (.*) is predicted$/,
   async (arrivalOrDeparture, location, instance) => {
     await timetablePage.getRowByLocation(location, instance).then(async row => {
@@ -863,6 +878,20 @@ Then(/^the (Arrival|Departure) punctuality for location "(.*)" instance (\d+) is
       expect(await field.getText(), `Actual punctuality not correct for location ${location}`).to.equal(expectedPunctuality);
     });
   });
+
+Then(/^the predicted Departure punctuality for location "(.*)" instance (\d+) is correctly calculated based on the planned time of '(.*)' or the current time$/,
+  async (location, instance, expectedTime) => {
+    const expectedDepartureTime = LocalTime.parse(expectedTime);
+    const currentTime = LocalTime.now();
+    await timetablePage.getRowByLocation(location, instance).then(async row => {
+      const field = row.punctuality;
+      const expectedPunctuality = (currentTime.isAfter(expectedDepartureTime)) ?
+          getExpectedPunctuality('Departure', currentTime.format(DateTimeFormatter.ofPattern('HH:mm:ss')), expectedTime) : '0m' ;
+      expect(await field.getText(), `Actual punctuality not correct for location ${location}`).to.equal(expectedPunctuality);
+    });
+  });
+
+
 
 function getExpectedPunctuality(arrival, actualTime, expectedTime): string {
   const minutes = ChronoUnit.MINUTES.between(LocalTime.parse(expectedTime), LocalTime.parse(actualTime));

@@ -15,7 +15,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
 
   Scenario: 33806 -5a Trains list punctuality config header
     Then the punctuality header is displayed as 'Punctuality'
-  @bug @bug_56589
+
   Scenario: 33806 -5b Trains list punctuality config default color and entries
     Then the following can be seen on the punctuality table
       | punctualityColorText | fromTime | toTime | entryValue               | include |

@@ -1,4 +1,3 @@
-@bug @bug:61453
 Feature: 42006 - Path Extrapolation - Unscheduled services
 
   As a TMV user
@@ -27,16 +26,15 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
     Then Train description '<trainDesc>' is visible on the trains list
     And all grid entries for <case> train <trainDesc> are blank except for SERVICE, PUNCT.
     And the PUNCT. entry for <case> train <trainDesc> is UNKNOWN
-    And the service is displayed in the trains list with the following indication
-      | rowType | rowId       | rowColFill          | trainDescriptionFill |
-      | <case>  | <trainDesc> | rgba(20, 14, 43, 1) | rgba(0, 0, 255, 1)   |
+    And the service is displayed in the trains list with the indication for an unscheduled service
+      | rowId       |
+      | <trainDesc> |
     # clean up
     * I restore to default train list config
 
     Examples:
       | case                | trainDesc |
       | unmatched interpose | 2P01      |
-
 
   Scenario Outline: 42006-13b Unscheduled service is displayed when an unmatched step is received
     When the following live berth step messages is sent from LINX (creating an unmatched service)
@@ -47,9 +45,9 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
     Then Train description '<trainDesc>' is visible on the trains list
     And all grid entries for <case> train <trainDesc> are blank except for SERVICE, PUNCT.
     And the PUNCT. entry for <case> train <trainDesc> is UNKNOWN
-    And the service is displayed in the trains list with the following indication
-      | rowType | rowId       | rowColFill          | trainDescriptionFill |
-      | <case>  | <trainDesc> | rgba(20, 14, 43, 1) | rgba(0, 0, 255, 1)   |
+    And the service is displayed in the trains list with the indication for an unscheduled service
+      | rowId       |
+      | <trainDesc> |
     # clean up
     * I restore to default train list config
 
@@ -69,9 +67,9 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
     And I see all the available trains list columns with defaults first
     Then Train description '<trainDesc>' is visible on the trains list
     And all grid entries for <case> train <trainUID> are blank except for SERVICE, TIME, REPORT, PUNCT., TRUST ID, SCHED. UID
-    And the service is displayed in the trains list with the following indication
-      | rowType | rowId       | trainUID   | rowColFill          | trainDescriptionFill |
-      | <case>  | <trainDesc> | <trainUID> | rgba(20, 14, 43, 1) | rgba(0, 0, 255, 1)   |
+    And the service is displayed in the trains list with the indication for an unscheduled service
+      | rowId       |
+      | <trainDesc> |
     # clean up
     * I restore to default train list config
 

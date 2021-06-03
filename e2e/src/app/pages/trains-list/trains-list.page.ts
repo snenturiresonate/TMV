@@ -260,7 +260,7 @@ export class TrainsListPageObject {
   }
 
   public async getTrainsListRowFillForRow(rowNum: number): Promise<string> {
-    const rows = this.trainsListItems;
+    const rows = new TrainsListPageObject().trainsListItems;
     const trainDescriptionEntry = rows.get(rowNum);
     const backgroundColour: string = await trainDescriptionEntry.getCssValue('background-color');
     const oddRowDefaultBackgroundColour = 'rgba(44, 44, 44, 1)';
@@ -275,7 +275,7 @@ export class TrainsListPageObject {
   }
 
   public async getTrainsListTrainDescriptionEntryColFillForRow(rowNum: number): Promise<string> {
-    const rows = this.trainsListItems;
+    const rows =  new TrainsListPageObject().trainsListItems;
     const trainDescriptionRow = rows.get(rowNum);
     const trainDescriptionEntry: ElementFinder = trainDescriptionRow.$('.trains-list-row-entry-train-description');
     return trainDescriptionEntry.getCssValue('background-color');

@@ -17,7 +17,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config navi
     And I switch to the new tab
     Then the tab title is 'TMV Trains List'
 
-  @bug @bug_54441
   Scenario: 33806 -1b Trains List page - Trains list Table
     When I click the app 'trains-list'
     And I switch to the new tab
