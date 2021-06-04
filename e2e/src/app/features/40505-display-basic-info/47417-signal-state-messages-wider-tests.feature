@@ -27,7 +27,6 @@ Feature: 47417 - Basic UI - Signal State Scenarios
     And the signal roundel for signal 'SN231' is green
     And the signal roundel for signal 'SN232' is red
 
-    @bug @bug:55364
   Scenario: 40505-x2 - Display Signal State - signal state messages are reflected in all open maps containing relevant signals
     Given I am on the home page
     And I expand the group of maps with name 'Wales & Western'
