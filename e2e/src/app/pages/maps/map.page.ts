@@ -303,6 +303,11 @@ export class MapPageObject {
     return highlightLink.click();
   }
 
+  public async clearBerth(): Promise<void> {
+    const clearBerthOption: ElementFinder = element(by.id('schedule-context-menu-clear-left-behind'));
+    return clearBerthOption.click();
+  }
+
   public async getTrainHighlightText(): Promise<string> {
     const unhighligtedElement: ElementFinder = element(by.id('schedule-context-menu-highlight-train-on'));
     const highlightedElement: ElementFinder = element(by.id('schedule-context-menu-highlight-train-off'));

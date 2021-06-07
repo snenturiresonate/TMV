@@ -748,6 +748,10 @@ When(/^I click on (Highlight|Unhighlight) link$/, async (highlightOption: string
   await mapPageObject.trainHighlight(highlightOption);
 });
 
+When(/^I click on the clear berth option$/, async () => {
+  await mapPageObject.clearBerth();
+});
+
 Then('the berth context menu is displayed with berth name {string}', async (expectedBerthName: string) => {
   const berthName: string = await mapPageObject.getBerthName();
   expect(berthName).to.equal(expectedBerthName);
