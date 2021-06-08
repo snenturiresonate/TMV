@@ -21,7 +21,6 @@ Feature: 47637 - Process C Class Messages - Step Translation
       | trainDescription | fromTrainDescriber | fromBerth | toTrainDescriber | toBerth | newFromTrainDescriber | newFromBerth | newToTrainDescriber | newToBerth |
       | 2E01             | D3                 | 0180      | D3               | A146    | D3                    | 0180         | AW                  | 0146       |
 
-  @bug @bug:61444
   Scenario Outline: 33758-9 Step Translation - old To Berth is null - New values are populated
     #clear out message received with from berth -> step translation
     Given I am on a map showing berth '<newToBerth>' and in train describer '<newToTrainDescriber>'
