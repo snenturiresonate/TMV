@@ -47,7 +47,7 @@ export class SearchResultsPageObject {
 
   async getRowByPlanningUIDandDate(planningUID: string, runDate: string): Promise<SearchResultsTableRowPage> {
     const activeTable: ElementFinder = await this.getActiveTable();
-    const rows: ElementArrayFinder = activeTable.all(by.xpath(`//tr[descendant::td[text()=${planningUID}] and descendant::td[text()='${runDate}']]`));
+    const rows: ElementArrayFinder = activeTable.all(by.xpath(`//tr[descendant::td[text()='${planningUID}'] and descendant::td[text()='${runDate}']]`));
     const numRows = await rows.count();
     if (numRows > 1) {
       assert.fail(`multiple (${numRows} rows returned for planningUID ${planningUID} and runDate ${runDate}`);

@@ -59,7 +59,7 @@ Feature: 33753 - TMV Timetable
       | trainNum | planningUid |
       | 1A02     | L10002      |
 
-  @tdd @tdd:60684 @replaySetup
+  @replaySetup @bug @bug:60049
   Scenario Outline: 33753-2b -Open Timetable (from Map - Unmatched)
     Given I am viewing the map HDGW01paddington.v
     And I have cleared out all headcodes
@@ -72,7 +72,7 @@ Feature: 33753 - TMV Timetable
       | trainNum |
       | 1A03     |
 
-  @tdd @replaySetup
+  @replaySetup @bug @test-data-not-created
   Scenario Outline: 33753-3a Open Timetable (from Search Result - matched service (Train) and matched/unmatched services (Timetable) have timetables)
 #    Given the user is authenticated to use TMV
 #    And the user is viewing a search results list
@@ -96,18 +96,24 @@ Feature: 33753 - TMV Timetable
       | Timetable  | 1A        | ACTIVATED     |
       | Timetable  | 1A        | UNMATCHED     |
 
-  @tdd @tdd:60684 @replaySetup
+  @bug @bug:62938
   Scenario Outline: 33753-3b Open Timetable (from Search Result - unmatched service (Train) has no timetable)
+    Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | SLOUGH      | WTT_arr       | <trainNum>          | <planningUid>  |
+    And I am on the trains list page
+    And The trains list table is visible
+    And Train description '<trainNum>' is visible on the trains list
     Given I am on the home page
     And I search <searchType> for '<searchVal>'
     And the search table is shown
     When I invoke the context menu from a <serviceStatus> service in the <searchType> list
     Then the '<searchType>' context menu is not displayed
     Examples:
-      | searchType | searchVal | serviceStatus |
-      | Train      | 1A        | UNMATCHED     |
+      | searchType | searchVal | serviceStatus | trainNum | planningUid |
+      | Train      | 1A99      | UNMATCHED     | 1A99     | L10099      |
 
-  @tdd
+  @bug @bug:60049
   Scenario Outline: 33753-3c Open Timetable (from Manual Match Search Result - matched/unmatched services have timetable)
     Given I am viewing the map HDGW01paddington.v
     And the following berth interpose message is sent from LINX (to indicate train is present)
@@ -132,7 +138,7 @@ Feature: 33753 - TMV Timetable
       | 1A05     | 0253  | Timetable  | UNMATCHED     |
 
 
-  @tdd @replaySetup @bug @bug_55114
+  @replaySetup @bug @bug_55114
   Scenario Outline: 33753-4a - View Timetable (Schedule Matched - live updates are applied)
     #Given the user is authenticated to use TMV
     #And the user has opened a timetable
@@ -231,20 +237,20 @@ Feature: 33753 - TMV Timetable
       | trainNum | planningUid |
       | 1A06     | L10006      |
 
-  @tdd @replaySetup
+  @replaySetup @tdd @tdd:60541
   Scenario Outline: 33753-4b - View Timetable (Schedule Matched - becoming unmatched)
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | EALINGB     | WTT_arr       | <trainNum>          | <planningUid>  |
     And I am on the trains list page
     And The trains list table is visible
-    And Train description '<trainNum>' is visible on the trains list
+    And train description '<trainNum>' is visible on the trains list with schedule type 'LTP'
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 0206    | D3             | <trainNum>       |
     Given I am viewing the map hdgw01paddington.v
     And I invoke the context menu on the map for train <trainNum>
-    And the map context menu contains 'Unmatch' on line 3
+    #And the map context menu contains 'Unmatch' on line 3
     And I open timetable from the map context menu
     And I switch to the new tab
     And The values for the header properties are as follows
@@ -284,7 +290,7 @@ Feature: 33753 - TMV Timetable
       | 1A07     | L10007      |
 
 
-  @tdd @replayTest
+  @replayTest
   Scenario Outline: 33753-5 - View Timetable (Schedule Not Matched - becoming matched)
 #    Given the user is authenticated to use TMV
 #    And the user has opened a timetable
@@ -350,7 +356,7 @@ Feature: 33753 - TMV Timetable
       | trainNum | planningUid |
       | 1A08     | L10008      |
 
-  @tdd @replayTest
+  @replayTest
   Scenario Outline: 33753-6 - View Timetable Detail (Schedule Matched - becoming unmatched)
 #    Given the user is authenticated to use TMV
 #    And the user has opened a timetable
@@ -426,7 +432,7 @@ Feature: 33753 - TMV Timetable
       | trainNum | planningUid | changeTrainDescription | type | description        | location   | time     |
       | 1A09     | L10009      | 1X09                   | 07   | Change of Identity | Paddington | 12:00:00 |
 
-  @tdd @replayTest
+  @replayTest
   Scenario Outline: 33753-7 - View Timetable Detail (Not Schedule Matched - becoming matched)
     #Given the user is authenticated to use TMV
     #And the user has opened a timetable

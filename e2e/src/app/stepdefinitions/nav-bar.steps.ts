@@ -428,8 +428,9 @@ Then(/^I invoke the context menu from trains (.*)$/, async (itemNum: number) => 
 });
 
 Then(/^I invoke the context menu from an? (.*) service in the (.*) list$/, async (statusType: string, searchType: string) => {
-  const itemNum = await navBarPage.getServiceWithStatus(statusType, searchType.toLowerCase()) + 1;
+  let itemNum = await navBarPage.getServiceWithStatus(statusType, searchType.toLowerCase());
   expect(itemNum, `No service with status ${statusType}`).to.not.equal(-1);
+  itemNum = itemNum + 1;
   if (searchType === 'Train') {
     await navBarPage.rightClickTrainList(itemNum);
     browser.selectedTrain = await navBarPage.getSearchListValueForColumnAndRow(searchType.toLowerCase(), 'TrainDesc', itemNum);

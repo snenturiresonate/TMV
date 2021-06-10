@@ -210,7 +210,6 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-
   Scenario Outline: 33757-3a Signal search window shown
       #Given the user is authenticated to use TMV
       #And the user is viewing TMV screen with a national search in the title bar
@@ -322,7 +321,6 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  @bug @bug_61425
   Scenario Outline:5 National Timetable Search Selection
     #Given the user is authenticated to use TMV
     #And the user is viewing the timetable search results pop-up
@@ -336,7 +334,7 @@ Feature: 33757 - TMV National Search
     And I search Timetable for 'A12345'
     And results are returned with that planning UID 'A12345'
     And the window title is displayed as 'Timetable Search Results'
-    And I invoke the context menu from train with planning UID 'A12345' on the search results table
+    And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results
     And I wait for the timetable search context menu to display
     And the timetable context menu is displayed
     And the train search context menu contains 'Open timetable' on line 1
@@ -348,7 +346,7 @@ Feature: 33757 - TMV National Search
     And the following live berth interpose message is sent from LINX (to move train)
       | toBerth | trainDescriber | trainDescription |
       | 0032    | D3             | 1L24             |
-    And I invoke the context menu from train with planning UID 'A12345' on the search results table
+    And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results
     And I wait for the timetable search context menu to display
     Then the timetable context menu is displayed
     And the train search context menu contains 'Open timetable' on line 1
@@ -360,7 +358,7 @@ Feature: 33757 - TMV National Search
     And I click close button at the bottom of table
     And I search Timetable for 'A12345'
     And results are returned with that planning UID 'A12345'
-    And I invoke the context menu from train with planning UID 'A12345' on the search results table
+    And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results
     And I wait for the timetable search context menu to display
     And the timetable context menu is displayed
     And the train search context menu contains 'Open timetable' on line 1

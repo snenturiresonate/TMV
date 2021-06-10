@@ -128,7 +128,7 @@ Feature: 37657 - Basic Timetable Modelling
       | access-plan/schedules_BS_type_P_O.cif | 1W29             | W12945   | UNCALLED   | VAR         |
       | access-plan/schedules_BS_type_N_O.cif | 1W30             | W13045   | UNCALLED   | VAR         |
 
-  @bug_61549
+  @bug @bug_61549
   Scenario Outline: 37657-7a Multiple schedules with the same precedence (not cancelled)
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # When a user searches for that timetable
