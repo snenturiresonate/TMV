@@ -23,6 +23,7 @@ import {TestData} from '../../logging/test-data';
 import {TrainJourneyModificationMessage} from '../../utils/train-journey-modifications/train-journey-modification-message';
 import {TRITrainLocationReport} from '../../utils/train-running-information/train-location-report';
 import {ProjectDirectoryUtil} from '../../utils/project-directory.util';
+import {SenderReferenceCalculator} from '../../utils/sender-reference-calculator';
 
 const appPage: AppPage = new AppPage();
 
@@ -176,7 +177,13 @@ Then(/^there is a record in the modifications table$/, async (table: any) => {
 });
 
 Then(/^the sent TJMs are in the modifications table$/, async () => {
-  for (const expectedRecord of TestData.getTJMs()) {
+  const scheduleID = (await browser.getCurrentUrl()).split('/').pop();
+  const plannedDate = LocalDate.parse(scheduleID.split(':')[1]);
+
+  const filteredTJMs = TestData.getTJMs().filter(tjm => {
+    return LocalDate.parse(SenderReferenceCalculator.reverseSenderReference(tjm.MessageHeader.SenderReference).date).equals(plannedDate);
+  });
+  for (const expectedRecord of filteredTJMs) {
     const expectedTypeOfModification = getExpectedModificationType(
       expectedRecord.TrainJourneyModification.TrainJourneyModificationIndicator);
     const expectedTime = LocalDateTime
