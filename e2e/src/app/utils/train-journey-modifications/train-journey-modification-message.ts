@@ -56,6 +56,7 @@ export class TrainJourneyModificationMessageBuilder {
   private ModificationReason?: string;
   private TrainJourneyModificationTime?: string;
   private departureHour: number;
+  private runDate = 'today';
   private trainUid: string;
   private nationalDelayCode: string;
 
@@ -135,9 +136,10 @@ export class TrainJourneyModificationMessageBuilder {
     return this;
   }
 
-  calculateSenderReferenceWith(trainUid: string, departureHour: number): TrainJourneyModificationMessageBuilder {
+  calculateSenderReferenceWith(trainUid: string, departureHour: number, runDate: string = 'today'): TrainJourneyModificationMessageBuilder {
     this.trainUid = trainUid;
     this.departureHour = departureHour;
+    this.runDate = runDate;
     return this;
   }
 
@@ -151,7 +153,7 @@ export class TrainJourneyModificationMessageBuilder {
     trainJourneyModificationMessage.TrainJourneyModification = this.TrainJourneyModification;
     trainJourneyModificationMessage.ModificationReason = this.ModificationReason;
     trainJourneyModificationMessage.TrainJourneyModificationTime = this.TrainJourneyModificationTime;
-    const senderReference = SenderReferenceCalculator.encodeToSenderReference(this.trainUid, this.departureHour);
+    const senderReference = SenderReferenceCalculator.encodeToSenderReference(this.trainUid, this.departureHour, this.runDate);
     if (trainJourneyModificationMessage.TrainJourneyModification.TrainJourneyModificationIndicator === '07') {
       trainJourneyModificationMessage.MessageHeader.SenderReference =
         `${this.OperationalTrainNumberIdentifier.OperationalTrainNumber}${senderReference},${this.ReferenceOTN.OperationalTrainNumberIdentifier.OperationalTrainNumber}${senderReference}`;

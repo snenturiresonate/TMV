@@ -4,10 +4,16 @@ Feature: 33805 TMV Schedule Matching
   So that the system selects the most appropriate match
 
   Background:
-    Given I remove all trains from the trains list
-    And the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
-    And I am on the home page
-    And I restore to default train list config
+    * I remove all trains from the trains list
+    * the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
+    * I am on the home page
+    * I restore to default train list config
+    * I am on the trains list Config page
+    * I have navigated to the 'Train Indication' configuration tab
+    * I update only the below train list indication config settings as
+      | name                     | colour  | toggleValue |
+      | Origin Departure Overdue | #ffffff | off         |
+    * I save the trains list config
 
   Scenario Outline: 1. Interpose - Match old ID after Change of ID - <matchLevel> match
     #    Given there is a valid schedule

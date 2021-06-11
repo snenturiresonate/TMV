@@ -1,12 +1,13 @@
 import { fragment } from 'xmlbuilder2';
 import {SenderReferenceCalculator} from '../sender-reference-calculator';
 import {LocalDateTime} from '@js-joda/core';
+import {run} from 'tslint/lib/runner';
 
 export class TrainActivationMessageHeader {
   public static runDateTime = LocalDateTime.now();
 
-  static calculateSenderReference(trainNumber: string, trainUid: string, hourDepartFromOrigin: number): string {
-    return (trainNumber + SenderReferenceCalculator.encodeToSenderReference(trainUid, hourDepartFromOrigin));
+  static calculateSenderReference(trainNumber: string, trainUid: string, hourDepartFromOrigin: number, runDate: string = 'today'): string {
+    return (trainNumber + SenderReferenceCalculator.encodeToSenderReference(trainUid, hourDepartFromOrigin, runDate));
   }
 
   public static messageReference = (messageDateTime: any = TrainActivationMessageHeader.runDateTime) => {
@@ -19,8 +20,8 @@ export class TrainActivationMessageHeader {
     return messageReferenceObj.end({prettyPrint: true});
 
   }
-  public static messageHeader = (trainNumber: string, trainUid: string, hourDepartFromOrigin: number) => {
-    const senderReference = TrainActivationMessageHeader.calculateSenderReference(trainNumber, trainUid, hourDepartFromOrigin);
+  public static messageHeader = (trainNumber: string, trainUid: string, hourDepartFromOrigin: number, runDate: string = 'today') => {
+    const senderReference = TrainActivationMessageHeader.calculateSenderReference(trainNumber, trainUid, hourDepartFromOrigin, runDate);
     const messageHeaderObj = fragment().ele('ns0:MessageHeader')
       .ele(TrainActivationMessageHeader.messageReference())
       .ele('ns0:SenderReference').txt(senderReference).up()

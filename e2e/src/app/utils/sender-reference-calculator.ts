@@ -98,7 +98,7 @@ export class SenderReferenceCalculator {
     'z'
   ];
 
-  static encodeToSenderReference(trainUid: string, hourDepartFromOrigin: number): string {
+  static encodeToSenderReference(trainUid: string, hourDepartFromOrigin: number, date: string = 'today'): string {
     const characterBitLength = 6;
     const amPmIndicatorBitLength = 1;
     const trainIdAlphaBitLength = 5;
@@ -116,7 +116,13 @@ export class SenderReferenceCalculator {
       monthBitLength +
       yearBitLength;
 
-    const runDate = LocalDate.now();
+    let runDate: LocalDate;
+    if (date === 'today') {
+      runDate = LocalDate.now();
+    }
+    else if (date === 'tomorrow') {
+      runDate = LocalDate.now().plusDays(1);
+    }
 
     const year: number = runDate.year() % 100;
     const month: number = runDate.monthValue();

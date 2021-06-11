@@ -4,6 +4,7 @@ import {TrainActivationMessageHeader} from './message-header';
 import {AdminContactInfo} from './admin-contact-info';
 import {TrainActivationPathInformationBuilder} from './path-information';
 import {Identifiers} from "./identifiers";
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 export class TrainActivationMessageBuilder {
   public runDateTime = LocalDateTime.now();
@@ -26,12 +27,16 @@ export class TrainActivationMessageBuilder {
   public buildMessage = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                          time: string, operationalTrainNumber: string, trainUID: string, departureDate: string,
                          actualDepartureHour: string, asmVal: string) => {
+    let runDate = 'today';
+    if (departureDate === DateAndTimeUtils.convertToDesiredDateAndFormat('tomorrow', 'yyyy-MM-dd').toString()) {
+      runDate = 'tomorrow';
+    }
     const hourOfDeparture = parseInt(time.split(':')[0], 2);
     return create().ele('ns0:PathDetailsMessage')
       .att('xmlns:ns0', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
       .att('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance')
       .att('xsi:schemaLocation', 'http://www.era.europa.eu/schemes/TAFTSI/5.3 taf_cat_complete.xsd')
-      .ele(TrainActivationMessageHeader.messageHeader(operationalTrainNumber, trainUID, hourOfDeparture)).root()
+      .ele(TrainActivationMessageHeader.messageHeader(operationalTrainNumber, trainUID, hourOfDeparture, runDate)).root()
       .ele(AdminContactInfo.adminContactInfo()).root()
       .ele(Identifiers.identifiers(operationalTrainNumber, trainUID, departureDate, actualDepartureHour)).root()
       .ele(this.messageStatus()).root()

@@ -230,7 +230,7 @@ Given(/^The admin setting defaults are as originally shipped$/, async () => {
 When(/^I do nothing$/, async () => {
   await browser.sleep(5000);
 });
-When(/^I give the system (.*) seconds? to load$/, async (seconds: number) => {
+When(/^I give the (.*) (.*) seconds? to load$/, async (system: string, seconds: number) => {
   await browser.sleep(seconds * 1000);
 });
 
@@ -436,7 +436,7 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
     };
     const locationPrimaryCode = trainActivationMessages[i].locationPrimaryCode;
     const locationSubsidiaryCode = trainActivationMessages[i].locationSubsidiaryCode;
-    const asmVal = trainActivationMessages[i].asm ? trainActivationMessages[i].asm : 0;
+    const asmVal = trainActivationMessages[i].asm ? trainActivationMessages[i].asm : 1;
     const trainActMss = trainActivationMessageBuilder.buildMessage(locationPrimaryCode, locationSubsidiaryCode,
       scheduledDepartureTime().toString(), trainNumber, trainUID, departureDate().toString(), actualDepartureHour().toString(), asmVal);
     await linxRestClient.postTrainActivation(trainActMss.toString({prettyPrint: true}));
@@ -579,6 +579,7 @@ async function OpenNewTab(): Promise<any> {
 }
 
 When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
+  let runDate = 'today';
   const messages: any = table.hashes();
   messages.forEach((message: any) => {
     const now = LocalDateTime.now();
@@ -590,7 +591,10 @@ When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
     if (message.time !== 'now') {
       timeStamp = message.time;
     }
-    const tjmBuilder = createBaseTjmMessage(message.trainNumber, message.trainUid, depHour)
+    if (message.runDate === 'tomorrow') {
+      runDate = 'tomorrow';
+    }
+    const tjmBuilder = createBaseTjmMessage(message.trainNumber, message.trainUid, depHour, runDate)
       .withTrainJourneyModification(createBaseTjm(message.indicator,
         message.statusIndicator,
         message.primaryCode,
@@ -660,13 +664,13 @@ function createBaseTjm(modificationIndicator, modificationStatusIndicator, locat
       .build());
 }
 
-function createBaseTjmMessage(trainNumber, trainUid, departureHour): TrainJourneyModificationMessageBuilder {
+function createBaseTjmMessage(trainNumber, trainUid, departureHour, runDate: string = 'today'): TrainJourneyModificationMessageBuilder {
   return new TrainJourneyModificationMessageBuilder()
     .create()
     .withOperationalTrainNumberIdentifier(new OperationalTrainNumberIdentifierBuilder()
       .withOperationalTrainNumber(trainNumber)
       .build())
-    .calculateSenderReferenceWith(trainUid, departureHour);
+    .calculateSenderReferenceWith(trainUid, departureHour, runDate);
 }
 
 When(/^I step through the Berth Level Schedule for '(.*)'$/, async (uid: string) => {
