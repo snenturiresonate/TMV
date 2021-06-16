@@ -2,6 +2,7 @@ import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {InputBox} from '../common/ui-element-handlers/inputBox';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {CheckBox} from '../common/ui-element-handlers/checkBox';
+import {of} from 'rxjs';
 
 export class TrainsListPunctualityConfigTab {
   public punctualityHeader: ElementFinder;
@@ -54,6 +55,9 @@ export class TrainsListPunctualityConfigTab {
   }
   public async updatePunctualityToggle(index: number, update: string): Promise<void> {
     return CheckBox.updateToggle(this.punctualityToggle.get(index), update);
+  }
+  public async toggleAllPunctualityToggles(state: string): Promise<void> {
+    return this.punctualityToggle.each(async toggle => await CheckBox.updateToggle(toggle, state));
   }
   public async updatePunctualityFromTime(index: number, updateFrmTime: string): Promise<void> {
     return InputBox.updateNumberInputByCss(this.punctualityFromTimeCssText(index), updateFrmTime);

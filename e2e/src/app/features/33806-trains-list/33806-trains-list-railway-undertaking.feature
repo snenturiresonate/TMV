@@ -7,6 +7,9 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
   Background:
     Given I am on the trains list Config page
     And I restore to default train list config
+    And I have navigated to the 'Punctuality' configuration tab
+    And I toggle all trains list punctuality toggles 'off'
+    And I save the trains list config
     And I have navigated to the 'TOC/FOC' configuration tab
 
   #33806 -11 Trains List Config (TOC/FOC Selection)

@@ -50,6 +50,13 @@ Then('the following settings are displayed', async (newEntries: any) => {
   }
 });
 
+When('I toggle all trains list punctuality toggles {string}', async (toggleState: string) => {
+  const results: any[] = [];
+  const updateToPunctualityToggle = await trainsListPunctuality.toggleAllPunctualityToggles(toggleState);
+  results.push(updateToPunctualityToggle);
+  return protractor.promise.all(results);
+});
+
 When('I update the trains list punctuality settings as', {timeout: 8 * 5000}, async (table: any) => {
   const results: any[] = [];
   const updateValues = table.hashes();

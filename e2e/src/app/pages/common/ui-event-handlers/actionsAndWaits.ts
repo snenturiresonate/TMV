@@ -1,5 +1,7 @@
 import {browser, ElementFinder, ExpectedConditions, protractor} from 'protractor';
 import {GeneralUtils} from '../utilities/generalUtils';
+import {of} from 'rxjs';
+import {CucumberLog} from '../../../logging/cucumber-log';
 
 export class CommonActions {
   /**
@@ -68,7 +70,8 @@ export class CommonActions {
     browser.wait(async (): Promise<boolean> => {
       const actual: string = await func(argument);
       return actual === result;
-    }, 30 * 1000, 'The functional result was not achieved within the given timeout');
+    }, 30 * 1000, 'The functional result was not achieved within the given timeout')
+      .catch(reason => CucumberLog.addText(reason.message));
     return await func(argument);
   }
 }
