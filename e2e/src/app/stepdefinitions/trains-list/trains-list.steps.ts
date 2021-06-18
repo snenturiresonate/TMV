@@ -90,6 +90,9 @@ Then('train description {string} is visible on the trains list with schedule typ
 
 Then('train {string} with schedule id {string} for today is visible on the trains list',
   async (serviceId: string, scheduleId: string) => {
+    if (scheduleId === 'generatedTrainUId') {
+      scheduleId = browser.referenceTrainUid;
+    }
     const todaysScheduleString = scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
     const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(serviceId, todaysScheduleString);
     expect(isScheduleVisible).to.equal(true);

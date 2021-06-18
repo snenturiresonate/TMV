@@ -216,7 +216,8 @@ export class MapPageObject {
   }
 
   public async navigateToMapWithBerth(berthId: string, trainDescriber: string): Promise<void> {
-    const map = await new RedisClient().getMapForBerth(trainDescriber + berthId);
+    const maps = await new RedisClient().hgetParseJSON('berth-to-maps-hash', trainDescriber + berthId);
+    const map = maps.maps[0].id;
     const url = '/tmv/maps/' + map;
     await CucumberLog.addText(url);
     await appPage.navigateTo(url);

@@ -80,7 +80,7 @@ Feature: 37657 - Basic Timetable Modelling
     When I search Timetable for '<trainUid>' and wait for result
       | PlanningUid | Scheduletype  |
       | <trainUid>  | <displayType> |
-    Then one result is returned for today with that planning UID '<trainUid>' and it has status <statusType> and sched <displayType> and service <trainDescription>
+    Then one result is returned for today with that planning UID <trainUid> and it has status <statusType> and sched <displayType> and service <trainDescription>
 
     Examples:
       | fileName                            | trainDescription | trainUid | statusType | displayType |
@@ -99,7 +99,7 @@ Feature: 37657 - Basic Timetable Modelling
     When I search Timetable for '<trainUid>' and wait for result
       | PlanningUid | Scheduletype  |
       | <trainUid>  | <displayType> |
-    Then one result is returned for today with that planning UID '<trainUid>' and it has status <statusType> and sched <displayType> and service <trainDescription>
+    Then one result is returned for today with that planning UID <trainUid> and it has status <statusType> and sched <displayType> and service <trainDescription>
     Examples:
       | fileName                                | trainDescription | trainUid | statusType | displayType |
       | access-plan/schedules_BS_type_C.cif     | 1W23             | W12345   | CANCELLED  | CAN         |
@@ -121,7 +121,7 @@ Feature: 37657 - Basic Timetable Modelling
     When I search Timetable for '<trainUid>' and wait for result
       | PlanningUid | Scheduletype  |
       | <trainUid>  | <displayType> |
-    Then one result is returned for today with that planning UID '<trainUid>' and it has status <statusType> and sched <displayType> and service <trainDescription>
+    Then one result is returned for today with that planning UID <trainUid> and it has status <statusType> and sched <displayType> and service <trainDescription>
     Examples:
       | fileName                              | trainDescription | trainUid | statusType | displayType |
       | access-plan/schedules_BS_type_O.cif   | 1W28             | W12845   | UNCALLED   | VAR         |
@@ -141,12 +141,12 @@ Feature: 37657 - Basic Timetable Modelling
     When I search Timetable for '<trainUid>' and wait for result
       | PlanningUid | Scheduletype  |
       | <trainUid>  | <displayType> |
-    Then one result is returned for today with that planning UID '<trainUid>' and it has status <statusType> and sched <displayType> and service <trainDescription>
+    Then one result is returned for today with that planning UID <trainUid> and it has status <statusType> and sched <displayType> and service <trainDescription>
     Examples:
       | fileName                              | trainDescription | trainUid | statusType | displayType |
-      | access-plan/schedules_BS_type_P_P.cif | 1W31             | W13145   | UNCALLED   | LTP         |
-#      | access-plan/schedules_BS_type_O_O.cif | 1W32             | W13245   | UNCALLED   | VAR         |
-      | access-plan/schedules_BS_type_N_N.cif | 1W33             | W13345   | UNCALLED   | STP         |
+      | access-plan/schedules_BS_type_P_P.cif | 1W41             | W13145   | UNCALLED   | LTP         |
+      | access-plan/schedules_BS_type_O_O.cif | 1W42             | W13245   | UNCALLED   | VAR         |
+      | access-plan/schedules_BS_type_N_N.cif | 1W43             | W13345   | UNCALLED   | STP         |
 
   @bug @bug_61549
   Scenario Outline: 37657-7b Multiple schedules with the same precedence (cancelled)
@@ -160,7 +160,7 @@ Feature: 37657 - Basic Timetable Modelling
     When I search Timetable for '<trainUid>' and wait for result
       | PlanningUid | Scheduletype  |
       | <trainUid>  | <displayType> |
-    Then one result is returned for today with that planning UID '<trainUid>' and it has status <statusType> and sched <displayType> and service <trainDescription>
+    Then one result is returned for today with that planning UID <trainUid> and it has status <statusType> and sched <displayType> and service <trainDescription>
     Examples:
       | fileName                              | trainDescription | trainUid | statusType | displayType |
       | access-plan/schedules_BS_type_C_C.cif | 1W34             | W13445   | CANCELLED  | CAN         |
@@ -194,7 +194,8 @@ Feature: 37657 - Basic Timetable Modelling
       | access-plan/schedules_BS_type_N.cif | W12245   | STP          | 1W22      | N      |
       | access-plan/schedules_BS_type_O.cif | W12845   | VAR          | 1W28      | O      |
 
-  Scenario Outline: 37657-9 Schedule locations are displayed
+    @bug @bug_63590
+    Scenario Outline: 37657-9 Schedule locations are displayed
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # When a user views that timetable with inserted locations turned off
     # Then the locations displayed match those provided in the CIF

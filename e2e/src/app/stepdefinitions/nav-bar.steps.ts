@@ -150,6 +150,10 @@ When('I click on the Search icon', async () => {
 
 
 When(/^I search (Train|Signal|Timetable) for '(.*)'$/, async (filter: string, searchFor: string) => {
+  if (searchFor === 'generatedTrainUId') {
+    searchFor = browser.referenceTrainUid;
+  }
+
   await navBarPage.setSearchFilter(filter);
   await navBarPage.enterSearchValue(searchFor);
   await navBarPage.clickSearchIcon();
@@ -179,9 +183,17 @@ When(/^I search (Train|Signal|Timetable) for '(.*)' and wait for result$/,
       <td _ngcontent-cvf-c94="" id="trainSearchDestination">CREWBHJ</td>
     </tr>
    */
+  if (searchFor === 'generatedTrainUId') {
+    searchFor = browser.referenceTrainUid;
+  }
+
   let locator = `//table[@id='${filter.toLowerCase()}SearchResults']//tr`;
   for (const [key, value] of Object.entries(table.hashes()[0])) {
-    locator = locator + `[descendant::td[contains(@id,'${key}')][text()='${value}']]`;
+    let val = value;
+    if (value === 'generatedTrainUId') {
+      val = browser.referenceTrainUid;
+    }
+    locator = locator + `[descendant::td[contains(@id,'${key}')][text()='${val}']]`;
   }
   await browser.wait(async () => {
     await navBarPage.setSearchFilter(filter);

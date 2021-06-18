@@ -20,7 +20,7 @@ LIMDNHEAD 1015H1016H     101610163  RL    T
 LITWYFORD 1022H1023H     102310233  RL    T           1                         
 LIRDNGKBJ           1028H00000000   DRL                                         
 LTRDNGSTN 1031 103114    TF                                                     
-BSNW132452001015001011111111 PXX1W32    124749000 E  345 090D     S            O
+BSNW132452001015001011111111 PXX1W42    124749000 E  345 090D     S            O
 BX         XRY                                                                  
 LOPADTON  0933 093312 4      TB                                                 
 LIROYAOJN           0934 00000000   4                                           

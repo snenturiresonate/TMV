@@ -9,6 +9,7 @@ import {browser} from 'protractor';
 import {expect} from 'chai';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 import {CucumberLog} from '../logging/cucumber-log';
+import {TrainUIDUtils} from '../pages/common/utilities/trainUIDUtils';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
@@ -107,6 +108,7 @@ When ('the train in CIF file below is updated accordingly so time at the referen
     await CucumberLog.addText(`Access Plan: ${newData}`);
     await linxRestClient.addAccessPlan('', newData);
     await linxRestClient.waitMaxTransmissionTime();
+    fs.writeFileSync('C:\\Users\\DR23172\\Documents\\Clare\\Documents\\TMV\\Logs\\train.txt', newData);
   });
 
 
@@ -126,6 +128,22 @@ When('the access plan located in CIF file {string} is received from LINX',
   async (cifFilePath: string) => {
     const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), cifFilePath));
     linxRestClient.addAccessPlan('', rawData.toString());
+  });
+
+When('the access plan located in CIF file {string} is received from LINX with a generated uid',
+  async (cifFilePath: string) => {
+    const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), cifFilePath));
+    const initialString = rawData.toString();
+    const cifLines: string[] = initialString.split(/\r?\n/, 1000);
+    browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
+    for (let i = 0; i < cifLines.length; i++) {
+      const rowType = cifLines[i].substr(0, 2);
+      cifLines[i] = adjustCIFTrainUId(cifLines[i], rowType, browser.referenceTrainUid);
+    }
+    const newData = cifLines.join('');
+    await CucumberLog.addText(`Access Plan: ${newData}`);
+    await linxRestClient.addAccessPlan('', newData);
+    await linxRestClient.waitMaxTransmissionTime();
   });
 
 When(/^the access (?:plan is|plans are) received from LINX$/, async (cifFilePaths: any) => {
@@ -276,6 +294,19 @@ function adjustCIFTrainIds(cifLine: string, rowType: string, trainDesc: string, 
       + trainDesc
       + cifLine.substr(16, 66)
       + padToEighty + '\r\n';
+  }
+}
+
+function adjustCIFTrainUId(cifLine: string, rowType: string, planningUid: string): string {
+  const padToEighty = ' '.repeat(80 - cifLine.length);
+  if (rowType === 'BS') {
+    return cifLine.substr(0, 3)
+      + planningUid
+      + cifLine.substr(9, 73)
+      + padToEighty + '\r\n';
+  }
+  else {
+    return cifLine + padToEighty + '\r\n';
   }
 }
 

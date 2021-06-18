@@ -1,0 +1,29 @@
+HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
+BSNA237652005032112031111111 2B46D024743157622972 D                            N
+BX         HOY                                                                  
+LOWHATFHH 0250 0000        3 TB                                                 
+LIFROMNSB           0312 00000000                                               
+LICLNKRDJ           0315 00000000                                               
+LIFRWDJN            0321 00000000                       5                       
+LIWSTBRYW           0330 00000000                                               
+LIHWKRJN            0335H00000000   RL RL1                                      
+LIBRDFDJN           0342H00000000   ML RL                                       
+LITHNGLYJ           0401H00000000   ML                                          
+LITHNGLEJ           0402H00000000   ML                                          
+LICHIPNHM           0405H00000000   ML                                          
+LIWTNBSTJ           0429 00000000   ML                                          
+LISDON              0441 00000000   ML                                          
+LIUFNGTN            0454 00000000   DML               1                         
+LICHALLOW           0456H00000000   ML    T                                     
+LIWANTRD            0501H00000000   ML                                          
+LIFOXHALJ           0512 00000000   ML                1                         
+LIDIDCOTP           0513 00000000         T                                     
+LIDIDCTEJ           0514 00000000                                               
+LIGORASTR           0523H00000000                                               
+LIREDGWJN           0534 00000000                     1                         
+LIRDNGORJ           0536 00000000                     1                         
+LISCOTEJN           0539 00000000                     1                         
+LITHEA831           0545 00000000                     1                         
+LTTHEARCP 0549 0609      00000000                     1                         
+LTTHEAARC 0639 0000      TF                                                     
+ZZ                                                                              

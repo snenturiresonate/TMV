@@ -2,7 +2,6 @@ import {promisify} from 'util';
 
 const redis = require('redis');
 import {browser} from 'protractor';
-import {DateTimeFormatter, LocalDate} from '@js-joda/core';
 
 export class RedisClient {
   public client = redis.createClient(browser.params.redis_port, browser.params.redis_host.replace('http://', '').replace('https://', ''));
@@ -31,10 +30,9 @@ export class RedisClient {
     return await xrevrangeAsync(stream, '+', '-');
   }
 
-  public async getBerthLevelSchedule(trainUid: string): Promise<any> {
-    const key = `${trainUid}:${LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`;
+  public async hgetParseJSON(hashName: string, key: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.client.hget('berth-level-schedule-pairs', key, (error, value) => {
+      this.client.hget(hashName, key, (error, value) => {
         if (error) {
           reject(error);
         } else {
@@ -44,27 +42,16 @@ export class RedisClient {
     });
   }
 
-  public async getBerthInformation(berthId: string): Promise<any> {
+  public async hkeys(hashName: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.client.hget('{schedule-matching}-schedule-matching-berths', berthId, (error, value) => {
+      this.client.hkeys(hashName, (error, value) => {
         if (error) {
           reject(error);
         } else {
-          resolve(JSON.parse(value) || {});
+          resolve(value || {});
         }
       });
     });
   }
 
-  public async getMapForBerth(berthId: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.client.hget('berth-to-maps-hash', berthId, (error, value) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(JSON.parse(value).maps[0].id || {});
-        }
-      });
-    });
-  }
 }

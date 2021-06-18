@@ -24,7 +24,7 @@ import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dia
 import {TrainActivationMessageBuilder} from '../utils/train-activation/train-activation-message';
 import {HomePageObject} from '../pages/home.page';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
-import {DateTimeFormatter, LocalDateTime, LocalTime, ZonedDateTime, ZoneId} from '@js-joda/core';
+import {DateTimeFormatter, LocalDate, LocalDateTime, LocalTime, ZonedDateTime, ZoneId} from '@js-joda/core';
 import '@js-joda/timezone';
 import {NavBarPageObject} from '../pages/nav-bar.page';
 import {RedisClient} from '../api/redis/redis-client';
@@ -675,7 +675,8 @@ function createBaseTjmMessage(trainNumber, trainUid, departureHour, runDate: str
 
 When(/^I step through the Berth Level Schedule for '(.*)'$/, async (uid: string) => {
   const client = new RedisClient();
-  const data = await client.getBerthLevelSchedule(uid);
+  const key = `${uid}:${LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`;
+  const data = await client.hgetParseJSON('berth-level-schedule-pairs', key);
 
   const berthLevelSchedule = data.berthLevelSchedule;
   let currentBerth = '';
@@ -734,18 +735,21 @@ When(/^I step through the Berth Level Schedule for '(.*)'$/, async (uid: string)
 });
 
 Given(/^I log the berth level schedule for '(.*)'$/, async (trainUid) => {
-  const berthLevelSchedule = await new RedisClient().getBerthLevelSchedule(trainUid);
+  const key = `${trainUid}:${LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`;
+  const berthLevelSchedule = await new RedisClient().hgetParseJSON('berth-level-schedule-pairs', key);
   await CucumberLog.addJson(berthLevelSchedule);
 });
 
 Given(/^I log the berth & locations from the berth level schedule for '(.*)'$/, async (trainUid) => {
   const client = new RedisClient();
-  const berthLevelSchedule = await client.getBerthLevelSchedule(trainUid);
+  const scheduleKey = `${trainUid}:${LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`;
+  const berthLevelSchedule = await client.hgetParseJSON('berth-level-schedule-pairs', scheduleKey);
 
   for (const pathEntry of berthLevelSchedule.berthLevelSchedule.pathEntries) {
     if (pathEntry.berths.length > 0) {
       const berth = pathEntry.berths[0];
-      const info = await client.getBerthInformation(`${berth.trainDescriberCode}${berth.berthName}`);
+      const berthKey = `${berth.trainDescriberCode}${berth.berthName}`;
+      const info = await client.hgetParseJSON('{schedule-matching}-schedule-matching-berths', berthKey);
       await CucumberLog.addText(`${berth.plannedStepTime} ${info.id} ${info.berthLocation}`);
     }
   }

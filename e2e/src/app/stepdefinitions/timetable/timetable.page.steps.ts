@@ -100,6 +100,10 @@ Then('The values for the header properties are as follows',
     const actualHeaderTrainUid: string = await timetablePage.headerTrainUid.getText();
     const actualHeaderTrustId: string = await timetablePage.headerTrustId.getText();
     const actualHeaderTJM: string = await timetablePage.headerTJM.getText();
+    let expectedUid = expectedHeaderPropertyValues.trainUid;
+    if (expectedUid === 'generatedTrainUId') {
+      expectedUid = browser.referenceTrainUid;
+    }
 
     expect(actualHeaderHeadcode, 'Headcode is not as expected')
       .to.equal(expectedHeaderPropertyValues.headCode);
@@ -110,7 +114,7 @@ Then('The values for the header properties are as follows',
     expect(actualHeaderLastReported, 'Last Reported is not as expected')
       .to.equal(expectedHeaderPropertyValues.lastReport);
     expect(actualHeaderTrainUid, 'Train UID is not as expected')
-      .to.equal(expectedHeaderPropertyValues.trainUid);
+      .to.equal(expectedUid);
     expect(actualHeaderTrustId, 'Trust ID is not as expected')
       .to.equal(expectedHeaderPropertyValues.trustId);
     expect(actualHeaderTJM, 'Last TJM is not as expected')
@@ -514,15 +518,17 @@ Then('the punctuality for {string} location {string} is displayed as {string}',
     const actualLocPunctuality = await row.punctuality.getText();
     expect(actualLocPunctuality, 'Punctuality value is not correct')
       .to.equal(expectedText);
-  });
+});
 
 Then('The timetable details table contains the following data in each row', async (detailsDataTable: any) => {
   const expectedDetailsRowValues: any = detailsDataTable.hashes()[0];
-
+  const dateString = expectedDetailsRowValues.daysRun.replace
+    ('today', DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy'));
+  const daysString = convertDaysStringIfNecessary(expectedDetailsRowValues.runs);
   expect(await timetablePage.getTimetableDetailsRowValueDaysRun(), 'Timetable Details entry Days Run is not correct')
-    .to.equal(expectedDetailsRowValues.daysRun);
+    .to.equal(dateString);
   expect(await timetablePage.getTimetableDetailsRowValueRuns(), 'Timetable Details entry Runs is not correct')
-    .to.equal(expectedDetailsRowValues.runs);
+    .to.equal(daysString);
   expect(await timetablePage.getTimetableDetailsRowValueBankHoliday(), 'Timetable Details entry Bank Holiday is not correct')
     .to.equal(expectedDetailsRowValues.bankHoliday);
   expect(await timetablePage.getTimetableDetailsRowValueBerthId(), 'Timetable Details entry Berth ID is not correct')
@@ -558,8 +564,18 @@ Then('The timetable details table contains the following data in each row', asyn
 });
 
 When('I am on the timetable view for service {string}', {timeout: 40 * 1000}, async (service: string) => {
-  await appPage.navigateTo(`/tmv/live-timetable/${service}:${LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`);
-  await browser.wait(ExpectedConditions.presenceOf(timetablePage.timetableTab), 20000, 'Timetable page loading timed out');
+  // try for today's service and if not try for tomorrow's
+  if (service === 'generatedTrainUId') {
+    service = browser.referenceTrainUid;
+  }
+  await browser.wait(async () => {
+    await appPage.navigateTo(`/tmv/live-timetable/${service}:${LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`);
+    if (await timetablePage.timetableTab.isPresent()) {
+      return true;
+    }
+    await appPage.navigateTo(`/tmv/live-timetable/${service}:${LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`);
+    return await timetablePage.timetableTab.isPresent();
+  }, 20000, `Timetable page loading timed out`);
 });
 
 When(/^the Inserted toggle is '(on|off)'$/, async (state: string) => {
@@ -587,7 +603,7 @@ Then(/^the inserted location (.*) is (before|after) (.*)$/,
   async (insertedLocation: string, beforeAfter: string, otherLocation: string) => {
     const locations = await timetablePage.getLocations();
     const rowOfInserted = await timetablePage.getLocationRowIndex
-    (timetablePage.ensureInsertedLocationFormat('inserted', insertedLocation), 1);
+      (timetablePage.ensureInsertedLocationFormat('inserted', insertedLocation), 1);
     (beforeAfter === 'before') ?
       expect(locations[rowOfInserted + 1], `Inserted location ${insertedLocation} is not ${beforeAfter} ${otherLocation}`)
         .to.equal(otherLocation) :
@@ -893,12 +909,41 @@ Then(/^the predicted Departure punctuality for location "(.*)" instance (\d+) is
     await timetablePage.getRowByLocation(location, instance).then(async row => {
       const field = row.punctuality;
       const expectedPunctuality = (currentTime.isAfter(expectedDepartureTime)) ?
-          getExpectedPunctuality('Departure', currentTime.format(DateTimeFormatter.ofPattern('HH:mm:ss')), expectedTime) : '0m' ;
+        getExpectedPunctuality('Departure', currentTime.format(DateTimeFormatter.ofPattern('HH:mm:ss')), expectedTime) : '0m' ;
       expect(await field.getText(), `Actual punctuality not correct for location ${location}`).to.equal(expectedPunctuality);
     });
   });
 
+function convertDaysStringIfNecessary(daysString: string): string {
+  if (daysString.length !== 7) {
+    return daysString;
+  }
+  const weekday = new Array(7);
+  let newString = '';
+  weekday[0] = 'Monday';
+  weekday[1] = 'Tuesday';
+  weekday[2] = 'Wednesday';
+  weekday[3] = 'Thursday';
+  weekday[4] = 'Friday';
+  weekday[5] = 'Saturday';
+  weekday[6] = 'Sunday';
 
+  for (let i = 0; i < 7; i++) {
+    if ((daysString.charAt(i) !== '1') && (daysString.charAt(i) !== '0')) {
+      return daysString;
+    }
+    if (daysString.charAt(i) === '1') {
+      newString = newString + weekday[i] + ', ';
+    }
+   }
+  newString = newString.substr(0, newString.lastIndexOf(','));
+  if (newString.indexOf(',') === -1 ) {
+    return newString;
+  }
+  else {
+      return newString.substr(0, newString.lastIndexOf(',')) + ' &' +  newString.substr(newString.lastIndexOf(',') + 1);
+  }
+}
 
 function getExpectedPunctuality(arrival, actualTime, expectedTime): string {
   const minutes = ChronoUnit.MINUTES.between(LocalTime.parse(expectedTime), LocalTime.parse(actualTime));

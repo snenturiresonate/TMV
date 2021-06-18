@@ -28,7 +28,7 @@ LITHNGLYJ           1752 00000000
 LIMELKSHM 1757 1758      17571758         T                                     
 LIBRDFDJN           1804 00000000                                               
 LITRWBRDG 1806H1807H     18071807         T           1                         
-LTWSTBRYW 1814 18151     TF                                                     
+LTWSTBRYW 1814 18152     TF                                                     
 BSNY950361912152405101111111 POO2F97    125470001 DMUE   090      S            P
 BX         GWY                                                                  
 LOWSTBRYW 1821 18212         TB                                                 
