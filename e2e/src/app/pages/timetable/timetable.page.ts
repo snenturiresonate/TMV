@@ -1,3 +1,4 @@
+// TODO - can you spot which design pattern we are using to organise this test framework
 import {ModificationsTablerowPage} from './modifications.tablerow.page';
 import {of} from 'rxjs';
 import {browser, by, element, ElementArrayFinder, ElementFinder, ExpectedConditions} from 'protractor';

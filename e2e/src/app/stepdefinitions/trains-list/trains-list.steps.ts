@@ -132,11 +132,15 @@ When('the following service is not displayed on the trains list', async (table: 
   expect(isTrainVisible, `Service ${serviceId} with trainUId ${trainUID} is displayed`).to.equal(false);
 });
 
+// TODO - the automated tester has used some bad practice in this step definition, can you spot what it is and recommend a better way?
 When('the following service is displayed on the trains list', async (table: any) => {
   const tableValues = table.hashes()[0];
   const serviceId = tableValues.trainId;
   const trainUID = tableValues.trainUId;
   await page.navigateTo('/tmv/trains-list');
+
+  // give the trains list time to load
+  browser.sleep(2000);
   const isTrainVisible: boolean = await trainsListPage.isTrainVisible(serviceId, trainUID);
   expect(isTrainVisible, `Service ${serviceId} with trainUId ${trainUID} is not displayed`).to.equal(true);
 });

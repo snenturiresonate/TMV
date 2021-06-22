@@ -270,7 +270,7 @@ When(/^the following live berth interpose messages? (?:is|are) sent from LINX(.*
     await linxRestClient.waitMaxTransmissionTime();
   });
 
-
+// TODO - can you explain what is happening in this step definition?
 When(/^the following berth step messages? (?:is|are) sent from LINX(.*)$/, async (explanation: string, berthStepMessageTable: any) => {
   const berthStepMessages: any = berthStepMessageTable.hashes();
 
