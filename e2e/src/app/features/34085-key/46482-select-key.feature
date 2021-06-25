@@ -16,12 +16,14 @@ Feature: 46482 - TMV Key - select key
       | Train Describer |
     And the active tab is 'Colour'
 
-  @bug @bug_56581 @newSession
+  # Story 53035 specifies that the replay key should not contain the train describer tab
   Scenario: 34085-1b The TMV Key modal window is launched when a map is displayed in the replay view
-    Given I am on the replay page as existing user
+    Given I am on the home page
+    And I navigate to Replay page
+    When I select time period 'Last 15 minutes' from the quick dropdown
     And I select Next
     And I expand the replay group of maps with name 'Eastern'
-    And I select the map 'ea01liverpoolst.v'
+    And I select the map 'EA01liverpoolst.v'
     When I click on the Help icon
     And I select the TMV Key option
     Then a modal displays with title 'Key'
@@ -30,7 +32,6 @@ Feature: 46482 - TMV Key - select key
       | tabName         |
       | Colour          |
       | Symbol          |
-      | Train Describer |
     And the active tab is 'Colour'
 
   Scenario: 34085-1c The TMV Key modal window is not displayed in the help menu for the home page

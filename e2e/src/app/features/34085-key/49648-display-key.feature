@@ -5,7 +5,7 @@ Feature: 46482 - TMV Key - display key
 
   Background:
     Given I have not already authenticated
-    And I am viewing the map GW01paddington.v
+    And I am viewing the map HDGW01paddington.v
     And The admin setting defaults are as originally shipped
     And I refresh the browser
 
@@ -60,7 +60,6 @@ Feature: 46482 - TMV Key - display key
       | 3        | Possession |
       | 4        | Not in use |
 
-  @tdd @tdd_51729
   Scenario: 34085-4 The TMV Key train describer table is displayed when the Train Describer tab is clicked
     When I click on the Help icon
     And I select the TMV Key option
@@ -72,21 +71,7 @@ Feature: 46482 - TMV Key - display key
       | ID      |
       | Name    |
     And the TD list contains the following data
-      | position | name                  |
-      | 1        | WY Wembley            |
-      | 2        | WS Willesden          |
-      | 3        | WH West Hampstead     |
-      | 4        | KX Kings Cross        |
-      | 5        | PB Peterborough       |
-      | 6        | AS Ashford            |
-      | 7        | TB Three Bridges      |
-      | 8        | SX Saxmundham         |
-      | 9        | TB Three Bridges      |
-      | 10       | TB Three Bridges      |
-      | 11       | LB London Bridge      |
-      | 12       | AW Acton Wells        |
-      | 13       | NX New Cross          |
-      | 14       | CC Colchester TD      |
-      | 15       | SO South Tottenham TD |
-      | 16       | CT Channel Tunnel     |
-      | 17       | CA Cambridge          |
+      | position | name                    |
+      | 1        | D4 TVSC Hayes IECC      |
+      | 2        | D6 TVSC Maidenhead IECC |
+      | 3        | D3 TVSC Paddington IECC |
