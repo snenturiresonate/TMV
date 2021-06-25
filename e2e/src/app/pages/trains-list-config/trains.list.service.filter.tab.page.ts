@@ -51,6 +51,10 @@ export class TrainsListServiceFilterTabPage {
     await InputBox.updateInputBox(this.trustIdInput, trustId);
   }
 
+  public async canInputTrustId(): Promise<boolean> {
+    return this.trustIdInput.isEnabled();
+  }
+
   public async getSelectedTrustIds(): Promise<string> {
     return this.selectedServicesTableItems.getText();
   }

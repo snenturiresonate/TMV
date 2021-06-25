@@ -1,6 +1,7 @@
 import {TrainsListServiceFilterTabPage} from '../../pages/trains-list-config/trains.list.service.filter.tab.page';
 import {Then, When} from 'cucumber';
 import {expect} from 'chai';
+import {browser} from 'protractor';
 
 const trainsListServiceFilterTabPage: TrainsListServiceFilterTabPage = new TrainsListServiceFilterTabPage();
 
@@ -12,8 +13,25 @@ When('I input {string} in the TRUST input field', async (trustIdString: string) 
   await trainsListServiceFilterTabPage.inputTrustId(trustIdString);
 });
 
+Then(/^the trust ID input box (is|is not) disabled$/, async (negate: string) => {
+  const canInput: boolean = await trainsListServiceFilterTabPage.canInputTrustId();
+  if (negate === 'is not') {
+    expect(canInput, 'The trust ID input box was disabled').is.equal(true);
+  }
+  else {
+    expect(canInput, 'The trust ID input box was not disabled').is.equal(false);
+  }
+});
+
 When('I click the add button for TRUST Service Filter', async () => {
   await trainsListServiceFilterTabPage.clickTrustIdsAdd();
+});
+
+When(/^I add (\d+) TRUST IDs to the filter list$/, async (numberOfTrustIds: number) => {
+  for (let i = 0; i < numberOfTrustIds; i++) {
+    await trainsListServiceFilterTabPage.inputTrustId(i.toString());
+    await trainsListServiceFilterTabPage.clickTrustIdsAdd();
+  }
 });
 
 When('I click the clear all button for TRUST Service Filter', async () => {
@@ -37,6 +55,12 @@ Then('The TRUST ID table contains the following results', async (trustIdDataTabl
     expect(actualTrustIds, `Trust ID ${actualTrustIds} does not match the expected ${expectedTrustId.trustId}`)
       .to.contain(expectedTrustId.trustId);
   });
+});
+
+When(/^the TRUST ID table contains (\d+) IDs$/, async (expectedIDQuantity: number) => {
+  const actualTrustIds = await trainsListServiceFilterTabPage.getSelectedTrustIds();
+  expect(actualTrustIds.length, 'Expected ' + expectedIDQuantity + 'TRUST IDs but found ' + actualTrustIds.length)
+    .to.equal(expectedIDQuantity);
 });
 
 Then('The TRUST ID table does not contain the following results', async (trustIdDataTable: any) => {
