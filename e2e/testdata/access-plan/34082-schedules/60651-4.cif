@@ -1,0 +1,10 @@
+HDTPS.UCFT1LX.PD2010010110201945CFT1LXKCFT1LXJFA011020011121                    
+BSNC336072005233012121111111 POO2N04    122351000 DMUS   075      S            P
+LOORMSKRK 0701 0701          TB                                                 
+LIBRSCGHJ 0705 0705H     07050705         T                                     
+LIRUFDORD 0710H0711      07110711         T                                     
+LICROT    0715H0716      07160716         T           1                         
+LIFRNGTNC           0726H00000000   SL                  2                       
+LIPRSTRJN           0730H00000000   DFL                                         
+LTPRST    0732 07323C DFLTF                                                     
+ZZ                                                                              

@@ -15,6 +15,7 @@ Feature: 33753 - TMV Timetable
      #When the user selects a train from the trains list using the secondary mouse click
      #And selects the "open timetable" option from the menu
      #Then the train's timetable is opened in a new browser tab
+    * I remove all trains from the trains list
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | RDNGSTN     | WTT_arr       | <trainNum>          | <planningUid>  |
@@ -59,7 +60,7 @@ Feature: 33753 - TMV Timetable
       | trainNum | planningUid |
       | 1A02     | L10002      |
 
-  @replaySetup @bug @bug:60049
+  @replaySetup
   Scenario Outline: 33753-2b -Open Timetable (from Map - Unmatched)
     Given I am viewing the map HDGW01paddington.v
     And I have cleared out all headcodes

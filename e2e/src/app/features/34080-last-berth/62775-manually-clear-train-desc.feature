@@ -6,6 +6,7 @@ Feature: 34080 - Manually Clear Train Description
     * I have cleared out all headcodes
     * The admin setting defaults are as originally shipped
 
+  @bug @bug:63842
   Scenario Outline: 62775-1 Manually Clear Train Description
     # Given a TD update with the type interpose has been received
     # And the berth included  matches a single schedule
@@ -16,13 +17,14 @@ Feature: 34080 - Manually Clear Train Description
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
-    And I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
     And I am on the trains list page
     And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
+    And the following live berth step message is sent from LINX (creating a match)
+      | fromBerth | toBerth | trainDescriber   | trainDescription |
+      | 0105      | 0125    | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
@@ -32,5 +34,5 @@ Feature: 34080 - Manually Clear Train Description
     Then berth '<berth>' in train describer '<trainDescriber>' does not contain '<origTrainDesc>'
 
     Examples:
-      | trainDescriber | berth | origTrainDesc | trainUid | location | subdivision | matchLevel   |
-      | D3             | A001  | 7B75          | B62775   | PADTON   | 401         | berth        |
+      | trainDescriber | berth | origTrainDesc | trainUid | location | subdivision | matchLevel |
+      | D3             | A007  | 7B75          | B62775   | PADTON   | 401         | berth      |

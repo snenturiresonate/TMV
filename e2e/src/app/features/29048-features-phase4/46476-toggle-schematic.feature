@@ -96,6 +96,7 @@ Feature: 33751 - Toggle Schematic
       Then the 'Platform' toggle is 'on'
       And the platform layer is shown
 
+  @bug @bug:63700
   Scenario:33751-5 Additional test case to check Default to Non default and open the new map through search and check the default states
     When I set up all signals for address 03 in D0 to be not-proceed
     And the following signalling update message is sent from LINX

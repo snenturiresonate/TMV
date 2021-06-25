@@ -33,7 +33,7 @@ Feature: 34002 - Unscheduled Trains Menu
     When I invoke the context menu from train '<trainNum>' on the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu is displayed
-    And the trains list context menu has 'Match' on line 3
+    And the trains list context menu has 'Match' on line 4
     Examples:
       | trainNum |
       | 2B02     |
@@ -46,7 +46,7 @@ Feature: 34002 - Unscheduled Trains Menu
     When I invoke the context menu from train '<trainNum>' on the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu is displayed
-    And the trains list context menu has 'Match' on line 3
+    And the trains list context menu has 'Match' on line 4
     Examples:
       | trainNum | planningUid |
       | 2B03     | L20003      |

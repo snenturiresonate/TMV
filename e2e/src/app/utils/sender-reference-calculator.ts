@@ -138,7 +138,7 @@ export class SenderReferenceCalculator {
       day.toString(2).padStart(SenderReferenceCalculator.dayBitLength, '0') +
       month.toString(2).padStart(SenderReferenceCalculator.monthBitLength, '0') +
       year.toString(2).padStart(SenderReferenceCalculator.yearBitLength, '0');
-    console.log(binary);
+
     let encoded = '';
 
     for (let x = 0; x < binaryBits; x = x + SenderReferenceCalculator.characterBitLength) {

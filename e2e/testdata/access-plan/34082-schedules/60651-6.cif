@@ -1,0 +1,12 @@
+HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
+BSNH067712005193012111111111 FJ46P07    159406441 D  800 060Q                  P
+BX         ZZY                                                                  
+LOFOWEYDK 0721 0000        11TB                                                
+LILSTWTHL           0744 000000002                                              
+LILSTWDGL 0746 0836H     00000000         RR                                    
+LILSTWTHL2          0838H000000002                                              
+LIPARR              0846H000000001                                              
+LIBGLWJN  0858H0859H     00000000         TW                                    
+LIBGLWECC 0905H0910H     00000000         OP             H                      
+LTPRKADIL 0941 0000      TF                                                    
+ZZ                                     

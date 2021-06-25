@@ -111,5 +111,3 @@ Feature: Example Scenarios
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'hdgw01paddington.v'
     And I move the replay to the end of the captured scenario
-
-

@@ -7,9 +7,9 @@
 exports.config = {
   allScriptsTimeout: 11000,
   params: {
-    test_harness_ci_ip: '',
-    redis_port: '',
-    redis_host: ''
+    test_harness_ci_ip: 'http://tmv',
+    redis_port: '8082',
+    redis_host: 'tmv'
   },
   specs: [
     './src/**/features/**/*.feature'
@@ -25,7 +25,7 @@ exports.config = {
     trainsList: ['./src/**/features/33806-trains-list/*.feature']
   },
   directConnect: true,
-  baseUrl: 'https://tmv-national-test-fe2e.tmv.resonate.tech',
+  baseUrl: 'https://suffix.tmv.resonate.tech',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {

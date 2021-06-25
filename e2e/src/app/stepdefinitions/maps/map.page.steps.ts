@@ -395,10 +395,11 @@ Then('it is {string} that berth {string} in train describer {string} is present'
 });
 
 Then('berth {string} in train describer {string} does not contain {string}',
-  async (berthId: string, trainDescriber: string, berthContents: string) => {
-    const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
-    expect(trainDescription, `Berth contains ${berthContents} when it shouldn't`)
-      .to.not.equal(berthContents);
+  async (berthId: string, trainDescriber: string, expectedBerthContents: string) => {
+    await browser.wait(async () => {
+      const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
+      return trainDescription !== expectedBerthContents;
+    }, 20 * 1000, `Berth contains ${expectedBerthContents} when it shouldn't`);
 });
 
 Then('the signal roundel for signal {string} is {word}',
@@ -895,3 +896,14 @@ Given(/^I have cleared out all headcodes$/, async () => {
   });
   await linxRestClient.waitMaxTransmissionTime();
 });
+Given(/^headcode '(.*)' is present in manual\-trust berth '(.*)'$/, async (headcode: string, berthID: string) => {
+  await browser.wait(async () => {
+    return (await mapPageObject.getHeadcodesAtManualTrustBerth(berthID)).includes(headcode);
+  }, 30000, `headcode ${headcode} not in manual trust berth stack ${berthID} when should be`);
+});
+Given(/^headcode '(.*)' is not present in manual\-trust berth '(.*)'$/, async (headcode: string, berthID: string) => {
+  await browser.wait(async () => {
+    return !(await mapPageObject.getHeadcodesAtManualTrustBerth(berthID)).includes(headcode);
+  }, 30000, `headcode ${headcode} in manual trust berth stack ${berthID} when shouldn't be`);
+});
+

@@ -108,7 +108,6 @@ When ('the train in CIF file below is updated accordingly so time at the referen
     await CucumberLog.addText(`Access Plan: ${newData}`);
     await linxRestClient.addAccessPlan('', newData);
     await linxRestClient.waitMaxTransmissionTime();
-    fs.writeFileSync('C:\\Users\\DR23172\\Documents\\Clare\\Documents\\TMV\\Logs\\train.txt', newData);
   });
 
 

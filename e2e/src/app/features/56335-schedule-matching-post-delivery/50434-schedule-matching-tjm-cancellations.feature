@@ -1,3 +1,4 @@
+@bug @bug:64399
 Feature: 56335 - Schedule Matching - TJM Cancellations
   As TMV user
   I want  schedules that cancelled at origin or scheduled location to be lower in preference over those that aren't

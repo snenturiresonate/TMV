@@ -1,4 +1,4 @@
-import {When} from 'cucumber';
+import {Given, When} from 'cucumber';
 import {RedisClient} from '../api/redis/redis-client';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 
@@ -22,4 +22,12 @@ When('I remove schedule {string} from the trains list', async (scheduleId: strin
   const dateFormat = 'yyyy-MM-dd';
   redisClient.keyDelete('trainlist:' + scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat(('today'), dateFormat));
   redisClient.keyDelete('trainlist:' + scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat(('tomorrow'), dateFormat));
+});
+
+Given(/^I clear all MTBs$/, () => {
+  redisClient.keyDelete('manual-trust-berths-hash');
+  redisClient.keyDelete('manual-trust-berths');
+  redisClient.keyDelete('manual-trust-berth-states');
+  redisClient.keyDelete('last-manual-trust-berth');
+  redisClient.keyDelete('manual-trust-berths-snapshot');
 });

@@ -202,9 +202,7 @@ Then(/^the sent TJMs are in the modifications table$/, async () => {
     const expectedReason = (expectedRecord.ModificationReason === undefined ? '' : expectedRecord.ModificationReason);
 
     const row: ElementFinder = element(by.xpath(`//tbody[@id='details-modification-tbody']//tr[descendant::td[text()='${expectedTypeOfModification}']][descendant::td[text()='${expectedLocation}']][descendant::td[text()='${expectedTime}']][descendant::td[text()='${expectedReason}']]`));
-    expect(await row.isPresent(),
-      `No record found in the modifications table with ${expectedTypeOfModification}, ${expectedLocation}, ${expectedTime}, ${expectedReason}`)
-      .to.equal(true);
+    await browser.wait(ExpectedConditions.presenceOf(row), 30000, `No record found in the modifications table with ${expectedTypeOfModification}, ${expectedLocation}, ${expectedTime}, ${expectedReason}`);
   }
 });
 

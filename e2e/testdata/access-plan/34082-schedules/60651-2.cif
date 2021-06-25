@@ -1,0 +1,23 @@
+HDTPS.UCFT1LX.PD2010010110201945CFT1LXKCFT1LXJFA011020011121                    
+BSNC136492010183010181111111 POO2T08    125482001 DMUS   075      S            O
+BX         GWY                                                                  
+LOEXMOUTH 0855 0855          TB                                                 
+LILYMPSTN 0858H0859      08590859         T                                     
+LILYMPSTC 0901 0901H     09000900         R                                     
+LIEXTON   0902H0903      09020902         R                                     
+LITOPSHAM 0906H0907H     09070907         T                                     
+LINWCOURT 0910 0911      09100911         T                                     
+LIDIGBY   0913 0914      09130914         T                                     
+LIPOLSBDG 0917 0917H     09170917         T                                     
+LIEXMOTHJ           0918H00000000                                               
+LISTJAMSP 0919H0920H     092009201        T                                     
+LIEXETERC 0922H0924      092309232        T                                     
+CREXETRSD OO2T08    125462001 DMUS   075      S                                 
+LIEXETRSD 0926H0931      092709313        T RM                                  
+LIEXETRST 0933 0933H     093309331        T                                     
+LISTRCROS 0941H0942      094209421        T                                     
+LIDAWLSHW 0946 0955      094609521        T                                     
+LIDAWLISH 0958 0959      09550956         T                                     
+LITEINMTH 1003 1004      10001001         T             1H                      
+LTNABT    1012 10091     TF                                                     
+ZZ                                                                              

@@ -1,0 +1,24 @@
+HDTPS.UCFT1LX.PD2010010110201945CFT1LXKCFT1LXJFA011020011121                    
+BSNL791562011015011011111111 PEE5F73    125478001 DMUS   075                   O
+BX         GWY                                                                  
+LOPENZNCE 0800 00004         TB                                                 
+LILNGROCK           0803H00000000                                               
+LISTERTH            0807H000000002                                              
+LICBORNE            0816H00000000                                               
+LICBORR10           0820H00000000                                               
+LIREDRR14           0826 00000000                                               
+LITRURO   0831 0834      000000003        RM                                    
+LITRUR14  0835 0838      00000000         RM                                    
+LTTRURO  20839 00001     TF                                                     
+BSNL791572011015011011111111 PEE5F74    125478001 DMUS   075                   O
+BX         GWY                                                                  
+LOPENZNCE 0800 00004         TB                                                 
+LILNGROCK           0803H00000000                                               
+LISTERTH            0807H000000002                                              
+LICBORNE            0816H00000000                                               
+LICBORR10           0820H00000000                                               
+LIREDRR14           0826 00000000                                               
+LITRURO   0831 0834      000000003        RM                                    
+LITRUR14  0835 0838      00000000         RM                                    
+LTTRURO  20839 00001     TF                                                     
+ZZ                                                                              

@@ -415,4 +415,9 @@ export class MapPageObject {
     const berthLink: ElementFinder = element(by.id('berth-element-text-' + berthId));
     return berthLink.getCssValue('data-train-description');
   }
+
+  public async getHeadcodesAtManualTrustBerth(berthID: string): Promise<Array<string>> {
+    const elements = element.all(by.xpath(`//*[@id='manual-trust-berth-list-container-element-${berthID}']//*[starts-with(@id, 'manual-trust-berth-entry-element-text')]`));
+    return elements.map(el => el.getText());
+  }
 }
