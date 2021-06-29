@@ -72,12 +72,14 @@ Then('the following toggle values can be seen on the right class table', async (
         .to.contain(classValue));
     if (toggleValue === 'on' || toggleValue === 'off') {
       const expectedToggleValue = await CheckBox.convertToggleToBoolean(toggleValue);
+      const miscValue: boolean = await trainsListMisc.getTrainMiscClassNameToggleValuesRight(classValue);
       results.push(
-        expect(await trainsListMisc.getTrainMiscClassNameToggleValuesRight(classValue), `Toggle was not ${expectedToggleValue}`)
+        expect(miscValue, `Toggle was not ${expectedToggleValue}`)
           .to.equal(expectedToggleValue));
     } else {
+      const miscValue: string = await trainsListMisc.getTrainMiscClassNameNumberValuesRight(classValue);
       results.push(
-        expect(await trainsListMisc.getTrainMiscClassNameNumberValuesRight(classValue), `Toggle did not contain ${toggleValue}`)
+        expect(miscValue, `Toggle did not contain ${toggleValue}`)
           .to.contain(toggleValue));
     }
   }

@@ -14,6 +14,9 @@ Feature: 33805 TMV Schedule Matching
       | name                     | colour  | toggleValue |
       | Origin Departure Overdue | #ffffff | off         |
     * I save the trains list config
+    * I have navigated to the 'Misc' configuration tab
+    * I set 'Unmatched' to be 'off'
+    * I save the trains list config
 
   Scenario Outline: 1. Interpose - Match old ID after Change of ID - <matchLevel> match
     #    Given there is a valid schedule

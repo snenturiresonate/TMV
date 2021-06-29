@@ -64,25 +64,17 @@ Feature: 46482 - TMV Key - select key
     Then the platform layer is shown
     And a modal displays with title 'Key'
 
-  @bug @task_61993
   Scenario: 34085-1h Verify the map still updates whilst the TMV Modal Key is open
-    Given I am viewing the map GW01paddington.v
+    Given I am viewing the map HDGW01paddington.v
+    And I have cleared out all headcodes
+    Then berth '0099' in train describer 'D3' does not contain '1K56'
     When I click on the Help icon
     And I select the TMV Key option
-    And I click on the layers icon in the nav bar
-    And I toggle the 'Berth' toggle 'on'
-    And the following berth interpose message is sent from LINX (to indicate train is present)
+    Then a modal displays with title 'Key'
+    When the following berth interpose message is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber| trainDescription |
       | 09:59:00  | 0099    | D3            | 1K56             |
-    And the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth | trainDescriber| trainDescription |
-      | 09:59:00  | 0092    | D3            | 1K57             |
-    Then berth '0099' in train describer 'D3' does not contain '1K56'
-    And berth '0092' in train describer 'D3' does not contain '1K57'
-    And I toggle the 'Berth' toggle 'off'
     Then berth '0099' in train describer 'D3' contains '1K56' and is visible
-    And berth '0092' in train describer 'D3' contains '1K57' and is visible
-    And a modal displays with title 'Key'
 
   Scenario: 34085-1i The TMV Key modal window can only be opened one key at a time
     Given I am viewing the map GW01paddington.v

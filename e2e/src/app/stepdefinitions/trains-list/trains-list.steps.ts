@@ -88,14 +88,20 @@ Then('train description {string} is visible on the trains list with schedule typ
     expect(scheduleFound, `${scheduleType} train ${trainDescription} does not appear on the trains list`).to.equal(true);
   });
 
-Then('train {string} with schedule id {string} for today is visible on the trains list',
-  async (serviceId: string, scheduleId: string) => {
+Then(/^train '?(\w+)'? with schedule id '?(\w+)'? for today (is|is not) visible on the trains list$/,
+  async (serviceId: string, scheduleId: string, negate: string) => {
     if (scheduleId === 'generatedTrainUId') {
       scheduleId = browser.referenceTrainUid;
     }
     const todaysScheduleString = scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
-    const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(serviceId, todaysScheduleString);
-    expect(isScheduleVisible).to.equal(true);
+    if (negate === 'is') {
+      const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(serviceId, todaysScheduleString);
+      expect(isScheduleVisible, `Train ${serviceId}:${scheduleId} was not visible on the trains list`).to.equal(true);
+    }
+    else {
+      const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(serviceId, todaysScheduleString, 500);
+      expect(isScheduleVisible, `Train ${serviceId}:${scheduleId} was visible on the trains list`).to.equal(false);
+    }
   });
 
 Then('train description {string} disappears from the trains list', async (trainDescription: string) => {

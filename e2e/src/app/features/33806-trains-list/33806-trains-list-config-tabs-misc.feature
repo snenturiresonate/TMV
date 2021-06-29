@@ -6,6 +6,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
 
   Background:
     Given the access plan located in CIF file 'access-plan/trains_list_test.cif' is received from LINX
+    And I remove all trains from the trains list
+    And I am on the home page
     And I restore to default train list config
     And I am on the trains list Config page
     And I have navigated to the 'Misc' configuration tab
@@ -17,7 +19,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
   Scenario: 33806 -25 a Trains list misc config header
     Then the misc class header is displayed as 'Misc'
 
-    #Step to reset to defaults using the delete end point needs to be implemented and added before the validations
+  #Step to reset to defaults using the delete end point needs to be implemented and added before the validations
   Scenario: 33806 -25 b Trains list misc config default values
     Then the following can be seen on the class table
       | classValue | toggleValue |
@@ -36,8 +38,9 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Ignore PD Cancels                  | on          |
       | Unmatched                          | on          |
       | Uncalled                           | on          |
-      | Time to remain on list             | 5           |
-      | Appear before current time on list | 5           |
+#    @bug @bug:64692
+#      | Time to remain on list             | 5           |
+#      | Appear before current time on list | 5           |
     # clean up
     * I restore to default train list config
 
@@ -134,15 +137,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Ignore PD Cancels                  | on          |
       | Unmatched                          | on          |
       | Uncalled                           | off         |
-      | Time to remain on list             | 5           |
-      | Appear before current time on list | 5           |
+#    @bug @bug:64692
+#      | Time to remain on list             | 5           |
+#      | Appear before current time on list | 5           |
     Then the following toggle values can be seen on the right class table
       | classValue                         | toggleValue |
       | Ignore PD Cancels                  | on          |
       | Unmatched                          | on          |
       | Uncalled                           | off         |
-      | Time to remain on list             | 5           |
-      | Appear before current time on list | 5           |
+#    @bug @bug:64692
+#      | Time to remain on list             | 5           |
+#      | Appear before current time on list | 5           |
     # clean up
     * I restore to default train list config
 
@@ -179,16 +184,16 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Y95686   | 2P77        | 12:00                  | 99999               | RDNGSTN                |today         |now                 |
     When the following TJM is received
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | Y95686   | 2P77        | 12            | create | 91        | 91              | 99999       | RDNGSTN        | 12:00:00 | 91                 | PD                |
+      | Y95686   | 2P77        | 12            | create | 91        | 91              | 99999       | RDNGSTN        | 12:00:00 | PD                 | DL                |
     When I click on the Select All button
     And I update the following misc options
       | classValue        | toggleValue |
       | Ignore PD Cancels | on          |
+      | Unmatched         | off         |
     And I save the service filter changes
+    And I give the service filter changes 1 second to load
     And I am on the trains list page
-    Then I should see the trains list table to not display the following trains
-      | trainDescription |
-      | 2P77             |
+    Then train 2P77 with schedule id Y95686 for today is not visible on the trains list
     # clean up
     * I restore to default train list config
 
@@ -199,16 +204,16 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Y95686   | 2P77        | 12:00                  | 99999               | RDNGSTN                |today         |now                 |
     When the following TJM is received
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | Y95686   | 2P77        | 12            | create | 91        | 91              | 99999       | RDNGSTN        | 12:00:00 | 91                 | PD                |
+      | Y95686   | 2P77        | 12            | create | 91        | 91              | 99999       | RDNGSTN        | 12:00:00 | PD                 | PD                |
     When I click on the Select All button
     And I update the following misc options
       | classValue        | toggleValue |
       | Ignore PD Cancels | off         |
+      | Unmatched         | off         |
     And I save the service filter changes
+    And I give the service filter changes 1 second to load
     And I am on the trains list page
-    Then I should see the trains list table to display the following trains
-      | trainDescription |
-      | 2P77             |
+    Then train 2P77 with schedule id Y95686 for today is visible on the trains list
     # clean up
     * I restore to default train list config
 

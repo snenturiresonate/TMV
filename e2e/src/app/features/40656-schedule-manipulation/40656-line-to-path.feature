@@ -4,6 +4,15 @@ Feature: 40656 - Schedule Manipulation - Line To Path
   I want schedules which have been imported to be manipulated
   So that the schedule has a the correct path, line and asset codes for each location
 
+  Background:
+    * I remove all trains from the trains list
+    * I am on the home page
+    * I restore to default train list config
+    * I am on the trains list Config page
+    * I have navigated to the 'Misc' configuration tab
+    * I set 'Unmatched' to be 'off'
+    * I save the trains list config
+
   Scenario Outline: 40656-6 Schedule with locations matching line code to path code rules
     #K0056	OXFD   	OXFDNNJ
 #    Given A service has a schedule in the current time period
