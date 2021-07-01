@@ -191,7 +191,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Ignore PD Cancels | on          |
       | Unmatched         | off         |
     And I save the service filter changes
-    And I give the service filter changes 1 second to load
     And I am on the trains list page
     Then train 2P77 with schedule id Y95686 for today is not visible on the trains list
     # clean up
@@ -211,7 +210,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Ignore PD Cancels | off         |
       | Unmatched         | off         |
     And I save the service filter changes
-    And I give the service filter changes 1 second to load
     And I am on the trains list page
     Then train 2P77 with schedule id Y95686 for today is visible on the trains list
     # clean up
