@@ -411,7 +411,7 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
         const now = new Date();
         return `${Number(now.getHours()).toString().padStart(2, '0')}:${Number(now.getMinutes()).toString().padStart(2, '0')}:${Number(now.getSeconds()).toString().padStart(2, '0')}`;
       } else {
-          return trainActivationMessages[i].scheduledDepartureTime;
+        return trainActivationMessages[i].scheduledDepartureTime;
       }
     };
     const departureDate = () => {
@@ -419,20 +419,22 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
         (trainActivationMessages[i].departureDate).toLowerCase() === 'yesterday' ||
         (trainActivationMessages[i].departureDate).toLowerCase() === 'tomorrow') {
         return DateAndTimeUtils.convertToDesiredDateAndFormat((trainActivationMessages[i].departureDate).toLowerCase(), 'yyyy-MM-dd');
-      } else if (trainActivationMessages[i].departureDate === undefined){
+      } else if (trainActivationMessages[i].departureDate === undefined) {
         return DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
       } else {
         return trainActivationMessages[i].scheduledDepartureTime;
       }
     };
     const actualDepartureHour = () => {
-      // tslint:disable-next-line:max-line-length
-      if ((trainActivationMessages[i].actualDepartureHour).toLowerCase() === 'now' || trainActivationMessages[i].departureDate === undefined) {
+      let aDH = trainActivationMessages[i].actualDepartureHour;
+      if (aDH === undefined) {
+        aDH = 'now';
+      }
+      if (aDH.toLowerCase() === 'now' || trainActivationMessages[i].departureDate === undefined) {
         const now = new Date();
         return `${Number(now.getHours()).toString().padStart(2, '0')}`;
-      } else {
-        return trainActivationMessages[i].actualDepartureHour;
       }
+      return trainActivationMessages[i].actualDepartureHour;
     };
     const locationPrimaryCode = trainActivationMessages[i].locationPrimaryCode;
     const locationSubsidiaryCode = trainActivationMessages[i].locationSubsidiaryCode;
@@ -570,8 +572,8 @@ async function handleUnexpectedAlertAndNavigateTo(url: string): Promise<any> {
 }
 
 async function acceptUnexpectedAlert(): Promise<any> {
-    const alert = await browser.switchTo().alert();
-    await alert.accept();
+  const alert = await browser.switchTo().alert();
+  await alert.accept();
 }
 
 async function OpenNewTab(): Promise<any> {
@@ -581,7 +583,7 @@ async function OpenNewTab(): Promise<any> {
 When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
   let runDate = 'today';
   const messages: any = table.hashes();
-  messages.forEach((message: any) => {
+  for (const message of messages) {
     const now = LocalDateTime.now();
     let depHour = now.format(DateTimeFormatter.ofPattern('HH'));
     let timeStamp = now.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
@@ -610,14 +612,16 @@ When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
 
     linxRestClient.postTrainJourneyModification(tjmMessage.toXML());
     TestData.addTJM(tjmMessage);
-  });
+    if (messages.size > 1) {
+      await browser.sleep(1001);
+    }
+  }
   await linxRestClient.waitMaxTransmissionTime();
 });
 
 When(/^the following change of ID TJM is received$/, async (table: any) => {
   const messages: any = table.hashes();
-
-  messages.forEach((message: any) => {
+  for (const message of messages) {
     const tjmBuilder = createBaseTjmMessage(message.newTrainNumber, message.trainUid, message.departureHour)
       .withTrainJourneyModification(new TrainJourneyModificationBuilder()
         .withTrainJourneyModificationIndicator(message.indicator)
@@ -640,7 +644,10 @@ When(/^the following change of ID TJM is received$/, async (table: any) => {
 
     linxRestClient.postTrainJourneyModificationIdChange(tjmMessage.toXML());
     TestData.addTJM(tjmMessage);
-  });
+    if (messages.size > 1) {
+      await browser.sleep(1001);
+    }
+  }
   await linxRestClient.waitMaxTransmissionTime();
 });
 
@@ -698,8 +705,7 @@ When(/^I step through the Berth Level Schedule for '(.*)'$/, async (uid: string)
         currentBerth = berth.berthName;
         currentBerthDescriber = berth.trainDescriberCode;
         lastTiming = plannedStepTime;
-      }
-      else {
+      } else {
         const stepsOutOfTime = LocalTime.parse(lastTiming).isAfter(LocalTime.parse(plannedStepTime));
         if (currentBerth !== berth.berthName || !stepsOutOfTime) {
           if (currentBerthDescriber !== berth.trainDescriberCode) {
@@ -715,8 +721,7 @@ When(/^I step through the Berth Level Schedule for '(.*)'$/, async (uid: string)
               berth.trainDescriberCode,
               berthLevelSchedule.plannedTrainDescription
             ));
-          }
-          else {
+          } else {
             await linxRestClient.postBerthStep(new BerthStep(
               currentBerth,
               plannedStepTime,

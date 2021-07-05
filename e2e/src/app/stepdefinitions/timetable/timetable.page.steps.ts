@@ -2,7 +2,16 @@ import {Given, Then, When} from 'cucumber';
 import {expect} from 'chai';
 import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
 import {Locale} from '@js-joda/locale_en';
-import {ChronoUnit, DateTimeFormatter, Duration, LocalDate, LocalDateTime, LocalTime, OffsetDateTime} from '@js-joda/core';
+import {
+  ChronoUnit,
+  DateTimeFormatter,
+  Duration,
+  LocalDate,
+  LocalDateTime,
+  LocalTime,
+  OffsetDateTime,
+  ZoneId
+} from '@js-joda/core';
 import {ScheduleBuilder} from '../../utils/access-plan-requests/schedule-builder';
 import {LocationBuilder} from '../../utils/access-plan-requests/location-builder';
 import {OriginLocationBuilder} from '../../utils/access-plan-requests/origin-location-builder';
@@ -505,10 +514,32 @@ Then('the navbar punctuality indicator is displayed as {string}', async (expecte
 });
 
 Then('the punctuality is displayed as {string}', async (expectedText: string) => {
-  const actualText: string = await timetablePage.getNavBarIndicatorText();
-  expect(actualText, 'Punctuality value is not correct')
-    .to.equal(expectedText);
+  // long timeout for punctuality recalculation cycle
+  await browser.wait(ExpectedConditions.textToBePresentInElement(timetablePage.navBarIndicatorText, expectedText),
+    60 * 1000,
+    `Punctuality value is not '${expectedText}'`);
 });
+
+Then('the punctuality is correct based on {string}', {timeout: 65 * 1000}, async (expectedTime: string) => {
+  const expectedPunctuality = () => getExpectedPunctuality(true,
+                                                            LocalTime.now(ZoneId.of('Europe/London'))
+                                                              .plusMinutes(1)
+                                                              .format(DateTimeFormatter.ofPattern('HH:mm'))
+                                                            , expectedTime);
+  // long timeout for punctuality recalculation cycle
+  await browser.wait(ExpectedConditions.textToBePresentInElement(timetablePage.navBarIndicatorText, expectedPunctuality()),
+    60 * 1000,
+    `Punctuality value is not '${expectedPunctuality()}'`);
+});
+
+Then('the punctuality increases when the train is not moving', async () => {
+ const actualText: string = await timetablePage.getNavBarIndicatorText();
+ await browser.wait(async () => {
+   const currentText = await timetablePage.navBarIndicatorText.getText();
+   return currentText !== actualText;
+ }, 65 * 1000, `Punctuality was not updated after 60 seconds as the service incurs lateness, was still '${actualText}'`);
+});
+
 
 Then('the punctuality for {string} location {string} is displayed as {string}',
   async (locationType: string, location: string, expectedText: string) => {
@@ -900,6 +931,16 @@ Then(/^the (Arrival|Departure) punctuality for location "(.*)" instance (\d+) is
     });
   });
 
+Then(/^the (Arrival|Departure) punctuality for location "(.*)" instance (\d+) is "(.*)"$/,
+  async (arrivalDeparture, location, instance, expectedPunctuality) => {
+    await timetablePage.getRowByLocation(location, instance).then(async row => {
+      const field = row.punctuality;
+      await browser.wait(ExpectedConditions.textToBePresentInElement(field, expectedPunctuality),
+        20 * 1000,
+        `Punctuality not ${expectedPunctuality} for location ${location}, was ${await field.getText()}`);
+    });
+  });
+
 Then(/^the predicted Departure punctuality for location "(.*)" instance (\d+) is correctly calculated based on the planned time of '(.*)' or the current time$/,
   async (location, instance, expectedTime) => {
     const expectedDepartureTime = LocalTime.parse(expectedTime);
@@ -944,7 +985,6 @@ function convertDaysStringIfNecessary(daysString: string): string {
 }
 
 function getExpectedPunctuality(arrival, actualTime, expectedTime): string {
-  const minutes = ChronoUnit.MINUTES.between(LocalTime.parse(expectedTime), LocalTime.parse(actualTime));
   let seconds = ChronoUnit.SECONDS.between(LocalTime.parse(expectedTime), LocalTime.parse(actualTime));
   const isLate = (seconds >= 0);
   if (arrival) {
@@ -955,7 +995,20 @@ function getExpectedPunctuality(arrival, actualTime, expectedTime): string {
     seconds = Math.floor(seconds / 30) * 30;
   }
   const plusMinus = (isLate) ? `+` : `-`;
-  return (Math.abs(seconds) % 60 === 0) ? `${plusMinus}${Math.abs(minutes)}m` : `${plusMinus}${Math.abs(minutes)}m ${Math.abs(seconds % 60)}s`;
+
+  const minutes = ((seconds - (seconds % 60)) / 60) % 60;
+  const hours = (seconds - (seconds % 3600)) / 3600;
+  const punctualityArray = [];
+  if (hours > 0) {
+    punctualityArray.push(`${Math.abs(hours)}h`);
+  }
+  if (minutes > 0 || hours === 0) {
+    punctualityArray.push(`${Math.abs(minutes)}m`);
+  }
+  if (Math.abs(seconds) % 60 !== 0) {
+    punctualityArray.push(`${Math.abs(seconds % 60)}s`);
+  }
+  return `${plusMinus}${punctualityArray.join(' ')}`;
 }
 
 function actualsTimeRounding(timestamp: string, arrivalOrDeparture: string): string {

@@ -1,4 +1,4 @@
-@bug @60608
+@bug @bug:64527
 Feature: 51586 - TMV - Extrapolate path with predicted path information
 
   As a TMV user

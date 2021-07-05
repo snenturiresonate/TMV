@@ -1,6 +1,8 @@
 import {Given, When} from 'cucumber';
 import {RedisClient} from '../api/redis/redis-client';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
+import {browser} from 'protractor';
+import {TMVRedisUtils} from '../utils/tmv-redis-utils';
 
 const redisClient: RedisClient = new RedisClient();
 
@@ -30,4 +32,9 @@ Given(/^I clear all MTBs$/, () => {
   redisClient.keyDelete('manual-trust-berth-states');
   redisClient.keyDelete('last-manual-trust-berth');
   redisClient.keyDelete('manual-trust-berths-snapshot');
+});
+
+Given(/^I reset redis$/, async () => {
+  await new TMVRedisUtils().reset();
+  await browser.sleep(5000);
 });

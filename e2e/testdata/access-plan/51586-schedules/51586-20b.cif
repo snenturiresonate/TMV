@@ -1,0 +1,5 @@
+HDTPS.UCFT1LX.PD2010292910201954CFT1LXMCFT1LXLFA291020291120                    
+BSRB500202005185012111111100 PXX5B201032122330000 EMU506 110      B S          P
+LOCREWE   2328 000011        TB                                                 
+LTCREWECS 2333 0000      TF                                                     
+ZZ                                                                              

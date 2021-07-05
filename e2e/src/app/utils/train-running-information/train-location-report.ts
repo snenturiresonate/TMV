@@ -63,7 +63,7 @@ export class TRITrainLocationReport {
 
     const delayMinutes = ChronoUnit.MINUTES.between(bookedTime, eventTime);
     const isLate = delayMinutes > 0;
-    const formattedDelay: string = isLate ? `+${delayMinutes.toString().padStart(4, '0')}` : `-${delayMinutes.toString().padStart(4, '0')}`;
+    const formattedDelay: string = isLate ? `+${Math.abs(delayMinutes).toString().padStart(4, '0')}` : `-${Math.abs(delayMinutes).toString().padStart(4, '0')}`;
 
     const trainLocationReport = fragment().ele('TrainLocationReport')
       .ele(TRILocation.trainLocation(locationPrimaryCode, locationSubsidiaryCode))

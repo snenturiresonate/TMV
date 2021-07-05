@@ -17,7 +17,11 @@ export class RedisClient {
   }
 
   public keyDelete(key: string): void {
-    this.client.del(key);
+      this.client.del(key);
+  }
+  public async deleteKey(key: string): Promise<any> {
+    const deleteAsync = promisify(this.client.del).bind(this.client);
+    return await deleteAsync(key);
   }
 
   public async listKeys(fuzzyKey: string): Promise<any> {

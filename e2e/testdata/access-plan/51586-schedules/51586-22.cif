@@ -1,0 +1,32 @@
+HDTPS.UCFT1LX.PD2010292910201954CFT1LXMCFT1LXLFA291020291120                    
+BSRA500222005185012111111100 PXX5A221032122330000 EMU506 110      B S          P
+LOBHAMNWS 2230 22302B        TB                                                 
+LISOHOSJ            2234 00000000                                               
+LIGALTONJ           2235H00000000                                               
+LIDUDLPT            2238H00000000                     1 1                       
+LIWVRMPTN 2247 2248H     224722482        T                                     
+LIWVRMTNJ           2250 00000000                                               
+LIBSBYJN            2251 00000000                                               
+LIPNKRDG            2256 00000000                     1                         
+LISTAFTVJ           2300 00000000   SL                                          
+LISTAFFRD 2301 2305H     230123055  SL SL T             1H                      
+LISLIGHTJ           2308 00000000   DNB                                         
+LIYFIELDJ           2309 00000000                                               
+LISTONE             2311H00000000                                               
+LISTOKOTJ           2317H00000000                       1H                      
+LISTOKEOT 2320 2322H     232023202        T             2H                      
+LIKIDSGRV           2331H00000000                       1H                      
+LIALSAGER           2335H00000000                     1                         
+LIBTHLYJN           2338H00000000                                               
+LICREWSJN           2341H00000000UDP                                            
+LICREWE             2344H000000001                                              
+LICREWSBG           2347 00000000   FL                                          
+LISBCH              2350 000000002                                              
+LIALDEDGE           2357H00000000                                               
+LIWLMSL             2359 000000001                                              
+LIHLDGSJ            0001H00000000                     1   1                     
+LIHLDG              0004 000000001                    1                         
+LISLDLJN            0010 00000000   SL                                          
+LIARDWCKJ           0011H00000000                                               
+LTMNCRPIC 0015 001510 SL TF                                                     
+ZZ                                                                              
