@@ -77,7 +77,6 @@ Feature: 33768-3: TMV User Management
       | restriction      |
       | schedulematching |
 
-  @bug @task_60518
   Scenario Outline: 15 Displaying matching for user with Schedule Matching Role - <matchType>
     #  Given I have signed in
     #  And I have a valid TMV role of Schedule Matching
@@ -95,14 +94,15 @@ Feature: 33768-3: TMV User Management
     When the following live berth interpose message is sent from LINX <description>
       | toBerth | trainDescriber | trainDescription   |
       | A001    | D3             | <trainDescription> |
+    And I am on the trains list page
     And train description '<trainDescription>' is visible on the trains list with schedule type '<scheduleType>'
-    And I invoke the context menu from train '<trainDescription>' on the trains list
+    When I invoke the context menu for todays train '<trainDescription>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     Then the <matchType> version of the trains list context menu is displayed
     # cleanup
     * the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching-cancelled.cif' is received from LINX
 
     Examples:
-      | matchType | trainDescription | description            | scheduleType |
-      | Matched   | 1B13             | (creating a match)     | STP          |
-      | Unmatched | 1X13             | (not creating a match) |              |
+      | matchType | trainDescription | planningUid | description            | scheduleType |
+      | Matched   | 1B13             | B11111      | (creating a match)     | STP          |
+      | Unmatched | 2X13             | UNPLANNED   | (not creating a match) |              |

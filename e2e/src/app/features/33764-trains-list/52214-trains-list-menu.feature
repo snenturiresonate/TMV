@@ -56,7 +56,8 @@ Feature: 52214 - TMV Trains List - menu
       | 1668      | 1664    | D1             | 2P77             |
     And I am on the trains list page
     And The trains list table is visible
-    When I invoke the context menu from train '2P77' on the trains list
+    And train '2P77' with schedule id 'D11664' for today is visible on the trains list
+    When I invoke the context menu for todays train '2P77' schedule uid 'D11664' from the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu contains '2P77' on line 1
     And the trains list context menu contains 'Unmatch / Rematch' on line 3
@@ -70,7 +71,7 @@ Feature: 52214 - TMV Trains List - menu
     Then the tab title is 'TMV Timetable'
     And the timetable header train description is '2P77'
     When I close the last tab
-    And I invoke the context menu from train '2P77' on the trains list
+    And I invoke the context menu for todays train '2P77' schedule uid 'D11664' from the trains list
     And I wait for the trains list context menu to display
     And I click on Unmatch in the context menu
     And I switch to the new tab
@@ -84,7 +85,8 @@ Feature: 52214 - TMV Trains List - menu
       | 0535    | 5N68           | D6               |
     And I am on the trains list page
     And The trains list table is visible
-    When I invoke the context menu from train '5N68' on the trains list
+    And train '5N68' with schedule id 'D60535' for today is visible on the trains list
+    When I invoke the context menu for todays train '5N68' schedule uid 'D60535' from the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu contains '5N68' on line 1
     And the trains list context menu contains 'Match' on line 3

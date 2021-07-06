@@ -68,13 +68,22 @@ enum DefaultTrainsListIndicationColours {
 }
 
 When('I invoke the context menu from train {int} on the trains list', async (itemNum: number) => {
-  await trainsListPage.rightClickTrainListItem(itemNum);
+  await trainsListPage.rightClickTrainListItemNum(itemNum);
 });
 
-When('I invoke the context menu from train {string} on the trains list', async (scheduleNum: string) => {
-  const itemNum = await trainsListPage.getRowForSchedule(scheduleNum) + 1;
-  expect(itemNum, `Train ${scheduleNum} does not appear on the trains list`).to.not.equal(0);
-  await trainsListPage.rightClickTrainListItem(itemNum);
+When('I invoke the context menu for todays train {string} schedule uid {string} from the trains list',
+  async (serviceId: string, scheduleId: string) => {
+    if (scheduleId === 'UNPLANNED') {
+      const schedNum = await trainsListPage.getRowForSchedule(serviceId);
+      await trainsListPage.rightClickTrainListItemNum(schedNum);
+    }
+    else {
+      if (scheduleId === 'generatedTrainUId') {
+        scheduleId = browser.referenceTrainUid;
+      }
+      const todaysScheduleString = scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
+      await trainsListPage.rightClickTrainListItem(todaysScheduleString);
+    }
 });
 
 Then('Train description {string} is visible on the trains list', async (scheduleNum: string) => {
@@ -95,6 +104,9 @@ Then(/^train '?(\w+)'? with schedule id '?(\w+)'? for today (is|is not) visible 
     }
     const todaysScheduleString = scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
     if (negate === 'is') {
+      while (!await trainsListPage.isTrainVisible(serviceId, todaysScheduleString) && await trainsListPage.paginationNext.isEnabled()) {
+        trainsListPage.paginationNext.click();
+      }
       const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(serviceId, todaysScheduleString);
       expect(isScheduleVisible, `Train ${serviceId}:${scheduleId} was not visible on the trains list`).to.equal(true);
     }
@@ -134,6 +146,9 @@ When('the following service is not displayed on the trains list', async (table: 
   const serviceId = tableValues.trainId;
   const trainUID = tableValues.trainUId;
   await page.navigateTo('/tmv/trains-list');
+  while (!await trainsListPage.isTrainVisible(serviceId, trainUID) && trainsListPage.paginationNext.isEnabled()) {
+    trainsListPage.paginationNext.click();
+  }
   const isTrainVisible: boolean = await trainsListPage.isTrainVisible(serviceId, trainUID);
   expect(isTrainVisible, `Service ${serviceId} with trainUId ${trainUID} is displayed`).to.equal(false);
 });
@@ -143,6 +158,9 @@ When('the following service is displayed on the trains list', async (table: any)
   const serviceId = tableValues.trainId;
   const trainUID = tableValues.trainUId;
   await page.navigateTo('/tmv/trains-list');
+  while (!await trainsListPage.isTrainVisible(serviceId, trainUID) && trainsListPage.paginationNext.isEnabled()) {
+    trainsListPage.paginationNext.click();
+  }
   const isTrainVisible: boolean = await trainsListPage.isTrainVisible(serviceId, trainUID);
   expect(isTrainVisible, `Service ${serviceId} with trainUId ${trainUID} is not displayed`).to.equal(true);
 });
@@ -204,13 +222,17 @@ Then('the trains list context menu contains the {word} {string} of train {int} o
 Then(/^the (Matched|Unmatched) version of the trains list context menu is displayed$/, async (matchType: string) => {
   let expected1;
   let expected2;
+  let expected3;
+  let contextMenuItem3;
   if (matchType === 'Matched') {
     expected1 = 'Open timetable';
-    expected2 = 'Find train';
+    expected2 = 'Find Train';
 
   } else {
     expected1 = 'No timetable';
-    expected2 = 'Match';
+    expected2 = 'Find Train';
+    expected3 = 'Match';
+    contextMenuItem3 = await trainsListPage.getTrainsListContextMenuItem(4);
   }
   const contextMenuItem1: string = await trainsListPage.getTrainsListContextMenuItem(2);
   const contextMenuItem2: string = await trainsListPage.getTrainsListContextMenuItem(3);
@@ -218,6 +240,10 @@ Then(/^the (Matched|Unmatched) version of the trains list context menu is displa
     .to.contain(expected1);
   expect(contextMenuItem2, `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
     .to.contain(expected2);
+  if (!(matchType === 'Matched')) {
+    expect(contextMenuItem3, `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
+      .to.contain(expected3);
+  }
 });
 
 
@@ -431,7 +457,7 @@ When('I navigate to train list configuration', async () => {
 When('I perform a secondary click on a random service using the mouse', async () => {
   const tableRowCount = await trainsListPage.trainsListItems.count();
   const randomIndex = Math.floor(Math.random() * tableRowCount);
-  await trainsListPage.rightClickTrainListItem(randomIndex);
+  await trainsListPage.rightClickTrainListItemNum(randomIndex);
 });
 
 Then('The {word} trains list columns are displayed in order', async (filterType: string) => {

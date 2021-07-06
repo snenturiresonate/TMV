@@ -390,19 +390,19 @@ export class NavBarPageObject {
     return this.contextMapLink.isPresent();
   }
 
-  public async rightClickTrainList(position: number): Promise<void> {
+  public async rightClickTrainSearchList(position: number): Promise<void> {
     const rows = this.trainSearchRow;
     const targetRow = rows.get(position - 1);
     browser.actions().click(targetRow, protractor.Button.RIGHT).perform();
   }
 
-  public async rightClickTimeTableList(position: number): Promise<void> {
+  public async rightClickTimeTableSearchList(position: number): Promise<void> {
     const rows = this.timeTableSearchRow;
     const targetRow = rows.get(position - 1);
     browser.actions().click(targetRow, protractor.Button.RIGHT).perform();
   }
 
-  public async rightClickSignal(position: number): Promise<void> {
+  public async rightClickSignalSearchList(position: number): Promise<void> {
     const rows = this.signalSearchRow;
     const targetRow = rows.get(position - 1);
     browser.actions().click(targetRow, protractor.Button.RIGHT).perform();

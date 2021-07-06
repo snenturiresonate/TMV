@@ -176,7 +176,7 @@ Feature: 37657 - Basic Timetable Modelling
     Given I am on the trains list page
     And The trains list table is visible
     And train '<trainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
-    And I invoke the context menu from train '<trainDesc>' on the trains list
+    And I invoke the context menu for todays train '<trainDesc>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
     When I open timetable from the context menu
     And I switch to the new tab
@@ -203,7 +203,7 @@ Feature: 37657 - Basic Timetable Modelling
     And I am on the trains list page
     And The trains list table is visible
     And train '<trainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
-    And I invoke the context menu from train '<trainDesc>' on the trains list
+    And I invoke the context menu for todays train '<trainDesc>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
     When I open timetable from the context menu
     And I switch to the new tab
@@ -244,7 +244,7 @@ Feature: 37657 - Basic Timetable Modelling
     And I am on the trains list page
     And The trains list table is visible
     And train '<trainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
-    And I invoke the context menu from train '<trainDesc>' on the trains list
+    And I invoke the context menu for todays train '<trainDesc>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
     And I open timetable from the context menu
     And I switch to the new tab
@@ -273,7 +273,7 @@ Feature: 37657 - Basic Timetable Modelling
     And I am on the trains list page
     And The trains list table is visible
     And train '1D46' with schedule id 'L77777' for today is visible on the trains list
-    And I invoke the context menu from train '1D46' on the trains list
+    And I invoke the context menu for todays train '1D46' schedule uid 'L77777' from the trains list
     And I wait for the trains list context menu to display
     And I open timetable from the context menu
     And I switch to the new tab

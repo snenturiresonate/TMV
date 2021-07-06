@@ -30,7 +30,7 @@ Feature: 34002 - Unscheduled Trains Menu
       | toBerth | trainDescriber | trainDescription |
       | 1777    | D1             | <trainNum>       |
     And I navigate to TrainsList page
-    When I invoke the context menu from train '<trainNum>' on the trains list
+    When I invoke the context menu for todays train '<trainNum>' schedule uid 'UNPLANNED' from the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu is displayed
     And the trains list context menu has 'Match' on line 4
@@ -43,7 +43,8 @@ Feature: 34002 - Unscheduled Trains Menu
       | trainUID      | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           |
       | <planningUid> | <trainNum>  | today              | 73822               | SLOUGH                 | Departure from Origin |
     And I navigate to TrainsList page
-    When I invoke the context menu from train '<trainNum>' on the trains list
+    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu is displayed
     And the trains list context menu has 'Match' on line 4
@@ -88,7 +89,8 @@ Feature: 34002 - Unscheduled Trains Menu
     And the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 0255      | 0271    | D4             | <trainNum>       |
-    When I invoke the context menu from train '<trainNum>' on the trains list
+    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu is displayed
     And the map context menu has 'Unmatch / Rematch' on line 3

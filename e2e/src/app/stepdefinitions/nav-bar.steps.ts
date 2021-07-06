@@ -430,12 +430,12 @@ Then('I click on the signal map option', async () => {
 });
 
 Then(/^I invoke the context menu from signal (.*)$/, async (itemNum: number) => {
-  await navBarPage.rightClickSignal(itemNum);
+  await navBarPage.rightClickSignalSearchList(itemNum);
 
 });
 
 Then(/^I invoke the context menu from trains (.*)$/, async (itemNum: number) => {
-  await navBarPage.rightClickTrainList(itemNum);
+  await navBarPage.rightClickTrainSearchList(itemNum);
 
 });
 
@@ -444,25 +444,25 @@ Then(/^I invoke the context menu from an? (.*) service in the (.*) list$/, async
   expect(itemNum, `No service with status ${statusType}`).to.not.equal(-1);
   itemNum = itemNum + 1;
   if (searchType === 'Train') {
-    await navBarPage.rightClickTrainList(itemNum);
+    await navBarPage.rightClickTrainSearchList(itemNum);
     browser.selectedTrain = await navBarPage.getSearchListValueForColumnAndRow(searchType.toLowerCase(), 'TrainDesc', itemNum);
   }
   else if (searchType === 'Timetable') {
-    await navBarPage.rightClickTimeTableList(itemNum);
+    await navBarPage.rightClickTimeTableSearchList(itemNum);
     browser.selectedTrain = await navBarPage.getSearchListValueForColumnAndRow(searchType.toLowerCase(), 'TrainDesc', itemNum);
   }
 });
 
 Then(/^I invoke the context menu from timetable (.*)$/, async (itemNum: number) => {
-  await navBarPage.rightClickTimeTableList(itemNum);
+  await navBarPage.rightClickTimeTableSearchList(itemNum);
 });
 
 When('I invoke the context menu from train {int} on the timetable results table', async (itemNum: number) => {
-  await navBarPage.rightClickTimeTableList(itemNum);
+  await navBarPage.rightClickTimeTableSearchList(itemNum);
 });
 
 When('I invoke the context menu from train {int} on the trains list table', async (itemNum: number) => {
-  await navBarPage.rightClickTrainList(itemNum);
+  await navBarPage.rightClickTrainSearchList(itemNum);
 });
 
 When('I click on the Help icon', async () => {

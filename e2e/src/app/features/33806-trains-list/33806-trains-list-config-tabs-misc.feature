@@ -197,6 +197,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     * I restore to default train list config
 
 
+    @bug @bug_64709
   Scenario: 33806 -32c Trains List Config (Train Misc Settings Applied) - Ignore PD cancel toggle off
     Given the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |departureDate |actualDepartureHour |

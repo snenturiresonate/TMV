@@ -22,7 +22,7 @@ Feature: 33753 - TMV Timetable
     And I am on the trains list page
     And The trains list table is visible
     And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
-    When I invoke the context menu from train '<trainNum>' on the trains list
+    When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     And the trains list context menu is displayed
     And I open timetable from the context menu
@@ -157,7 +157,8 @@ Feature: 33753 - TMV Timetable
       | 0519    | D6             | <trainNum>       |
     Given I am on the trains list page
     And The trains list table is visible
-    When I invoke the context menu from train '<trainNum>' on the trains list
+    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     And the trains list context menu contains 'Unmatch' on line 3
     And I open timetable from the context menu
@@ -309,7 +310,8 @@ Feature: 33753 - TMV Timetable
     And Train description '<trainNum>' is visible on the trains list
     And I am on the trains list page
     And The trains list table is visible
-    When I invoke the context menu from train '<trainNum>' on the trains list
+    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     And the trains list context menu contains 'Match' on line 3
     And I open timetable from the context menu
@@ -451,7 +453,8 @@ Feature: 33753 - TMV Timetable
     And Train description '<trainNum>' is visible on the trains list
     And I am on the trains list page
     And The trains list table is visible
-    When I invoke the context menu from train '<trainNum>' on the trains list
+    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     And the trains list context menu contains 'Match' on line 3
     And I open timetable from the context menu

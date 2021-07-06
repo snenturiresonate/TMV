@@ -303,7 +303,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the service is displayed in the trains list with the following row colour
       | rowType       | trainUID   | rowColour              |
       | Origin called | <trainUid> | rgba(255, 181, 120, 1) |
-    And I invoke the context menu from train '<trainDescription>' on the trains list
+    And I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
     And the trains list context menu is displayed
     When I open timetable from the context menu
@@ -342,7 +342,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the service is displayed in the trains list with the following row colour
       | rowType       | trainUID   | rowColour              |
       | Origin called | <trainUid> | rgba(255, 181, 120, 1) |
-    And I invoke the context menu from train '<trainDescription>' on the trains list
+    And I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
     And the trains list context menu is displayed
     When I open timetable from the context menu
@@ -382,7 +382,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the following berth step message is sent from LINX
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription   |
       | B136      | 13:35:06  | A136    | CE             | <trainDescription> |
-    And I invoke the context menu from train '<trainDescription>' on the trains list
+    And I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
     And the trains list context menu is displayed
     When I open timetable from the context menu
@@ -421,7 +421,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the following berth step message is sent from LINX
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription   |
       | B136      | 13:35:06  | A136    | CE             | <trainDescription> |
-    And I invoke the context menu from train '<trainDescription>' on the trains list
+    And I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
     And the trains list context menu is displayed
     When I open timetable from the context menu
@@ -459,7 +459,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the following berth step message is sent from LINX
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription   |
       | 5474      | 14:25:06  | 5470    | R2             | <trainDescription> |
-    And I invoke the context menu from train '<trainDescription>' on the trains list
+    And I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
     And the trains list context menu is displayed
     When I open timetable from the context menu
@@ -497,7 +497,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the following berth step message is sent from LINX
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription   |
       | 3620      | 13:39:06  | 3618    | R3             | <trainDescription> |
-    And I invoke the context menu from train '<trainDescription>' on the trains list
+    And I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
     And the trains list context menu is displayed
     When I open timetable from the context menu
@@ -536,7 +536,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the following berth step message is sent from LINX
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription   |
       | 0110      | 13:35:06  | 0112    | WY             | <trainDescription> |
-    And I invoke the context menu from train '<trainDescription>' on the trains list
+    And I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
     And the trains list context menu is displayed
     When I open timetable from the context menu
@@ -572,7 +572,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the following TJM is received
       | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
       | <trainUid> | <trainDescription> | 12            | create | 94        | 94              | 99999       | COLWICH        | 14:02:00 | 82                 | VA                |
-    And I invoke the context menu from train '<trainDescription>' on the trains list
+    And I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
     And the trains list context menu is displayed
     When I open timetable from the context menu
@@ -612,7 +612,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the following berth step message is sent from LINX
       | fromBerth | timestamp | toBerth | trainDescriber | trainDescription   |
       | A120      | 13:33:06  | B120    | CE             | <trainDescription> |
-    And I invoke the context menu from train '<trainDescription>' on the trains list
+    And I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
     And the trains list context menu is displayed
     When I open timetable from the context menu

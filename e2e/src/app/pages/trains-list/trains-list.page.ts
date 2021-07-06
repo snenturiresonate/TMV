@@ -20,6 +20,8 @@ export class TrainsListPageObject {
   public matchUnmatchLink: ElementFinder;
   public primarySortCol: ElementFinder;
   public secondarySortCol: ElementFinder;
+  public paginationPrevious: ElementFinder;
+  public paginationNext: ElementFinder;
 
   private redisClient: RedisClient;
 
@@ -39,6 +41,8 @@ export class TrainsListPageObject {
     this.matchUnmatchLink = element(by.css('#match-unmatch-selection-item'));
     this.primarySortCol = element(by.css('.primary-sort-header'));
     this.secondarySortCol = element(by.css('.secondary-sort-header'));
+    this.paginationPrevious = element(by.id('trains-list-pagination-previous'));
+    this.paginationNext = element(by.id('trains-list-pagination-next'));
     this.redisClient = new RedisClient();
   }
 
@@ -109,10 +113,14 @@ export class TrainsListPageObject {
     }, browser.displayTimeout, 'The trains list context menu should be displayed');
     return this.trainsListContextMenu.isPresent();
   }
-  public async rightClickTrainListItem(position: number): Promise<void> {
+  public async rightClickTrainListItemNum(position: number): Promise<void> {
     const rows = this.trainsListItems;
-    const targetRow = rows.get(position - 1);
+    const targetRow = rows.get(position);
     browser.actions().click(targetRow, protractor.Button.RIGHT).perform();
+  }
+  public async rightClickTrainListItem(scheduleString: string): Promise<void> {
+    const trainScheduleId: ElementFinder = element(by.css('[id=\'trains-list-row-' + scheduleString + '\''));
+    browser.actions().click(trainScheduleId, protractor.Button.RIGHT).perform();
   }
   public async isTrainsListContextMenuDisplayed(): Promise<boolean> {
     return this.trainsListContextMenu.isPresent();
