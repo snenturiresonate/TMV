@@ -1,4 +1,4 @@
-import { by, element, ElementArrayFinder, ElementFinder} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import { InputBox } from '../common/ui-element-handlers/inputBox';
 import {CheckBox} from '../common/ui-element-handlers/checkBox';
@@ -105,7 +105,7 @@ export class TrainsListMiscConfigTab {
     return CheckBox.toggleIsSelected(this.rightClassTableToggleRouter(label));
   }
   public async getTrainMiscClassNameNumberValuesRight(label: string): Promise<string> {
-    return InputBox.waitAndGetTextOfInputBox(this.rightClassTableNumberRouter(label));
+    return browser.executeScript('return document.getElementById("' + this.rightMiscTableNumberIDRouter(label) + '").value');
   }
   public async updateToggleOfClassName(className: string, toggleUpdate: string): Promise<void> {
     const elm = this.getToggleOfClass(className);
@@ -144,6 +144,20 @@ export class TrainsListMiscConfigTab {
     }
     return routeLocator;
   }
+
+  public rightMiscTableNumberIDRouter(label: string): string {
+    let routeLocator: string;
+    switch (label) {
+      case ('Time to remain on list'):
+        routeLocator = 'timeToRemain';
+        break;
+      case ('Appear before current time on list'):
+        routeLocator = 'timeToAppearBefore';
+        break;
+    }
+    return routeLocator;
+  }
+
   private getToggleOfClass(className: string): ElementFinder {
     return element(by.xpath(`//td[contains(.,'${className}')]//..//td//label`));
   }

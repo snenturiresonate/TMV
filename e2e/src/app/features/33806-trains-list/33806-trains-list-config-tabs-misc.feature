@@ -38,9 +38,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Ignore PD Cancels                  | on          |
       | Unmatched                          | on          |
       | Uncalled                           | on          |
-#    @bug @bug:64692
-#      | Time to remain on list             | 5           |
-#      | Appear before current time on list | 5           |
+      | Time to remain on list             | 5           |
+      | Appear before current time on list | 5           |
     # clean up
     * I restore to default train list config
 
@@ -137,17 +136,15 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Ignore PD Cancels                  | on          |
       | Unmatched                          | on          |
       | Uncalled                           | off         |
-#    @bug @bug:64692
-#      | Time to remain on list             | 5           |
-#      | Appear before current time on list | 5           |
+      | Time to remain on list             | 5           |
+      | Appear before current time on list | 5           |
     Then the following toggle values can be seen on the right class table
       | classValue                         | toggleValue |
       | Ignore PD Cancels                  | on          |
       | Unmatched                          | on          |
       | Uncalled                           | off         |
-#    @bug @bug:64692
-#      | Time to remain on list             | 5           |
-#      | Appear before current time on list | 5           |
+      | Time to remain on list             | 5           |
+      | Appear before current time on list | 5           |
     # clean up
     * I restore to default train list config
 
