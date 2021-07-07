@@ -64,9 +64,9 @@ Feature: 33753 - TMV Timetable
   Scenario Outline: 33753-2b -Open Timetable (from Map - Unmatched)
     Given I am viewing the map HDGW01paddington.v
     And I have cleared out all headcodes
-    And the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth | trainDescriber | trainDescription |
-      | 09:59:00  | 0099    | D3             | <trainNum>       |
+    And the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth | trainDescriber | trainDescription |
+      | 0099    | D3             | <trainNum>       |
     When I invoke the context menu on the map for train <trainNum>
     Then the map context menu contains 'No timetable' on line 2
     Examples:
@@ -117,9 +117,9 @@ Feature: 33753 - TMV Timetable
   @bug @bug:60049
   Scenario Outline: 33753-3c Open Timetable (from Manual Match Search Result - matched/unmatched services have timetable)
     Given I am viewing the map HDGW01paddington.v
-    And the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth | trainDescriber | trainDescription |
-      | 09:59:00  | <berth> | D4             | <trainNum>       |
+    And the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth | trainDescriber | trainDescription |
+      | <berth> | D4             | <trainNum>       |
     When I invoke the context menu on the map for train <trainNum>
     And I open schedule matching screen from the map context menu
     And I switch to the new tab

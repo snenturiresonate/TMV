@@ -25,9 +25,9 @@ Feature: 47637 - Process C Class Messages - Step Translation
     #clear out message received with from berth -> step translation
     Given I am on a map showing berth '<newToBerth>' and in train describer '<newToTrainDescriber>'
     And I have cleared out all headcodes
-    And the following berth interpose message is sent from LINX
-      | timestamp | toBerth     | trainDescriber       | trainDescription   |
-      | 09:59:00  | <fromBerth> | <fromTrainDescriber> | <trainDescription> |
+    And the following live berth interpose message is sent from LINX
+      | toBerth     | trainDescriber       | trainDescription   |
+      | <fromBerth> | <fromTrainDescriber> | <trainDescription> |
     When the following berth cancel message is sent from LINX
       | timestamp | fromBerth   | trainDescriber       | trainDescription   |
       | 09:59:00  | <fromBerth> | <fromTrainDescriber> | <trainDescription> |
@@ -43,9 +43,9 @@ Feature: 47637 - Process C Class Messages - Step Translation
     #interpose message received with from berth -> step translation
     Given I am on a map showing berth '<newToBerth>' and in train describer '<newToTrainDescriber>'
     And I have cleared out all headcodes
-    When the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 09:59:00  | <toBerth> | <toTrainDescriber> | <trainDescription> |
+    When the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth   | trainDescriber     | trainDescription   |
+      | <toBerth> | <toTrainDescriber> | <trainDescription> |
     And berth '<newToBerth>' in train describer '<newToTrainDescriber>' contains '<trainDescription>' and is visible
 
     Examples:
@@ -73,9 +73,9 @@ Feature: 47637 - Process C Class Messages - Step Translation
   Scenario Outline: 33758-10 Step Translation - new From Berth is populated - new To Berth is null - treat as Cancel
     Given I am on a map showing berth '<newFromBerth>' and in train describer '<newFromTrainDescriber>'
     And I have cleared out all headcodes
-    When the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth        | trainDescriber          | trainDescription   |
-      | 09:59:00  | <newFromBerth> | <newFromTrainDescriber> | <trainDescription> |
+    When the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth        | trainDescriber          | trainDescription   |
+      | <newFromBerth> | <newFromTrainDescriber> | <trainDescription> |
     And berth '<fromBerth>' in train describer '<fromTrainDescriber>' contains '<trainDescription>' and is visible
     When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |

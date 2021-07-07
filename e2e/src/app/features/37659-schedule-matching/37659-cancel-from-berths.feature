@@ -25,9 +25,9 @@ Feature: 37659 - Schedule Matching - Matched and Unmatched trains are removed fr
       | 9F01             | D3             | 0222  |          |             |            |
 
   Scenario Outline: 37659 -11 Clearing berth following matched cancel
-    Given the following berth interpose messages is sent from LINX (to indicate train is present)
-      | timestamp | toBerth | trainDescriber   | trainDescription   |
-      | 10:00:00  | <berth> | <trainDescriber> | <trainDescription> |
+    Given the following live berth interpose messages is sent from LINX (to indicate train is present)
+      | toBerth | trainDescriber   | trainDescription   |
+      | <berth> | <trainDescriber> | <trainDescription> |
     And berth '<berth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
     When the following berth cancel messages are sent from LINX
       | timestamp | fromBerth | trainDescriber   | trainDescription   |
@@ -58,9 +58,9 @@ Feature: 37659 - Schedule Matching - Matched and Unmatched trains are removed fr
       | 9F01             | D3             | R001          | 0222             |
 
   Scenario Outline: 37659 -13 Berth not cleared following cancel with a different train description
-    Given the following berth interpose messages is sent from LINX (to indicate train is present)
-      | timestamp | toBerth | trainDescriber   | trainDescription   |
-      | 10:00:00  | <berth> | <trainDescriber> | <trainDescription> |
+    Given the following live berth interpose messages is sent from LINX (to indicate train is present)
+      | toBerth | trainDescriber   | trainDescription   |
+      | <berth> | <trainDescriber> | <trainDescription> |
     And berth '<berth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
     When the following berth cancel messages are sent from LINX
       | timestamp | fromBerth | trainDescriber   | trainDescription         |

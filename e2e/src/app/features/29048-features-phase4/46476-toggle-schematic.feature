@@ -63,9 +63,9 @@ Feature: 33751 - Toggle Schematic
      #Then the all berth codes are displayed for all berths
       When I click on the layers icon in the nav bar
       And I toggle the 'Berth' toggle 'off'
-      And the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth | trainDescriber| trainDescription |
-      | 09:59:00  | 1855    | D0            | 1S22             |
+      And the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth | trainDescriber| trainDescription |
+      | 1855    | D0            | 1S22             |
       Then berth '1855' in train describer 'D0' contains '1S22' and is visible
       And I toggle the 'Berth' toggle 'on'
       Then berth '1855' in train describer 'D0' contains '1855' and is visible
@@ -102,9 +102,9 @@ Feature: 33751 - Toggle Schematic
     And the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D0             | 03      | 02   | 10:45:00  |
-    And the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth | trainDescriber| trainDescription |
-      | 09:59:00  | 1855    | D0            | 1S22             |
+    And the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth | trainDescriber| trainDescription |
+      | 1855    | D0            | 1S22             |
     And I click on the layers icon in the nav bar
     And I toggle the 'Platform' toggle 'off'
     And I toggle the 'Berth' toggle 'on'

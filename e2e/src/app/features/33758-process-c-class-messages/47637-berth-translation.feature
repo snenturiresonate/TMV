@@ -14,9 +14,9 @@ Feature: 47637 - Process C Class Messages - Berth Translation
     # Has type I
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
     And I have cleared out all headcodes
-    When the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 09:59:00  | <toBerth> | <toTrainDescriber> | <trainDescription> |
+    When the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth   | trainDescriber     | trainDescription   |
+      | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible
 
     Examples:
@@ -29,9 +29,9 @@ Feature: 47637 - Process C Class Messages - Berth Translation
     # Does not have type I
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
     And I have cleared out all headcodes
-    When the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 09:59:00  | <toBerth> | <toTrainDescriber> | <trainDescription> |
+    When the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth   | trainDescriber     | trainDescription   |
+      | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newBerth>' in train describer '<newTrainDescriber>' does not contain '<trainDescription>'
 
     Examples:
@@ -42,9 +42,9 @@ Feature: 47637 - Process C Class Messages - Berth Translation
     # Translation is ******
     Given I am on a map showing berth '<toBerth>' and in train describer '<toTrainDescriber>'
     And I have cleared out all headcodes
-    When the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 09:59:00  | <toBerth> | <toTrainDescriber> | <trainDescription> |
+    When the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth   | trainDescriber     | trainDescription   |
+      | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<toBerth>' in train describer '<toTrainDescriber>' does not contain '<trainDescription>'
 
     Examples:
@@ -73,9 +73,9 @@ Feature: 47637 - Process C Class Messages - Berth Translation
     # Has Type F
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
     And I have cleared out all headcodes
-    When the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth    | trainDescriber      | trainDescription   |
-      | 09:59:00  | <newBerth> | <newTrainDescriber> | <trainDescription> |
+    When the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth    | trainDescriber      | trainDescription   |
+      | <newBerth> | <newTrainDescriber> | <trainDescription> |
     And berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible
     When the following berth step message is sent from LINX (to move train)
       | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
@@ -108,9 +108,9 @@ Feature: 47637 - Process C Class Messages - Berth Translation
     # Has type C
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
     And I have cleared out all headcodes
-    And the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth    | trainDescriber      | trainDescription   |
-      | 09:59:00  | <newBerth> | <newTrainDescriber> | <trainDescription> |
+    And the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth    | trainDescriber      | trainDescription   |
+      | <newBerth> | <newTrainDescriber> | <trainDescription> |
     And berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible
     When the following berth cancel message is sent from LINX
       | timestamp | fromBerth   | trainDescriber       | trainDescription   |
@@ -127,9 +127,9 @@ Feature: 47637 - Process C Class Messages - Berth Translation
     # Does not have type C
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
     And I have cleared out all headcodes
-    And the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth    | trainDescriber      | trainDescription   |
-      | 09:59:00  | <newBerth> | <newTrainDescriber> | <trainDescription> |
+    And the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth    | trainDescriber      | trainDescription   |
+      | <newBerth> | <newTrainDescriber> | <trainDescription> |
     And berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible
     When the following berth cancel message is sent from LINX
       | timestamp | fromBerth   | trainDescriber       | trainDescription   |

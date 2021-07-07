@@ -79,9 +79,9 @@ Feature: 34380 - TMV Replay National Search
   #When the user selects a train from search result by using the secondary mouse click
   #Then the user is presented with a menu to either view the timetable or open a map(s) that contains the train
    And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
-   And the following berth interpose message is sent from LINX (to create a match)
-     | timestamp | toBerth   | trainDescriber     | trainDescription   |
-     | 10:02:06  | 0209      | D3 		             | 1F23  		          |
+   And the following live berth interpose message is sent from LINX (to create a match)
+     | toBerth   | trainDescriber     | trainDescription   |
+     | 0209      | D3 		             | 1F23  		         |
    And I search Train for 'A82345'
    And results are returned with that planning UID 'A82345'
    And the Train search table is shown
@@ -101,9 +101,9 @@ Feature: 34380 - TMV Replay National Search
 #    When the user selects a timetable from search result by using the secondary mouse click
 #    Then the user is presented with a menu to either view the timetable or open a map(s) that contains the train (if running)
     And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
-    And the following berth interpose message is sent from LINX (to create a match)
-      | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | 0209      | D3 		             | 1F23  		          |
+    And the following live berth interpose message is sent from LINX (to create a match)
+      | toBerth   | trainDescriber     | trainDescription   |
+      | 0209      | D3 		             | 1F23  		          |
     And I search Timetable for 'A82345'
     And results are returned with that planning UID 'A82345'
     And the timetable search table is shown
@@ -146,9 +146,9 @@ Feature: 34380 - TMV Replay National Search
 #    Then the user is presented with a map that contains the train
 #    And the train is highlighted for a brief period
     And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
-    And the following berth interpose message is sent from LINX (to create a match)
-      | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | 0209      | D3 		             | 1F23  		          |
+    And the following live berth interpose message is sent from LINX (to create a match)
+      | toBerth   | trainDescriber     | trainDescription   |
+      | 0209      | D3 		             | 1F23  		          |
     And I search Train for 'A82345'
     And results are returned with that planning UID 'A82345'
     And the Train search table is shown
@@ -169,9 +169,9 @@ Feature: 34380 - TMV Replay National Search
 #    Then the user is presented with a map that contains the signal
 #    And the signal is highlighted for a brief period
     And the access plan located in CIF file 'access-plan/schedules_BS_type_O.cif' is received from LINX
-    And the following berth interpose message is sent from LINX (to create a match)
-      | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | 0209      | D3 		             | 1F23  		          |
+    And the following live berth interpose message is sent from LINX (to create a match)
+      | toBerth   | trainDescriber     | trainDescription   |
+      | 0209      | D3 		             | 1F23  		          |
     And I search Signal for 'A82345'
     And results are returned with that planning UID 'A82345'
     And the signal search table is shown

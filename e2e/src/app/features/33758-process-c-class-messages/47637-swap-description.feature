@@ -13,9 +13,9 @@ Feature: 47637 - Process C Class Messages - Swap Description scenarios
     #Data taken from oddswap.dat
     Given I am viewing the map <map>
     And I have cleared out all headcodes
-    When the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth   | trainDescriber   | trainDescription           |
-      | 09:59:00  | <toBerth> | <trainDescriber> | <originalTrainDescription> |
+    When the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth   | trainDescriber   | trainDescription           |
+      | <toBerth> | <trainDescriber> | <originalTrainDescription> |
     Then berth '<toBerth>' in train describer '<trainDescriber>' contains '<swappedTrainDescription>' and is visible
 
     Examples:

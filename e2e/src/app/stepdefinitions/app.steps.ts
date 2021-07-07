@@ -286,7 +286,7 @@ When(/^the following berth step messages? (?:is|are) sent from LINX(.*)$/, async
   await linxRestClient.waitMaxTransmissionTime();
 });
 
-When(/^the following live berth step messages? (?:is|are) sent from LINX (.*)$/,
+When(/^the following live berth step messages? (?:is|are) sent from LINX(.*)$/,
   async (explanation: string, berthStepMessageTable: any) => {
     const berthStepMessages: any = berthStepMessageTable.hashes();
     const now = DateAndTimeUtils.getCurrentTimeString();

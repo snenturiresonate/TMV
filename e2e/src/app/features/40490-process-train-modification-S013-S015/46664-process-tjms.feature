@@ -64,9 +64,9 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription>  | <trainUid>     |
     And I am on the trains list page
     And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
-    And the following berth interpose message is sent from LINX
-      | timestamp | toBerth | trainDescriber | trainDescription   |
-      | 09:59:00  | A001    | D3             | <trainDescription> |
+    And the following live berth interpose message is sent from LINX
+      | toBerth | trainDescriber | trainDescription   |
+      | A001    | D3             | <trainDescription> |
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUid> | <trainDescription> | now                    | 73000               | PADTON                 | today         | now                 |

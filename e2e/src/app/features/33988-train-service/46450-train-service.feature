@@ -5,7 +5,8 @@ Feature: 33998 - TMV Train Service - full end to end testing
   So that there is confidence that it continues to work as expected as more of the system is developed
 
   Background:
-    Given The admin setting defaults are as originally shipped
+    * I am on the home page
+    * The admin setting defaults are as originally shipped
 
   @tdd
   Scenario: 33998-1 Punctuality (Matched Service)

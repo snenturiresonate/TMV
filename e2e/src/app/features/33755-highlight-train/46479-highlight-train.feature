@@ -23,9 +23,9 @@ Feature: 33755 - TMV Highlight Train
     Then the following service is displayed on the trains list
       | trainId            | trainUId      |
       | <trainDescription> | <planningUid> |
-    When the following berth interpose message is sent from LINX (creating a match)
-      | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | <berth>   | <trainDescriber>   | <trainDescription> |
+    When the following live berth interpose message is sent from LINX (creating a match)
+      | toBerth   | trainDescriber     | trainDescription   |
+      | <berth>   | <trainDescriber>   | <trainDescription> |
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
     When I wait for the Open timetable option for train description <trainDescription> in berth <berth>, describer <trainDescriber> to be available
@@ -55,9 +55,9 @@ Feature: 33755 - TMV Highlight Train
     Then the following service is displayed on the trains list
       | trainId            | trainUId      |
       | <trainDescription> | <planningUid> |
-    When the following berth interpose message is sent from LINX (creating a match)
-      | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | <berth>      | <trainDescriber>   | <trainDescription> |
+    When the following live berth interpose message is sent from LINX (creating a match)
+      | toBerth   | trainDescriber     | trainDescription   |
+      | <berth>      | <trainDescriber>   | <trainDescription> |
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
     When I wait for the Open timetable option for train description <trainDescription> in berth <berth>, describer <trainDescriber> to be available
@@ -92,15 +92,15 @@ Feature: 33755 - TMV Highlight Train
     And the following service is displayed on the trains list
       | trainId            | trainUId            |
       | <trainDescription> | <secondPlanningUid> |
-    When the following berth interpose message is sent from LINX (creating a match)
-      | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | <berth>   | <trainDescriber>   | <trainDescription> |
+    When the following live berth interpose message is sent from LINX (creating a match)
+      | toBerth   | trainDescriber     | trainDescription   |
+      | <berth>   | <trainDescriber>   | <trainDescription> |
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
     When I wait for the Open timetable option for train description <trainDescription> in berth <berth>, describer <trainDescriber> to be available
-    And the following berth interpose message is sent from LINX (creating a match)
-      | timestamp | toBerth       | trainDescriber     | trainDescription   |
-      | 10:02:06  | <secondBerth> | <trainDescriber>   | <trainDescription> |
+    And the following live berth interpose message is sent from LINX (creating a match)
+      | toBerth       | trainDescriber     | trainDescription   |
+      | <secondBerth> | <trainDescriber>   | <trainDescription> |
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
     When I wait for the Open timetable option for train description <trainDescription> in berth <berth>, describer <trainDescriber> to be available
     And I right click on berth with id '<trainDescriber><berth>'
@@ -125,9 +125,9 @@ Feature: 33755 - TMV Highlight Train
     Then the following service is displayed on the trains list
       | trainId            | trainUId      |
       | <trainDescription> | <planningUid> |
-    When the following berth interpose message is sent from LINX (creating a match)
-      | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | <berth>   | <trainDescriber>   | <trainDescription> |
+    When the following live berth interpose message is sent from LINX (creating a match)
+      | toBerth   | trainDescriber     | trainDescription   |
+      | <berth>   | <trainDescriber>   | <trainDescription> |
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
     When I wait for the Open timetable option for train description <trainDescription> in berth <berth>, describer <trainDescriber> to be available
@@ -158,9 +158,9 @@ Feature: 33755 - TMV Highlight Train
     Then the following service is displayed on the trains list
       | trainId            | trainUId      |
       | <trainDescription> | <planningUid> |
-    When the following berth interpose message is sent from LINX (creating a match)
-      | timestamp | toBerth   | trainDescriber     | trainDescription   |
-      | 10:02:06  | <berth>      | <trainDescriber>   | <trainDescription> |
+    When the following live berth interpose message is sent from LINX (creating a match)
+      | toBerth   | trainDescriber     | trainDescription   |
+      | <berth>      | <trainDescriber>   | <trainDescription> |
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
     When I wait for the Open timetable option for train description <trainDescription> in berth <berth>, describer <trainDescriber> to be available

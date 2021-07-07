@@ -159,9 +159,9 @@ Feature: 37659 - Basic Schedule matching framework
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
-    And the following berth step message is sent from LINX
-      | fromBerth | timestamp | toBerth       | trainDescriber   | trainDescription |
-      | <berth>   | 12:00:00  | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
+    And the following live berth step message is sent from LINX
+      | fromBerth | toBerth       | trainDescriber   | trainDescription |
+      | <berth>   | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     And I invoke the context menu on the map for train <origTrainDesc>
     Then the Matched version of the map context menu is displayed

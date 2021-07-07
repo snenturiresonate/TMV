@@ -71,9 +71,9 @@ Feature: 46482 - TMV Key - select key
     When I click on the Help icon
     And I select the TMV Key option
     Then a modal displays with title 'Key'
-    When the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth | trainDescriber| trainDescription |
-      | 09:59:00  | 0099    | D3            | 1K56             |
+    When the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth | trainDescriber| trainDescription |
+      | 0099    | D3            | 1K56             |
     Then berth '0099' in train describer 'D3' contains '1K56' and is visible
 
   Scenario: 34085-1i The TMV Key modal window can only be opened one key at a time
