@@ -10,6 +10,7 @@ import {expect} from 'chai';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 import {CucumberLog} from '../logging/cucumber-log';
 import {TrainUIDUtils} from '../pages/common/utilities/trainUIDUtils';
+import {DateTimeFormatter} from '@js-joda/core';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
@@ -36,10 +37,10 @@ When('the access plan located in CIF file {string} is amended so that all servic
     const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), cifFilePath));
     const initialString = rawData.toString();
     const cifLines: string[] = initialString.split(/\r?\n/, 1000);
-    const now = new Date();
-    const startHours = Number(now.getHours());
-    const startMins = Number(now.getMinutes());
-    const timeOfExtract = `${startHours.toString().padStart(2, '0')}${startMins.toString().padStart(2, '0')}`;
+    const now = DateAndTimeUtils.getCurrentTime();
+    const startHours = now.hour();
+    const startMins = now.minute();
+    const timeOfExtract = now.format(DateTimeFormatter.ofPattern('HHmm'));
     const dateOfExtract = DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'ddMMyy');
     const endDateOfExtract = DateAndTimeUtils.convertToDesiredDateAndFormat('tomorrow', 'ddMMyy');
     let setHours = startHours;

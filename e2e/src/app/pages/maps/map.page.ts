@@ -1,16 +1,13 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, ExpectedConditions, protractor} from 'protractor';
 import {of} from 'rxjs';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
-import * as fs from 'fs';
 import {CucumberLog} from '../../logging/cucumber-log';
-import {ProjectDirectoryUtil} from '../../utils/project-directory.util';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {AppPage} from '../app.po';
-import assert = require('assert');
-import path = require('path');
 import {BerthInterpose} from '../../../../../src/app/api/linx/models/berth-interpose';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {RedisClient} from '../../api/redis/redis-client';
+import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
 
 let linxRestClient: LinxRestClient;
 
@@ -260,7 +257,7 @@ export class MapPageObject {
         await this.closeContextMenuForTrainDescription(trainDescription);
         await linxRestClient.postBerthInterpose(
           new BerthInterpose(
-            new Date().toTimeString().substr(0, 8),
+            DateAndTimeUtils.getCurrentTimeString(),
             berth,
             describer,
             trainDescription

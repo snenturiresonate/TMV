@@ -1,9 +1,9 @@
 import {ReplayStep} from './replay-step';
-import {DateTimeFormatter, LocalDateTime} from '@js-joda/core';
 import {Scenario} from 'cucumber';
 import * as fs from 'fs';
 import {ReplayScenario} from './replay-scenario';
 import {CucumberLog} from '../../logging/cucumber-log';
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 export class ReplayRecordings {
   private static scenarios: ReplayScenario[];
@@ -23,7 +23,7 @@ export class ReplayRecordings {
   }
   public static finish(scenario: any): void {
     this.recording = false;
-    this.lastScenario().finishTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+    this.lastScenario().finishTime = DateAndTimeUtils.getCurrentTimeString();
     this.lastScenario().testResult = scenario.result.status.toString();
     CucumberLog.addText(JSON.stringify(this.lastScenario()));
   }

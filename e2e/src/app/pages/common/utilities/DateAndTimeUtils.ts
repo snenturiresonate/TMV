@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import {DateTimeFormatter, LocalDate, LocalDateTime, ZoneId} from '@js-joda/core';
+import {DateTimeFormatter, LocalDate, LocalDateTime, LocalTime, ZoneId} from '@js-joda/core';
 
 export class DateAndTimeUtils {
 
@@ -7,8 +7,20 @@ export class DateAndTimeUtils {
     return LocalDateTime.now().atZone(ZoneId.of('Europe/London'));
   }
 
+  public static getCurrentDateTimeString(pattern): any {
+    return DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern(pattern));
+  }
+
+  public static getCurrentTime(): any {
+    return LocalTime.now(ZoneId.of('Europe/London'));
+  }
+
+  public static getCurrentTimeString(pattern = 'HH:mm:ss'): any {
+    return DateAndTimeUtils.getCurrentTime().format(DateTimeFormatter.ofPattern(pattern));
+  }
+
   public static dayOfWeek(): string {
-    return LocalDate.now().dayOfWeek().name();
+    return DateAndTimeUtils.getCurrentDateTime().dayOfWeek().name();
   }
 
   /**
@@ -27,11 +39,11 @@ export class DateAndTimeUtils {
   public static convertToDesiredDateAndFormat(date: string, dateFormat: string): string {
     switch (date.toLowerCase()) {
       case 'today':
-        return LocalDate.now().format(DateTimeFormatter.ofPattern(dateFormat));
+        return DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern(dateFormat));
       case 'tomorrow':
-        return LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern(dateFormat));
+        return DateAndTimeUtils.getCurrentDateTime().plusDays(1).format(DateTimeFormatter.ofPattern(dateFormat));
       case 'yesterday':
-        return LocalDate.now().minusDays(1).format(DateTimeFormatter.ofPattern(dateFormat));
+        return DateAndTimeUtils.getCurrentDateTime().minusDays(1).format(DateTimeFormatter.ofPattern(dateFormat));
       default:
         return LocalDate.parse(date).format(DateTimeFormatter.ofPattern(dateFormat));
     }
@@ -41,8 +53,7 @@ export class DateAndTimeUtils {
    * Input: DateTime of type string
    */
   public static async getParsedTimestamp(dateText: string): Promise<any> {
-    const parsedDate = new Date(dateText);
-    return parsedDate;
+    return new Date(dateText);
   }
   /**
    * Returns the time hour (HH) from the string input of date & time

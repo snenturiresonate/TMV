@@ -1,4 +1,4 @@
-import {DateTimeFormatter, LocalDateTime, ZoneId} from '@js-joda/core';
+import {DateTimeFormatter, ZoneId} from '@js-joda/core';
 import '@js-joda/timezone';
 import {MessageHeader, MessageHeaderBuilder} from './message-header';
 import {OperationalTrainNumberIdentifier} from './operational-train-number-identifier';
@@ -9,6 +9,7 @@ import {TransportOperationalIdentifiersBuilder} from './train-operational-identi
 import {jsonIgnore, jsonIgnoreReplacer} from 'json-ignore';
 import {CucumberLog} from '../../logging/cucumber-log';
 import {SenderReferenceCalculator} from '../sender-reference-calculator';
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 export class TrainJourneyModificationMessage {
   public MessageHeader?: MessageHeader;
@@ -62,9 +63,7 @@ export class TrainJourneyModificationMessageBuilder {
 
   constructor() {
     this.MessageHeader = new MessageHeaderBuilder().build();
-    this.TrainJourneyModificationTime = LocalDateTime.now()
-      .atZone(ZoneId.of('Europe/London'))
-      .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+    this.TrainJourneyModificationTime = DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     this.TrainOperationalIdentification = new TrainOperationalIdentificationBuilder()
       .withTransportOperationalIdentifiers(new TransportOperationalIdentifiersBuilder().build())
       .build();
@@ -127,11 +126,10 @@ export class TrainJourneyModificationMessageBuilder {
 
   withTrainJourneyModificationTime(value: string): TrainJourneyModificationMessageBuilder {
     const valueArray = value.split(':');
-    this.TrainJourneyModificationTime = LocalDateTime.now()
+    this.TrainJourneyModificationTime = DateAndTimeUtils.getCurrentDateTime()
       .withHour(Number(valueArray[0]))
       .withMinute(Number(valueArray[1]))
       .withSecond(Number(valueArray[2]))
-      .atZone(ZoneId.of('Europe/London'))
       .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     return this;
   }

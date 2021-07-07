@@ -1,10 +1,9 @@
 import { fragment } from 'xmlbuilder2';
 import {SenderReferenceCalculator} from '../sender-reference-calculator';
-import {LocalDateTime} from '@js-joda/core';
-import {run} from 'tslint/lib/runner';
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 export class TrainActivationMessageHeader {
-  public static runDateTime = LocalDateTime.now();
+  public static runDateTime = DateAndTimeUtils.getCurrentDateTime();
 
   static calculateSenderReference(trainNumber: string, trainUid: string, hourDepartFromOrigin: number, runDate: string = 'today'): string {
     return (trainNumber + SenderReferenceCalculator.encodeToSenderReference(trainUid, hourDepartFromOrigin, runDate));

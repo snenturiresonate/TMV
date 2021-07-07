@@ -1,4 +1,5 @@
 import {LocalDate} from '@js-joda/core';
+import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 
 export class SenderReferenceCalculator {
 
@@ -118,10 +119,10 @@ export class SenderReferenceCalculator {
 
     let runDate: LocalDate;
     if (date === 'today') {
-      runDate = LocalDate.now();
+      runDate = DateAndTimeUtils.getCurrentDateTime();
     }
     else if (date === 'tomorrow') {
-      runDate = LocalDate.now().plusDays(1);
+      runDate = DateAndTimeUtils.getCurrentDateTime().plusDays(1);
     }
 
     const year: number = runDate.year() % 100;
@@ -165,6 +166,7 @@ export class SenderReferenceCalculator {
     currentLastBitIndex += SenderReferenceCalculator.amPmIndicatorBitLength;
     const trainIdAlphaBit = binary.substring(currentLastBitIndex, currentLastBitIndex + SenderReferenceCalculator.trainIdAlphaBitLength);
     currentLastBitIndex += SenderReferenceCalculator.trainIdAlphaBitLength;
+    // tslint:disable-next-line:max-line-length
     const trainIdNumericBit = binary.substring(currentLastBitIndex, currentLastBitIndex + SenderReferenceCalculator.trainIdNumericBitLength);
     currentLastBitIndex += SenderReferenceCalculator.trainIdNumericBitLength;
     const hourBit = binary.substring(currentLastBitIndex, currentLastBitIndex + SenderReferenceCalculator.hourBitLength);

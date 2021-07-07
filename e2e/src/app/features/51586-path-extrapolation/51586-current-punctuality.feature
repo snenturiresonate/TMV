@@ -56,6 +56,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | cif                                      | trainUid | trainDescription |
       | access-plan/51586-schedules/51586-20.cif | A50020   | 5A20             |
 
+  @tdd @tdd:64086 # Flaky updating of punctuality in timetable
   Scenario Outline: 51586 - 22 Current punctuality at a stopping location
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX
@@ -80,6 +81,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | access-plan/51586-schedules/51586-22.cif | A50022   | 5A22             | 23:05:30  | +4m 30s             | (+2m)                        |
       | access-plan/51586-schedules/51586-22.cif | A50022   | 5A22             | 23:06:30  | +5m 30s             | (+3m)                        |
 
+  @tdd @tdd:64086 # Flaky updating of punctuality in timetable
   Scenario Outline: 51586 - 23 Current punctuality after a TD update
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX
@@ -102,6 +104,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | access-plan/51586-schedules/51586-23.cif | A50023   | 5A23             | 23:01:00  | On time             | green          |
       | access-plan/51586-schedules/51586-23.cif | A50023   | 5A23             | 23:02:00  | +1m                 | yellow         |
 
+  @tdd @tdd:64086 # Flaky updating of punctuality in timetable
   Scenario Outline: 51586 - 24 Current punctuality after a later TRI update
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX

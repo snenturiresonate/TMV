@@ -120,6 +120,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | H41105   | 1X05             | 91   | 12                 | PD                |
       | H41106   | 1X06             | 92   | 19                 | OZ                |
 
+
   Scenario: 40490-4 Multiple changes of Origin
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |

@@ -1,5 +1,5 @@
 import {ReplayStep} from './replay-step';
-import {DateTimeFormatter, LocalDateTime} from '@js-joda/core';
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 export class ReplayScenario {
   public scenarioName: string;
@@ -12,7 +12,7 @@ export class ReplayScenario {
   constructor(scenarioName: string) {
     this.scenarioName = scenarioName;
     this.steps = Array<ReplayStep>();
-    this.startTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern('HH:mm:ss'));
-    this.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern('dd/MM/yyyy'));
+    this.startTime = DateAndTimeUtils.getCurrentTimeString();
+    this.date = DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy');
   }
 }

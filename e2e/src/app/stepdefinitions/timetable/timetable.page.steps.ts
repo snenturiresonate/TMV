@@ -10,7 +10,6 @@ import {
   LocalDateTime,
   LocalTime,
   OffsetDateTime,
-  ZoneId
 } from '@js-joda/core';
 import {ScheduleBuilder} from '../../utils/access-plan-requests/schedule-builder';
 import {LocationBuilder} from '../../utils/access-plan-requests/location-builder';
@@ -311,7 +310,7 @@ async function assertLastTJM(tjmMessage: TrainJourneyModificationMessage): Promi
     .LocationSubsidiaryCode);
   const expectedReason = (tjmMessage.ModificationReason === undefined ? '' : tjmMessage.ModificationReason);
 
-  const expectedMessages = new Array();
+  const expectedMessages = [];
   expectedMessages.push(expectedTypeOfModification);
   if (Boolean(expectedLocation)) {
     expectedMessages.push(expectedLocation);
@@ -522,7 +521,7 @@ Then('the punctuality is displayed as {string}', async (expectedText: string) =>
 
 Then('the punctuality is correct based on {string}', {timeout: 65 * 1000}, async (expectedTime: string) => {
   const expectedPunctuality = () => getExpectedPunctuality(true,
-                                                            LocalTime.now(ZoneId.of('Europe/London'))
+                                                            DateAndTimeUtils.getCurrentTime()
                                                               .plusMinutes(1)
                                                               .format(DateTimeFormatter.ofPattern('HH:mm'))
                                                             , expectedTime);
@@ -598,11 +597,11 @@ When('I am on the timetable view for service {string}', {timeout: 40 * 1000}, as
     service = browser.referenceTrainUid;
   }
   await browser.wait(async () => {
-    await appPage.navigateTo(`/tmv/live-timetable/${service}:${LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`);
+    await appPage.navigateTo(`/tmv/live-timetable/${service}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`);
     if (await timetablePage.timetableTab.isPresent()) {
       return true;
     }
-    await appPage.navigateTo(`/tmv/live-timetable/${service}:${LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`);
+    await appPage.navigateTo(`/tmv/live-timetable/${service}:${DateAndTimeUtils.getCurrentDateTime().plusDays(1).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`);
     return await timetablePage.timetableTab.isPresent();
   }, 20000, `Timetable page loading timed out`);
 });
@@ -736,7 +735,7 @@ When('that service has the cancellation status {string}', (service: string) => {
 
 Given('I see todays schedule for {string} has loaded by looking at the timetable page', async (scheduleId: string) => {
   await appPage.navigateTo(`/tmv/live-timetable/${scheduleId}:`
-    + LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd')));
+    + DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd'));
   await CommonActions.waitForElementToBeVisible(timetablePage.headerHeadcode);
 });
 
@@ -944,7 +943,7 @@ Then(/^the (Arrival|Departure) punctuality for location "(.*)" instance (\d+) is
 Then(/^the predicted Departure punctuality for location "(.*)" instance (\d+) is correctly calculated based on the planned time of '(.*)' or the current time$/,
   async (location, instance, expectedTime) => {
     const expectedDepartureTime = LocalTime.parse(expectedTime);
-    const currentTime = LocalTime.now();
+    const currentTime = DateAndTimeUtils.getCurrentTime();
     await timetablePage.getRowByLocation(location, instance).then(async row => {
       const field = row.punctuality;
       const expectedPunctuality = (currentTime.isAfter(expectedDepartureTime)) ?

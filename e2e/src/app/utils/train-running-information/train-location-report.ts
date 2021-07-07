@@ -2,7 +2,7 @@ import {fragment} from 'xmlbuilder2';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {TRILocation} from './location';
 import {TRITrainDelay} from './train-delay';
-import {ChronoUnit, DateTimeFormatter, LocalTime, OffsetDateTime, ZoneId} from '@js-joda/core';
+import {ChronoUnit, DateTimeFormatter, LocalTime, OffsetDateTime} from '@js-joda/core';
 
 export class TRITrainLocationReport {
   public static locationDateTime = DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
@@ -22,12 +22,12 @@ export class TRITrainLocationReport {
       .ele('TrainLocationStatus').txt(trainLocationStatus).up()
       .doc();
     return trainLocationReport.end({prettyPrint: true});
-  };
+  }
 
   public static trainLocationReportAtTime = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                              trainLocationStatus: string, timestamp: string) => {
     const lt = LocalTime.parse(timestamp);
-    const formattedTime = OffsetDateTime.now(ZoneId.of('Europe/London'))
+    const formattedTime = DateAndTimeUtils.getCurrentDateTime()
       .withHour(lt.hour())
       .withMinute(lt.minute())
       .withSecond(lt.second())
@@ -40,7 +40,7 @@ export class TRITrainLocationReport {
       .ele('TrainLocationStatus').txt(trainLocationStatus).up()
       .doc();
     return trainLocationReport.end({prettyPrint: true});
-  };
+  }
 
   public static trainLocationReportAtTimeAgainstBooked = (locationPrimaryCode: string,
                                                           locationSubsidiaryCode: string,
@@ -48,14 +48,14 @@ export class TRITrainLocationReport {
                                                           bookedTimestamp: string,
                                                           eventTimestamp: string) => {
     const eventLocalTime = LocalTime.parse(eventTimestamp);
-    const eventTime = OffsetDateTime.now(ZoneId.of('Europe/London'))
+    const eventTime = DateAndTimeUtils.getCurrentDateTime()
       .withHour(eventLocalTime.hour())
       .withMinute(eventLocalTime.minute())
       .withSecond(eventLocalTime.second())
       .withNano(0);
 
     const bookedLocalTime = LocalTime.parse(bookedTimestamp);
-    const bookedTime = OffsetDateTime.now(ZoneId.of('Europe/London'))
+    const bookedTime = DateAndTimeUtils.getCurrentDateTime()
       .withHour(bookedLocalTime.hour())
       .withMinute(bookedLocalTime.minute())
       .withSecond(bookedLocalTime.second())
@@ -73,7 +73,7 @@ export class TRITrainLocationReport {
       .ele(fragment().ele('TrainDelay').ele('AgainstBooked').txt(formattedDelay).doc().end())
       .doc();
     return trainLocationReport.end({prettyPrint: true});
-  };
+  }
 
   public static trainLocationReportWithDelayAgainstBookedTime = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                                                  trainLocationStatus: string, delay: string) => {
@@ -96,7 +96,7 @@ export class TRITrainLocationReport {
       .ele(TRITrainDelay.trainDelayAgainstBooked(delay))
       .doc();
     return trainLocationReport.end({prettyPrint: true});
-  };
+  }
 
   public static trainLocationReportWithTime = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                                trainLocationStatus: string, timeInfo: string) => {
@@ -107,5 +107,5 @@ export class TRITrainLocationReport {
       .ele('TrainDelay').txt(timeInfo).up()
       .doc();
     return trainLocationReport.end({prettyPrint: true});
-  };
+  }
 }

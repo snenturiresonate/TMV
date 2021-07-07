@@ -1,13 +1,12 @@
 import { create, fragment } from 'xmlbuilder2';
-import {LocalDateTime} from '@js-joda/core';
 import {TrainActivationMessageHeader} from './message-header';
 import {AdminContactInfo} from './admin-contact-info';
 import {TrainActivationPathInformationBuilder} from './path-information';
-import {Identifiers} from "./identifiers";
+import {Identifiers} from './identifiers';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 export class TrainActivationMessageBuilder {
-  public runDateTime = LocalDateTime.now();
+  public runDateTime = DateAndTimeUtils.getCurrentDateTime();
 
   public messageStatus = (messageStatus: string = '1') => {
     const messageStat = fragment().ele('ns0:MessageStatus').txt(messageStatus).doc();

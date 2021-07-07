@@ -24,11 +24,10 @@ import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dia
 import {TrainActivationMessageBuilder} from '../utils/train-activation/train-activation-message';
 import {HomePageObject} from '../pages/home.page';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
-import {DateTimeFormatter, LocalDate, LocalDateTime, LocalTime, ZonedDateTime, ZoneId} from '@js-joda/core';
+import {DateTimeFormatter, LocalTime, ZonedDateTime, ZoneId} from '@js-joda/core';
 import '@js-joda/timezone';
 import {NavBarPageObject} from '../pages/nav-bar.page';
 import {RedisClient} from '../api/redis/redis-client';
-import {tryCatch} from 'rxjs/internal-compatibility';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
@@ -255,11 +254,10 @@ When(/^the following berth interpose messages? (?:is|are) sent from LINX(.*)$/,
 When(/^the following live berth interpose messages? (?:is|are) sent from LINX(.*)$/,
   async (explanation: string, berthInterposeMessageTable: any) => {
     const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
-    const now = new Date();
-
+    const now = DateAndTimeUtils.getCurrentTimeString();
     for (const berthInterposeMessage of berthInterposeMessages) {
       const berthInterpose: BerthInterpose = new BerthInterpose(
-        now.toTimeString().substr(0, 8),
+        now,
         berthInterposeMessage.toBerth,
         berthInterposeMessage.trainDescriber,
         berthInterposeMessage.trainDescription
@@ -291,12 +289,11 @@ When(/^the following berth step messages? (?:is|are) sent from LINX(.*)$/, async
 When(/^the following live berth step messages? (?:is|are) sent from LINX (.*)$/,
   async (explanation: string, berthStepMessageTable: any) => {
     const berthStepMessages: any = berthStepMessageTable.hashes();
-    const now = new Date();
-
+    const now = DateAndTimeUtils.getCurrentTimeString();
     for (const berthStepMessage of berthStepMessages) {
       const berthStep: BerthStep = new BerthStep(
         berthStepMessage.fromBerth,
-        now.toTimeString().substr(0, 8),
+        now,
         berthStepMessage.toBerth,
         berthStepMessage.trainDescriber,
         berthStepMessage.trainDescription
@@ -342,12 +339,12 @@ When(/^the following signalling update messages? (?:is|are) sent from LINX$/, as
 When(/^the following live signalling update messages? (?:is|are) sent from LINX (.*)$/,
   async (explanation: string, signallingUpdateMessageTable: any) => {
     const signallingUpdateMessages: any = signallingUpdateMessageTable.hashes();
-    const now = new Date();
+    const now = DateAndTimeUtils.getCurrentTimeString();
     signallingUpdateMessages.forEach((signallingUpdateMessage: any) => {
       const signallingUpdate: SignallingUpdate = new SignallingUpdate(
         signallingUpdateMessage.address,
         signallingUpdateMessage.data,
-        now.toTimeString().substr(0, 8),
+        now,
         signallingUpdateMessage.trainDescriber
       );
       CucumberLog.addJson(signallingUpdate);
@@ -408,8 +405,7 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
     const trainNumber = trainActivationMessages[i].trainNumber;
     const scheduledDepartureTime = () => {
       if ((trainActivationMessages[i].scheduledDepartureTime).toLowerCase() === 'now') {
-        const now = new Date();
-        return `${Number(now.getHours()).toString().padStart(2, '0')}:${Number(now.getMinutes()).toString().padStart(2, '0')}:${Number(now.getSeconds()).toString().padStart(2, '0')}`;
+        return DateAndTimeUtils.getCurrentTimeString();
       } else {
         return trainActivationMessages[i].scheduledDepartureTime;
       }
@@ -431,8 +427,7 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
         aDH = 'now';
       }
       if (aDH.toLowerCase() === 'now' || trainActivationMessages[i].departureDate === undefined) {
-        const now = new Date();
-        return `${Number(now.getHours()).toString().padStart(2, '0')}`;
+        return DateAndTimeUtils.getCurrentTimeString('HH');
       }
       return trainActivationMessages[i].actualDepartureHour;
     };
@@ -584,7 +579,7 @@ When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
   let runDate = 'today';
   const messages: any = table.hashes();
   for (const message of messages) {
-    const now = LocalDateTime.now();
+    const now = DateAndTimeUtils.getCurrentDateTime();
     let depHour = now.format(DateTimeFormatter.ofPattern('HH'));
     let timeStamp = now.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
     if (message.departureHour !== 'now') {
@@ -612,11 +607,8 @@ When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
 
     linxRestClient.postTrainJourneyModification(tjmMessage.toXML());
     TestData.addTJM(tjmMessage);
-    if (messages.size > 1) {
-      await browser.sleep(1001);
-    }
+    await linxRestClient.waitMaxTransmissionTime();
   }
-  await linxRestClient.waitMaxTransmissionTime();
 });
 
 When(/^the following change of ID TJM is received$/, async (table: any) => {
@@ -644,11 +636,8 @@ When(/^the following change of ID TJM is received$/, async (table: any) => {
 
     linxRestClient.postTrainJourneyModificationIdChange(tjmMessage.toXML());
     TestData.addTJM(tjmMessage);
-    if (messages.size > 1) {
-      await browser.sleep(1001);
-    }
+    await linxRestClient.waitMaxTransmissionTime();
   }
-  await linxRestClient.waitMaxTransmissionTime();
 });
 
 function createBaseTjm(modificationIndicator, modificationStatusIndicator, locationPrimaryCode, locationSubsidiaryCode, time)
@@ -682,7 +671,7 @@ function createBaseTjmMessage(trainNumber, trainUid, departureHour, runDate: str
 
 When(/^I step through the Berth Level Schedule for '(.*)'$/, async (uid: string) => {
   const client = new RedisClient();
-  const key = `${uid}:${LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`;
+  const key = `${uid}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`;
   const data = await client.hgetParseJSON('berth-level-schedule-pairs', key);
 
   const berthLevelSchedule = data.berthLevelSchedule;
@@ -740,14 +729,14 @@ When(/^I step through the Berth Level Schedule for '(.*)'$/, async (uid: string)
 });
 
 Given(/^I log the berth level schedule for '(.*)'$/, async (trainUid) => {
-  const key = `${trainUid}:${LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`;
+  const key = `${trainUid}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`;
   const berthLevelSchedule = await new RedisClient().hgetParseJSON('berth-level-schedule-pairs', key);
   await CucumberLog.addJson(berthLevelSchedule);
 });
 
 Given(/^I log the berth & locations from the berth level schedule for '(.*)'$/, async (trainUid) => {
   const client = new RedisClient();
-  const scheduleKey = `${trainUid}:${LocalDate.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`;
+  const scheduleKey = `${trainUid}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`;
   const berthLevelSchedule = await client.hgetParseJSON('berth-level-schedule-pairs', scheduleKey);
 
   for (const pathEntry of berthLevelSchedule.berthLevelSchedule.pathEntries) {

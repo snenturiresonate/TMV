@@ -15,6 +15,7 @@ import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
 import moment = require('moment');
 // this import looks like its not used but is by expect().to.be.closeToTime()
 import * as chaiDateTime from 'chai-datetime';
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 const replayPage: ReplayMapPage = new ReplayMapPage();
 const replaySelectMapPage: ReplaySelectMapPage = new ReplaySelectMapPage();
@@ -163,7 +164,7 @@ Then(/^the map view is opened ready for replaying with timestamp$/, async (dataT
   const dateFormat = DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm:ss');
   let expectedDateTime;
   if (table.expectedTimestamp.includes('Last')) {
-    expectedDateTime = LocalDateTime.now()
+    expectedDateTime = DateAndTimeUtils.getCurrentDateTime()
       .minusMinutes(table.expectedTimestamp.split(' ')[1])
       .withSecond(0)
       .format(dateFormat);

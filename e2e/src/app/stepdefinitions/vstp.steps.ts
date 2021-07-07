@@ -3,9 +3,9 @@ import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 import {CucumberLog} from '../logging/cucumber-log';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {VstpUpdates} from '../utils/vstp/vstp-updates';
-import {LocalDate} from '@js-joda/core';
 import {browser} from 'protractor';
 import { TrainUIDUtils } from '../pages/common/utilities/trainUIDUtils';
+import {DateTimeFormatter} from '@js-joda/core';
 
 let linxRestClient: LinxRestClient;
 let vstpUpdates: VstpUpdates;
@@ -18,34 +18,34 @@ Before(() => {
 });
 
 Given(/^the vstp schedule has a schedule before current time period$/, async () => {
-  const timePeriodStart = LocalDate.now().minusDays(3);
-  const timePeriodEnd = LocalDate.now().minusDays(2);
+  const timePeriodStart = DateAndTimeUtils.getCurrentDateTime().minusDays(3);
+  const timePeriodEnd = DateAndTimeUtils.getCurrentDateTime().minusDays(2);
   browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
-  vstpUpdateValuesMap.set('<schedule_start_date>', DateAndTimeUtils.convertToDesiredDateAndFormat(timePeriodStart.toString() , 'yyyyMMdd'));
-  vstpUpdateValuesMap.set('<schedule_end_date>', DateAndTimeUtils.convertToDesiredDateAndFormat(timePeriodEnd.toString() , 'yyyyMMdd'));
+  vstpUpdateValuesMap.set('<schedule_start_date>', timePeriodStart.format(DateTimeFormatter.ofPattern('yyyyMMdd')));
+  vstpUpdateValuesMap.set('<schedule_end_date>', timePeriodEnd.format(DateTimeFormatter.ofPattern('yyyyMMdd')));
   vstpUpdateValuesMap.set('<train_uid>', browser.referenceTrainUid);
 });
 
 Given(/^the vstp schedule has a schedule after current time period$/, async () => {
-  const timePeriod = LocalDate.now().plusDays(2);
+  const timePeriod = DateAndTimeUtils.getCurrentDateTime().plusDays(2);
   browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
-  vstpUpdateValuesMap.set('<schedule_start_date>', DateAndTimeUtils.convertToDesiredDateAndFormat(timePeriod.toString() , 'yyyyMMdd'));
+  vstpUpdateValuesMap.set('<schedule_start_date>', timePeriod.format(DateTimeFormatter.ofPattern('yyyyMMdd')));
   vstpUpdateValuesMap.set('<train_uid>', browser.referenceTrainUid);
 });
 
 Given(/^the vstp schedule has a schedule days to run not in current time period$/, async () => {
-  const currentDate = LocalDate.now();
-  const scheduleDay = LocalDate.now().plusDays(2).dayOfWeek();
+  const currentDate = DateAndTimeUtils.getCurrentDateTimeString('yyyyMMdd');
+  const scheduleDay = DateAndTimeUtils.getCurrentDateTime().plusDays(2).dayOfWeek();
   const runDays = vstpUpdates.runOneDay(scheduleDay.toString()).toString();
   browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
-  vstpUpdateValuesMap.set('<schedule_start_date>', DateAndTimeUtils.convertToDesiredDateAndFormat(currentDate.toString() , 'yyyyMMdd'));
+  vstpUpdateValuesMap.set('<schedule_start_date>', currentDate);
   vstpUpdateValuesMap.set('<schedule_days_runs>', runDays);
   vstpUpdateValuesMap.set('<train_uid>', browser.referenceTrainUid);
 });
 
 Given(/^the vstp schedule has a schedule in the current time period with (.*) uid$/, async (uidSource: string) => {
-  const currentDate = LocalDate.now();
-  vstpUpdateValuesMap.set('<schedule_start_date>', DateAndTimeUtils.convertToDesiredDateAndFormat(currentDate.toString() , 'yyyyMMdd'));
+  const currentDate = DateAndTimeUtils.getCurrentDateTimeString('yyyyMMdd');
+  vstpUpdateValuesMap.set('<schedule_start_date>', currentDate);
   if (uidSource === 'new') {
     browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
     vstpUpdateValuesMap.set('<train_uid>', browser.referenceTrainUid);

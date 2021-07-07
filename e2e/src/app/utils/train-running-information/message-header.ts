@@ -1,9 +1,9 @@
 import { fragment } from 'xmlbuilder2';
 import {SenderReferenceCalculator} from '../sender-reference-calculator';
-import {OffsetDateTime, ZoneId} from '@js-joda/core';
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 export class TrainRunningInformationMessageHeader {
-  public static runDateTime = OffsetDateTime.now(ZoneId.of('Europe/London'));
+  public static runDateTime = DateAndTimeUtils.getCurrentDateTime();
 
   static calculateSenderReference(trainNumber: string, trainUid: string, hourDepartFromOrigin: number): string {
     return (trainNumber + SenderReferenceCalculator.encodeToSenderReference(trainUid, hourDepartFromOrigin));

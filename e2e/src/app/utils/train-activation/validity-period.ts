@@ -1,8 +1,8 @@
 import {fragment} from 'xmlbuilder2';
-import {LocalDateTime} from '@js-joda/core';
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 export class TrainActivationValidityPeriodBuilder {
-  public static runDateTime = LocalDateTime.now();
+  public static runDateTime = DateAndTimeUtils.getCurrentDateTime();
 
   public static validityPeriod = (startDateTime: any = TrainActivationValidityPeriodBuilder.runDateTime) => {
     const validityPeriod = fragment().ele('ns0:ValidityPeriod')
