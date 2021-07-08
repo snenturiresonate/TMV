@@ -34,6 +34,11 @@ export class RedisClient {
     return await xrevrangeAsync(stream, '+', '-');
   }
 
+  public async hgetall(hashName: string): Promise<any> {
+    const hgetAllAsync = promisify(this.client.hgetall).bind(this.client);
+    return await hgetAllAsync(hashName);
+  }
+
   public async hgetParseJSON(hashName: string, key: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.client.hget(hashName, key, (error, value) => {

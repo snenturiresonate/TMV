@@ -31,8 +31,7 @@ Feature: 33805 TMV Schedule Matching
     #    | berth |
     #    | location |
     #    | sub division |
-    Given I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
+    Given I have cleared out all headcodes
     And I am on the trains list page
     And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
     When the following change of ID TJM is received

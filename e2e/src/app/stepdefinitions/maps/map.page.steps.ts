@@ -11,8 +11,7 @@ import {MapLayerItem} from '../../pages/maps/map-layer-item.model';
 import {HomePageObject} from '../../pages/home.page';
 import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
 import {AppPage} from '../../pages/app.po';
-import {BerthCancel} from '../../../../../src/app/api/linx/models/berth-cancel';
-import {CucumberLog} from '../../logging/cucumber-log';
+import {TMVRedisUtils} from '../../utils/tmv-redis-utils';
 
 let page: MapPageObject;
 const appPage: AppPage = new AppPage();
@@ -876,31 +875,15 @@ When(/^I wait for the (Open|No) timetable option for train description (\w+) in 
   });
 
 Given(/^I have cleared out all headcodes$/, async () => {
-  await browser.wait(ExpectedConditions.visibilityOf(mapPageObject.berthElements), 60 * 1000);
-  await browser.sleep(1000);
-  await CucumberLog.addScreenshot();
-  await mapPageObject.headcodeOnMap.each((el) => {
-    el.getAttribute('id').then((id) => {
-      const berthID = id.replace('berth-element-text-', '');
-      el.getText().then(headcode => {
-        CucumberLog.addText(`Clearing headcode ${headcode} from ${berthID}`);
-        const berthCancel: BerthCancel = new BerthCancel(
-          berthID.substring(2, 6),
-          '00:00:00',
-          berthID.substring(0, 2),
-          headcode
-        );
-        linxRestClient.postBerthCancel(berthCancel);
-      });
-    });
-  });
-  await linxRestClient.waitMaxTransmissionTime();
+  await new TMVRedisUtils().clearBerths();
 });
+
 Given(/^headcode '(.*)' is present in manual\-trust berth '(.*)'$/, async (headcode: string, berthID: string) => {
   await browser.wait(async () => {
     return (await mapPageObject.getHeadcodesAtManualTrustBerth(berthID)).includes(headcode);
   }, 30000, `headcode ${headcode} not in manual trust berth stack ${berthID} when should be`);
 });
+
 Given(/^headcode '(.*)' is not present in manual\-trust berth '(.*)'$/, async (headcode: string, berthID: string) => {
   await browser.wait(async () => {
     return !(await mapPageObject.getHeadcodesAtManualTrustBerth(berthID)).includes(headcode);

@@ -1,4 +1,7 @@
 import {RedisClient} from '../api/redis/redis-client';
+import {BerthCancel} from '../../../../src/app/api/linx/models/berth-cancel';
+import {LinxRestClient} from '../api/linx/linx-rest-client';
+import {DateTimeFormatter, ZonedDateTime, ZoneId} from '@js-joda/core';
 
 export class TMVRedisUtils {
   public async reset(): Promise<void> {
@@ -59,6 +62,28 @@ export class TMVRedisUtils {
         }));
   }
 
+  // pass no argument to clear all train describers
+  public async clearBerths(trainDescriber = ''): Promise<void> {
+    const redisClient = new RedisClient();
+    const berths = await redisClient.hgetall('map-states');
+
+    for (const [key, value] of Object.entries(berths)) {
+      if (key.includes(`${trainDescriber}:BERTH:`)) {
+        const val = JSON.parse(value.toString());
+        if (val.trainDescription !== null) {
+          const berthCancel: BerthCancel = new BerthCancel(
+            val.berthName,
+            ZonedDateTime.parse(val.stateTime)
+              .withZoneSameInstant(ZoneId.of('Europe/London'))
+              .format(DateTimeFormatter.ofPattern('HH:mm:ss')),
+            val.trainDescriberCode,
+            val.trainDescription
+          );
+          await new LinxRestClient().postBerthCancel(berthCancel);
+        }
+      }
+    }
+  }
 }
 
 
