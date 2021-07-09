@@ -12,9 +12,9 @@ Feature: 47637 - Process C Class Messages - Step Translation
   Scenario Outline: 33758-9 Step Translation - Config with no null values
     Given I am on a map showing berth '<newToBerth>' and in train describer '<newToTrainDescriber>'
     And I have cleared out all headcodes
-    When the following berth step message is sent from LINX (to move train)
-      | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
-      | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
+    When the following live berth step message is sent from LINX (to move train)
+      | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
+      | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newToBerth>' in train describer '<newToTrainDescriber>' contains '<trainDescription>' and is visible
 
     Examples:
@@ -77,9 +77,9 @@ Feature: 47637 - Process C Class Messages - Step Translation
       | toBerth        | trainDescriber          | trainDescription   |
       | <newFromBerth> | <newFromTrainDescriber> | <trainDescription> |
     And berth '<fromBerth>' in train describer '<fromTrainDescriber>' contains '<trainDescription>' and is visible
-    When the following berth step message is sent from LINX (to move train)
-      | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
-      | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
+    When the following live berth step message is sent from LINX (to move train)
+      | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
+      | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newFromBerth>' in train describer '<newFromTrainDescriber>' does not contain '<trainDescription>'
 
     Examples:

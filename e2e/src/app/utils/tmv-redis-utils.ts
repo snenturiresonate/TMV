@@ -63,23 +63,27 @@ export class TMVRedisUtils {
   }
 
   // pass no argument to clear all train describers
-  public async clearBerths(trainDescriber = ''): Promise<void> {
+  public async clearBerths(clearFutureTimestamps = true, trainDescriber = ''): Promise<void> {
     const redisClient = new RedisClient();
     const berths = await redisClient.hgetall('map-states');
 
-    for (const [key, value] of Object.entries(berths)) {
-      if (key.includes(`${trainDescriber}:BERTH:`)) {
-        const val = JSON.parse(value.toString());
-        if (val.trainDescription !== null) {
-          const berthCancel: BerthCancel = new BerthCancel(
-            val.berthName,
-            ZonedDateTime.parse(val.stateTime)
-              .withZoneSameInstant(ZoneId.of('Europe/London'))
-              .format(DateTimeFormatter.ofPattern('HH:mm:ss')),
-            val.trainDescriberCode,
-            val.trainDescription
-          );
-          await new LinxRestClient().postBerthCancel(berthCancel);
+    if (berths) {
+      for (const [key, value] of Object.entries(berths)) {
+        if (key.includes(`${trainDescriber}:BERTH:`)) {
+          const val = JSON.parse(value.toString());
+          if (val.trainDescription) {
+            const time = ZonedDateTime.parse(val.stateTime).withZoneSameInstant(ZoneId.of('Europe/London'));
+            const futureHeadcode = time.isAfter(ZonedDateTime.now(ZoneId.of('Europe/London')));
+            if (!futureHeadcode || clearFutureTimestamps) {
+              const berthCancel: BerthCancel = new BerthCancel(
+                val.berthName,
+                time.format(DateTimeFormatter.ofPattern('HH:mm:ss')),
+                val.trainDescriberCode,
+                val.trainDescription
+              );
+              await new LinxRestClient().postBerthCancel(berthCancel);
+            }
+          }
         }
       }
     }

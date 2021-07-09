@@ -882,7 +882,7 @@ When(/^I wait for the (Open|No) timetable option for train description (\w+) in 
   });
 
 Given(/^I have cleared out all headcodes$/, async () => {
-  await new TMVRedisUtils().clearBerths();
+  await new TMVRedisUtils().clearBerths(false);
 });
 
 Given(/^headcode '(.*)' is present in manual\-trust berth '(.*)'$/, async (headcode: string, berthID: string) => {
