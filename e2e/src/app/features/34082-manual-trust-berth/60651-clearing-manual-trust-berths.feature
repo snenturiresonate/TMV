@@ -1,3 +1,4 @@
+@fixed-time
 Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
 
   As a TMV user

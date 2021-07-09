@@ -1,3 +1,4 @@
+@fixed-time
 Feature: 51586 - Path Extrapolation - Current Punctuality
 
   As a TMV user

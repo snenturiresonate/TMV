@@ -4,23 +4,23 @@ Feature: Example Scenarios
 
   Scenario: Example - Receive berth interpose message from LINX
     Given I am on the home page
-    When the following berth interpose message is sent from LINX (to indicate train is present)
-      | timestamp | toBerth | trainDescriber | trainDescription |
-      | 10:02:06  | 0246    | D4             | 1G65             |
+    When the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth | trainDescriber | trainDescription |
+      | 0246    | D4             | 1G65             |
     Then I should see nothing
 
   Scenario: Example - Receive berth step message from LINX
     Given I am on the home page
-    When the following berth step message is sent from LINX (to move train)
-      | fromBerth | timestamp | toBerth | trainDescriber | trainDescription |
-      | S307      | 10:02:06  | S308    | D4             | 1G65             |
+    When the following live berth step message is sent from LINX (to move train)
+      | fromBerth | toBerth | trainDescriber | trainDescription |
+      | S307      | S308    | D4             | 1G65             |
     Then I should see nothing
 
   Scenario: Example - Receive berth cancel message from LINX
     Given I am on the home page
-    When the following berth cancel message is sent from LINX
-      | fromBerth | timestamp | trainDescriber | trainDescription |
-      | S308      | 10:02:06  | D4             | 1G65             |
+    When the following live berth cancel message is sent from LINX
+      | fromBerth | trainDescriber | trainDescription |
+      | S308      | D4             | 1G65             |
     Then I should see nothing
 
   Scenario: Example - Receive heartbeat message from LINX
@@ -112,5 +112,5 @@ Feature: Example Scenarios
     And I select the map 'hdgw01paddington.v'
     And I move the replay to the end of the captured scenario
 
-    Scenario: Log berth and locations
-      Given I log the berth & locations from the berth level schedule for 'W00001'
+  Scenario: Log berth and locations
+    Given I log the berth & locations from the berth level schedule for 'W00001'

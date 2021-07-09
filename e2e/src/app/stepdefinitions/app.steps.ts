@@ -320,6 +320,22 @@ When(/^the following berth cancel messages? (?:is|are) sent from LINX$/, async (
   await linxRestClient.waitMaxTransmissionTime();
 });
 
+When(/^the following live berth cancel messages? (?:is|are) sent from LINX$/, async (berthCancelMessageTable: any) => {
+  const berthCancelMessages: any = berthCancelMessageTable.hashes();
+  for (const berthCancelMessage of berthCancelMessages) {
+    const now = DateAndTimeUtils.getCurrentTimeString();
+    const berthCancel: BerthCancel = new BerthCancel(
+      berthCancelMessage.fromBerth,
+      now,
+      berthCancelMessage.trainDescriber,
+      berthCancelMessage.trainDescription
+    );
+    await CucumberLog.addJson(berthCancel);
+    await linxRestClient.postBerthCancel(berthCancel);
+  }
+  await linxRestClient.waitMaxTransmissionTime();
+});
+
 When(/^the following signalling update messages? (?:is|are) sent from LINX$/, async (signallingUpdateMessageTable: any) => {
   const signallingUpdateMessages: any = signallingUpdateMessageTable.hashes();
 

@@ -30,8 +30,8 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     Then the Matched version of the map context menu is displayed
 
     Examples:
-      | trainDescriber | berth | origTrainDesc | trainUid | location | subdivision | matchLevel   |
-      | D3             | A007  | 3B41          | B54341   | PADTON   | 401         | berth        |
+      | trainDescriber | berth | origTrainDesc | trainUid | location | subdivision | matchLevel |
+      | D3             | A007  | 3B41          | B54341   | PADTON   | 401         | berth      |
 
   # A/C 2a
   @bug @bug:63216
@@ -50,12 +50,12 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     And I am on the trains list page
     And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     And the following train activation message is sent from LINX
-      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
-      | <trainUid> | <origTrainDesc>    | now                    | 73000               | PADTON                 | today         | now                 | 1   |
+      | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
+      | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 | 1   |
     And I give the train activation 1 second to load
     When the following TJM is received
-      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason   | nationalDelayCode   |
-      | <trainUid> | <origTrainDesc>    | now           | create | <type>    | <type>          | 99999       | PADTON         | now  | <modificationReason> | <nationalDelayCode> |
+      | trainUid   | trainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason   | nationalDelayCode   |
+      | <trainUid> | <origTrainDesc> | now           | create | <type>    | <type>          | 99999       | PADTON         | now  | <modificationReason> | <nationalDelayCode> |
     And I give the TJM 1 second to load
     And I am on the timetable view for service '<trainUid>'
     And I switch to the timetable details tab
@@ -89,18 +89,18 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     And I am on the trains list page
     And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     And the following train activation message is sent from LINX
-      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
-      | <trainUid> | <origTrainDesc>    | now                    | 73000               | PADTON                 | today         | now                 | 1   |
+      | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
+      | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 | 1   |
     And the following train activation message is sent from LINX
-      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
-      | <trainUid> | <origTrainDesc>    | now                    | 73000               | PADTON                 | tomorrow      | now                 | 1   |
+      | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
+      | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | tomorrow      | now                 | 1   |
     And I give the train activations 1 second to load
     When the following TJM is received
-      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason   | nationalDelayCode   | runDate |
-      | <trainUid> | <origTrainDesc>    | now           | create | <type>    | <type>          | 99999       | PADTON         | now  | <modificationReason> | <nationalDelayCode> | today   |
+      | trainUid   | trainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason   | nationalDelayCode   | runDate |
+      | <trainUid> | <origTrainDesc> | now           | create | <type>    | <type>          | 99999       | PADTON         | now  | <modificationReason> | <nationalDelayCode> | today   |
     And the following TJM is received
-      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason   | nationalDelayCode   | runDate  |
-      | <trainUid> | <origTrainDesc>    | now           | create | <type>    | <type>          | 99999       | PADTON         | now      | <modificationReason> | <nationalDelayCode> | tomorrow |
+      | trainUid   | trainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason   | nationalDelayCode   | runDate  |
+      | <trainUid> | <origTrainDesc> | now           | create | <type>    | <type>          | 99999       | PADTON         | now  | <modificationReason> | <nationalDelayCode> | tomorrow |
     And I give the TJMs 1 second to load
     And I am on the timetable view for service '<trainUid>'
     And I switch to the timetable details tab
@@ -139,18 +139,18 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     And train '<origTrainDesc>' with schedule id '<secondTrainUid>' for today is visible on the trains list
     And the following train activation message is sent from LINX
-      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
-      | <trainUid> | <origTrainDesc>    | now                    | 73000               | PADTON                 | today         | now                 | 1   |
+      | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
+      | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 | 1   |
     And the following train activation message is sent from LINX
-      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
-      | <trainUid> | <origTrainDesc>    | now                    | 73000               | PADTON                 | tomorrow      | now                 | 1   |
+      | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
+      | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | tomorrow      | now                 | 1   |
     And I give the train activations 1 second to load
     When the following TJM is received
-      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason   | nationalDelayCode   | runDate |
-      | <trainUid> | <origTrainDesc>    | now           | create | <type>    | <type>          | 99999       | PADTON         | now  | <modificationReason> | <nationalDelayCode> | today   |
+      | trainUid   | trainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason   | nationalDelayCode   | runDate |
+      | <trainUid> | <origTrainDesc> | now           | create | <type>    | <type>          | 99999       | PADTON         | now  | <modificationReason> | <nationalDelayCode> | today   |
     And the following TJM is received
-      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason   | nationalDelayCode   | runDate |
-      | <trainUid> | <origTrainDesc>    | now           | create | <type>    | <type>          | 99999       | PADTON         | now  | <modificationReason> | <nationalDelayCode> | tomorrow|
+      | trainUid   | trainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason   | nationalDelayCode   | runDate  |
+      | <trainUid> | <origTrainDesc> | now           | create | <type>    | <type>          | 99999       | PADTON         | now  | <modificationReason> | <nationalDelayCode> | tomorrow |
     And I give the TJMs 1 second to load
     And I am on the timetable view for service '<trainUid>'
     And I switch to the timetable details tab
@@ -192,21 +192,21 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     And train '<origTrainDesc>' with schedule id '<secondTrainUid>' for today is visible on the trains list
     And the following train activation message is sent from LINX
-      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
-      | <trainUid> | <origTrainDesc>    | now                    | 73000               | PADTON                 | today         | now                 | 1   |
+      | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
+      | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 | 1   |
     And the following train activation message is sent from LINX
-      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
-      | <trainUid> | <origTrainDesc>    | now                    | 73000               | PADTON                 | tomorrow      | now                 | 1   |
+      | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
+      | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | tomorrow      | now                 | 1   |
     And the following train activation message is sent from LINX
-      | trainUID         | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
-      | <secondTrainUid> | <origTrainDesc>    | now                    | 73000               | PADTON                 | today         | now                 | 1   |
+      | trainUID         | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
+      | <secondTrainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 | 1   |
     And I give the train activations 1 second to load
     When the following TJM is received
-      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode      | time | modificationReason   | nationalDelayCode   | runDate |
-      | <trainUid> | <origTrainDesc>    | now           | create | <type>    | <type>          | 99999       | <cancelledLocation> | now  | <modificationReason> | <nationalDelayCode> | today   |
+      | trainUid   | trainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode      | time | modificationReason   | nationalDelayCode   | runDate |
+      | <trainUid> | <origTrainDesc> | now           | create | <type>    | <type>          | 99999       | <cancelledLocation> | now  | <modificationReason> | <nationalDelayCode> | today   |
     And the following TJM is received
-      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode      | time | modificationReason   | nationalDelayCode   | runDate |
-      | <trainUid> | <origTrainDesc>    | now           | create | <type>    | <type>          | 99999       | <cancelledLocation> | now  | <modificationReason> | <nationalDelayCode> | tomorrow|
+      | trainUid   | trainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode      | time | modificationReason   | nationalDelayCode   | runDate  |
+      | <trainUid> | <origTrainDesc> | now           | create | <type>    | <type>          | 99999       | <cancelledLocation> | now  | <modificationReason> | <nationalDelayCode> | tomorrow |
     And I give the TJMs 1 second to load
     And I am on the timetable view for service '<trainUid>'
     And I switch to the timetable details tab
@@ -243,8 +243,8 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     And I am on the trains list page
     And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     When the following TJM is received
-      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode      | time | modificationReason   | nationalDelayCode   |
-      | <trainUid> | <origTrainDesc>    | now           | create | <type>    | <type>          | 99999       | <cancelledLocation> | now  | <modificationReason> | <nationalDelayCode> |
+      | trainUid   | trainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode      | time | modificationReason   | nationalDelayCode   |
+      | <trainUid> | <origTrainDesc> | now           | create | <type>    | <type>          | 99999       | <cancelledLocation> | now  | <modificationReason> | <nationalDelayCode> |
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
@@ -269,8 +269,8 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     # And the user is viewing the map that contains that berth
     # Then service A has not been matched
     Given the following TJM is received
-      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode      | time | modificationReason   | nationalDelayCode   |
-      | <trainUid> | <origTrainDesc>    | now           | create | <type>    | <type>          | 99999       | <cancelledLocation> | now  | <modificationReason> | <nationalDelayCode> |
+      | trainUid   | trainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode      | time | modificationReason   | nationalDelayCode   |
+      | <trainUid> | <origTrainDesc> | now           | create | <type>    | <type>          | 99999       | <cancelledLocation> | now  | <modificationReason> | <nationalDelayCode> |
     And the following live berth interpose message is sent from LINX (not creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
@@ -306,14 +306,14 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     And I invoke the context menu on the map for train <origTrainDesc>
     Then the Matched version of the map context menu is displayed
     When the following TJM is received
-      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode      | time | modificationReason   | nationalDelayCode   |
-      | <trainUid> | <origTrainDesc>    | now           | create | <type>    | <type>          | 99999       | <cancelledLocation> | now  | <modificationReason> | <nationalDelayCode> |
+      | trainUid   | trainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode      | time | modificationReason   | nationalDelayCode   |
+      | <trainUid> | <origTrainDesc> | now           | create | <type>    | <type>          | 99999       | <cancelledLocation> | now  | <modificationReason> | <nationalDelayCode> |
     And I am on the timetable view for service '<trainUid>'
     And I switch to the timetable details tab
     Then the sent TJMs are in the modifications table
-    When the following berth step message is sent from LINX (creating a consistent step)
-      | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription |
-      | 12:00:00  | <berth>     | <toBerth> | <trainDescriber>   | <origTrainDesc>  |
+    When the following live berth step message is sent from LINX (creating a consistent step)
+      | fromBerth | toBerth   | trainDescriber   | trainDescription |
+      | <berth>   | <toBerth> | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
     Then berth '<toBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <toBerth>, describer <trainDescriber> to be available

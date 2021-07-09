@@ -65,9 +65,9 @@ Feature: 33755 - TMV Highlight Train
     Then the menu is displayed with 'Highlight' option
     When I click on Highlight link
     Then the train in berth <trainDescriber><berth> is highlighted
-    When the following berth step message is sent from LINX
-      | timestamp | fromBerth | toBerth       | trainDescriber   | trainDescription   |
-      | 09:59:00  | <berth>   | <secondBerth> | <trainDescriber> | <trainDescription> |
+    When the following live berth step message is sent from LINX
+      | fromBerth | toBerth       | trainDescriber   | trainDescription   |
+      | <berth>   | <secondBerth> | <trainDescriber> | <trainDescription> |
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
     And the train in berth <trainDescriber><secondBerth> is highlighted
     When I right click on berth with id '<trainDescriber><secondBerth>'
@@ -168,9 +168,9 @@ Feature: 33755 - TMV Highlight Train
     Then the menu is displayed with 'Highlight' option
     When I click on Highlight link
     Then the train in berth <trainDescriber><berth> is highlighted
-    When the following berth step message is sent from LINX
-      | timestamp | fromBerth | toBerth       | trainDescriber   | trainDescription   |
-      | 09:59:00  | <berth>   | <secondBerth> | <trainDescriber> | <trainDescription> |
+    When the following live berth step message is sent from LINX
+      | fromBerth | toBerth       | trainDescriber   | trainDescription   |
+      | <berth>   | <secondBerth> | <trainDescriber> | <trainDescription> |
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
     And the train in berth <trainDescriber><secondBerth> is highlighted
     When I right click on berth with id '<trainDescriber><secondBerth>'

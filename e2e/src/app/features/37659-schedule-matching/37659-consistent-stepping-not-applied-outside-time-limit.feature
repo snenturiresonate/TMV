@@ -1,3 +1,4 @@
+@fixed-time
 Feature: 37659 - Schedule Matching - Consistent Stepping has a time limit
 
   As a TMV user
@@ -11,12 +12,13 @@ Feature: 37659 - Schedule Matching - Consistent Stepping has a time limit
     * the access plan located in CIF file 'access-plan/37659-schedules/9F01.cif' is received from LINX
     * I am on the trains list page
     * the following service is displayed on the trains list
-      | trainId         | trainUId   |
-      | 9F01            | H39407     |
+      | trainId | trainUId |
+      | 9F01    | H39407   |
     * the following berth interpose messages is sent from LINX (to indicate train is present)
       | timestamp | toBerth | trainDescriber | trainDescription |
       | 10:00:00  | R001    | D3             | 9F01             |
     * I am viewing the map HDGW01paddington.v
+
 
   Scenario: 37659 -6  Consistent stepping not applied if outside allowed time and unable to match current location
     Given the following berth step messages is sent from LINX (to move train)
@@ -49,10 +51,10 @@ Feature: 37659 - Schedule Matching - Consistent Stepping has a time limit
     And the rectangle colour for berth D3<berth> is not <colour> meaning no timetable
 
     Examples:
-      | trainDescriber | berth | location | subdivision | matchLevel   | colour     |
-      | D3             | A001  | PADTON   | 401         | berth        | lightgrey  |
-      | D3             | A011  | PADTON   | 401         | location     | lightgrey  |
-      | D3             | 0106  | PRTOBJP  | 401         | sub-division | lightgrey  |
+      | trainDescriber | berth | location | subdivision | matchLevel   | colour    |
+      | D3             | A001  | PADTON   | 401         | berth        | lightgrey |
+      | D3             | A011  | PADTON   | 401         | location     | lightgrey |
+      | D3             | 0106  | PRTOBJP  | 401         | sub-division | lightgrey |
 
   @manual
   Scenario Outline: 37659 -9  Context menu when too old for consistent stepping

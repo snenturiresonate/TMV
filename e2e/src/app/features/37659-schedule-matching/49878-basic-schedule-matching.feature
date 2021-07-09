@@ -4,7 +4,6 @@ Feature: 37659 - Basic Schedule matching framework
   So that I can system can build and update a train models to allow schematic maps to display trains and their timetables
 
   Background:
-    * I am viewing the map HDGW01paddington.v
     * I have cleared out all headcodes
     * The admin setting defaults are as originally shipped
 
@@ -22,11 +21,11 @@ Feature: 37659 - Basic Schedule matching framework
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 0A01                | M00001         |
     And I am on the trains list page
     And the following service is displayed on the trains list
-      | trainId         | trainUId   |
-      | 0A01            | M00001     |
+      | trainId | trainUId |
+      | 0A01    | M00001   |
     And the following live berth interpose message is sent from LINX (which won't match anything as the train description is not in the timetable)
-        | toBerth | trainDescriber | trainDescription |
-        | A001    | D3             | 0B01             |
+      | toBerth | trainDescriber | trainDescription |
+      | A001    | D3             | 0B01             |
     When I am viewing the map hdgw01paddington.v
     Then berth 'A001' in train describer 'D3' contains '0B01' and is visible
     And the rectangle colour for berth D3A001 is lightgrey meaning unmatched
@@ -41,9 +40,9 @@ Feature: 37659 - Basic Schedule matching framework
     #  | Step Type |
     #  | Interpose |
     #  | Step |
-    Given the following berth step message is sent from LINX (to move train)
-      | fromBerth  | timestamp  | toBerth   | trainDescriber   | trainDescription  |
-      | A001       | 10:02:06   | 6003      | D3               | 0B01              |
+    Given the following live berth step message is sent from LINX (to move train)
+      | fromBerth | toBerth | trainDescriber | trainDescription |
+      | A001      | 6003    | D3             | 0B01             |
     And I am viewing the map hdgw01paddington.v
     Then berth '6003' in train describer 'D3' contains '0B01' and is visible
     When I invoke the context menu on the map for train 0B01
@@ -110,13 +109,11 @@ Feature: 37659 - Basic Schedule matching framework
       # | berth |
       # | location |
     Given the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
-    And I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
     And I am on the trains list page
     And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
-    And the following berth step message is sent from LINX (creating a match)
-      | fromBerth | timestamp | toBerth       | trainDescriber   | trainDescription |
-      | <berth>   | 12:00:00  | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
+    And the following live berth step message is sent from LINX (creating a match)
+      | fromBerth | toBerth       | trainDescriber   | trainDescription |
+      | <berth>   | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
@@ -147,8 +144,8 @@ Feature: 37659 - Basic Schedule matching framework
      # | Step Type |
      # | Step |
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
-      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
     And I am viewing the map HDGW01paddington.v
     And I have cleared out all headcodes
     And I am on the trains list page

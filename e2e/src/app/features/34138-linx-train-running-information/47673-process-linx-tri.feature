@@ -230,9 +230,9 @@ Feature: 34138 - TMV Process LINX Train Running Information
     And the following train running information message is sent from LINX
       | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode   | locationSubsidiaryCode   | messageType   |
       | <trainUid> | <trainDescription> | today              | <locationPrimaryCode> | <locationSubsidiaryCode> | <messageType> |
-    And the following berth step message is sent from LINX (to move train)
-      | fromBerth   | timestamp   | toBerth   | trainDescriber   | trainDescription   |
-      | <fromBerth> | <timestamp> | <toBerth> | <trainDescriber> | <trainDescription> |
+    And the following live berth step message is sent from LINX (to move train)
+      | fromBerth   | toBerth   | trainDescriber   | trainDescription   |
+      | <fromBerth> | <toBerth> | <trainDescriber> | <trainDescription> |
     And I am on the timetable view for service '<trainUid>'
     Then the actual '<actualTimeType>' time displayed for that location '<location>' matches that provided in the TRI message
     Examples:

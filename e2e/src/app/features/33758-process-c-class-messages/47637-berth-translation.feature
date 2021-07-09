@@ -56,9 +56,9 @@ Feature: 47637 - Process C Class Messages - Berth Translation
     # Has Type T
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
     And I have cleared out all headcodes
-    When the following berth step message is sent from LINX (to move train)
-      | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
-      | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
+    When the following live berth step message is sent from LINX (to move train)
+      | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
+      | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
     And the maximum amount of time is allowed for end to end transmission
     Then berth '<fromBerth>' in train describer '<fromTrainDescriber>' does not contain '<trainDescription>'
     And berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible
@@ -77,9 +77,9 @@ Feature: 47637 - Process C Class Messages - Berth Translation
       | toBerth    | trainDescriber      | trainDescription   |
       | <newBerth> | <newTrainDescriber> | <trainDescription> |
     And berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible
-    When the following berth step message is sent from LINX (to move train)
-      | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
-      | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
+    When the following live berth step message is sent from LINX (to move train)
+      | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
+      | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newBerth>' in train describer '<newTrainDescriber>' does not contain '<trainDescription>'
     And berth '<toBerth>' in train describer '<toTrainDescriber>' contains '<trainDescription>' and is visible
 
@@ -93,9 +93,9 @@ Feature: 47637 - Process C Class Messages - Berth Translation
     # Does not have type T or F
     Given I am on a map showing berth '<newBerth>' and in train describer '<newTrainDescriber>'
     And I have cleared out all headcodes
-    When the following berth step message is sent from LINX (to move train)
-      | timestamp | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
-      | 09:59:00  | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
+    When the following live berth step message is sent from LINX (to move train)
+      | fromBerth   | toBerth   | trainDescriber     | trainDescription   |
+      | <fromBerth> | <toBerth> | <toTrainDescriber> | <trainDescription> |
     Then berth '<newBerth>' in train describer '<newTrainDescriber>' does not contain '<trainDescription>'
     When I am on a map showing berth '<toBerth>' and in train describer '<toTrainDescriber>'
     Then berth '<toBerth>' in train describer '<toTrainDescriber>' contains '<trainDescription>' and is visible
@@ -112,9 +112,9 @@ Feature: 47637 - Process C Class Messages - Berth Translation
       | toBerth    | trainDescriber      | trainDescription   |
       | <newBerth> | <newTrainDescriber> | <trainDescription> |
     And berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible
-    When the following berth cancel message is sent from LINX
-      | timestamp | fromBerth   | trainDescriber       | trainDescription   |
-      | 09:59:00  | <fromBerth> | <fromTrainDescriber> | <trainDescription> |
+    When the following live berth cancel message is sent from LINX
+      | fromBerth   | trainDescriber       | trainDescription   |
+      | <fromBerth> | <fromTrainDescriber> | <trainDescription> |
     Then berth '<newBerth>' in train describer '<newTrainDescriber>' does not contain '<trainDescription>'
 
     Examples:
@@ -131,9 +131,9 @@ Feature: 47637 - Process C Class Messages - Berth Translation
       | toBerth    | trainDescriber      | trainDescription   |
       | <newBerth> | <newTrainDescriber> | <trainDescription> |
     And berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible
-    When the following berth cancel message is sent from LINX
-      | timestamp | fromBerth   | trainDescriber       | trainDescription   |
-      | 09:59:00  | <fromBerth> | <fromTrainDescriber> | <trainDescription> |
+    When the following live berth cancel message is sent from LINX
+      | fromBerth   | trainDescriber       | trainDescription   |
+      | <fromBerth> | <fromTrainDescriber> | <trainDescription> |
     Then berth '<newBerth>' in train describer '<newTrainDescriber>' contains '<trainDescription>' and is visible
 
     Examples:

@@ -1,4 +1,4 @@
-@tdd
+@fixed-time @tdd
 Feature: 34080 - Last Berth
 
   As a TMV User

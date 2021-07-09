@@ -2,6 +2,7 @@ import {RedisClient} from '../api/redis/redis-client';
 import {BerthCancel} from '../../../../src/app/api/linx/models/berth-cancel';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {DateTimeFormatter, ZonedDateTime, ZoneId} from '@js-joda/core';
+import {CucumberLog} from '../logging/cucumber-log';
 
 export class TMVRedisUtils {
   public async reset(): Promise<void> {
@@ -66,7 +67,7 @@ export class TMVRedisUtils {
   public async clearBerths(clearFutureTimestamps = true, trainDescriber = ''): Promise<void> {
     const redisClient = new RedisClient();
     const berths = await redisClient.hgetall('map-states');
-
+    const linxRestClient = new LinxRestClient();
     if (berths) {
       for (const [key, value] of Object.entries(berths)) {
         if (key.includes(`${trainDescriber}:BERTH:`)) {
@@ -81,11 +82,13 @@ export class TMVRedisUtils {
                 val.trainDescriberCode,
                 val.trainDescription
               );
-              await new LinxRestClient().postBerthCancel(berthCancel);
+              await CucumberLog.addJson(berthCancel);
+              await linxRestClient.postBerthCancel(berthCancel);
             }
           }
         }
       }
+      await linxRestClient.waitMaxTransmissionTime();
     }
   }
 }
