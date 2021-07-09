@@ -7,7 +7,6 @@ Feature: 34002 - Unscheduled Trains Menu
   Background:
     Given I am authenticated to use TMV with 'matching' role
 
-  @tdd @tdd:60684
   Scenario Outline:34002-3a Select Service for Matching (Map)
 #    Given the user is viewing a live schematic map or trains list
 #    And there are unmatched services viewable
@@ -20,7 +19,7 @@ Feature: 34002 - Unscheduled Trains Menu
       | toBerth | trainDescriber | trainDescription |
       | 0523    | D6             | <trainNum>       |
     When I invoke the context menu on the map for train <trainNum>
-    Then the map context menu has 'Match' on line 3
+    Then the Matched version of the map context menu is displayed
     Examples:
       | trainNum |
       | 2B01     |
@@ -33,7 +32,7 @@ Feature: 34002 - Unscheduled Trains Menu
     When I invoke the context menu for todays train '<trainNum>' schedule uid 'UNPLANNED' from the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu is displayed
-    And the trains list context menu has 'Match' on line 4
+    And the Matched version of the trains list context menu is displayed
     Examples:
       | trainNum |
       | 2B02     |
@@ -47,12 +46,12 @@ Feature: 34002 - Unscheduled Trains Menu
     When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu is displayed
-    And the trains list context menu has 'Match' on line 4
+    And the Matched version of the trains list context menu is displayed
     Examples:
       | trainNum | planningUid |
       | 2B03     | L20003      |
 
-  @tdd @tdd:60199
+  @tdd @tdd:50351
   Scenario Outline:34002-4a Select Service for Rematching (Map)
 #    Given the user is viewing a live schematic map or trains list
 #    And there are matched services viewable
@@ -76,7 +75,7 @@ Feature: 34002 - Unscheduled Trains Menu
       | trainNum | planningUid |
       | 2B04     | L20004      |
 
-  @tdd @tdd:60199
+  @tdd @tdd:50351
   Scenario Outline:34002-4b Select Service for Rematching (Trains List)
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |

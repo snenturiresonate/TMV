@@ -66,7 +66,7 @@ Then(/^the unmatched search results show the following (.*) results?$/,
   for (const expectedSearchResult of expectedSearchResults) {
     const expectedDate = DateAndTimeUtils.convertToDesiredDateAndFormat(expectedSearchResult.date, 'dd-MM-yyyy');
     const expectedPlanUID = expectedSearchResult.planUID;
-    const timeAdjust = parseFloat(expectedSearchResult.originTime.substr(7, 5));
+    const timeAdjust = parseFloat(expectedSearchResult.originTime.substr(6));
     if (expectedSearchResult.originTime.substr(4, 1) === '-') {
       expectedOriginTime = now.minusMinutes(timeAdjust);
     }
@@ -75,11 +75,12 @@ Then(/^the unmatched search results show the following (.*) results?$/,
     }
     expect(await trainsListManualMatchPage.isServiceListed(expectedPlanUID), `Service for ${expectedPlanUID} not listed`)
       .to.equal(true);
-    const actualSearchValues: string[] = await trainsListManualMatchPage.getSearchEntryValues(expectedPlanUID);
+    const actualSearchValues: string[] = await trainsListManualMatchPage
+      .getSearchEntryValues(expectedPlanUID, expectedDate.replace('-', '/').replace('-', '/'));
     const expectedTime = await hhmmToMinutesPastMidnight(expectedOriginTime.format(DateTimeFormatter.ofPattern('HHmm')));
     const actualTime = await hhmmToMinutesPastMidnight(actualSearchValues[searchColumnIndexes.time]);
     const timeDiff = Math.abs(actualTime - expectedTime);
-    const timesCloseEnough = (timeDiff <= 2) || (timeDiff >= 1438);
+    const timesCloseEnough = (timeDiff <= 60) || (timeDiff >= 1438);
     expect(actualSearchValues[searchColumnIndexes.service], `Service for ${expectedPlanUID} is incorrect`)
       .to.equal(expectedSearchResult.trainNumber);
     expect(actualSearchValues[searchColumnIndexes.status], `Status for ${expectedPlanUID} is incorrect`)
@@ -87,7 +88,7 @@ Then(/^the unmatched search results show the following (.*) results?$/,
     expect(actualSearchValues[searchColumnIndexes.sched], `Sched. for ${expectedPlanUID} is incorrect`)
       .to.equal(expectedSearchResult.sched);
     expect(actualSearchValues[searchColumnIndexes.schedDate], `Sched. Date for ${expectedPlanUID} is incorrect`)
-      .to.equal(expectedDate);
+      .to.equal(expectedDate.replace('-', '/').replace('-', '/'));
     expect(actualSearchValues[searchColumnIndexes.origin], `Origin for ${expectedPlanUID} is incorrect`)
       .to.equal(expectedSearchResult.origin);
     expect(timesCloseEnough, `Origin Time for ${expectedPlanUID} is incorrect`)

@@ -1,4 +1,5 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
+import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
 
 export class TrainsListManualMatchPageObject {
   public trainService: ElementArrayFinder;
@@ -70,12 +71,13 @@ export class TrainsListManualMatchPageObject {
     return false;
   }
 
-  public async getSearchEntryValues(planningUID: string): Promise<string[]> {
+  public async getSearchEntryValues(planningUID: string, scheduleDate = DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yy')): Promise<string[]> {
     await this.componentLoad();
     const numServices = await this.getNumServicesListed();
     let i = 0;
     for (i; i < numServices; i++) {
-      if (await this.getPlanUid(i) === planningUID) {
+      if (await this.getPlanUid(i) === planningUID && await this.getScheduleDate(i) === scheduleDate) {
+        i++;
         break;
       }
     }

@@ -1,4 +1,3 @@
-@tdd
 Feature: 34002 - Unscheduled Trains Matching
 
   As a TMV User
@@ -6,6 +5,7 @@ Feature: 34002 - Unscheduled Trains Matching
   So that I can determine if the unscheduled requires schedule matching
 
   Background:
+    * I reset redis
     Given I am authenticated to use TMV with 'matching' role
 
   Scenario Outline: 34002:5a Matching Services (several possible matches including cancelled and already matched)
@@ -14,6 +14,7 @@ Feature: 34002 - Unscheduled Trains Matching
 #      When the user selects match/rematch option from the menu of a service
 #      Then the user is presented with a manual matching tab
 #      And the view is populated with a list of possible services to match to
+    * I have cleared out all headcodes
     And the following live berth interpose message is sent from LINX (to set up unmatched train on map)
       | toBerth | trainDescriber | trainDescription |
       | 0481    | D6             | <trainNum>       |
@@ -32,10 +33,14 @@ Feature: 34002 - Unscheduled Trains Matching
     And I am on the trains list page
     And The trains list table is visible
     And train '<trainNum>' with schedule id '<planningUid4>' for today is visible on the trains list
+    And the following train activation message is sent from LINX
+      | trainUID       | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <planningUid1> | <trainNum>  | now                    | 99999               | PADTON                 | today         | now                 |
     And the following TJM is received
         #tjmType-Cancel at Origin
       | trainUid       | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason | nationalDelayCode |
       | <planningUid3> | <trainNum>  | now           | create | 91        | 91              | 73000       | PADTON         | now  | 91                 | PG                |
+    And I give the TJM and Activation 2 seconds to load
     And the following live berth interpose message is sent from LINX (to create a match)
       | toBerth | trainDescriber | trainDescription |
       | 0519    | D6             | <trainNum>       |
@@ -45,12 +50,16 @@ Feature: 34002 - Unscheduled Trains Matching
     And I switch to the new tab
     Then the tab title is 'TMV Schedule Matching <trainNum>'
     And no matched service is visible
-    And the unmatched search results show the following 4 results
-      | trainNumber | planUID        | status    | sched | date  | origin            | originTime | dest              |
-      | <trainNum>  | <planningUid1> | UNMATCHED | LTP   | today | London Paddington | now - 7    | Oxford            |
-      | <trainNum>  | <planningUid2> | ACTIVATED | LTP   | today | London Paddington | now - 12   | Didcot Parkway    |
-      | <trainNum>  | <planningUid3> | CANCELLED | LTP   | today | London Paddington | now - 30   | Swansea           |
-      | <trainNum>  | <planningUid4> | UNMATCHED | LTP   | today | Reading           | now - 35   | London Paddington |
+    And the unmatched search results show the following 8 results
+      | trainNumber | planUID        | status    | sched | date     | origin | originTime | dest     |
+      | <trainNum>  | <planningUid1> | UNCALLED  | LTP   | tomorrow | PADTON | now - 7    | OXFD     |
+      | <trainNum>  | <planningUid2> | UNCALLED  | LTP   | tomorrow | PADTON | now - 12   | DIDCOTP  |
+      | <trainNum>  | <planningUid3> | UNCALLED  | LTP   | tomorrow | PADTON | now - 30   | SWANSEA  |
+      | <trainNum>  | <planningUid4> | UNCALLED  | LTP   | tomorrow | RDNGSTN| now - 35   | PADTON   |
+      | <trainNum>  | <planningUid1> | ACTIVATED | LTP   | today    | PADTON | now - 7    | OXFD     |
+      | <trainNum>  | <planningUid2> | UNCALLED  | LTP   | today    | PADTON | now - 12   | DIDCOTP  |
+      | <trainNum>  | <planningUid3> | CANCELLED | LTP   | today    | PADTON | now - 30   | SWANSEA  |
+      | <trainNum>  | <planningUid4> | UNCALLED  | LTP   | today    | RDNGSTN| now - 35   | PADTON   |
 
     Examples:
       | trainNum | planningUid1 | planningUid2 | planningUid3 | planningUid4 |
@@ -155,7 +164,7 @@ Feature: 34002 - Unscheduled Trains Matching
       | trainNum | planningUid1 | planningUid2 |
       | 1C13     | L12007       | L12008       |
 
-  @tdd @ref_60199
+  @tdd @ref_50351
   Scenario Outline: 34002:7a Make Rematch - matching matched step to an unmatched service
 #    Given the user is viewing the manual matching view
 #    And the user has the schedule matching role
@@ -199,7 +208,7 @@ Feature: 34002 - Unscheduled Trains Matching
       | trainNum | planningUid1 | planningUid2 |
       | 1C14     | L12009       | L12010       |
 
-  @tdd @ref_60199
+  @tdd @ref_50351
   Scenario Outline: 34002:7b Make ReMatch - matching matched step to a different matched service
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                                    | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -244,7 +253,7 @@ Feature: 34002 - Unscheduled Trains Matching
       | trainNum | planningUid1 | planningUid2 |
       | 1C15     | L12011       | L12012       |
 
-  @tdd @ref_60199
+  @tdd @ref_50351
   Scenario Outline: 34002:8 Unmatch
 #    Given the user is viewing the manual matching view
 #    And the user has the matching role
