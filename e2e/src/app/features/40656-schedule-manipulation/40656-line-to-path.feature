@@ -10,7 +10,7 @@ Feature: 40656 - Schedule Manipulation - Line To Path
     * I restore to default train list config
     * I am on the trains list Config page
     * I have navigated to the 'Misc' configuration tab
-    * I set 'Unmatched' to be 'off'
+    * I set 'Include unmatched' to be 'off'
     * I save the trains list config
 
   Scenario Outline: 40656-6 Schedule with locations matching line code to path code rules

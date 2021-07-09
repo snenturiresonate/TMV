@@ -82,15 +82,15 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | KNNGTNJ                 |                    | 00:37:30        |                   |                |                   |                  |                  |            |            |
       | OXFDUDP                 |                    | 00:40:00        |                   |                |                   |                  |                  | [1]        |            |
       | OXFD                    | 00:43:00           |                 | 00:43:00          |                | 3                 |                  |                  |            | TF         |
-    And The live timetable entries are populated as follows:
-      | location | column          | value     |
+    And The live timetable actual time entries are populated as follows:
+      | location | column          | valType   |
       | SLOUGH   | arrivalDateTime | actual    |
       | SLOUGH   | deptDateTime    | predicted |
     When I move the replay to the end of the captured scenario
-    Then The live timetable entries are populated as follows:
-      | location | column          | value  |
-      | SLOUGH   | arrivalDateTime | actual |
-      | SLOUGH   | deptDateTime    | actual |
+    Then The live timetable actual time entries are populated as follows:
+      | location | column          | valType |
+      | SLOUGH   | arrivalDateTime | actual  |
+      | SLOUGH   | deptDateTime    | actual  |
 
   @tdd @replayTest
   Scenario: 34375-4b Replay - View Timetable (Schedule Matched - becoming unmatched)
@@ -108,26 +108,26 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid | trustId | lastTJM | headCode |
       | LTP       | SN206      |            | L10007   |         |         | 1A07     |
-    And The live timetable entries are populated as follows:
-      | location | column          | value     |
+    And The live timetable actual time entries are populated as follows:
+      | location | column          | valType   |
       | EALINGB  | arrivalDateTime | actual    |
       | EALINGB  | deptDateTime    | predicted |
     When I select skip forward to just after replay scenario step '2'
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid | trustId | lastTJM | headCode |
       | LTP       | SN202      |            | L10007   |         |         | 1A07     |
-    And The live timetable entries are populated as follows:
-      | location | column          | value  |
-      | EALINGB  | arrivalDateTime | actual |
-      | EALINGB  | deptDateTime    | actual |
+    And The live timetable actual time entries are populated as follows:
+      | location | column          | valType |
+      | EALINGB  | arrivalDateTime | actual  |
+      | EALINGB  | deptDateTime    | actual  |
     When I move the replay to the end of the captured scenario
     Then The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid | trustId | lastTJM | headCode |
       | LTP       |            |            | L10007   |         |         | 1A07     |
-    And The live timetable entries are populated as follows:
-      | location | column          | value  |
-      | EALINGB  | arrivalDateTime | absent |
-      | EALINGB  | deptDateTime    | absent |
+    And The live timetable actual time entries are populated as follows:
+      | location | column          | valType |
+      | EALINGB  | arrivalDateTime | absent  |
+      | EALINGB  | deptDateTime    | absent  |
 
   @tdd @replayTest @bug @bug_55114
   Scenario: 34375-5 Replay - View Timetable (Schedule Not Matched - becoming matched)
@@ -174,16 +174,16 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | CHOLSEY  | 21:59:00           | 22:00:30        | 21:59:00          | 22:00:00       |                   | RL               | RL               | [1]        | T          |
       | DIDCTEJ  |                    | 22:04:00        |                   |                |                   | RL               | URL              |            |            |
       | DIDCOTP  | 22:05:00           |                 | 22:05:00          |                | 4                 | URL              |                  |            | TF         |
-    And The live timetable entries are populated as follows:
-      | location | column          | value  |
-      | CHOLSEY  | arrivalDateTime | absent |
-      | CHOLSEY  | deptDateTime    | absent |
+    And The live timetable actual time entries are populated as follows:
+      | location | column          | valType |
+      | CHOLSEY  | arrivalDateTime | absent  |
+      | CHOLSEY  | deptDateTime    | absent  |
     When I move the replay to the end of the captured scenario
     Then The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid | trustId | lastTJM | headCode |
       | LTP       | T839       |            | L10008   |         |         | 1A08     |
-    And The live timetable entries are populated as follows:
-      | location | column          | value     |
+    And The live timetable actual time entries are populated as follows:
+      | location | column          | valType   |
       | CHOLSEY  | arrivalDateTime | actual    |
       | CHOLSEY  | deptDateTime    | predicted |
 
@@ -222,7 +222,8 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | D,B,A      |
     And there are no records in the modifications table
     When I select skip forward to just after replay scenario step '3'
-    Then the headcode in the header row is '1X09 (1A09)'
+    Then the current headcode in the header row is '1X09'
+    Then the old headcode in the header row is '(1A09)'
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid | trustId | lastTJM                                  | headCode |
       | LTP       | SN37       |            | L10009   |         | Change of Identity, Paddington, 12:00:00 | 1X09     |
@@ -240,7 +241,7 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | 811        |
       | 144mph     |
       | D          |
-    And the headcode in the header row is '1A09'
+    And the current headcode in the header row is '1A09'
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid | trustId | lastTJM | headCode |
       | LTP       |            |            | L10009   |         |         | 1A09     |
@@ -316,7 +317,7 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
     And The timetable details tab is visible
     When I click Play button
     Then The values for 'berthId' are the following as time passes
-      | values              |
+      | values            |
       | 0206, 0202, blank |
     When I click Stop button
     Then The values for the header properties are as follows

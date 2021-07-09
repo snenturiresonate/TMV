@@ -50,8 +50,8 @@ Feature: 46448 - TMV Trains List - access
     And I have navigated to the 'Misc' configuration tab
     And I set class filters to be '<classes>'
     And I set 'Ignore PD Cancels' to be '<ignorePDCancelsFlag>'
-    And I set 'Uncalled' to be '<uncalledFlag>'
-    And I set 'Unmatched' to be '<unmatchedFlag>'
+    And I set 'Include uncalled' to be '<uncalledFlag>'
+    And I set 'Include unmatched' to be '<unmatchedFlag>'
     And I set Time to Appear Before to be '60'
     And I am on the home page
     When I click the app 'trains-list'

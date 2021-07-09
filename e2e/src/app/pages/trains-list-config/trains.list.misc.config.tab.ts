@@ -121,10 +121,10 @@ export class TrainsListMiscConfigTab {
       case ('ignore pd cancels'):
         routeLocator = this.ignoreToggleButton;
         break;
-      case ('unmatched'):
+      case ('include unmatched'):
         routeLocator = this.unmatchedToggleButton;
         break;
-      case ('uncalled'):
+      case ('include uncalled'):
         routeLocator = this.uncalledToggleButton;
         break;
       default:

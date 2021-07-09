@@ -846,20 +846,27 @@ Then(/^the (Matched|Unmatched) version of the map context menu is displayed$/, a
   await mapPageObject.waitForContextMenu();
   let expected1;
   let expected2;
+  let expected3;
   if (matchType === 'Matched') {
     expected1 = 'Open timetable';
-    expected2 = 'Turn Path';
+    expected2 = 'Turn Path On';
+    expected3 = 'Highlight';
 
   } else {
     expected1 = 'No timetable';
     expected2 = 'Match';
+    expected3 = 'Highlight';
   }
   const contextMenuItem1: string = await mapPageObject.getMapContextMenuItem(2);
   const contextMenuItem2: string = await mapPageObject.getMapContextMenuItem(3);
+  const contextMenuItem3: string = await mapPageObject.getMapContextMenuItem(4);
   expect(contextMenuItem1, `Context menu does not imply ${matchType} state - does not contain ${expected1}`)
     .to.contain(expected1);
   expect(contextMenuItem2, `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
     .to.contain(expected2);
+  expect(contextMenuItem3, `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
+    .to.contain(expected3);
+
 });
 
 When(/^I wait for the option to (Match|Unmatch) train description (\w+) in berth (\w+), describer (\w+) to be available$/,

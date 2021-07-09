@@ -11,7 +11,7 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
     And I have navigated to the 'Columns' configuration tab
     And I click on all the unselected column entries
     And I have navigated to the 'Misc' configuration tab
-    And I set 'Unmatched' to be 'on'
+    And I set 'Include unmatched' to be 'on'
     And I save the trains list config
 
   @bug @bug:64872

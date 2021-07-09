@@ -22,13 +22,13 @@ Given('I set {string} to be {string}', async (flag: string, setting: string) => 
     }
     browser.userTLShowCancelled = setting;
   }
-  if (flag === 'Uncalled') {
+  if (flag === 'Include uncalled') {
     if (await trainsListMisc.getUncalledToggleState() !== setting) {
       await trainsListMisc.clickUncalledToggle();
     }
     browser.userTLShowUncalled = setting;
   }
-  if (flag === 'Unmatched') {
+  if (flag === 'Include unmatched') {
     if (await trainsListMisc.getUnmatchedToggleState() !== setting) {
       await trainsListMisc.clickUnmatchedToggle();
     }

@@ -1,5 +1,5 @@
 import {Given, Then, When} from 'cucumber';
-import {expect} from 'chai';
+import {assert, expect} from 'chai';
 import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
 import {Locale} from '@js-joda/locale_en';
 import {
@@ -96,6 +96,39 @@ Then('The live timetable tab will be titled {string}', async (expectedTabName: s
 
 });
 
+When('I wait for the last Signal to populate', async () => {
+  return browser.wait(async () => {
+    try {
+      {
+        if (await timetablePage.headerSignal.getText() !== '')
+        {
+          return true;
+        }
+      }
+      return false;
+    }
+    catch (error) {
+      return false;
+    }
+  }, browser.displayTimeout, 'Last Signal not populated');
+});
+
+When('I wait for the last Signal to be {string}', async (sigName) => {
+  return browser.wait(async () => {
+    try {
+      {
+        if (await timetablePage.headerSignal.getText() !== 'sigName')
+        {
+          return true;
+        }
+      }
+      return false;
+    }
+    catch (error) {
+      return false;
+    }
+  }, browser.displayTimeout, `Last Signal was not ${sigName}`);
+});
 
 Then('The values for the header properties are as follows',
   async (headerPropertyValues: any) => {
@@ -109,9 +142,11 @@ Then('The values for the header properties are as follows',
     const actualHeaderTrustId: string = await timetablePage.headerTrustId.getText();
     const actualHeaderTJM: string = await timetablePage.headerTJM.getText();
     let expectedUid = expectedHeaderPropertyValues.trainUid;
+    const expectedTJM = expectedHeaderPropertyValues.lastTJM;
     if (expectedUid === 'generatedTrainUId') {
       expectedUid = browser.referenceTrainUid;
     }
+    expectedTJM.replace('today', DateAndTimeUtils.getCurrentDateTimeString('dd-MM-yyyy'));
 
     expect(actualHeaderHeadcode, 'Headcode is not as expected')
       .to.equal(expectedHeaderPropertyValues.headCode);
@@ -162,9 +197,15 @@ Then('The timetable service description is visible', async () => {
     .to.equal(true);
 });
 
-Then(/^the headcode in the header row is '(.*)'$/, async (header: string) => {
+Then(/^the current headcode in the header row is '(.*)'$/, async (header: string) => {
   const headerHeadcode = await timetablePage.headerHeadcode.getText();
-  expect(headerHeadcode, 'Headcode in the header row is not as expected')
+  expect(headerHeadcode, 'Current Headcode in the header row is not as expected')
+    .to.equal(header);
+});
+
+Then(/^the old headcode in the header row is '(.*)'$/, async (header: string) => {
+  const headerHeadcode = await timetablePage.headerOldHeadcode.getText();
+  expect(headerHeadcode, 'Old Headcode in the header row is not as expected')
     .to.equal(header);
 });
 
@@ -173,17 +214,26 @@ Then(/^there is a record in the modifications table$/, async (table: any) => {
   const expectedRecords = table.hashes();
   for (const expectedRecord of expectedRecords) {
     let found = false;
+    let modification = '';
+    let modLocation = '';
+    let modTime = '';
+    let modType = '';
     for (const row of modificationsTable) {
-      const reason = await row.getTypeOfModification() === expectedRecord.description;
-      const location = await row.getLocation() === expectedRecord.location;
-      const time = await row.getTime() === expectedRecord.time;
-      const type = await row.getModificationReason() === expectedRecord.type;
-      found = (reason && location && time && type);
+      modification = await row.getTypeOfModification();
+      modLocation = await row.getLocation();
+      modTime = await row.getTime();
+      modTime.replace('today', DateAndTimeUtils.getCurrentDateTimeString('dd-MM-yyyy'));
+      modType = await row.getModificationReason();
+      found = ((modification === expectedRecord.description)
+        && (modLocation === expectedRecord.location)
+        && (modTime === expectedRecord.time)
+        && (modType === expectedRecord.type));
       if (found) {
         break;
       }
     }
-    expect(found, 'No record with value found in the modifications table')
+    expect(found, `Record found in modifications table was ${modification} at ${modLocation} ${modTime} type ${modType} instead of
+    ${expectedRecord.description} at ${expectedRecord.location} ${expectedRecord.time} type ${expectedRecord.type}`)
       .to.equal(true);
   }
 });
@@ -430,39 +480,45 @@ Then('The timetable entries contains the following data',
     }
   });
 
-Then('The live timetable entries are populated as follows:', async (timetableEntryDataTable: any) => {
+Then('The live timetable actual time entries are populated as follows:', async (timetableEntryDataTable: any) => {
   const expectedTimetableEntryColValues: any[] = timetableEntryDataTable.hashes();
   for (const expectedTimetableEntryCol of expectedTimetableEntryColValues) {
-    const actualTimetableEntryColValues: string[] = await timetablePage.getTimetableEntryColValues(expectedTimetableEntryCol.location);
-    const colIndex = timetableColumnIndexes[expectedTimetableEntryCol.column];
-    if (expectedTimetableEntryCol.value === 'actual') {
-      expect(actualTimetableEntryColValues[colIndex],
-        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing predicted time when should be actual`)
-        .to.not.contain('[');
-      expect(actualTimetableEntryColValues[colIndex],
-        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing predicted time when should be actual`)
-        .to.not.contain(']');
-    }
-    if (expectedTimetableEntryCol.value === 'predicted') {
-      expect(actualTimetableEntryColValues[colIndex],
-        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing actual time when should be predicted`)
-        .to.contain('[');
-      expect(actualTimetableEntryColValues[colIndex],
-        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing actual time when should be predicted`)
-        .to.contain(']');
-    }
-    if (expectedTimetableEntryCol.value === 'absent') {
-      expect(actualTimetableEntryColValues[colIndex],
-        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing time when should be nothing`)
-        .to.equal('');
-      expect(actualTimetableEntryColValues[colIndex],
-        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing time when should be nothing`)
-        .to.equal('');
-    } else {
-      expect(actualTimetableEntryColValues[colIndex],
-        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} not as expected`)
-        .to.equal(expectedTimetableEntryCol.value);
-    }
+    await timetablePage.getRowByLocation(expectedTimetableEntryCol.location, expectedTimetableEntryCol.instance).then(async row => {
+      let actualTimetableEntryElement;
+      let actualTimetableEntryElementValue = 'UNKNOWN';
+      if (expectedTimetableEntryCol.column === 'actualArr') {
+        actualTimetableEntryElement = row.actualArr;
+        actualTimetableEntryElementValue = await row.actualArr.getText();
+      }
+      else if (expectedTimetableEntryCol.column === 'actualDep') {
+        actualTimetableEntryElement = row.actualDep;
+        actualTimetableEntryElementValue = await row.actualDep.getText();
+      }
+      if (expectedTimetableEntryCol.valType === 'predicted') {
+        await browser.wait(ExpectedConditions.and(
+          ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, '('),
+          ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, ')')),
+          60 * 1000)
+          .catch(() => assert.fail(`${expectedTimetableEntryCol.column} is not showing as predicted - there should be brackets`));
+      }
+      else if (expectedTimetableEntryCol.valType === 'actual') {
+        await browser.wait(ExpectedConditions.and(
+          ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, '(')),
+          ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, ')'))),
+          60 * 1000)
+          .catch(() => assert.fail(`${expectedTimetableEntryCol.column} is showing as predicted - there should be no brackets`));
+      }
+      else if (expectedTimetableEntryCol.valType === 'absent') {
+        expect(actualTimetableEntryElementValue,
+          `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing time when should be nothing`)
+          .to.equal('');
+      }
+      else {
+        expect(actualTimetableEntryElementValue,
+          `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} not as expected`)
+          .to.equal(expectedTimetableEntryCol.value);
+      }
+    });
   }
 });
 
@@ -539,6 +595,12 @@ Then('the punctuality increases when the train is not moving', async () => {
  }, 65 * 1000, `Punctuality was not updated after 60 seconds as the service incurs lateness, was still '${actualText}'`);
 });
 
+Then(/^the punctuality is displayed as one of (.*)$/, async (expectedList: string) => {
+  const possibleValues = expectedList.split(',');
+  const actualText: string = await timetablePage.getNavBarIndicatorText();
+  expect(actualText, 'Punctuality value is not correct')
+    .to.be.oneOf(possibleValues);
+});
 
 Then('the punctuality for {string} location {string} is displayed as {string}',
   async (locationType: string, location: string, expectedText: string) => {

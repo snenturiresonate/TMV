@@ -20,7 +20,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     * I toggle all trains list punctuality toggles 'off'
     * I save the trains list config
     * I have navigated to the 'Misc' configuration tab
-    * I set 'Unmatched' to be 'off'
+    * I set 'Include unmatched' to be 'off'
     * I save the trains list config
 
   Scenario: 40490-1 Single Change of ID received

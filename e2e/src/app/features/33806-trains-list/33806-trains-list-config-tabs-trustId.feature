@@ -10,7 +10,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     * I restore to default train list config
     * I am on the trains list Config page
     * I have navigated to the 'Misc' configuration tab
-    * I set 'Unmatched' to be 'off'
+    * I set 'Include unmatched' to be 'off'
     * I save the trains list config
     * I have navigated to the 'TRUST IDs' configuration tab
 

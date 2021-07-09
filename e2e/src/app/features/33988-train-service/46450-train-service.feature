@@ -421,7 +421,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     When I invoke the context menu on the map for train 1F34
     And I open timetable from the map context menu
     And I switch to the new tab
-    Then the headcode in the header row is '1F34'
+    Then the current headcode in the header row is '1F34'
     When I switch to the second-newest tab
     And I invoke the context menu on the map for train 1F34
     And I click on Unmatch in the context menu
@@ -448,7 +448,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     And the map context menu contains 'Turn Path Off' on line 3
     When I open timetable from the map context menu
     And I switch to the new tab
-    Then the headcode in the header row is '1F35'
+    Then the current headcode in the header row is '1F35'
     When I switch to the second-newest tab
     And I invoke the context menu on the map for train 1F35
     And I click on Unmatch in the context menu
@@ -489,7 +489,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     Then the map context menu contains 'Turn Path On' on line 3
     When I open timetable from the map context menu
     And I switch to the new tab
-    Then the headcode in the header row is '1F36'
+    Then the current headcode in the header row is '1F36'
     When I switch to the second-newest tab
     And I invoke the context menu on the map for train 1F36
     And I click on Unmatch in the context menu

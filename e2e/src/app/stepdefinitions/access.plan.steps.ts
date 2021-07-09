@@ -91,7 +91,8 @@ When ('the train in CIF file below is updated accordingly so time at the referen
       const rowType = cifLine.substr(0, 2);
       const thisLoc = cifLine.substr(2, 7);
       if (thisLoc.trim() === newTrainProps.refLocation) {
-        browser.timeAdjustMs = calculateTimeAdjustToNearestMinInMs(cifLine, new Date(), rowType + '_' + newTrainProps.refTimingType);
+        const nowInCifFormat = DateAndTimeUtils.getCurrentTime().format(DateTimeFormatter.ofPattern('HHmm'));
+        browser.timeAdjustMs = calculateTimeAdjustToNearestMinInMs(cifLine, nowInCifFormat, rowType + '_' + newTrainProps.refTimingType);
         break;
       }
     }
@@ -238,13 +239,13 @@ function pickCorrectHoursString(initialString: string, trainStartHours, hoursVal
   return String(hoursVal + hoursDiff).padStart(2, '0');
 }
 
-function calculateTimeAdjustToNearestMinInMs(cifLine: string, refTime: Date, refRowAndTimingType: string): number {
+function calculateTimeAdjustToNearestMinInMs(cifLine: string, refTimeInCifFormat: string, refRowAndTimingType: string): number {
   let timeStringLength = 4;
   if (refRowAndTimingType.includes('wtt')) {
     timeStringLength = 5;
   }
   const cifLineTimeString = cifLine.substr(cifStartChars[refRowAndTimingType], timeStringLength);
-  const diffMs = refTime.valueOf() - toDateTime(cifLineTimeString).valueOf();
+  const diffMs = toDateTime(refTimeInCifFormat).valueOf() - toDateTime(cifLineTimeString).valueOf();
   // round ms to nearest minute
   return Math.round(diffMs / (60 * 1000)) * (60 * 1000);
 }

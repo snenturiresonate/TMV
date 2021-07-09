@@ -139,7 +139,7 @@ Feature: 33753 - TMV Timetable
       | 1A05     | 0253  | Timetable  | UNMATCHED     |
 
 
-  @replaySetup @bug @bug_55114
+  @replaySetup @bug @bug_65062
   Scenario Outline: 33753-4a - View Timetable (Schedule Matched - live updates are applied)
     #Given the user is authenticated to use TMV
     #And the user has opened a timetable
@@ -151,95 +151,96 @@ Feature: 33753 - TMV Timetable
       | access-plan/1D46_PADTON_OXFD.cif | SLOUGH      | WTT_arr       | <trainNum>          | <planningUid>  |
     And I am on the trains list page
     And The trains list table is visible
-    And Train description '<trainNum>' is visible on the trains list
+    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 0519    | D6             | <trainNum>       |
-    Given I am on the trains list page
+    And I am on the trains list page
     And The trains list table is visible
     And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
     When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
-    And the trains list context menu contains 'Unmatch' on line 3
+    And the Matched version of the trains list context menu is displayed
     And I open timetable from the context menu
     And I switch to the new tab
+    And I wait for the last Signal to populate
     Then The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       | T519       |            | <planningUid> |         |         | <trainNum> |
     And the navbar punctuality indicator is displayed as 'green'
-    And the punctuality is displayed as 'On Time'
+    And the punctuality is displayed as one of On time,+0m 30s,-0m 30s
     And The timetable entries contains the following data, with timings having live offset from 'earlier' at 'the beginning of the test'
-      | location                | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities |
-      | PADTON                  |                    | 23:33:00        |                   | 23:33:00       | 4                 |                  | 1                |            | TB         |
-      | ROYAOJN                 |                    | 23:34:00        |                   |                |                   | 1                | 1                |            |            |
-      | PRTOBJP                 |                    | 23:35:00        |                   |                |                   | 1                | 1                |            |            |
-      | LDBRKJ                  |                    | 23:35:30        |                   |                |                   | 1                | ML               |            |            |
-      | ACTONW\nChange-en-Route |                    | 23:38:00        |                   |                |                   | ML               | ML               |            |            |
-      | STHALL                  |                    | 23:40:00        |                   |                | 1                 | ML               | ML               |            |            |
-      | HTRWAJN                 |                    | 23:41:00        |                   |                |                   | ML               | ML               | <2>        |            |
-      | SLOUGH                  | 23:47:00           | 23:48:30        | 23:47:00          | 23:48:00       | 2                 | ML               | ML               | (0.5)      | T          |
-      | MDNHEAD                 | 23:53:30           | 23:55:30        | 23:54:00          | 23:55:00       | 1                 | ML               | ML               | [0.5]      | T          |
-      | TWYFORD                 |                    | 00:01:00        |                   |                | 1                 | ML               | ML               | [1] (1)    |            |
-      | RDNGKBJ                 |                    | 00:05:00        |                   |                |                   | ML               | DML              | [0.5]      |            |
-      | RDNGSTN                 | 00:06:30           | 00:10:00        | 00:07:00          | 00:10:00       | 9                 | DML              | ML               |            | T          |
-      | RDNGHLJ                 |                    | 00:11:00        |                   |                |                   | ML               | ML               |            |            |
-      | GORASTR                 |                    | 00:16:30        |                   |                |                   | ML               | ML               | [1] (1)    |            |
-      | DIDCTEJ                 |                    | 00:23:00        |                   |                |                   | ML               | RL               |            |            |
-      | DIDCOTP                 | 00:24:00           | 00:26:00        | 00:24:00          | 00:26:00       | 3                 | RL               | DOX              |            | T          |
-      | DIDCTNJ                 |                    | 00:28:00        |                   |                |                   | DOX              |                  |            |            |
-      | RDLEY                   | 00:32:30           | 00:34:00        | 00:33:00          | 00:34:00       | 1                 |                  |                  |            | T          |
-      | KNNGTNJ                 |                    | 00:37:30        |                   |                |                   |                  |                  |            |            |
-      | OXFDUDP                 |                    | 00:40:00        |                   |                |                   |                  |                  | [1]        |            |
-      | OXFD                    | 00:43:00           |                 | 00:43:00          |                | 3                 |                  |                  |            | TF         |
+      | location                    | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities |
+      | London Paddington           |                    | 23:33:00        |                   | 23:33:00       | 4                 |                  | 1                |            | TB         |
+      | Royal Oak Junction          |                    | 23:34:00        |                   |                |                   | 1                | 1                |            |            |
+      | Portobello Jn (London)      |                    | 23:35:00        |                   |                |                   | 1                | 1                |            |            |
+      | Ladbroke Grove              |                    | 23:35:30        |                   |                |                   | 1                | ML               |            |            |
+      | Acton West\nChange-en-Route |                    | 23:38:00        |                   |                |                   | ML               | ML               |            |            |
+      | Southall                    |                    | 23:40:00        |                   |                | 1                 | ML               | ML               |            |            |
+      | Heathrow Airport Jn         |                    | 23:41:00        |                   |                |                   | ML               | ML               | <2>        |            |
+      | Slough                      | 23:47:00           | 23:48:30        | 23:47:00          | 23:48:00       | 2                 | ML               | ML               | (0.5)      | T          |
+      | Maidenhead                  | 23:53:30           | 23:55:30        | 23:54:00          | 23:55:00       | 1                 | ML               | ML               | [0.5]      | T          |
+      | Twyford                     |                    | 00:01:00        |                   |                | 1                 | ML               | ML               | [1] (1)    |            |
+      | Kennet Bridge Jn            |                    | 00:05:00        |                   |                |                   | ML               | DML              | [0.5]      |            |
+      | Reading                     | 00:06:30           | 00:10:00        | 00:07:00          | 00:10:00       | 9                 | DML              | ML               |            | T          |
+      | Reading High Level Jn       |                    | 00:11:00        |                   |                |                   | ML               | ML               |            |            |
+      | Goring & Streatley          |                    | 00:16:30        |                   |                |                   | ML               | ML               | [1] (1)    |            |
+      | Didcot East Jn              |                    | 00:23:00        |                   |                |                   | ML               | RL               |            |            |
+      | Didcot Parkway              | 00:24:00           | 00:26:00        | 00:24:00          | 00:26:00       | 3                 | RL               | DOX              |            | T          |
+      | Didcot North Jn             |                    | 00:28:00        |                   |                |                   | DOX              |                  |            |            |
+      | Radley                      | 00:32:30           | 00:34:00        | 00:33:00          | 00:34:00       | 1                 |                  |                  |            | T          |
+      | Kennington Jn               |                    | 00:37:30        |                   |                |                   |                  |                  |            |            |
+      | Oxford Up & Dn Passenger    |                    | 00:40:00        |                   |                |                   |                  |                  | [1]        |            |
+      | Oxford                      | 00:43:00           |                 | 00:43:00          |                | 3                 |                  |                  |            | TF         |
     And I toggle the inserted locations on
     And The timetable entries contains the following data, with timings having live offset from 'earlier' at 'the beginning of the test'
-      | location                | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities |
-      | PADTON                  |                    | 23:33:00        |                   | 23:33:00       | 4                 |                  | 1                |            | TB         |
-      | ROYAOJN                 |                    | 23:34:00        |                   |                |                   | 1                | 1                |            |            |
-      | PRTOBJP                 |                    | 23:35:00        |                   |                |                   | 1                | 1                |            |            |
-      | LDBRKJ                  |                    | 23:35:30        |                   |                |                   | 1                | ML               |            |            |
-      | [ACTONML]               |                    | 23:37:22        |                   |                |                   | ML               | ML               |            |            |
-      | ACTONW\nChange-en-Route |                    | 23:38:00        |                   |                |                   | ML               | ML               |            |            |
-      | [EALINGB]               |                    | 23:38:13        |                   |                |                   | ML               | ML               |            |            |
-      | [WEALING]               |                    | 23:38:43        |                   |                |                   | ML               | ML               |            |            |
-      | [HANWELL]               |                    | 23:39:07        |                   |                |                   | ML               | ML               |            |            |
-      | [STHALEJ]               |                    | 23:39:49        |                   |                |                   | ML               | ML               |            |            |
-      | STHALL                  |                    | 23:40:00        |                   |                | 1                 | ML               | ML               |            |            |
-      | [STHALWJ]               |                    | 23:40:19        |                   |                |                   | ML               | ML               |            |            |
-      | [HAYESAH]               |                    | 23:40:55        |                   |                |                   | ML               | ML               |            |            |
-      | HTRWAJN                 |                    | 23:41:00        |                   |                |                   | ML               | ML               | <2>        |            |
-      | SLOUGH                  | 23:47:00           | 23:48:30        | 23:47:00          | 23:48:00       | 2                 | ML               | ML               | (0.5)      | T          |
-      | MDNHEAD                 | 23:53:30           | 23:55:30        | 23:54:00          | 23:55:00       | 1                 | ML               | ML               | [0.5]      | T          |
-      | TWYFORD                 |                    | 00:01:00        |                   |                | 1                 | ML               | ML               | [1] (1)    |            |
-      | RDNGKBJ                 |                    | 00:05:00        |                   |                |                   | ML               | DML              | [0.5]      |            |
-      | RDNGSTN                 | 00:06:30           | 00:10:00        | 00:07:00          | 00:10:00       | 9                 | DML              | ML               |            | T          |
-      | RDNGHLJ                 |                    | 00:11:00        |                   |                |                   | ML               | ML               |            |            |
-      | GORASTR                 |                    | 00:16:30        |                   |                |                   | ML               | ML               | [1] (1)    |            |
-      | DIDCTEJ                 |                    | 00:23:00        |                   |                |                   | ML               | RL               |            |            |
-      | DIDCOTP                 | 00:24:00           | 00:26:00        | 00:24:00          | 00:26:00       | 3                 | RL               | DOX              |            | T          |
-      | DIDCTNJ                 |                    | 00:28:00        |                   |                |                   | DOX              |                  |            |            |
-      | RDLEY                   | 00:32:30           | 00:34:00        | 00:33:00          | 00:34:00       | 1                 |                  |                  |            | T          |
-      | KNNGTNJ                 |                    | 00:37:30        |                   |                |                   |                  |                  |            |            |
-      | OXFDUDP                 |                    | 00:40:00        |                   |                |                   |                  |                  | [1]        |            |
-      | OXFD                    | 00:43:00           |                 | 00:43:00          |                | 3                 |                  |                  |            | TF         |
-    And The live timetable entries are populated as follows:
-      | location | column          | value     |
-      | SLOUGH   | arrivalDateTime | actual    |
-      | SLOUGH   | deptDateTime    | predicted |
+      | location                    | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities |
+      | London Paddington           |                    | 23:33:00        |                   | 23:33:00       | 4                 |                  | 1                |            | TB         |
+      | Royal Oak Junction          |                    | 23:34:00        |                   |                |                   | 1                | 1                |            |            |
+      | Portobello Jn (London)      |                    | 23:35:00        |                   |                |                   | 1                | 1                |            |            |
+      | Ladbroke Grove              |                    | 23:35:30        |                   |                |                   | 1                | ML               |            |            |
+      | [Acton Main Line]           |                    | 23:37:22        |                   |                |                   | ML               | ML               |            |            |
+      | Acton West\nChange-en-Route |                    | 23:38:00        |                   |                |                   | ML               | ML               |            |            |
+      | [Ealing Broadway]           |                    | 23:38:13        |                   |                |                   | ML               | ML               |            |            |
+      | [West Ealing]               |                    | 23:38:43        |                   |                |                   | ML               | ML               |            |            |
+      | [Hanwell]                   |                    | 23:39:07        |                   |                |                   | ML               | ML               |            |            |
+      | [Southall East Jn]          |                    | 23:39:49        |                   |                |                   | ML               | ML               |            |            |
+      | Southall                    |                    | 23:40:00        |                   |                | 1                 | ML               | ML               |            |            |
+      | [Southall West Jn]          |                    | 23:40:19        |                   |                |                   | ML               | ML               |            |            |
+      | [Hayes & Harlington]        |                    | 23:40:55        |                   |                |                   | ML               | ML               |            |            |
+      | Heathrow Airport Jn         |                    | 23:41:00        |                   |                |                   | ML               | ML               | <2>        |            |
+      | Slough                      | 23:47:00           | 23:48:30        | 23:47:00          | 23:48:00       | 2                 | ML               | ML               | (0.5)      | T          |
+      | Maidenhead                  | 23:53:30           | 23:55:30        | 23:54:00          | 23:55:00       | 1                 | ML               | ML               | [0.5]      | T          |
+      | Twyford                     |                    | 00:01:00        |                   |                | 1                 | ML               | ML               | [1] (1)    |            |
+      | Kennet Bridge Jn            |                    | 00:05:00        |                   |                |                   | ML               | DML              | [0.5]      |            |
+      | Reading                     | 00:06:30           | 00:10:00        | 00:07:00          | 00:10:00       | 9                 | DML              | ML               |            | T          |
+      | Reading High Level Jn       |                    | 00:11:00        |                   |                |                   | ML               | ML               |            |            |
+      | Goring & Streatley          |                    | 00:16:30        |                   |                |                   | ML               | ML               | [1] (1)    |            |
+      | Didcot East Jn              |                    | 00:23:00        |                   |                |                   | ML               | RL               |            |            |
+      | Didcot Parkway              | 00:24:00           | 00:26:00        | 00:24:00          | 00:26:00       | 3                 | RL               | DOX              |            | T          |
+      | Didcot North Jn             |                    | 00:28:00        |                   |                |                   | DOX              |                  |            |            |
+      | Radley                      | 00:32:30           | 00:34:00        | 00:33:00          | 00:34:00       | 1                 |                  |                  |            | T          |
+      | Kennington Jn               |                    | 00:37:30        |                   |                |                   |                  |                  |            |            |
+      | Oxford Up & Dn Passenger    |                    | 00:40:00        |                   |                |                   |                  |                  | [1]        |            |
+      | Oxford                      | 00:43:00           |                 | 00:43:00          |                | 3                 |                  |                  |            | TF         |
+    And The live timetable actual time entries are populated as follows:
+      | location | instance | column    | valType   |
+      | Slough   | 1        | actualArr | actual    |
+      | Slough   | 1        | actualDep | predicted |
     When the following live berth step message is sent from LINX (moving train along)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 0519      | 0533    | D6             | <trainNum>       |
     And the maximum amount of time is allowed for end to end transmission
-    Then The live timetable entries are populated as follows:
-      | location | column          | value  |
-      | SLOUGH   | arrivalDateTime | actual |
-      | SLOUGH   | deptDateTime    | actual |
+    Then The live timetable actual time entries are populated as follows:
+      | location | instance | column    | valType |
+      | Slough   | 1        | actualArr | actual  |
+      | Slough   | 1        | actualDep | actual  |
 
     Examples:
       | trainNum | planningUid |
       | 1A06     | L10006      |
 
-  @replaySetup @tdd @tdd:60541
+  @replaySetup @tdd @tdd:60541 @bug @bug_65062
   Scenario Outline: 33753-4b - View Timetable (Schedule Matched - becoming unmatched)
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -252,27 +253,29 @@ Feature: 33753 - TMV Timetable
       | 0206    | D3             | <trainNum>       |
     Given I am viewing the map hdgw01paddington.v
     And I invoke the context menu on the map for train <trainNum>
-    #And the map context menu contains 'Unmatch' on line 3
+    And the Matched version of the map context menu is displayed
     And I open timetable from the map context menu
     And I switch to the new tab
+    And I wait for the last Signal to populate
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       | SN206      |            | <planningUid> |         |         | <trainNum> |
-    And The live timetable entries are populated as follows:
-      | location | column          | value     |
-      | EALINGB  | arrivalDateTime | actual    |
-      | EALINGB  | deptDateTime    | predicted |
+    And The live timetable actual time entries are populated as follows:
+      | location        | instance | column    | valType   |
+      | Ealing Broadway | 1        | actualArr | actual    |
+      | Ealing Broadway | 1        | actualDep | predicted |
     And the following live berth step message is sent from LINX (moving train along)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 0206      | 0202    | D3             | <trainNum>       |
     And the maximum amount of time is allowed for end to end transmission
+    And I wait for the last Signal to be 'SN202'
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       | SN202      |            | <planningUid> |         |         | <trainNum> |
-    And The live timetable entries are populated as follows:
-      | location | column          | value  |
-      | EALINGB  | arrivalDateTime | actual |
-      | EALINGB  | deptDateTime    | actual |
+    And The live timetable actual time entries are populated as follows:
+      | location        | instance | column    | valType |
+      | Ealing Broadway | 1        | actualArr | actual  |
+      | Ealing Broadway | 1        | actualDep | actual  |
     When I switch to the second-newest tab
     And I invoke the context menu on the map for train <trainNum>
     And I open schedule matching screen from the map context menu
@@ -282,17 +285,17 @@ Feature: 33753 - TMV Timetable
     Then The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       |            |            | <planningUid> |         |         | <trainNum> |
-    And The live timetable entries are populated as follows:
-      | location | column          | value  |
-      | EALINGB  | arrivalDateTime | absent |
-      | EALINGB  | deptDateTime    | absent |
+    And The live timetable actual time entries are populated as follows:
+      | location        | instance | column    | valType |
+      | Ealing Broadway | 1        | actualArr | absent  |
+      | Ealing Broadway | 1        | actualDep | absent  |
 
     Examples:
       | trainNum | planningUid |
       | 1A07     | L10007      |
 
 
-  @replayTest
+  @replaySetup @bug @bug_65062
   Scenario Outline: 33753-5 - View Timetable (Schedule Not Matched - becoming matched)
 #    Given the user is authenticated to use TMV
 #    And the user has opened a timetable
@@ -307,59 +310,55 @@ Feature: 33753 - TMV Timetable
       | access-plan/1S42_PADTON_DIDCOTP.cif | CHOLSEY     | WTT_arr       | <trainNum>          | <planningUid>  |
     And I am on the trains list page
     And The trains list table is visible
-    And Train description '<trainNum>' is visible on the trains list
-    And I am on the trains list page
-    And The trains list table is visible
     And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
     When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
-    And the trains list context menu contains 'Match' on line 3
     And I open timetable from the context menu
     And I switch to the new tab
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       |            |            | <planningUid> |         |         | <trainNum> |
-    And the punctuality is displayed as 'Unmatched'
+    And the punctuality is displayed as ''
     And The timetable entries contains the following data, with timings having live offset from 'earlier' at 'the beginning of the test'
-      | location | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities |
-      | PADTON   |                    | 21:20:00        |                   | 21:19:00       | 14                |                  | 4                |            | TB         |
-      | ROYAOJN  |                    | 21:21:00        |                   |                |                   | 4                | 4                |            |            |
-      | PRTOBJP  |                    | 21:22:30        |                   |                |                   | 4                | 4                |            |            |
-      | LDBRKJ   |                    | 21:23:00        |                   |                |                   | 4                | RL               |            |            |
-      | ACTONW   |                    | 21:25:30        |                   |                |                   | RL               | RL               |            |            |
-      | EALINGB  | 21:26:00           | 21:26:30        | 21:26:00          | 21:26:00       | 3                 | RL               | RL               |            | T          |
-      | STHALL   |                    | 21:27:30        |                   |                | 3                 | RL               | RL               |            |            |
-      | HTRWAJN  |                    | 21:28:30        |                   |                |                   | RL               | RL               |            |            |
-      | SLOUGH   | 21:32:00           | 21:34:00        | 21:32:00          | 21:34:00       | 4                 | RL               | RL               |            | T          |
-      | MDNHEAD  |                    | 21:40:00        |                   |                |                   | RL               | RL               |            |            |
-      | TWYFORD  |                    | 21:44:30        |                   |                |                   | RL               | RL               | (1)        |            |
-      | RDNGKBJ  |                    | 21:47:30        |                   |                |                   | RL               | DRL              | [1] (1.5)  |            |
-      | RDNGSTN  | 21:48:30           | 21:50:30        | 21:48:00          | 21:50:00       | 12                | DRL              | RL               |            | T          |
-      | REDGWJN  |                    | 21:52:30        |                   |                |                   | RL               | RL               |            |            |
-      | GORASTR  |                    | 21:57:00        |                   |                |                   | RL               | RL               |            |            |
-      | CHOLSEY  | 21:59:00           | 22:00:30        | 21:59:00          | 22:00:00       |                   | RL               | RL               | [1]        | T          |
-      | DIDCTEJ  |                    | 22:04:00        |                   |                |                   | RL               | URL              |            |            |
-      | DIDCOTP  | 22:05:00           |                 | 22:05:00          |                | 4                 | URL              |                  |            | TF         |
-    Then The live timetable entries are populated as follows:
-      | location | column          | value  |
-      | CHOLSEY  | arrivalDateTime | absent |
-      | CHOLSEY  | deptDateTime    | absent |
+      | location               | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities |
+      | London Paddington      |                    | 21:20:00        |                   | 21:19:00       | 14                |                  | 4                |            | TB         |
+      | Royal Oak Junction     |                    | 21:21:00        |                   |                |                   | 4                | 4                |            |            |
+      | Portobello Jn (London) |                    | 21:22:30        |                   |                |                   | 4                | 4                |            |            |
+      | Ladbroke Grove         |                    | 21:23:00        |                   |                |                   | 4                | RL               |            |            |
+      | Acton West             |                    | 21:25:30        |                   |                |                   | RL               | RL               |            |            |
+      | Ealing Broadway        | 21:26:00           | 21:26:30        | 21:26:00          | 21:26:00       | 3                 | RL               | RL               |            | T          |
+      | Southall               |                    | 21:27:30        |                   |                | 3                 | RL               | RL               |            |            |
+      | Heathrow Airport Jn    |                    | 21:28:30        |                   |                |                   | RL               | RL               |            |            |
+      | Slough                 | 21:32:00           | 21:34:00        | 21:32:00          | 21:34:00       | 4                 | RL               | RL               |            | T          |
+      | Maidenhead             |                    | 21:40:00        |                   |                |                   | RL               | RL               |            |            |
+      | Twyford                |                    | 21:44:30        |                   |                |                   | RL               | RL               | (1)        |            |
+      | Kennet Bridge Jn       |                    | 21:47:30        |                   |                |                   | RL               | DRL              | [1] (1.5)  |            |
+      | Reading                | 21:48:30           | 21:50:30        | 21:48:00          | 21:50:00       | 12                | DRL              | RL               |            | T          |
+      | Reading West Jn        |                    | 21:52:30        |                   |                |                   | RL               | RL               |            |            |
+      | Goring & Streatley     |                    | 21:57:00        |                   |                |                   | RL               | RL               |            |            |
+      | Cholsey                | 21:59:00           | 22:00:30        | 21:59:00          | 22:00:00       |                   | RL               | RL               | [1]        | T          |
+      | Didcot East Jn         |                    | 22:04:00        |                   |                |                   | RL               | URL              |            |            |
+      | Didcot Parkway         | 22:05:00           |                 | 22:05:00          |                | 4                 | URL              |                  |            | TF         |
+    Then The live timetable actual time entries are populated as follows:
+      | location | instance | column    | valType |
+      | Cholsey  | 1        | actualArr | absent  |
+      | Cholsey  | 1        | actualDep | absent  |
     And the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 0831      | 0839    | D1             | <trainNum>       |
-    Then The values for the header properties are as follows
+    Then The live timetable actual time entries are populated as follows:
+      | location | instance | column    | valType   |
+      | Cholsey  | 1        | actualArr | actual    |
+      | Cholsey  | 1        | actualDep | predicted |
+    And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       | T839       |            | <planningUid> |         |         | <trainNum> |
-    And The live timetable entries are populated as follows:
-      | location | column          | value     |
-      | CHOLSEY  | arrivalDateTime | actual    |
-      | CHOLSEY  | deptDateTime    | predicted |
 
     Examples:
       | trainNum | planningUid |
       | 1A08     | L10008      |
 
-  @replayTest
+  @replaySetup @tdd @tdd:60541 @bug @bug_63670
   Scenario Outline: 33753-6 - View Timetable Detail (Schedule Matched - becoming unmatched)
 #    Given the user is authenticated to use TMV
 #    And the user has opened a timetable
@@ -371,7 +370,7 @@ Feature: 33753 - TMV Timetable
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |
     And I am on the trains list page
     And The trains list table is visible
-    And Train description '<trainNum>' is visible on the trains list
+    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | A001    | D3             | <trainNum>       |
@@ -380,7 +379,7 @@ Feature: 33753 - TMV Timetable
       | A001      | 0037    | D3             | <trainNum>       |
     Given I am viewing the map hdgw01paddington.v
     And I invoke the context menu on the map for train <trainNum>
-    And the map context menu contains 'Unmatch' on line 3
+    And the Matched version of the map context menu is displayed
     And I open timetable from the map context menu
     And I switch to the new tab
     When I switch to the timetable details tab
@@ -390,25 +389,29 @@ Feature: 33753 - TMV Timetable
       | LTP       | SN37       |            | <planningUid> |         |         | <trainNum> |
     And The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed           | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
-      | 04/01/2021 to 25/03/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | 0037    | GW       | 25507005         | P               | XX            |           | ,            | 1     | B ,          | A ,          | 802 , 811  | EMU , DMU | 120mph , 144mph | ,         | m , m       | D , D,B,A                    |                 |
+      | 04/01/2021 to 25/03/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | D30037  | EF       | 25507005         | P               | XX            |           | ,            | 1     | B ,          | A ,          | 802 , 811  | EMU , DMU | 120mph , 144mph | ,         | m , m       | D , D,B,A                    |                 |
     And The entry of the change en route table contains the following data
       | columnName |
-      | ACTONW     |
+      | Acton West |
       | DMU        |
       | 811        |
       | 144mph     |
       | D,B,A      |
     And there are no records in the modifications table
-    When the following change of ID TJM is received
-      | status | newTrainNumber           | oldTrainNumber | locationPrimaryCode | locationSubsidiaryCode | time   |
-      | create | <changeTrainDescription> | <trainNum>     | 99999               | PADTON                 | <time> |
-    Then the headcode in the header row is '<changeTrainDescription> (<trainNum>)'
+    When the following train activation message is sent from LINX
+      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <planningUid> | <trainNum>  | now                    | 73000               | PADTON                 | today         | now                 |
+    And the following change of ID TJM is received
+      | trainUid      | newTrainNumber           | oldTrainNumber | departureHour | status | indicator | statusIndicator | primaryCode | modificationTime |
+      | <planningUid> | <changeTrainDescription> | <trainNum>     | 12            | create | 07        | 07              | 99999       | <time>           |
+    Then the current headcode in the header row is '<changeTrainDescription>'
+    And the old headcode in the header row is '(<trainNum>)'
     And The values for the header properties are as follows
-      | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM                                  | headCode                 |
-      | LTP       | SN37       |            | <planningUid> |         | Change of Identity, Paddington, 12:00:00 | <changeTrainDescription> |
+      | schedType | lastSignal | lastReport | trainUid      | trustId                 | lastTJM                     | headCode                 |
+      | LTP       | SN37       |            | <planningUid> | <trainNum><planningUid> | <description>, today <time> | <changeTrainDescription> |
     And there is a record in the modifications table
-      | description   | location   | time   | type   |
-      | <description> | <location> | <time> | <type> |
+      | description   | location | time         | type |
+      | <description> |          | today <time> |      |
     When I switch to the second-newest tab
     And I invoke the context menu on the map for train <changeTrainDescription>
     And I open schedule matching screen from the map context menu
@@ -417,7 +420,7 @@ Feature: 33753 - TMV Timetable
     And I switch to the second-newest tab
     And The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed           | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
-      | 04/01/2021 to 25/03/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             |         | GW       | 25507005         | P               | XX            |           | ,            | 1     | B ,          | A ,          | 802 , 811  | EMU , DMU | 120mph , 144mph | ,         | m , m       | D , D,B,A                    |                 |
+      | 04/01/2021 to 25/03/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             |         | EF       | 25507005         | P               | XX            |           | ,            | 1     | B ,          | A ,          | 802 , 811  | EMU , DMU | 120mph , 144mph | ,         | m , m       | D , D,B,A                    |                 |
     And The entry of the change en route table contains the following data
       | columnName |
       | ACTONW     |
@@ -432,10 +435,10 @@ Feature: 33753 - TMV Timetable
 
 
     Examples:
-      | trainNum | planningUid | changeTrainDescription | type | description        | location   | time     |
-      | 1A09     | L10009      | 1X09                   | 07   | Change of Identity | Paddington | 12:00:00 |
+      | trainNum | planningUid | changeTrainDescription | description        | time  |
+      | 1A09     | L10019      | 1X09                   | Change Of Identity | 12:00 |
 
-  @replayTest
+  @replaySetup
   Scenario Outline: 33753-7 - View Timetable Detail (Not Schedule Matched - becoming matched)
     #Given the user is authenticated to use TMV
     #And the user has opened a timetable
@@ -444,40 +447,37 @@ Feature: 33753 - TMV Timetable
     #Then the train's basic header information is displayed
     Given the following live berth interpose message is sent from LINX (which won't match anything)
       | toBerth | trainDescriber | trainDescription |
-      | 1630    | D1             | <trainNum>       |
+      | 1693    | D1             | <trainNum>       |
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1S42_PADTON_DIDCOTP.cif | TWYFORD     | WTT_pass      | <trainNum>          | <planningUid>  |
-    And I am on the trains list page
-    And The trains list table is visible
-    And Train description '<trainNum>' is visible on the trains list
+      | access-plan/1S42_PADTON_DIDCOTP.cif | RDNGSTN     | WTT_arr       | <trainNum>          | <planningUid>  |
     And I am on the trains list page
     And The trains list table is visible
     And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
     When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
-    And the trains list context menu contains 'Match' on line 3
     And I open timetable from the context menu
     And I switch to the new tab
     Then The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       |            |            | <planningUid> |         |         | <trainNum> |
-    And the punctuality is displayed as 'Unmatched'
+    And the punctuality is displayed as ''
     When I switch to the timetable details tab
     And The timetable details tab is visible
     Then The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed  | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
-      | 15/12/2019 to 10/05/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             |         | GW       | 25507005         | P               | OO            |           |              | 1     | S            |              |            | EMU       | 110mph |           | m           | D                            |                 |
+      | 15/12/2019 to 10/05/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             |         | EF       | 25507005         | P               | OO            |           |              | 1     | S            |              |            | EMU       | 110mph |           | m           | D                            |                 |
     When the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth | trainDescriber | trainDescription |
-      | 1630      | 1628    | D1             | <trainNum>       |
+      | 1693      | 1717    | D1             | <trainNum>       |
+    And I wait for the last Signal to populate
     Then The values for the header properties are as follows
-      | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
-      | LTP       | T1628      |            | <planningUid> |         |         | <trainNum> |
-    And the punctuality is displayed as 'On Time'
+      | schedType | lastSignal    | lastReport | trainUid      | trustId | lastTJM | headCode   |
+      | LTP       | T1717X, T1717 |            | <planningUid> |         |         | <trainNum> |
     And The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed  | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
-      | 15/12/2019 to 10/05/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | 1628    | GW       | 25507005         | P               | OO            |           |              | 1     | S            |              |            | EMU       | 110mph |           | m           | D                            |                 |
+      | 15/12/2019 to 10/05/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | D11717  | EF       | 25507005         | P               | OO            |           |              | 1     | S            |              |            | EMU       | 110mph |           | m           | D                            |                 |
+    And the punctuality is displayed as one of On time,+0m 30s,-0m 30s
 
     Examples:
       | trainNum | planningUid |
