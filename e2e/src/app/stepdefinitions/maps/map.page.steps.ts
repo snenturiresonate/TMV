@@ -842,7 +842,7 @@ Then('the manual trust berth type for {string} is {word}',
       .to.equal(expectedType);
   });
 
-Then(/^the (Matched|Unmatched) version of the map context menu is displayed$/, async (matchType: string) => {
+Then(/^the (Matched|Unmatched|Left behind Matched) version of the map context menu is displayed$/, async (matchType: string) => {
   await mapPageObject.waitForContextMenu();
   let expected1;
   let expected2;
@@ -851,6 +851,11 @@ Then(/^the (Matched|Unmatched) version of the map context menu is displayed$/, a
     expected1 = 'Open timetable';
     expected2 = 'Turn Path On';
     expected3 = 'Highlight';
+
+  } else if (matchType === 'Left behind Matched') {
+    expected1 = 'Open timetable';
+    expected2 = 'Turn Path On';
+    expected3 = 'Clear Berth';
 
   } else {
     expected1 = 'No timetable';

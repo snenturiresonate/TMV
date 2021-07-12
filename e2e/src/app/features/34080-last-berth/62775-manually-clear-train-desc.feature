@@ -2,8 +2,8 @@ Feature: 34080 - Manually Clear Train Description
   The system shall allow a user to clear the track section facility on a map when a Train ID is left behind
 
   Background:
-    * I am viewing the map HDGW01paddington.v
     * I have cleared out all headcodes
+    * I navigate to Home page as Admin user
     * The admin setting defaults are as originally shipped
 
   Scenario Outline: 62775-1 Manually Clear Train Description
@@ -21,6 +21,7 @@ Feature: 34080 - Manually Clear Train Description
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
+    And I give the System 1 second to load
     And the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth | trainDescriber   | trainDescription |
       | 0105      | 0125    | <trainDescriber> | <origTrainDesc>  |
@@ -28,7 +29,7 @@ Feature: 34080 - Manually Clear Train Description
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the map context menu is displayed
+    Then the Left behind Matched version of the map context menu is displayed
     When I click on the clear berth option
     Then berth '<berth>' in train describer '<trainDescriber>' does not contain '<origTrainDesc>'
 

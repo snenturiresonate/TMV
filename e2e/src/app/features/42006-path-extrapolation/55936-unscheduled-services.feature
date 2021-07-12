@@ -58,7 +58,8 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
       | unmatched step | 2P02      |
 
 
-  Scenario Outline: 42006-14  Unscheduled service is displayed when an unmatched TRI is received
+    @bug @bug:65463
+    Scenario Outline: 42006-14  Unscheduled service is displayed when an unmatched TRI is received
 #    Given no valid schedule exists
 #    And a TRI timing has been received for a location with the <TRI type>
 #    Then a corresponding unscheduled service is displayed in the trains list
