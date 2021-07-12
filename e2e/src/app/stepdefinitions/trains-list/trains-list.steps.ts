@@ -93,6 +93,10 @@ Then('Train description {string} is visible on the trains list', async (schedule
 
 Then('train description {string} is visible on the trains list with schedule type {string}',
   async (trainDescription: string, scheduleType: string) => {
+    while (!await trainsListPage.trainDescriptionHasScheduleType(trainDescription, scheduleType)
+    && await trainsListPage.paginationNext.isEnabled()) {
+      trainsListPage.paginationNext.click();
+    }
     const scheduleFound: boolean = await trainsListPage.trainDescriptionHasScheduleType(trainDescription, scheduleType);
     expect(scheduleFound, `${scheduleType} train ${trainDescription} does not appear on the trains list`).to.equal(true);
   });

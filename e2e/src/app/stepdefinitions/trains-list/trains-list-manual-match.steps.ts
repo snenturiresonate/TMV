@@ -23,8 +23,8 @@ When('I un-match the currently matched schedule', async () =>  {
   await trainsListManualMatchPage.clickUnMatch();
 });
 
-When('I select to match the result for planning Id {string}', async (planId: string) =>  {
-  await trainsListManualMatchPage.selectService(planId);
+When('I select to match the result for todays service with planning Id {string}', async (planId: string) =>  {
+  await trainsListManualMatchPage.selectTodaysService(planId);
   await trainsListManualMatchPage.clickMatch();
   await trainsListManualMatchPage.enterConfirmMessage('Test match');
   await trainsListManualMatchPage.clickSaveMessage();

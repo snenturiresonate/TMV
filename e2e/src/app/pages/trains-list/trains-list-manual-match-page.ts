@@ -71,7 +71,8 @@ export class TrainsListManualMatchPageObject {
     return false;
   }
 
-  public async getSearchEntryValues(planningUID: string, scheduleDate = DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yy')): Promise<string[]> {
+  public async getSearchEntryValues(planningUID: string, scheduleDate = DateAndTimeUtils.convertToDesiredDateAndFormat
+  ('today', 'dd/MM/yy')): Promise<string[]> {
     await this.componentLoad();
     const numServices = await this.getNumServicesListed();
     let i = 0;
@@ -88,12 +89,14 @@ export class TrainsListManualMatchPageObject {
     });
   }
 
-  public async selectService(planningUID: string): Promise<void> {
+  public async selectTodaysService(planningUID: string): Promise<void> {
     await this.componentLoad();
     const numServices = await this.getNumServicesListed();
     let i = 0;
     for (i; i < numServices; i++) {
-      if (await this.getPlanUid(i) === planningUID) {
+      if ((await this.getPlanUid(i) === planningUID) &&
+        (await this.getScheduleDate(i) === DateAndTimeUtils.getCurrentDateTimeString('dd-MM-yyyy'))) {
+        i++;
         break;
       }
     }
@@ -145,7 +148,7 @@ export class TrainsListManualMatchPageObject {
     await this.serviceFilter.sendKeys(searchValue);
   }
   public async enterConfirmMessage(message: string): Promise<void> {
-    await this.serviceFilter.sendKeys(message);
+    await this.confirmMessage.sendKeys(message);
   }
   public async clickServiceResult(position: number): Promise<void> {
     const rows = this.trainService;

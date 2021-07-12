@@ -410,7 +410,7 @@ export class MapPageObject {
   }
   public async getHeadcode(berthId: string): Promise<string> {
     const berthLink: ElementFinder = element(by.id('berth-element-text-' + berthId));
-    return berthLink.getCssValue('data-train-description');
+    return berthLink.getText();
   }
 
   public async getHeadcodesAtManualTrustBerth(berthID: string): Promise<Array<string>> {
