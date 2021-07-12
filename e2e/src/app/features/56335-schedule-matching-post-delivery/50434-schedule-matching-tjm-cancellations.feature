@@ -34,19 +34,18 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
       | D3             | A007  | 3B41          | B54341   | PADTON   | 401         | berth      |
 
   # A/C 2a
-  @bug @bug:63216
-  Scenario Outline: 50434-2 Not schedule matched if TJM cancel at origin for today is received
+  Scenario Outline: 50434-2 Schedule matched if TJM cancel at origin for today is received
     # Given a schedule has been received for a service
     # And a TJM cancellation at origin is received
     # When a TD update with the type interpose has been received
     # And the berth included matches a single schedule
     # And the user is viewing the map that contains that berth
     # And the user opens the context menu for the train description
-    # Then the unmatched version of the context menu is displayed
-    Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+    # Then the matched version of the context menu is displayed
+    Given I delete '<trainUid>:today' from hash 'schedule-modifications'
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
-    And I delete '<trainDescriber>:<berth>' from hash '{schedule-matching}-matched-schedules'
     And I am on the trains list page
     And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     And the following train activation message is sent from LINX
@@ -66,7 +65,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Unmatched version of the map context menu is displayed
+    Then the Matched version of the map context menu is displayed
 
     Examples:
       | trainDescriber | berth | origTrainDesc | trainUid | type | modificationReason | nationalDelayCode | significance |
@@ -74,18 +73,18 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
       | D3             | A007  | 3B21          | B54321   | 91   | 12                 | PD                | at origin    |
 
   # A/C 2b
-  Scenario Outline: 50434-2 Not schedule matched if TJM cancel at origin for today and tomorrow's schedules is received
+  Scenario Outline: 50434-2 Schedule matched if TJM cancel at origin for today and tomorrow's schedules is received
     # Given a schedule has been received for a service
     # And a TJM cancellation at origin is received
     # When a TD update with the type interpose has been received
     # And the berth included matches a single schedule
     # And the user is viewing the map that contains that berth
     # And the user opens the context menu for the train description
-    # Then the unmatched version of the context menu is displayed
-    Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+    # Then the matched version of the context menu is displayed
+    Given I delete '<trainUid>:today' from hash 'schedule-modifications'
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
-    And I delete '<trainDescriber>:<berth>' from hash '{schedule-matching}-matched-schedules'
     And I am on the trains list page
     And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     And the following train activation message is sent from LINX
@@ -112,7 +111,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     And I invoke the context menu on the map for train <origTrainDesc>
 #    @tdd @tdd:60684
-#    Then the Unmatched version of the map context menu is displayed
+#    Then the Matched version of the map context menu is displayed
 
     Examples:
       | trainDescriber | berth | origTrainDesc | trainUid | type | modificationReason | nationalDelayCode | significance |
