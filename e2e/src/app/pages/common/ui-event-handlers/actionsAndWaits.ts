@@ -1,6 +1,5 @@
 import {browser, ElementFinder, ExpectedConditions, protractor} from 'protractor';
 import {GeneralUtils} from '../utilities/generalUtils';
-import {of} from 'rxjs';
 import {CucumberLog} from '../../../logging/cucumber-log';
 
 export class CommonActions {
@@ -40,9 +39,9 @@ export class CommonActions {
    * Waits for the element to be visible.
    * Input: ElementFinder of the UI element to be visible
    */
-  public static async waitForElementToBeVisible(elm: ElementFinder): Promise<void> {
+  public static async waitForElementToBeVisible(elm: ElementFinder, timeout = browser.displayTimeout): Promise<void> {
     const EC = protractor.ExpectedConditions;
-    await browser.wait(EC.visibilityOf(elm));
+    await browser.wait(EC.visibilityOf(elm), timeout);
   }
 
   /**

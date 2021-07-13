@@ -162,8 +162,8 @@ When('the following service is displayed on the trains list', async (table: any)
   const serviceId = tableValues.trainId;
   const trainUID = tableValues.trainUId;
   await page.navigateTo('/tmv/trains-list');
-  while (!await trainsListPage.isTrainVisible(serviceId, trainUID) && trainsListPage.paginationNext.isEnabled()) {
-    trainsListPage.paginationNext.click();
+  while (!await trainsListPage.isTrainVisible(serviceId, trainUID) && await trainsListPage.paginationNext.isEnabled()) {
+    await trainsListPage.paginationNext.click();
   }
   const isTrainVisible: boolean = await trainsListPage.isTrainVisible(serviceId, trainUID);
   expect(isTrainVisible, `Service ${serviceId} with trainUId ${trainUID} is not displayed`).to.equal(true);

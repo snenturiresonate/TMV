@@ -156,14 +156,16 @@ export class TrainsListPageObject {
   }
 
   public async isTrainVisible(serviceId: string, trainUId: string, timeToWaitForTrain = 5000): Promise<boolean> {
-    await CommonActions.waitForElementToBeVisible(element.all(by.css(`[id^='trains-list-row-']`)).first());
-    const trainScheduleId: ElementFinder = element.all(by.cssContainingText(`[id^=\'trains-list-row-entry-train-description-${trainUId}\'`, `${serviceId}`)).first();
     try {
+      await CommonActions.waitForElementToBeVisible(element.all(by.css(`[id^='trains-list-row-']`)).first(), timeToWaitForTrain);
+      const trainScheduleId: ElementFinder =
+        element.all(
+          by.cssContainingText(`[id^=\'trains-list-row-entry-train-description-${trainUId}\'`, `${serviceId}`)).first();
       await CommonActions.waitForElementToBePresent(trainScheduleId, timeToWaitForTrain, `The Schedule is not displayed in first ${timeToWaitForTrain} milliseconds`);
     } catch (err) {
-      return trainScheduleId.isPresent();
+      return false;
     }
-    return trainScheduleId.isPresent();
+    return true;
   }
 
   public async getRowForSchedule(scheduleId: string): Promise<number> {
