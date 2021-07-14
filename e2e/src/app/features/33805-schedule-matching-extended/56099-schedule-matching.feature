@@ -5,6 +5,7 @@ Feature: 33805 TMV Schedule Matching
 
   Background:
     * I remove all trains from the trains list
+    * I have cleared out all headcodes
     * the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
     * I am on the home page
     * I restore to default train list config
@@ -15,7 +16,7 @@ Feature: 33805 TMV Schedule Matching
       | Origin Departure Overdue | #ffffff | off         |
     * I save the trains list config
     * I have navigated to the 'Misc' configuration tab
-    * I set 'Include unmatched' to be 'off'
+    * I set 'Include unmatched' to be 'on'
     * I save the trains list config
 
   Scenario Outline: 1. Interpose - Match old ID after Change of ID - <matchLevel> match
@@ -31,8 +32,7 @@ Feature: 33805 TMV Schedule Matching
     #    | berth |
     #    | location |
     #    | sub division |
-    Given I have cleared out all headcodes
-    And I am on the trains list page
+    Given I am on the trains list page
     And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
     When the following change of ID TJM is received
       | trainUid   | newTrainNumber | oldTrainNumber  | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
@@ -67,9 +67,7 @@ Feature: 33805 TMV Schedule Matching
     #    | berth |
     #    | location |
     #    | sub division |
-    Given I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
-    And I am on the trains list page
+    Given I am on the trains list page
     And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
     When the following change of ID TJM is received
       | trainUid   | newTrainNumber | oldTrainNumber  | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
@@ -105,9 +103,7 @@ Feature: 33805 TMV Schedule Matching
     #    | berth |
     #    | location |
     #    | sub division |
-    Given I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
-    And I am on the trains list page
+    Given I am on the trains list page
     And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
     When the following change of ID TJM is received
       | trainUid   | newTrainNumber | oldTrainNumber  | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
@@ -143,9 +139,7 @@ Feature: 33805 TMV Schedule Matching
     #    | berth |
     #    | location |
     #    | sub division |
-    Given I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
-    And I am on the trains list page
+    Given I am on the trains list page
     And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
     When the following change of ID TJM is received
       | trainUid   | newTrainNumber | oldTrainNumber  | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
@@ -167,8 +161,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 0041        | 1B11          | 2B72         | B11111   | PADTON   | 401         | location     |
       | D3             | 0107  | 0125        | 1B11          | 3B72         | B11111   | PRTOBJP  | 401         | sub-division |
 
-  @tdd @tdd:60684
-  Scenario Outline: 3. Interpose - Check if the berth should be schedule matched - <berthType> berth
+  Scenario Outline: 3a. Interpose - Check if the berth should be schedule matched - <berthType> berth
       #      Given there is a valid schedule
       #      And a TD update with the type <Step Type> has been received for the same train description
       #      And the berth included  matches the schedule at berth
@@ -179,27 +172,25 @@ Feature: 33805 TMV Schedule Matching
       #        | Step Type |
       #        | Interpose |
       #        | Step |
-    Given I am viewing the map md09crosscity.v
-    And I have cleared out all headcodes
-    And I am on the trains list page
-    And train description '<trainDesc>' is visible on the trains list with schedule type 'STP'
+    Given I am on the trains list page
+    And I refresh the browser
+    And train '<trainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     When the following live berth interpose message is sent from LINX
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <trainDesc>      |
     And I am viewing the map md09crosscity.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<trainDesc>' and is visible
     When I wait for the <ttOption> timetable option for train description <trainDesc> in berth <berth>, describer <trainDescriber> to be available
-    And I invoke the context menu on the map for train <trainDesc>
-    Then the <matchedState> version of the map context menu is displayed
-    And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
+    And I right click on berth with id '<trainDescriber><berth>'
+    Then the Matched or Left behind Matched version of the map context menu <isMatched> displayed
+    And the rectangle colour for berth <trainDescriber><berth> <isGrey> lightgrey meaning 'no timetable'
 
     Examples:
-      | trainDescriber | berth | trainDesc | trainUid | matchedState | matchAction | ttOption | berthType |
-      | BN             | 0181  | 1B12      | B22222   | Matched      | Unmatch     | Open     | NORMAL    |
-      | BN             | NCAP  | 1B12      | B22222   | Unmatched    | Match       | No       | EXCLUDE   |
+      | trainDescriber | berth | trainDesc | trainUid | isGrey | isMatched | ttOption | berthType |
+      | BN             | 0181  | 1B12      | B22222   | is not | is        | Open     | NORMAL    |
+      | BN             | NCAP  | 1B12      | B22222   | is     | is not    | No       | EXCLUDE  |
 
-  @tdd @tdd:60684
-  Scenario Outline: 3. Step - Check if the berth should be schedule matched - <berthType> berth
+  Scenario Outline: 3b. Step - Check if the berth should be schedule matched - <berthType> berth
       #      Given there is a valid schedule
       #      And a TD update with the type <Step Type> has been received for the same train description
       #      And the berth included  matches the schedule at berth
@@ -210,10 +201,8 @@ Feature: 33805 TMV Schedule Matching
       #        | Step Type |
       #        | Interpose |
       #        | Step |
-    Given I am viewing the map md09crosscity.v
-    And I have cleared out all headcodes
-    And I am on the trains list page
-    And train description '<trainDesc>' is visible on the trains list with schedule type 'STP'
+    Given I am on the trains list page
+    And train '<trainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     When the following live berth interpose message is sent from LINX
       | toBerth     | trainDescriber   | trainDescription |
       | <fromBerth> | <trainDescriber> | <trainDesc>      |
@@ -223,17 +212,16 @@ Feature: 33805 TMV Schedule Matching
     And I am viewing the map md09crosscity.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<trainDesc>' and is visible
     When I wait for the <ttOption> timetable option for train description <trainDesc> in berth <berth>, describer <trainDescriber> to be available
-    And I invoke the context menu on the map for train <trainDesc>
-    Then the <matchedState> version of the map context menu is displayed
-    And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
+    And I right click on berth with id '<trainDescriber><berth>'
+    Then the Matched or Left behind Matched version of the map context menu <isMatched> displayed
+    And the rectangle colour for berth <trainDescriber><berth> <isGrey> lightgrey meaning 'no timetable'
 
     Examples:
-      | trainDescriber | berth | fromBerth | trainDesc | trainUid | matchedState | matchAction | ttOption | berthType |
-      | BN             | 0181  | 0209      | 1B12      | B22222   | Matched      | Unmatch     | Open     | NORMAL    |
-      | BN             | NCAP  | 0144      | 1B12      | B22222   | Unmatched    | Match       | No       | EXCLUDE   |
+      | trainDescriber | berth | fromBerth | trainDesc | trainUid | isGrey | isMatched | ttOption | berthType |
+      | BN             | 0181  | 0209      | 1B12      | B22222   | is not | is        | Open     | NORMAL    |
+      | BN             | NCAP  | 0144      | 1B12      | B22222   | is     | is not    | No       | EXCLUDE   |
 
-  @tdd @tdd:60684
-  Scenario Outline: 4. Interpose - Cancelled schedules are not matched - <matchLevel> match
+  Scenario Outline: 4a. Interpose - Cancelled schedules are not matched - <matchLevel> match
     #    Given there is a valid schedule has a STP indicator of Cancelled  (C or CV)
     #    And a TD update with the type <Step Type> has been received for the same train description
     #    And the berth included would match the schedule at <match level>
@@ -245,8 +233,6 @@ Feature: 33805 TMV Schedule Matching
     #      | location |
     #      | sub division |
     Given the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching-cancelled.cif' is received from LINX
-    And I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
     And I am on the trains list page
     Then train description '<origTrainDesc>' with schedule type 'STP' disappears from the trains list
     When the following live berth interpose message is sent from LINX
@@ -255,7 +241,7 @@ Feature: 33805 TMV Schedule Matching
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the option to Match train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
-    And I invoke the context menu on the map for train <origTrainDesc>
+    And I right click on berth with id '<trainDescriber><berth>'
     Then the Unmatched version of the map context menu is displayed
     And the rectangle colour for berth <trainDescriber><berth> is lightgrey meaning 'no timetable'
 
@@ -265,8 +251,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 1B11          | B11111   | PADTON   | 401         | location     |
       | D3             | 0106  | 1B11          | B11111   | PRTOBJP  | 401         | sub-division |
 
-  @tdd @tdd:60684
-  Scenario Outline: 4. Step - Cancelled schedules are not matched - <matchLevel> match
+  Scenario Outline: 4b. Step - Cancelled schedules are not matched - <matchLevel> match
     #    Given there is a valid schedule has a STP indicator of Cancelled  (C or CV)
     #    And a TD update with the type <Step Type> has been received for the same train description
     #    And the berth included would match the schedule at <match level>
@@ -278,8 +263,6 @@ Feature: 33805 TMV Schedule Matching
     #      | location |
     #      | sub division |
     Given the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching-cancelled.cif' is received from LINX
-    And I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
     And I am on the trains list page
     Then train description '<origTrainDesc>' with schedule type 'STP' disappears from the trains list
     When the following live berth step message is sent from LINX
@@ -288,7 +271,7 @@ Feature: 33805 TMV Schedule Matching
     And I am viewing the map HDGW01paddington.v
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the option to Match train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
-    And I invoke the context menu on the map for train <origTrainDesc>
+    And I right click on berth with id '<trainDescriber><berth>'
     Then the Unmatched version of the map context menu is displayed
     And the rectangle colour for berth <trainDescriber><berth> is lightgrey meaning 'no timetable'
 
@@ -299,7 +282,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | 0107  | 0125        | 1B11          | B11111   | PRTOBJP  | 401         | sub-division |
 
   @bug @bug:58384
-  Scenario Outline: 5. Interpose - Exclude Terminated Schedules from Matching - <matchLevel> match
+  Scenario Outline: 5a. Interpose - Exclude Terminated Schedules from Matching - <matchLevel> match
     #    Given there a valid schedule
     #    And a Train Running Information message has been received with  the type  01 -Arrival at Termination
     #    And a TD update with the type <Step Type> has been received for the same train description
@@ -311,10 +294,8 @@ Feature: 33805 TMV Schedule Matching
     #      | berth |
     #      | location |
     #      | sub division |
-    Given I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
-    And I am on the trains list page
-    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
+    Given I am on the trains list page
+    And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     When the following train running information message is sent from LINX
       | trainUID   | trainNumber     | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType          |
       | <trainUid> | <origTrainDesc> | today              | 73000               | PADTON                 | arrivalattermination |
@@ -324,18 +305,18 @@ Feature: 33805 TMV Schedule Matching
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the option to Match train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
-    And I invoke the context menu on the map for train <origTrainDesc>
+    And I right click on berth with id '<trainDescriber><berth>'
     Then the Unmatched version of the map context menu is displayed
     And the rectangle colour for berth <trainDescriber><berth> is lightgrey meaning 'no timetable'
 
     Examples:
       | trainDescriber | berth | origTrainDesc | trainUid | location | subdivision | matchLevel   | locationPrimaryCode |
-      | D3             | A001  | 1B13          | A33333   | PADTON   | 401         | berth        | 73000               |
-      | D3             | A011  | 1B13          | A33333   | PADTON   | 401         | location     | 73000               |
-      | D3             | 0106  | 1B13          | A33333   | PRTOBJP  | 401         | sub-division | 73106               |
+      | D3             | A001  | 1B13          | B33333   | PADTON   | 401         | berth        | 73000               |
+      | D3             | A011  | 1B13          | B33333   | PADTON   | 401         | location     | 73000               |
+      | D3             | 0106  | 1B13          | B33333   | PRTOBJP  | 401         | sub-division | 73106               |
 
   @bug @bug:58384
-  Scenario Outline: 5. Step - Exclude Terminated Schedules from Matching - <matchLevel> match
+  Scenario Outline: 5b. Step - Exclude Terminated Schedules from Matching - <matchLevel> match
     #    Given there a valid schedule
     #    And a Train Running Information message has been received with  the type  01 -Arrival at Termination
     #    And a TD update with the type <Step Type> has been received for the same train description
@@ -347,10 +328,8 @@ Feature: 33805 TMV Schedule Matching
     #      | berth |
     #      | location |
     #      | sub division |
-    Given I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
-    And I am on the trains list page
-    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
+    Given I am on the trains list page
+    And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     When the following train running information message are sent from LINX
       | trainUID   | trainNumber     | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType          |
       | <trainUid> | <origTrainDesc> | today              | 73000               | PADTON                 | arrivalattermination |
@@ -360,7 +339,7 @@ Feature: 33805 TMV Schedule Matching
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the option to Match train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
-    And I invoke the context menu on the map for train <origTrainDesc>
+    And I right click on berth with id '<trainDescriber><berth>'
     Then the Unmatched version of the map context menu is displayed
     And the rectangle colour for berth <trainDescriber><berth> is lightgrey meaning 'no timetable'
 
@@ -386,8 +365,6 @@ Feature: 33805 TMV Schedule Matching
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
-    And I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
     And I am on the trains list page
     And the following service is displayed on the trains list
       | trainId         | trainUId   |
@@ -436,8 +413,6 @@ Feature: 33805 TMV Schedule Matching
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
-    And I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
     And I am on the trains list page
     And the following service is displayed on the trains list
       | trainId         | trainUId   |

@@ -25,6 +25,9 @@ export class TrainsListPageObject {
 
   private redisClient: RedisClient;
 
+  // towards the end of the day, trains take a long time to appear on the trains list
+  private trainsListDisplayTimeout = 45 * 1000;
+
   constructor() {
     this.trainsListItems = element.all(by.css('#train-tbody tr'));
     this.trainsListContextMenu = element(by.id('trainlistcontextmenu'));
@@ -155,7 +158,7 @@ export class TrainsListPageObject {
     return trainScheduleId.isPresent();
   }
 
-  public async isTrainVisible(serviceId: string, trainUId: string, timeToWaitForTrain = 5000): Promise<boolean> {
+  public async isTrainVisible(serviceId: string, trainUId: string, timeToWaitForTrain = this.trainsListDisplayTimeout): Promise<boolean> {
     try {
       await CommonActions.waitForElementToBeVisible(element.all(by.css(`[id^='trains-list-row-']`)).first(), timeToWaitForTrain);
       const trainScheduleId: ElementFinder =
@@ -199,7 +202,7 @@ export class TrainsListPageObject {
           return false;
         }
       }
-    }, browser.displayTimeout, 'Cound not find train description with schedule type ${scheduleType}');
+    }, this.trainsListDisplayTimeout, 'Could not find train description with schedule type ${scheduleType}');
   }
 
   public async columnsAre(expectedColHeaders: string[]): Promise<boolean> {

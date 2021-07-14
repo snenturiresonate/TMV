@@ -95,7 +95,7 @@ Then('train description {string} is visible on the trains list with schedule typ
   async (trainDescription: string, scheduleType: string) => {
     while (!await trainsListPage.trainDescriptionHasScheduleType(trainDescription, scheduleType)
     && await trainsListPage.paginationNext.isEnabled()) {
-      trainsListPage.paginationNext.click();
+      await trainsListPage.paginationNext.click();
     }
     const scheduleFound: boolean = await trainsListPage.trainDescriptionHasScheduleType(trainDescription, scheduleType);
     expect(scheduleFound, `${scheduleType} train ${trainDescription} does not appear on the trains list`).to.equal(true);
@@ -109,7 +109,7 @@ Then(/^train '?(\w+)'? with schedule id '?(\w+)'? for today (is|is not) visible 
     const todaysScheduleString = scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
     if (negate === 'is') {
       while (!await trainsListPage.isTrainVisible(serviceId, todaysScheduleString) && await trainsListPage.paginationNext.isEnabled()) {
-        trainsListPage.paginationNext.click();
+        await trainsListPage.paginationNext.click();
       }
       const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(serviceId, todaysScheduleString);
       expect(isScheduleVisible, `Train ${serviceId}:${scheduleId} was not visible on the trains list`).to.equal(true);
@@ -150,8 +150,8 @@ When('the following service is not displayed on the trains list', async (table: 
   const serviceId = tableValues.trainId;
   const trainUID = tableValues.trainUId;
   await page.navigateTo('/tmv/trains-list');
-  while (!await trainsListPage.isTrainVisible(serviceId, trainUID) && trainsListPage.paginationNext.isEnabled()) {
-    trainsListPage.paginationNext.click();
+  while (!await trainsListPage.isTrainVisible(serviceId, trainUID) && await trainsListPage.paginationNext.isEnabled()) {
+    await trainsListPage.paginationNext.click();
   }
   const isTrainVisible: boolean = await trainsListPage.isTrainVisible(serviceId, trainUID);
   expect(isTrainVisible, `Service ${serviceId} with trainUId ${trainUID} is displayed`).to.equal(false);

@@ -869,9 +869,28 @@ Then(/^the (Matched|Unmatched|Left behind Matched) version of the map context me
     .to.contain(expected1);
   expect(contextMenuItem2, `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
     .to.contain(expected2);
-  expect(contextMenuItem3, `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
+  expect(contextMenuItem3, `Context menu does not imply ${matchType} state - does not contain ${expected3}`)
     .to.contain(expected3);
 
+});
+
+Then(/^the Matched or Left behind Matched version of the map context menu (is|is not) displayed$/, async (negate: string) => {
+  await mapPageObject.waitForContextMenu();
+  const expected1 = 'Open timetable';
+  const expected2 = 'Turn Path On';
+  const contextMenuItem1: string = await mapPageObject.getMapContextMenuItem(2);
+  const contextMenuItem2: string = await mapPageObject.getMapContextMenuItem(3);
+  if (negate === 'is') {
+    expect(contextMenuItem1, `Context menu does not imply a matched state - does not contain ${expected1}`)
+      .to.contain(expected1);
+    expect(contextMenuItem2, `Context menu does not imply a matched state - does not contain ${expected2}`)
+      .to.contain(expected2);
+  } else {
+    expect(contextMenuItem1, `Context menu implies a matched state - contains ${expected1}`)
+      .to.not.contain(expected1);
+    expect(contextMenuItem2, `Context menu implies a matched state - contains ${expected2}`)
+      .to.not.contain(expected2);
+  }
 });
 
 When(/^I wait for the option to (Match|Unmatch) train description (\w+) in berth (\w+), describer (\w+) to be available$/,
