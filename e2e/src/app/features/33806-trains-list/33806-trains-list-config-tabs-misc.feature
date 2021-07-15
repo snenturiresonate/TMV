@@ -39,7 +39,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Include unmatched                  | on          |
       | Include uncalled                   | on          |
       | Time to remain on list             | 5           |
-      | Appear before current time on list | 5           |
     # clean up
     * I restore to default train list config
 
@@ -137,14 +136,12 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Include unmatched                  | on          |
       | Include uncalled                   | off         |
       | Time to remain on list             | 5           |
-      | Appear before current time on list | 5           |
     Then the following toggle values can be seen on the right class table
       | classValue                         | toggleValue |
       | Ignore PD Cancels                  | on          |
       | Include unmatched                  | on          |
       | Include uncalled                   | off         |
       | Time to remain on list             | 5           |
-      | Appear before current time on list | 5           |
     # clean up
     * I restore to default train list config
 
@@ -255,9 +252,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Include uncalled | on          |
     And I save the service filter changes
     And I am on the trains list page
-    And I should see the trains list table to display the following trains
-      | trainDescription |
-      | 5G44             |
+    Then train '5G44' with schedule id 'V30603' for today is visible on the trains list
     # clean up
     * I restore to default train list config
 
@@ -269,8 +264,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Include uncalled | off         |
     And I save the service filter changes
     And I am on the trains list page
-    And I should see the trains list table to not display the following trains
-      | trainDescription |
-      | 5G44             |
+    Then train '5G44' with schedule id 'V30603' for today is not visible on the trains list
     # clean up
     * I restore to default train list config

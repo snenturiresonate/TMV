@@ -3,6 +3,7 @@ Feature: 34080 - Manually Clear Train Description
 
   Background:
     * I have cleared out all headcodes
+    * I have not already authenticated
     * I navigate to Home page as Admin user
     * The admin setting defaults are as originally shipped
 

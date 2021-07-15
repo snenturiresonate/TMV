@@ -83,7 +83,8 @@ Feature: 33768-3: TMV User Management
     #  And I'm viewing the trains list
     #  When I view the context menu for a <matchType> train
     #  Then I the <matchMenuOption> is displayed
-    Given the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
+    Given I remove all trains from the trains list
+    And the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
     When I access the homepage as schedulematching
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message

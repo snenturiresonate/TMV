@@ -10,7 +10,7 @@ import {expect} from 'chai';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 import {CucumberLog} from '../logging/cucumber-log';
 import {TrainUIDUtils} from '../pages/common/utilities/trainUIDUtils';
-import {DateTimeFormatter} from '@js-joda/core';
+import {ChronoField, ChronoUnit, DateTimeFormatter, ZonedDateTime} from '@js-joda/core';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
@@ -245,13 +245,13 @@ function calculateTimeAdjustToNearestMinInMs(cifLine: string, refTimeInCifFormat
     timeStringLength = 5;
   }
   const cifLineTimeString = cifLine.substr(cifStartChars[refRowAndTimingType], timeStringLength);
-  const diffMs = toDateTime(refTimeInCifFormat).valueOf() - toDateTime(cifLineTimeString).valueOf();
+  const diffMs = toDateTime(cifLineTimeString).until(toDateTime(refTimeInCifFormat), ChronoUnit.MILLIS);
   // round ms to nearest minute
   return Math.round(diffMs / (60 * 1000)) * (60 * 1000);
 }
 
-function toDateTime(cifTime: string): Date {
-  const thisDateTime = new Date();
+function toDateTime(cifTime: string): ZonedDateTime {
+  const thisDateTime = DateAndTimeUtils.getCurrentTime();
   let cifHourStr = cifTime.substr(0, 2);
   let cifMinsStr = cifTime.substr(2, 2);
   let cifSecs = 0;
@@ -264,21 +264,21 @@ function toDateTime(cifTime: string): Date {
   if (cifTime.length === 5 && cifTime.substr(4, 1) === 'H') {
     cifSecs = 30;
   }
-  thisDateTime.setHours(parseInt(cifHourStr, 10), parseInt(cifMinsStr, 10), cifSecs);
-  return thisDateTime;
+  return thisDateTime.withHour(cifHourStr).withMinute(cifMinsStr).withSecond(cifSecs);
 }
 
-function toCIFTime(inputTime: Date, cifTimingType: string): string {
+function toCIFTime(inputTime: ZonedDateTime, cifTimingType: string): string {
   let secString = '';
   if (cifTimingType === 'wtt') {
-    if (inputTime.getSeconds() >= 30) {
+    if (inputTime.get(ChronoField.SECOND_OF_MINUTE) >= 30) {
       secString = 'H';
     }
     else {
       secString = ' ';
     }
   }
-  return inputTime.getHours().toString().padStart(2, '0') + inputTime.getMinutes().toString().padStart(2, '0') + secString;
+  return inputTime.get(ChronoField.HOUR_OF_DAY).toString().padStart(2, '0') +
+    inputTime.get(ChronoField.MINUTE_OF_HOUR).toString().padStart(2, '0') + secString;
 }
 
 function adjustCIFTrainIds(cifLine: string, rowType: string, trainDesc: string, planningUid: number): string {
@@ -349,8 +349,7 @@ function adjustCIFTime(timeString: string, timeAdjustMs: number): string {
     return timeString;
   }
   else {
-    const newTime = new Date();
-    newTime.setTime(toDateTime(timeString).valueOf() + timeAdjustMs);
+    const newTime = toDateTime(timeString).plusNanos(timeAdjustMs * 1000000);
     if (timeString.length === 5) {
       return toCIFTime(newTime, 'wtt');
     }

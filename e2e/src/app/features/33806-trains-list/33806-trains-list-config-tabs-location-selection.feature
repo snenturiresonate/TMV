@@ -132,7 +132,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
     And I save the trains list config
     And I am on the trains list page
     #Services to be displayed might have to change based on data once the integration is done
-    Then '5G44' are then displayed
+    Then train '5G44' with schedule id 'V30603' for today is visible on the trains list
     And I restore to default train list config
 
   Scenario: 33806 -18 Trains list config for location types - Stop type 'Terminate'
@@ -148,7 +148,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
     And I save the trains list config
     And I am on the trains list page
     #Services to be displayed might have to change based on data once the integration is done
-    Then '2P77' are then displayed
+    Then train '2P77' with schedule id 'Y95686' for today is visible on the trains list
     And I restore to default train list config
 
   Scenario: 33806 -18 Trains list config for location types - Stop type 'Pass'
@@ -164,7 +164,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
     And I save the trains list config
     And I am on the trains list page
     #Services to be displayed might have to change based on data once the integration is done
-    Then '2P77' are then displayed
+    Then train '2P77' with schedule id 'Y95686' for today is visible on the trains list
     And I restore to default train list config
 
   Scenario: 33806 -18 Trains list config for location types - Stop type 'Stop'
@@ -180,5 +180,5 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
     And I save the trains list config
     And I am on the trains list page
     #Services to be displayed might have to change based on data once the integration is done
-    Then '2P77' are then displayed
+    Then train '2P77' with schedule id 'Y95686' for today is visible on the trains list
     And I restore to default train list config

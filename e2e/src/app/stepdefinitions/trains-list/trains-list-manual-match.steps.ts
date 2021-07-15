@@ -3,7 +3,7 @@ import {expect} from 'chai';
 
 import {TrainsListManualMatchPageObject} from '../../pages/trains-list/trains-list-manual-match-page';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
-import {DateTimeFormatter, LocalDateTime} from '@js-joda/core';
+import {DateTimeFormatter} from '@js-joda/core';
 
 const trainsListManualMatchPage: TrainsListManualMatchPageObject = new TrainsListManualMatchPageObject();
 
@@ -60,8 +60,8 @@ Then(/^the unmatched search results show the following (.*) results?$/,
   const expectedSearchResults: any[] = expectedResults.hashes();
   const numExpectedSearchResults = parseFloat(numExpectedSearchResultsString);
   const numActualSearchResults = await trainsListManualMatchPage.getNumServicesListed();
-  const now = DateAndTimeUtils.getCurrentDateTime();
-  let expectedOriginTime: LocalDateTime;
+  const now = DateAndTimeUtils.getCurrentTime();
+  let expectedOriginTime;
   expect(numActualSearchResults, `Number of search results incorrect`).to.equal(numExpectedSearchResults);
   for (const expectedSearchResult of expectedSearchResults) {
     const expectedDate = DateAndTimeUtils.convertToDesiredDateAndFormat(expectedSearchResult.date, 'dd-MM-yyyy');
@@ -77,10 +77,12 @@ Then(/^the unmatched search results show the following (.*) results?$/,
       .to.equal(true);
     const actualSearchValues: string[] = await trainsListManualMatchPage
       .getSearchEntryValues(expectedPlanUID, expectedDate.replace('-', '/').replace('-', '/'));
-    const expectedTime = await hhmmToMinutesPastMidnight(expectedOriginTime.format(DateTimeFormatter.ofPattern('HHmm')));
-    const actualTime = await hhmmToMinutesPastMidnight(actualSearchValues[searchColumnIndexes.time]);
-    const timeDiff = Math.abs(actualTime - expectedTime);
-    const timesCloseEnough = (timeDiff <= 60) || (timeDiff >= 1438);
+    const expectedTime = expectedOriginTime.format(DateTimeFormatter.ofPattern('HH:mm'));
+    const actualTime = actualSearchValues[searchColumnIndexes.time];
+    const expectedTimeMinsPastMidnight = await hhmmToMinutesPastMidnight(expectedTime);
+    const actualTimeMinsPastMidnight = await hhmmToMinutesPastMidnight(actualTime);
+    const timeDiff = Math.abs(actualTimeMinsPastMidnight - expectedTimeMinsPastMidnight);
+    const timesCloseEnough = (timeDiff <= 2) || (timeDiff >= 1438);
     expect(actualSearchValues[searchColumnIndexes.service], `Service for ${expectedPlanUID} is incorrect`)
       .to.equal(expectedSearchResult.trainNumber);
     expect(actualSearchValues[searchColumnIndexes.status], `Status for ${expectedPlanUID} is incorrect`)
@@ -91,7 +93,8 @@ Then(/^the unmatched search results show the following (.*) results?$/,
       .to.equal(expectedDate.replace('-', '/').replace('-', '/'));
     expect(actualSearchValues[searchColumnIndexes.origin], `Origin for ${expectedPlanUID} is incorrect`)
       .to.equal(expectedSearchResult.origin);
-    expect(timesCloseEnough, `Origin Time for ${expectedPlanUID} is incorrect`)
+    expect(timesCloseEnough, `Origin Time for ${expectedPlanUID} is incorrect - expecting ${expectedTime} was ${actualTime}.
+    now is ${now}, expectedOriginTime is ${expectedOriginTime} and timeAdjust is ${timeAdjust}`)
       .to.equal(true);
     expect(actualSearchValues[searchColumnIndexes.dest], `Dest. for ${expectedPlanUID} is incorrect`)
       .to.equal(expectedSearchResult.dest);
