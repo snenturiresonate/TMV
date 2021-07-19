@@ -55,9 +55,7 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
       | case           | trainDesc |
       | unmatched step | 2P02      |
 
-
-    @bug @bug:65463
-    Scenario Outline: 42006-14  Unscheduled service is displayed when an unmatched TRI is received
+    Scenario Outline: 42006-14  Unscheduled service is displayed when an unmatched TRI is received - <triType>
 #    Given no valid schedule exists
 #    And a TRI timing has been received for a location with the <TRI type>
 #    Then a corresponding unscheduled service is displayed in the trains list
@@ -66,8 +64,8 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
       | <trainUID> | <trainDesc> | today              | <locCode>           | <locSubCode>           | <triType>   |
     And I am on the trains list page
     And I see all the available trains list columns with defaults first
-    Then Train description '<trainDesc>' is visible on the trains list
-    And all grid entries for <case> train <trainUID> are blank except for SERVICE, TIME, REPORT, PUNCT., TRUST ID, SCHED. UID
+    Then train '<trainDesc>' with schedule id '<trainUID>' for today is visible on the trains list
+    And all grid entries for <case> train <trainUID> are blank except for SERVICE, TIME, REPORT, PUNCT., REPORT (TPL), TRUST ID, SCHED. UID
     And the service is displayed in the trains list with the indication for an unscheduled service
       | rowId       |
       | <trainDesc> |
