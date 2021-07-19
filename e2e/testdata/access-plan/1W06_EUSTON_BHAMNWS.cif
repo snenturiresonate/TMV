@@ -1,0 +1,34 @@
+HDTPS.UCFT1LX.PD2010292910201954CFT1LXMCFT1LXLFA291020291120                    
+BSNC144192010183010181111111 PXX1W062037122209000 EMU506 110      B S          O
+BX         LMY                                                                  
+LOEUSTON  1308 13088  X      TB                                                
+LICMDNSTH           1310H00000000   E                                          
+LICMDNJN            1311 00000000   FL                                          
+LIWLSDWLJ           1314 00000000   FL FL                                      
+LIWMBY              1315H000000003                                              
+LIHROW              1317H000000003  FL FL                                      
+LIWATFDJ  1322 1323      132213236  FL FL T                                    
+LIBONENDJ           1328 00000000   FL FL                                      
+LITRING             1331H000000001  FL FL                                      
+LILEDBRNJ           1334H00000000   FL FL                                      
+LIBLTCHLY           1340 000000003  SL FL             3                        
+LIMKNSCEN 1346 1350      134613503  SL SL T                                    
+LIWLVR    1353 1354      13531354         T                                    
+LIHANSLPJ           1357H00000000      SL             1                        
+CRNMPTN   XX1W552037122259000 EMU506 110      B S                              
+LINMPTN   1406 1415      140614152        T                                    
+LILNGBKBY 1425 1426      14251426         T                                    
+LIDVNTYNJ           1431 00000000                     1                        
+LIHMTNJ             1434 00000000   DNL                                        
+LIRUGBY   1436 1437H     143614371  DCLDNLT                                    
+LIRUGBTVJ           1438H00000000      DCL            1                        
+CRCOVNTRY XX1W552037112259320 EMU506 110      B S                              
+LICOVNTRY 1447 1448      144714483        T                                    
+LITILEH   1452H1453H     14531453         T                                    
+LIBKSWELL           1455H00000000                                              
+LIBHAMINT 1459H1500H     150015001        T                                    
+LIMRSTNGR 1503 1503H     15031503         T                                    
+LISTECHFD           1506 00000000                                              
+LIPROOFHJ           1508H00000000   WL                                          
+LTBHAMNWS 1510H15133M WL TF                                                    
+ZZ                                                                              

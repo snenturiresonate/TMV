@@ -59,6 +59,7 @@ const timetableColumnIndexes = {
 };
 
 const punctualityColourHex = {
+  blue: '#0000ff',
   palepink: '#ffb4b4',
   lilac: '#e5b4ff',
   paleblue: '#78e7ff',
@@ -100,14 +101,12 @@ When('I wait for the last Signal to populate', async () => {
   return browser.wait(async () => {
     try {
       {
-        if (await timetablePage.headerSignal.getText() !== '')
-        {
+        if (await timetablePage.headerSignal.getText() !== '') {
           return true;
         }
       }
       return false;
-    }
-    catch (error) {
+    } catch (error) {
       return false;
     }
   }, browser.displayTimeout, 'Last Signal not populated');
@@ -117,14 +116,12 @@ When('I wait for the last Signal to be {string}', async (sigName) => {
   return browser.wait(async () => {
     try {
       {
-        if (await timetablePage.headerSignal.getText() !== 'sigName')
-        {
+        if (await timetablePage.headerSignal.getText() !== 'sigName') {
           return true;
         }
       }
       return false;
-    }
-    catch (error) {
+    } catch (error) {
       return false;
     }
   }, browser.displayTimeout, `Last Signal was not ${sigName}`);
@@ -440,6 +437,24 @@ Then('The entry of the change en route table contains the following data', async
   });
 });
 
+
+Then(/^the actual\/predicted values are$/, {timeout: 5 * 60 * 1000}, async (dataTable: any) => {
+  const expectedValues: any[] = dataTable.hashes();
+  for (const value of expectedValues) {
+    await timetablePage.getRowByLocation(value.location, value.instance).then(async row => {
+
+      const EC = ExpectedConditions;
+      await browser.wait(EC.and(EC.textToBePresentInElement(row.actualArr, value.arrival),
+        EC.textToBePresentInElement(row.actualDep, value.departure),
+        EC.textToBePresentInElement(row.actualPlt, value.platform),
+        EC.textToBePresentInElement(row.actualPath, value.path),
+        EC.textToBePresentInElement(row.actualLn, value.line)),
+        5 * 1000,
+        `Actual/Predicted values for not correct, ${JSON.stringify(value)}`);
+    });
+  }
+});
+
 Then('The timetable entries contains the following data',
   async (timetableEntryDataTable: any) => {
     const expectedTimetableEntryColValues: any[] = timetableEntryDataTable.hashes();
@@ -489,8 +504,7 @@ Then('The live timetable actual time entries are populated as follows:', async (
       if (expectedTimetableEntryCol.column === 'actualArr') {
         actualTimetableEntryElement = row.actualArr;
         actualTimetableEntryElementValue = await row.actualArr.getText();
-      }
-      else if (expectedTimetableEntryCol.column === 'actualDep') {
+      } else if (expectedTimetableEntryCol.column === 'actualDep') {
         actualTimetableEntryElement = row.actualDep;
         actualTimetableEntryElementValue = await row.actualDep.getText();
       }
@@ -500,20 +514,17 @@ Then('The live timetable actual time entries are populated as follows:', async (
           ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, ')')),
           60 * 1000)
           .catch(() => assert.fail(`${expectedTimetableEntryCol.column} is not showing as predicted - there should be brackets`));
-      }
-      else if (expectedTimetableEntryCol.valType === 'actual') {
+      } else if (expectedTimetableEntryCol.valType === 'actual') {
         await browser.wait(ExpectedConditions.and(
           ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, '(')),
           ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, ')'))),
           60 * 1000)
           .catch(() => assert.fail(`${expectedTimetableEntryCol.column} is showing as predicted - there should be no brackets`));
-      }
-      else if (expectedTimetableEntryCol.valType === 'absent') {
+      } else if (expectedTimetableEntryCol.valType === 'absent') {
         expect(actualTimetableEntryElementValue,
           `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing time when should be nothing`)
           .to.equal('');
-      }
-      else {
+      } else {
         expect(actualTimetableEntryElementValue,
           `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} not as expected`)
           .to.equal(expectedTimetableEntryCol.value);
@@ -577,10 +588,10 @@ Then('the punctuality is displayed as {string}', async (expectedText: string) =>
 
 Then('the punctuality is correct based on {string}', {timeout: 65 * 1000}, async (expectedTime: string) => {
   const expectedPunctuality = () => getExpectedPunctuality(true,
-                                                            DateAndTimeUtils.getCurrentTime()
-                                                              .plusMinutes(1)
-                                                              .format(DateTimeFormatter.ofPattern('HH:mm'))
-                                                            , expectedTime);
+    DateAndTimeUtils.getCurrentTime()
+      .plusMinutes(1)
+      .format(DateTimeFormatter.ofPattern('HH:mm'))
+    , expectedTime);
   // long timeout for punctuality recalculation cycle
   await browser.wait(ExpectedConditions.textToBePresentInElement(timetablePage.navBarIndicatorText, expectedPunctuality()),
     60 * 1000,
@@ -588,11 +599,11 @@ Then('the punctuality is correct based on {string}', {timeout: 65 * 1000}, async
 });
 
 Then('the punctuality increases when the train is not moving', async () => {
- const actualText: string = await timetablePage.getNavBarIndicatorText();
- await browser.wait(async () => {
-   const currentText = await timetablePage.navBarIndicatorText.getText();
-   return currentText !== actualText;
- }, 65 * 1000, `Punctuality was not updated after 60 seconds as the service incurs lateness, was still '${actualText}'`);
+  const actualText: string = await timetablePage.getNavBarIndicatorText();
+  await browser.wait(async () => {
+    const currentText = await timetablePage.navBarIndicatorText.getText();
+    return currentText !== actualText;
+  }, 65 * 1000, `Punctuality was not updated after 60 seconds as the service incurs lateness, was still '${actualText}'`);
 });
 
 Then(/^the punctuality is displayed as one of (.*)$/, async (expectedList: string) => {
@@ -608,12 +619,12 @@ Then('the punctuality for {string} location {string} is displayed as {string}',
     const actualLocPunctuality = await row.punctuality.getText();
     expect(actualLocPunctuality, 'Punctuality value is not correct')
       .to.equal(expectedText);
-});
+  });
 
 Then('The timetable details table contains the following data in each row', async (detailsDataTable: any) => {
   const expectedDetailsRowValues: any = detailsDataTable.hashes()[0];
   const dateString = expectedDetailsRowValues.daysRun.replace
-    ('today', DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy'));
+  ('today', DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy'));
   const daysString = convertDaysStringIfNecessary(expectedDetailsRowValues.runs);
   expect(await timetablePage.getTimetableDetailsRowValueDaysRun(), 'Timetable Details entry Days Run is not correct')
     .to.equal(dateString);
@@ -693,7 +704,7 @@ Then(/^the inserted location (.*) is (before|after) (.*)$/,
   async (insertedLocation: string, beforeAfter: string, otherLocation: string) => {
     const locations = await timetablePage.getLocations();
     const rowOfInserted = await timetablePage.getLocationRowIndex
-      (timetablePage.ensureInsertedLocationFormat('inserted', insertedLocation), 1);
+    (timetablePage.ensureInsertedLocationFormat('inserted', insertedLocation), 1);
     (beforeAfter === 'before') ?
       expect(locations[rowOfInserted + 1], `Inserted location ${insertedLocation} is not ${beforeAfter} ${otherLocation}`)
         .to.equal(otherLocation) :
@@ -768,6 +779,40 @@ Then(/^the path code for Location is correct$/, async (dataTable) => {
     await timetablePage.pathTextToEqual(row.location, row.pathCode);
   }
 });
+
+Then(/^the actual\/predicted path code is correct$/, async (dataTable) => {
+  const expectedValues: any = dataTable.hashes();
+  for (const value of expectedValues) {
+    await timetablePage.getRowByLocation(value.location, value.instance).then(async row => {
+      await browser.wait(ExpectedConditions.textToBePresentInElement(row.actualPath, value.pathCode),
+        10 * 1000,
+        `Actual/Predicted path code was not ${value.pathCode}, was ${await row.actualPath.getText()}`);
+    });
+  }
+});
+
+Then(/^the actual\/predicted line code is correct$/, async (dataTable) => {
+  const expectedValues: any = dataTable.hashes();
+  for (const value of expectedValues) {
+    await timetablePage.getRowByLocation(value.location, value.instance).then(async row => {
+      await browser.wait(ExpectedConditions.textToBePresentInElement(row.actualLn, value.lineCode),
+        10 * 1000,
+        `Actual/Predicted path code was not ${value.lineCode}, was ${await row.actualLn.getText()}`);
+    });
+  }
+});
+
+Then(/^the actual\/predicted platform is correct$/, async (dataTable) => {
+  const expectedValues: any = dataTable.hashes();
+  for (const value of expectedValues) {
+    await timetablePage.getRowByLocation(value.location, value.instance).then(async row => {
+      await browser.wait(ExpectedConditions.textToBePresentInElement(row.actualPlt, value.platform),
+        10 * 1000,
+        `Actual/Predicted platform was not ${value.platform}, was ${await row.actualPlt.getText()}`);
+    });
+  }
+});
+
 
 Then(/^the line code for Location is correct$/, async (dataTable) => {
   const rows: any = dataTable.hashes();
@@ -1009,7 +1054,7 @@ Then(/^the predicted Departure punctuality for location "(.*)" instance (\d+) is
     await timetablePage.getRowByLocation(location, instance).then(async row => {
       const field = row.punctuality;
       const expectedPunctuality = (currentTime.isAfter(expectedDepartureTime)) ?
-        getExpectedPunctuality('Departure', currentTime.format(DateTimeFormatter.ofPattern('HH:mm:ss')), expectedTime) : '0m' ;
+        getExpectedPunctuality('Departure', currentTime.format(DateTimeFormatter.ofPattern('HH:mm:ss')), expectedTime) : '0m';
       expect(await field.getText(), `Actual punctuality not correct for location ${location}`).to.equal(expectedPunctuality);
     });
   });
@@ -1035,13 +1080,12 @@ function convertDaysStringIfNecessary(daysString: string): string {
     if (daysString.charAt(i) === '1') {
       newString = newString + weekday[i] + ', ';
     }
-   }
-  newString = newString.substr(0, newString.lastIndexOf(','));
-  if (newString.indexOf(',') === -1 ) {
-    return newString;
   }
-  else {
-      return newString.substr(0, newString.lastIndexOf(',')) + ' &' +  newString.substr(newString.lastIndexOf(',') + 1);
+  newString = newString.substr(0, newString.lastIndexOf(','));
+  if (newString.indexOf(',') === -1) {
+    return newString;
+  } else {
+    return newString.substr(0, newString.lastIndexOf(',')) + ' &' + newString.substr(newString.lastIndexOf(',') + 1);
   }
 }
 

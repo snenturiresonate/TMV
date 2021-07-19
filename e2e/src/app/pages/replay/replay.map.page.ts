@@ -112,7 +112,6 @@ export class ReplayMapPage {
   }
 
   private async setReplaySpeed(speed: ReplaySpeed): Promise<void> {
-    LocalDateTime.parse('120100', DateTimeFormatter.ofPattern('HHmmss'));
     await browser.wait(() => this.replaySpeedButton.isPresent(), 20 * 1000);
     await this.replaySpeedButton.click();
     const el = element(by.css('.speeds .speed:nth-child(' + speed.valueOf() + ')'));

@@ -191,6 +191,10 @@ Then(/^I am not re-directed to home page$/, async () => {
 });
 
 Given(/^I have not already authenticated$/, {timeout: 5 * 10000}, async () => {
+  await logout();
+});
+
+async function logout(): Promise<void> {
   // Below steps to be replaced to logout steps once DEV implementation is done
   await LocalStorage.reset();
   await browser.waitForAngularEnabled(false);
@@ -200,7 +204,7 @@ Given(/^I have not already authenticated$/, {timeout: 5 * 10000}, async () => {
     await authPage.clickSignInAsDifferentUser();
   }
   await browser.waitForAngularEnabled(true);
-});
+}
 
 Given(/^I am on the home page$/, {timeout: 5 * 10000}, async () => {
   await page.navigateTo('');
