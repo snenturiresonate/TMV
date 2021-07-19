@@ -330,9 +330,33 @@ Then('I should see the trains list columns as', {timeout: 2 * 20000}, async (tab
 });
 
 When('I see all the available trains list columns with defaults first', {timeout: 2 * 20000}, async () => {
-  const allCols = ['SCHED.', 'SERVICE', 'TIME', 'REPORT', 'PUNCT.', 'ORIGIN', 'PLANNED', 'ACTUAL / PREDICT',
-    'DEST.', 'PLANNED', 'ACTUAL / PREDICT', 'NEXT LOC.', 'OPERATOR', 'TRUST ID', 'SCHED. UID', 'REASON', 'CANCEL', 'PUB. ARR.',
-    'PUB. DEPT.', 'NEXT TIME', 'LINE', 'PLT.', 'CATEGORY', 'SERVICE CODE'];
+  const allCols = ['SCHED.',
+    'SERVICE',
+    'TIME',
+    'REPORT',
+    'PUNCT.',
+    'ORIGIN',
+    'PLANNED',
+    'ACTUAL / PREDICT',
+    'DEST.', 'PLANNED',
+    'ACTUAL / PREDICT',
+    'NEXT LOC.',
+    'OPERATOR',
+    'REPORT (TPL)',
+    'ORIGIN (TPL)',
+    'DEST. (TPL)',
+    'NEXT (TPL)',
+    'TRUST ID',
+    'SCHED. UID',
+    'REASON',
+    'CANCEL',
+    'PUB. ARR.',
+    'PUB. DEPT.',
+    'NEXT TIME',
+    'LINE',
+    'PLT.',
+    'CATEGORY',
+    'SERVICE CODE'];
 
   const columnsAsExpected = await trainsListPage.columnsAre(allCols);
 
