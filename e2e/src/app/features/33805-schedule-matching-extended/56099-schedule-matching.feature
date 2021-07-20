@@ -4,8 +4,8 @@ Feature: 33805 TMV Schedule Matching
   So that the system selects the most appropriate match
 
   Background:
-    * I remove all trains from the trains list
     * I have cleared out all headcodes
+    * I reset redis
     * the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
     * I am on the home page
     * I restore to default train list config
@@ -77,10 +77,9 @@ Feature: 33805 TMV Schedule Matching
       | <berth>   | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
-    When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
+    When I wait for the Open timetable option for train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
     Then the Matched version of the map context menu is displayed
-    # @bug:60557 And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
     And I see todays schedule for '<trainUid>' has loaded by looking at the timetable page
 
     Examples:
@@ -89,7 +88,6 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 0041        | 1B11          | 5B70         | B11111   | PADTON   | 401         | location     |
       | D3             | 0107  | 0125        | 1B11          | 6B70         | B11111   | PRTOBJP  | 401         | sub-division |
 
-  @bug @bug:58051
   Scenario Outline: 2. Interpose - Match new ID after Change of ID - <matchLevel> match
     #    Given there is a valid schedule
     #    And a TJM has been received with the type 07 (change of ID) for that schedule
@@ -125,7 +123,6 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 1B11          | 8B70         | B11111   | PADTON   | 401         | location     |
       | D3             | 0106  | 1B11          | 9B70         | B11111   | PRTOBJP  | 401         | sub-division |
 
-  @bug @bug:58051
   Scenario Outline: 2. Step - Match new ID after Change of ID - <matchLevel> match
     #    Given there is a valid schedule
     #    And a TJM has been received with the type 07 (change of ID) for that schedule
@@ -149,10 +146,10 @@ Feature: 33805 TMV Schedule Matching
       | <berth>   | <secondBerth> | <trainDescriber> | <newTrainDesc>   |
     And I am viewing the map HDGW01paddington.v
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<newTrainDesc>' and is visible
-    When I wait for the Open timetable option for train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
+    # When I wait for the Open timetable option for train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <newTrainDesc>
     Then the Matched version of the map context menu is displayed
-    And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
+    And the rectangle colour for berth <trainDescriber><secondBerth> is not lightgrey meaning 'no timetable'
     And I see todays schedule for '<trainUid>' has loaded by looking at the timetable page
 
     Examples:
@@ -188,7 +185,7 @@ Feature: 33805 TMV Schedule Matching
     Examples:
       | trainDescriber | berth | trainDesc | trainUid | isGrey | isMatched | ttOption | berthType |
       | BN             | 0181  | 1B12      | B22222   | is not | is        | Open     | NORMAL    |
-      | BN             | NCAP  | 1B12      | B22222   | is     | is not    | No       | EXCLUDE  |
+      | BN             | NCAP  | 1B12      | B22222   | is     | is not    | No       | EXCLUDE   |
 
   Scenario Outline: 3b. Step - Check if the berth should be schedule matched - <berthType> berth
       #      Given there is a valid schedule
@@ -281,7 +278,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 0041        | 1B11          | B11111   | PADTON   | 401         | location     |
       | D3             | 0107  | 0125        | 1B11          | B11111   | PRTOBJP  | 401         | sub-division |
 
-  @bug @bug:58384
+  @bug @bug:58384 @bug:63235
   Scenario Outline: 5a. Interpose - Exclude Terminated Schedules from Matching - <matchLevel> match
     #    Given there a valid schedule
     #    And a Train Running Information message has been received with  the type  01 -Arrival at Termination
@@ -304,7 +301,6 @@ Feature: 33805 TMV Schedule Matching
       | <berth> | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
-    When I wait for the option to Match train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I right click on berth with id '<trainDescriber><berth>'
     Then the Unmatched version of the map context menu is displayed
     And the rectangle colour for berth <trainDescriber><berth> is lightgrey meaning 'no timetable'
@@ -315,7 +311,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 1B13          | B33333   | PADTON   | 401         | location     | 73000               |
       | D3             | 0106  | 1B13          | B33333   | PRTOBJP  | 401         | sub-division | 73106               |
 
-  @bug @bug:58384
+  @bug @bug:58384 @bug:63235
   Scenario Outline: 5b. Step - Exclude Terminated Schedules from Matching - <matchLevel> match
     #    Given there a valid schedule
     #    And a Train Running Information message has been received with  the type  01 -Arrival at Termination
@@ -337,11 +333,10 @@ Feature: 33805 TMV Schedule Matching
       | fromBerth | toBerth       | trainDescriber   | trainDescription |
       | <berth>   | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
-    Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
-    When I wait for the option to Match train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
-    And I right click on berth with id '<trainDescriber><berth>'
+    Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
+    And I right click on berth with id '<trainDescriber><secondBerth>'
     Then the Unmatched version of the map context menu is displayed
-    And the rectangle colour for berth <trainDescriber><berth> is lightgrey meaning 'no timetable'
+    And the rectangle colour for berth <trainDescriber><secondBerth> is lightgrey meaning 'no timetable'
 
     Examples:
       | trainDescriber | berth | secondBerth | origTrainDesc | trainUid | location | subdivision | matchLevel   |
@@ -429,7 +424,7 @@ Feature: 33805 TMV Schedule Matching
       | <berth>   | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
-    When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
+    When I wait for the Open timetable option for train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
     Then the Matched version of the map context menu is displayed
     When I open timetable from the map context menu

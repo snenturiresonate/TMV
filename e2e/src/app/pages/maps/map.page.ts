@@ -234,10 +234,25 @@ export class MapPageObject {
     await this.waitForContextMenu();
   }
 
+  public async openContextMenuForTrainDescriptionInBerth(trainDescription: string, trainDescriber: string, berth: string): Promise<void> {
+    const berthLocator: ElementFinder =
+      element(by.xpath(`//*[@data-train-description='${trainDescription}'][@data-berth-name='${berth}']`));
+    await CommonActions.waitForElementInteraction(berthLocator);
+    await browser.actions().click(berthLocator, protractor.Button.RIGHT).perform();
+    await this.waitForContextMenu();
+  }
+
   public async closeContextMenuForTrainDescription(trainDescription: string): Promise<void> {
     const berth: ElementFinder = element(by.xpath('//*[@data-train-description=\"' + trainDescription + '\"]'));
     await CommonActions.waitForElementInteraction(berth);
     await berth.click();
+  }
+
+  public async closeContextMenuForTrainDescriptionInBerth(trainDescription: string, trainDescriber: string, berth: string): Promise<void> {
+    const berthLocator: ElementFinder =
+      element(by.xpath(`//*[@data-train-description='${trainDescription}'][@data-berth-name='${berth}']`));
+    await CommonActions.waitForElementInteraction(berthLocator);
+    await berthLocator.click();
   }
 
   public async getMapContextMenuItem(rowIndex: number): Promise<string> {
@@ -248,21 +263,13 @@ export class MapPageObject {
                                       berth: string, describer: string, row: number): Promise<boolean> {
     return browser.wait(async () => {
       try {
-        await this.openContextMenuForTrainDescription(trainDescription);
+        await this.openContextMenuForTrainDescriptionInBerth(trainDescription, describer, berth);
         await this.waitForContextMenu();
         const contextMenuItem = await this.getMapContextMenuItem(row);
         if (contextMenuItem.includes(indication)) {
           return true;
         }
-        await this.closeContextMenuForTrainDescription(trainDescription);
-        await linxRestClient.postBerthInterpose(
-          new BerthInterpose(
-            DateAndTimeUtils.getCurrentTimeString(),
-            berth,
-            describer,
-            trainDescription
-          )
-        );
+        await this.closeContextMenuForTrainDescriptionInBerth(trainDescription, describer, berth);
       }
       catch (exception) {
         if (exception.toString().includes('StaleElementReferenceError'))
@@ -273,7 +280,7 @@ export class MapPageObject {
       }
       return false;
     },
-    browser.displayTimeout, 'The train description did not disappear');
+    browser.displayTimeout, `${indication} not found in context menu`);
   }
 
   public async getMapContextMenuElementByRow(rowIndex: number): Promise<ElementFinder> {

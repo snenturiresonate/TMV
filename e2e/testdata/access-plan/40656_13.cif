@@ -1,0 +1,22 @@
+HDTPS.UCFT1LX.PD111NOC0112182000CFT1LXQCFT1LXPFA010120010150                    
+BSNC917642010035010031111111 POO2D23    121234001 EMU315 075D     S            O
+BX         LOY                                                                  
+LOCHESHNT 1131 1131BAY       TB                                                 
+LITHBLDSG 1133H1134      11341134         T                                     
+LITURKYST 1136 1136H     11361136         T                                     
+LISBURY   1139 1139H     11391139         T                                     
+LIBYSTJN            1141H00000000                                               
+LIEDMNGRN 1142H1143      11431143         T                                     
+LISIVRST  1144H1145      11451145         T                                     
+LIWHHRTLA 1146H1147      11471147         T                                     
+LIBRUCGRV 1148H1149      11491149         T                                     
+LISEVNSIS 1150H1151H     115111511        T                                     
+LISTMFDHL 1153 1153H     11531153         T                                     
+LISTKNWNG 1155 1155H     11551155         T                                     
+LIRCTRYRD 1156H1157      11571157         T                                     
+LIHAKNYNM 1159H1200      120012003        T                                     
+LILONFLDS 1201H1202      120212021        T                                     
+LICAMHTH  1203H1204      12041204         T                                     
+LIBTHNLGR 1205H1206      120612061     FL T                                     
+LTLIVST   1210 12107     TF                                                     
+ZZ                                                                              
