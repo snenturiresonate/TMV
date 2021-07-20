@@ -14,6 +14,9 @@ let linxRestClient: LinxRestClient;
 const SCALEFACTORX_START = 7;
 const appPage: AppPage = new AppPage();
 export class MapPageObject {
+  private static liveMap = element(by.css('#live-map'));
+  private static sClassBerthTextElements = element(by.css('#s-class-berth-text-elements'));
+
   public platformLayer: ElementFinder;
   public berthElements: ElementFinder;
   public manualBerthLayer: ElementFinder;
@@ -30,10 +33,9 @@ export class MapPageObject {
   public lastMapLinkSelectedCode: string;
   public mapNameDropdown: ElementFinder;
   public mapSearch: ElementFinder;
-  public liveMap: ElementFinder;
-  public sClassBerthTextElements: ElementFinder;
   public aesBoundaryElements: ElementFinder;
   public headcodeOnMap: ElementArrayFinder;
+
 
   constructor() {
     this.platformLayer = element(by.id('platform-layer'));
@@ -52,8 +54,6 @@ export class MapPageObject {
     this.lastMapLinkSelectedCode = '';
     this.mapNameDropdown = element(by.css('.map-dropdown-button:nth-child(1)'));
     this.mapSearch = element(by.id('map-search-box'));
-    this.liveMap = element(by.css('#live-map'));
-    this.sClassBerthTextElements = element(by.css('#s-class-berth-text-elements'));
     this.aesBoundaryElements = element(by.css('#aes-boundaries-elements'));
 
     this.headcodeOnMap = element.all(by.css('text[data-train-description]:not([data-train-description=""])'));
@@ -367,16 +367,20 @@ export class MapPageObject {
   }
 
   public async getLvlCrossingBarrierState(lvlCrossingId: string): Promise<string> {
-    await CommonActions.waitForElementToBeVisible(this.liveMap);
-    return this.sClassBerthTextElements.element(by.css('[id^=s-class-berth-element-text-' + lvlCrossingId  + ']')).getText();
+    const levelCrossingLabel: ElementFinder =
+      MapPageObject.sClassBerthTextElements.element(by.css('[id^=s-class-berth-element-text-' + lvlCrossingId  + ']'));
+    await CommonActions.waitForElementToBeVisible(MapPageObject.liveMap);
+    await CommonActions.waitForElementToBeVisible(levelCrossingLabel);
+    return levelCrossingLabel.getText();
   }
+
   public async isDirectionChevronDisplayed(): Promise<boolean> {
-    await CommonActions.waitForElementToBeVisible(this.liveMap);
+    await CommonActions.waitForElementToBeVisible(MapPageObject.liveMap);
     return element(by.css(`text[class='DIRECTION_LOCK']`)).isPresent();
   }
   public async aesElementsAreDisplayed(): Promise<boolean> {
     const elm = this.aesBoundaryElements.element(by.css('[id^=aes-boundaries-element]'));
-    await CommonActions.waitForElementToBeVisible(this.liveMap);
+    await CommonActions.waitForElementToBeVisible(MapPageObject.liveMap);
     return elm.isPresent();
   }
   public async getBerthName(): Promise<string> {

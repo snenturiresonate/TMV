@@ -631,7 +631,8 @@ Then('the TRTS status for signal {string} is {word}',
 
 Then('the level crossing barrier status of {string} is {word}',
   async (lvlCrossingId: string, expectedStatus: string) => {
-    const actualBarrierStatus = await mapPageObject.getLvlCrossingBarrierState(lvlCrossingId);
+    const actualBarrierStatus: string = await CommonActions
+      .waitForFunctionalStringResult(mapPageObject.getLvlCrossingBarrierState, lvlCrossingId, expectedStatus);
     expect(actualBarrierStatus, `level crossing barrier status for ${lvlCrossingId} is not correct`)
       .to.equal(expectedStatus);
   });
