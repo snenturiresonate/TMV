@@ -82,8 +82,16 @@ When('the access plan located in CIF file {string} is amended so that all servic
 When ('the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX',
   async (inputs: any) => {
     const newTrainProps: any = inputs.hashes()[0];
+    let refTrainUid;
     expect(newTrainProps.newTrainDescription.length, 'Train Description should be of form nCnn').to.equal(4);
-    expect(newTrainProps.newPlanningUid.length, 'Train Description should be length 6').to.equal(6);
+    if (newTrainProps.newPlanningUid === 'generated') {
+      browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
+      refTrainUid = browser.referenceTrainUid;
+    }
+    else {
+      expect(newTrainProps.newPlanningUid.length, 'Train Description should be length 6').to.equal(6);
+      refTrainUid = newTrainProps.newPlanningUid;
+    }
     const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), newTrainProps.filePath));
     const initialString = rawData.toString();
     const cifLines: string[] = initialString.split(/\r?\n/, 1000);
@@ -99,7 +107,7 @@ When ('the train in CIF file below is updated accordingly so time at the referen
     for (let j = 0; j < cifLines.length; j++) {
       const rowType = cifLines[j].substr(0, 2);
       if ((rowType === 'BS') || (rowType === 'CR')) {
-        cifLines[j] = adjustCIFTrainIds(cifLines[j], rowType, newTrainProps.newTrainDescription, newTrainProps.newPlanningUid);
+        cifLines[j] = adjustCIFTrainIds(cifLines[j], rowType, newTrainProps.newTrainDescription, refTrainUid);
       }
       else {
         cifLines[j] = adjustCIFTimes(cifLines[j], rowType, browser.timeAdjustMs);

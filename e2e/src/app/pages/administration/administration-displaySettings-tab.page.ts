@@ -69,7 +69,7 @@ export class AdminPunctualityConfigTab {
   }
 
   public async getAdminPunctualityText(index: number): Promise<string> {
-    return this.punctualityText.get(index).getAttribute('value');
+    return browser.executeScript(`return arguments[0].value`, this.punctualityText.get(index));
   }
 
   public async updateAdminPunctualityText(index: number, text: string): Promise<void> {
@@ -78,7 +78,7 @@ export class AdminPunctualityConfigTab {
   }
 
   public async getAdminPunctualityFromTime(index: number): Promise<string> {
-    return this.fromTime.get(index).getAttribute('value');
+    return browser.executeScript(`return arguments[0].value`, this.fromTime.get(index));
   }
 
   public async updateAdminPunctualityFromTime(index: number, text: string): Promise<void> {
@@ -87,7 +87,7 @@ export class AdminPunctualityConfigTab {
   }
 
   public async getAdminPunctualityToTime(index: number): Promise<string> {
-    return this.toTime.get(index).getAttribute('value');
+    return browser.executeScript(`return arguments[0].value`, this.toTime.get(index));
   }
 
   public async updateAdminPunctualityToTime(index: number, text: string): Promise<void> {
@@ -157,7 +157,7 @@ export class AdminPunctualityConfigTab {
   }
 
   public async getTrainIndicationColourMinutes(index: number): Promise<string> {
-    return this.minutesText.get(index) ? this.minutesText.get(index).getAttribute('value') : null;
+    return this.minutesText.get(index) ? browser.executeScript(`return arguments[0].value`, this.minutesText.get(index)) : null;
   }
 
   public async isClassToggleSelected(index: number): Promise<boolean> {

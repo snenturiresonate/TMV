@@ -46,7 +46,7 @@ export class AdministrationLineSettingsTab {
 
   public async getRestrictionTypeColour(index: number): Promise<string> {
     await this.componentLoad();
-    return this.restrictionTypeColour(index).getAttribute('value');
+    return browser.executeScript(`return arguments[0].value`, this.restrictionTypeColour(index));
   }
 
   public restrictionTypeColour(index: number): ElementFinder {
@@ -155,7 +155,7 @@ export class AdministrationLineSettingsTab {
 
   public async getNoteTypeColour(index: number): Promise<string> {
     await this.componentLoad();
-    return this.noteTypeColour(index).getAttribute('value');
+    return browser.executeScript(`return arguments[0].value`, this.noteTypeColour(index));
   }
 
   public noteTypeColour(index: number): ElementFinder {

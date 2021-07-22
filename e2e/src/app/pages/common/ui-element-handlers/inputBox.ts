@@ -39,7 +39,7 @@ export class InputBox {
    */
   public static async waitAndGetTextOfInputBox(elm: ElementFinder): Promise<string> {
     await CommonActions.waitForElementInteraction(elm);
-    return elm.getAttribute('value');
+    return browser.executeScript(`return arguments[0].value`, elm);
   }
 
   /**

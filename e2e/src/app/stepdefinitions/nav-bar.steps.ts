@@ -2,6 +2,7 @@ import {NavBarPageObject} from '../pages/nav-bar.page';
 import {Then, When} from 'cucumber';
 import {expect} from 'chai';
 import {browser, by, element, ExpectedConditions} from 'protractor';
+import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 
 const navBarPage: NavBarPageObject = new NavBarPageObject();
 
@@ -176,7 +177,7 @@ When(/^I search (Train|Signal|Timetable) for '(.*)' and wait for result$/,
       <td _ngcontent-cvf-c94="" id="trainSearchTrainTrustId"></td>
       <td _ngcontent-cvf-c94="" id="trainSearchPlanningUid">C11110</td>
       <td _ngcontent-cvf-c94="" id="trainSearchStatus">UNCALLED</td>
-      <td _ngcontent-cvf-c94="" id="trainSearchScheduleType">LTP</td>
+      <td _ngcontent-cvf-c94="" id="trainSearchScheduletype">LTP</td>
       <td _ngcontent-cvf-c94="" id="trainSearchStartDate">21/05/2021</td>
       <td _ngcontent-cvf-c94="" id="trainSearchOrigin">CREWE</td>
       <td _ngcontent-cvf-c94="" id="trainSearchWorkingDeptTime">13:33</td>
@@ -192,6 +193,9 @@ When(/^I search (Train|Signal|Timetable) for '(.*)' and wait for result$/,
     let val = value;
     if (value === 'generatedTrainUId') {
       val = browser.referenceTrainUid;
+    }
+    if (value === 'today') {
+      val = DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy');
     }
     locator = locator + `[descendant::td[contains(@id,'${key}')][text()='${val}']]`;
   }

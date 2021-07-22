@@ -77,13 +77,13 @@ export class TrainsListMiscConfigTab {
     return this.uncalledToggleButton.click();
   }
   public async getTimeToRemain(): Promise<string> {
-    return this.timeToRemainBox.getAttribute('value');
+    return browser.executeScript(`return arguments[0].value`, this.timeToRemainBox);
   }
   public async clickTimeToRemain(): Promise<void> {
     return this.timeToRemainBox.click();
   }
   public async getTimeToAppearBefore(): Promise<string> {
-    return this.timeToAppearBeforeBox.getAttribute('value');
+    return browser.executeScript(`return arguments[0].value`, this.timeToAppearBeforeBox);
   }
   public async clickTimeToAppearBefore(): Promise<void> {
     return this.timeToAppearBeforeBox.click();

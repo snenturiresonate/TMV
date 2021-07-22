@@ -45,7 +45,7 @@ export abstract class TrainsListIndicationTable {
   }
 
   public async getTrainIndicationColourMinutes(index: number): Promise<string> {
-    return this.minutesText.get(index) ? this.minutesText.get(index).getAttribute('value') : null;
+    return this.minutesText.get(index) ? browser.executeScript(`return arguments[0].value`, this.minutesText.get(index)) : null;
   }
   public async scrollToElement(elm: ElementFinder): Promise<void> {
     return browser.actions().mouseMove(elm).perform();

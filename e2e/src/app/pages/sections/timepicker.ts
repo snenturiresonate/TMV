@@ -1,4 +1,4 @@
-import {by, element, ElementFinder} from 'protractor';
+import {browser, by, element, ElementFinder} from 'protractor';
 import {LocalTime} from '@js-joda/core';
 
 export class TimePicker {
@@ -28,9 +28,9 @@ export class TimePicker {
 
   public async setTime(time: any): Promise<void> {
     const desiredTime = LocalTime.parse(time);
-    const hourValue = await this.hourValue.getAttribute('value');
-    const minuteValue = await this.minuteValue.getAttribute('value');
-    const secondValue = await this.secondValue.getAttribute('value');
+    const hourValue = await browser.executeScript(`return arguments[0].value`, this.hourValue);
+    const minuteValue = await browser.executeScript(`return arguments[0].value`, this.minuteValue);
+    const secondValue = await browser.executeScript(`return arguments[0].value`, this.secondValue);
 
     await this.setValue(this.hourIncrement, this.hourDecrement, Number(hourValue) - desiredTime.hour());
     await this.setValue(this.minuteIncrement, this.minuteDecrement, Number(minuteValue) - desiredTime.minute());

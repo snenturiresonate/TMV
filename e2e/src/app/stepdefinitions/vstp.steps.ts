@@ -5,7 +5,7 @@ import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {VstpUpdates} from '../utils/vstp/vstp-updates';
 import {browser} from 'protractor';
 import { TrainUIDUtils } from '../pages/common/utilities/trainUIDUtils';
-import {DateTimeFormatter} from '@js-joda/core';
+import {ChronoUnit, DateTimeFormatter, ZonedDateTime} from '@js-joda/core';
 
 let linxRestClient: LinxRestClient;
 let vstpUpdates: VstpUpdates;
@@ -50,8 +50,11 @@ Given(/^the vstp schedule has a schedule in the current time period with (.*) ui
     browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
     vstpUpdateValuesMap.set('<train_uid>', browser.referenceTrainUid);
   }
-  if (uidSource === 'existing') {
+  else if (uidSource === 'existing') {
     vstpUpdateValuesMap.set('<train_uid>', browser.referenceTrainUid);
+  }
+  else {
+    vstpUpdateValuesMap.set('<train_uid>', uidSource);
   }
 });
 
@@ -59,8 +62,10 @@ Given(/^the vstp schedule has a STP indicator '(.*)'$/, async (STPindicator: str
   stpIndicatorArr = STPindicator.split( ',');
 });
 
-When(/^the following VSTP update messages? (?:is|are) sent from LINX$/, async (vstpMessageTable: any) => {
+When(/^the following VSTP update messages? (?:is|are) sent from LINX starting (.*)$/,
+  async (startTime: string, vstpMessageTable: any) => {
   const vstpMessages: any = vstpMessageTable.hashes();
+  let updatedVstpMessage;
 
   vstpMessages.forEach((vstpMessage: any) => {
     if ( vstpUpdateValuesMap.size === 0 ){
@@ -68,7 +73,18 @@ When(/^the following VSTP update messages? (?:is|are) sent from LINX$/, async (v
     }
     // To handle VSTP message updates
     else{
-      let updatedVstpMessage = vstpMessage.asXml.toString();
+      if (startTime === 'now') {
+        const templateVstpMessage = vstpMessage.asXml.toString();
+        const origDepTimeCharStart = templateVstpMessage.indexOf('scheduled_departure_time') + 26;
+        const origDepTimeString = templateVstpMessage.substr(origDepTimeCharStart, 6);
+        const nowInVSTPFormat = DateAndTimeUtils.getCurrentTime().format(DateTimeFormatter.ofPattern('HHmmss'));
+        const diffSecs = toDateTime(origDepTimeString).until(toDateTime(nowInVSTPFormat), ChronoUnit.SECONDS);
+        updatedVstpMessage = adjustVSTPTimings(templateVstpMessage, diffSecs);
+      }
+      else {
+        updatedVstpMessage = vstpMessage.asXml.toString();
+      }
+
       vstpUpdateValuesMap.forEach((value, key) => {
         updatedVstpMessage = vstpUpdates.updateVSTPXML(key, value, updatedVstpMessage);
       });
@@ -89,3 +105,37 @@ When(/^the following VSTP update messages? (?:is|are) sent from LINX$/, async (v
   });
   await linxRestClient.waitMaxTransmissionTime();
 });
+
+function adjustVSTPTimings(vstpXMLString: string, timeAdjustSecs: number): string {
+  let newTime = DateAndTimeUtils.getCurrentTime();
+  let nextTimeStringStart = 0;
+  let nextTime = '000000';
+  let val = '000000';
+  while (vstpXMLString.indexOf('_time=', nextTimeStringStart + 1) !== -1) {
+    nextTimeStringStart = vstpXMLString.indexOf('_time=', nextTimeStringStart + 1) + 7;
+    nextTime = vstpXMLString.substr(nextTimeStringStart, 6);
+    if (nextTime.indexOf(' ') === -1) {
+      newTime = toDateTime(nextTime).plusSeconds(timeAdjustSecs);
+      val = newTime.format(DateTimeFormatter.ofPattern('HHmmss'));
+      vstpXMLString = vstpXMLString.replace(nextTime, val);
+    }
+  }
+  return vstpXMLString;
+}
+
+function toDateTime(vstpTime: string): ZonedDateTime {
+  const thisDateTime = DateAndTimeUtils.getCurrentTime();
+  let vstpHourStr = vstpTime.substr(0, 2);
+  let vstpMinsStr = vstpTime.substr(2, 2);
+  let vstpSecsStr = vstpTime.substr(4, 2);
+  if (vstpHourStr.substr(0, 1) === '0') {
+    vstpHourStr = vstpHourStr.substr(1, 1);
+  }
+  if (vstpMinsStr.substr(0, 1) === '0') {
+    vstpMinsStr = vstpMinsStr.substr(1, 1);
+  }
+  if (vstpSecsStr.substr(0, 1) === '0') {
+    vstpSecsStr = vstpSecsStr.substr(1, 1);
+  }
+  return thisDateTime.withHour(vstpHourStr).withMinute(vstpMinsStr).withSecond(vstpSecsStr);
+}
