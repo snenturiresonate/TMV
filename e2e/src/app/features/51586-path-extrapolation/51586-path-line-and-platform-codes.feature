@@ -1,3 +1,4 @@
+@bug @bug:65893
 Feature: 51586 - Path Extrapolation - Current Punctuality
 
   As a TMV user

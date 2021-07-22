@@ -37,6 +37,7 @@ Feature: 34002 - Unscheduled Trains Menu
       | trainNum |
       | 2B02     |
 
+  @bug @bug:65896
   Scenario Outline:34002-3c Select Service for Matching (Trains List - unmatched TRI)
     And the following train running information message is sent from LINX
       | trainUID      | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           |

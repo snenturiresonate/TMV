@@ -5,6 +5,7 @@ Feature: 49634 - Schematic State - marker-board state
   So that I have a live view of the railway
 
   Background:
+    * I reset redis
     Given I am viewing the map gw15cambrian.v
 
   @replaySetup
@@ -35,7 +36,7 @@ Feature: 49634 - Schematic State - marker-board state
       | MH             | 31      | FC   | 10:45:00  |
     Then the marker board 'MH1201' will display a Movement Authority not-given [red triangle on blue background]
 
-  @replaySetup @bug @task:62113 @flaky
+  @replaySetup
   Scenario: 34081-10 - Marker Board State (Movement Authority Unknown)
 #    Given an S-Class message is received and processed
 #    And the S-Class message is associated with a marker board
@@ -72,7 +73,7 @@ Feature: 49634 - Schematic State - marker-board state
       | MH             | 31      | FE   | 10:45:00  |
     Then the shunt marker board 'MH1199' will display a Movement Authority not-given [red triangle with blue inner triangle]
 
-  @replaySetup @bug @task:62113 @flaky
+  @replaySetup
   Scenario: 34081-14 - Shunt Marker Board State (Movement Authority Unknown)
     #    Given an S-Class message is received and processed
     #    And the S-Class message is associated with a shunt marker board
