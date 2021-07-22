@@ -35,19 +35,24 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
     Then the level crossing barrier status of 'RTFSUD' is Dn
 
   @replaySetup
-  Scenario: 34081 - 23 Level Crossing State - verification of non-working state display
+  Scenario Outline: 34081 - 23 Level Crossing State - <significance>
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type Level Crossing
     #And the S-Class message is setting the Level Crossing to "Failed"
     #When a user is viewing a map that contains the Level Crossing
     #Then the Level Crossing will display an "F" righthand side
     Given I am viewing the map md19marstonvale.v
-    And I set up all signals for address 26 in RT to be not-proceed
+    And I set up all signals for address 24 in RT to be proceed
     When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | RT             | 24      | 88   | 10:45:00  |
-    Then the level crossing barrier status of 'RTLLUD' is Dn
-    Then the level crossing barrier status of 'RTLLFL' is Fal
+      | trainDescriber | address | data   | timestamp |
+      | RT             | 24      | <hex>  | 10:45:00  |
+    Then the level crossing barrier status of '<barrierID>' is <barrierState>
+
+    Examples:
+    | hex | barrierID | barrierState | significance            |
+    | 8   | RTLLUD    | Dn           | Barrier Down            |
+    | 80  | RTLLFL    | Fal          | Barrier Failed          |
+    | 88  | RTLLFL    | Fal          | Barrier Down and Failed |
 
   @replaySetup
   Scenario: 34081 - 24a Direction Lock State (Locked)
