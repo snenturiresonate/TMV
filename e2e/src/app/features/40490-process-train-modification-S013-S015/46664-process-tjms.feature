@@ -12,7 +12,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     * I have navigated to the 'Train Indication' configuration tab
     * I update only the below train list indication config settings as
       | name                     | colour  | toggleValue |
-      | Origin Departure Overdue | #ffffff | off         |
+      | Origin Departure Overdue | #ffffff | on          |
       | Cancellation             | #eba1a1 | on          |
       | Reinstatement            | #edaaed | on          |
     * I save the trains list config
@@ -57,6 +57,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | H41102   | 1X02             | 91   | 12                 | PD                |
       | H41122   | 1X03             | 92   | 19                 | OZ                |
 
+  @bug @bug:66208
   Scenario Outline: Activated service is cancelled
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX

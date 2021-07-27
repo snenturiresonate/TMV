@@ -1,4 +1,4 @@
-import {by, ElementFinder} from 'protractor';
+import {browser, by, ElementFinder} from 'protractor';
 import {GeneralUtils} from '../utilities/generalUtils';
 import {CommonActions} from '../ui-event-handlers/actionsAndWaits';
 
@@ -10,7 +10,7 @@ export class SelectBox {
   public static async getSelectedOption(elm: ElementFinder): Promise<string> {
     await CommonActions.waitForElementToBeVisible(elm);
     await GeneralUtils.scrollToElement(elm);
-    return elm.getAttribute('value');
+    return browser.executeScript(`return arguments[0].value`, elm);
   }
 
   /**

@@ -10,10 +10,11 @@ Feature: 33761-2 Train activation for a valid service
     * I have navigated to the 'Train Indication' configuration tab
     * I update only the below train list indication config settings as
       | name                     | colour  | toggleValue |
-      | Origin Departure Overdue | #ffffff | off         |
+      | Origin Departure Overdue | #ffffff | on          |
     * I save the trains list config
     * I remove all trains from the trains list
 
+  @bug @bug:66208
   Scenario: 33761-2 Train Activation for a valid service
     Given I delete 'L11001:today' from hash 'schedule-modifications'
     When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
@@ -46,6 +47,7 @@ Feature: 33761-2 Train activation for a valid service
     # clean up
     And I restore to default train list config
 
+  @bug @bug:66208
   Scenario: 33761-4 Train Activation for an active service
     Given I delete 'C10001:today' from hash 'schedule-modifications'
     When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
@@ -70,6 +72,7 @@ Feature: 33761-2 Train activation for a valid service
     # clean up
     And I restore to default train list config
 
+  @bug @bug:66208
   Scenario: 33761-5 Train Activation for a valid service with a different origin
     Given I delete 'D10001:today' from hash 'schedule-modifications'
     When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
@@ -87,6 +90,7 @@ Feature: 33761-2 Train activation for a valid service
     # clean up
     And I restore to default train list config
 
+  @bug @bug:66208
   Scenario: 33761-6 & 7 Train Activation for a valid service with a change of origin
     # A TJM for Change of origin will be required to bring about a Change of Origin indication
     Given I delete 'W15214:today' from hash 'schedule-modifications'
@@ -115,6 +119,7 @@ Feature: 33761-2 Train activation for a valid service
     # clean up
     And I restore to default train list config
 
+  @bug @bug:66208
   Scenario: 33761-8 Train Activation for a valid service with a change of origin matching current origin
     # A TJM for Change of origin will be required to bring about a Change of Origin indication
     Given I delete 'W15214:today' from hash 'schedule-modifications'

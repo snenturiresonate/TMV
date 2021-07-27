@@ -13,7 +13,7 @@ Feature: 33805 TMV Schedule Matching
     * I have navigated to the 'Train Indication' configuration tab
     * I update only the below train list indication config settings as
       | name                     | colour  | toggleValue |
-      | Origin Departure Overdue | #ffffff | off         |
+      | Origin Departure Overdue | #ffffff | on          |
     * I save the trains list config
     * I have navigated to the 'Misc' configuration tab
     * I set 'Include unmatched' to be 'on'
@@ -344,6 +344,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 0041        | 1B13          | B33333   | PADTON   | 401         | location     |
       | D3             | 0107  | 0125        | 1B13          | B33333   | PRTOBJP  | 401         | sub-division |
 
+  @bug @bug:66208
   Scenario Outline: 6. Interpose - activated schedules take precedence - <matchLevel> match
     #    Given there two valid schedule
     #    And a Train Activation message has been received for 1 schedule
@@ -392,6 +393,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 2B12          | B33312   | PADTON   | 401         | location     |
       | D3             | 0106  | 2B13          | B33313   | PRTOBJP  | 401         | sub-division |
 
+  @bug @bug:66208
   Scenario Outline: 6. Step - activated schedules take precedence - <matchLevel> match
     #    Given there two valid schedule
     #    And a Train Activation message has been received for 1 schedule
