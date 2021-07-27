@@ -49,10 +49,10 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
     Then the level crossing barrier status of '<barrierID>' is <barrierState>
 
     Examples:
-    | hex | barrierID | barrierState | significance            |
-    | 8   | RTLLUD    | Dn           | Barrier Down            |
-    | 80  | RTLLFL    | Fal          | Barrier Failed          |
-    | 88  | RTLLFL    | Fal          | Barrier Down and Failed |
+    | hex | barrierID | barrierState | significance                 |
+    | 8   | RTLLUD    | Dn           | Barrier Down                 |
+    | 80  | RTLLFL    | Fal          | Barrier non-working          |
+    | 88  | RTLLFL    | Fal          | Barrier Down and non-working |
 
   @replaySetup
   Scenario: 34081 - 24a Direction Lock State (Locked)
