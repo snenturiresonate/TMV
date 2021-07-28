@@ -10,11 +10,6 @@ Feature: 33805 TMV Schedule Matching
     * I am on the home page
     * I restore to default train list config
     * I am on the trains list Config page
-    * I have navigated to the 'Train Indication' configuration tab
-    * I update only the below train list indication config settings as
-      | name                     | colour  | toggleValue |
-      | Origin Departure Overdue | #ffffff | on          |
-    * I save the trains list config
     * I have navigated to the 'Misc' configuration tab
     * I set 'Include unmatched' to be 'on'
     * I save the trains list config
@@ -344,7 +339,6 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 0041        | 1B13          | B33333   | PADTON   | 401         | location     |
       | D3             | 0107  | 0125        | 1B13          | B33333   | PRTOBJP  | 401         | sub-division |
 
-  @bug @bug:66208
   Scenario Outline: 6. Interpose - activated schedules take precedence - <matchLevel> match
     #    Given there two valid schedule
     #    And a Train Activation message has been received for 1 schedule
@@ -358,7 +352,7 @@ Feature: 33805 TMV Schedule Matching
     #      | location |
     #      | sub division |
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
-    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+    And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
     And I am on the trains list page
@@ -393,7 +387,6 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 2B12          | B33312   | PADTON   | 401         | location     |
       | D3             | 0106  | 2B13          | B33313   | PRTOBJP  | 401         | sub-division |
 
-  @bug @bug:66208
   Scenario Outline: 6. Step - activated schedules take precedence - <matchLevel> match
     #    Given there two valid schedule
     #    And a Train Activation message has been received for 1 schedule
@@ -407,7 +400,7 @@ Feature: 33805 TMV Schedule Matching
     #      | location |
     #      | sub division |
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
-    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+    And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
     And I am on the trains list page

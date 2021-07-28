@@ -273,6 +273,7 @@ Feature: 33757 - TMV National Search
     And berth 'R029' in train describer 'D3' contains '1L24' and is visible
     And I wait for the Open timetable option for train description 1L24 in berth R029, describer D3 to be available
     And I navigate to <pageName> page
+    And I give the train 1 second to load
     And I search Train for '1L24'
     And results are returned with that planning UID 'A12345'
     And the Train search table is shown

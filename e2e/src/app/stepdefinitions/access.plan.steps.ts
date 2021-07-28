@@ -81,45 +81,59 @@ When('the access plan located in CIF file {string} is amended so that all servic
 
 When ('the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX',
   async (inputs: any) => {
-    const newTrainProps: any = inputs.hashes()[0];
-    let refTrainUid;
-    expect(newTrainProps.newTrainDescription.length, 'Train Description should be of form nCnn').to.equal(4);
-    if (newTrainProps.newPlanningUid === 'generated') {
-      browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
-      refTrainUid = browser.referenceTrainUid;
-    }
-    else {
-      expect(newTrainProps.newPlanningUid.length, 'Train Description should be length 6').to.equal(6);
-      refTrainUid = newTrainProps.newPlanningUid;
-    }
-    const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), newTrainProps.filePath));
-    const initialString = rawData.toString();
-    const cifLines: string[] = initialString.split(/\r?\n/, 1000);
-    for (const cifLine of cifLines) {
-      const rowType = cifLine.substr(0, 2);
-      const thisLoc = cifLine.substr(2, 7);
-      if (thisLoc.trim() === newTrainProps.refLocation) {
-        const nowInCifFormat = DateAndTimeUtils.getCurrentTime().format(DateTimeFormatter.ofPattern('HHmm'));
-        browser.timeAdjustMs = calculateTimeAdjustToNearestMinInMs(cifLine, nowInCifFormat, rowType + '_' + newTrainProps.refTimingType);
-        break;
-      }
-    }
-    for (let j = 0; j < cifLines.length; j++) {
-      const rowType = cifLines[j].substr(0, 2);
-      if ((rowType === 'BS') || (rowType === 'CR')) {
-        cifLines[j] = adjustCIFTrainIds(cifLines[j], rowType, newTrainProps.newTrainDescription, refTrainUid);
-      }
-      else {
-        cifLines[j] = adjustCIFTimes(cifLines[j], rowType, browser.timeAdjustMs);
-      }
-    }
-    // put it all back together and load
-    const newData = cifLines.join('');
-    await CucumberLog.addText(`Access Plan: ${newData}`);
-    await linxRestClient.addAccessPlan('', newData);
-    await linxRestClient.waitMaxTransmissionTime();
+    processCifInputs(inputs);
   });
 
+When ('the train in CIF file below is updated accordingly so time at the reference point is now + {string} minutes, and then received from LINX',
+  async (plusMins: string, inputs: any) => {
+    processCifInputs(inputs, parseInt(plusMins, 10));
+  });
+
+When ('the train in CIF file below is updated accordingly so time at the reference point is now - {string} minutes, and then received from LINX',
+  async (minusMins: string, inputs: any) => {
+    processCifInputs(inputs, 0, parseInt(minusMins, 10));
+  });
+
+async function processCifInputs(cifInputs, plusMins = 0, minusMins = 0): Promise<any> {
+  const newTrainProps: any = cifInputs.hashes()[0];
+  let refTrainUid;
+  expect(newTrainProps.newTrainDescription.length, 'Train Description should be of form nCnn').to.equal(4);
+  if (newTrainProps.newPlanningUid === 'generated') {
+    browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
+    refTrainUid = browser.referenceTrainUid;
+  }
+  else {
+    expect(newTrainProps.newPlanningUid.length, 'Train Description should be length 6').to.equal(6);
+    refTrainUid = newTrainProps.newPlanningUid;
+  }
+  const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), newTrainProps.filePath));
+  const initialString = rawData.toString();
+  const cifLines: string[] = initialString.split(/\r?\n/, 1000);
+  for (const cifLine of cifLines) {
+    const rowType = cifLine.substr(0, 2);
+    const thisLoc = cifLine.substr(2, 7);
+    if (thisLoc.trim() === newTrainProps.refLocation) {
+      const nowInCifFormat: string =
+        DateAndTimeUtils.getCurrentTime().plusMinutes(plusMins).minusMinutes(minusMins).format(DateTimeFormatter.ofPattern('HHmm'));
+      browser.timeAdjustMs = calculateTimeAdjustToNearestMinInMs(cifLine, nowInCifFormat, rowType + '_' + newTrainProps.refTimingType);
+      break;
+    }
+  }
+  for (let j = 0; j < cifLines.length; j++) {
+    const rowType = cifLines[j].substr(0, 2);
+    if ((rowType === 'BS') || (rowType === 'CR')) {
+      cifLines[j] = adjustCIFTrainIds(cifLines[j], rowType, newTrainProps.newTrainDescription, refTrainUid);
+    }
+    else {
+      cifLines[j] = adjustCIFTimes(cifLines[j], rowType, browser.timeAdjustMs);
+    }
+  }
+  // put it all back together and load
+  const newData = cifLines.join('');
+  await CucumberLog.addText(`Access Plan: ${newData}`);
+  await linxRestClient.addAccessPlan('', newData);
+  await linxRestClient.waitMaxTransmissionTime();
+}
 
 When('the access plan located in JSON file {string} is received from LINX', async (jsonFilePath: string) => {
   const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), jsonFilePath));
