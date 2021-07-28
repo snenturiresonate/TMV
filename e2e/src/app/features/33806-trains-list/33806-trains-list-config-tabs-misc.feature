@@ -256,7 +256,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     # clean up
     * I restore to default train list config
 
-@bug @bug_65810
   Scenario: 33806 -32g Trains List Config (Train Misc Settings Applied) - Uncalled toggle off
     #Services not activated from the loaded access plan - 5G44
     When I update the following misc options
