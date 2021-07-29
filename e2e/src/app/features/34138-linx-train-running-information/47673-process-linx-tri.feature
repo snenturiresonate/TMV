@@ -1,4 +1,3 @@
-@bug @bug:62243
 Feature: 34138 - TMV Process LINX Train Running Information
 
   As a TMV User
