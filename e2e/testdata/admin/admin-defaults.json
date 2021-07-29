@@ -128,7 +128,7 @@
       "colour": "#00ff00",
       "defaultPunctualityTimeBandColourId": "5",
       "fromPunctuality": -60,
-      "name": "Right Time",
+      "name": "On Time",
       "toPunctuality": 60
     },
     {

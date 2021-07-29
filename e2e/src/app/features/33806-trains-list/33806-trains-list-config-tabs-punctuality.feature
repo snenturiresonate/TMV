@@ -11,6 +11,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
 
   Background:
     Given I am on the trains list Config page
+    And I restore to default train list config
     And I have navigated to the 'Punctuality' configuration tab
 
   Scenario: 33806 -5a Trains list punctuality config header
@@ -23,7 +24,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
       | #e5b4ff              | -20      | -10    | 10 to 19 minutes early   | on      |
       | #78e7ff              | -10      | -5     | 5 to 9 minutes early     | on      |
       | #78ff78              | -5       | -1     | 1 to 4 minutes early     | on      |
-      | #00ff00              | -1       | 1      | Right Time               | on      |
+      | #00ff00              | -1       | 1      | On Time                  | on      |
       | #ffff00              | 1        | 5      | 1 to 4 minutes late      | on      |
       | #ffa700              | 5        | 10     | 5 to 9 minutes late      | on      |
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    | on      |
@@ -65,7 +66,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
       | #cc3                 | -20      | -11    | 11 to 20 minutes early-edit  | off     |
       | #dde                 | -10      | -5     | 5 to 10 minutes early-edit   | on      |
       | #ff7                 | -4       | -1     | 1 to 4 minutes early-edit    | on      |
-      | #aac                 | 0        | 0      | Right Time                   | on      |
+      | #aac                 | 0        | 0      | On Time                      | on      |
       | #bbc                 | 1        | 5      | 1 to 5 minutes late-edit     | on      |
       #Time-band overlapping with previous
       | #c4d                 | 3        | 10     | 3 to 10 minutes late-edit    | on      |
@@ -78,7 +79,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
       | #cccc33              | -20      | -11    | 11 to 20 minutes early-edit  | off     |
       | #ddddee              | -10      | -5     | 5 to 10 minutes early-edit   | on      |
       | #ffff77              | -4       | -1     | 1 to 4 minutes early-edit    | on      |
-      | #aaaacc              | 0        | 0      | Right Time                   | on      |
+      | #aaaacc              | 0        | 0      | On Time                      | on      |
       | #bbbbcc              | 1        | 5      | 1 to 5 minutes late-edit     | on      |
       | #cc44dd              | 3        | 10     | 3 to 10 minutes late-edit    | on      |
       | #ddee77              | 15       | 20     | 15 to 20 minutes late-edit   | off     |
@@ -91,7 +92,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
       | #cc3                 | -20      | -11    | 11 to 20 minutes early-edit  | off     |
       | #dde                 | -10      | -5     | 5 to 10 minutes early-edit   | on      |
       | #ff7                 | -4       | -1     | 1 to 4 minutes early-edit    | on      |
-      | #aac                 | 0        | 0      | Right Time                   | off     |
+      | #aac                 | 0        | 0      | On Time                      | off     |
       | #bbc                 | 1        | 5      | 1 to 5 minutes late-edit     | on      |
       | #c4d                 | 6        | 10     | 6 to 10 minutes late-edit    | on      |
       | #de7                 | 11       | 20     | 11 to 20 minutes late-edit   | off     |
@@ -104,7 +105,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
       | #cccc33              | -20      | -11    | 11 to 20 minutes early-edit  | off     |
       | #ddddee              | -10      | -5     | 5 to 10 minutes early-edit   | on      |
       | #ffff77              | -4       | -1     | 1 to 4 minutes early-edit    | on      |
-      | #aaaacc              | 0        | 0      | Right Time                   | off     |
+      | #aaaacc              | 0        | 0      | On Time                      | off     |
       | #bbbbcc              | 1        | 5      | 1 to 5 minutes late-edit     | on      |
       | #cc44dd              | 6        | 10     | 6 to 10 minutes late-edit    | on      |
       | #ddee77              | 11       | 20     | 11 to 20 minutes late-edit   | off     |
@@ -123,7 +124,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
       | #cc3                 | -20      | -11    | 11 to 20 minutes early-edit  | on      |
       | #dde                 | -10      | -5     | 5 to 10 minutes early-edit   | on      |
       | #ff7                 | -4       | -1     | 1 to 4 minutes early-edit    | on      |
-      | #aac                 | 0        | 0      | Right Time                   | on      |
+      | #aac                 | 0        | 0      | On Time                      | on      |
       | #bbc                 | 1        | 5      | 1 to 5 minutes late-edit     | on      |
       #Time-band overlapping with previous
       | #c4d                 | 3        | 5      | 3 to 5 minutes late-edit     | on      |

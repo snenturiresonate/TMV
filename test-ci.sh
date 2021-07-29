@@ -57,8 +57,8 @@ export npm_config_ci_ip="${TMV_DOMAIN}"; export npm_config_test_harness_ip="${TE
 npm run junit-xml
 
 # Print a brief summary
-passed=$(cat .tmp/results.json | grep passed | wc -l)
-failed=$(cat .tmp/results.json | grep failed | wc -l)
+passed=$(cat .tmp/results.json | grep \"passed\" | wc -l)
+failed=$(cat .tmp/results.json | grep \"failed\" | wc -l)
 echo -e "Passed: ${passed}"
 echo -e "Failed: ${failed}"
 

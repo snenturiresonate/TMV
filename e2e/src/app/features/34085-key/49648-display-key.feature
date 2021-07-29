@@ -19,7 +19,7 @@ Feature: 46482 - TMV Key - display key
       | 1        | 10 to 19 minutes early   | #e5b4ff          | #000000 |
       | 2        | 5 to 9 minutes early     | #78e7ff          | #000000 |
       | 3        | 1 to 4 minutes early     | #78ff78          | #000000 |
-      | 4        | Right Time               | #00ff00          | #000000 |
+      | 4        | On Time                  | #00ff00          | #000000 |
       | 5        | 1 to 4 minutes late      | #ffff00          | #000000 |
       | 6        | 5 to 9 minutes late      | #ffa700          | #000000 |
       | 7        | 10 to 19 minutes late    | #ff0000          | #ffffff |

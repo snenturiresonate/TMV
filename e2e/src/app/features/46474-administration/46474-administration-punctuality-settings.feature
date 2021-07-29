@@ -21,7 +21,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #e5b4ff              | -20      | -10    | 10 to 19 minutes early   |
       | #78e7ff              | -10      | -5     | 5 to 9 minutes early     |
       | #78ff78              | -5       | -1     | 1 to 4 minutes early     |
-      | #00ff00              | -1       | 1      | Right Time               |
+      | #00ff00              | -1       | 1      | On Time                  |
       | #ffff00              | 1        | 5      | 1 to 4 minutes late      |
       | #ffa700              | 5        | 10     | 5 to 9 minutes late      |
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
@@ -35,7 +35,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #e5b4ff              | -20      | -10    | 10 to 19 minutes early   |
       | #78e7ff              | -10      | -5     | 5 to 9 minutes early     |
       | #78ff78              | -5       | -1     | 1 to 4 minutes early     |
-      | #00ff00              | -1       | 1      | Right Time               |
+      | #00ff00              | -1       | 1      | On Time                  |
       | #ffff00              | 1        | 5      | 1 to 4 minutes late      |
       | #ffa700              | 5        | 10     | 5 to 9 minutes late      |
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
@@ -48,7 +48,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #e5b4ff              | -20      | -10    | 10 to 19 minutes early   |
       | #78e7ff              | -10      | -5     | 5 to 9 minutes early     |
       | #78ff78              | -5       | -1     | 1 to 4 minutes early     |
-      | #00ff00              | -1       | 1      | Right Time               |
+      | #00ff00              | -1       | 1      | On Time                  |
       | #ffff00              | 1        | 5      | 1 to 4 minutes late      |
       | #ffa700              | 5        | 10     | 5 to 9 minutes late      |
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
@@ -64,7 +64,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #e5b4ff              | -20      | -10    | 10 to 19 minutes early   |
       | #78e7ff              | -10      | -5     | 5 to 9 minutes early     |
       | #78ff78              | -5       | -1     | 1 to 4 minutes early     |
-      | #00ff00              | -1       | 1      | Right Time               |
+      | #00ff00              | -1       | 1      | On Time                  |
       | #ffff00              | 1        | 5      | 1 to 4 minutes late      |
       | #ffa700              | 5        | 10     | 5 to 9 minutes late      |
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
@@ -85,7 +85,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #e5b4ff              | -20      | -10    | 10 to 19 minutes early   |
       | #78e7ff              | -10      | -5     | 5 to 9 minutes early     |
       | #78ff78              | -5       | -1     | 1 to 4 minutes early     |
-      | #00ff00              | -1       | 1      | Right Time               |
+      | #00ff00              | -1       | 1      | On Time                  |
       | #ffff00              | 1        | 5      | 1 to 4 minutes late      |
       | #ffa700              | 5        | 10     | 5 to 9 minutes late      |
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
@@ -99,7 +99,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #e5b4ff              | -20      | -10    | 10 to 19 minutes early   |
       | #78e7ff              | -10      | -5     | 5 to 9 minutes early     |
       | #78ff78              | -5       | -1     | 1 to 4 minutes early     |
-      | #00ff00              | -1       | 1      | Right Time               |
+      | #00ff00              | -1       | 1      | On Time                  |
       | #ffff00              | 1        | 5      | 1 to 4 minutes late      |
       | #ffa700              | 5        | 10     | 5 to 9 minutes late      |
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
@@ -116,7 +116,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #e5b4ff              | -20      | -10    | 10 to 19 minutes early   |
       | #78e7ff              | -10      | -5     | 5 to 9 minutes early     |
       | #78ff78              | -5       | -1     | 1 to 4 minutes early     |
-      | #00ff00              | -1       | 1      | Right Time               |
+      | #00ff00              | -1       | 1      | On Time                  |
       | #ffff00              | 1        | 5      | 1 to 4 minutes late      |
       | #ffa700              | 5        | 10     | 5 to 9 minutes late      |
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
@@ -134,7 +134,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #e5b4ff              | -20      | -10    | 10 to 19 minutes early   |
       | #78e7ff              | -10      | -5     | 5 to 9 minutes early     |
       | #78ff78              | -5       | -1     | 1 to 4 minutes early     |
-      | #00ff00              | -1       | 1      | Right Time               |
+      | #00ff00              | -1       | 1      | On Time                  |
       | #ffff00              | 1        | 5      | 1 to 4 minutes late      |
       | #ffa700              | 5        | 10     | 5 to 9 minutes late      |
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
@@ -154,7 +154,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #e5b4ff              | -20      | -10    | 10 to 19 minutes early   |
       | #78e7ff              | -10      | -5     | 5 to 9 minutes early     |
       | #78ff78              | -5       | -1     | 1 to 4 minutes early     |
-      | #00ff00              | -1       | 1      | Right Time               |
+      | #00ff00              | -1       | 1      | On Time                  |
       | #ffff00              | 1        | 5      | 1 to 4 minutes late      |
       | #ffa700              | 5        | 10     | 5 to 9 minutes late      |
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    |

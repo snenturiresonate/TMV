@@ -33,7 +33,7 @@ export class AdminPunctualityConfigTab {
     this.saveButton = element(by.css('#saveDisplayConfig'));
     this.resetButton = element(by.css('#resetDisplayConfig'));
 
-    this.rowName = element.all(by.css('#indication-div-container .row .col-md-5.punctuality-name'));
+    this.rowName = element.all(by.css('#indication-div-container .row .col-md-4.punctuality-name'));
     this.classToggle = element.all(by.css('#indication-div-container .toggle-switch'));
     this.colourText = element.all(by.css('#indication-div-container .row .punctuality-colour'));
     this.minutesText = element.all(by.css('#indication-div-container .row .punctuality-input'));

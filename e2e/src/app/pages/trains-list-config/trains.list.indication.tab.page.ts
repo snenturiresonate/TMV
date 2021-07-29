@@ -7,7 +7,7 @@ export class TrainsListIndicationTabPage extends TrainsListIndicationTable {
 public trainIndicationTabHeader: ElementFinder;
   constructor() {
     super(
-    element.all(by.css('.indication-div-container .col-md-5:nth-child(1)')),
+    element.all(by.css('.indication-div-container .col-md-4:nth-child(1)')),
     element.all(by.css('.indication-div-container .toggle-switch >span:nth-child(3)')),
     element.all(by.css('.indication-div-container input[class*=punctuality-colour]')),
     element.all(by.css('.indication-div-container input[class*=punctuality-input]')),

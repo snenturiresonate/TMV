@@ -23,8 +23,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       | Change of Identity       | #ffffff |         | on          |
       | Cancellation             | #ffffff |         | on          |
       | Reinstatement            | #ffffff |         | on          |
-      | Off-route                | #ffffff |         | on          |
-      | Next report overdue      | #0000ff | 15      | off         |
+      | Off-Route                | #ffffff |         | on          |
+      | Next Report Overdue      | #0000ff | 15      | off         |
       | Origin Called            | #ffb578 | 15      | on          |
       | Origin Departure Overdue | #ffffff | 1       | on          |
 
@@ -58,8 +58,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       | Change of Identity       | #cc3   |         | on          |
       | Cancellation             | #dde   |         | off         |
       | Reinstatement            | #ff7   |         | off         |
-      | Off-route                | #aac   |         | on          |
-      | Next report overdue      | #bbc   | 15      | off         |
+      | Off-Route                | #aac   |         | on          |
+      | Next Report Overdue      | #bbc   | 15      | off         |
       | Origin Called            | #995   | 60      | on          |
       | Origin Departure Overdue | #356   | 10      | on          |
     And I have navigated to the 'Columns' configuration tab
@@ -70,8 +70,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       | Change of Identity       | #cccc33 |         | on          |
       | Cancellation             | #ddddee |         | off         |
       | Reinstatement            | #ffff77 |         | off         |
-      | Off-route                | #aaaacc |         | on          |
-      | Next report overdue      | #bbbbcc | 15      | off         |
+      | Off-Route                | #aaaacc |         | on          |
+      | Next Report Overdue      | #bbbbcc | 15      | off         |
       | Origin Called            | #999955 | 60      | on          |
       | Origin Departure Overdue | #335566 | 10      | on          |
 

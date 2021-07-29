@@ -3,8 +3,10 @@ import {Then, When} from 'cucumber';
 import {expect} from 'chai';
 import {browser, by, element, ExpectedConditions} from 'protractor';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
+import {ElasticSearchClient} from '../api/elastic/elastic-search-client';
 
 const navBarPage: NavBarPageObject = new NavBarPageObject();
+const elasticSearchClient: ElasticSearchClient = new ElasticSearchClient();
 
 
 When('I open the user profile menu', async () => {
@@ -149,6 +151,9 @@ When('I click on the Search icon', async () => {
   await navBarPage.clickSearchIcon();
 });
 
+When('I refresh the Elastic Search indices', async () => {
+  await elasticSearchClient.refreshIndices();
+});
 
 When(/^I search (Train|Signal|Timetable) for '(.*)'$/, async (filter: string, searchFor: string) => {
   if (searchFor === 'generatedTrainUId') {
