@@ -24,6 +24,8 @@ Feature: 34002 - Unscheduled Trains Menu
       | trainNum |
       | 2B01     |
 
+  # unmatched services from stepping is part of CCN1
+  @tdd
   Scenario Outline:34002-3b Select Service for Matching (Trains List - unmatched stepping)
     And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth | trainDescriber | trainDescription |

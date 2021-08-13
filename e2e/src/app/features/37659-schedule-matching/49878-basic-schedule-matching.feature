@@ -16,13 +16,11 @@ Feature: 37659 - Basic Schedule matching framework
     #  | Step Type |
     #  | Interpose |
     #  | Step |
+    * I remove today's train 'M00001' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 0A01                | M00001         |
-    And I am on the trains list page
-    And the following service is displayed on the trains list
-      | trainId | trainUId |
-      | 0A01    | M00001   |
+    And I wait until today's train 'M00001' has loaded
     And the following live berth interpose message is sent from LINX (which won't match anything as the train description is not in the timetable)
       | toBerth | trainDescriber | trainDescription |
       | A001    | D3             | 0B01             |
@@ -68,11 +66,10 @@ Feature: 37659 - Basic Schedule matching framework
       # | berth |
       # | location |
       # | sub division |
+    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I have cleared out all headcodes
     Given the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
-    And I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
-    And I am on the trains list page
-    And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
@@ -108,9 +105,9 @@ Feature: 37659 - Basic Schedule matching framework
       # | Match level |
       # | berth |
       # | location |
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
-    And I am on the trains list page
-    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
+    And I wait until today's train '<trainUid>' has loaded
     And the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth       | trainDescriber   | trainDescription |
       | <berth>   | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
@@ -143,13 +140,12 @@ Feature: 37659 - Basic Schedule matching framework
     # Examples:
      # | Step Type |
      # | Step |
+    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I have cleared out all headcodes
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
-    And I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
-    And I am on the trains list page
-    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
+    And I wait until today's train '<trainUid>' has loaded
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |

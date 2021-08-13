@@ -6,7 +6,15 @@ Feature: 33805 TMV Schedule Matching
   Background:
     * I have cleared out all headcodes
     * I reset redis
+    * I remove today's train 'B11111' from the Redis trainlist
+    * I remove today's train 'C11111' from the Redis trainlist
+    * I remove today's train 'B22222' from the Redis trainlist
+    * I remove today's train 'B33333' from the Redis trainlist
     * the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
+    * I wait until today's train 'B11111' has loaded
+    * I wait until today's train 'C11111' has loaded
+    * I wait until today's train 'B22222' has loaded
+    * I wait until today's train 'B33333' has loaded
     * I am on the home page
     * I restore to default train list config
     * I am on the trains list Config page
@@ -27,9 +35,7 @@ Feature: 33805 TMV Schedule Matching
     #    | berth |
     #    | location |
     #    | sub division |
-    Given I am on the trains list page
-    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
-    When the following change of ID TJM is received
+    Given the following change of ID TJM is received
       | trainUid   | newTrainNumber | oldTrainNumber  | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
       | <trainUid> | <newTrainDesc> | <origTrainDesc> | 12            | create | 07        | 07              | 99999       | PADTON         | 12:00:00 |
     And the following live berth interpose message is sent from LINX (creating a match)
@@ -62,9 +68,7 @@ Feature: 33805 TMV Schedule Matching
     #    | berth |
     #    | location |
     #    | sub division |
-    Given I am on the trains list page
-    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
-    When the following change of ID TJM is received
+    Given the following change of ID TJM is received
       | trainUid   | newTrainNumber | oldTrainNumber  | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
       | <trainUid> | <newTrainDesc> | <origTrainDesc> | 12            | create | 07        | 07              | 99999       | PADTON         | 12:00:00 |
     And the following live berth step message is sent from LINX (creating a match)
@@ -96,9 +100,7 @@ Feature: 33805 TMV Schedule Matching
     #    | berth |
     #    | location |
     #    | sub division |
-    Given I am on the trains list page
-    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
-    When the following change of ID TJM is received
+    Given the following change of ID TJM is received
       | trainUid   | newTrainNumber | oldTrainNumber  | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
       | <trainUid> | <newTrainDesc> | <origTrainDesc> | 12            | create | 07        | 07              | 99999       | PADTON         | 12:00:00 |
     And the following live berth interpose message is sent from LINX (creating a match)
@@ -131,9 +133,7 @@ Feature: 33805 TMV Schedule Matching
     #    | berth |
     #    | location |
     #    | sub division |
-    Given I am on the trains list page
-    And train description '<origTrainDesc>' is visible on the trains list with schedule type 'STP'
-    When the following change of ID TJM is received
+    Given the following change of ID TJM is received
       | trainUid   | newTrainNumber | oldTrainNumber  | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
       | <trainUid> | <newTrainDesc> | <origTrainDesc> | 12            | create | 07        | 07              | 99999       | PADTON         | 12:00:00 |
     And the following live berth step message is sent from LINX (creating a match)
@@ -164,10 +164,7 @@ Feature: 33805 TMV Schedule Matching
       #        | Step Type |
       #        | Interpose |
       #        | Step |
-    Given I am on the trains list page
-    And I refresh the browser
-    And train '<trainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
-    When the following live berth interpose message is sent from LINX
+    Given the following live berth interpose message is sent from LINX
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <trainDesc>      |
     And I am viewing the map md09crosscity.v
@@ -193,9 +190,7 @@ Feature: 33805 TMV Schedule Matching
       #        | Step Type |
       #        | Interpose |
       #        | Step |
-    Given I am on the trains list page
-    And train '<trainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
-    When the following live berth interpose message is sent from LINX
+    Given the following live berth interpose message is sent from LINX
       | toBerth     | trainDescriber   | trainDescription |
       | <fromBerth> | <trainDescriber> | <trainDesc>      |
     And the following live berth step message is sent from LINX
@@ -225,6 +220,7 @@ Feature: 33805 TMV Schedule Matching
     #      | location |
     #      | sub division |
     Given the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching-cancelled.cif' is received from LINX
+    And I give the cancellation 2 seconds to load
     And I am on the trains list page
     Then train description '<origTrainDesc>' with schedule type 'STP' disappears from the trains list
     When the following live berth interpose message is sent from LINX
@@ -255,6 +251,7 @@ Feature: 33805 TMV Schedule Matching
     #      | location |
     #      | sub division |
     Given the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching-cancelled.cif' is received from LINX
+    And I give the cancellation 2 seconds to load
     And I am on the trains list page
     Then train description '<origTrainDesc>' with schedule type 'STP' disappears from the trains list
     When the following live berth step message is sent from LINX
@@ -286,8 +283,7 @@ Feature: 33805 TMV Schedule Matching
     #      | berth |
     #      | location |
     #      | sub division |
-    Given I am on the trains list page
-    And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
+    Given I wait until today's train '<trainUid>' has loaded
     When the following train running information message is sent from LINX
       | trainUID   | trainNumber     | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType          |
       | <trainUid> | <origTrainDesc> | today              | 73000               | PADTON                 | arrivalattermination |
@@ -319,8 +315,7 @@ Feature: 33805 TMV Schedule Matching
     #      | berth |
     #      | location |
     #      | sub division |
-    Given I am on the trains list page
-    And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
+    Given I wait until today's train '<trainUid>' has loaded
     When the following train running information message are sent from LINX
       | trainUID   | trainNumber     | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType          |
       | <trainUid> | <origTrainDesc> | today              | 73000               | PADTON                 | arrivalattermination |
@@ -351,24 +346,22 @@ Feature: 33805 TMV Schedule Matching
     #      | berth |
     #      | location |
     #      | sub division |
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
-    And I am on the trains list page
-    And the following service is displayed on the trains list
-      | trainId         | trainUId   |
-      | <origTrainDesc> | <trainUid> |
+    And I wait until today's train '<trainUid>' has loaded
     When the following train activation message is sent from LINX
       | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 |
-    And The trains list table is visible
-    And the service is displayed in the trains list with the following row colour
-      | rowType       | trainUID   | rowColour              |
-      | Origin called | <trainUid> | rgba(255, 181, 120, 1) |
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
+    And I am on the trains list page
+    And the service is displayed in the trains list with the following row colour
+      | rowType       | trainUID   | rowColour              |
+      | Origin called | <trainUid> | rgba(255, 181, 120, 1) |
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
@@ -399,24 +392,23 @@ Feature: 33805 TMV Schedule Matching
     #      | berth |
     #      | location |
     #      | sub division |
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
-    And I am on the trains list page
-    And the following service is displayed on the trains list
-      | trainId         | trainUId   |
-      | <origTrainDesc> | <trainUid> |
+    And I wait until today's train '<trainUid>' has loaded
     When the following train activation message is sent from LINX
       | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 |
+    And the following live berth step message is sent from LINX (creating a match)
+      | fromBerth | toBerth       | trainDescriber   | trainDescription |
+      | <berth>   | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
+    And I am on the trains list page
     And The trains list table is visible
     And the service is displayed in the trains list with the following row colour
       | rowType       | trainUID   | rowColour              |
       | Origin called | <trainUid> | rgba(255, 181, 120, 1) |
-    And the following live berth step message is sent from LINX (creating a match)
-      | fromBerth | toBerth       | trainDescriber   | trainDescription |
-      | <berth>   | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available

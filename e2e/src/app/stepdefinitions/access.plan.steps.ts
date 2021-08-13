@@ -81,17 +81,17 @@ When('the access plan located in CIF file {string} is amended so that all servic
 
 When ('the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX',
   async (inputs: any) => {
-    processCifInputs(inputs);
+    await processCifInputs(inputs);
   });
 
 When ('the train in CIF file below is updated accordingly so time at the reference point is now + {string} minutes, and then received from LINX',
   async (plusMins: string, inputs: any) => {
-    processCifInputs(inputs, parseInt(plusMins, 10));
+    await processCifInputs(inputs, parseInt(plusMins, 10));
   });
 
 When ('the train in CIF file below is updated accordingly so time at the reference point is now - {string} minutes, and then received from LINX',
   async (minusMins: string, inputs: any) => {
-    processCifInputs(inputs, 0, parseInt(minusMins, 10));
+    await processCifInputs(inputs, 0, parseInt(minusMins, 10));
   });
 
 async function processCifInputs(cifInputs, plusMins = 0, minusMins = 0): Promise<any> {

@@ -6,6 +6,7 @@ import {CssColorConverterService} from '../../services/css-color-converter.servi
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {AppPage} from '../../pages/app.po';
 import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
+import {RedisClient} from '../../api/redis/redis-client';
 
 const page: AppPage = new AppPage();
 const trainsListPage: TrainsListPageObject = new TrainsListPageObject();
@@ -118,6 +119,29 @@ Then(/^train '?(\w+)'? with schedule id '?(\w+)'? for today (is|is not) visible 
       const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(serviceId, todaysScheduleString, 500);
       expect(isScheduleVisible, `Train ${serviceId}:${scheduleId} was visible on the trains list`).to.equal(false);
     }
+  });
+
+When(/^I remove today's train '(.*)' from the Redis trainlist$/, async (uid: string) => {
+  if (uid === 'generatedTrainUId') {
+    uid = browser.referenceTrainUid;
+  }
+  const client = new RedisClient();
+  const trainIdentifier = `${uid}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`;
+  const hash = `trainlist:` + trainIdentifier;
+  await client.deleteKey(hash);
+});
+
+When(/^I wait until today's train '(.*)' has loaded$/, async (uid: string) => {
+  if (uid === 'generatedTrainUId') {
+    uid = browser.referenceTrainUid;
+  }
+  const client = new RedisClient();
+  const trainIdentifier = `${uid}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`;
+  const hash = `trainlist:` + trainIdentifier;
+  await browser.wait(async () => {
+    const data = await client.hgetString(hash, 'scheduleId');
+    return (data === trainIdentifier);
+  }, 10000, `${trainIdentifier} not found in Redis trainlist`);
   });
 
 Then('train description {string} disappears from the trains list', async (trainDescription: string) => {

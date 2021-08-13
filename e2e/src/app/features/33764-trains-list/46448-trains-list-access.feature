@@ -50,7 +50,6 @@ Feature: 46448 - TMV Trains List - access
     And I have navigated to the 'Misc' configuration tab
     And I set class filters to be '<classes>'
     And I set 'Ignore PD Cancels' to be '<ignorePDCancelsFlag>'
-    And I set 'Include uncalled' to be '<uncalledFlag>'
     And I set 'Include unmatched' to be '<unmatchedFlag>'
     And I set Time to Appear Before to be '60'
     And I am on the home page
@@ -65,6 +64,6 @@ Feature: 46448 - TMV Trains List - access
     And A selection of services are shown which match the configured filters and settings
 
     Examples:
-      | columns                                                                                              | tocs                        | classes          | ignorePDCancelsFlag | uncalledFlag | unmatchedFlag | filteredServices | filteredOutServices          |
-      | Schedule Type, Last Reported Time, Service, Origin, Destination, Punctuality, Last Reported Location | Great Western Railways (GW) | Class 1, Class 2 | off                 | on           | on            | 2P77             | 5G44, 1M34, 1Z27, 3J41, 2C45 |
+      | columns                                                                                              | tocs                        | classes          | ignorePDCancelsFlag | unmatchedFlag | filteredServices | filteredOutServices          |
+      | Schedule Type, Last Reported Time, Service, Origin, Destination, Punctuality, Last Reported Location | Great Western Railways (GW) | Class 1, Class 2 | off                 | on            | 2P77             | 5G44, 1M34, 1Z27, 3J41, 2C45 |
 

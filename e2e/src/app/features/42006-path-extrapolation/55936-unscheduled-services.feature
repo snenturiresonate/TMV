@@ -14,6 +14,8 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
     And I set 'Include unmatched' to be 'on'
     And I save the trains list config
 
+  # unmatched services from stepping is part of CCN1
+  @tdd
   Scenario Outline: 42006-13a Unscheduled service is displayed when an unmatched interpose is received
 #    Given no valid schedule exists
 #    When a berth stepping message of the <Type> is received
@@ -36,6 +38,8 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
       | case                | trainDesc |
       | unmatched interpose | 2P01      |
 
+  # unmatched services from stepping is part of CCN1
+  @tdd
   Scenario Outline: 42006-13b Unscheduled service is displayed when an unmatched step is received
     When the following live berth step messages is sent from LINX (creating an unmatched service)
       | fromBerth | toBerth | trainDescriber | trainDescription |

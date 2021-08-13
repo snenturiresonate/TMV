@@ -10,6 +10,7 @@ Feature: 40656 - Schedule Manipulation - Add locations
 #    When a user selects to see the inserted locations for that schedule in the timetable view
 #    Then no additional locations are displayed
 
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -24,9 +25,7 @@ Feature: 40656 - Schedule Manipulation - Add locations
       | trainUid      | stpIndicator | dateRunsFrom |
       | <planningUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And I wait until today's train '<planningUid>' has loaded
     When I am on the timetable view for service '<planningUid>'
     And the Inserted toggle is 'on'
     Then no inserted locations are displayed
@@ -43,6 +42,7 @@ Feature: 40656 - Schedule Manipulation - Add locations
 #    Then the additional locations are displayed in [] brackets
 #    And in the correct place in the schedule
 #    And the time passing time displayed is suitable for its position in the timetable
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -58,9 +58,7 @@ Feature: 40656 - Schedule Manipulation - Add locations
       | trainUid      | stpIndicator | dateRunsFrom |
       | <planningUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And I wait until today's train '<planningUid>' has loaded
     When I am on the timetable view for service '<planningUid>'
     And the Inserted toggle is 'on'
     Then the inserted location 'Acton Main Line' is displayed in square brackets

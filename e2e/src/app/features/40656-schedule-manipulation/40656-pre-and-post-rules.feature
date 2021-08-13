@@ -15,6 +15,7 @@ Feature: 40656 - Schedule Manipulation - Pre and Post Rules
 #    When a user selects to see that schedule in the timetable view
 #    Then the path code displayed for location is the path code specified in the pre-propagation rule
 #    And the line code displayed for to location is the same as the path code specified in the pre-propagation rule
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -30,9 +31,7 @@ Feature: 40656 - Schedule Manipulation - Pre and Post Rules
       | trainUid      | stpIndicator | dateRunsFrom |
       | <planningUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And I wait until today's train '<planningUid>' has loaded
     When I am on the timetable view for service '<planningUid>'
     Then the path code for Location is correct
       | location     | pathCode |
@@ -57,10 +56,9 @@ Feature: 40656 - Schedule Manipulation - Pre and Post Rules
 #    When a user selects to see that schedule in the timetable view
 #    Then the path code displayed for location is the path code specified in the post-propagation rule
 #    And the line code displayed for to location is the same as the path code specified in original schedule
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given the access plan located in CIF file 'access-plan/40656_13.cif' is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And I wait until today's train '<planningUid>' has loaded
     When I am on the timetable view for service '<planningUid>'
     Then the path code for Location is correct
       | location      | pathCode |

@@ -72,11 +72,12 @@ Feature: 37657 - Basic Timetable Modelling
     # And no other STPs have been received for that service
     # When a user searches for that timetable
     # Then one timetable with the planning UID and schedule date is returned and the type is <DisplayType>
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given I am on the home page
     And the access plan located in CIF file '<fileName>' is received from LINX
     And I am on the trains list page
     And The trains list table is visible
-    And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
     When I search Timetable for '<trainUid>' and wait for result
       | PlanningUid | Scheduletype  |
       | <trainUid>  | <displayType> |
@@ -172,14 +173,10 @@ Feature: 37657 - Basic Timetable Modelling
     # And the Train UID from the schedule
     # And the headcode from the schedule
     # And Details displayed match those provided in the CIF
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given the access plan located in CIF file '<fileName>' is received from LINX
-    Given I am on the trains list page
-    And The trains list table is visible
-    And train '<trainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
-    And I invoke the context menu for todays train '<trainDesc>' schedule uid '<trainUid>' from the trains list
-    And I wait for the trains list context menu to display
-    When I open timetable from the context menu
-    And I switch to the new tab
+    And I wait until today's train '<trainUid>' has loaded
+    And I am on the timetable view for service '<trainUid>'
     Then The values for the header properties are as follows
       | headCode    | schedType      | lastSignal | lastReport | trainUid   | trustId | lastTJM |
       | <trainDesc> | <scheduleType> |            |            | <trainUid> |         |         |
@@ -269,14 +266,10 @@ Feature: 37657 - Basic Timetable Modelling
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # When a user views that timetable
     # Then the change en route displayed match those provided in the CIF
+    * I remove today's train 'L77777' from the Redis trainlist
     Given the access plan located in CIF file 'access-plan/1D46_PADTON_OXFD.cif' is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '1D46' with schedule id 'L77777' for today is visible on the trains list
-    And I invoke the context menu for todays train '1D46' schedule uid 'L77777' from the trains list
-    And I wait for the trains list context menu to display
-    And I open timetable from the context menu
-    And I switch to the new tab
+    And I wait until today's train 'L77777' has loaded
+    And I am on the timetable view for service 'L77777'
     When I switch to the timetable details tab
     Then The timetable details tab is visible
     And The entry of the change en route table contains the following data

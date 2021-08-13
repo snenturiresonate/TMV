@@ -10,9 +10,9 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
     And I remove all trains from the trains list
 
   Scenario Outline: MTB is cleared when later MTB is received
+    * I remove today's train '<trainUID>' from the Redis trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
-    And I am on the trains list page
-    And train description '<trainNumber>' is visible on the trains list with schedule type 'LTP'
+    And I wait until today's train '<trainUID>' has loaded
     Given I am viewing the map nw05sandhillsnl.v
     And the following train running info message with time is sent from LINX
       | trainUID   | trainNumber   | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | timestamp |
@@ -28,10 +28,11 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
       | access-plan/34082-schedules/60651-1.cif | C33605   | 2N02        |
 
   Scenario Outline: Current MTB remains after Other MTB is cleared
+    * I remove today's train '<trainUID>' from the Redis trainlist
+    * I remove today's train '<trainUID2>' from the Redis trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
-    And I am on the trains list page
-    And train description '<trainNumber>' is visible on the trains list with schedule type 'VAR'
-    And train description '<trainNumber2>' is visible on the trains list with schedule type 'VAR'
+    And I wait until today's train '<trainUID>' has loaded
+    And I wait until today's train '<trainUID2>' has loaded
     Given I am viewing the map gw19penzance.v
     And the following train running info message with time is sent from LINX
       | trainUID    | trainNumber    | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | timestamp |
@@ -50,9 +51,9 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
 
 
   Scenario Outline: MTB is cleared when later TRI is received (non MTB location)
+    * I remove today's train '<trainUID>' from the Redis trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
-    And I am on the trains list page
-    And train description '<trainNumber>' is visible on the trains list with schedule type 'LTP'
+    And I wait until today's train '<trainUID>' has loaded
     Given I am viewing the map nw05sandhillsnl.v
     And the following train running info message with time is sent from LINX
       | trainUID   | trainNumber   | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | timestamp |
@@ -67,10 +68,10 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
       | access-plan/34082-schedules/60651-1.cif | C33605   | 2N02        |
 
   Scenario Outline: MTB is cleared when later TD stepping is received
-    Given I am on the trains list page
-    And the access plan located in CIF file '<cif>' is received from LINX
-    And train description '<trainNumber>' is visible on the trains list with schedule type 'LTP'
-    Given I am viewing the map nw05sandhillsnl.v
+    * I remove today's train '<trainUID>' from the Redis trainlist
+    Given the access plan located in CIF file '<cif>' is received from LINX
+    And I wait until today's train '<trainUID>' has loaded
+    And I am viewing the map nw05sandhillsnl.v
     And the following train running info message with time is sent from LINX
       | trainUID   | trainNumber   | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | timestamp |
       | <trainUID> | <trainNumber> | today              | 85621               | CROT                   | Departure from Station | 07:16:30  |
@@ -87,9 +88,9 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
       | access-plan/34082-schedules/60651-1.cif | C33605   | 2N02        |
 
   Scenario Outline: Don't show in MTB when later MTB already received
+    * I remove today's train '<trainUID>' from the Redis trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
-    And I am on the trains list page
-    And train description '<trainNumber>' is visible on the trains list with schedule type 'LTP'
+    And I wait until today's train '<trainUID>' has loaded
     Given I am viewing the map nw05sandhillsnl.v
     And the following train running info message with time is sent from LINX
       | trainUID   | trainNumber   | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | timestamp |
@@ -115,9 +116,9 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
   # value = 1s
   @manual
   Scenario Outline: MTB is cleared when Cancel at Origin TJM is received
+    * I remove today's train '<trainUID>' from the Redis trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
-    And I am on the trains list page
-    And train description '<trainNumber>' is visible on the trains list with schedule type 'VAR'
+    And I wait until today's train '<trainUID>' has loaded
     Given I am viewing the map gw13exeter.v
     And the following train running info message with time is sent from LINX
       | trainUID   | trainNumber   | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType        | timestamp |
@@ -134,9 +135,9 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
   # See comment on scenario: MTB is cleared when Cancel at Origin TJM is received
   @manual
   Scenario Outline: MTB is cleared when Cancel at Booked Location TJM is received (current location)
+    * I remove today's train '<trainUID>' from the Redis trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
-    And I am on the trains list page
-    And train description '<trainNumber>' is visible on the trains list with schedule type 'LTP'
+    And I wait until today's train '<trainUID>' has loaded
     Given I am viewing the map nw05sandhillsnl.v
     And the following train running info message with time is sent from LINX
       | trainUID   | trainNumber   | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | timestamp |
@@ -154,9 +155,9 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
   # See comment on scenario: MTB is cleared when Cancel at Origin TJM is received
   @manual
   Scenario Outline: MTB is cleared when Cancel at Booked Location TJM is received (next location)
+    * I remove today's train '<trainUID>' from the Redis trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
-    And I am on the trains list page
-    And train description '<trainNumber>' is visible on the trains list with schedule type 'LTP'
+    And I wait until today's train '<trainUID>' has loaded
     Given I am viewing the map nw05sandhillsnl.v
     And the following train running info message with time is sent from LINX
       | trainUID   | trainNumber   | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | timestamp |
@@ -174,9 +175,9 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
   # See comment on scenario: MTB is cleared when Cancel at Origin TJM is received
   @manual
   Scenario Outline: MTB is cleared following a termination at destination
+    * I remove today's train '<trainUID>' from the Redis trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
-    And I am on the trains list page
-    And train description '<trainNumber>' is visible on the trains list with schedule type 'LTP'
+    And I wait until today's train '<trainUID>' has loaded
     Given I am viewing the map hdgw09penzance.v
     And the following train running info message with time is sent from LINX
       | trainUID   | trainNumber   | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | timestamp |

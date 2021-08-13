@@ -16,13 +16,11 @@ Feature: 33755 - TMV Highlight Train
     #Then the user is presented with an option to highlight/unhighlight the train
     #When the user selects highlight
     #Then the train is highlighted
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <trainDescription>  | <planningUid>         |
-    And I am on the trains list page
-    Then the following service is displayed on the trains list
-      | trainId            | trainUId      |
-      | <trainDescription> | <planningUid> |
+      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <trainDescription>  | <planningUid>  |
+    And I wait until today's train '<planningUid>' has loaded
     When the following live berth interpose message is sent from LINX (creating a match)
       | toBerth   | trainDescriber     | trainDescription   |
       | <berth>   | <trainDescriber>   | <trainDescription> |
@@ -48,13 +46,11 @@ Feature: 33755 - TMV Highlight Train
     #Then the user is presented with an option to highlight/unhighlight the train
     #When the user selects highlight
     #Then the train is highlighted
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <trainDescription>  | <planningUid>         |
-    And I am on the trains list page
-    Then the following service is displayed on the trains list
-      | trainId            | trainUId      |
-      | <trainDescription> | <planningUid> |
+      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <trainDescription>  | <planningUid>  |
+    And I wait until today's train '<planningUid>' has loaded
     When the following live berth interpose message is sent from LINX (creating a match)
       | toBerth   | trainDescriber     | trainDescription   |
       | <berth>      | <trainDescriber>   | <trainDescription> |
@@ -79,19 +75,16 @@ Feature: 33755 - TMV Highlight Train
       | 5C12             | C53312      | D3             | A007  | 0039        |
 
   Scenario Outline: 33755-2d Highlight Train (Headcode) - Berth Interpose same headcode for two different berths
+    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<secondPlanningUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <trainDescription>  | <planningUid>  |
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid      |
       | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | <trainDescription>  | <secondPlanningUid> |
-    And I am on the trains list page
-    Then the following service is displayed on the trains list
-      | trainId            | trainUId      |
-      | <trainDescription> | <planningUid> |
-    And the following service is displayed on the trains list
-      | trainId            | trainUId            |
-      | <trainDescription> | <secondPlanningUid> |
+    And I wait until today's train '<planningUid>' has loaded
+    And I wait until today's train '<secondPlanningUid>' has loaded
     When the following live berth interpose message is sent from LINX (creating a match)
       | toBerth   | trainDescriber     | trainDescription   |
       | <berth>   | <trainDescriber>   | <trainDescription> |
@@ -118,13 +111,11 @@ Feature: 33755 - TMV Highlight Train
     #And there are services running
     #When the user selects a train for highlighting using the secondary mouse click
     #Then the user is presented with an option to highlight/unhighlight the train
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <trainDescription>  | <planningUid>         |
-    And I am on the trains list page
-    Then the following service is displayed on the trains list
-      | trainId            | trainUId      |
-      | <trainDescription> | <planningUid> |
+      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <trainDescription>  | <planningUid>  |
+    And I wait until today's train '<planningUid>' has loaded
     When the following live berth interpose message is sent from LINX (creating a match)
       | toBerth   | trainDescriber     | trainDescription   |
       | <berth>   | <trainDescriber>   | <trainDescription> |
@@ -151,13 +142,11 @@ Feature: 33755 - TMV Highlight Train
     #And a service is highlighted
     #When the user has opts to unhighlight the train
     #Then the train is highlighting is removed
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <trainDescription>  | <planningUid>         |
-    And I am on the trains list page
-    Then the following service is displayed on the trains list
-      | trainId            | trainUId      |
-      | <trainDescription> | <planningUid> |
+      | access-plan/1D46_PADTON_OXFD.cif    | PADTON      | WTT_dep       | <trainDescription>  | <planningUid>  |
+    And I wait until today's train '<planningUid>' has loaded
     When the following live berth interpose message is sent from LINX (creating a match)
       | toBerth   | trainDescriber     | trainDescription   |
       | <berth>      | <trainDescriber>   | <trainDescription> |

@@ -20,6 +20,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
   # | 04 -Departure from Station|
   # | 05- Passing Location| |
     #Given I am on the home page
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given there is a Schedule for '<trainDescription>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -37,9 +38,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       | trainUid   | stpIndicator | dateRunsFrom |
       | <trainUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
     And the following train running information message with delay against booked time is sent from LINX
       | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode   | locationSubsidiaryCode   | messageType   | delay   |
       | <trainUid> | <trainDescription> | today              | <locationPrimaryCode> | <locationSubsidiaryCode> | <messageType> | <delay> |
@@ -65,6 +64,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       # | 03 -Arrival at Station| - note this was deemed to be not in scope: punctuality shown will be predicted departure in this particular case
       # | 04 -Departure from Station|
       # | 05- Passing Location| |
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given there is a Schedule for '<trainDescription>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -82,9 +82,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       | trainUid   | stpIndicator | dateRunsFrom |
       | <trainUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
     And the following train running information message with delay against booked time is sent from LINX
       | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode   | locationSubsidiaryCode   | messageType   | delay   |
       | <trainUid> | <trainDescription> | today              | <locationPrimaryCode> | <locationSubsidiaryCode> | <messageType> | <delay> |
@@ -110,6 +108,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       # | 03 -Arrival at Station|
       # | 04 -Departure from Station|
       # | 05- Passing Location| |
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given there is a Schedule for '<trainDescription>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -127,9 +126,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       | trainUid   | stpIndicator | dateRunsFrom |
       | <trainUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
     And the following train running information message is sent from LINX
       | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode   | locationSubsidiaryCode   | messageType   |
       | <trainUid> | <trainDescription> | today              | <locationPrimaryCode> | <locationSubsidiaryCode> | <messageType> |
@@ -156,6 +153,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       # | 03 -Arrival at Station|
       # | 04 -Departure from Station|
       # | 05- Passing Location| |
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given there is a Schedule for '<trainDescription>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -173,9 +171,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       | trainUid   | stpIndicator | dateRunsFrom |
       | <trainUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
     And the following train running information message is sent from LINX
       | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode   | locationSubsidiaryCode   | messageType   |
       | <trainUid> | <trainDescription> | today              | <locationPrimaryCode> | <locationSubsidiaryCode> | <messageType> |
@@ -206,6 +202,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       # | 03 -Arrival at Station|
       # | 04 -Departure from Station|
       # | 05- Passing Location| |
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given there is a Schedule for '<trainDescription>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -223,9 +220,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       | trainUid   | stpIndicator | dateRunsFrom |
       | <trainUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
     And the following train running information message is sent from LINX
       | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode   | locationSubsidiaryCode   | messageType   |
       | <trainUid> | <trainDescription> | today              | <locationPrimaryCode> | <locationSubsidiaryCode> | <messageType> |

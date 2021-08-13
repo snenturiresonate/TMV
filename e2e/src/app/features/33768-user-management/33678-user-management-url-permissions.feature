@@ -72,11 +72,10 @@ Feature: 33768-1: TMV User Management - Direct URL permissions
       #| Admin|
       #| Restrictions |
       #| Standard |
+    * I remove today's train 'C46096' from the Redis trainlist
     Given the access plan located in CIF file 'access-plan/1B69_PADTON_SWANSEA.cif' is amended so that all services start within the next hour and then received from LINX
     When I access the homepage as <user>
-    And the following service is displayed on the trains list
-      | trainId | trainUId |
-      | 1B69    | C46096   |
+    And I wait until today's train 'C46096' has loaded
     And I navigate to the schedule matching page for the following train
       | trainUID | trainDesc | scheduleDate |
       | C46096   | 1B69      | today        |

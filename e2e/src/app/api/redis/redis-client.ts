@@ -19,6 +19,7 @@ export class RedisClient {
   public keyDelete(key: string): void {
       this.client.del(key);
   }
+
   public async deleteKey(key: string): Promise<any> {
     const deleteAsync = promisify(this.client.del).bind(this.client);
     return await deleteAsync(key);
@@ -46,6 +47,18 @@ export class RedisClient {
           reject(error);
         } else {
           resolve(JSON.parse(value) || {});
+        }
+      });
+    });
+  }
+
+  public async hgetString(hashName: string, key: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.client.hget(hashName, key, (error, value) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(value || {});
         }
       });
     });

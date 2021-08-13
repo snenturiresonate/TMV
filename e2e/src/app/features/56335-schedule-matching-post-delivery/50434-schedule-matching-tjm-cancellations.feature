@@ -15,11 +15,11 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     # And the user is viewing the map that contains that berth
     # When the user opens the context menu for the train description
     # Then the matched version of the context menu is displayed
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
-    And I am on the trains list page
-    And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
@@ -42,12 +42,12 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     # And the user is viewing the map that contains that berth
     # And the user opens the context menu for the train description
     # Then the matched version of the context menu is displayed
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
-    And I am on the trains list page
-    And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
       | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 | 1   |
@@ -81,12 +81,12 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     # And the user is viewing the map that contains that berth
     # And the user opens the context menu for the train description
     # Then the matched version of the context menu is displayed
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
-    And I am on the trains list page
-    And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
       | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 | 1   |
@@ -128,15 +128,16 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     # And the user is viewing the map that contains that berth
     # And the user views the timetable for the matched service
     # Then service B has been matched
+    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<secondTrainUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid   |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <secondTrainUid> |
-    And I am on the trains list page
-    And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
-    And train '<origTrainDesc>' with schedule id '<secondTrainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
+    And I wait until today's train '<secondTrainUid>' has loaded
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
       | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 | 1   |
@@ -181,15 +182,16 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     # And the user is viewing the map that contains that berth
     # And the user views the timetable for the matched service
     # Then service B has been matched
+    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<secondTrainUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid   |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <secondTrainUid> |
-    And I am on the trains list page
-    And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
-    And train '<origTrainDesc>' with schedule id '<secondTrainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
+    And I wait until today's train '<secondTrainUid>' has loaded
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
       | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 | 1   |
@@ -236,11 +238,11 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     # And the user is viewing the map that contains that berth
     # And the user views the timetable for the matched service
     # Then service A has been matched
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
-    And I am on the trains list page
-    And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
     When the following TJM is received
       | trainUid   | trainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode      | time | modificationReason   | nationalDelayCode   |
       | <trainUid> | <origTrainDesc> | now           | create | <type>    | <type>          | 99999       | <cancelledLocation> | now  | <modificationReason> | <nationalDelayCode> |
@@ -291,11 +293,11 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     # When a TJM cancellation at location is received
     # And a TD update with the type step has been received
     # Then the service is schedule matched
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
-    And I am on the trains list page
-    And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |

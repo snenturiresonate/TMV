@@ -73,18 +73,19 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #Given the user has made changes to the TRUST ID settings
     #When the user views the trains list
     #Then the view is updated to reflect the user's TRUST ID changes
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription>  | <trainUid>     |
-    And I am on the trains list page
-    And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
+    And I wait until today's train '<trainUid>' has loaded
     And the following live berth interpose message is sent from LINX
       | toBerth | trainDescriber | trainDescription   |
       | A001    | D3             | <trainDescription> |
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUid> | <trainDescription> | now                    | 73000               | PADTON                 | today         | now                 |
+    And I am on the trains list page
     Then train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
     When I am on the trains list Config page
     And I have navigated to the 'TRUST IDs' configuration tab

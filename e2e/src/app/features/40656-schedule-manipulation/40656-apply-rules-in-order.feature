@@ -13,6 +13,7 @@ Feature: 40656 - Schedule Manipulation - Apply Rules In Order
 #    And the line  code is populated for the from location
 #    When a user selects to see that schedule in the timetable view
 #    Then the path code displayed for inserted location is the same as the line code for the from location
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -28,9 +29,7 @@ Feature: 40656 - Schedule Manipulation - Apply Rules In Order
       | trainUid      | stpIndicator | dateRunsFrom |
       | <planningUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And I wait until today's train '<planningUid>' has loaded
     When I am on the timetable view for service '<planningUid>'
     And the Inserted toggle is 'on'
     Then the path code for Location is correct
@@ -52,6 +51,7 @@ Feature: 40656 - Schedule Manipulation - Apply Rules In Order
 #    When a user selects to see that schedule in the timetable view
 #    Then the line code displayed for from location is the same as the path code for the from location
 #    And the path code displayed for to location is the same as the line code for the from location
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -67,9 +67,7 @@ Feature: 40656 - Schedule Manipulation - Apply Rules In Order
       | trainUid      | stpIndicator | dateRunsFrom |
       | <planningUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And I wait until today's train '<planningUid>' has loaded
     When I am on the timetable view for service '<planningUid>'
     Then the line code for Location is correct
       | location       | lineCode |
@@ -93,6 +91,7 @@ Scenario Outline: 40656-11 Schedule with locations updated by line to path to ma
 #    When a user selects to see that schedule in the timetable view
 #    Then the line code displayed for from location is the same as the path code for the from location
 #    And the path code displayed for to location is the same as the line code for the from location
+  * I remove today's train '<planningUid>' from the Redis trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -108,9 +107,7 @@ Scenario Outline: 40656-11 Schedule with locations updated by line to path to ma
       | trainUid      | stpIndicator | dateRunsFrom |
       | <planningUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And I wait until today's train '<planningUid>' has loaded
     When I am on the timetable view for service '<planningUid>'
     Then the line code for Location is correct
       | location             | lineCode |

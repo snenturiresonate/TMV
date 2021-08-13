@@ -37,7 +37,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | classValue                         | toggleValue |
       | Ignore PD Cancels                  | on          |
       | Include unmatched                  | on          |
-      | Include uncalled                   | on          |
       | Time to remain on list             | 5           |
     # clean up
     * I restore to default train list config
@@ -134,13 +133,11 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | classValue                         | toggleValue |
       | Ignore PD Cancels                  | on          |
       | Include unmatched                  | on          |
-      | Include uncalled                   | off         |
       | Time to remain on list             | 5           |
     Then the following toggle values can be seen on the right class table
       | classValue                         | toggleValue |
       | Ignore PD Cancels                  | on          |
       | Include unmatched                  | on          |
-      | Include uncalled                   | off         |
       | Time to remain on list             | 5           |
     # clean up
     * I restore to default train list config
@@ -149,6 +146,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     #Given the user has made changes to the trains list misc settings
     #When the user views the trains list
     #Then the view is updated to reflect the user's train misc changes
+  @bug @bug:66859
   Scenario: 33806 -32a Trains List Config (Train Misc Settings Applied) - Misc Class settings
     When the following class table updates are made
       | classValue | toggleValue |
@@ -210,7 +208,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     # clean up
     * I restore to default train list config
 
-
+  # unmatched services from stepping is part of CCN1
+  @tdd
   Scenario: 33806 -32d Trains List Config (Train Misc Settings Applied) - Unmatched toggle on
     #Schedule is not available for the train IG65
     When the following live berth step message is sent from LINX (to move train)
@@ -244,25 +243,9 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     # clean up
     * I restore to default train list config
 
-
-  Scenario: 33806 -32f Trains List Config (Train Misc Settings Applied) - Uncalled toggle on
-    #Services not activated from the loaded access plan - 5G44
-    When I update the following misc options
-      | classValue       | toggleValue |
-      | Include uncalled | on          |
-    And I save the service filter changes
-    And I am on the trains list page
-    Then train '5G44' with schedule id 'V30603' for today is visible on the trains list
-    # clean up
-    * I restore to default train list config
-
   Scenario: 33806 -32g Trains List Config (Train Misc Settings Applied) - Uncalled toggle off
     #Services not activated from the loaded access plan - 5G44
-    When I update the following misc options
-      | classValue       | toggleValue |
-      | Include uncalled | off         |
-    And I save the service filter changes
-    And I am on the trains list page
+    When I am on the trains list page
     Then train '5G44' with schedule id 'V30603' for today is not visible on the trains list
     # clean up
     * I restore to default train list config

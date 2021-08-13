@@ -89,6 +89,8 @@ Feature: 34002 - Unscheduled Trains Matching
 #    And the user is presented with at least one new schedule to match with (other than the currently matched schedule)
 #    When the user selects an entry to match
 #    Then the system will create a match
+    * I remove today's train '<planningUid1>' from the Redis trainlist
+    * I remove today's train '<planningUid2>' from the Redis trainlist
     And the following live berth interpose message is sent from LINX (to set up unmatched service on map)
       | toBerth | trainDescriber | trainDescription |
       | 1629    | D1             | <trainNum>       |
@@ -98,9 +100,8 @@ Feature: 34002 - Unscheduled Trains Matching
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1S42_PADTON_DIDCOTP.cif | RDNGSTN     | WTT_dep       | <trainNum>          | <planningUid2> |
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid2>' for today is visible on the trains list
+    And I wait until today's train '<planningUid1>' has loaded
+    And I wait until today's train '<planningUid2>' has loaded
     And I am viewing the map gw2aslough.v
     And I invoke the context menu on the map for train <trainNum>
     And I open schedule matching screen from the map context menu
@@ -121,12 +122,13 @@ Feature: 34002 - Unscheduled Trains Matching
       | <trainNum>  | <planningUid1> | UNCALLED  | LTP   | tomorrow | PADTON | now - 5    | OXFD    |
       | <trainNum>  | <planningUid2> | UNCALLED  | LTP   | tomorrow | PADTON | now - 30   | DIDCOTP |
 
-
     Examples:
       | trainNum | planningUid1 | planningUid2 |
       | 1C12     | L12005       | L12006       |
 
   Scenario Outline: 34002:6b Make Match - matching unmatched step to a matched service - and checking matching change shows on map
+    * I remove today's train '<planningUid1>' from the Redis trainlist
+    * I remove today's train '<planningUid2>' from the Redis trainlist
     And the following live berth interpose message is sent from LINX (to set up unmatched train on map at Uffington)
       | toBerth | trainDescriber | trainDescription |
       | 1115    | D7             | <trainNum>       |
@@ -136,9 +138,8 @@ Feature: 34002 - Unscheduled Trains Matching
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | <trainNum>          | <planningUid2> |
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid2>' for today is visible on the trains list
+    And I wait until today's train '<planningUid1>' has loaded
+    And I wait until today's train '<planningUid2>' has loaded
     And the following live berth interpose message is sent from LINX (to create a match at Swindon)
       | toBerth | trainDescriber | trainDescription |
       | 1201    | D7             | <trainNum>       |

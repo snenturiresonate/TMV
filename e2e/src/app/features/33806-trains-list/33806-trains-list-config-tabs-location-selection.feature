@@ -119,11 +119,18 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
       | locationNameValue   | Originate | Stop       | Pass       | Terminate  |
       | Paddington (PADTON) | Checked   | un-checked | un-checked | un-checked |
 
+  @bug @bug:66859
   Scenario: 33806 -18 Trains list config for location types - Stop type 'Originate'
-    And the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
+    Given the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
+    And the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | V30603   | 5G44        | now                    | 99999               | PADTON                 | today         | now                 |
+    And the following live berth interpose message is sent from LINX
+      | toBerth | trainDescriber | trainDescription |
+      | A007    | D3             | 5G44             |
     And I am on the trains list page
     And The trains list table is visible
-    And train description '5G44' is visible on the trains list with schedule type 'STP'
+    Then train '5G44' with schedule id 'V30603' for today is visible on the trains list
     And I am on the trains list Config page
     And I have navigated to the 'Locations' configuration tab
     And I have only the following locations and stop types selected
@@ -135,6 +142,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
     Then train '5G44' with schedule id 'V30603' for today is visible on the trains list
     And I restore to default train list config
 
+  @bug @bug:66859
   Scenario: 33806 -18 Trains list config for location types - Stop type 'Terminate'
     And the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
     And I am on the trains list page
@@ -151,6 +159,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
     Then train '2P77' with schedule id 'Y95686' for today is visible on the trains list
     And I restore to default train list config
 
+  @bug @bug:66859
   Scenario: 33806 -18 Trains list config for location types - Stop type 'Pass'
     And the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
     And I am on the trains list page
@@ -167,6 +176,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
     Then train '2P77' with schedule id 'Y95686' for today is visible on the trains list
     And I restore to default train list config
 
+  @bug @bug:66859
   Scenario: 33806 -18 Trains list config for location types - Stop type 'Stop'
     And the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
     And I am on the trains list page

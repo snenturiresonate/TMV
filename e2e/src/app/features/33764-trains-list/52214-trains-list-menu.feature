@@ -49,8 +49,12 @@ Feature: 52214 - TMV Trains List - menu
       | 4        |
       | 5        |
 
+  @bug @bug:66859
   Scenario: 33764-5c Trains List Context menu - matched service
     Given the access plan located in CIF file 'access-plan/2P77_RDNGSTN_PADTON.cif' is amended so that all services start within the next hour and then received from LINX
+    When the following train activation message is sent from LINX
+      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | D11664        | 2P77        | now                    | 99999               | RDNGSTN                | today         | now                 |
     And the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 1668      | 1664    | D1             | 2P77             |
@@ -78,7 +82,8 @@ Feature: 52214 - TMV Trains List - menu
     Then the tab title is 'TMV Schedule Matching 2P77'
     And a matched service is visible
 
-
+  # unmatched services from stepping is part of CCN1
+  @tdd
   Scenario: 33764-5d Trains List Context menu - unmatched train with unknown direction
     Given the following live berth interpose message is sent from LINX (which won't match anything)
       | toBerth | trainDescriber | trainDescription |

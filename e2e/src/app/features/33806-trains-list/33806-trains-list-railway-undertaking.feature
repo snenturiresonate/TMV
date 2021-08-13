@@ -259,6 +259,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
     #When the user views the trains list
     #Then the view is updated to reflect the user's TOC/FOC selection
 
+  @bug @bug:66859
   Scenario Outline: 33806 -13 Selecting required columns and verifying if they are reflected in the trains list
     Given the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
     When I select only the following railway undertaking entries

@@ -26,6 +26,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     Then the headcode displayed for 'A007' is 1F21
     And the train headcode color for berth 'D3A007' is green
 
+  # unmatched services from stepping is part of CCN1
   @tdd
   Scenario: 33998-2 Punctuality (Un-matched Service)
   #Given the user is authenticated to use TMV

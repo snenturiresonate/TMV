@@ -421,7 +421,10 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
   // tslint:disable-next-line:prefer-for-of
   for (let i = 0; i < trainActivationMessages.length; i++) {
     const trainActivationMessageBuilder: TrainActivationMessageBuilder = new TrainActivationMessageBuilder();
-    const trainUID = trainActivationMessages[i].trainUID;
+    let trainUID = trainActivationMessages[i].trainUID;
+    if (trainUID === 'generatedTrainUId') {
+      trainUID = browser.referenceTrainUid;
+    }
     const trainNumber = trainActivationMessages[i].trainNumber;
     const scheduledDepartureTime = () => {
       if ((trainActivationMessages[i].scheduledDepartureTime).toLowerCase() === 'now') {

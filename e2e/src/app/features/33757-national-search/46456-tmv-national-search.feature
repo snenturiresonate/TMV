@@ -79,12 +79,11 @@ Feature: 33757 - TMV National Search
       #And the user enters at least two alphanumeric characters
       #And the user submits the search
       #Then the timetable search results list is displayed with zero or many results
+    * I remove today's train 'A12345' from the Redis trainlist
     Given I navigate to <pageName> page
     And the Train Search Box has the value 'Train Desc, Trust ID, Planning UID'
     And the access plan located in CIF file 'access-plan/1L24_PADTON_RDNGSTN.cif' is received from LINX
-    And the following service is displayed on the trains list
-      | trainId | trainUId |
-      | 1L24    | A12345   |
+    And I wait until today's train 'A12345' has loaded
     And I navigate to <pageName> page
     When I search Timetable for '1'
     Then Warning Message is displayed for minimum characters
@@ -182,6 +181,7 @@ Feature: 33757 - TMV National Search
       | Admin            |
 
   Scenario Outline: 33757-2f Timetable search - all days
+    * I remove today's train 'F10001' from the Redis trainlist
     Given I navigate to <pageName> page
     #And there is a Schedule for '4F07'
     #And the schedule has schedule identifier characteristics
@@ -193,9 +193,7 @@ Feature: 33757 - TMV National Search
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 4F07                | F10001         |
-    And the following service is displayed on the trains list
-      | trainId | trainUId |
-      | 4F07    | F10001   |
+    And I wait until today's train 'F10001' has loaded
     And I navigate to <pageName> page
     When I search Timetable for '4F07'
     Then results are returned with that planning UID 'F10001'
@@ -261,11 +259,10 @@ Feature: 33757 - TMV National Search
     #And the user is viewing the train search results pop-up
     #When the user selects a train from search result by using the secondary mouse click
     #Then the user is presented with a menu to either view the timetable or open a map(s) that contains the train
+    * I remove today's train 'A12345' from the Redis trainlist
     Given I navigate to <pageName> page
     And the access plan located in CIF file 'access-plan/1L24_PADTON_RDNGSTN.cif' is received from LINX
-    And the following service is displayed on the trains list
-      | trainId | trainUId |
-      | 1L24    | A12345   |
+    And I wait until today's train 'A12345' has loaded
     And the following live berth interpose message is sent from LINX (to create a match)
       | toBerth | trainDescriber | trainDescription |
       | R029    | D3             | 1L24             |

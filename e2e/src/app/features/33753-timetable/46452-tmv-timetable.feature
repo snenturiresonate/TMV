@@ -16,11 +16,16 @@ Feature: 33753 - TMV Timetable
      #And selects the "open timetable" option from the menu
      #Then the train's timetable is opened in a new browser tab
     * I remove all trains from the trains list
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | RDNGSTN     | WTT_arr       | <trainNum>          | <planningUid>  |
     And I am on the trains list page
     And The trains list table is visible
+    And I wait until today's train '<planningUid>' has loaded
+    When the following train activation message is sent from LINX
+      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <planningUid> | <trainNum>  | now                    | 99999               | PADTON                 | today         | now                 |
     And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
     When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
@@ -39,12 +44,11 @@ Feature: 33753 - TMV Timetable
 #    When the user selects a train (occupied berth) from the map using the secondary click for a service which has been Schedule Matched
 #    And selects the "open timetable" option from the menu
 #    Then the train's timetable is opened in a new browser tab
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And I wait until today's train '<planningUid>' has loaded
     And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth | trainDescriber | trainDescription |
       | 0037    | D3             | <trainNum>       |
@@ -146,12 +150,14 @@ Feature: 33753 - TMV Timetable
     #And the train is schedule matched
     #When the user is viewing the timetable
     #Then the train's schedule is displayed with any predicted and live running information and header information
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | SLOUGH      | WTT_arr       | <trainNum>          | <planningUid>  |
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And I wait until today's train '<planningUid>' has loaded
+    And the following train activation message is sent from LINX
+      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <planningUid> | <trainNum>  | now                    | 99999               | PADTON                 | today         | now                 |
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 0519    | D6             | <trainNum>       |
@@ -365,19 +371,18 @@ Feature: 33753 - TMV Timetable
 #    And the schedule is matched to live stepping
 #    When the user selects the details tab of the timetable
 #    Then the train's CIF information and header information with any TJM, Association and Change-en-route is displayed
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And I wait until today's train '<planningUid>' has loaded
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | A001    | D3             | <trainNum>       |
     And the following live berth step message is sent from LINX (moving train along)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | A001      | 0037    | D3             | <trainNum>       |
-    Given I am viewing the map hdgw01paddington.v
+    And I am viewing the map hdgw01paddington.v
     And I invoke the context menu on the map for train <trainNum>
     And the Matched version of the map context menu is displayed
     And I open timetable from the map context menu
@@ -445,19 +450,15 @@ Feature: 33753 - TMV Timetable
     #And the train is not schedule matched
     #When the user selects the details tab of the timetable
     #Then the train's basic header information is displayed
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given the following live berth interpose message is sent from LINX (which won't match anything)
       | toBerth | trainDescriber | trainDescription |
       | 1693    | D1             | <trainNum>       |
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1S42_PADTON_DIDCOTP.cif | RDNGSTN     | WTT_arr       | <trainNum>          | <planningUid>  |
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
-    When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
-    And I wait for the trains list context menu to display
-    And I open timetable from the context menu
-    And I switch to the new tab
+    And I wait until today's train '<planningUid>' has loaded
+    And I am on the timetable view for service '<planningUid>'
     Then The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       |            |            | <planningUid> |         |         | <trainNum> |

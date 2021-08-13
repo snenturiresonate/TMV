@@ -9,11 +9,9 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
     And I reset redis
 
   Scenario Outline: 51586 - 20 Current punctuality at origin (late)
-    Given I am on the trains list page
-    And the access plan located in CIF file '<cif>' is received from LINX
-    And the following service is displayed on the trains list
-      | trainId            | trainUId   |
-      | <trainDescription> | <trainUid> |
+    * I remove today's train '<trainUid>' from the Redis trainlist
+    Given the access plan located in CIF file '<cif>' is received from LINX
+    And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | <trainUid> | <trainDescription> | 01                  | 01:00                  | 99999               | CREWE                  | today         |
@@ -25,11 +23,9 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | access-plan/51586-schedules/51586-20.cif | A50020   | 5A20             |
 
   Scenario Outline: 51586 - 20 Current punctuality at origin (on time/early)
-    Given I am on the trains list page
-    And the access plan located in CIF file '<cif>' is received from LINX
-    And the following service is displayed on the trains list
-      | trainId            | trainUId   |
-      | <trainDescription> | <trainUid> |
+    * I remove today's train '<trainUid>' from the Redis trainlist
+    Given the access plan located in CIF file '<cif>' is received from LINX
+    And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | <trainUid> | <trainDescription> | 23                  | 23:28                  | 99999               | CREWE                  | today         |
@@ -132,11 +128,9 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | access-plan/51586-schedules/51586-24.cif | A50024   | 5A24             | 22:53:00  | +2m                 | Passing Location       | 99999               | BSBYJN                 | 22:51:00   |
 
   Scenario Outline: 51586 - 25 Current punctuality after an earlier TRI update
-    Given I am on the trains list page
-    And the access plan located in CIF file '<cif>' is received from LINX
-    And the following service is displayed on the trains list
-      | trainId            | trainUId   |
-      | <trainDescription> | <trainUid> |
+    * I remove today's train '<trainUid>' from the Redis trainlist
+    Given the access plan located in CIF file '<cif>' is received from LINX
+    And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | <trainUid> | <trainDescription> | 22                  | 22:30                  | 99999               | BHAMNWS                | today         |

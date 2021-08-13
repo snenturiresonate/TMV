@@ -44,12 +44,12 @@ Feature: 56052 - TMV Trains List - User Configuration Applied (Service Called)
   # The train will be displayed if it has received a train running information report as it is currently running
   # also used as setup for AC4
   Scenario Outline: 56052-AC2a - A train that has been Called <departsInMinutes> minutes before its origin departure time and received a TRI <visibility> visible if toggled <toggle>
+    * I remove today's train '<trainUID>' from the Redis trainlist
     Given I delete '<trainUID>:today' from hash 'schedule-modifications'
     When the train in CIF file below is updated accordingly so time at the reference point is now + '<departsInMinutes>' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription>  | <trainUID>     |
-    And I am on the trains list page
-    Then train '<trainDescription>' with schedule id '<trainUID>' for today is visible on the trains list
+    And I wait until today's train '<trainUID>' has loaded
     When I am on the trains list Config page
     * I have navigated to the 'Train Indication' configuration tab
     * I update only the below train list indication config settings as

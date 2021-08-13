@@ -21,6 +21,7 @@ Feature: 40656 - Schedule Manipulation - Line To Path
 #    And the path code is not populated for the matching to location
 #    When a user selects to see that schedule in the timetable view
 #    Then the path code displayed for the To Location is the same as the line code for the From Location
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -36,9 +37,7 @@ Feature: 40656 - Schedule Manipulation - Line To Path
       | trainUid      | stpIndicator | dateRunsFrom |
       | <planningUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And I wait until today's train '<planningUid>' has loaded
     When I am on the timetable view for service '<planningUid>'
     Then the path code for the To Location matches the line code for the From Location
       | fromLocation | lineCode | toLocation      |
@@ -56,6 +55,7 @@ Feature: 40656 - Schedule Manipulation - Line To Path
 #    And the path code is populated for the matching to location
 #    When a user selects to see that schedule in the timetable view
 #    Then then the original path code is displayed for the From Location
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -71,9 +71,7 @@ Feature: 40656 - Schedule Manipulation - Line To Path
       | trainUid      | stpIndicator | dateRunsFrom |
       | <planningUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And I wait until today's train '<planningUid>' has loaded
     When I am on the timetable view for service '<planningUid>'
     Then the locations path code matches the original path code
       | location        | pathCode |
@@ -85,6 +83,7 @@ Feature: 40656 - Schedule Manipulation - Line To Path
 
   Scenario Outline: 40656-7b From Locations line is not back filled from To Locations Path with matching rule
     #K0056	OXFD   	OXFDNNJ
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -100,9 +99,7 @@ Feature: 40656 - Schedule Manipulation - Line To Path
       | trainUid      | stpIndicator | dateRunsFrom |
       | <planningUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And I wait until today's train '<planningUid>' has loaded
     When I am on the timetable view for service '<planningUid>'
     Then the locations line code matches the original line code
       | location | lineCode |
@@ -119,6 +116,7 @@ Feature: 40656 - Schedule Manipulation - Line To Path
 #    And the path code is null for to location that doesn't match
 #    When a user selects to see that schedule in the timetable view
 #    Then then the path code is not displayed for the to location
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -134,9 +132,7 @@ Feature: 40656 - Schedule Manipulation - Line To Path
       | trainUid      | stpIndicator | dateRunsFrom |
       | <planningUid> | P            | 2020-01-01   |
     And the schedule is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
+    And I wait until today's train '<planningUid>' has loaded
     When I am on the timetable view for service '<planningUid>'
     Then no path code is displayed for location 'Oxford North Jn'
 

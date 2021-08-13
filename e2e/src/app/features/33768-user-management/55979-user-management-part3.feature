@@ -85,6 +85,9 @@ Feature: 33768-3: TMV User Management
     #  Then I the <matchMenuOption> is displayed
     Given I remove all trains from the trains list
     And the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
+    And the following train activation message is sent from LINX
+      | trainUID      | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <planningUid> | <trainDescription> | now                    | 99999               | PADTON                 | today         | now                 |
     When I access the homepage as schedulematching
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
@@ -100,10 +103,7 @@ Feature: 33768-3: TMV User Management
     When I invoke the context menu for todays train '<trainDescription>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     Then the <matchType> version of the trains list context menu is displayed
-    # cleanup
-    * the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching-cancelled.cif' is received from LINX
 
     Examples:
       | matchType | trainDescription | planningUid | description            | scheduleType |
-      | Matched   | 1B13             | B11111      | (creating a match)     | STP          |
-      | Unmatched | 2X13             | UNPLANNED   | (not creating a match) |              |
+      | Matched   | 1B13             | B33333      | (creating a match)     | STP          |
