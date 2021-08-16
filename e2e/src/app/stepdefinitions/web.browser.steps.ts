@@ -85,8 +85,8 @@ When('I cancel on browser popup', async () => {
   }
 });
 
-When('I refresh the browser', () => {
-  return browser.driver.navigate().refresh();
+When('I refresh the browser', async () => {
+  await browser.driver.navigate().refresh();
 });
 
 When('I close the current tab', async () => {

@@ -237,22 +237,17 @@ When(/^I give the (.*) (.*) seconds? to load$/, async (system: string, seconds: 
   await browser.sleep(seconds * 1000);
 });
 
-
 When(/^the following berth interpose messages? (?:is|are) sent from LINX(.*)$/,
   async (explanation: string, berthInterposeMessageTable: any) => {
     const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
 
     for (const berthInterposeMessage of berthInterposeMessages) {
-      const berthInterpose: BerthInterpose = new BerthInterpose(
+      await linxRestClient.postInterpose(
         berthInterposeMessage.timestamp,
         berthInterposeMessage.toBerth,
         berthInterposeMessage.trainDescriber,
-        berthInterposeMessage.trainDescription
-      );
-      await CucumberLog.addJson(berthInterpose);
-      await linxRestClient.postBerthInterpose(berthInterpose);
+        berthInterposeMessage.trainDescription);
     }
-    await linxRestClient.waitMaxTransmissionTime();
   });
 
 When(/^the following live berth interpose messages? (?:is|are) sent from LINX(.*)$/,
@@ -260,18 +255,10 @@ When(/^the following live berth interpose messages? (?:is|are) sent from LINX(.*
     const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
     const now = DateAndTimeUtils.getCurrentTimeString();
     for (const berthInterposeMessage of berthInterposeMessages) {
-      const berthInterpose: BerthInterpose = new BerthInterpose(
-        now,
-        berthInterposeMessage.toBerth,
-        berthInterposeMessage.trainDescriber,
-        berthInterposeMessage.trainDescription
-      );
-      await CucumberLog.addJson(berthInterpose);
-      await linxRestClient.postBerthInterpose(berthInterpose);
+      await linxRestClient.postInterpose(
+        now, berthInterposeMessage.toBerth, berthInterposeMessage.trainDescriber, berthInterposeMessage.trainDescription);
     }
-    await linxRestClient.waitMaxTransmissionTime();
   });
-
 
 When(/^the following berth step messages? (?:is|are) sent from LINX(.*)$/, async (explanation: string, berthStepMessageTable: any) => {
   const berthStepMessages: any = berthStepMessageTable.hashes();

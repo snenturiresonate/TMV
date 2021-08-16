@@ -11,6 +11,7 @@ import {SignallingUpdate} from '../../../../../src/app/api/linx/models/signallin
 import {ReplayRecordings} from '../../utils/replay/replay-recordings';
 import {ReplayStep} from '../../utils/replay/replay-step';
 import {ReplayActionType} from '../../utils/replay/replay-action-type';
+import {CucumberLog} from '../../logging/cucumber-log';
 
 export class LinxRestClient {
   public httpClient: HttpClient;
@@ -22,6 +23,18 @@ export class LinxRestClient {
   public postBerthInterpose(body: BerthInterpose): ResponsePromise {
     this.replayRecord(ReplayActionType.INTERPOSE, JSON.stringify(body));
     return this.httpClient.post('/traindescriberupdates/berthinterpose', body);
+  }
+
+  public async postInterpose(timestamp: string, toBerth: string, trainDescriber: string, trainDescription: string): Promise<any> {
+    const berthInterpose: BerthInterpose = new BerthInterpose(
+      timestamp,
+      toBerth,
+      trainDescriber,
+      trainDescription
+    );
+    await CucumberLog.addJson(berthInterpose);
+    await this.postBerthInterpose(berthInterpose);
+    return this.waitMaxTransmissionTime();
   }
 
   public postBerthCancel(body: BerthCancel): ResponsePromise {

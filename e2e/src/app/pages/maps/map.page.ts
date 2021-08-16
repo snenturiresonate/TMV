@@ -269,6 +269,8 @@ export class MapPageObject {
         if (contextMenuItem.toLowerCase().includes(indication.toLowerCase())) {
           return true;
         }
+        const now = DateAndTimeUtils.getCurrentTimeString();
+        await linxRestClient.postInterpose(now, berth, describer, trainDescription);
         await this.closeContextMenuForTrainDescriptionInBerth(trainDescription, describer, berth);
       }
       catch (exception) {

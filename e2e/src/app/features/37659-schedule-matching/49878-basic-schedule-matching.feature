@@ -5,6 +5,7 @@ Feature: 37659 - Basic Schedule matching framework
 
   Background:
     * I have cleared out all headcodes
+    * I am on the home page
     * The admin setting defaults are as originally shipped
 
   Scenario: 37659 -1  Display when no matching schedule (berth, location or subdivision)

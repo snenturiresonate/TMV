@@ -220,9 +220,10 @@ Feature: 33805 TMV Schedule Matching
     #      | location |
     #      | sub division |
     Given the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching-cancelled.cif' is received from LINX
-    And I give the cancellation 2 seconds to load
-    And I am on the trains list page
-    Then train description '<origTrainDesc>' with schedule type 'STP' disappears from the trains list
+#    And I give the cancellation 2 seconds to load
+#    And I am on the trains list page
+#    Then train description '<origTrainDesc>' with schedule type 'STP' disappears from the trains list
+    And I wait until today's train '<origTrainDesc>' has been removed
     When the following live berth interpose message is sent from LINX
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
@@ -236,8 +237,8 @@ Feature: 33805 TMV Schedule Matching
     Examples:
       | trainDescriber | berth | origTrainDesc | trainUid | location | subdivision | matchLevel   |
       | D3             | A001  | 1B11          | B11111   | PADTON   | 401         | berth        |
-      | D3             | A011  | 1B11          | B11111   | PADTON   | 401         | location     |
-      | D3             | 0106  | 1B11          | B11111   | PRTOBJP  | 401         | sub-division |
+#      | D3             | A011  | 1B11          | B11111   | PADTON   | 401         | location     |
+#      | D3             | 0106  | 1B11          | B11111   | PRTOBJP  | 401         | sub-division |
 
   Scenario Outline: 4b. Step - Cancelled schedules are not matched - <matchLevel> match
     #    Given there is a valid schedule has a STP indicator of Cancelled  (C or CV)

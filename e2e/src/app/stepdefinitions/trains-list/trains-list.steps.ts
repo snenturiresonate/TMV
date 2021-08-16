@@ -142,7 +142,20 @@ When(/^I wait until today's train '(.*)' has loaded$/, async (uid: string) => {
     const data = await client.hgetString(hash, 'scheduleId');
     return (data === trainIdentifier);
   }, 35000, `${trainIdentifier} not found in Redis trainlist`);
-  });
+});
+
+When(/^I wait until today's train '(.*)' has been removed$/, async (uid: string) => {
+  if (uid === 'generatedTrainUId') {
+    uid = browser.referenceTrainUid;
+  }
+  const client = new RedisClient();
+  const trainIdentifier = `${uid}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`;
+  const hash = `trainlist:` + trainIdentifier;
+  await browser.wait(async () => {
+    const data = await client.hgetString(hash, 'scheduleId');
+    return (data !== trainIdentifier);
+  }, 35000, `${trainIdentifier} was not removed from Redis trainlist`);
+});
 
 Then('train description {string} disappears from the trains list', async (trainDescription: string) => {
   const hasDisappeared: boolean = await trainsListPage.trainDescriptionHasDisappeared(trainDescription);
