@@ -44,7 +44,7 @@ Feature: 37659 - Basic Schedule matching framework
     And I am viewing the map hdgw01paddington.v
     Then berth '6003' in train describer 'D3' contains '0B01' and is visible
     When I invoke the context menu on the map for train 0B01
-    Then the map context menu does not contain 'Open timetable' on line 2
+    Then the map context menu does not contain 'Open Timetable' on line 2
 
   Scenario Outline: 37659 -3a Display when single matching schedule / 37659 - 4a Context menu when single matching schedule - Step Type - Interpose
     # Given a TD update with the type <Step Type> has been received

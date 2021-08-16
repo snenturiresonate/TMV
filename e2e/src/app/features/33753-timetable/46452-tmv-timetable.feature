@@ -72,7 +72,7 @@ Feature: 33753 - TMV Timetable
       | toBerth | trainDescriber | trainDescription |
       | 0099    | D3             | <trainNum>       |
     When I invoke the context menu on the map for train <trainNum>
-    Then the map context menu contains 'No timetable' on line 2
+    Then the map context menu contains 'No Timetable' on line 2
     Examples:
       | trainNum |
       | 1A03     |
@@ -90,7 +90,7 @@ Feature: 33753 - TMV Timetable
     When I invoke the context menu from a <serviceStatus> service in the <searchType> list
     And I wait for the '<searchType>' search context menu to display
     And the '<searchType>' context menu is displayed
-    And the '<searchType>' search context menu contains 'Open timetable' on line 1
+    And the '<searchType>' search context menu contains 'Open Timetable' on line 1
     And the '<searchType>' search context menu contains 'Select maps' on line 2
     And I click on timetable link
     And I switch to the new tab
@@ -131,7 +131,7 @@ Feature: 33753 - TMV Timetable
     And I invoke the context menu from a <serviceStatus> service in the <searchType> list
     And I wait for the '<searchType>' search context menu to display
     And the '<searchType>' context menu is displayed
-    And the '<searchType>' search context menu contains 'Open timetable' on line 1
+    And the '<searchType>' search context menu contains 'Open Timetable' on line 1
     And the '<searchType>' search context menu contains 'Select maps' on line 2
     And I click on timetable link
     And I switch to the new tab

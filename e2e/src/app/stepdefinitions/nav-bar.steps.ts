@@ -366,8 +366,8 @@ Then('the signal context menu is displayed', async () => {
 
 Then('the train search context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
   const actualContextMenuItem: string = await navBarPage.getTrainsSearchContextMenuItem(rowNum);
-  expect(actualContextMenuItem, `Item ${rowNum} in train search context menu was not ${expectedText}`)
-    .to.contain(expectedText);
+  expect(actualContextMenuItem.toLowerCase(), `Item ${rowNum} in train search context menu was not ${expectedText}`)
+    .to.contain(expectedText.toLowerCase());
 });
 
 Then('I select map {string} on line {int} from the search context menu', async (expectedText: string, rowNum: number) => {
@@ -377,8 +377,8 @@ Then('I select map {string} on line {int} from the search context menu', async (
 Then('the {string} search context menu contains {string} on line {int}',
   async (searchType: string, expectedText: string, rowNum: number) => {
   const actualContextMenuItem = await navBarPage.getSearchContextMenuItem(rowNum);
-  expect(actualContextMenuItem, `Item ${rowNum} in ${searchType} search context menu was not ${expectedText}`)
-    .to.contain(expectedText);
+  expect(actualContextMenuItem.toLowerCase(), `Item ${rowNum} in ${searchType} search context menu was not ${expectedText}`)
+    .to.contain(expectedText.toLowerCase());
 });
 
 When('I wait for the {string} search context menu to display', async (searchType: string) => {

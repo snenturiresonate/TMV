@@ -208,14 +208,18 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
 
   Scenario: 40490-9 Out of order cancel/reinstate display in trains list
     * I remove today's train 'H41113' from the Redis trainlist
-    Given the following basic schedules are received from LINX
-      | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
-      | H41113   | N            | 2020-01-01   | 2030-01-01 | 1111111 | 1X13             | PADTON | 12:00     | OLDOXRS     | 12:30   |
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1X13                | H41113         |
     And I wait until today's train 'H41113' has loaded
+    And the following train activation message is sent from LINX
+      | trainUID  | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | H41113    | 1X13        | now                    | 99999               | PADTON                 | today         | now                 |
     And the following TJMs are received
-      | trainUid | trainNumber | departureHour | modificationTime | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode | meaning    |
-      | H41113   | 1X13        | 12            | 10:01:00         | create | 96        | 96              | 99999       | OLDOXRS        | 12:01:00 | 82                 | VA                | reinstated |
-      | H41113   | 1X13        | 12            | 10:00:00         | create | 91        | 91              | 99999       | OLDOXRS        | 12:00:00 | 82                 | VA                | cancelled  |
+      | trainUid | trainNumber | departureHour  | modificationTime | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason | nationalDelayCode  | meaning    |
+      | H41113   | 1X13        | now            | 10:01:00         | create | 96        | 96              | 99999       | OLDOXRS        | now  | 82                 | VA                 | reinstated |
+      | H41113   | 1X13        | now            | 10:00:00         | create | 91        | 91              | 99999       | OLDOXRS        | now  | 82                 | VA                 | cancelled  |
+    And I give the TJMs 2 seconds to load
     And I am on the trains list page
     And The trains list table is visible
     Then the service is displayed in the trains list with the following row colour
@@ -224,14 +228,17 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
 
   Scenario: 40490-10 Invalid reinstate followed by cancellation display in trains list
     * I remove today's train 'H41114' from the Redis trainlist
-    Given the following basic schedule is received from LINX
-      | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
-      | H41114   | N            | 2020-01-01   | 2030-01-01 | 1111111 | 1X14             | PADTON | 12:00     | OLDOXRS     | 12:30   |
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1X14                | H41114         |
     And I wait until today's train 'H41114' has loaded
+    And the following train activation message is sent from LINX
+      | trainUID  | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | H41114    | 1X14        | now                    | 99999               | PADTON                 | today         | now                 |
     And the following TJMs are received
-      | trainUid | trainNumber | departureHour | modificationTime | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode | meaning    |
-      | H41114   | 1X14        | 12            | 10:00:00         | create | 96        | 96              | 99999       | OLDOXRS        | 12:00:00 | 82                 | VA                | reinstated |
-      | H41114   | 1X14        | 12            | 10:01:00         | create | 91        | 91              | 99999       | OLDOXRS        | 12:01:00 | 82                 | VA                | cancelled  |
+      | trainUid | trainNumber | departureHour  | modificationTime | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time| modificationReason | nationalDelayCode | meaning    |
+      | H41114   | 1X14        | now            | 10:00:00         | create | 96        | 96              | 99999       | OLDOXRS        | now | 82                 | VA                | reinstated |
+      | H41114   | 1X14        | now            | 10:01:00         | create | 91        | 91              | 99999       | OLDOXRS        | now | 82                 | VA                | cancelled  |
     When I am on the trains list page
     And The trains list table is visible
     Then the service is displayed in the trains list with the following row colour

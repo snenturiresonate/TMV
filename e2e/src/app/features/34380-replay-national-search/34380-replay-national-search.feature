@@ -89,7 +89,7 @@ Feature: 34380 - TMV Replay National Search
    And I invoke the context menu from trains '1'
    And I wait for the train search context menu to display
    And the trains context menu is displayed
-   And the train search context menu contains 'Open timetable' on line 1
+   And the train search context menu contains 'Open Timetable' on line 1
    And the train search context menu contains 'Select maps' on line 2
    Then the following map names can be seen
      |mapName|
@@ -111,7 +111,7 @@ Feature: 34380 - TMV Replay National Search
     And I invoke the context menu from an Active service in the Timetable list
     And I wait for the timetable search context menu to display
     And the timetable context menu is displayed
-    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Open Timetable' on line 1
     And the train search context menu contains 'Select maps' on line 2
     Then the following map names can be seen
       |mapName|
@@ -156,7 +156,7 @@ Feature: 34380 - TMV Replay National Search
     And I invoke the context menu from signal 1
     And I wait for the signal search context menu to display
     And the trains context menu is displayed
-    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Open Timetable' on line 1
     And the train search context menu contains 'Select maps' on line 2
     And I select map 'EA02' on line 2 from the search context menu
 #    Then I am presented with a map containing the train 'EA02'

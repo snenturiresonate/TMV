@@ -254,7 +254,7 @@ Feature: 33757 - TMV National Search
     And the window title is displayed as 'Signal Search Results'
     And I click close button at the bottom of table
 
-  Scenario Outline: 33757-4 Train search window shown - Train Search context menu
+  Scenario Outline: 33757-4 Train search window shown - Train Search context menu - <pageName>
     #Given the user is authenticated to use TMV
     #And the user is viewing the train search results pop-up
     #When the user selects a train from search result by using the secondary mouse click
@@ -279,7 +279,7 @@ Feature: 33757 - TMV National Search
     And I invoke the context menu from train with planning UID 'A12345' on the search results table
     And I wait for the train search context menu to display
     And the trains context menu is displayed
-    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Open Timetable' on line 1
     And the train search context menu contains 'Select maps' on line 2
     And the following map names can be seen
       | mapName |
@@ -291,7 +291,7 @@ Feature: 33757 - TMV National Search
     And I invoke the context menu from train with planning UID 'A12345' on the search results table
     And I wait for the train search context menu to display
     Then the trains context menu is displayed
-    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Open Timetable' on line 1
     And the train search context menu contains 'Select maps' on line 2
     And the following map names can be seen
       | mapName |
@@ -304,7 +304,7 @@ Feature: 33757 - TMV National Search
     And I invoke the context menu from train with planning UID 'A12345' on the search results table
     And I wait for the train search context menu to display
     And the trains context menu is displayed
-    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Open Timetable' on line 1
     And the train search context menu contains 'Select maps' on line 2
     And the following map names can be seen
       | mapName |
@@ -336,7 +336,7 @@ Feature: 33757 - TMV National Search
     And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results
     And I wait for the timetable search context menu to display
     And the timetable context menu is displayed
-    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Open Timetable' on line 1
     And the train search context menu contains 'Select maps' on line 2
     And the following map names can be seen
       | mapName |
@@ -348,7 +348,7 @@ Feature: 33757 - TMV National Search
     And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results
     And I wait for the timetable search context menu to display
     Then the timetable context menu is displayed
-    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Open Timetable' on line 1
     And the train search context menu contains 'Select maps' on line 2
     And the following map names can be seen
       | mapName |
@@ -360,7 +360,7 @@ Feature: 33757 - TMV National Search
     And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results
     And I wait for the timetable search context menu to display
     And the timetable context menu is displayed
-    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Open Timetable' on line 1
     And the train search context menu contains 'Select maps' on line 2
     And the following map names can be seen
       | mapName |
@@ -424,7 +424,7 @@ Feature: 33757 - TMV National Search
     And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results
     And I wait for the train search context menu to display
     And the trains context menu is displayed
-    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Open Timetable' on line 1
     And the train search context menu contains 'Select maps' on line 2
     And the following map names can be seen
       | mapName |
@@ -442,7 +442,7 @@ Feature: 33757 - TMV National Search
     And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results
     And I wait for the train search context menu to display
     Then the trains context menu is displayed
-    And the train search context menu contains 'Open timetable' on line 1
+    And the train search context menu contains 'Open Timetable' on line 1
     And the train search context menu contains 'Select maps' on line 2
     And the following map names can be seen
       | mapName |

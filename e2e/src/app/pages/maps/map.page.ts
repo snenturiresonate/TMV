@@ -266,7 +266,7 @@ export class MapPageObject {
         await this.openContextMenuForTrainDescriptionInBerth(trainDescription, describer, berth);
         await this.waitForContextMenu();
         const contextMenuItem = await this.getMapContextMenuItem(row);
-        if (contextMenuItem.includes(indication)) {
+        if (contextMenuItem.toLowerCase().includes(indication.toLowerCase())) {
           return true;
         }
         await this.closeContextMenuForTrainDescriptionInBerth(trainDescription, describer, berth);

@@ -423,6 +423,6 @@ Feature: 33805 TMV Schedule Matching
 
     Examples:
       | trainDescriber | berth | secondBerth | origTrainDesc | trainUid | location | subdivision | matchLevel   |
-      | D3             | A001  | 6003        | 2B21          | B44441   | PADTON   | 401         | berth        |
+      | D3             | A007  | 0039        | 2B21          | B44441   | PADTON   | 401         | berth        |
       | D3             | A011  | 0041        | 2B22          | B44442   | PADTON   | 401         | location     |
       | D3             | 0107  | 0125        | 2B23          | B44443   | PRTOBJP  | 401         | sub-division |

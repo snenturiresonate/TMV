@@ -87,7 +87,6 @@ Feature: 47637 - Process C Class Messages - Berth Translation
       | trainDescription | fromTrainDescriber | fromBerth | toTrainDescriber | toBerth | newTrainDescriber | newBerth |
       | 1E10             | D3                 | 6071      | D3               | 6067    | D3                | 6068     |
       | 1E11             | C1                 | 1624      | C1               | 1628    | C1                | 1029     |
-      | 1E12             | EX                 | EJ08      | ZY               | EJ04    | ZY                | EJ08     |
 
   Scenario Outline: 33758 Berth Translation - Step With No Matching Config
     # Does not have type T or F
@@ -121,7 +120,6 @@ Feature: 47637 - Process C Class Messages - Berth Translation
       | trainDescription | fromTrainDescriber | fromBerth | newTrainDescriber | newBerth |
       | 1E14             | D3                 | 6071      | D3                | 6068     |
       | 1E15             | C1                 | 1624      | C1                | 1029     |
-      | 1E16             | EX                 | EJ08      | ZY                | EJ08     |
 
   Scenario Outline: 33758 Berth Translation - Cancel With No Matching Config
     # Does not have type C

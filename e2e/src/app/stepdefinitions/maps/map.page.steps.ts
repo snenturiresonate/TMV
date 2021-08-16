@@ -681,7 +681,7 @@ When(/^I toggle path (?:on|off) from the map context menu$/, async () => {
 
 Then('the map context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
   const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
-  expect(actualContextMenuItem, `Map menu item not as expected`).to.contain(expectedText);
+  expect(actualContextMenuItem.toLowerCase(), `Map menu item not as expected`).to.contain(expectedText.toLowerCase());
 });
 
 Then('the map context menu does not contain {string} on line {int}', async (expectedText: string, rowNum: number) => {
@@ -849,48 +849,48 @@ Then(/^the (Matched|Unmatched|Left behind Matched) version of the map context me
   let expected2;
   let expected3;
   if (matchType === 'Matched') {
-    expected1 = 'Open timetable';
+    expected1 = 'Open Timetable';
     expected2 = 'Turn Path On';
     expected3 = 'Highlight';
 
   } else if (matchType === 'Left behind Matched') {
-    expected1 = 'Open timetable';
+    expected1 = 'Open Timetable';
     expected2 = 'Turn Path On';
     expected3 = 'Clear Berth';
 
   } else {
-    expected1 = 'No timetable';
+    expected1 = 'No Timetable';
     expected2 = 'Match';
     expected3 = 'Highlight';
   }
   const contextMenuItem1: string = await mapPageObject.getMapContextMenuItem(2);
   const contextMenuItem2: string = await mapPageObject.getMapContextMenuItem(3);
   const contextMenuItem3: string = await mapPageObject.getMapContextMenuItem(4);
-  expect(contextMenuItem1, `Context menu does not imply ${matchType} state - does not contain ${expected1}`)
-    .to.contain(expected1);
-  expect(contextMenuItem2, `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
-    .to.contain(expected2);
-  expect(contextMenuItem3, `Context menu does not imply ${matchType} state - does not contain ${expected3}`)
-    .to.contain(expected3);
+  expect(contextMenuItem1.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected1}`)
+    .to.contain(expected1.toLowerCase());
+  expect(contextMenuItem2.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
+    .to.contain(expected2.toLowerCase());
+  expect(contextMenuItem3.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected3}`)
+    .to.contain(expected3.toLowerCase());
 
 });
 
 Then(/^the Matched or Left behind Matched version of the map context menu (is|is not) displayed$/, async (negate: string) => {
   await mapPageObject.waitForContextMenu();
-  const expected1 = 'Open timetable';
+  const expected1 = 'Open Timetable';
   const expected2 = 'Turn Path On';
   const contextMenuItem1: string = await mapPageObject.getMapContextMenuItem(2);
   const contextMenuItem2: string = await mapPageObject.getMapContextMenuItem(3);
   if (negate === 'is') {
-    expect(contextMenuItem1, `Context menu does not imply a matched state - does not contain ${expected1}`)
-      .to.contain(expected1);
-    expect(contextMenuItem2, `Context menu does not imply a matched state - does not contain ${expected2}`)
-      .to.contain(expected2);
+    expect(contextMenuItem1.toLowerCase(), `Context menu does not imply a matched state - does not contain ${expected1}`)
+      .to.contain(expected1.toLowerCase());
+    expect(contextMenuItem2.toLowerCase(), `Context menu does not imply a matched state - does not contain ${expected2}`)
+      .to.contain(expected2.toLowerCase());
   } else {
-    expect(contextMenuItem1, `Context menu implies a matched state - contains ${expected1}`)
-      .to.not.contain(expected1);
-    expect(contextMenuItem2, `Context menu implies a matched state - contains ${expected2}`)
-      .to.not.contain(expected2);
+    expect(contextMenuItem1.toLowerCase(), `Context menu implies a matched state - contains ${expected1}`)
+      .to.not.contain(expected1.toLowerCase());
+    expect(contextMenuItem2.toLowerCase(), `Context menu implies a matched state - contains ${expected2}`)
+      .to.not.contain(expected2.toLowerCase());
   }
 });
 

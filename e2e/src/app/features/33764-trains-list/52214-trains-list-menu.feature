@@ -28,7 +28,7 @@ Feature: 52214 - TMV Trains List - menu
     Then the trains list context menu contains 'SERVICE : ' on line 1
     And the trains list context menu contains the only 'SERVICE' of train <trainNum> on line 1
     And the trains list context menu contains the only 'TOC/FOC' of train <trainNum> on line 1
-    And the trains list context menu contains 'Open timetable' on line 2
+    And the trains list context menu contains 'Open Timetable' on line 2
     And the trains list context menu contains 'Find train' on line 4
     And the trains list context menu contains the only 'SERVICE' of train <trainNum> on line 5
     And the trains list context menu contains the only 'PUNCT.' of train <trainNum> on line 5

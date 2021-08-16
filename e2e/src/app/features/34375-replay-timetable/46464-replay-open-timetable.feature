@@ -64,7 +64,7 @@ Feature: 34375 - TMV Replay Timetable - Open Timetable
     And I wait for the buffer to fill
     When I select skip forward to just after replay scenario step '1'
     And I invoke the context menu on the map for train 1A03
-    Then the map context menu contains 'No timetable' on line 2
+    Then the map context menu contains 'No Timetable' on line 2
 
   @tdd @replayTest
   Scenario Outline: 34375-3a Replay - Open Timetable (from Search Result - matched service (Train) and matched/unmatched services (Timetable) have timetables)
@@ -85,7 +85,7 @@ Feature: 34375 - TMV Replay Timetable - Open Timetable
     When I invoke the context menu from a <serviceStatus> service in the <searchType> list
     And I wait for the '<searchType>' search context menu to display
     And the '<searchType>' context menu is displayed
-    And the '<searchType>' search context menu contains 'Open timetable' on line 1
+    And the '<searchType>' search context menu contains 'Open Timetable' on line 1
     And the '<searchType>' search context menu contains 'Select maps' on line 2
     And I click on timetable link
     And I switch to the new tab

@@ -141,7 +141,7 @@ When(/^I wait until today's train '(.*)' has loaded$/, async (uid: string) => {
   await browser.wait(async () => {
     const data = await client.hgetString(hash, 'scheduleId');
     return (data === trainIdentifier);
-  }, 10000, `${trainIdentifier} not found in Redis trainlist`);
+  }, 35000, `${trainIdentifier} not found in Redis trainlist`);
   });
 
 Then('train description {string} disappears from the trains list', async (trainDescription: string) => {
@@ -217,7 +217,7 @@ Then('the trains list context menu is displayed', async () => {
 
 Then('the trains list context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
   const actualContextMenuItem: string = await trainsListPage.getTrainsListContextMenuItem(rowNum);
-  expect(actualContextMenuItem, 'Trains list menu item is not as expected').to.contain(expectedText);
+  expect(actualContextMenuItem.toLowerCase(), 'Trains list menu item is not as expected').to.contain(expectedText.toLowerCase());
 });
 
 Then('the trains list context menu has {string} on line {int}', async (expectedText: string, rowNum: number) => {
@@ -253,24 +253,24 @@ Then(/^the (Matched|Unmatched) version of the trains list context menu is displa
   let expected3;
   let contextMenuItem3;
   if (matchType === 'Matched') {
-    expected1 = 'Open timetable';
+    expected1 = 'Open Timetable';
     expected2 = 'Find Train';
 
   } else {
-    expected1 = 'No timetable';
+    expected1 = 'No Timetable';
     expected2 = 'Find Train';
     expected3 = 'Match';
     contextMenuItem3 = await trainsListPage.getTrainsListContextMenuItem(4);
   }
   const contextMenuItem1: string = await trainsListPage.getTrainsListContextMenuItem(2);
   const contextMenuItem2: string = await trainsListPage.getTrainsListContextMenuItem(3);
-  expect(contextMenuItem1, `Context menu does not imply ${matchType} state - does not contain ${expected1}`)
-    .to.contain(expected1);
-  expect(contextMenuItem2, `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
-    .to.contain(expected2);
+  expect(contextMenuItem1.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected1}`)
+    .to.contain(expected1.toLowerCase());
+  expect(contextMenuItem2.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
+    .to.contain(expected2.toLowerCase());
   if (!(matchType === 'Matched')) {
-    expect(contextMenuItem3, `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
-      .to.contain(expected3);
+    expect(contextMenuItem3.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
+      .to.contain(expected3.toLowerCase());
   }
 });
 
