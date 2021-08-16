@@ -5,6 +5,8 @@ Feature: 33753 - TMV Timetable
   So that there is confidence that it continues to work as expected as more of the system is developed
 
   Background:
+    * I reset redis
+    * I have cleared out all headcodes
     * I am on the home page
     * I restore to default train list config
 
@@ -118,9 +120,11 @@ Feature: 33753 - TMV Timetable
       | searchType | searchVal | serviceStatus | trainNum | planningUid |
       | Train      | 1A99      | UNMATCHED     | 1A99     | L10099      |
 
-  @bug @bug:60049
   Scenario Outline: 33753-3c Open Timetable (from Manual Match Search Result - matched/unmatched services have timetable)
-    Given I am viewing the map HDGW01paddington.v
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1W06_EUSTON_BHAMNWS.cif | EUSTON      | WTT_dep       | <trainNum>          | B46452         |
+    And I am viewing the map HDGW01paddington.v
     And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth | trainDescriber | trainDescription |
       | <berth> | D4             | <trainNum>       |
@@ -128,19 +132,17 @@ Feature: 33753 - TMV Timetable
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching'
-    And I invoke the context menu from a <serviceStatus> service in the <searchType> list
+    And I invoke the context menu from a <serviceStatus> service in the train list
     And I wait for the '<searchType>' search context menu to display
     And the '<searchType>' context menu is displayed
     And the '<searchType>' search context menu contains 'Open Timetable' on line 1
-    And the '<searchType>' search context menu contains 'Select maps' on line 2
-    And I click on timetable link
+    And I click on the unscheduled timetable link
     And I switch to the new tab
     And the tab title is 'TMV Timetable'
 
     Examples:
-      | trainNum | berth | searchType | serviceStatus |
-      | 1A04     | 0249  | Timetable  | ACTIVATED     |
-      | 1A05     | 0253  | Timetable  | UNMATCHED     |
+      | trainNum | berth | searchType  | serviceStatus |
+      | 1B04     | 0249  | Unscheduled | UNCALLED      |
 
 
   @replaySetup @bug @bug_65062

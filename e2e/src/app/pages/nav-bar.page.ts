@@ -51,6 +51,7 @@ export class NavBarPageObject {
   public statusUnmatched: ElementFinder;
   public signalColumnHeader: ElementFinder;
   public signalContext: ElementFinder;
+  public unscheduledContext: ElementFinder;
   public tmvKeyButton: ElementFinder;
   public modalWindow: ElementArrayFinder;
   public helpMenu: ElementFinder;
@@ -113,6 +114,7 @@ export class NavBarPageObject {
     this.signalColumnHeader = element(by.css('#signalSearchResults thead'));
     this.signalSearchRow = element.all(by.css('#signalSearchResults tbody>tr'));
     this.signalContext = element(by.id('signalSearchContextMenu'));
+    this.unscheduledContext = element(by.id('un-schedule-context-menu-timetable'));
     this.tmvKeyButton = element(by.id('tmv-key-button'));
     this.modalWindow = element.all(by.css('.modalpopup'));
     this.helpMenu = element(by.id('help-menu-button'));
@@ -355,8 +357,13 @@ export class NavBarPageObject {
   public async isContextMenuDisplayed(): Promise<boolean> {
     return this.trainContextMenu.isPresent();
   }
+
   public async isSignalContextMenuDisplayed(): Promise<boolean> {
     return this.signalContext.isPresent();
+  }
+
+  public async isUnscheduledContextMenuDisplayed(): Promise<boolean> {
+    return this.unscheduledContext.isPresent();
   }
 
   public async isTMVKeyOptionDisplayed(): Promise<boolean> {
@@ -383,6 +390,14 @@ export class NavBarPageObject {
     }, browser.displayTimeout, 'The trains list context menu should be displayed');
     return this.signalContext.isPresent();
   }
+
+  public async waitForUnscheduledContext(): Promise<boolean> {
+    browser.wait(async () => {
+      return this.unscheduledContext.isPresent();
+    }, browser.displayTimeout, 'The unscheduled context menu should be displayed');
+    return this.unscheduledContext.isPresent();
+  }
+
   public async waitForContextMap(): Promise<boolean> {
     browser.wait(async () => {
       return this.contextMapLink.isPresent();

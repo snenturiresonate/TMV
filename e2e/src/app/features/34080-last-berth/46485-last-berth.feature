@@ -5,21 +5,21 @@ Feature: 34080 - Last Berth
   I want to view trains that have reached the last berth
   So that I see the last 10 trains that have reached a particular location
 
+  @bug @bug:66605
   Scenario Outline: 34080-1a Last Berth (Secondary Click) - less than 10
 #    Given the user is viewing a live schematic map
 #    And there are services running
 #    When the user views a last berth containing a service
 #    And performs a secondary click on the last berth
 #    Then the user is presented with a list of the last services that have finished at this berth
-
     Given the access plan located in CIF file '<cifFile>' is received from LINX
-    And the following berth interpose messages are sent from LINX (setting up matches)
+    And the following live berth interpose messages are sent from LINX (setting up matches)
       | timeStamp | toBerth | trainDescriber | trainDescription |
       | 10:40:00  | 0581    | D6             | 2B51             |
       | 11:40:00  | 0581    | D6             | 2B53             |
       | 12:40:00  | 0581    | D6             | 2B55             |
       | 13:40:00  | 0581    | D6             | 2B57             |
-    And the following berth step messages are sent from LINX (moving through last berth)
+    And the following live berth step messages are sent from LINX (moving through last berth)
       | fromBerth | timeStamp | toBerth | trainDescriber | trainDescription |
       | 0581      | 10:43:00  | LMBE    | D6             | 2B51             |
       | 0581      | 11:45:00  | LMBE    | D6             | 2B53             |
@@ -41,8 +41,8 @@ Feature: 34080 - Last Berth
       | 2B57               |              | unknown | 13:50:00    | today       |
 
     Examples:
-      | cifFile                     | map          | lBTD | lB1  | lTD1 | TDandBerthId1 | numTrains1 | lB2  | lTD2 | TDandBerthId2 | numTrains2 |
-      | schedules_to_bourne_end.cif | gw2aslough.v | D6   | LMBE | 2B55 | D6LMBE        | 3          | MDES | 2B55 | D6MDES        | 1          |
+      | cifFile                                 | map          | lBTD | lB1  | lTD1 | TDandBerthId1 | numTrains1 | lB2  | lTD2 | TDandBerthId2 | numTrains2 |
+      | access-plan/schedules_to_bourne_end.cif | gw2aslough.v | D6   | LMBE | 2B55 | D6LMBE        | 3          | MDES | 2B55 | D6MDES        | 1          |
 
   Scenario Outline: 34080-1b Last Berth (Secondary Click) - more than 10
     Given the access plan located in CIF file '<cifFile>' is received from LINX

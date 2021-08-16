@@ -343,6 +343,9 @@ Then('the {string} context menu is displayed', async (searchType: string) => {
   if (searchType === 'Signal') {
     isContextMenuVisible = await navBarPage.isSignalContextMenuDisplayed();
   }
+  if (searchType === 'Unscheduled') {
+    isContextMenuVisible = await navBarPage.isUnscheduledContextMenuDisplayed();
+  }
   expect(isContextMenuVisible, `The ${searchType} context menu is not shown`).to.equal(true);
 });
 
@@ -382,15 +385,20 @@ Then('the {string} search context menu contains {string} on line {int}',
 });
 
 When('I wait for the {string} search context menu to display', async (searchType: string) => {
+  let result = false;
   if (searchType === 'Train') {
-    await navBarPage.waitForTrainContext();
+    result = await navBarPage.waitForTrainContext();
   }
   else if (searchType === 'Timetable') {
-    await navBarPage.waitForTimetableContext();
+    result = await navBarPage.waitForTimetableContext();
   }
   else if (searchType === 'Signal') {
-    await navBarPage.waitForSignalContext();
+    result = await navBarPage.waitForSignalContext();
   }
+  else if (searchType === 'Unscheduled') {
+    result = await navBarPage.waitForUnscheduledContext();
+  }
+  expect(result, 'The context menu was not displayed').to.equal(true);
 });
 
 When('I wait for the train search context menu to display', async () => {
@@ -417,6 +425,9 @@ Then('I click on timetable link', async () => {
   await navBarPage.timeTableLink.click();
 });
 
+Then('I click on the unscheduled timetable link', async () => {
+  await navBarPage.unscheduledContext.click();
+});
 
 Then('I placed the mouseover on map arrow link', async () => {
   await browser.actions().mouseMove(element(by.css('.map-link:nth-child(1)'))).perform();
@@ -452,11 +463,11 @@ Then(/^I invoke the context menu from an? (.*) service in the (.*) list$/, async
   let itemNum = await navBarPage.getServiceWithStatus(statusType, searchType.toLowerCase());
   expect(itemNum, `No service with status ${statusType}`).to.not.equal(-1);
   itemNum = itemNum + 1;
-  if (searchType === 'Train') {
+  if (searchType.toLowerCase() === 'train') {
     await navBarPage.rightClickTrainSearchList(itemNum);
     browser.selectedTrain = await navBarPage.getSearchListValueForColumnAndRow(searchType.toLowerCase(), 'TrainDesc', itemNum);
   }
-  else if (searchType === 'Timetable') {
+  else if (searchType.toLowerCase() === 'timetable') {
     await navBarPage.rightClickTimeTableSearchList(itemNum);
     browser.selectedTrain = await navBarPage.getSearchListValueForColumnAndRow(searchType.toLowerCase(), 'TrainDesc', itemNum);
   }
