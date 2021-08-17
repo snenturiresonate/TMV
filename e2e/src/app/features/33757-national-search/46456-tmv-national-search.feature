@@ -195,7 +195,9 @@ Feature: 33757 - TMV National Search
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 4F07                | F10001         |
     And I wait until today's train 'F10001' has loaded
     And I navigate to <pageName> page
-    When I search Timetable for '4F07'
+    When I search Timetable for '4F07' and wait for result
+      | PlanningUid | Scheduletype  |
+      | F10001      | LTP           |
     Then results are returned with that planning UID 'F10001'
 
     Examples:
@@ -265,14 +267,16 @@ Feature: 33757 - TMV National Search
     And I wait until today's train 'A12345' has loaded
     And the following live berth interpose message is sent from LINX (to create a match)
       | toBerth | trainDescriber | trainDescription |
-      | R029    | D3             | 1L24             |
+      | A007    | D3             | 1L24             |
     And I am viewing the map HDGW01paddington.v
-    And berth 'R029' in train describer 'D3' contains '1L24' and is visible
-    And I wait for the Open timetable option for train description 1L24 in berth R029, describer D3 to be available
+    And berth 'A007' in train describer 'D3' contains '1L24' and is visible
+    And I wait for the Open timetable option for train description 1L24 in berth A007, describer D3 to be available
     And I navigate to <pageName> page
     And I give the train 2 seconds to load
     And I refresh the Elastic Search indices
-    And I search Train for '1L24'
+    When I search Train for '1L24' and wait for result
+      | PlanningUid |
+      | A12345      |
     And results are returned with that planning UID 'A12345'
     And the Train search table is shown
     And the window title is displayed as 'Train Search Results'
@@ -285,9 +289,9 @@ Feature: 33757 - TMV National Search
       | mapName |
       | GW01    |
       | HDGW01  |
-    And the following live berth interpose message is sent from LINX (to move train)
-      | toBerth | trainDescriber | trainDescription |
-      | 0032    | D3             | 1L24             |
+    And the following live berth step message is sent from LINX (to move train)
+      | fromBerth | toBerth | trainDescriber | trainDescription |
+      | A007      | 0039    | D3             | 1L24             |
     And I invoke the context menu from train with planning UID 'A12345' on the search results table
     And I wait for the train search context menu to display
     Then the trains context menu is displayed
@@ -330,7 +334,9 @@ Feature: 33757 - TMV National Search
     And the following live berth interpose message is sent from LINX (to create a match)
       | toBerth | trainDescriber | trainDescription |
       | R029    | D3             | 1L24             |
-    And I search Timetable for 'A12345'
+    When I search Timetable for 'A12345' and wait for result
+      | TrainDesc | PlanningUid | Scheduletype  | StartDate |
+      | 1L24      | A12345      | VAR           | today     |
     And results are returned with that planning UID 'A12345'
     And the window title is displayed as 'Timetable Search Results'
     And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results
@@ -355,7 +361,9 @@ Feature: 33757 - TMV National Search
       | GW01    |
       | HDGW01  |
     And I click close button at the bottom of table
-    And I search Timetable for 'A12345'
+    When I search Timetable for 'A12345' and wait for result
+      | TrainDesc | PlanningUid | Scheduletype  | StartDate |
+      | 1L24      | A12345      | VAR           | today     |
     And results are returned with that planning UID 'A12345'
     And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results
     And I wait for the timetable search context menu to display

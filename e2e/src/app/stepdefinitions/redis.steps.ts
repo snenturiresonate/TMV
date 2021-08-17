@@ -20,6 +20,10 @@ When('I delete {string} from hash {string}', async (field: string, hash: string)
   );
 });
 
+When('I delete {string} from Redis', async (streamName: string) => {
+  await redisClient.deleteKey(streamName);
+});
+
 When('I remove schedule {string} from the trains list', async (scheduleId: string) => {
   const dateFormat = 'yyyy-MM-dd';
   redisClient.keyDelete('trainlist:' + scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat(('today'), dateFormat));

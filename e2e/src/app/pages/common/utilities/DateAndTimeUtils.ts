@@ -85,7 +85,8 @@ export class DateAndTimeUtils {
    */
   public static async getTimeComponent(dateTime: string): Promise<string> {
     const inputDateTime = new Date(dateTime);
-    return inputDateTime.toLocaleTimeString();
+    const options = { timeZone: 'Europe/London', timeStyle: 'medium' };
+    return inputDateTime.toLocaleTimeString('en-GB', options);
   }
   /**
    * Returns the parsed date time from the string input of date & time. Useful for assertions with tolerance
@@ -184,5 +185,25 @@ export class DateAndTimeUtils {
   public static async subtractWeeksToDateTime(timeStamp: string, decrement: number): Promise<any> {
     const parsedDateTime = new Date(timeStamp);
     return moment(parsedDateTime).subtract(decrement, 'weeks').toDate();
+  }
+
+  /**
+   * adjustNowTime
+   * @param operator: either '+' or '-'
+   * @param minutesToAdjust: the number of minutes to add or subtract to the current time
+   */
+  public static async adjustNowTime(operator: string, minutesToAdjust: number): Promise<string> {
+    let adjustedTime = DateAndTimeUtils.getCurrentTime();
+    if (operator === '-') {
+      adjustedTime = await DateAndTimeUtils.subtractMinsToDateTime(
+        DateAndTimeUtils.getCurrentDateTimeString('MM-dd-yyyy HH:mm:ss xxx'), minutesToAdjust);
+      adjustedTime = await DateAndTimeUtils.getTimeComponent(adjustedTime);
+    }
+    else if (operator === '+') {
+      adjustedTime = await DateAndTimeUtils.addMinsToDateTime(
+        DateAndTimeUtils.getCurrentDateTimeString('MM-dd-yyyy HH:mm:ss xxx'), minutesToAdjust);
+      adjustedTime = await DateAndTimeUtils.getTimeComponent(adjustedTime);
+    }
+    return adjustedTime;
   }
 }

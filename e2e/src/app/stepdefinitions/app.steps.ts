@@ -243,7 +243,7 @@ When(/^the following berth interpose messages? (?:is|are) sent from LINX(.*)$/,
 
     for (const berthInterposeMessage of berthInterposeMessages) {
       await linxRestClient.postInterpose(
-        berthInterposeMessage.timestamp,
+        berthInterposeMessage.timeStamp,
         berthInterposeMessage.toBerth,
         berthInterposeMessage.trainDescriber,
         berthInterposeMessage.trainDescription);
@@ -257,6 +257,16 @@ When(/^the following live berth interpose messages? (?:is|are) sent from LINX(.*
     for (const berthInterposeMessage of berthInterposeMessages) {
       await linxRestClient.postInterpose(
         now, berthInterposeMessage.toBerth, berthInterposeMessage.trainDescriber, berthInterposeMessage.trainDescription);
+    }
+  });
+
+When(/^the following live (.) (.*) minutes? berth interpose messages? (?:is|are) sent from LINX(.*)$/,
+  async (operator: string, minutesToAdjust: number, explanation: string, berthInterposeMessageTable: any) => {
+    const adjustedTime: string = await DateAndTimeUtils.adjustNowTime(operator, minutesToAdjust);
+    const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
+    for (const berthInterposeMessage of berthInterposeMessages) {
+      await linxRestClient.postInterpose(
+        adjustedTime, berthInterposeMessage.toBerth, berthInterposeMessage.trainDescriber, berthInterposeMessage.trainDescription);
     }
   });
 
@@ -285,6 +295,24 @@ When(/^the following live berth step messages? (?:is|are) sent from LINX(.*)$/,
       const berthStep: BerthStep = new BerthStep(
         berthStepMessage.fromBerth,
         now,
+        berthStepMessage.toBerth,
+        berthStepMessage.trainDescriber,
+        berthStepMessage.trainDescription
+      );
+      await CucumberLog.addJson(berthStep);
+      await linxRestClient.postBerthStep(berthStep);
+    }
+    await linxRestClient.waitMaxTransmissionTime();
+  });
+
+When(/^the following live (.) (.*) minutes? berth step messages? (?:is|are) sent from LINX(.*)$/,
+  async (operator: string, minutesToAdjust: number, explanation: string, berthStepMessageTable: any) => {
+    const adjustedTime: string = await DateAndTimeUtils.adjustNowTime(operator, minutesToAdjust);
+    const berthStepMessages: any = berthStepMessageTable.hashes();
+    for (const berthStepMessage of berthStepMessages) {
+      const berthStep: BerthStep = new BerthStep(
+        berthStepMessage.fromBerth,
+        adjustedTime,
         berthStepMessage.toBerth,
         berthStepMessage.trainDescriber,
         berthStepMessage.trainDescription
@@ -525,7 +553,10 @@ Then('the tab title is {string}', async (expectedTabTitle: string) => {
 });
 
 Then('the tab title contains {string}', async (expectedTabTitle: string) => {
-  await browser.driver.wait(ExpectedConditions.titleContains(expectedTabTitle));
+  await browser.driver.wait(async () => {
+    const tabTitle: string = await browser.driver.getTitle();
+    return tabTitle.includes(expectedTabTitle);
+  });
   const actualTabTitle: string = await browser.driver.getTitle();
   expect(actualTabTitle, `Tab title is ${actualTabTitle} not ${expectedTabTitle}`)
     .to.contains(expectedTabTitle);

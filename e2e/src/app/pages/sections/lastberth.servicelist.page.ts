@@ -6,7 +6,7 @@ export class LastberthServicelistPageObject {
   public services: ElementArrayFinder;
 
   constructor() {
-    this.lastBerthServiceList = element(by.id('something'));
+    this.lastBerthServiceList = element(by.id('lastBerthContextMenu'));
     this.services = element.all(by.xpath('something'));
   }
 
@@ -19,19 +19,21 @@ export class LastberthServicelistPageObject {
   }
 
   public async getServiceListRows(): Promise<LastBerthServiceListTableRowPageObject[]> {
-    const rowLocator = by.css('table.modification-table tbody tr');
+    const rowLocator = by.css('li.last-berth-list-item.dropdown-item .row');
+    // li.last-berth-list-item.dropdown-item .row
+    // li.last-berth-list-item.dropdown-item:nth-child(2) .row
     await browser.wait(ExpectedConditions.visibilityOf(element(rowLocator)), 15000, 'Service list is not shown');
     const array = new Array<LastBerthServiceListTableRowPageObject>();
     await element.all(rowLocator)
       .each((row, index) => {array.push(
-        new LastBerthServiceListTableRowPageObject(element(by.css(`table.modification-table tbody tr:nth-child(${index + 1})`))));
+        new LastBerthServiceListTableRowPageObject(row));
       });
     return array;
   }
 
   async getRowByService(service: string): Promise<LastBerthServiceListTableRowPageObject> {
     return new LastBerthServiceListTableRowPageObject
-    (this.lastBerthServiceList.element(by.xpath(`//tr[descendant::td[text()='${service}']]`)));
+    (this.lastBerthServiceList.element(by.xpath(`//span[contains(text(),'${service}')]`)));
   }
 
 }

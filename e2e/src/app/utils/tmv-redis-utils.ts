@@ -54,7 +54,8 @@ export class TMVRedisUtils {
       'path-rules',
       'line-code-to-path-code-rules-hash',
       'berth-translation-hash',
-      'line-to-path-code-rules'];
+      'line-to-path-code-rules',
+      '{last-berths-set}'];
     const redisClient = new RedisClient();
     await redisClient.listKeys('*')
       .then(output => output.filter(key => !configKeys.includes(key))

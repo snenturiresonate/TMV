@@ -103,7 +103,7 @@ async function processCifInputs(cifInputs, plusMins = 0, minusMins = 0): Promise
     refTrainUid = browser.referenceTrainUid;
   }
   else {
-    expect(newTrainProps.newPlanningUid.length, 'Train Description should be length 6').to.equal(6);
+    expect(newTrainProps.newPlanningUid.length, 'Train UID (aka schedule ID) should be length 6').to.equal(6);
     refTrainUid = newTrainProps.newPlanningUid;
   }
   const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), newTrainProps.filePath));

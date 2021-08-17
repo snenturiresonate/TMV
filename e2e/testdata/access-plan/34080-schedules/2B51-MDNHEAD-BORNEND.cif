@@ -1,0 +1,8 @@
+HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
+BSNC564512101012405181111111 POO2B5172  125509007 DMUT   090      S            P
+BX         GWY                                                                  
+LOMDNHEAD 1043 10435B        TB                                                 
+LIFURZEP  1046H1047      10471047         T                                     
+LICOOKHAM 1050 1050H     10501050         T                                     
+LTBORNEND 1054 10541     TF                                                     
+ZZ                                                                              
