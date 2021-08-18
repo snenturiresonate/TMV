@@ -28,6 +28,7 @@ import {DateTimeFormatter, LocalTime, ZonedDateTime, ZoneId} from '@js-joda/core
 import '@js-joda/timezone';
 import {NavBarPageObject} from '../pages/nav-bar.page';
 import {RedisClient} from '../api/redis/redis-client';
+import {TrainUIDUtils} from '../pages/common/utilities/trainUIDUtils';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
@@ -767,6 +768,10 @@ When(/^I step through the Berth Level Schedule for '(.*)'$/, async (uid: string)
       }
     }
   }
+});
+
+Given(/^I generate a new trainUID$/, async () => {
+  browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
 });
 
 Given(/^I log the berth level schedule for '(.*)'$/, async (trainUid) => {

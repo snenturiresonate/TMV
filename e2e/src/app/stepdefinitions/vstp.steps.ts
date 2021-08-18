@@ -4,7 +4,6 @@ import {CucumberLog} from '../logging/cucumber-log';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {VstpUpdates} from '../utils/vstp/vstp-updates';
 import {browser} from 'protractor';
-import { TrainUIDUtils } from '../pages/common/utilities/trainUIDUtils';
 import {ChronoUnit, DateTimeFormatter, ZonedDateTime} from '@js-joda/core';
 
 let linxRestClient: LinxRestClient;
@@ -17,40 +16,33 @@ Before(() => {
   vstpUpdates = new VstpUpdates();
 });
 
-Given(/^the vstp schedule has a schedule before current time period$/, async () => {
+Given(/^the vstp schedule with the new uid has a schedule before current time period$/, async () => {
   const timePeriodStart = DateAndTimeUtils.getCurrentDateTime().minusDays(3);
   const timePeriodEnd = DateAndTimeUtils.getCurrentDateTime().minusDays(2);
-  browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
   vstpUpdateValuesMap.set('<schedule_start_date>', timePeriodStart.format(DateTimeFormatter.ofPattern('yyyyMMdd')));
   vstpUpdateValuesMap.set('<schedule_end_date>', timePeriodEnd.format(DateTimeFormatter.ofPattern('yyyyMMdd')));
   vstpUpdateValuesMap.set('<train_uid>', browser.referenceTrainUid);
 });
 
-Given(/^the vstp schedule has a schedule after current time period$/, async () => {
+Given(/^the vstp schedule with the new uid has a schedule after current time period$/, async () => {
   const timePeriod = DateAndTimeUtils.getCurrentDateTime().plusDays(2);
-  browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
   vstpUpdateValuesMap.set('<schedule_start_date>', timePeriod.format(DateTimeFormatter.ofPattern('yyyyMMdd')));
   vstpUpdateValuesMap.set('<train_uid>', browser.referenceTrainUid);
 });
 
-Given(/^the vstp schedule has a schedule days to run not in current time period$/, async () => {
+Given(/^the vstp schedule with the new uid has a schedule days to run not in current time period$/, async () => {
   const currentDate = DateAndTimeUtils.getCurrentDateTimeString('yyyyMMdd');
   const scheduleDay = DateAndTimeUtils.getCurrentDateTime().plusDays(2).dayOfWeek();
   const runDays = vstpUpdates.runOneDay(scheduleDay.toString()).toString();
-  browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
   vstpUpdateValuesMap.set('<schedule_start_date>', currentDate);
   vstpUpdateValuesMap.set('<schedule_days_runs>', runDays);
   vstpUpdateValuesMap.set('<train_uid>', browser.referenceTrainUid);
 });
 
-Given(/^the vstp schedule has a schedule in the current time period with (.*) uid$/, async (uidSource: string) => {
+Given(/^the vstp schedule has a schedule in the current time period with the (.*) uid$/, async (uidSource: string) => {
   const currentDate = DateAndTimeUtils.getCurrentDateTimeString('yyyyMMdd');
   vstpUpdateValuesMap.set('<schedule_start_date>', currentDate);
   if (uidSource === 'new') {
-    browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
-    vstpUpdateValuesMap.set('<train_uid>', browser.referenceTrainUid);
-  }
-  else if (uidSource === 'existing') {
     vstpUpdateValuesMap.set('<train_uid>', browser.referenceTrainUid);
   }
   else {

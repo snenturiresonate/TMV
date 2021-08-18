@@ -9,7 +9,6 @@ import {browser} from 'protractor';
 import {expect} from 'chai';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 import {CucumberLog} from '../logging/cucumber-log';
-import {TrainUIDUtils} from '../pages/common/utilities/trainUIDUtils';
 import {ChronoField, ChronoUnit, DateTimeFormatter, ZonedDateTime} from '@js-joda/core';
 
 let page: AppPage;
@@ -99,7 +98,6 @@ async function processCifInputs(cifInputs, plusMins = 0, minusMins = 0): Promise
   let refTrainUid;
   expect(newTrainProps.newTrainDescription.length, 'Train Description should be of form nCnn').to.equal(4);
   if (newTrainProps.newPlanningUid === 'generated') {
-    browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
     refTrainUid = browser.referenceTrainUid;
   }
   else {
@@ -153,12 +151,11 @@ When('the access plan located in CIF file {string} is received from LINX',
     linxRestClient.addAccessPlan('', rawData.toString());
   });
 
-When('the access plan located in CIF file {string} is received from LINX with a generated uid',
+When('the access plan located in CIF file {string} is received from LINX with the new uid',
   async (cifFilePath: string) => {
     const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), cifFilePath));
     const initialString = rawData.toString();
     const cifLines: string[] = initialString.split(/\r?\n/, 1000);
-    browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
     for (let i = 0; i < cifLines.length; i++) {
       const rowType = cifLines[i].substr(0, 2);
       cifLines[i] = adjustCIFTrainUId(cifLines[i], rowType, browser.referenceTrainUid);
