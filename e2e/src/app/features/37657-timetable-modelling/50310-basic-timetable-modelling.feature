@@ -66,105 +66,99 @@ Feature: 37657 - Basic Timetable Modelling
       | 4F05             | A537657  | 2020-01-01   | 2050-12-01 | P            | LTP         |
       | 4F06             | A637657  | 2020-01-01   | 2050-12-01 | N            | STP         |
 
-  @bug @task:62113 @flaky
   Scenario Outline: 37657-4 Base Schedule is displayed
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # And no other STPs have been received for that service
     # When a user searches for that timetable
     # Then one timetable with the planning UID and schedule date is returned and the type is <DisplayType>
-    * I remove today's train '<trainUid>' from the Redis trainlist
     Given I am on the home page
-    And the access plan located in CIF file '<fileName>' is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And I wait until today's train '<trainUid>' has loaded
-    When I search Timetable for '<trainUid>' and wait for result
-      | PlanningUid | Scheduletype  |
-      | <trainUid>  | <displayType> |
-    Then one result is returned for today with that planning UID <trainUid> and it has status <statusType> and sched <displayType> and service <trainDescription>
+    And I generate a new trainUID
+    * I remove today's train 'generatedTrainUId' from the Redis trainlist
+    And the access plan located in CIF file '<fileName>' is received from LINX with the new uid
+    And I wait until today's train 'generatedTrainUId' has loaded
+    When I search Timetable for 'generatedTrainUId' and wait for result
+      | PlanningUid       | Scheduletype  |
+      | generatedTrainUId | <displayType> |
+    Then one result is returned for today with that planning UID generatedTrainUId and it has status <statusType> and sched <displayType> and service <trainDescription>
 
     Examples:
-      | fileName                            | trainDescription | trainUid | statusType | displayType |
-      | access-plan/schedules_BS_type_P.cif | 1W21             | W12145   | UNCALLED   | LTP         |
-      | access-plan/schedules_BS_type_N.cif | 1W22             | W12245   | UNCALLED   | STP         |
+      | fileName                            | trainDescription | statusType | displayType |
+      | access-plan/schedules_BS_type_P.cif | 1W21             | UNCALLED   | LTP         |
+      | access-plan/schedules_BS_type_N.cif | 1W22             | UNCALLED   | STP         |
 
-  @bug @bug_61549
   Scenario Outline: 37657-5 Schedule Cancellation is displayed
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # When a user searches for that timetable
     # Then one timetable with the planning UID and schedule date is returned and the type is <DisplayType>
-#    ***Can't check for load via Trains List here as cancelled services may not show*****
     Given I am on the home page
-    And the access plan located in CIF file '<fileName>' is received from LINX
-    And I give the system 3 seconds to load
-    When I search Timetable for '<trainUid>' and wait for result
-      | PlanningUid | Scheduletype  |
-      | <trainUid>  | <displayType> |
-    Then one result is returned for today with that planning UID <trainUid> and it has status <statusType> and sched <displayType> and service <trainDescription>
+    And I generate a new trainUID
+    And the access plan located in CIF file '<fileName>' is received from LINX with the new uid
+    And I give the cancellation 5 seconds to load
+    When I search Timetable for 'generatedTrainUId' and wait for result
+      | PlanningUid       | Scheduletype  |
+      | generatedTrainUId | <displayType> |
+    Then one result is returned for today with that planning UID generatedTrainUId and it has status <statusType> and sched <displayType> and service <trainDescription>
     Examples:
-      | fileName                                | trainDescription | trainUid | statusType | displayType |
-      | access-plan/schedules_BS_type_C.cif     | 1W23             | W12345   | CANCELLED  | CAN         |
-      | access-plan/schedules_BS_type_P_C.cif   | 1W24             | W12445   | CANCELLED  | CAN         |
-      | access-plan/schedules_BS_type_P_O_C.cif | 1W25             | W12545   | CANCELLED  | CAN         |
-      | access-plan/schedules_BS_type_N_C.cif   | 1W26             | W12645   | CANCELLED  | CAN         |
-      | access-plan/schedules_BS_type_N_O_C.cif | 1W27             | W12745   | CANCELLED  | CAN         |
+      | fileName                                | trainDescription | statusType | displayType |
+      | access-plan/schedules_BS_type_C.cif     | 1W23             | CANCELLED  | CAN         |
+      | access-plan/schedules_BS_type_P_C.cif   | 1W24             | CANCELLED  | CAN         |
+      | access-plan/schedules_BS_type_P_O_C.cif | 1W25             | CANCELLED  | CAN         |
+      | access-plan/schedules_BS_type_N_C.cif   | 1W26             | CANCELLED  | CAN         |
+      | access-plan/schedules_BS_type_N_O_C.cif | 1W27             | CANCELLED  | CAN         |
 
-  @bug @bug_61549
   Scenario Outline: 37657-6 Schedule Overlay is displayed
     # Given multiple schedules has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # When a user searches for that timetable
     # Then one timetable with the planning UID and schedule date is returned and the type is <DisplayType>
     Given I am on the home page
-    And the access plan located in CIF file '<fileName>' is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
-    When I search Timetable for '<trainUid>' and wait for result
-      | PlanningUid | Scheduletype  |
-      | <trainUid>  | <displayType> |
-    Then one result is returned for today with that planning UID <trainUid> and it has status <statusType> and sched <displayType> and service <trainDescription>
+    And I generate a new trainUID
+    * I remove today's train 'generatedTrainUId' from the Redis trainlist
+    And the access plan located in CIF file '<fileName>' is received from LINX with the new uid
+    * I wait until today's train 'generatedTrainUId' has loaded
+    When I search Timetable for 'generatedTrainUId' and wait for result
+      | PlanningUid       | Scheduletype  |
+      | generatedTrainUId | <displayType> |
+    Then one result is returned for today with that planning UID generatedTrainUId and it has status <statusType> and sched <displayType> and service <trainDescription>
     Examples:
-      | fileName                              | trainDescription | trainUid | statusType | displayType |
-      | access-plan/schedules_BS_type_O.cif   | 1W28             | W12845   | UNCALLED   | VAR         |
-      | access-plan/schedules_BS_type_P_O.cif | 1W29             | W12945   | UNCALLED   | VAR         |
-      | access-plan/schedules_BS_type_N_O.cif | 1W30             | W13045   | UNCALLED   | VAR         |
+      | fileName                              | trainDescription | statusType | displayType |
+      | access-plan/schedules_BS_type_O.cif   | 1W28             | UNCALLED   | VAR         |
+      | access-plan/schedules_BS_type_P_O.cif | 1W29             | UNCALLED   | VAR         |
+      | access-plan/schedules_BS_type_N_O.cif | 1W30             | UNCALLED   | VAR         |
 
-  @bug @bug_61549
   Scenario Outline: 37657-7a Multiple schedules with the same precedence (not cancelled)
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # When a user searches for that timetable
     # Then newest version of the timetable with the planning UID and schedule date is returned and the type is <DisplayType>
     Given I am on the home page
-    And the access plan located in CIF file '<fileName>' is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
-    When I search Timetable for '<trainUid>' and wait for result
-      | PlanningUid | Scheduletype  |
-      | <trainUid>  | <displayType> |
-    Then one result is returned for today with that planning UID <trainUid> and it has status <statusType> and sched <displayType> and service <trainDescription>
+    And I generate a new trainUID
+    * I remove today's train 'generatedTrainUId' from the Redis trainlist
+    And the access plan located in CIF file '<fileName>' is received from LINX with the new uid
+    * I wait until today's train 'generatedTrainUId' has loaded
+    When I search Timetable for 'generatedTrainUId' and wait for result
+      | PlanningUid       | Scheduletype  |
+      | generatedTrainUId | <displayType> |
+    Then one result is returned for today with that planning UID generatedTrainUId and it has status <statusType> and sched <displayType> and service <trainDescription>
     Examples:
-      | fileName                              | trainDescription | trainUid | statusType | displayType |
-      | access-plan/schedules_BS_type_P_P.cif | 1W41             | W13145   | UNCALLED   | LTP         |
-      | access-plan/schedules_BS_type_O_O.cif | 1W42             | W13245   | UNCALLED   | VAR         |
-      | access-plan/schedules_BS_type_N_N.cif | 1W43             | W13345   | UNCALLED   | STP         |
+      | fileName                              | trainDescription | statusType | displayType |
+      | access-plan/schedules_BS_type_P_P.cif | 1W41             | UNCALLED   | LTP         |
+      | access-plan/schedules_BS_type_O_O.cif | 1W42             | UNCALLED   | VAR         |
+      | access-plan/schedules_BS_type_N_N.cif | 1W43             | UNCALLED   | STP         |
 
-  @bug @bug_61549
   Scenario Outline: 37657-7b Multiple schedules with the same precedence (cancelled)
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # When a user searches for that timetable
     # Then newest version of the timetable with the planning UID and schedule date is returned and the type is <DisplayType>
-#    ***Can't check for load via Trains List here as cancelled services may not show*****
     Given I am on the home page
-    And the access plan located in CIF file '<fileName>' is received from LINX
-    And I give the system 3 seconds to load
-    When I search Timetable for '<trainUid>' and wait for result
-      | PlanningUid | Scheduletype  |
-      | <trainUid>  | <displayType> |
-    Then one result is returned for today with that planning UID <trainUid> and it has status <statusType> and sched <displayType> and service <trainDescription>
+    And I generate a new trainUID
+    And the access plan located in CIF file '<fileName>' is received from LINX with the new uid
+    And I give the cancellation 5 seconds to load
+    When I search Timetable for 'generatedTrainUId' and wait for result
+      | PlanningUid       | Scheduletype  |
+      | generatedTrainUId | <displayType> |
+    Then one result is returned for today with that planning UID generatedTrainUId and it has status <statusType> and sched <displayType> and service <trainDescription>
     Examples:
-      | fileName                              | trainDescription | trainUid | statusType | displayType |
-      | access-plan/schedules_BS_type_C_C.cif | 1W34             | W13445   | CANCELLED  | CAN         |
+      | fileName                              | trainDescription | statusType | displayType |
+      | access-plan/schedules_BS_type_C_C.cif | 1W44             | CANCELLED  | CAN         |
 
   Scenario Outline: 37657-8 Schedule details content are displayed
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
@@ -191,19 +185,14 @@ Feature: 37657 - Basic Timetable Modelling
       | access-plan/schedules_BS_type_N.cif | W12245   | STP          | 1W22      | N      |
       | access-plan/schedules_BS_type_O.cif | W12845   | VAR          | 1W28      | O      |
 
-    @bug @bug_63590
-    Scenario Outline: 37657-9 Schedule locations are displayed
+  Scenario Outline: 37657-9 Schedule locations are displayed
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # When a user views that timetable with inserted locations turned off
     # Then the locations displayed match those provided in the CIF
+    * I remove today's train '<trainUid>' from the Redis trainlist
     Given the access plan located in CIF file '<fileName>' is received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
-    And I invoke the context menu for todays train '<trainDesc>' schedule uid '<trainUid>' from the trains list
-    And I wait for the trains list context menu to display
-    When I open timetable from the context menu
-    And I switch to the new tab
+    * I wait until today's train '<trainUid>' has loaded
+    And I am on the timetable view for service '<trainUid>'
     Then The timetable entries contains the following data
       | rowNum | location               | locInstance | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
       | 1      | London Paddington      | 1           |                    | 09:33:00        |                   | 09:33:00       | 12                |                  | 4                |            | TB         |                 |              |           |          |          |             |

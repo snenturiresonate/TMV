@@ -442,9 +442,16 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
       trainUID = browser.referenceTrainUid;
     }
     const trainNumber = trainActivationMessages[i].trainNumber;
+    const schedDepString = (trainActivationMessages[i].scheduledDepartureTime).toLowerCase();
     const scheduledDepartureTime = () => {
-      if ((trainActivationMessages[i].scheduledDepartureTime).toLowerCase() === 'now') {
+      if (schedDepString === 'now') {
         return DateAndTimeUtils.getCurrentTimeString();
+      } else if (schedDepString.includes('now + ')) {
+        const offset = parseInt(schedDepString.substr(6, schedDepString.length - 6), 10);
+        return DateAndTimeUtils.getCurrentTime().plusMinutes(offset).format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+      } else if (schedDepString.includes('now - ')) {
+        const offset = parseInt(schedDepString.substr(6, schedDepString.length - 6), 10);
+        return DateAndTimeUtils.getCurrentTime().minusMinutes(offset).format(DateTimeFormatter.ofPattern('HH:mm:ss'));
       } else {
         return trainActivationMessages[i].scheduledDepartureTime;
       }
