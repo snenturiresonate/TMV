@@ -146,8 +146,25 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     #Given the user has made changes to the trains list misc settings
     #When the user views the trains list
     #Then the view is updated to reflect the user's train misc changes
-  @bug @bug:66859
   Scenario: 33806 -32a Trains List Config (Train Misc Settings Applied) - Misc Class settings
+    * I remove today's train 'B30001' from the Redis trainlist
+    * I remove today's train 'B30002' from the Redis trainlist
+    * I delete 'B30001:today' from hash 'schedule-modifications'
+    * I delete 'B30002:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 2B31                | B30001         |
+    And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 2B32                | B30002         |
+    And I wait until today's train 'B30001' has loaded
+    And I wait until today's train 'B30002' has loaded
+    And the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B30001   | 2B31        | now                    | 99999               | PADTON                 | today         | now                 |
+    And the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B30002   | 2B32        | now                    | 99999               | PADTON                 | today         | now                 |
     When the following class table updates are made
       | classValue | toggleValue |
       | Class 0    | off         |
@@ -164,11 +181,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     And I am on the trains list page
     Then I should see the trains list table to only display the following trains
       | trainDescription |
-      | 2P77             |
-      | 2C45             |
+      | 2B31             |
+      | 2B32             |
     # clean up
     * I restore to default train list config
-
 
   Scenario: 33806 -32b Trains List Config (Train Misc Settings Applied) - Ignore PD cancel toggle on
     Given the following train activation message is sent from LINX
@@ -188,15 +204,19 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     # clean up
     * I restore to default train list config
 
-
-  @bug @bug_64709
   Scenario: 33806 -32c Trains List Config (Train Misc Settings Applied) - Ignore PD cancel toggle off
-    Given the following train activation message is sent from LINX
+    * I remove today's train 'B30003' from the Redis trainlist
+    * I delete 'B30003:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 2B33                | B30003         |
+    And I wait until today's train 'B30003' has loaded
+    And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
-      | Y95686   | 2P77        | 12:00                  | 99999               | RDNGSTN                | today         | now                 |
+      | B30003   | 2B33        | 12:00                  | 99999               | RDNGSTN                | today         | now                 |
     When the following TJM is received
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | Y95686   | 2P77        | 12            | create | 91        | 91              | 99999       | RDNGSTN        | 12:00:00 | PD                 | PD                |
+      | B30003   | 2B33        | 12            | create | 91        | 91              | 99999       | RDNGSTN        | 12:00:00 | PD                 | PD                |
     When I click on the Select All button
     And I update the following misc options
       | classValue        | toggleValue |
@@ -204,7 +224,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Include unmatched | off         |
     And I save the service filter changes
     And I am on the trains list page
-    Then train 2P77 with schedule id Y95686 for today is visible on the trains list
+    Then train 2B33 with schedule id B30003 for today is visible on the trains list
     # clean up
     * I restore to default train list config
 

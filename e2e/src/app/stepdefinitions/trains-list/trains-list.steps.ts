@@ -132,17 +132,33 @@ When(/^I remove today's train '(.*)' from the Redis trainlist$/, async (uid: str
 });
 
 When(/^I wait until today's train '(.*)' has loaded$/, async (uid: string) => {
+  const date: string = await DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd');
+  await waitForTrainUid(uid, date);
+});
+
+When(/^I wait until today's or tomorrow's train '(.*)' has loaded$/, async (uid: string) => {
+  const today: string = await DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd');
+  const tomorrow: string = DateAndTimeUtils.convertToDesiredDateAndFormat('tomorrow', 'yyyy-MM-dd');
+  await waitForTrainUid(uid, today, tomorrow);
+});
+
+async function waitForTrainUid(uid: string, firstDate: string, secondDate: string = ''): Promise<boolean> {
   if (uid === 'generatedTrainUId') {
     uid = browser.referenceTrainUid;
   }
   const client = new RedisClient();
-  const trainIdentifier = `${uid}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`;
-  const hash = `trainlist:` + trainIdentifier;
-  await browser.wait(async () => {
-    const data = await client.hgetString(hash, 'scheduleId');
-    return (data === trainIdentifier);
-  }, 35000, `${trainIdentifier} not found in Redis trainlist`);
-});
+  const firstTrainIdentifier = `${uid}:${firstDate}`;
+  const secondTrainIdentifier = `${uid}:${secondDate}`;
+  const firstHash = `trainlist:` + firstTrainIdentifier;
+  const secondHash = `trainlist:` + secondTrainIdentifier;
+  return browser.wait(async () => {
+    let data = await client.hgetString(firstHash, 'scheduleId');
+    if (data !== firstTrainIdentifier) {
+      data = await client.hgetString(secondHash, 'scheduleId');
+    }
+    return (data === firstTrainIdentifier || data === secondTrainIdentifier);
+  }, 35000, `${firstTrainIdentifier} not found in Redis trainlist`);
+}
 
 When(/^I wait until today's train '(.*)' has been removed$/, async (uid: string) => {
   if (uid === 'generatedTrainUId') {

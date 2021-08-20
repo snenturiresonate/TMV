@@ -27,13 +27,12 @@ Feature: 47417 - Basic UI - Signal State Scenarios
     And the signal roundel for signal 'SN231' is green
     And the signal roundel for signal 'SN232' is red
 
-    @bug @bug:55364
   Scenario: 40505-x2 - Display Signal State - signal state messages are reflected in all open maps containing relevant signals
     Given I am on the home page
     And I expand the group of maps with name 'Wales & Western'
-    And I navigate to the maps view with id hdgw01paddington.v
+    And I navigate to the maps view with id HDGW01paddington.v
     And I switch to the second-newest tab
-    And I navigate to the maps view with id gw02heathrow.v
+    And I navigate to the maps view with id GW02heathrow.v
     When I switch to the new tab
     And I set up all signals for address 29 in D4 to be proceed
     Then the signal roundel for signal 'SN290' is green

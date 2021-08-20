@@ -5,9 +5,11 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
   So, that I can identify if the build meets the end to end requirements
 
   Background:
-    Given I am on the trains list Config page
-    And I have navigated to the 'Train Indication' configuration tab
-    And I restore to default train list config
+    * I remove all trains from the trains list
+    * I have cleared out all headcodes
+    * I am on the trains list Config page
+    * I restore to default train list config
+    * I have navigated to the 'Train Indication' configuration tab
 
   Scenario: Trains list punctuality config header
     Then the train indication config header is displayed as 'Trains List Indication'
@@ -75,61 +77,98 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       | Origin Called            | #999955 | 60      | on          |
       | Origin Departure Overdue | #335566 | 10      | on          |
 
-  #33806 -24 Trains List Config (Train Indication Applied)
+  Scenario: 33806 -24-a Trains indication table - Train Cancellation - Train cancelled before it has started
     #Given the user has made changes to the trains list train indication
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
-  @bug @bug_59960
-  Scenario: 33806 -24-a Trains indication table - Train Cancellation - Train cancelled before it has started
-    Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
+    * I remove today's train 'B21001' from the Redis trainlist
+    * I delete 'B21001:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B21                | B21001         |
+    And I wait until today's train 'B21001' has loaded
+    When the following train activation message is sent from LINX
+      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B21001        | 1B21        | now                    | 99999               | PADTON                 | today         | now                 |
     And I am on the trains list page
-    And train '1S42' with schedule id 'L55285' for today is visible on the trains list
+    Then train '1B21' with schedule id 'B21001' for today is visible on the trains list
     When the following TJM is received
         #tjmType-Cancel at origin
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | L55285   | 1S42        | 12            | create | 91        | 91              | 99999       | PADTON         | 12:00:00 | 91                 | PG                |
-    And I am on the trains list Config page
+      | B21001   | 1B21        | 12            | create | 91        | 91              | 99999       | PADTON         | 12:00:00 | 91                 | PG                |
+    Then the service is displayed in the trains list with the following row colour
+      | rowType                     | trainUID   | rowColour              |
+      | Default Cancelled at origin | B21001     | rgba(255, 255, 255, 1) |
+    When I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
       | name         | colour | toggleValue |
       | Cancellation | #dde   | on          |
     And I save the trains list config
     And I am on the trains list page
-    Then I should see the train list row coloured as
-      | trainDescriberId | trainUID | backgroundColour       |
-      | 1S42             | L55285   | rgba(221, 221, 238, 1) |
-    And I restore to default train list config
+    Then the service is displayed in the trains list with the following row colour
+      | rowType                | trainUID   | rowColour              |
+      | Cancellation at origin | B21001     | rgba(221, 221, 238, 1) |
+    # cleanup
+    * I restore to default train list config
 
-  @bug @bug_59960
   Scenario: 33806 -24-b Trains indication table - Train Cancellation - Train terminates short of planned destination
-    Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
+    #Given the user has made changes to the trains list train indication
+    #When the user views the trains list
+    #Then the view is updated to reflect the user's train indication changes
+    * I remove today's train 'B21002' from the Redis trainlist
+    * I delete 'B21002:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B22                | B21002         |
+    And I wait until today's train 'B21002' has loaded
+    When the following train activation message is sent from LINX
+      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B21002        | 1B22        | now                    | 99999               | PADTON                 | today         | now                 |
     And I am on the trains list page
-    And train '1S42' with schedule id 'L55285' for today is visible on the trains list
+    Then train '1B22' with schedule id 'B21002' for today is visible on the trains list
     When the following TJM is received
         #tjmType-Cancel en route
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | L55285   | IS42        | 12            | create | 92        | 92              | 99999       | PADTON         | 12:00:00 | 92                 | PG                |
-    And I am on the trains list Config page
+      | B21002   | 1B22        | 12            | create | 92        | 92              | 99999       | PADTON         | 12:00:00 | 92                 | PG                |
+    Then the service is displayed in the trains list with the following row colour
+      | rowType                    | trainUID   | rowColour              |
+      | Default Cancelled on route | B21002     | rgba(255, 255, 255, 1) |
+    When I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
       | name         | colour | toggleValue |
       | Cancellation | #dde   | on          |
     And I save the trains list config
     And I am on the trains list page
-    Then I should see the train list row coloured as
-      | trainDescriberId | trainUID | backgroundColour       |
-      | IS42             | L55285   | rgba(221, 221, 238, 1) |
-    And I restore to default train list config
+    Then the service is displayed in the trains list with the following row colour
+      | rowType                | trainUID   | rowColour              |
+      | Cancellation on route  | B21002     | rgba(221, 221, 238, 1) |
+    # cleanup
+    * I restore to default train list config
 
-  @bug @bug_59960
   Scenario: 33806 -24-c Trains indication table - Train Reinstatement - Train terminates at a location not in the plan
-    Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
+    #Given the user has made changes to the trains list train indication
+    #When the user views the trains list
+    #Then the view is updated to reflect the user's train indication changes
+    * I remove today's train 'B21003' from the Redis trainlist
+    * I delete 'B21003:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B23                | B21003         |
+    And I wait until today's train 'B21003' has loaded
+    When the following train activation message is sent from LINX
+      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B21003        | 1B23        | now                    | 99999               | PADTON                 | today         | now                 |
     And I am on the trains list page
-    And train '1S42' with schedule id 'L55285' for today is visible on the trains list
+    And train '1B23' with schedule id 'B21003' for today is visible on the trains list
     When the following TJM is received
         #tjmType-Out of plan cancellation
       | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | L55285   | 1S42        | 12            | create | 93        | 93              | 99999       | PADTON         | 12:00:00 | 93                 | TB                |
+      | B21003   | 1B23        | 12            | create | 93        | 93              | 99999       | BALLOCH        | 12:00:00 | 93                 | TB                |
+    Then the service is displayed in the trains list with the following row colour
+      | rowType                       | trainUID   | rowColour              |
+      | Default Cancelled out of plan | B21003     | rgba(255, 255, 255, 1) |
     And I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
@@ -137,68 +176,34 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       | Cancellation | #dde   | on          |
     And I save the trains list config
     And I am on the trains list page
-    Then I should see the train list row coloured as
-      | trainDescriberId | trainUID | backgroundColour       |
-      | IS42             | L55285   | rgba(221, 221, 238, 1) |
-    And I restore to default train list config
+    Then the service is displayed in the trains list with the following row colour
+      | rowType                  | trainUID   | rowColour              |
+      | Cancellation out of plan | B21003     | rgba(221, 221, 238, 1) |
+    # cleanup
+    * I restore to default train list config
 
-  @bug @bug_59960
-  Scenario: 33806 -24-d Train Activation for a valid service with a change of origin matching current origin
+  Scenario: 33806 -24-d Trains indication table - Change of Origin - Train has origin changed
+    #Given the user has made changes to the trains list train indication
+    #When the user views the trains list
+    #Then the view is updated to reflect the user's train indication changes
+    * I remove today's train 'B21004' from the Redis trainlist
+    * I delete 'B21004:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B24                | B21004         |
+    And I wait until today's train 'B21004' has loaded
+    When the following train activation message is sent from LINX
+      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B21004        | 1B24        | now                    | 99999               | PADTON                 | today         | now                 |
     And I am on the trains list page
-    And the following service is not displayed on the trains list
-      | trainId | trainUId |
-      | 0A00    | W15214   |
-    And there is a Schedule for '0A00'
-    And it has Origin Details
-      | tiploc | scheduledDeparture           | line |
-      | PADTON | 10:15 SAME AS CURRENT ORIGIN |      |
-    And it has Intermediate Details
-      | tiploc  | scheduledArrival | scheduledDeparture | path | line |
-      | ROYAOJN | 10:00            | 10:01              |      |      |
-    And it has Terminating Details
-      | tiploc  | scheduledArrival | path |
-      | OLDOXRS | 10:13            |      |
-    And that service has the cancellation status 'F'
-    When the schedule is received from LINX
-    And the following train activation message is sent from LINX
-      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode |
-      | W15214   | 0A00        | 09:59                  | 99999               | PADTON                 |
-    Then The trains list table is visible
-    And the service is displayed in the trains list with the following indication
-      | rowType       | rowId  | rowColFill             | trainDescriptionFill |
-      | Origin called | W15214 | rgba(153, 153, 255, 1) | rgba(0, 255, 0, 1)   |
-    And I restore to default train list config
-
-  @bug @bug_59960
-  Scenario: 33806 -24-e Trains reinstatement - Whole train has been reinstated
-    Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    And I am on the trains list page
-    And train '1S42' with schedule id 'L55285' for today is visible on the trains list
-    When the following TJM is received
-        #tjmType-Trains reinstatement - Whole train
-      | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | L55285   | 1S42        | 12            | create | 96        | 96              | 99999       | PADTON         | 12:00:00 | 96                 | PG                |
-    And I am on the trains list Config page
-    And I have navigated to the 'Train Indication' configuration tab
-    And I update only the below train list indication config settings as
-      | name          | colour | toggleValue |
-      | Reinstatement | #dde   | on          |
-    And I save the trains list config
-    And I am on the trains list page
-    Then I should see the train list row coloured as
-      | trainDescriberId | trainUID | backgroundColour       |
-      | 1S42             | L55285   | rgba(221, 221, 238, 1) |
-    And I restore to default train list config
-
-  @bug @bug_59960
-  Scenario: 33806 -24-f Change Of Origin - Train starts at a different planned location (start forward)
-    Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
-    And I am on the trains list page
-    And train '1S42' with schedule id 'L55285' for today is visible on the trains list
-    When the following TJM is received
+    And train '1B24' with schedule id 'B21004' for today is visible on the trains list
+    And the following TJM is received
         #tjmType-Change of Origin
-      | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | L55285   | 1S42        | 12            | create | 94        | 94              | 99999       | PADTON         | 12:00:00 | 94                 | PL                |
+      | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason | nationalDelayCode |
+      | B21004   | 1B24        | now           | create | 94        | 94              | 99999       | PADTON         | now  | 94                 | PL                |
+    Then the service is displayed in the trains list with the following row colour
+      | rowType                  | trainUID   | rowColour              |
+      | Default change of origin | B21004     | rgba(255, 255, 255, 1) |
     And I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
@@ -206,39 +211,140 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       | Change of Origin | #dde   | on          |
     And I save the trains list config
     And I am on the trains list page
-    Then I should see the train list row coloured as
-      | trainDescriberId | trainUID | backgroundColour       |
-      | 1S42             | L55285   | rgba(221, 221, 238, 1) |
-    And I restore to default train list config
+    Then the service is displayed in the trains list with the following row colour
+      | rowType          | trainUID   | rowColour              |
+      | Change of Origin | B21004     | rgba(221, 221, 238, 1) |
+    # cleanup
+    * I restore to default train list config
 
-  @bug @bug_59960
-  Scenario: 33806 -24-g Off route - Train has moved off route
-    Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
+  Scenario: 33806 -24-e Trains reinstatement - Whole train has been reinstated
+    #Given the user has made changes to the trains list train indication
+    #When the user views the trains list
+    #Then the view is updated to reflect the user's train indication changes
+    * I remove today's train 'B21005' from the Redis trainlist
+    * I delete 'B21005:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B25                | B21005         |
+    And I wait until today's train 'B21005' has loaded
+    When the following train activation message is sent from LINX
+      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B21005        | 1B25        | now                    | 99999               | PADTON                 | today         | now                 |
     And I am on the trains list page
-    And train '1S42' with schedule id 'L55285' for today is visible on the trains list
-    When the following live berth step message is sent from LINX (causing service to go off route)
-      | fromBerth | toBerth | trainDescriber | trainDescription |
-      | 0099      | 9999    | GW             | 1S42             |
+    And train '1B25' with schedule id 'B21005' for today is visible on the trains list
+    When the following TJM is received
+        #tjmType-Trains reinstatement - Whole train
+      | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
+      | B21005   | 1B25        | 12            | create | 96        | 96              | 99999       | PADTON         | 12:00:00 | 96                 | PG                |
+    Then the service is displayed in the trains list with the following row colour
+      | rowType                  | trainUID   | rowColour              |
+      | Default reinstatement    | B21005     | rgba(255, 255, 255, 1) |
+    When I am on the trains list Config page
+    And I have navigated to the 'Train Indication' configuration tab
+    And I update only the below train list indication config settings as
+      | name          | colour | toggleValue |
+      | Reinstatement | #dde   | on          |
+    And I save the trains list config
+    And I am on the trains list page
+    Then the service is displayed in the trains list with the following row colour
+      | rowType          | trainUID   | rowColour              |
+      | Reinstatement    | B21005     | rgba(221, 221, 238, 1) |
+    # cleanup
+    * I restore to default train list config
+
+  Scenario: 33806 -24-f Change Of Origin - Train starts at a different planned location (start forward)
+    #Given the user has made changes to the trains list train indication
+    #When the user views the trains list
+    #Then the view is updated to reflect the user's train indication changes
+    * I remove today's train 'B21006' from the Redis trainlist
+    * I delete 'B21006:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B26                | B21006         |
+    And I wait until today's train 'B21006' has loaded
+    When the following train activation message is sent from LINX
+      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B21006        | 1B26        | now                    | 99999               | PADTON                 | today         | now                 |
+    And I am on the trains list page
+    And train '1B26' with schedule id 'B21006' for today is visible on the trains list
+    When the following TJM is received
+        #tjmType-Change of Origin
+      | trainUid | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
+      | B21006   | 1B26        | 12            | create | 94        | 94              | 99999       | PADTON         | 12:00:00 | 94                 | PL                |
+    Then the service is displayed in the trains list with the following row colour
+      | rowType                  | trainUID   | rowColour              |
+      | Default start forward    | B21006     | rgba(255, 255, 255, 1) |
     And I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
-      | name      | colour | toggleValue |
-      | Off-route | #dde   | on          |
+      | name             | colour | toggleValue |
+      | Change of Origin | #dde   | on          |
     And I save the trains list config
     And I am on the trains list page
-    Then I should see the train list row coloured as
-      | trainDescriberId | trainUID | backgroundColour       |
-      | 1S42             | L55285   | rgba(221, 221, 238, 1) |
-    And I restore to default train list config
+    Then the service is displayed in the trains list with the following row colour
+      | rowType          | trainUID   | rowColour              |
+      | Start forward    | B21006     | rgba(221, 221, 238, 1) |
+    # cleanup
+    * I restore to default train list config
 
-  @bug @bug_59960
-  Scenario: 33806 -24-h Change Of Identity - Train running has a change of Train Id
-    Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
+  Scenario: 33806 -24-g Off route - Train has moved off route
+    #Given the user has made changes to the trains list train indication
+    #When the user views the trains list
+    #Then the view is updated to reflect the user's train indication changes
+    * I remove today's train 'B21007' from the Redis trainlist
+    * I delete 'B21007:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B27                | B21007         |
+    And I wait until today's train 'B21007' has loaded
+    When the following train activation message is sent from LINX
+      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B21007        | 1B27        | now                    | 99999               | PADTON                 | today         | now                 |
     And I am on the trains list page
-    And train '1S42' with schedule id 'L55285' for today is visible on the trains list
+    And train '1B27' with schedule id 'B21007' for today is visible on the trains list
+    When the following live berth step message is sent from LINX (to match the service)
+      | fromBerth | toBerth | trainDescriber | trainDescription |
+      | 0089      | 0117    | D3             | 1B27             |
+    When the following live berth step message is sent from LINX (causing service to go off route)
+      | fromBerth | toBerth | trainDescriber | trainDescription |
+      | 0117      | 0129    | D3             | 1B27             |
+    Then the service is displayed in the trains list with the following row colour
+      | rowType                  | trainUID   | rowColour              |
+      | Default off route        | B21007     | rgba(255, 255, 255, 1) |
+    When I am on the trains list Config page
+    And I have navigated to the 'Train Indication' configuration tab
+    And I update only the below train list indication config settings as
+      | name      | colour | toggleValue |
+      | Off-Route | #dde   | on          |
+    And I save the trains list config
+    And I am on the trains list page
+    Then the service is displayed in the trains list with the following row colour
+      | rowType          | trainUID   | rowColour              |
+      | Off route        | B21007     | rgba(221, 221, 238, 1) |
+    # cleanup
+    * I restore to default train list config
+
+  Scenario: 33806 -24-h Change Of Identity - Train running has a change of Train Id
+    #Given the user has made changes to the trains list train indication
+    #When the user views the trains list
+    #Then the view is updated to reflect the user's train indication changes
+    * I remove today's train 'B21008' from the Redis trainlist
+    * I delete 'B21008:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B28                | B21008         |
+    And I wait until today's train 'B21008' has loaded
+    When the following train activation message is sent from LINX
+      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B21008        | 1B28        | now                    | 99999               | PADTON                 | today         | now                 |
+    And I am on the trains list page
+    And train '1B28' with schedule id 'B21008' for today is visible on the trains list
     When the following change of ID TJM is received
       | trainUid | newTrainNumber | oldTrainNumber | departureHour | modificationTime | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
-      | L55285   | 1X42           | 1S42           | 12            | 10:00:00         | create | 07        | 07              | 99999       | PADTON         | 12:00:00 |
+      | B21008   | 1B28           | 1S42           | 12            | 10:00:00         | create | 07        | 07              | 99999       | PADTON         | 12:00:00 |
+    Then the service is displayed in the trains list with the following row colour
+      | rowType                  | trainUID   | rowColour              |
+      | Default change of ID     | B21008     | rgba(255, 255, 255, 1) |
     And I am on the trains list Config page
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
@@ -247,8 +353,9 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     And I save the trains list config
     And the following service is displayed on the trains list
       | trainId | trainUId |
-      | 1X42    | L55285   |
-    Then I should see the train list row coloured as
-      | trainDescriberId | trainUID | backgroundColour       |
-      | IX42             | L55285   | rgba(221, 221, 238, 1) |
-    And I restore to default train list config
+      | 1B28    | B21008   |
+    Then the service is displayed in the trains list with the following row colour
+      | rowType          | trainUID   | rowColour              |
+      | Change of ID     | B21008     | rgba(221, 221, 238, 1) |
+    # cleanup
+    * I restore to default train list config
