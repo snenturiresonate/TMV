@@ -87,6 +87,10 @@ export class LinxRestClient {
       {'file-name': fileName, 'Content-Type': 'text/plain'});
   }
 
+  public clearCIFs(): ResponsePromise {
+    return this.httpClient.post('/clear-access-plans');
+  }
+
   public writeAccessPlan(body: AccessPlanRequest): ResponsePromise {
     return this.httpClient.post('/write-access-plan', body);
   }

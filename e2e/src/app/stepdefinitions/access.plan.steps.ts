@@ -78,10 +78,14 @@ When('the access plan located in CIF file {string} is amended so that all servic
     linxRestClient.addAccessPlan('', newData);
 });
 
+When ('I remove all CIFs from the LINX FTP server', async () => {
+    await linxRestClient.clearCIFs();
+});
+
 When ('the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX',
   async (inputs: any) => {
     await processCifInputs(inputs);
-  });
+});
 
 When ('the train in CIF file below is updated accordingly so time at the reference point is now + {string} minutes, and then received from LINX',
   async (plusMins: string, inputs: any) => {
