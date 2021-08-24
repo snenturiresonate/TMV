@@ -103,11 +103,10 @@ Feature: 33753 - TMV Timetable
       | Timetable  | 1A        | ACTIVATED     |
       | Timetable  | 1A        | UNMATCHED     |
 
-  @bug @bug:62938
   Scenario Outline: 33753-3b Open Timetable (from Search Result - unmatched service (Train) has no timetable)
-    Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
-      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1D46_PADTON_OXFD.cif | SLOUGH      | WTT_arr       | <trainNum>          | <planningUid>  |
+    Given the following train running information message is sent from LINX
+        | trainUID      | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           |
+        | <planningUid> | <trainNum>  | today              | 73822               | SLOUGH                 | Departure from Origin |
     And I am on the trains list page
     And The trains list table is visible
     And Train description '<trainNum>' is visible on the trains list
@@ -118,7 +117,7 @@ Feature: 33753 - TMV Timetable
     Then the '<searchType>' context menu is not displayed
     Examples:
       | searchType | searchVal | serviceStatus | trainNum | planningUid |
-      | Train      | 1A99      | UNMATCHED     | 1A99     | L10099      |
+      | Train      | 3B89      | UNMATCHED     | 3B89     | H87234      |
 
   Scenario Outline: 33753-3c Open Timetable (from Manual Match Search Result - matched/unmatched services have timetable)
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
