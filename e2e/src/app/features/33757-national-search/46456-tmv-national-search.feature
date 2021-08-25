@@ -256,6 +256,7 @@ Feature: 33757 - TMV National Search
     And the window title is displayed as 'Signal Search Results'
     And I click close button at the bottom of table
 
+  @bug @67142
   Scenario Outline: 33757-4 Train search window shown - Train Search context menu - <pageName>
     #Given the user is authenticated to use TMV
     #And the user is viewing the train search results pop-up
