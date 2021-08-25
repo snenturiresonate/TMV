@@ -255,8 +255,7 @@ Feature: 33757 - TMV National Search
     Then results are returned with that signal ID 'SN259'
     And the window title is displayed as 'Signal Search Results'
     And I click close button at the bottom of table
-
-  @bug @67142
+    
   Scenario Outline: 33757-4 Train search window shown - Train Search context menu - <pageName>
     #Given the user is authenticated to use TMV
     #And the user is viewing the train search results pop-up
@@ -269,9 +268,12 @@ Feature: 33757 - TMV National Search
     And the following live berth interpose message is sent from LINX (to create a match)
       | toBerth | trainDescriber | trainDescription |
       | A007    | D3             | 1L24             |
+    And the following live berth step message is sent from LINX (to move train)
+      | fromBerth | toBerth | trainDescriber | trainDescription |
+      | A007      | 0039    | D3             | 1L24             |
     And I am viewing the map HDGW01paddington.v
-    And berth 'A007' in train describer 'D3' contains '1L24' and is visible
-    And I wait for the Open timetable option for train description 1L24 in berth A007, describer D3 to be available
+    And berth '0039' in train describer 'D3' contains '1L24' and is visible
+    And I wait for the Open timetable option for train description 1L24 in berth 0039, describer D3 to be available
     And I navigate to <pageName> page
     And I give the train 2 seconds to load
     And I refresh the Elastic Search indices
