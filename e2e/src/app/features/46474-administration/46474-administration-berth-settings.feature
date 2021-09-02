@@ -12,29 +12,27 @@ Feature: 46474 - Administration Display Settings - full end to end testing - ber
   Scenario: Berth settings header
     Then the berth settings header is displayed as 'Berth Colours'
 
-  @bug @67685
   Scenario: Berth colour settings default color and entries
     Then the following can be seen on the berth color settings table
-      | name           | colour  | toggleState |
-      | Attention      | #0000ff | Off         |
-      | Left Behind    | #969696 | On          |
-      | No Timetable   | #e1e1e1 | On          |
-      | Last Berth     | #ffffff | On          |
-      | Unknown Delay  | #ffffff | On          |
+      | name           | colour  |
+      | Attention      | #0000ff |
+      | Left Behind    | #969696 |
+      | No Timetable   | #e1e1e1 |
+      | Last Berth     | #ffffff |
+      | Unknown Delay  | #ffffff |
 
-  @bug @67686
   Scenario: Berth colour settings - Update and Save
     When I update the Berth settings table as
-      | name           | colour  | toggleState |
-      | Attention      | #bb1    | Off         |
+      | name           | colour  |
+      | Attention      | #bb1    |
     And I save the punctuality settings
     And I navigate to the 'Login Message' admin tab
     And I navigate to the 'Display Settings' admin tab
     Then the following can be seen on the berth color settings table
-      | name           | colour  | toggleState |
-      | Attention      | #bbbb11 | Off         |
-      | Left Behind    | #969696 | On          |
-      | No Timetable   | #e1e1e1 | On          |
-      | Last Berth     | #ffffff | On          |
-      | Unknown Delay  | #ffffff | On          |
+      | name           | colour  |
+      | Attention      | #bbbb11 |
+      | Left Behind    | #969696 |
+      | No Timetable   | #e1e1e1 |
+      | Last Berth     | #ffffff |
+      | Unknown Delay  | #ffffff |
     And The admin setting defaults are as originally shipped

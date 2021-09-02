@@ -32,16 +32,4 @@ export class AdministrationBerthSettingsTab {
     await this.berthSettingsAppLoad();
     return InputBox.updateColourPickerBox(elm, text);
   }
-
-  public async getBerthNameToggle(index: number): Promise<boolean> {
-    const elm: ElementFinder = this.berthSettingsRow.get(index).element(by.css('#chkInsert'));
-    await this.berthSettingsAppLoad();
-    return elm.isSelected();
-  }
-
-  public async updateBerthNameToggle(index: number): Promise<void> {
-    const elm: ElementFinder = this.berthSettingsRow.get(index);
-    await this.berthSettingsAppLoad();
-    return CommonActions.waitAndClick(elm);
-  }
 }
