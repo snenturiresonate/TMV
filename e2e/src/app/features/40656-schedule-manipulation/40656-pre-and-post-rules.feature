@@ -44,10 +44,10 @@ Feature: 40656 - Schedule Manipulation - Pre and Post Rules
       | trainNum | planningUid |
       | 1G12     | G30012      |
 
-  @bug @bug:61103
   Scenario Outline: 40656- 13 Post Change path code
     #241	POST	CAMHTH 	BTHNLGR	   	   	   	FL 	   	S  	[]	[]	   	   	   	S
     #J7010	BTHNLGR
+
 #    Given A service has a schedule in the current time period
 #    And that schedule includes a location that matches an entry in the post propagation rules to change the path code
 #    And the same location matches an entry in the path code to line code propagation rules
@@ -65,8 +65,7 @@ Feature: 40656 - Schedule Manipulation - Pre and Post Rules
       | Bethnal Green | S        |
     And the line code for Location is correct
       | location      | lineCode |
-      | Bethnal Green | FL       |
-
+      | Bethnal Green | S        |
     Examples:
       | trainNum | planningUid |
       | 2D23     | C91764      |
