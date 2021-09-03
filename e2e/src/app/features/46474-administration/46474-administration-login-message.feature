@@ -30,7 +30,6 @@ Feature: 46474 - Administration Login Message - full end to end testing
     Then I should see the login settings 'Message' as 'Login Message'
     And I should see the login settings 'Terms and Conditions' as 'Login Terms and Conditions'
 
-  @bug @67687
   Scenario: User should see the unsaved dialogue when refreshing the page without saving the changes
     When I update login settings 'Message' as 'Login Message-Edit'
     And I update login settings 'Terms and Conditions' as 'Login Terms and Conditions-Edit'
