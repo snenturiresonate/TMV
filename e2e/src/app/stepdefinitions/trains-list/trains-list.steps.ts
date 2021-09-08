@@ -11,7 +11,10 @@ import {RedisClient} from '../../api/redis/redis-client';
 const page: AppPage = new AppPage();
 const trainsListPage: TrainsListPageObject = new TrainsListPageObject();
 const defaultClasses = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-const defaultOperators = ['HW', 'HY', 'HZ', 'HV', 'HU', 'HT', 'HS', 'HR', 'HQ'];
+const defaultOperators = ['RE', 'EH', 'EK', 'HF', 'RZ', 'HT', 'RQ', 'RB', 'HO', 'RG', 'WA', 'PO', 'XH', 'LD', 'EM',
+  'PT', 'GA', 'XJ', 'PN', 'DB', 'PE', 'LN', 'ET', 'EC', 'EF', 'EB', 'RT', 'EE', 'HM', 'PF', 'HZ', 'RR', 'LG', 'LS',
+  'HB', 'LC', 'XC', 'XE', 'HE', 'LR', 'QJ', 'PR', 'ED', 'NR', 'PM', 'PK', 'RD', 'HA', 'RU', 'ES', 'SD', 'SO', 'PS',
+  'HY', 'SJ', 'HU', 'SG', 'EX', 'EA', 'HL', 'PG', 'PV', 'TY', 'RH', 'PA', 'EJ'];
 const defaultScheduleTypes = ['LTP', 'STP', 'VSTP', 'VAR', 'CAN', 'VSTP VAR', 'VSTP CAN', ''];
 const defaultScheduleTypesNoCancelled = ['LTP', 'STP', 'VSTP', 'VSTP VAR', ''];
 const defaultColumns = ['SCHED.', 'SERVICE', 'TIME', 'REPORT', 'PUNCT.', 'ORIGIN',
@@ -28,30 +31,34 @@ const colTextColourHex = {
 };
 
 const mapTLColIds = new Map([
-  ['SCHED.', 'schedule-type'],
-  ['SERVICE', 'train-description'],
-  ['TIME', 'time'],
-  ['REPORT', 'report'],
-  ['PUNCT.', 'punctuality'],
-  ['ORIGIN', 'origin-location-id'],
-  ['ORIGIN>PLANNED', 'origin-current-time'],
-  ['ORIGIN>ACTUAL / PREDICT', 'origin-actual-predicted-time'],
-  ['DEST.', 'destination-location-id'],
-  ['DEST.>PLANNED', 'destination-current-time'],
-  ['DEST.>ACTUAL / PREDICT', 'destination-actual-predicted-time'],
-  ['NEXT LOC.', 'next-location'],
-  ['OPERATOR', 'operator'],
-  ['TRUST ID', 'trust-uid'],
-  ['SCHED. UID', 'schedule-uid'],
-  ['REASON', 'modification-reason'],
-  ['CANCEL', 'modification-type'],
-  ['PUB. ARR.', 'working-destination-arrival-time'],
-  ['PUB. DEPT.', 'working-origin-departure-time'],
-  ['NEXT TIME', 'next-time'],
-  ['LINE', 'last-reported-line'],
-  ['PLT.', 'last-reported-platform'],
-  ['CATEGORY', 'train-category'],
-  ['SERVICE CODE', 'train-service-code']
+  ['SCHED.', ['schedule-type', '1']],
+  ['SERVICE', ['train-description', '2']],
+  ['TIME', ['time', '3']],
+  ['REPORT', ['report', '4']],
+  ['PUNCT.', ['punctuality', '6']],
+  ['ORIGIN', ['origin-location-id', '8']],
+  ['ORIGIN>PLANNED', ['origin-current-time', '9']],
+  ['ORIGIN>ACTUAL / PREDICT', ['origin-actual-predicted-time', '10']],
+  ['DEST.', ['destination-location-id', '12']],
+  ['DEST.>PLANNED', ['destination-current-time', '13']],
+  ['DEST.>ACTUAL / PREDICT', ['destination-actual-predicted-time', '14']],
+  ['NEXT LOC.', ['next-location', '16']],
+  ['OPERATOR', ['operator', '17']],
+  ['REPORT (TPL)', ['report-tiploc', '5']],
+  ['ORIGIN (TPL)', ['origin-tiploc', '7']],
+  ['DEST. (TPL)', ['destination-tiploc', '11']],
+  ['NEXT (TPL)', ['next-locatio-tiploc', '15']],
+  ['TRUST ID', ['trust-uid', '18']],
+  ['SCHED. UID', ['schedule-uid', '19']],
+  ['REASON', ['modification-reason', '20']],
+  ['CANCEL', ['modification-type', '21']],
+  ['PUB. ARR.', ['working-destination-arrival-time', '22']],
+  ['PUB. DEPT.', ['working-origin-departure-time', '23']],
+  ['NEXT TIME', ['next-time', '24']],
+  ['LINE', ['last-reported-line', '25']],
+  ['PLT.', ['last-reported-platform', '26']],
+  ['CATEGORY', ['train-category', '27']],
+  ['SERVICE CODE', ['train-service-code', '28']]
 ]);
 
 enum DefaultTrainsListIndicationColours {
@@ -65,7 +72,8 @@ enum DefaultTrainsListIndicationColours {
   originDepartureOverdue = '#339966',
   noIndicationBlack = '#000000',
   noIndicationGrey = '#2c2c2c',
-  someOtherBlack = '#140e2b'
+  someOtherBlack = '#140e2b',
+  boringSetUpColourWhite = '#ffffff'
 }
 
 When('I invoke the context menu from train {int} on the trains list', async (itemNum: number) => {
@@ -75,7 +83,7 @@ When('I invoke the context menu from train {int} on the trains list', async (ite
 When('I invoke the context menu for todays train {string} schedule uid {string} from the trains list',
   async (serviceId: string, scheduleId: string) => {
     if (scheduleId === 'UNPLANNED') {
-      const schedNum = await trainsListPage.getRowForSchedule(serviceId);
+      const schedNum = await trainsListPage.getRowForSchedule(serviceId) + 1;
       await trainsListPage.rightClickTrainListItemNum(schedNum);
     }
     else {
@@ -265,8 +273,8 @@ Then('the trains list context menu contains the {word} {string} of train {int} o
       testColIndex = cols.indexOf(colName, testColIndex + 1);
     }
     let expectedValue: string = actualTrainsListEntryRowValues[testColIndex];
-    if (colName === 'TOC/FOC') {
-      expectedValue = '(' + expectedValue + ')';
+    if (colName === 'PUNCT.' && expectedValue === 'UNKNOWN') {
+      expectedValue = '';
     }
     if (expectedValue === '+0m') {
       expectedValue = 'On time';
@@ -437,11 +445,13 @@ Then(/^the columns have a sort \(primary and secondary\)$/, async () => {
 });
 
 When(/^I select (.*) text$/, async (colName: string) => {
-  await trainsListPage.clickHeaderText(colName);
+  const colIdentifiers = mapTLColIds.get(colName);
+  await trainsListPage.clickHeaderTextForColumn(colIdentifiers[1]);
 });
 
 When(/^I select (.*) arrow$/, async (colName: string) => {
-  await trainsListPage.clickHeaderArrow(colName);
+  const colIdentifiers = mapTLColIds.get(colName);
+  await trainsListPage.clickHeaderArrowForColumn(colIdentifiers[1]);
 });
 
 Then(/^(.*) is the (primary|secondary) sort column with (green|orange) text and an? (downward|upward) arrow$/,
@@ -473,20 +483,20 @@ Then(/^(.*) is the (primary|secondary) sort column with (green|orange) text and 
   });
 
 Then(/^the entries in (.*) column are in (ascending|descending) order$/, async (colName: string, sortDirection: string) => {
-  const colIdentifier = mapTLColIds.get(colName);
-  const colValues = await trainsListPage.getTrainsListValuesForColumn(colIdentifier);
-  for (let i = 0; i < colValues.length; i++) {
+  const colIdentifiers = mapTLColIds.get(colName);
+  const colValues = await trainsListPage.getTrainsListValuesForColumn(colIdentifiers[0]);
+  for (let i = 0; i < colValues.length - 1; i++) {
     checkOrdering(colValues[i], colValues[i + 1], colName, sortDirection);
   }
 });
 
 Then(/^the entries in (.*) column are in (ascending|descending) order within each value in (.*) column$/,
   async (secColName: string, sortDirection: string, primColName: string) => {
-    const colIdentifierPrim = mapTLColIds.get(primColName);
-    const colIdentifierSec = mapTLColIds.get(secColName);
-    const colValuesPrim = await trainsListPage.getTrainsListValuesForColumn(colIdentifierPrim);
-    const colValuesSec = await trainsListPage.getTrainsListValuesForColumn(colIdentifierSec);
-    for (let i = 0; i < colValuesPrim.length; i++) {
+    const colIdentifiersPrim = mapTLColIds.get(primColName);
+    const colIdentifiersSec = mapTLColIds.get(secColName);
+    const colValuesPrim = await trainsListPage.getTrainsListValuesForColumn(colIdentifiersPrim[0]);
+    const colValuesSec = await trainsListPage.getTrainsListValuesForColumn(colIdentifiersSec[0]);
+    for (let i = 0; i < colValuesPrim.length - 1; i++) {
       if (colValuesPrim[i] === colValuesPrim[i + 1]) {
         checkOrdering(colValuesSec[i], colValuesSec[i + 1], secColName, sortDirection);
       }
@@ -523,10 +533,10 @@ Then(/^the (.*) entry for (.*) train (.*) is (.*)$/, async (column: string, sCas
   let actualValForSchedule: string;
   const colIdentifier = mapTLColIds.get(column);
   if ((sCase === 'unmatched step') || (sCase === 'unmatched interpose')) {
-    actualValForSchedule = await trainsListPage.getTrainsListValueForColumnAndUnmatchedTrain(colIdentifier, trainId);
+    actualValForSchedule = await trainsListPage.getTrainsListValueForColumnAndUnmatchedTrain(colIdentifier[0], trainId);
   } else {
     rowIdentifier = trainId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
-    actualValForSchedule = await trainsListPage.getTrainsListValueForColumnAndSchedule(colIdentifier, rowIdentifier);
+    actualValForSchedule = await trainsListPage.getTrainsListValueForColumnAndSchedule(colIdentifier[0], rowIdentifier);
   }
   expect(actualValForSchedule, `Entry for column ${column} for train ${rowIdentifier} is incorrect`).to.equal(expectedVal);
 });
@@ -656,40 +666,51 @@ When('I remove all trains from the trains list', async () => {
 
 function checkOrdering(thisString: string, nextString: string, colName: string, direction: string): void {
 
-  let orderCheck = thisString.localeCompare(nextString);
+  let orderCheck = nextString.localeCompare(thisString);
   if (colName.endsWith('PREDICT')) {
-    const thisStringTrimmed = thisString.replace('(', '').replace(')', '');
-    const nextStringTrimmed = nextString.replace('(', '').replace(')', '');
+    const thisStringTrimmed = thisString.replace('(', '').replace(')', '').replace('c', '');
+    const nextStringTrimmed = nextString.replace('(', '').replace(')', '').replace('c', '');
     orderCheck = thisStringTrimmed.localeCompare(nextStringTrimmed);
   } else if (colName === 'PUNCT.') {
-    const thisVal = convertPunctTextToSec(thisString);
-    const nextVal = convertPunctTextToSec(nextString);
-    orderCheck = thisVal - nextVal;
+    let unknownMultiplier = 1;
+    if (direction === 'descending') {
+      unknownMultiplier = -1;
+    }
+    let thisVal = unknownMultiplier * 100000;
+    let nextVal = unknownMultiplier * 100000;
+    if (thisString !== 'UNKNOWN') {
+      thisVal = convertPunctTextToSec(thisString);
+    }
+    if (nextString !== 'UNKNOWN') {
+      nextVal = convertPunctTextToSec(nextString);
+    }
+    orderCheck = nextVal - thisVal;
   }
-  if (direction === 'descending') {
-    expect(orderCheck).to.be.greaterThan(-1, 'expected ' + thisString + ' to be greater than or equal to ' + nextString);
+  if (direction === 'ascending') {
+    expect(orderCheck).to.be.at.least(0, 'expected ' + nextString + ' to be greater than or equal to ' + thisString);
   } else {
-    expect(orderCheck).to.be.lessThan(1, 'expected ' + thisString + ' to be less than or equal to ' + nextString);
+    expect(orderCheck).to.be.at.most(0, 'expected ' + nextString + ' to be less than or equal to ' + thisString);
   }
 }
 
 function convertPunctTextToSec(punctualityString: string): number {
+  let punctualityStringHours = '0';
   let punctualityStringMinutes = '0';
-  let punctualityStringSeconds = '0';
-  if (punctualityString.includes('m')) {
-    punctualityStringMinutes = punctualityString.substr(1, punctualityString.indexOf('m'));
-    if (punctualityString.includes('s')) {
-      punctualityStringSeconds = punctualityString.substr(punctualityString.indexOf('m') + 2,
-        punctualityString.length - punctualityString.indexOf('m') - 3);
+  if (punctualityString.includes('h')) {
+    punctualityStringHours = punctualityString.substr(1, punctualityString.indexOf('h') - 1);
+    if (punctualityString.includes('m')) {
+      punctualityStringMinutes = punctualityString.substr(punctualityString.indexOf('h') + 2,
+        punctualityString.indexOf('m') - punctualityString.indexOf('h') - 2);
     }
-  } else if (punctualityString.includes('s')) {
-    punctualityStringSeconds = punctualityString.substr(1, punctualityString.length - 2);
   }
-  const punctualitySeconds = (60 * parseFloat(punctualityStringMinutes)) + parseFloat(punctualityStringSeconds);
+  else if (punctualityString.includes('m')) {
+    punctualityStringMinutes = punctualityString.substr(1, punctualityString.length - 2);
+  }
+  const punctualityMinutes = (60 * parseFloat(punctualityStringHours)) + parseFloat(punctualityStringMinutes);
   if (punctualityString[0] === '+') {
-    return punctualitySeconds;
+    return punctualityMinutes;
   } else {
-    return 0 - punctualitySeconds;
+    return 0 - punctualityMinutes;
   }
 }
 

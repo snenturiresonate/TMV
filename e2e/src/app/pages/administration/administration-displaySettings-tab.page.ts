@@ -5,7 +5,7 @@ import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 export class AdminPunctualityConfigTab {
   public punctualityConfig: ElementFinder;
   public punctualityRow: ElementArrayFinder;
-  public punctualityColor: ElementFinder;
+  public punctualityColor: ElementArrayFinder;
   public punctualityText: ElementArrayFinder;
   public trainIndicationHeader: ElementFinder;
   public saveButton: ElementFinder;
@@ -23,7 +23,7 @@ export class AdminPunctualityConfigTab {
   constructor() {
     this.punctualityConfig = element(by.css('#punctualityConfiguration'));
     this.punctualityRow = element.all(by.css('#punctualityConfiguration .row.col-grid'));
-    this.punctualityColor = element(by.css('.punctuality-colour'));
+    this.punctualityColor = element.all(by.css('.punctuality-colour'));
     this.trainIndicationHeader = element(by.css('#indication-div-container >div:nth-child(1)>div'));
     this.punctualityText = element.all(by.css('input[class*=punctuality-name]'));
     this.addTimeBand = element(by.css('#add-punctuality-btn'));

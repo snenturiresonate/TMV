@@ -407,9 +407,9 @@ Feature: 33805 TMV Schedule Matching
       | <berth>   | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
     And I am on the trains list page
     And The trains list table is visible
-    And the service is displayed in the trains list with the following row colour
-      | rowType       | trainUID   | rowColour              |
-      | Origin called | <trainUid> | rgba(255, 181, 120, 1) |
+    And the following service is displayed on the trains list
+      | trainId            | trainUId   |
+      | <origTrainDesc>    | <trainUid> |
     And I am viewing the map HDGW01paddington.v
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available

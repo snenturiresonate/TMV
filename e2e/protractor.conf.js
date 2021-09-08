@@ -9,7 +9,8 @@ exports.config = {
   params: {
     test_harness_ci_ip: 'http://tmv',
     redis_port: '8082',
-    redis_host: 'tmv'
+    redis_host: 'tmv',
+    dynamo_suffix: 'tmv-national-develop'
   },
   specs: [
     './src/**/features/**/*.feature'

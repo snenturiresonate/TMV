@@ -5,6 +5,7 @@ cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" || echo "Could not change
 # Set up test parameters
 STACK_NAME=${STACK_NAME:-tmv-national-test-coverage}
 CUCUMBER_TAGS=${CUCUMBER_TAGS:-"not (@bug or @tdd)"}
+DYNAMO_SUFFIX=${DYNAMO_SUFFIX:-"${STACK_NAME}"}
 REDIS_PORT=${REDIS_PORT:-"8082"}
 
 # ensure aws cli is installed
@@ -48,10 +49,17 @@ echo "Found ${TEST_HARNESS_IP} created at ${CREATION_TIME}"
 
 # Run the full end to end tests
 echo "CUCUMBER_TAGS: ${CUCUMBER_TAGS}"
+echo "DYNAMO_SUFFIX: ${DYNAMO_SUFFIX}"
 echo "test_harness_ci_ip: ${TEST_HARNESS_IP}"
 echo "npm_config_redis_host: ${REDIS_HOST}"
 echo "npm_config_redis_port: ${REDIS_PORT}"
-export npm_config_ci_ip="${TMV_DOMAIN}"; export npm_config_test_harness_ip="${TEST_HARNESS_IP}"; export npm_config_redis_host="${REDIS_HOST}"; export npm_config_redis_port="${REDIS_PORT}"; export cucumber_tags="${CUCUMBER_TAGS}"; npm run fe2e
+export npm_config_ci_ip="${TMV_DOMAIN}";\
+  export npm_config_test_harness_ip="${TEST_HARNESS_IP}";\
+  export npm_config_redis_host="${REDIS_HOST}";\
+  export npm_config_redis_port="${REDIS_PORT}";\
+  export cucumber_tags="${CUCUMBER_TAGS}";\
+  export dynamo_suffix="${DYNAMO_SUFFIX}";\
+  npm run fe2e
 
 # Generate JUnit style XML to support VSTS reporting
 npm run junit-xml

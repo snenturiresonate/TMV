@@ -2,6 +2,7 @@ import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} fro
 import {of} from 'rxjs';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {RedisClient} from '../../api/redis/redis-client';
+import {NFRConfig} from '../../config/nfr-config';
 
 
 export class TrainsListPageObject {
@@ -118,7 +119,7 @@ export class TrainsListPageObject {
   }
   public async rightClickTrainListItemNum(position: number): Promise<void> {
     const rows = this.trainsListItems;
-    const targetRow = rows.get(position);
+    const targetRow = rows.get(position - 1);
     browser.actions().click(targetRow, protractor.Button.RIGHT).perform();
   }
   public async rightClickTrainListItem(scheduleString: string): Promise<void> {
@@ -351,17 +352,15 @@ export class TrainsListPageObject {
   public async getSecondarySortColumnNameAndArrow(): Promise<string> {
     return this.secondarySortCol.getText();
   }
-  public async clickHeaderText(header: string): Promise<void> {
-    const testColIndex = await this.getColIndex(header) + 1;
-    const testColString = testColIndex.toString();
-    const elm: ElementFinder = element(by.css('#tmv-train-table-header-config-' + testColString + ' span:nth-child(1)'));
-    return CommonActions.waitAndClick(elm);
+  public async clickHeaderTextForColumn(colNum: string): Promise<void> {
+    const elm: ElementFinder = element(by.css('#tmv-train-table-header-config-' + colNum + ' span:nth-child(1)'));
+    await CommonActions.waitAndClick(elm);
+    await browser.sleep(NFRConfig.E2E_TRANSMISSION_TIME_MS);
   }
-  public async clickHeaderArrow(header: string): Promise<void> {
-    const testColIndex = await this.getColIndex(header) + 1;
-    const testColString = testColIndex.toString();
-    const elm: ElementFinder = element(by.css('#tmv-train-table-header-config-' + testColString + ' span:nth-child(2))'));
-    return CommonActions.waitAndClick(elm);
+  public async clickHeaderArrowForColumn(colNum: string): Promise<void> {
+    const elm: ElementFinder = element(by.css('#tmv-train-table-header-config-' + colNum + ' span:nth-child(2)'));
+    await CommonActions.waitAndClick(elm);
+    await browser.sleep(NFRConfig.E2E_TRANSMISSION_TIME_MS);
   }
 
 }

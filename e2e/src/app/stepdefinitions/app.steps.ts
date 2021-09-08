@@ -29,10 +29,12 @@ import '@js-joda/timezone';
 import {NavBarPageObject} from '../pages/nav-bar.page';
 import {RedisClient} from '../api/redis/redis-client';
 import {TrainUIDUtils} from '../pages/common/utilities/trainUIDUtils';
+import {DynamodbClient} from '../api/dynamo/dynamodb-client';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
 const adminRestClient: AdminRestClient = new AdminRestClient();
+const dynamoDBClient: DynamodbClient = new DynamodbClient();
 const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
 const homePage: HomePageObject = new HomePageObject();
 const navBar: NavBarPageObject = new NavBarPageObject();
@@ -220,7 +222,8 @@ Given('I am authenticated to use TMV with {string} role', {timeout: 5 * 10000}, 
 });
 
 Given(/^I have not opened the trains list before$/, async () => {
-// something here about resetting to the defaults
+  await dynamoDBClient.deleteTable('TrainsListSettings-' + `${browser.params.dynamo_suffix}`);
+  await dynamoDBClient.addTable('TrainsListSettings-' + `${browser.params.dynamo_suffix}`);
 });
 
 Given(/^The admin setting defaults are as originally shipped$/, async () => {

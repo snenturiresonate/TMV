@@ -1,4 +1,3 @@
-@tdd
 Feature: 46448 - TMV Trains List - access
   (From Gherkin for Feature 33764)
 
@@ -7,7 +6,54 @@ Feature: 46448 - TMV Trains List - access
   So that I have tailored list trains that I am interested in
 
   Background:
-    Given the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
+    * I remove today's train 'B00701' from the Redis trainlist
+    * I remove today's train 'B00702' from the Redis trainlist
+    * I remove today's train 'B00703' from the Redis trainlist
+    * I remove today's train 'B00704' from the Redis trainlist
+    * I remove today's train 'B00705' from the Redis trainlist
+    * I remove today's train 'B00706' from the Redis trainlist
+    * the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1S42_PADTON_DIDCOTP.cif | PADTON      | WTT_dep       | 2P77                | B00701         |
+    * the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1S42_PADTON_DIDCOTP.cif | PADTON      | WTT_dep       | 3J41                | B00702         |
+    * the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1S42_PADTON_DIDCOTP.cif | PADTON      | WTT_dep       | 5G44                | B00703         |
+    * the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1S42_PADTON_DIDCOTP.cif | PADTON      | WTT_dep       | 2C45                | B00704         |
+    * the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1S42_PADTON_DIDCOTP.cif | PADTON      | WTT_dep       | 1M34                | B00705         |
+    * the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1S42_PADTON_DIDCOTP.cif | PADTON      | WTT_dep       | 1Z27                | B00706         |
+    * I wait until today's train 'B00701' has loaded
+    * I wait until today's train 'B00702' has loaded
+    * I wait until today's train 'B00703' has loaded
+    * I wait until today's train 'B00704' has loaded
+    * I wait until today's train 'B00705' has loaded
+    * I wait until today's train 'B00706' has loaded
+    * I delete 'B00701:today' from hash 'schedule-modifications'
+    * I delete 'B00702:today' from hash 'schedule-modifications'
+    * I delete 'B00703:today' from hash 'schedule-modifications'
+    * I delete 'B00704:today' from hash 'schedule-modifications'
+    * I delete 'B00705:today' from hash 'schedule-modifications'
+    * I delete 'B00706:today' from hash 'schedule-modifications'
+    * the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B00701   | 2P77        | now                    | 99999               | PADTON                 | today         | now                 |
+    * the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B00702   | 3J41        | now                    | 99999               | PADTON                 | today         | now                 |
+    * the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B00703   | 5G44        | now                    | 99999               | PADTON                 | today         | now                 |
+    * the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B00704   | 2C45        | now                    | 99999               | PADTON                 | today         | now                 |
 
   Scenario Outline: 33764-1 Access Trains List (First Time)
 #    Given the user is authenticated to use TMV
@@ -25,13 +71,12 @@ Feature: 46448 - TMV Trains List - access
     Then the url contains 'trains-list'
     And The trains list table is visible
     And The default trains list columns are displayed in order
-    And A selection of services are shown which match the default filters and settings
     And '<filteredServices>' are then displayed
     And '<filteredOutServices>' are not displayed
 
     Examples:
-      | filteredServices | filteredOutServices |
-      | 2P77, 3J41       | 3J41                |
+      | filteredServices       | filteredOutServices |
+      | 2P77, 3J41, 5G44, 2C45 | 1M34, 1Z27          |
 
   Scenario Outline: 33764-2 Access Trains List (User Configured)
 #    Given the user is authenticated to use TMV
@@ -41,6 +86,9 @@ Feature: 46448 - TMV Trains List - access
 #    When the user selects the trains list
 #    Then the trains list opened in a new browser tab with column selection and filters applied
 #    And is populated with a selection of services based on activation, unscheduled and cancelled states
+    * the following train activation message is sent from LINX
+      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | B00705   | 1M34        | now                    | 99999               | PADTON                 | today         | now                 |
     Given I am authenticated to use TMV
     And I have not opened the trains list before
     And I am on the trains list Config page
@@ -51,7 +99,8 @@ Feature: 46448 - TMV Trains List - access
     And I set class filters to be '<classes>'
     And I set 'Ignore PD Cancels' to be '<ignorePDCancelsFlag>'
     And I set 'Include unmatched' to be '<unmatchedFlag>'
-    And I set Time to Appear Before to be '60'
+    And I save the trains list config
+    And There is no unsaved indicator
     And I am on the home page
     When I click the app 'trains-list'
     Then the number of tabs open is 2
@@ -61,9 +110,8 @@ Feature: 46448 - TMV Trains List - access
     And The configured trains list columns are displayed in order
     And '<filteredServices>' are then displayed
     And '<filteredOutServices>' are not displayed
-    And A selection of services are shown which match the configured filters and settings
 
     Examples:
-      | columns                                                                                              | tocs                        | classes          | ignorePDCancelsFlag | unmatchedFlag | filteredServices | filteredOutServices          |
-      | Schedule Type, Last Reported Time, Service, Origin, Destination, Punctuality, Last Reported Location | Great Western Railways (GW) | Class 1, Class 2 | off                 | on            | 2P77             | 5G44, 1M34, 1Z27, 3J41, 2C45 |
+      | columns                                                                                              | tocs                       | classes          | ignorePDCancelsFlag | unmatchedFlag | filteredServices | filteredOutServices          |
+      | Schedule Type, Last Reported Time, Service, Origin, Destination, Punctuality, Last Reported Location | GREAT WESTERN RAILWAY (EF) | Class 1, Class 2 | off                 | on            | 2P77, 2C45, 1M34 | 5G44, 1Z27, 3J41 |
 

@@ -1,10 +1,20 @@
-@tdd
 Feature: 52214 - TMV Trains List - sort
   (From Gherkin for Feature 33764)
 
   As a TMV User
   I want the ability to have a tabular view of live trains that is filtered
-  So that I have tailored list trains that I am interested in
+  So that I have tailored list of trains that I am interested in
+
+  Background:
+    * I remove all trains from the trains list
+    Given the access plan located in CIF file 'access-plan/trains_list_sort_test.cif' is amended so that all services start within the next hour and then received from LINX
+    And the following train running information messages with delay against booked time are sent from LINX
+      | trainUID | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | delay  | hourDepartFromOrigin |
+      | V30607   | 5G14        | today              | 73000               | PADTON                 | Departure from Origin  | +01:20 | 9                    |
+      | C74257   | 2M34        | today              | 74237               | RDNGSTN                | Departure from station | -00:17 | 9                    |
+      | V77798   | 1Z37        | today              | 73000               | DIDCOTP                | Arrival at station     | +00:00 | 19                   |
+      | Y95687   | 1P77        | today              | 73000               | STHALL                 | Passing Location       | +02:08 | 21                   |
+
 
   Scenario Outline: 33764-3a Trains List Column (Primary/Secondary Sorting - Initial defaults header indication)
 #    Given the user is viewing the trains list
@@ -15,6 +25,8 @@ Feature: 52214 - TMV Trains List - sort
     And I have not opened the trains list before
     And I am on the trains list Config page
     And I set trains list columns to include '<columnsToInclude>'
+    And I save the trains list config
+    And There is no unsaved indicator
     And I am on the trains list page
     And The trains list table is visible
     And The default trains list columns are displayed in order
@@ -27,6 +39,7 @@ Feature: 52214 - TMV Trains List - sort
     When I select <colB> text
     Then <colB> is the primary sort column with green text and a downward arrow
     And <colA> is the secondary sort column with orange text and a downward arrow
+    * the access plan located in CIF file 'access-plan/trains_list_sort_cancelled.cif' is received from LINX
 
     Examples:
       | columnsToInclude    | colA          | colB    |
@@ -47,6 +60,7 @@ Feature: 52214 - TMV Trains List - sort
     When The trains list table is visible
     Then the entries in PUNCT. column are in descending order
     And the entries in TIME column are in ascending order within each value in PUNCT. column
+    * the access plan located in CIF file 'access-plan/trains_list_sort_cancelled.cif' is received from LINX
 
   Scenario Outline: 33764-4b Trains List Column (Ascending/Descending Sorting - sorting of list updates to reflect selections made)
 #    Given the user is viewing the trains list
@@ -56,41 +70,45 @@ Feature: 52214 - TMV Trains List - sort
     Given I am authenticated to use TMV
     And I am on the trains list Config page
     And I set trains list columns to include '<columnsToInclude>'
+    And I save the trains list config
+    And There is no unsaved indicator
     And I am on the trains list page
     And The trains list table is visible
     When I select <colA> text
     And I select <colB> text
     Then the entries in <colB> column are in ascending order
-    And the entries in <colA> column are in ascending order within each value in '<colB>' column
+    And the entries in <colA> column are in ascending order within each value in <colB> column
     When I select <colA> text
     Then the entries in <colA> column are in ascending order
-    And the entries in '<colB>' column are in ascending order within each value in '<colA>' column
+    And the entries in <colB> column are in ascending order within each value in <colA> column
     When I select <colA> arrow
     Then <colA> is the primary sort column with green text and an upward arrow
     And <colB> is the secondary sort column with orange text and a downward arrow
     And the entries in <colA> column are in descending order
-    And the entries in <colB>' column are in ascending order within each value in '<colA>' column
+    And the entries in <colB> column are in ascending order within each value in <colA> column
     When I select <colB> arrow
     Then <colA> is the primary sort column with green text and an upward arrow
     And <colB> is the secondary sort column with orange text and an upward arrow
     And the entries in <colA> column are in descending order
-    And the entries in <colB> column are in descending order within each value in '<colA>' column
+    And the entries in <colB> column are in descending order within each value in <colA> column
     When I select <colC> text
     Then <colC> is the primary sort column with green text and an downward arrow
     And <colA> is the secondary sort column with orange text and an upward arrow
     And the entries in <colC> column are in ascending order
-    And the entries in <colA> column are in descending order within each value in '<colA>' column
+    And the entries in <colA> column are in descending order within each value in <colA> column
     When I select <colB> text
     Then <colB> is the primary sort column with green text and an downward arrow
     And <colC> is the secondary sort column with orange text and an downward arrow
     And the entries in <colB> column are in ascending order
-    And the entries in <colC> column are in ascending order within each value in '<colA>' column
+    And the entries in <colC> column are in ascending order within each value in <colA> column
     When I refresh the browser
+    And The trains list table is visible
     Then PUNCT. is the primary sort column with green text and an upward arrow
     And TIME is the secondary sort column with orange text and an downward arrow
     And the entries in PUNCT. column are in descending order
-    And the entries in TIME column are in ascending order within each value in 'PUNCT.' column
+    And the entries in TIME column are in ascending order within each value in PUNCT. column
+    * the access plan located in CIF file 'access-plan/trains_list_sort_cancelled.cif' is received from LINX
 
     Examples:
-      | columnsToInclude                   | colA        | colB   | colC   |
-      | Origin, Destination, Schedule Type | DESTINATION | ORIGIN | SCHED. |
+      | columnsToInclude                   | colA  | colB   | colC   |
+      | Origin, Destination, Schedule Type | DEST. | ORIGIN | SCHED. |
