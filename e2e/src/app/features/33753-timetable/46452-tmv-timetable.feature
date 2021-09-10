@@ -119,6 +119,7 @@ Feature: 33753 - TMV Timetable
       | searchType | searchVal | serviceStatus | trainNum | planningUid |
       | Train      | 3B89      | UNMATCHED     | 3B89     | H87234      |
 
+  @bug @68331
   Scenario Outline: 33753-3c Open Timetable (from Manual Match Search Result - matched/unmatched services have timetable)
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
