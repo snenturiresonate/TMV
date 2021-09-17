@@ -58,7 +58,6 @@ Feature: 33768-3: TMV User Management
       | roleType  |
       | adminOnly |
 
-  @bug @bug:60066
   Scenario Outline: 14 Hiding search for user without Standard Role - <roleType>
     #  Given I am on the sign in screen
     #  And I have a valid TMV role of <roleType>
@@ -74,8 +73,6 @@ Feature: 33768-3: TMV User Management
     Examples:
       | roleType         |
       | adminOnly        |
-      | restriction      |
-      | schedulematching |
 
   Scenario Outline: 15 Displaying matching for user with Schedule Matching Role - <matchType>
     #  Given I have signed in

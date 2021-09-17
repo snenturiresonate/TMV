@@ -252,7 +252,12 @@ export class NavBarPageObject {
   }
 
   public async trainSearchBoxIsNotVisible(): Promise<boolean> {
-    return ! await this.trainSearchBox.isDisplayed();
+    try {
+      return ! await this.trainSearchBox.isDisplayed();
+    }
+    catch (NoSuchElementError) {
+      return true;
+    }
   }
 
   public async getTrainSearchValue(): Promise<string> {
