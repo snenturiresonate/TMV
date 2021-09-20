@@ -5,11 +5,15 @@ import {BerthContextMenu} from '../sections/replay.berth.contextmenu';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export class ReplayMapPage {
+  public static speedValue: ElementFinder = element(by.css('button[title*=speed]>span'));
+
   public bufferingIndicator: ElementFinder;
   public skipForwardButton: ElementFinder;
   public skipBackButton: ElementFinder;
   public playButton: ElementFinder;
+  public minimisedPlayButton: ElementFinder;
   public pauseButton: ElementFinder;
+  public minimisedPauseButton: ElementFinder;
   public stopButton: ElementFinder;
   public replayButton: ElementFinder;
   public replayContainer: ElementFinder;
@@ -18,7 +22,6 @@ export class ReplayMapPage {
   public timestamp: ElementFinder;
   public replaySpeedButton: ElementFinder;
   public mapName: ElementFinder;
-  public speedValue: ElementFinder;
   public replayTimestamp: ElementFinder;
   public replayIncreaseSpeed: ElementArrayFinder;
   public replayMinimise: ElementFinder;
@@ -30,17 +33,18 @@ export class ReplayMapPage {
     this.skipForwardButton = element(by.xpath('//li[contains(text(),"skip_next")]'));
     this.skipBackButton = element(by.xpath('//li[contains(text(),"skip_previous")]'));
     this.playButton = element(by.xpath('//li[contains(text(),"play_circle_outline")]'));
+    this.minimisedPlayButton = element(by.xpath('//li[contains(text(),"play_arrow")]'));
     this.pauseButton = element(by.xpath('//li[contains(text(),"pause_circle_outline")]'));
+    this.minimisedPauseButton = element(by.xpath('//li[contains(text(),"pause")]'));
     this.stopButton = element(by.xpath('//li[contains(text(),"stop")]'));
     this.replayButton = element(by.xpath('//li[contains(text(),"replay")]'));
     this.replayContainer = element(by.css('.reply-container'));
     this.timestamp = element(by.css('.playback-status div'));
     this.replaySpeedButton = element(by.xpath('//button[@title="Playback speed"]'));
     this.mapName = element(by.css('.map-dropdown-button h2'));
-    this.speedValue = element(by.css('button[title*=speed]>span'));
     this.replayTimestamp = element(by.css('.playback-status >div'));
     this.replayIncreaseSpeed = element.all(by.css('.speed-editor-popup .speeds .speed'));
-    this.replayMinimise = element(by.css('.collapse-button'));
+    this.replayMinimise = element(by.css('.collapse-button-container'));
   }
 
   public async selectContinuationLink(linkText): Promise<void> {
@@ -69,6 +73,10 @@ export class ReplayMapPage {
     await CommonActions.waitAndClick(this.playButton);
   }
 
+  public async selectMinimisedPlay(): Promise<void> {
+    await CommonActions.waitAndClick(this.minimisedPlayButton);
+  }
+
   public async selectStop(): Promise<void> {
     await CommonActions.waitAndClick(this.stopButton);
   }
@@ -79,6 +87,10 @@ export class ReplayMapPage {
 
   public async selectPause(): Promise<void> {
     await CommonActions.waitAndClick(this.pauseButton);
+  }
+
+  public async selectMinimisedPause(): Promise<void> {
+    await CommonActions.waitAndClick(this.minimisedPauseButton);
   }
 
   public async moveReplayTimeTo(time: string): Promise<void> {
@@ -124,11 +136,11 @@ export class ReplayMapPage {
   }
 
   public async getSpeedValue(): Promise<string> {
-    return this.speedValue.getText();
+    return ReplayMapPage.speedValue.getText();
   }
 
   public async getPlaybackControl(): Promise<string>{
-    return this.replayMinimise.getAttribute('class');
+    return this.replayMinimise.getAttribute('title');
   }
 
   public async getButtonType(button: string): Promise<string> {
@@ -141,9 +153,17 @@ export class ReplayMapPage {
     if (button === 'play'){
       return this.playButton.getAttribute('class');
     }
+    if (button === 'minimisedPlay'){
+      return this.minimisedPlayButton.getAttribute('class');
+    }
+    if (button === 'minimisedPause'){
+      return this.minimisedPauseButton.getAttribute('class');
+    }
   }
+
   public async getReplayTimestamp(): Promise<any> {
-    return this.replayTimestamp.getText();
+    const fullString: string = await this.replayTimestamp.getText();
+    return fullString.replace('Replay: ', '');
   }
 
   public async clickReplaySpeed(): Promise<void> {
@@ -151,14 +171,14 @@ export class ReplayMapPage {
   }
 
   public async clickMinimise(): Promise<void> {
-    return this.replayMinimise.click();
+    return CommonActions.waitAndClick(this.replayMinimise);
   }
 
   public async increaseReplaySpeed(position: number): Promise<void> {
     const speed = this.replayIncreaseSpeed;
-    await speed.get(position).click();
+    await CommonActions.waitForElementInteraction(speed.get(position));
+    browser.actions().mouseMove(speed.get(position)).click().perform();
   }
-
 }
 
 function translateGradientToRGBColorStopList(gradientString: string): string[] {

@@ -8,13 +8,15 @@ import {ReplayStep} from '../../utils/replay/replay-step';
 import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
 import {assert, expect} from 'chai';
 import {browser, by, element, ExpectedConditions} from 'protractor';
-import {DateTimeFormatter, LocalDateTime} from '@js-joda/core';
+import {ChronoUnit, DateTimeFormatter, LocalDateTime} from '@js-joda/core';
 import {ReplaySelectMapPage} from '../../pages/replay/replay.selectmap.page';
 import {ReplaySelectTimerangePage} from '../../pages/replay/replay.selecttimerange.page';
 import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
 import moment = require('moment');
 // this import looks like its not used but is by expect().to.be.closeToTime()
 import * as chaiDateTime from 'chai-datetime';
+const chai = require('chai');
+chai.use(require('chai-datetime'));
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 const replayPage: ReplayMapPage = new ReplayMapPage();
@@ -126,7 +128,7 @@ When(/^I search for replay map '(.*)'$/, async (input) => {
 });
 
 Then(/^the replay time selection is presented$/, async () => {
-  browser.wait(ExpectedConditions.visibilityOf(replaySelectTimerangePage.selectYourTimeRangeTitle));
+  await browser.wait(ExpectedConditions.visibilityOf(replaySelectTimerangePage.selectYourTimeRangeTitle));
   expect((await replaySelectTimerangePage.quickContainer.isPresent())).to.equal(true);
   expect((await replaySelectTimerangePage.startDate.isPresent())).to.equal(true);
   expect((await replaySelectTimerangePage.startTime.isPresent())).to.equal(true);
@@ -163,7 +165,10 @@ Then(/^the map view is opened ready for replaying with timestamp$/, async (dataT
   expect(replayMapName).to.equal(table.mapName);
   const dateFormat = DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm:ss');
   let expectedDateTime;
-  if (table.expectedTimestamp.includes('Last')) {
+  if (table.expectedTimestamp.toLowerCase().includes('as set')) {
+    expectedDateTime = `${browser.startDate} ${browser.startTime}`;
+  }
+  else if (table.expectedTimestamp.includes('Last')) {
     expectedDateTime = DateAndTimeUtils.getCurrentDateTime()
       .minusMinutes(table.expectedTimestamp.split(' ')[1])
       .withSecond(0)
@@ -172,8 +177,24 @@ Then(/^the map view is opened ready for replaying with timestamp$/, async (dataT
   else {
     expectedDateTime = table.expectedTimestamp;
   }
-  const replayTimestamp = await replayPage.getTimestamp();
-  expect(replayTimestamp.format(dateFormat)).to.equal(expectedDateTime);
+  const replayTimestamp: LocalDateTime = await replayPage.getTimestamp();
+  const tolerance = ChronoUnit.MINUTES.between(replayTimestamp, LocalDateTime.parse(expectedDateTime, dateFormat));
+  expect(Math.abs(tolerance), `The difference between replay time of ${replayTimestamp.format(dateFormat)} and expected time of ${expectedDateTime} was outside of the allowed tolerance`).to.be.lessThan(6);
+});
+
+When(/^I save the replay timestamp$/, async () => {
+  const dateFormat = DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm:ss');
+  const replayTimestamp: LocalDateTime = await replayPage.getTimestamp();
+  browser.replayTimeStamp = replayTimestamp.format(dateFormat);
+});
+
+Then(/^the replay timestamp is equal to that which is saved$/, async () => {
+  const dateFormat = DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm:ss');
+  const replayTimestamp: LocalDateTime = await replayPage.getTimestamp();
+  const expectedReplayTimestamp = replayTimestamp.format(dateFormat);
+  const savedReplayTimestamp = browser.replayTimeStamp;
+  expect(savedReplayTimestamp, `The saved replay timestamp: ${savedReplayTimestamp} was not as expected: ${expectedReplayTimestamp}`)
+    .to.equal(expectedReplayTimestamp);
 });
 
 When(/^I select skip forward to just after replay scenario step '(.*)'$/, async (eventNum) => {
@@ -196,6 +217,10 @@ When('I click Play button', async () => {
   await replayPage.selectPlay();
 });
 
+When('I click minimised Play button', async () => {
+  await replayPage.selectMinimisedPlay();
+});
+
 When('I click Stop button', async () => {
   await replayPage.selectStop();
 });
@@ -212,6 +237,10 @@ When('I click Pause button', async () => {
   await replayPage.selectPause();
 });
 
+When('I click minimised Pause button', async () => {
+  await replayPage.selectMinimisedPause();
+});
+
 When('I click replay button', async () => {
   await replayPage.selectReplay();
 });
@@ -221,31 +250,44 @@ When('I click minimise button', async () => {
 });
 
 Then('the replay playback speed is {string}', async (expectedSpeed: string) => {
-  const actualSpeed = await replayPage.getSpeedValue();
+  const actualSpeed = await CommonActions.waitForFunctionalStringResult(replayPage.getSpeedValue, null, expectedSpeed);
   return expect(actualSpeed, `replay playback speed is not as expected`)
     .to.contain(expectedSpeed);
 });
 
 When('I increase the replay speed at position {int}', async (position: number) => {
+  position = position - 1;
   await replayPage.clickReplaySpeed();
   await replayPage.increaseReplaySpeed(position);
 });
 
 Then('the replay button {string} is {string}', async (button: string, expectedType: string) => {
   const actualType = await replayPage.getButtonType(button);
-  return expect(actualType, `replay button ${button} is not as expected`)
-    .to.contain(expectedType);
+  if (expectedType === 'enabled') {
+    return expect(actualType, `replay button ${button} is not as expected`)
+      .to.not.contain('disabled');
+  }
+  else {
+    return expect(actualType, `replay button ${button} is not as expected`)
+      .to.contain(expectedType);
+  }
 });
 
 Then('the replay play back control is {string}', async (expectedType: string) => {
   const actualType = await replayPage.getPlaybackControl();
-  return expect(actualType, `replay playback control is not as expected`)
-    .to.contain(expectedType);
+  if (expectedType.toLowerCase() === 'collapsed') {
+    return expect(actualType, `replay playback control is not as expected`)
+      .to.contain('expand');
+  }
+  else if (expectedType.toLowerCase() === 'expanded') {
+    return expect(actualType, `replay playback control is not as expected`)
+      .to.contain('collapse');
+  }
 });
 
 Then('my replay should skip {string} minute when I click forward button', async (increment: number) => {
   const dateTimeAtStart = await replayPage.getReplayTimestamp();
-  const expectedTime = await formulateIncrementedDateTime(dateTimeAtStart, increment);
+  const expectedTime: Date = await formulateIncrementedDateTime(dateTimeAtStart, increment);
 
   await replayPage.selectSkipForward();
   const dateTimeAfterForward = await replayPage.getReplayTimestamp();
@@ -269,22 +311,28 @@ Then('my replay should skip {string} minute when I click backward button', async
 
 Then('the replay is paused', async () => {
   browser.capturedReplayTimestamp = await replayPage.getReplayTimestamp();
-  browser.Sleep(2000);
+  browser.sleep(2000);
   const latestReplayTimestamp = await replayPage.getReplayTimestamp();
   expect(latestReplayTimestamp, 'Replay has not been paused').to.equal(browser.capturedReplayTimestamp);
 });
 
-async function formulateDateTime(timeStamp: string): Promise<any> {
-  const parsedDateTime = new Date(timeStamp);
+async function formulateDateTime(timeStamp: string): Promise<Date> {
+  const dateTime = LocalDateTime.parse(timeStamp, DateTimeFormatter.ofPattern('dd/MM/yyy HH:mm:ss'));
+  const parsedDateTime = new Date(
+    dateTime.year(), dateTime.monthValue(), dateTime.dayOfMonth(), dateTime.hour(), dateTime.minute(), dateTime.second());
   return moment(parsedDateTime).toDate();
 }
 
-async function formulateIncrementedDateTime(timeStamp: string, increment: number): Promise<any> {
-  const parsedDateTime = new Date(timeStamp);
+async function formulateIncrementedDateTime(timeStamp: string, increment: number): Promise<Date> {
+  const dateTime = LocalDateTime.parse(timeStamp, DateTimeFormatter.ofPattern('dd/MM/yyy HH:mm:ss'));
+  const parsedDateTime = new Date(
+    dateTime.year(), dateTime.monthValue(), dateTime.dayOfMonth(), dateTime.hour(), dateTime.minute(), dateTime.second());
   return moment(parsedDateTime).add(increment, 'minute').toDate();
 }
 
 async function formulateDecrementedDateTime(timeStamp: string, decrement: number): Promise<any> {
-  const parsedDateTime = new Date(timeStamp);
-  return moment(parsedDateTime).add(decrement, 'minute').toDate();
+  const dateTime = LocalDateTime.parse(timeStamp, DateTimeFormatter.ofPattern('dd/MM/yyy HH:mm:ss'));
+  const parsedDateTime = new Date(
+    dateTime.year(), dateTime.monthValue(), dateTime.dayOfMonth(), dateTime.hour(), dateTime.minute(), dateTime.second());
+  return moment(parsedDateTime).subtract(decrement, 'minute').toDate();
 }

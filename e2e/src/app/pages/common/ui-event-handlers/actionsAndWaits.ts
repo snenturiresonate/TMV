@@ -67,10 +67,16 @@ export class CommonActions {
    */
   public static async waitForFunctionalStringResult(func, argument, result: string): Promise<string> {
     browser.wait(async (): Promise<boolean> => {
-      const actual: string = await func(argument);
+      let actual: string;
+      if (argument === null) {
+        actual = await func();
+      }
+      else {
+        actual = await func(argument);
+      }
       return actual === result;
     }, 30 * 1000, 'The functional result was not achieved within the given timeout')
       .catch(reason => CucumberLog.addText(reason.message));
-    return await func(argument);
+    return func(argument);
   }
 }

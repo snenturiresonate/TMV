@@ -34,7 +34,7 @@ export class DateAndTimeUtils {
   /**
    * Returns a parsed date from the string input in the format specified.
    * Input: date, a date string or one of 'today', 'yesterday' & 'tomorrow' and the date will be calculated
-   * Input: dateFormat, string of format to return the date in eg dd/MM/YYYY, yyyy-MM-dd etc
+   * Input: dateFormat, string of format to return the date in eg dd/MM/yyyy, yyyy-MM-dd etc
    */
   public static convertToDesiredDateAndFormat(date: string, dateFormat: string): string {
     switch (date.toLowerCase()) {

@@ -10,7 +10,7 @@ export class ReplaySelectMapPage {
   public searchedMapResultItems: ElementArrayFinder;
 
   constructor() {
-    this.selectYourMapTitle = element(by.cssContainingText('h1', 'Select your map'));
+    this.selectYourMapTitle = element(by.cssContainingText('h1', 'Select your Map'));
     this.mapsInputBox = element(by.css('.map-search input'));
     this.mapsListContainer = element(by.css('.maps-container'));
     this.mapList = element.all(by.css('.mapLink'));

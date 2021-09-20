@@ -53,7 +53,7 @@ export class MapPageObject {
     this.originallyOpenedMapTitle = '';
     this.lastMapLinkSelectedCode = '';
     this.mapNameDropdown = element(by.css('.map-dropdown-button:nth-child(1)'));
-    this.mapSearch = element(by.id('map-search-box'));
+    this.mapSearch = element(by.css('.map-search input'));
     this.aesBoundaryElements = element(by.css('#aes-boundaries-elements'));
 
     this.headcodeOnMap = element.all(by.css('text[data-train-description]:not([data-train-description=""])'));

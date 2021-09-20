@@ -5,6 +5,7 @@ import {InputBox} from '../common/ui-element-handlers/inputBox';
 import {DatePicker} from '../sections/datepicker';
 import {TimePicker} from '../sections/timepicker';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
+import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
 
 export class ReplaySelectTimerangePage {
   public selectYourTimeRangeTitle: ElementFinder;
@@ -22,7 +23,7 @@ export class ReplaySelectTimerangePage {
   public datePicker: DatePicker;
   public minimise: ElementFinder;
   constructor() {
-    this.selectYourTimeRangeTitle = element(by.cssContainingText('h1', 'Select your time range'));
+    this.selectYourTimeRangeTitle = element(by.cssContainingText('h1', 'Select your Time Range'));
     this.nextButton = element(by.buttonText('Next'));
     this.startDate = element(by.xpath('//input[@formcontrolname="startDate"]'));
     this.openCalendarPickerButton = element(by.css('[aria-label="Open calendar"]'));
@@ -39,24 +40,24 @@ export class ReplaySelectTimerangePage {
   }
 
   // Select Time Page
-  public async setStartDate(date): Promise<void> {
-    // not sure why but clearing box needs slowing down to work, normal clear() doesn't seem to work
+  public async setStartDate(date: string): Promise<void> {
+    date = DateAndTimeUtils.convertToDesiredDateAndFormat(date, 'dd/MM/yyyy');
+    browser.startDate = date;
     await browser.wait(ExpectedConditions.visibilityOf(this.startDate))
       .then(async () => {
-        browser.sleep(1500);
         await InputBox.ctrlADeleteClear(this.startDate);
-        browser.sleep(1500);
         await this.startDate.sendKeys(date);
       });
   }
 
-  public async setStartTime(time): Promise<void> {
-    // not sure why but clearing box needs slowing down to work, normal clear() doesn't seem to work
+  public async setStartTime(time: string): Promise<void> {
+    if (time.toLowerCase().includes('now -') || time.toLowerCase().includes('now +') ) {
+      time = await DateAndTimeUtils.adjustNowTime(time.charAt(4), parseInt(time.substr(6), 10));
+    }
+    browser.startTime = time;
     await browser.wait(ExpectedConditions.visibilityOf(this.startTime))
       .then(async () => {
-        browser.sleep(1500);
         await InputBox.ctrlADeleteClear(this.startTime);
-        browser.sleep(1500);
         await this.startTime.sendKeys(time);
       });
   }
@@ -73,7 +74,11 @@ export class ReplaySelectTimerangePage {
   }
 
   public async setStartDateWithDropdown(date: any): Promise<void> {
+    date = DateAndTimeUtils.convertToDesiredDateAndFormat(date, 'dd/MM/yyyy');
+    browser.startDate = date;
+
     const dateJoda = LocalDate.parse(date, DateTimeFormatter.ofPattern('dd/MM/yyyy'));
+    browser.startDate = date;
     await this.openCalendarPickerButton.click();
     await this.datePicker.chooseThisMonthAndYearButton.click();
     browser.sleep(1000);
@@ -83,6 +88,11 @@ export class ReplaySelectTimerangePage {
   }
 
   public async setStartTimeWithDropdown(time: any): Promise<void> {
+    if (time.toLowerCase().includes('now -') || time.toLowerCase().includes('now +') ) {
+      time = await DateAndTimeUtils.adjustNowTime(time.charAt(4), parseInt(time.substr(6), 10));
+    }
+    browser.startTime = time;
+
     await this.openTimePickerButton.click();
     await this.timePicker.setTime(time);
     await this.timePicker.closeButton.click();

@@ -5,7 +5,7 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
   I want to view historic timetable during replay
   So that I can view what timetable the train was running to and its historic actuals
 
-  @tdd @replayTest @bug @bug_55114
+  @tdd @replayTest
   Scenario: 34375-4a Replay - View Timetable (Schedule Matched - live updates are applied)
 #    Given the user is authenticated to use TMV replay
 #    And the user has opened a timetable within Replay
@@ -129,7 +129,7 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | EALINGB  | arrivalDateTime | absent  |
       | EALINGB  | deptDateTime    | absent  |
 
-  @tdd @replayTest @bug @bug_55114
+  @tdd @replayTest
   Scenario: 34375-5 Replay - View Timetable (Schedule Not Matched - becoming matched)
 #    Given the user is authenticated to use TMV replay
 #    And the user has opened a timetable within Replay
