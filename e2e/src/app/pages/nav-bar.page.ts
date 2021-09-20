@@ -121,7 +121,7 @@ export class NavBarPageObject {
     this.mapLink = element.all(by.css('#map-list>ul>li'));
     this.mapPathToggle = element.all(by.css('#map-path-toggle-button'));
     this.recentMaps = element.all(by.css('.map-details'));
-    this.mapChanger = element(by.css('a[title=\'Change map\']'));
+    this.mapChanger = element(by.css('#mapNameDropDown'));
     this.mapSearchBox = element(by.id('map-search-box'));
     this.routeSetTrackIndicator = element(by.css('#routesettracktoggle .toggle-switch'));
     this.routeSetCodeIndicator = element(by.css('#routesetcodetoggle .toggle-switch'));
