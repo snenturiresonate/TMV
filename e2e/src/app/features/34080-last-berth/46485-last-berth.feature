@@ -98,11 +98,10 @@ Feature: 34080 - Last Berth
       | 2B51               | (EF)         | +0m        | now + 0       |
       | 2B53               | (EF)         | +2m or +3m | now - 2       |
       | 2B55               | (EF)         | +7m or +8m | now - 7       |
-    #    @bug @bug:66861
-    #    When I use the secondary mouse on last berth <TDandBerthId2>
-    #    Then the user is presented with a list of the last '<numTrains2>' services that have 'finished at' this berth
-    #      | serviceDescription | operatorCode | punct   | eventDateTime |
-    #      | 2B57               | (EF)         | UNKNOWN | now + 0       |
+    When I use the secondary mouse on last berth <TDandBerthId2>
+    Then the user is presented with a list of the last '<numTrains2>' services that have 'finished at' this berth
+      | serviceDescription | operatorCode | punct   | eventDateTime |
+      | 2B57               | (EF)         | +0m     | now + 0       |
 
     Examples:
       | cifFile                                              | map          | lBTD | lB1  | lTD1 | TDandBerthId1 | numTrains1 | lB2  | lTD2 | TDandBerthId2 | numTrains2 |
