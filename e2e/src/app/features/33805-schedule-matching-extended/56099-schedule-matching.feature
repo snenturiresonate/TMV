@@ -271,7 +271,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 0041        | 1B11          | B11111   | PADTON   | 401         | location     |
       | D3             | 0107  | 0125        | 1B11          | B11111   | PRTOBJP  | 401         | sub-division |
 
-  @bug @bug:58384 @bug:63235
+  @manual
   Scenario Outline: 5a. Interpose - Exclude Terminated Schedules from Matching - <matchLevel> match
     #    Given there a valid schedule
     #    And a Train Running Information message has been received with  the type  01 -Arrival at Termination
@@ -288,6 +288,7 @@ Feature: 33805 TMV Schedule Matching
     When the following train running information message is sent from LINX
       | trainUID   | trainNumber     | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType          |
       | <trainUid> | <origTrainDesc> | today              | 73000               | PADTON                 | arrivalattermination |
+    And I give the terminated schedule timeout 900 seconds to load
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
@@ -303,7 +304,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 1B13          | B33333   | PADTON   | 401         | location     | 73000               |
       | D3             | 0106  | 1B13          | B33333   | PRTOBJP  | 401         | sub-division | 73106               |
 
-  @bug @bug:58384 @bug:63235
+  @manual
   Scenario Outline: 5b. Step - Exclude Terminated Schedules from Matching - <matchLevel> match
     #    Given there a valid schedule
     #    And a Train Running Information message has been received with  the type  01 -Arrival at Termination
@@ -320,6 +321,7 @@ Feature: 33805 TMV Schedule Matching
     When the following train running information message are sent from LINX
       | trainUID   | trainNumber     | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType          |
       | <trainUid> | <origTrainDesc> | today              | 73000               | PADTON                 | arrivalattermination |
+    And I give the terminated schedule timeout 900 seconds to load
     And the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth       | trainDescriber   | trainDescription |
       | <berth>   | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
