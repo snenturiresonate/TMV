@@ -366,7 +366,7 @@ Feature: 33753 - TMV Timetable
       | trainNum | planningUid |
       | 1A08     | L10008      |
 
-  @replaySetup @tdd @tdd:60541 @bug @bug_63670
+  @replaySetup @tdd @tdd:60541
   Scenario Outline: 33753-6 - View Timetable Detail (Schedule Matched - becoming unmatched)
 #    Given the user is authenticated to use TMV
 #    And the user has opened a timetable
