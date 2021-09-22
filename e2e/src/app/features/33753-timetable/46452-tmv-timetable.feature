@@ -145,7 +145,7 @@ Feature: 33753 - TMV Timetable
       | 1B04     | 0249  | Unscheduled | UNCALLED      |
 
 
-  @replaySetup @bug @bug_65062
+  @replaySetup
   Scenario Outline: 33753-4a - View Timetable (Schedule Matched - live updates are applied)
     #Given the user is authenticated to use TMV
     #And the user has opened a timetable
@@ -173,8 +173,8 @@ Feature: 33753 - TMV Timetable
     And I switch to the new tab
     And I wait for the last Signal to populate
     Then The values for the header properties are as follows
-      | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
-      | LTP       | T519       |            | <planningUid> |         |         | <trainNum> |
+      | schedType | lastSignal | lastReport | trainUid      | trustId   | lastTJM | headCode   |
+      | LTP       | T519       |            | <planningUid> | <trustId> |         | <trainNum> |
     And the navbar punctuality indicator is displayed as 'green'
     And the punctuality is displayed as one of On time,+0m 30s,-0m 30s
     And The timetable entries contains the following data, with timings having live offset from 'earlier' at 'the beginning of the test'
@@ -245,17 +245,15 @@ Feature: 33753 - TMV Timetable
       | Slough   | 1        | actualDep | actual  |
 
     Examples:
-      | trainNum | planningUid |
-      | 1A06     | L10006      |
+      | trainNum | planningUid | trustId    |
+      | 1A06     | L10006      | 1A06L10006 |
 
-  @replaySetup @tdd @tdd:60541 @bug @bug_65062
+  @replaySetup @tdd @tdd:60541
   Scenario Outline: 33753-4b - View Timetable (Schedule Matched - becoming unmatched)
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | EALINGB     | WTT_arr       | <trainNum>          | <planningUid>  |
-    And I am on the trains list page
-    And The trains list table is visible
-    And train description '<trainNum>' is visible on the trains list with schedule type 'LTP'
+    And I wait until today's train '<planningUid>' has loaded
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 0206    | D3             | <trainNum>       |
@@ -303,7 +301,7 @@ Feature: 33753 - TMV Timetable
       | 1A07     | L10007      |
 
 
-  @replaySetup @bug @bug_65062
+  @replaySetup
   Scenario Outline: 33753-5 - View Timetable (Schedule Not Matched - becoming matched)
 #    Given the user is authenticated to use TMV
 #    And the user has opened a timetable
@@ -316,13 +314,8 @@ Feature: 33753 - TMV Timetable
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1S42_PADTON_DIDCOTP.cif | CHOLSEY     | WTT_arr       | <trainNum>          | <planningUid>  |
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
-    When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
-    And I wait for the trains list context menu to display
-    And I open timetable from the context menu
-    And I switch to the new tab
+    And I wait until today's train '<planningUid>' has loaded
+    And I am on the timetable view for service '<planningUid>'
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       |            |            | <planningUid> |         |         | <trainNum> |
