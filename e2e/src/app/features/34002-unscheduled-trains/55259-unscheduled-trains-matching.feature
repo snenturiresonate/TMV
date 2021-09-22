@@ -126,7 +126,8 @@ Feature: 34002 - Unscheduled Trains Matching
       | trainNum | planningUid1 | planningUid2 |
       | 1C12     | L12005       | L12006       |
 
-
+#    This test appears to be flaky, but isolated testing have identified that schedule matching is working as expected
+  @bug @68327
   Scenario Outline: 34002:6b Make Match - matching unmatched step to a matched service - and checking matching change shows on map
     * I remove today's train '<planningUid1>' from the Redis trainlist
     * I remove today's train '<planningUid2>' from the Redis trainlist
