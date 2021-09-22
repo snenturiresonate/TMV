@@ -1,4 +1,3 @@
-@bug @bug:64399
 Feature: 56335 - Schedule Matching - TJM Cancellations
   As TMV user
   I want  schedules that cancelled at origin or scheduled location to be lower in preference over those that aren't
@@ -142,8 +141,8 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
       | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
       | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 | 1   |
     And the following train activation message is sent from LINX
-      | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
-      | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | tomorrow      | now                 | 1   |
+      | trainUID         | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour | asm |
+      | <secondTrainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | tomorrow      | now                 | 1   |
     And I give the train activations 1 second to load
     When the following TJM is received
       | trainUid   | trainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason   | nationalDelayCode   | runDate |
