@@ -26,18 +26,14 @@ Feature: 51586 - Path Extrapolation - Off plan and unscheduled
       | 1B30             | A51586   | A001      | 0743    | WY             | Off route   | blue            |
       | 1B30             | A51586   | 0165      | A374    | WJ             | Off route   | blue            |
 
-  @bug @bug:65893
   Scenario Outline: 51586 - 31 Over midnight
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX
-    And the following service is displayed on the trains list
-      | trainId            | trainUId   |
-      | <trainDescription> | <trainUid> |
+    And I wait until today's train '<trainUid>' has loaded
+    When I am on the timetable view for service '<trainUid>'
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | <trainUid> | <trainDescription> | 22                  | 22:30                  | 99999               | BHAMNWS                | today         |
-    And I give the system 5 seconds to load
-    When I am on the timetable view for service '<trainUid>'
     Then the actual/predicted values are
       | location                 | instance | arrival    | departure  | platform | path | line |
       | Birmingham New Street    | 1        |            | (22:30:00) | 2B       |      |      |

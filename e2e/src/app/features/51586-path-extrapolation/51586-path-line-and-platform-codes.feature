@@ -1,4 +1,3 @@
-@bug @bug:65893
 Feature: 51586 - Path Extrapolation - Current Punctuality
 
   As a TMV user
@@ -12,17 +11,15 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription>  | <trainUid>     |
-    And the following service is displayed on the trains list
-      | trainId            | trainUId   |
-      | <trainDescription> | <trainUid> |
+    And I wait until today's train '<trainUid>' has loaded
+    When I am on the timetable view for service '<trainUid>'
+    And the Inserted toggle is 'on'
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | <trainUid> | <trainDescription> | now                 | now                    | 99999               | PADTON                 | today         |
     And the following live berth step message is sent from LINX (to move train)
       | fromBerth   | toBerth   | trainDescriber   | trainDescription   |
       | <fromBerth> | <toBerth> | <trainDescriber> | <trainDescription> |
-    When I am on the timetable view for service '<trainUid>'
-    And the Inserted toggle is 'on'
     Then the actual/predicted path code is correct
       | location   | instance | pathCode   |
       | <location> | 1        | <pathCode> |
@@ -40,9 +37,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>    | PADTON      | WTT_dep       | <trainDescription>  | <trainUid>     |
-    And the following service is displayed on the trains list
-      | trainId            | trainUId   |
-      | <trainDescription> | <trainUid> |
+    And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | <trainUid> | <trainDescription> | now                 | now                    | 99999               | PADTON                 | today         |
@@ -68,14 +63,12 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription>  | <trainUid>     |
-    And the following service is displayed on the trains list
-      | trainId            | trainUId   |
-      | <trainDescription> | <trainUid> |
+    And I wait until today's train '<trainUid>' has loaded
+    When I am on the timetable view for service '<trainUid>'
+    And the Inserted toggle is 'on'
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | <trainUid> | <trainDescription> | now                 | now                    | 99999               | PADTON                 | today         |
-    When I am on the timetable view for service '<trainUid>'
-    And the Inserted toggle is 'on'
     Then the actual/predicted path code is correct
       | location   | instance | pathCode   |
       | <location> | 1        | <pathCode> |
@@ -92,16 +85,13 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>    | PADTON      | WTT_dep       | <trainDescription>  | <trainUid>     |
-    And the following service is displayed on the trains list
-      | trainId            | trainUId   |
-      | <trainDescription> | <trainUid> |
+    And I wait until today's train '<trainUid>' has loaded
+    When I am on the timetable view for service '<trainUid>'
+    And the Inserted toggle is 'on'
     And I log the berth & locations from the berth level schedule for '<trainUid>'
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | <trainUid> | <trainDescription> | now                 | now                    | 99999               | PADTON                 | today         |
-    And I give the System 5 seconds to load
-    When I am on the timetable view for service '<trainUid>'
-    And the Inserted toggle is 'on'
     Then the actual/predicted platform is correct
       | location   | instance | platform   |
       | <location> | 1        | <platform> |
