@@ -7,6 +7,7 @@ Feature: 33757 - TMV National Search
   Background:
     Given I remove all trains from the trains list
 
+  @blp
   Scenario Outline: 33757-1a Train search window shown - Train Search entering trainUid
     #Given the user is authenticated to use TMV
     #And the user is viewing TMV screen with a national search in the title bar
@@ -25,6 +26,7 @@ Feature: 33757 - TMV National Search
     And berth 'A007' in train describer 'D3' contains '1L24' and is visible
     And I wait for the Open timetable option for train description 1L24 in berth A007, describer D3 to be available
     And I navigate to <pageName> page
+    And I refresh the Elastic Search indices
     And I search Train for 'A'
     And Warning Message is displayed for minimum characters
     And I search Train for '#'

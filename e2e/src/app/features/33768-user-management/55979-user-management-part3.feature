@@ -80,8 +80,13 @@ Feature: 33768-3: TMV User Management
     #  And I'm viewing the trains list
     #  When I view the context menu for a <matchType> train
     #  Then I the <matchMenuOption> is displayed
+    * I delete '<planningUid>:today' from hash 'schedule-modifications'
     Given I remove all trains from the trains list
     And the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
+    And I wait until today's train 'B11111' has loaded
+    And I wait until today's train 'C11111' has loaded
+    And I wait until today's train 'B22222' has loaded
+    And I wait until today's train 'B33333' has loaded
     And the following train activation message is sent from LINX
       | trainUID      | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <planningUid> | <trainDescription> | now                    | 99999               | PADTON                 | today         | now                 |
@@ -92,12 +97,11 @@ Feature: 33768-3: TMV User Management
     And I am viewing the map HDGW01paddington.v
     And I have cleared out all headcodes
     And I am on the trains list page
-    When the following live berth interpose message is sent from LINX <description>
+    And the following live berth interpose message is sent from LINX <description>
       | toBerth | trainDescriber | trainDescription   |
       | A001    | D3             | <trainDescription> |
-    And I am on the trains list page
     And train description '<trainDescription>' is visible on the trains list with schedule type '<scheduleType>'
-    When I invoke the context menu for todays train '<trainDescription>' schedule uid '<planningUid>' from the trains list
+    And I invoke the context menu for todays train '<trainDescription>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     Then the <matchType> version of the trains list context menu is displayed
 

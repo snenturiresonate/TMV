@@ -209,7 +209,7 @@ When(/^I search (Train|Signal|Timetable) for '(.*)' and wait for result$/,
     await navBarPage.enterSearchValue(searchFor);
     await navBarPage.clickSearchIcon();
     return element(by.xpath(locator)).isPresent();
-  }, 10000, `${filter} search result for ${searchFor} did not return a result in the column. locator used ${locator}`);
+  }, 30000, `${filter} search result for ${searchFor} did not return a result in the column. locator used ${locator}`);
 });
 
 Then('the option in the train search is displayed as {string}', async (expectedValue: string) => {

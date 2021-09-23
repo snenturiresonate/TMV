@@ -4,7 +4,6 @@ import {CssColorConverterService} from '../../services/css-color-converter.servi
 import {CucumberLog} from '../../logging/cucumber-log';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {AppPage} from '../app.po';
-import {BerthInterpose} from '../../../../../src/app/api/linx/models/berth-interpose';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {RedisClient} from '../../api/redis/redis-client';
 import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
@@ -58,6 +57,14 @@ export class MapPageObject {
 
     this.headcodeOnMap = element.all(by.css('text[data-train-description]:not([data-train-description=""])'));
     linxRestClient = new LinxRestClient();
+  }
+
+  public static async waitForTracksToBeDisplayed(): Promise<void> {
+    await browser.wait(
+      element(by.css('[name^=track-element]')).isDisplayed(),
+      30000,
+      'Tracks were not displayed'
+    );
   }
 
   public async isPlatformLayerPresent(): Promise<boolean> {

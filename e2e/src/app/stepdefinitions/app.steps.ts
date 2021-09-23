@@ -8,7 +8,7 @@ import {CucumberLog} from '../logging/cucumber-log';
 import * as fs from 'fs';
 import * as path from 'path';
 import {ProjectDirectoryUtil} from '../utils/project-directory.util';
-import {browser, ExpectedConditions} from 'protractor';
+import {browser, by, element, ExpectedConditions} from 'protractor';
 import {TrainJourneyModificationMessageBuilder} from '../utils/train-journey-modifications/train-journey-modification-message';
 import {TrainJourneyModificationBuilder} from '../utils/train-journey-modifications/train-journey-modification';
 import {OperationalTrainNumberIdentifierBuilder} from '../utils/train-journey-modifications/operational-train-number-identifier';
@@ -30,6 +30,7 @@ import {NavBarPageObject} from '../pages/nav-bar.page';
 import {RedisClient} from '../api/redis/redis-client';
 import {TrainUIDUtils} from '../pages/common/utilities/trainUIDUtils';
 import {DynamodbClient} from '../api/dynamo/dynamodb-client';
+import {MapPageObject} from '../pages/maps/map.page';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
@@ -144,6 +145,7 @@ Given(/^I navigate to (.*) page without prior authentication$/, async (pageName:
 Given(/^I am viewing the map (.*)$/, {timeout: 40000}, async (mapId: string) => {
   const url = '/tmv/maps/' + mapId;
   await page.navigateTo(url);
+  await MapPageObject.waitForTracksToBeDisplayed();
 });
 
 Given(/^I view the map (.*) as (.*) user$/, {timeout: 40000}, async (mapId: string, user: string) => {
