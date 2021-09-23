@@ -5,7 +5,7 @@ Feature: 46446 - Schematic State - Signals
   So that I have a live view of the railway
 
   Background:
-    Given I am viewing the map hdgw01paddington.v
+    Given I am viewing the map HDGW01paddington.v
 
   @tdd @replaySetup
   Scenario: 34081-1 Current Signal State
@@ -22,8 +22,8 @@ Feature: 46446 - Schematic State - Signals
     And I refresh the browser
     And the signal roundel for signal 'SN200' is red
 
-  @replaySetup @bug @task:62113 @flaky
-  Scenario:34081 - 2  Main Signal State Proceed
+  @replaySetup
+  Scenario: 34081 - 2  Main Signal State Proceed
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a main signal
     #And the S-Class message is setting the main signal to proceed
