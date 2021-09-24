@@ -25,8 +25,9 @@ Feature: 34380 - TMV Replay National Search
       And Warning Message is displayed for minimum characters
       And I search Train for '#'
       And Warning Message is displayed for minimum characters
-      And I search Train for 'A82345'
-      Then results are returned with that planning UID 'A82345'
+      When I search Train for 'A82345' and wait for result
+        | PlanningUid |
+        | A82345      |
       And the Train search table is shown
       And the window title is displayed as 'Train Search Results'
       And I click close button at the bottom of table
@@ -82,8 +83,9 @@ Feature: 34380 - TMV Replay National Search
    And the following live berth interpose message is sent from LINX (to create a match)
      | toBerth   | trainDescriber     | trainDescription   |
      | 0209      | D3 		             | 1F23  		         |
-   And I search Train for 'A82345'
-   And results are returned with that planning UID 'A82345'
+    When I search Train for 'A82345' and wait for result
+      | PlanningUid |
+      | A82345      |
    And the Train search table is shown
    And the window title is displayed as 'Train Search Results'
    And I invoke the context menu from trains '1'
@@ -149,8 +151,9 @@ Feature: 34380 - TMV Replay National Search
     And the following live berth interpose message is sent from LINX (to create a match)
       | toBerth   | trainDescriber     | trainDescription   |
       | 0209      | D3 		             | 1F23  		          |
-    And I search Train for 'A82345'
-    And results are returned with that planning UID 'A82345'
+    When I search Train for 'A82345' and wait for result
+      | PlanningUid |
+      | A82345      |
     And the Train search table is shown
     And the window title is displayed as 'Train Search Results'
     And I invoke the context menu from signal 1

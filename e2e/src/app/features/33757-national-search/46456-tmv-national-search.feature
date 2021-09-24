@@ -7,8 +7,7 @@ Feature: 33757 - TMV National Search
   Background:
     Given I remove all trains from the trains list
 
-  @blp
-  Scenario Outline: 33757-1a Train search window shown - Train Search entering trainUid
+  Scenario Outline: 33757-1a Train search window shown - Train Search entering trainUid - <pageName>
     #Given the user is authenticated to use TMV
     #And the user is viewing TMV screen with a national search in the title bar
     #When the user selects a train search option (default)
@@ -31,8 +30,9 @@ Feature: 33757 - TMV National Search
     And Warning Message is displayed for minimum characters
     And I search Train for '#'
     And Warning Message is displayed for minimum characters
-    And I search Train for '1L24'
-    Then results are returned with that planning UID 'A12345'
+    When I search Train for '1L24' and wait for result
+      | PlanningUid |
+      | A12345      |
     And the Train search table is shown
     And the window title is displayed as 'Train Search Results'
     And I click close button at the bottom of table
@@ -65,8 +65,9 @@ Feature: 33757 - TMV National Search
     And Warning Message is displayed for minimum characters
     And I search Train for '#'
     And Warning Message is displayed for minimum characters
-    And I search Train for '1L24'
-    Then results are returned with that planning UID 'A12345'
+    When I search Train for '1L24' and wait for result
+      | PlanningUid |
+      | A12345      |
     And the Train search table is shown
     And the window title is displayed as 'Train Search Results'
     And I click close button at the bottom of table
@@ -305,8 +306,9 @@ Feature: 33757 - TMV National Search
       | GW01    |
       | HDGW01  |
     And I click close button at the bottom of table
-    And I search Train for 'A12345'
-    And results are returned with that planning UID 'A12345'
+    When I search Train for 'A12345' and wait for result
+      | PlanningUid |
+      | A12345      |
     And the Train search table is shown
     And I invoke the context menu from train with planning UID 'A12345' on the search results table
     And I wait for the train search context menu to display
@@ -428,8 +430,9 @@ Feature: 33757 - TMV National Search
     When the following live berth interpose message is sent from LINX (to create a match)
       | toBerth | trainDescriber | trainDescription |
       | R029    | D3             | 1L24             |
-    And I search Train for 'A12345'
-    And results are returned with that planning UID 'A12345'
+    When I search Train for 'A12345' and wait for result
+      | PlanningUid |
+      | A12345      |
     And the Train search table is shown
     And the window title is displayed as 'Train Search Results'
     And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results

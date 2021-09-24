@@ -1,6 +1,7 @@
 import {by, ElementFinder} from 'protractor';
 
 export class TimetableTableRowPageObject {
+  public static locationBy = by.css('td:nth-child(1)');
 
   public location: ElementFinder;
   public changeEnRoute: ElementFinder;
@@ -23,7 +24,7 @@ export class TimetableTableRowPageObject {
 
   constructor(rowLocator: ElementFinder) {
     this.rowLocator = rowLocator;
-    this.location = rowLocator.element(by.css('td:nth-child(1)'));
+    this.location = rowLocator.element(TimetableTableRowPageObject.locationBy);
     this.changeEnRoute = rowLocator.element(by.css('.change-en-route'));
     this.plannedArr = rowLocator.element(by.css('td:nth-child(2)'));
     this.plannedDep = rowLocator.element(by.css('td:nth-child(3)'));

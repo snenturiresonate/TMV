@@ -32,6 +32,7 @@ import {TrainJourneyModificationMessage} from '../../utils/train-journey-modific
 import {TRITrainLocationReport} from '../../utils/train-running-information/train-location-report';
 import {ProjectDirectoryUtil} from '../../utils/project-directory.util';
 import {SenderReferenceCalculator} from '../../utils/sender-reference-calculator';
+import {TimetableTableRowPageObject} from '../../pages/sections/timetable.tablerow.page';
 
 const appPage: AppPage = new AppPage();
 
@@ -672,10 +673,12 @@ When('I am on the timetable view for service {string}', {timeout: 40 * 1000}, as
   await browser.wait(async () => {
     await appPage.navigateTo(`/tmv/live-timetable/${service}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`);
     if (await timetablePage.timetableTab.isPresent()) {
-      return true;
+      if (await element(TimetableTableRowPageObject.locationBy).isPresent()) {
+        return true;
+      }
     }
     await appPage.navigateTo(`/tmv/live-timetable/${service}:${DateAndTimeUtils.getCurrentDateTime().plusDays(1).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`);
-    return await timetablePage.timetableTab.isPresent();
+    return timetablePage.timetableTab.isPresent();
   }, 20000, `Timetable page loading timed out`);
 });
 

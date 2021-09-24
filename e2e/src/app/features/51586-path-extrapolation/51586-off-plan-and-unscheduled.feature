@@ -30,10 +30,11 @@ Feature: 51586 - Path Extrapolation - Off plan and unscheduled
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX
     And I wait until today's train '<trainUid>' has loaded
-    When I am on the timetable view for service '<trainUid>'
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | <trainUid> | <trainDescription> | 22                  | 22:30                  | 99999               | BHAMNWS                | today         |
+    When I am on the timetable view for service '<trainUid>'
+    And I give the timetable 1 second to load
     Then the actual/predicted values are
       | location                 | instance | arrival    | departure  | platform | path | line |
       | Birmingham New Street    | 1        |            | (22:30:00) | 2B       |      |      |
