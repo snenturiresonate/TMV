@@ -18,6 +18,7 @@ Feature: 33757 - TMV National Search
     And the Train Search Box has the value 'Train Desc, Trust ID, Planning UID'
     And the access plan located in CIF file 'access-plan/1L24_PADTON_RDNGSTN.cif' is received from LINX
     And I wait until today's train 'A12345' has loaded
+    And I give the timetable an extra 2 seconds to load
     And the following live berth interpose message is sent from LINX (to create a match)
       | toBerth | trainDescriber | trainDescription |
       | A007    | D3             | 1L24             |

@@ -176,8 +176,9 @@ Feature: 33753 - TMV Timetable
     Then The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId   | lastTJM | headCode   |
       | LTP       | T519       |            | <planningUid> | <trustId> |         | <trainNum> |
-    And the navbar punctuality indicator is displayed as 'green'
-    And the punctuality is displayed as one of On time,+0m 30s,-0m 30s
+    And the navbar punctuality indicator is displayed as 'green' or 'yellow'
+    And the punctuality is displayed as one of On time,+0m 30s,-0m 30s,+1m,-1m
+    And I give the timetable a setting time of 2 seconds to load
     And The timetable entries contains the following data, with timings having live offset from 'earlier' at 'the beginning of the test'
       | location                    | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities |
       | London Paddington           |                    | 23:33:00        |                   | 23:33:00       | 4                 |                  | 1                |            | TB         |
@@ -474,7 +475,7 @@ Feature: 33753 - TMV Timetable
     And The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed  | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
       | 15/12/2019 to 10/05/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | D11717  | EF       | 25507005         | P               | OO            |           |              | 1     | S            |              |            | EMU       | 110mph |           | m           | D                            |                 |
-    And the punctuality is displayed as one of On time,+0m 30s,-0m 30s
+    And the punctuality is displayed as one of On time,+0m 30s,-0m 30s,+1m,-1m
 
     Examples:
       | trainNum | planningUid |

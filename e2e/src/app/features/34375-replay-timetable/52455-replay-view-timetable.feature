@@ -26,7 +26,7 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid | trustId | lastTJM | headCode |
       | LTP       | T519       |            | L10006   |         |         | 1A06     |
-    And the navbar punctuality indicator is displayed as 'green'
+    And the navbar punctuality indicator is displayed as 'green' or 'yellow'
     And the punctuality is displayed as 'On Time'
     And The timetable entries contains the following data, with timings having recorded offset from '33753-4a - View Timetable (Schedule Matched - live updates are applied)' at '23:47:00'
       | location                | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities |

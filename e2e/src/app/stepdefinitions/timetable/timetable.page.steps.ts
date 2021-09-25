@@ -220,7 +220,7 @@ Then(/^there is a record in the modifications table$/, async (table: any) => {
       modification = await row.getTypeOfModification();
       modLocation = await row.getLocation();
       modTime = await row.getTime();
-      modTime.replace('today', DateAndTimeUtils.getCurrentDateTimeString('dd-MM-yyyy'));
+      modTime = modTime.replace('today', DateAndTimeUtils.getCurrentDateTimeString('dd-MM-yyyy'));
       modType = await row.getModificationReason();
       found = ((modification === expectedRecord.description)
         && (modLocation === expectedRecord.location)
@@ -264,7 +264,7 @@ Then(/^the sent TJMs are in the modifications table$/, async () => {
 
 Then(/^the sent TJMs in the modifications table are in time order$/, async () => {
   const modificationsTable = await timetablePage.getModificationsTableRows();
-  const times = await Promise.all(modificationsTable.map(async (row) => await row.getTime()));
+  const times = await Promise.all(modificationsTable.map(async (row) => row.getTime()));
   for (let i = 0; i < (times.length - 1); i++) {
     const dateFormat = 'dd/MM/yyyy HH:mm';
     const rowTime = LocalDateTime.parse(times[i], DateTimeFormatter.ofPattern(dateFormat));
@@ -315,20 +315,6 @@ Then(/^the last TJM is the TJM with the latest time$/, async () => {
   const lastTjmSent = sortTJMsByModificationTime(TestData.getTJMs());
   await assertLastTJM(lastTjmSent[lastTjmSent.length - 1]);
 });
-
-function sortTJMsByReceivedDateTime(array): TrainJourneyModificationMessage[] {
-  return array.sort((a, b) => {
-    const lta: OffsetDateTime = OffsetDateTime.parse(a.MessageHeader.MessageReference.MessageDateTime);
-    const ltb: OffsetDateTime = OffsetDateTime.parse(b.MessageHeader.MessageReference.MessageDateTime);
-    if (lta.isBefore(ltb)) {
-      return -1;
-    }
-    if (ltb.isBefore(lta)) {
-      return 1;
-    }
-    return 0;
-  });
-}
 
 function sortTJMsByModificationTime(array): TrainJourneyModificationMessage[] {
   return array.sort((a, b) => {
@@ -580,6 +566,14 @@ Then('the navbar punctuality indicator is displayed as {string}', async (expecte
     .to.equal(expectedColourHex);
 });
 
+Then('the navbar punctuality indicator is displayed as {string} or {string}', async (expectedColor1: string, expectedColor2: string) => {
+  const actualColorHex: string = await timetablePage.getNavBarIndicatorColorHex();
+  const expectedColourHex1 = punctualityColourHex[expectedColor1];
+  const expectedColourHex2 = punctualityColourHex[expectedColor2];
+  expect(actualColorHex, 'Punctuality indicator is not the correct colour')
+    .to.be.oneOf([expectedColourHex1, expectedColourHex2]);
+});
+
 Then('the punctuality is displayed as {string}', async (expectedText: string) => {
   // long timeout for punctuality recalculation cycle
   await browser.wait(ExpectedConditions.textToBePresentInElement(timetablePage.navBarIndicatorText, expectedText),
@@ -784,6 +778,8 @@ Then(/^the path code for Location is correct$/, async (dataTable) => {
 });
 
 Then(/^the actual\/predicted path code is correct$/, async (dataTable) => {
+  // Give the timetable time to settle
+  await browser.sleep(2000);
   const expectedValues: any = dataTable.hashes();
   for (const value of expectedValues) {
     await timetablePage.getRowByLocation(value.location, value.instance).then(async row => {

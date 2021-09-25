@@ -8,7 +8,7 @@ import {CucumberLog} from '../logging/cucumber-log';
 import * as fs from 'fs';
 import * as path from 'path';
 import {ProjectDirectoryUtil} from '../utils/project-directory.util';
-import {browser, by, element, ExpectedConditions} from 'protractor';
+import {browser, ExpectedConditions} from 'protractor';
 import {TrainJourneyModificationMessageBuilder} from '../utils/train-journey-modifications/train-journey-modification-message';
 import {TrainJourneyModificationBuilder} from '../utils/train-journey-modifications/train-journey-modification';
 import {OperationalTrainNumberIdentifierBuilder} from '../utils/train-journey-modifications/operational-train-number-identifier';
@@ -204,6 +204,11 @@ async function logout(): Promise<void> {
   await LocalStorage.reset();
   await browser.waitForAngularEnabled(false);
   await browser.get(browser.baseUrl);
+  if (await authPage.signInModalIsPresent() === false) {
+    // An error must have occurred, so recursively retry
+    await logout();
+    return;
+  }
   expect(await authPage.signInModalIsVisible(), 'Sign In Modal is not visible').to.equal(true);
   if (await authPage.reAuthenticationModalIsVisible()) {
     await authPage.clickSignInAsDifferentUser();
@@ -439,15 +444,14 @@ When(/^the following train journey modification change of id messages? (?:is|are
 
 When(/^the following train activation? (?:message|messages)? (?:is|are) sent from LINX$/, async (trainActivationMessageTable: any) => {
   const trainActivationMessages = trainActivationMessageTable.hashes();
-  // tslint:disable-next-line:prefer-for-of
-  for (let i = 0; i < trainActivationMessages.length; i++) {
+  for (const activation of trainActivationMessages) {
     const trainActivationMessageBuilder: TrainActivationMessageBuilder = new TrainActivationMessageBuilder();
-    let trainUID = trainActivationMessages[i].trainUID;
+    let trainUID = activation.trainUID;
     if (trainUID === 'generatedTrainUId') {
       trainUID = browser.referenceTrainUid;
     }
-    const trainNumber = trainActivationMessages[i].trainNumber;
-    const schedDepString = (trainActivationMessages[i].scheduledDepartureTime).toLowerCase();
+    const trainNumber = activation.trainNumber;
+    const schedDepString = (activation.scheduledDepartureTime).toLowerCase();
     const scheduledDepartureTime = () => {
       if (schedDepString === 'now') {
         return DateAndTimeUtils.getCurrentTimeString();
@@ -458,33 +462,33 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
         const offset = parseInt(schedDepString.substr(6, schedDepString.length - 6), 10);
         return DateAndTimeUtils.getCurrentTime().minusMinutes(offset).format(DateTimeFormatter.ofPattern('HH:mm:ss'));
       } else {
-        return trainActivationMessages[i].scheduledDepartureTime;
+        return activation.scheduledDepartureTime;
       }
     };
     const departureDate = () => {
-      if ((trainActivationMessages[i].departureDate).toLowerCase() === 'today' ||
-        (trainActivationMessages[i].departureDate).toLowerCase() === 'yesterday' ||
-        (trainActivationMessages[i].departureDate).toLowerCase() === 'tomorrow') {
-        return DateAndTimeUtils.convertToDesiredDateAndFormat((trainActivationMessages[i].departureDate).toLowerCase(), 'yyyy-MM-dd');
-      } else if (trainActivationMessages[i].departureDate === undefined) {
+      if ((activation.departureDate).toLowerCase() === 'today' ||
+        (activation.departureDate).toLowerCase() === 'yesterday' ||
+        (activation.departureDate).toLowerCase() === 'tomorrow') {
+        return DateAndTimeUtils.convertToDesiredDateAndFormat((activation.departureDate).toLowerCase(), 'yyyy-MM-dd');
+      } else if (activation.departureDate === undefined) {
         return DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
       } else {
-        return trainActivationMessages[i].scheduledDepartureTime;
+        return activation.scheduledDepartureTime;
       }
     };
     const actualDepartureHour = () => {
-      let aDH = trainActivationMessages[i].actualDepartureHour;
+      let aDH = activation.actualDepartureHour;
       if (aDH === undefined) {
         aDH = 'now';
       }
-      if (aDH.toLowerCase() === 'now' || trainActivationMessages[i].departureDate === undefined) {
+      if (aDH.toLowerCase() === 'now' || activation.departureDate === undefined) {
         return DateAndTimeUtils.getCurrentTimeString('HH');
       }
-      return trainActivationMessages[i].actualDepartureHour;
+      return activation.actualDepartureHour;
     };
-    const locationPrimaryCode = trainActivationMessages[i].locationPrimaryCode;
-    const locationSubsidiaryCode = trainActivationMessages[i].locationSubsidiaryCode;
-    const asmVal = trainActivationMessages[i].asm ? trainActivationMessages[i].asm : 1;
+    const locationPrimaryCode = activation.locationPrimaryCode;
+    const locationSubsidiaryCode = activation.locationSubsidiaryCode;
+    const asmVal = activation.asm ? activation.asm : 1;
     const trainActMss = trainActivationMessageBuilder.buildMessage(locationPrimaryCode, locationSubsidiaryCode,
       scheduledDepartureTime().toString(), trainNumber, trainUID, departureDate().toString(), actualDepartureHour().toString(), asmVal);
     await linxRestClient.postTrainActivation(trainActMss.toString({prettyPrint: true}));
@@ -510,7 +514,7 @@ When(/^the following VSTP messages? (?:is|are) sent from LINX$/, async (vstpMess
 });
 
 Then(/^I should see nothing$/, async () => {
-
+  return;
 });
 
 Then('a modal displays with title {string}', async (modalTitle: string) => {
