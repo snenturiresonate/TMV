@@ -49,7 +49,6 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
       | cif                                     | trainUID | trainNumber | trainUID2 | trainNumber2 |
       | access-plan/34082-schedules/60651-5.cif | L79156   | 5F73        | L79157    | 5F74         |
 
-
   Scenario Outline: MTB is cleared when later TRI is received (non MTB location)
     * I remove today's train '<trainUID>' from the Redis trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
