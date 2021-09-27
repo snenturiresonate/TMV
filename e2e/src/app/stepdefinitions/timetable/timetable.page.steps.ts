@@ -426,6 +426,7 @@ Then('The entry of the change en route table contains the following data', async
 
 
 Then(/^the actual\/predicted values are$/, {timeout: 5 * 60 * 1000}, async (dataTable: any) => {
+  await browser.sleep(2000);
   const expectedValues: any[] = dataTable.hashes();
   for (const value of expectedValues) {
     await timetablePage.getRowByLocation(value.location, value.instance).then(async row => {
