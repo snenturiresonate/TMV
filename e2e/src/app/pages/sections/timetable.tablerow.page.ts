@@ -1,4 +1,5 @@
 import {by, ElementFinder} from 'protractor';
+import {TimeTablePageObject} from '../timetable/timetable.page';
 
 export class TimetableTableRowPageObject {
   public static locationBy = by.css('td:nth-child(1)');
@@ -21,9 +22,11 @@ export class TimetableTableRowPageObject {
   public actualLn: ElementFinder;
   public punctuality: ElementFinder;
   private rowLocator: ElementFinder;
+  private index: number;
 
-  constructor(rowLocator: ElementFinder) {
+  constructor(rowLocator: ElementFinder, index: number) {
     this.rowLocator = rowLocator;
+    this.index = index;
     this.location = rowLocator.element(TimetableTableRowPageObject.locationBy);
     this.changeEnRoute = rowLocator.element(by.css('.change-en-route'));
     this.plannedArr = rowLocator.element(by.css('td:nth-child(2)'));
@@ -44,11 +47,22 @@ export class TimetableTableRowPageObject {
   }
 
   async getLocation(): Promise<string>  {
-    let loc = await this.location.getText();
-    if (await this.changeEnRoute.isPresent()) {
-      loc = loc.replace(await this.changeEnRoute.getText(), '').replace('\n', '');
+    try {
+      let loc = await this.location.getText();
+      if (await this.changeEnRoute.isPresent()) {
+        loc = loc.replace(await this.changeEnRoute.getText(), '').replace('\n', '');
+      }
+      return loc;
     }
-    return loc;
+    catch {
+      console.log('Refreshing the row locator for getLocation');
+      await this.refreshRowLocator();
+      return this.getLocation();
+    }
+  }
+
+  async refreshRowLocator(): Promise<void> {
+    this.rowLocator = await TimeTablePageObject.getRowAtIndex(this.index);
   }
 
 }

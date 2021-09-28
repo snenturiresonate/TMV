@@ -7,6 +7,8 @@ import {CssColorConverterService} from '../../services/css-color-converter.servi
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export class TimeTablePageObject {
+  public static rows: ElementArrayFinder = element.all(by.css('[id^=tmv-timetable-row]'));
+
   public timetableTab: ElementFinder;
   public detailsTab: ElementFinder;
   public headerLabels: ElementArrayFinder;
@@ -22,7 +24,6 @@ export class TimeTablePageObject {
   public headerOldHeadcode: ElementFinder;
   public navBarIndicatorColor: ElementFinder;
   public navBarIndicatorText: ElementFinder;
-  public rows: ElementArrayFinder;
   public timetableEntries: ElementArrayFinder;
   public associationEntries: ElementArrayFinder;
   public insertedToggle: ElementFinder;
@@ -44,7 +45,6 @@ export class TimeTablePageObject {
     this.modification = element.all(by.css('.modification-table >tbody >div >tr>td'));
     this.navBarIndicatorColor = element(by.css('.dot-punctuality-text:nth-child(1)'));
     this.navBarIndicatorText = element(by.css('.punctuality-text:nth-child(2)'));
-    this.rows = element.all(by.css('[id^=tmv-timetable-row]'));
     this.timetableEntries = element.all(by.css('[id^=tmv-timetable-row] td'));
     this.associationEntries = element.all(by.css('[id^=timetable-associations-] td'));
     this.insertedToggle = element(by.css('#live-timetable-toggle-menu .toggle-switch'));
@@ -52,15 +52,20 @@ export class TimeTablePageObject {
     this.timetableHeaderThElements = element.all(by.css('[id^=tmv-timetable-header-row] th'));
   }
 
+  public static async getRowAtIndex(index: number): Promise<ElementFinder> {
+    return this.rows[index];
+  }
+
   async getTableRows(): Promise<TimetableTableRowPageObject[]> {
-    await browser.wait(ExpectedConditions.visibilityOf(this.rows.first()), 4000, 'wait for timetable to load');
-    await browser.sleep(2000);
-    return this.rows.map(row => row.getAttribute('id'))
-      .then(list => list.map(id => new TimetableTableRowPageObject(element(by.id(id.toString())))));
+    await browser.wait(ExpectedConditions.visibilityOf(TimeTablePageObject.rows.first()), 4000, 'wait for timetable to load');
+    const timetableRows: TimetableTableRowPageObject[] = [];
+    let index = 0;
+    await TimeTablePageObject.rows.each(row => timetableRows.push(new TimetableTableRowPageObject(row, index++)));
+    return timetableRows;
   }
 
   async getTableEntries(): Promise<string[][]> {
-    await browser.wait(ExpectedConditions.visibilityOf(this.rows.first()), 4000, 'wait for timetable to load');
+    await browser.wait(ExpectedConditions.visibilityOf(TimeTablePageObject.rows.first()), 4000, 'wait for timetable to load');
     await browser.sleep(2000);
     const timetableEntryValues = await this.timetableEntries.map(entry => entry.getText());
     const tableEntryMatrix = [];
@@ -140,6 +145,7 @@ export class TimeTablePageObject {
     const rows = await this.getTableRows();
     return rows[rowIndex];
   }
+
   public async isTimetableTableTabVisible(): Promise<boolean> {
     const timetableTabClasses: string = await element(by.id('timetable-table-tab')).getAttribute('class');
     return timetableTabClasses.indexOf('tmv-tab-timetable-active') > -1;
@@ -351,8 +357,8 @@ export class TimeTablePageObject {
 
   public async waitUntilLastReportLocNameHasLoaded(locName: string): Promise<void> {
     const timeToWaitForConversion = 2000;
-    const locationName: ElementFinder = element.all
-    (by.cssContainingText(`[id=timetableHeaderTrainRunningInformation]`, locName)).first();
+    const locationName: ElementFinder = element.all(
+      by.cssContainingText(`[id=timetableHeaderTrainRunningInformation]`, locName)).first();
     await CommonActions.waitForElementToBePresent(locationName, timeToWaitForConversion,
       `The Locations were not converted within ${timeToWaitForConversion} milliseconds`);
   }

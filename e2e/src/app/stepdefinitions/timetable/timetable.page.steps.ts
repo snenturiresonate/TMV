@@ -424,22 +424,21 @@ Then('The entry of the change en route table contains the following data', async
   });
 });
 
-
 Then(/^the actual\/predicted values are$/, {timeout: 5 * 60 * 1000}, async (dataTable: any) => {
   await browser.sleep(2000);
   const expectedValues: any[] = dataTable.hashes();
+  let index = 0;
   for (const value of expectedValues) {
-    await timetablePage.getRowByLocation(value.location, value.instance).then(async row => {
-
-      const EC = ExpectedConditions;
-      await browser.wait(EC.and(EC.textToBePresentInElement(row.actualArr, value.arrival),
+    const row = (await timetablePage.getTableRows())[index++];
+    const EC = ExpectedConditions;
+    await row.refreshRowLocator();
+    await browser.wait(EC.and(EC.textToBePresentInElement(row.actualArr, value.arrival),
         EC.textToBePresentInElement(row.actualDep, value.departure),
         EC.textToBePresentInElement(row.actualPlt, value.platform),
         EC.textToBePresentInElement(row.actualPath, value.path),
         EC.textToBePresentInElement(row.actualLn, value.line)),
-        5 * 1000,
-        `Actual/Predicted values for not correct, ${JSON.stringify(value)}`);
-    });
+      5 * 1000,
+      `Actual/Predicted values not correct for, ${JSON.stringify(value)}`);
   }
 });
 
@@ -778,12 +777,13 @@ Then(/^the path code for Location is correct$/, async (dataTable) => {
   }
 });
 
-Then(/^the actual\/predicted path code is correct$/, async (dataTable) => {
+Then(/^the actual\/predicted path code is correct$/, {timeout: 5 * 60 * 1000}, async (dataTable) => {
   // Give the timetable time to settle
   await browser.sleep(2000);
   const expectedValues: any = dataTable.hashes();
   for (const value of expectedValues) {
     await timetablePage.getRowByLocation(value.location, value.instance).then(async row => {
+      await row.refreshRowLocator();
       await browser.wait(ExpectedConditions.textToBePresentInElement(row.actualPath, value.pathCode),
         10 * 1000,
         `Actual/Predicted path code was not ${value.pathCode}, was ${await row.actualPath.getText()}`);
@@ -791,10 +791,11 @@ Then(/^the actual\/predicted path code is correct$/, async (dataTable) => {
   }
 });
 
-Then(/^the actual\/predicted line code is correct$/, async (dataTable) => {
+Then(/^the actual\/predicted line code is correct$/, {timeout: 5 * 60 * 1000}, async (dataTable) => {
   const expectedValues: any = dataTable.hashes();
   for (const value of expectedValues) {
     await timetablePage.getRowByLocation(value.location, value.instance).then(async row => {
+      await row.refreshRowLocator();
       await browser.wait(ExpectedConditions.textToBePresentInElement(row.actualLn, value.lineCode),
         10 * 1000,
         `Actual/Predicted path code was not ${value.lineCode}, was ${await row.actualLn.getText()}`);
@@ -802,10 +803,11 @@ Then(/^the actual\/predicted line code is correct$/, async (dataTable) => {
   }
 });
 
-Then(/^the actual\/predicted platform is correct$/, async (dataTable) => {
+Then(/^the actual\/predicted platform is correct$/, {timeout: 5 * 60 * 1000}, async (dataTable) => {
   const expectedValues: any = dataTable.hashes();
   for (const value of expectedValues) {
     await timetablePage.getRowByLocation(value.location, value.instance).then(async row => {
+      await row.refreshRowLocator();
       await browser.wait(ExpectedConditions.textToBePresentInElement(row.actualPlt, value.platform),
         10 * 1000,
         `Actual/Predicted platform was not ${value.platform}, was ${await row.actualPlt.getText()}`);
@@ -983,8 +985,10 @@ function calculateOriginalTimeAdjustment(scenarioStart: string, originalTime: st
 }
 
 Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instance (.*) is correctly calculated based on (Internal|External) timing "(.*)"$/,
+  {timeout: 5 * 60 * 1000},
   async (arrivalOrDeparture, location, instance, internalExternal, expected) => {
     await timetablePage.getRowByLocation(location, instance).then(async row => {
+      await row.refreshRowLocator();
       let field;
       if (arrivalOrDeparture === 'Arrival') {
         field = row.actualArr;
@@ -1015,8 +1019,10 @@ Then(/^the (Arrival|Departure) time for location "(.*)" instance (.*) is "(.*)"$
 
 
 Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instance (.*) is predicted$/,
+  {timeout: 5 * 60 * 1000},
   async (arrivalOrDeparture, location, instance) => {
     await timetablePage.getRowByLocation(location, instance).then(async row => {
+      await row.refreshRowLocator();
       let field;
       if (arrivalOrDeparture === 'Arrival') {
         field = row.actualArr;

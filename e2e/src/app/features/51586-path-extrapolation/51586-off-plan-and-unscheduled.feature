@@ -26,7 +26,6 @@ Feature: 51586 - Path Extrapolation - Off plan and unscheduled
       | 1B30             | A51586   | A001      | 0743    | WY             | Off route   | blue            |
       | 1B30             | A51586   | 0165      | A374    | WJ             | Off route   | blue            |
 
-  @manual @flaky
   Scenario Outline: 51586 - 31 Over midnight
     Given I am on the trains list page
     And the access plan located in CIF file '<cif>' is received from LINX
