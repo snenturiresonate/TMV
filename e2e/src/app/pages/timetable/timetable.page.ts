@@ -92,7 +92,7 @@ export class TimeTablePageObject {
   }
   async getLocations(): Promise<string[]> {
     const rows = await this.getTableRows();
-    return Promise.all(rows.map(row => row.getLocation()));
+    return Promise.all(rows.map(row => row.getValue('location')));
   }
 
   async getLocationRowIndex(location: string, instance: number): Promise<number> {
@@ -128,14 +128,14 @@ export class TimeTablePageObject {
 
   async pathTextToEqual(location: string, expectPathText: string): Promise<void> {
     const row = await this.getRowByLocation(location, 1);
-    const actualPathText = await row.path.getText();
+    const actualPathText = await row.getValue('path');
     assert(expectPathText === actualPathText,
       `location ${location} should have path code ${expectPathText}, was ${actualPathText}`);
   }
 
   async lineTextToEqual(location: string, expectLineText: string): Promise<void> {
     const row = await this.getRowByLocation(location, 1);
-    const actualLineText = await row.ln.getText();
+    const actualLineText = await row.getValue('ln');
     assert(expectLineText === actualLineText,
       `location ${location} should have line code ${expectLineText}, was ${actualLineText}`);
   }

@@ -3,26 +3,28 @@ import {TimeTablePageObject} from '../timetable/timetable.page';
 
 export class TimetableTableRowPageObject {
   public static locationBy = by.css('td:nth-child(1)');
+  private valueRetry = 5;
 
-  public location: ElementFinder;
-  public changeEnRoute: ElementFinder;
-  public plannedArr: ElementFinder;
-  public plannedDep: ElementFinder;
-  public publicArr: ElementFinder;
-  public publicDep: ElementFinder;
-  public plt: ElementFinder;
-  public path: ElementFinder;
-  public ln: ElementFinder;
-  public allowances: ElementFinder;
-  public activity: ElementFinder;
+  private location: ElementFinder;
+  private changeEnRoute: ElementFinder;
+  private plannedArr: ElementFinder;
+  private plannedDep: ElementFinder;
+  private publicArr: ElementFinder;
+  private publicDep: ElementFinder;
+  private plt: ElementFinder;
+  private path: ElementFinder;
+  private ln: ElementFinder;
+  private allowances: ElementFinder;
+  private activity: ElementFinder;
   public actualArr: ElementFinder;
   public actualDep: ElementFinder;
-  public actualPlt: ElementFinder;
-  public actualPath: ElementFinder;
-  public actualLn: ElementFinder;
-  public punctuality: ElementFinder;
+  private actualPlt: ElementFinder;
+  private actualPath: ElementFinder;
+  private actualLn: ElementFinder;
+  private punctuality: ElementFinder;
   private rowLocator: ElementFinder;
-  private index: number;
+
+  private readonly index: number;
 
   constructor(rowLocator: ElementFinder, index: number) {
     this.rowLocator = rowLocator;
@@ -46,18 +48,59 @@ export class TimetableTableRowPageObject {
     this.punctuality = rowLocator.element(by.css('td:nth-child(16)'));
   }
 
-  async getLocation(): Promise<string>  {
+  async getValue(valueName: string): Promise<string> {
     try {
-      let loc = await this.location.getText();
-      if (await this.changeEnRoute.isPresent()) {
-        loc = loc.replace(await this.changeEnRoute.getText(), '').replace('\n', '');
+      switch (valueName) {
+        case 'location':
+          let loc = await this.location.getText();
+          if (await this.changeEnRoute.isPresent()) {
+            loc = loc.replace(await this.changeEnRoute.getText(), '').replace('\n', '');
+          }
+          return loc;
+        case 'changeEnRoute':
+          return this.changeEnRoute.getText();
+        case 'plannedArr':
+          return this.plannedArr.getText();
+        case 'plannedDep':
+          return this.plannedDep.getText();
+        case 'publicArr':
+          return this.publicArr.getText();
+        case 'publicDep':
+          return this.publicDep.getText();
+        case 'plt':
+          return this.plt.getText();
+        case 'path':
+          return this.path.getText();
+        case 'ln':
+          return this.ln.getText();
+        case 'allowances':
+          return this.allowances.getText();
+        case 'activity':
+          return this.activity.getText();
+        case 'actualArr':
+          return this.actualArr.getText();
+        case 'actualDep':
+          return this.actualDep.getText();
+        case 'actualPlt':
+          return this.actualPlt.getText();
+        case 'actualPath':
+          return this.actualPath.getText();
+        case 'actualLn':
+          return this.actualLn.getText();
+        case 'punctuality':
+          return this.punctuality.getText();
       }
-      return loc;
     }
     catch {
-      console.log('Refreshing the row locator for getLocation');
-      await this.refreshRowLocator();
-      return this.getLocation();
+      this.valueRetry--;
+      let value = '';
+      if (this.valueRetry > 0) {
+        console.log('Refreshing the row locator for getLocation');
+        await this.refreshRowLocator();
+        value = await this.getValue(valueName);
+        this.valueRetry = 5;
+      }
+      return value;
     }
   }
 

@@ -28,7 +28,7 @@ Feature: 51586 - Path Extrapolation - Off plan and unscheduled
       | 1B30             | A51586   | 0165      | A374    | WJ             | Off route   | blue            |
 
   Scenario Outline: 51586 - 31 Over midnight
-    Given I am on the trains list page
+    Given I am on the home page
     And the access plan located in CIF file '<cif>' is received from LINX
     And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX
