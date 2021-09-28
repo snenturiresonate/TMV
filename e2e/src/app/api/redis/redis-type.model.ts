@@ -1,0 +1,5 @@
+export enum RedisType {
+  OPERATIONS = 'OPERATIONS',
+  REPLAY = 'REPLAY',
+  SCHEDULES = 'SCHEDULES',
+}

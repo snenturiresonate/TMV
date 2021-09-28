@@ -9,8 +9,12 @@ exports.config = {
   allScriptsTimeout: 11000,
   params: {
     test_harness_ci_ip: 'http://tmv',
-    redis_port: '8082',
-    redis_host: 'tmv'
+    operations_redis_port: '8600',
+    operations_redis_host: 'redis-operations',
+    schedules_redis_port: '8700',
+    schedules_redis_host: 'redis-schedules',
+    replay_redis_port: '8800',
+    replay_redis_host: 'redis-replay'
   },
   specs: [
     './src/**/features/**/*.feature'
