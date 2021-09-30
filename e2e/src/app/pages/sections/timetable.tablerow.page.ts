@@ -1,5 +1,6 @@
-import {by, ElementFinder} from 'protractor';
+import {browser, by, ElementFinder} from 'protractor';
 import {TimeTablePageObject} from '../timetable/timetable.page';
+import {CucumberLog} from '../../logging/cucumber-log';
 
 export class TimetableTableRowPageObject {
   public static locationBy = by.css('td:nth-child(1)');
@@ -95,8 +96,11 @@ export class TimetableTableRowPageObject {
       this.valueRetry--;
       let value = '';
       if (this.valueRetry > 0) {
-        console.log('Refreshing the row locator for getLocation');
+        const logMsg = `Refreshing the row locator for ${valueName}, ${this.valueRetry} attempts remaining`;
+        console.log(logMsg);
+        await CucumberLog.addText(logMsg);
         await this.refreshRowLocator();
+        await browser.sleep(1000);
         value = await this.getValue(valueName);
         this.valueRetry = 5;
       }

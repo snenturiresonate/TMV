@@ -244,7 +244,8 @@ Given(/^The admin setting defaults are as originally shipped$/, async () => {
 When(/^I do nothing$/, async () => {
   await browser.sleep(5000);
 });
-When(/^I give the (.*) (.*) seconds? to load$/, async (system: string, seconds: number) => {
+When(/^I give the (.*) (.*) seconds? to (.*)$/, async (system: string, seconds: number, action: string) => {
+  await CucumberLog.addText(`Giving the ${system} ${seconds} seconds to ${action}`);
   await browser.sleep(seconds * 1000);
 });
 

@@ -15,6 +15,24 @@ export class DateAndTimeUtils {
     return LocalTime.now(ZoneId.of('Europe/London'));
   }
 
+  public static getCurrentTimePlusOrMinusMins(plusMins = 0, minusMins = 0, format = 'HH:mm:ss'): string {
+    return DateAndTimeUtils.getCurrentTime().plusMinutes(plusMins).minusMinutes(minusMins).format(DateTimeFormatter.ofPattern(format));
+  }
+
+  public static parseTimeEquation(equation = 'now + 2', format = 'HH:mm:ss'): string {
+    const value = parseInt(equation.substr(5), 10);
+    if (equation.includes('+')) {
+      return DateAndTimeUtils.getCurrentTimePlusOrMinusMins(value, 0, format);
+    }
+    if (equation.includes('-')) {
+      return DateAndTimeUtils.getCurrentTimePlusOrMinusMins(0, value, format);
+    }
+    if (equation.includes('now')) {
+      return DateAndTimeUtils.getCurrentTimePlusOrMinusMins(0, 0, format);
+    }
+    return equation;
+  }
+
   public static getCurrentTimeString(pattern = 'HH:mm:ss'): any {
     return DateAndTimeUtils.getCurrentTime().format(DateTimeFormatter.ofPattern(pattern));
   }
@@ -88,14 +106,7 @@ export class DateAndTimeUtils {
     const options = { timeZone: 'Europe/London', timeStyle: 'medium' };
     return inputDateTime.toLocaleTimeString('en-GB', options);
   }
-  /**
-   * Returns the parsed date time from the string input of date & time. Useful for assertions with tolerance
-   * Input: DateTime of type string
-   */
-  public static async formulateDateTime(timeStamp: string): Promise<any> {
-    const parsedDateTime = new Date(timeStamp);
-    return moment(parsedDateTime).toDate();
-  }
+
   /**
    * Adds the increment minutes to the time and Returns the parsed date time from the string input of date & time.
    * Useful for adding minutes to time
@@ -206,4 +217,20 @@ export class DateAndTimeUtils {
     }
     return adjustedTime;
   }
+
+  public static async formulateDateTime(timeStamp: string, format = 'dd/MM/yyy HH:mm:ss'): Promise<Date> {
+    const dateTime = LocalDateTime.parse(timeStamp, DateTimeFormatter.ofPattern(format));
+    const parsedDateTime = new Date(
+      dateTime.year(), dateTime.monthValue(), dateTime.dayOfMonth(), dateTime.hour(), dateTime.minute(), dateTime.second());
+    return moment(parsedDateTime).toDate();
+  }
+
+  public static async formulateTime(timeStamp: string, format = 'HH:mm:ss'): Promise<Date> {
+    const now = LocalDateTime.now();
+    const dateTime = LocalTime.parse(timeStamp, DateTimeFormatter.ofPattern(format));
+    const parsedDateTime = new Date(
+      now.year(), now.monthValue(), now.dayOfMonth(), dateTime.hour(), dateTime.minute(), dateTime.second());
+    return moment(parsedDateTime).toDate();
+  }
+
 }

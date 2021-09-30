@@ -359,6 +359,23 @@ async function assertLastTJM(tjmMessage: TrainJourneyModificationMessage): Promi
   expect(await timetablePage.headerTJM.getText(), errorMessage).to.equal(expectedLastTjm);
 }
 
+When('I toggle the inserted locations on and wait for them to be displayed', async () => {
+  await timetablePage.toggleInsertedLocationsOn();
+
+  // wait until the inserted locations are visible
+  await browser.wait(async () => {
+      let insertedVisible = false;
+      const locations = await timetablePage.getLocations();
+      locations.forEach(location => {
+        if (location.includes('[') && location.includes(']')) {
+          insertedVisible = true;
+        }
+      });
+      return insertedVisible;
+    },
+    30000, 'Waiting for square brackets');
+});
+
 When('I toggle the inserted locations on', async () => {
   await timetablePage.toggleInsertedLocationsOn();
 });
@@ -670,7 +687,7 @@ When('I am on the timetable view for service {string}', {timeout: 40 * 1000}, as
     }
     await appPage.navigateTo(`/tmv/live-timetable/${service}:${DateAndTimeUtils.getCurrentDateTime().plusDays(1).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`);
     return timetablePage.timetableTab.isPresent();
-  }, 20000, `Timetable page loading timed out`);
+  }, 30000, `Timetable page loading timed out`);
 });
 
 When(/^the Inserted toggle is '(on|off)'$/, async (state: string) => {
@@ -998,11 +1015,14 @@ Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instan
       } else {
         field = await row.getValue('actualDep');
       }
+      expected = DateAndTimeUtils.parseTimeEquation(expected, 'HH:mm:ss');
       if (internalExternal === 'Internal') {
-        expected = `${actualsTimeRounding(expected, arrivalOrDeparture)} c`;
+        expected = actualsTimeRounding(expected, arrivalOrDeparture);
       }
       const error = `Actual ${arrivalOrDeparture} not correct for location ${location}`;
-      expect(field, error).to.equal(expected);
+      expect(
+        await DateAndTimeUtils.formulateTime((field).substr(0, 8)), error)
+        .to.be.closeToTime(await DateAndTimeUtils.formulateTime(expected), 120);
     });
   });
 
@@ -1037,11 +1057,15 @@ Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instan
   });
 
 Then(/^the (Arrival|Departure) punctuality for location "(.*)" instance (\d+) is correctly calculated based on expected time "(.*)" & actual time "(.*)"$/,
-  async (arrivalDeparture, location, instance, expectedTime, actualTime) => {
+  async (arrivalDeparture, location, instance, expTime, actTime) => {
+    const expectedTime = DateAndTimeUtils.parseTimeEquation(expTime, 'HH:mm:ss');
+    const actualTime = DateAndTimeUtils.parseTimeEquation(actTime, 'HH:mm:ss');
     await timetablePage.getRowByLocation(location, instance).then(async row => {
-      const field = await row.getValue('punctuality');
+      const actualPunctuality = await row.getValue('punctuality');
       const expectedPunctuality = getExpectedPunctuality(arrivalDeparture === 'Arrival', actualTime, expectedTime);
-      expect(field, `Actual punctuality not correct for location ${location}`).to.equal(expectedPunctuality);
+      const actualPunctualityMins = parseInt(actualPunctuality.split('m')[0], 10);
+      const expectedPunctualityMins = parseInt(expectedPunctuality.split('m')[0], 10);
+      expect(actualPunctualityMins, `Expected punctuality: ${expectedPunctuality}, actual punctuality: ${actualPunctuality} for location ${location}`).is.approximately(expectedPunctualityMins, 2);
     });
   });
 
