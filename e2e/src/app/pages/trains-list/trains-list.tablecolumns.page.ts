@@ -1,7 +1,6 @@
 import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {InputBox} from '../common/ui-element-handlers/inputBox';
-import {GeneralUtils} from '../common/utilities/generalUtils';
 
 export class TrainsListTableColumnsPage {
   public tableLocator: ElementFinder;
@@ -62,6 +61,10 @@ export class TrainsListTableColumnsPage {
     await CommonActions.waitForElementToBeVisible(this.toc.first());
     await this.toc.each(elm => elm.getText().then(text => valueArr.push(text.toString())));
     return valueArr;
+  }
+
+  public async isFirstTocVisible(): Promise<boolean> {
+    return this.toc.first().isPresent();
   }
 
   public async getBackgroundColourOfRow(trainDescriberId: string): Promise<string> {

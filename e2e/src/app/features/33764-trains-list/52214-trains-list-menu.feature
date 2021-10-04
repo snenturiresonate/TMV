@@ -1,4 +1,3 @@
-@tdd
 Feature: 52214 - TMV Trains List - menu
   (From Gherkin for Feature 33764)
 
@@ -7,95 +6,80 @@ Feature: 52214 - TMV Trains List - menu
   So that I have tailored list trains that I am interested in
 
   Background:
-    Given the access plan located in CIF file 'access-plan/trains_list_sort_test.cif' is amended so that all services start within the next hour and then received from LINX
-    And the following train running information messages with delay against booked time is sent from LINX
-      | trainUID | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | delay  | hourDepartFromOrigin |
-      | V30607   | 5G14        | today              | 73000               | PADTON                 | Departure from Origin  | +01:20 | 9                    |
-      | C74257   | 2M34        | today              | 74237               | RDNGSTN                | Departure from station | -00:17 | 9                    |
-      | V77798   | 1Z37        | today              | 73000               | DIDCOTP                | Arrival at station     | +00:00 | 19                   |
-      | Y95687   | 1P77        | today              | 73000               | STHALL                 | Passing Location       | +00:08 | 21                   |
+    * I remove all trains from the trains list
 
-  Scenario: 33764-5a Trains List (Train Menu - random train)
-#  Given the user is authenticated to use TMV
-#  And the user is viewing the trains list
-#  And there are train entries present
-#  When the user performs a secondary click using their mouse
-#  Then the train's menu is opened
-    Given I am authenticated to use TMV
-    And I am on the trains list page
-    And The trains list table is visible
-    And there are train entries present on the trains list
-    When I perform a secondary click on a random service using the mouse
-    And I wait for the trains list context menu to display
-    Then the trains list context menu is displayed
-    * the access plan located in CIF file 'access-plan/trains_list_sort_cancelled.cif' is received from LINX
 
   Scenario Outline: 33764-5b Trains List - Context menu contains information specific to the train on that row, matching the grid values
-    Given I am on the trains list page
-    And The trains list table is visible
-    When I invoke the context menu from train <trainNum> on the trains list
-    And I wait for the trains list context menu to display
-    Then the trains list context menu contains 'SERVICE : ' on line 1
-    And the trains list context menu contains the only 'SERVICE' of train <trainNum> on line 1
-    And the trains list context menu contains 'Open Timetable' on line 2
-    And the trains list context menu contains 'Find Train' on line 3
-    And the trains list context menu contains the only 'SERVICE' of train <trainNum> on line 5
-    And the trains list context menu contains the only 'PUNCT.' of train <trainNum> on line 5
-    And the trains list context menu contains 'Departs' on line 7
-    And the trains list context menu contains the first 'PLANNED' of train <trainNum> on line 7
-    And the trains list context menu contains the first 'ACTUAL / PREDICT' of train <trainNum> on line 7
-    And the trains list context menu contains 'Arrives' on line 8
-    And the trains list context menu contains the second 'PLANNED' of train <trainNum> on line 8
-    And the trains list context menu contains the second 'ACTUAL / PREDICT' of train <trainNum> on line 8
-    And the number of predicted times for train <trainNum> tallies
-    And I can click away to clear the menu
-    * the access plan located in CIF file 'access-plan/trains_list_sort_cancelled.cif' is received from LINX
-
-    Examples:
-      | trainNum |
-      | 1        |
-      | 2        |
-      | 3        |
-      | 4        |
-      | 5        |
-
-  @bug @bug:66859
-  Scenario: 33764-5c Trains List Context menu - matched service
-    Given the access plan located in CIF file 'access-plan/2P77_RDNGSTN_PADTON.cif' is amended so that all services start within the next hour and then received from LINX
+    #    Given the user is authenticated to use TMV
+    #    And the user is viewing the trains list
+    #    And there are train entries present
+    #    When the user performs a secondary click using their mouse
+    #    Then the train's menu is opened
+    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | <trainDescription>  | <trainUid>     |
+    And I wait until today's train '<trainUid>' has loaded
     When the following train activation message is sent from LINX
-      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
-      | D11664        | 2P77        | now                    | 99999               | RDNGSTN                | today         | now                 |
+      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <trainUid> | <trainDescription> | now                    | 99999               | RDNGSTN                | today         | now                 |
     And the following live berth step message is sent from LINX (creating a match)
-      | fromBerth | toBerth | trainDescriber | trainDescription |
-      | 1668      | 1664    | D1             | 2P77             |
+      | fromBerth | toBerth | trainDescriber | trainDescription   |
+      | 1668      | 1664    | D1             | <trainDescription> |
     And I am on the trains list page
     And The trains list table is visible
-    And train '2P77' with schedule id 'D11664' for today is visible on the trains list
-    When I invoke the context menu for todays train '2P77' schedule uid 'D11664' from the trains list
+    When I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
-    Then the trains list context menu contains '2P77' on line 1
-    And the trains list context menu contains 'Unmatch / Rematch' on line 4
-    And the trains list context menu contains 'RDNGSTN' on line 6
-    And the trains list context menu contains 'PADTON' on line 6
-    And the trains list context menu contains 'D11664' on line 9
-    And the trains list context menu contains 'T1664' on line 10
-    When I open timetable from the context menu
-    And the number of tabs open is 2
-    And I switch to the new tab
-    Then the tab title is 'TMV Timetable'
-    And the timetable header train description is '2P77'
-    When I close the last tab
-    And I invoke the context menu for todays train '2P77' schedule uid 'D11664' from the trains list
+    Then the trains list context menu contains 'SERVICE : ' on line 1
+    And the trains list context menu contains 'Open Timetable' on line 2
+    And the trains list context menu contains 'Find Train' on line 3
+    And the trains list context menu contains 'Departs' on line 6
+    And the trains list context menu contains 'Arrives' on line 7
+    And I can click away to clear the menu
+
+    Examples:
+      | trainUid | trainDescription |
+      | Y95682   | 2P72             |
+
+  Scenario Outline: 33764-5c Trains List Context menu - matched service
+    #    Given the user is authenticated to use TMV
+    #    And the user is viewing the trains list
+    #    And there are train entries present
+    #    When the user performs a secondary click using their mouse
+    #    Then the train's menu is opened
+    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | <trainDescription>  | <trainUid>     |
+    And I wait until today's train '<trainUid>' has loaded
+    When the following train activation message is sent from LINX
+      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <trainUid> | <trainDescription> | now                    | 99999               | RDNGSTN                | today         | now                 |
+    And the following live berth step message is sent from LINX (creating a match)
+      | fromBerth | toBerth | trainDescriber | trainDescription   |
+      | 1668      | 1664    | D1             | <trainDescription> |
+    And I am on the trains list page
+    And The trains list table is visible
+    And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
+    When I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
-    And I click on Unmatch in the context menu
-    And I switch to the new tab
-    Then the tab title is 'TMV Schedule Matching 2P77'
-    And a matched service is visible
-    * the access plan located in CIF file 'access-plan/trains_list_sort_cancelled.cif' is received from LINX
+    Then the trains list context menu contains '<trainDescription>' on line 1
+    And the Matched version of the trains list context menu is displayed
+    And the trains list context menu contains 'RDNGSTN' on line 5
+    And the trains list context menu contains 'PADTON' on line 5
+
+    Examples:
+    | trainUid | trainDescription |
+    | Y95683   | 2P73             |
 
   # unmatched services from stepping is part of CCN1
   @tdd
   Scenario: 33764-5d Trains List Context menu - unmatched train with unknown direction
+    #    Given the user is authenticated to use TMV
+    #    And the user is viewing the trains list
+    #    And there are train entries present
+    #    When the user performs a secondary click using their mouse
+    #    Then the train's menu is opened
     Given the following live berth interpose message is sent from LINX (which won't match anything)
       | toBerth | trainDescriber | trainDescription |
       | 0535    | D6             | 5N68             |
