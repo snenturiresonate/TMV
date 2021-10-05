@@ -5,6 +5,7 @@ import {TimetableTableRowPageObject} from '../sections/timetable.tablerow.page';
 import * as assert from 'assert';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
+import {CucumberLog} from '../../logging/cucumber-log';
 
 export class TimeTablePageObject {
   public static rows: ElementArrayFinder = element.all(by.css('[id^=tmv-timetable-row]'));
@@ -96,24 +97,25 @@ export class TimeTablePageObject {
   }
 
   async getLocationRowIndex(location: string, instance: number): Promise<number> {
-    const locations = await this.getLocations();
     let index = -1;
-    let instanceFound = 0;
-    // indexOf doesn't work due to need for == rather than ===, all values are strings but they won't always match.
-    for (let i = 0; i < locations.length; i ++) {
-      // tslint:disable-next-line:triple-equals
-      if (location == locations[i]) {
-        instanceFound++;
-        // tslint:disable-next-line:triple-equals
-        if (instance == instanceFound) {
-          index = i;
-          break;
+    await browser.wait(async () => {
+      const timetableLocations = await this.getLocations();
+      let instanceFound = 0;
+      for (const timetableLocation of timetableLocations) {
+        if (location === timetableLocation) {
+          instanceFound++;
+          if (instance === instanceFound) {
+            index = timetableLocations.indexOf(timetableLocation);
+            return true;
+          }
         }
       }
-    }
-    if (index === -1) {
-      assert.fail(`no row for location ${location} instance ${instance}, locations available are ${locations.join(',')}`);
-    }
+      if (index === -1) {
+        await CucumberLog.addText(
+          `no row for location ${location} instance ${instance}, locations available are ${timetableLocations.join(',')}`);
+        return false;
+      }
+    }, 60000, 'Waiting to get location row index');
     return index;
   }
 
@@ -141,6 +143,9 @@ export class TimeTablePageObject {
   }
 
   async getRowByLocation(location: string, instance: number): Promise<TimetableTableRowPageObject> {
+    if (typeof instance === 'string') {
+      instance = parseInt(instance, 10);
+    }
     const rowIndex = await this.getLocationRowIndex(location, instance);
     const rows = await this.getTableRows();
     return rows[rowIndex];

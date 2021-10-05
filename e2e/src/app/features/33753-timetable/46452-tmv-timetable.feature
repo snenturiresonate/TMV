@@ -305,11 +305,11 @@ Feature: 33753 - TMV Timetable
 
   @replaySetup
   Scenario Outline: 33753-5 - View Timetable (Schedule Not Matched - becoming matched)
-#    Given the user is authenticated to use TMV
-#    And the user has opened a timetable
-#    And the schedule is not matched to live stepping
-#    When the user is viewing the timetable
-#    Then the schedule is displayed with no predicted or live actual running information or header information.
+    #    Given the user is authenticated to use TMV
+    #    And the user has opened a timetable
+    #    And the schedule is not matched to live stepping
+    #    When the user is viewing the timetable
+    #    Then the schedule is displayed with no predicted or live actual running information or header information.
     Given the following live berth interpose message is sent from LINX (which won't match anything)
       | toBerth | trainDescriber | trainDescription |
       | 0831    | D1             | <trainNum>       |
@@ -353,6 +353,7 @@ Feature: 33753 - TMV Timetable
       | location | instance | column    | valType   |
       | Cholsey  | 1        | actualArr | actual    |
       | Cholsey  | 1        | actualDep | predicted |
+    And I wait for the last Signal to populate
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       | T839       |            | <planningUid> |         |         | <trainNum> |
@@ -386,6 +387,7 @@ Feature: 33753 - TMV Timetable
     And I switch to the new tab
     When I switch to the timetable details tab
     Then The timetable details tab is visible
+    And I wait for the last Signal to populate
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       | SN37       |            | <planningUid> |         |         | <trainNum> |
@@ -408,6 +410,7 @@ Feature: 33753 - TMV Timetable
       | <planningUid> | <changeTrainDescription> | <trainNum>     | 12            | create | 07        | 07              | 99999       | <time>           |
     Then the current headcode in the header row is '<changeTrainDescription>'
     And the old headcode in the header row is '(<trainNum>)'
+    And I wait for the last Signal to populate
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId                 | lastTJM                     | headCode                 |
       | LTP       | SN37       |            | <planningUid> | <trainNum><planningUid> | <description>, today <time> | <changeTrainDescription> |
@@ -440,6 +443,7 @@ Feature: 33753 - TMV Timetable
       | trainNum | planningUid | changeTrainDescription | description        | time  |
       | 1A09     | L10019      | 1X09                   | Change Of Identity | 12:00 |
 
+  @bug @bug:72179
   @replaySetup
   Scenario Outline: 33753-7 - View Timetable Detail (Not Schedule Matched - becoming matched)
     #Given the user is authenticated to use TMV
