@@ -79,7 +79,6 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | trainDescription | scheduleEndDate | scheduleDaysRuns | vstpStpIndicator | statusType | displayType |
       | 6P42             | 20500101        | 1111111          | N                | UNCALLED   | VSTP        |
 
-  @bug @bug:72355
   Scenario Outline: 34427-4b Base Schedule is displayed - vstp on top of original cif (cif P, vstp N)
     #Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     #And no other STPs have been received for that service
@@ -89,8 +88,8 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
     * I remove today's train 'generatedTrainUId' from the Redis trainlist
     * I delete 'generatedTrainUId:today' from hash 'schedule-modifications'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
-      | filePath        | refLocation | refTimingType | newTrainDescription    | newPlanningUid |
-      | <prevCIFLoaded> | <location>  | WTT_dep       | <origTrainDescription> | generated      |
+      | filePath        | refLocation    | refTimingType | newTrainDescription    | newPlanningUid |
+      | <prevCIFLoaded> | <refLocation>  | WTT_dep       | <origTrainDescription> | generated      |
     And I wait until today's train 'generatedTrainUId' has loaded
     And the vstp schedule has a schedule in the current time period with the new uid
     And the following VSTP update message is sent from LINX starting now
@@ -99,7 +98,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
     And I give the VSTP 2 seconds to be processed
     When the following train activation message is sent from LINX
       | trainUID          | trainNumber            | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
-      | generatedTrainUId | <newTrainDescription>  | now                    | 99999               | <location>             | today         | now                 |
+      | generatedTrainUId | <newTrainDescription>  | now                    | 99999               | <refLocation>             | today         | now                 |
     And I am on the trains list page
     Then train '<newTrainDescription>' with schedule id 'generatedTrainUId' for today is visible on the trains list
     When I give the train 1 second to get into elastic search
@@ -110,8 +109,8 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
     Then one result is returned for today with that planning UID generatedTrainUId and it has status <statusType> and sched <displayType> and service <newTrainDescription>
 
     Examples:
-      | prevCIFLoaded                                      | origTrainDescription | newTrainDescription | scheduleEndDate | scheduleDaysRuns | vstpStpIndicator | statusType | displayType | location |
-      | access-plan/34427-schedules/initial_cif_type_P.cif | 6D04                 | 6P47                | 20500101        | 1111111          | N                | UNCALLED   | VSTP        | WHATFHH |
+      | prevCIFLoaded                                      | origTrainDescription | newTrainDescription | scheduleEndDate | scheduleDaysRuns | vstpStpIndicator | statusType | displayType | refLocation |
+      | access-plan/34427-schedules/initial_cif_type_P.cif | 6D04                 | 6P47                | 20500101        | 1111111          | N                | UNCALLED   | VSTP        | WHATFHH     |
 
   Scenario Outline: 34427-5a Schedule Cancellation is displayed - no original cif (vstp C)
     #Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
