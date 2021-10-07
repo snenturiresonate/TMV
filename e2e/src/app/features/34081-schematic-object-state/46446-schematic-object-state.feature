@@ -7,20 +7,22 @@ Feature: 46446 - Schematic State - Signals
   Background:
     Given I am viewing the map HDGW01paddington.v
 
-  @tdd @replaySetup
+  @replaySetup
   Scenario: 34081-1 Current Signal State
       #Given the existing state of the signals
       #And at least one signal has a known state
       #When the user opens a new map that contains the signals
       #Then the signal state align with the underlying signal state model
-    Given I set up all signals for address 80 in D3 to be red
+    Given I set up all signals for address 80 in D3 to be not-proceed
     And the maximum amount of time is allowed for end to end transmission
-    And the signal roundel for signal 'SN208' is red
-    When I launch a new map 'HDGW02' the new map should have start time from the moment it was opened
+    And the signal roundel for signal 'SN128' is red
+    When I launch a new map 'HDGW01'
     And I switch to the new tab
-    Then the signal roundel for signal 'SN200' is red
-    And I refresh the browser
-    And the signal roundel for signal 'SN200' is red
+    And I wait for the tracks to be displayed
+    Then the signal roundel for signal 'SN128' is red
+    When I refresh the browser
+    And I wait for the tracks to be displayed
+    Then the signal roundel for signal 'SN128' is red
 
   @replaySetup
   Scenario: 34081 - 2  Main Signal State Proceed

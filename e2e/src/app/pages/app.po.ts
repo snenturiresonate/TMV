@@ -68,7 +68,10 @@ export class AppPage {
       await this.roleBasedAuthentication(URL, role);
     } catch (reason) {
       if ((reason.toString()).includes('UnexpectedAlertOpenError') === false) {
-        throw new Error('Unable to signin: ' + reason);
+        await CucumberLog.addText('Unable to sign in: ' + reason);
+        await browser.sleep(1000);
+        await this.authenticateOnlyWithoutReNavigation(url, role);
+        return;
       }
       const alert = await browser.switchTo().alert();
       await alert.accept();

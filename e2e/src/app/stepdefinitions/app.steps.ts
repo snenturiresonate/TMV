@@ -19,7 +19,6 @@ import {TimingAtLocationBuilder} from '../utils/train-journey-modifications/timi
 import {LocationBuilder} from '../utils/train-journey-modifications/location';
 import {LocationSubsidiaryIdentificationBuilder} from '../utils/train-journey-modifications/location-subsidiary-identification';
 import {TestData} from '../logging/test-data';
-import {LocalStorage} from '../../../local-storage/local-storage';
 import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dialogue.page';
 import {TrainActivationMessageBuilder} from '../utils/train-activation/train-activation-message';
 import {HomePageObject} from '../pages/home.page';
@@ -200,12 +199,15 @@ Given(/^I have not already authenticated$/, {timeout: 5 * 10000}, async () => {
 });
 
 async function logout(): Promise<void> {
-  // Below steps to be replaced to logout steps once DEV implementation is done
-  await LocalStorage.reset();
   await browser.waitForAngularEnabled(false);
   await browser.get(browser.baseUrl);
+  if (await homePage.userProfileIcon.isPresent()) {
+    await navBar.openUserProfileMenu();
+    await navBar.clickSignOutButton();
+  }
   if (await authPage.signInModalIsPresent() === false) {
     // An error must have occurred, so recursively retry
+    await CucumberLog.addText('Logout error occured - retrying logout...');
     await logout();
     return;
   }
