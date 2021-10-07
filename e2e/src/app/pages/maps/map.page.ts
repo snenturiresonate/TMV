@@ -62,8 +62,10 @@ export class MapPageObject {
   }
 
   public static async waitForTracksToBeDisplayed(): Promise<void> {
+    const tracks = element.all(by.css('[name^=track-element]'));
+    await CommonActions.waitForElementToBePresent(tracks.first());
     await browser.wait(
-      element(by.css('[name^=track-element]')).isDisplayed(),
+      tracks.first().isDisplayed(),
       30000,
       'Tracks were not displayed'
     );
