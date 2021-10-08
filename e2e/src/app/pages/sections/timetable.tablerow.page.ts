@@ -92,18 +92,19 @@ export class TimetableTableRowPageObject {
           return this.punctuality.getText();
       }
     }
-    catch {
-      this.valueRetry--;
+    catch (issue) {
+      console.log(issue.toString());
+      await CucumberLog.addText(issue.toString());
       let value = '';
-      if (this.valueRetry > 0) {
+      if (this.valueRetry-- > 0) {
         const logMsg = `Refreshing the row locator for ${valueName}, ${this.valueRetry} attempts remaining`;
         console.log(logMsg);
         await CucumberLog.addText(logMsg);
         await this.refreshRowLocator();
         await browser.sleep(1000);
         value = await this.getValue(valueName);
-        this.valueRetry = 5;
       }
+      this.valueRetry = 5;
       return value;
     }
   }
