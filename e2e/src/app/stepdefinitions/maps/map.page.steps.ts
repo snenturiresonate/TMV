@@ -772,8 +772,15 @@ Then('the berth context menu is displayed with berth name {string}', async (expe
 
 Then('the train headcode color for berth {string} is {word}',
   async (berthId: string, expectedColor: string) => {
-    const expectedColorHex = mapColourHex[expectedColor];
-    const actualSignalStatus: string = await mapPageObject.getBerthColor(berthId);
+    let expectedColorHex = '';
+    let actualSignalStatus = '';
+
+    await browser.wait(async () => {
+      expectedColorHex = mapColourHex[expectedColor];
+      actualSignalStatus = await mapPageObject.getBerthColor(berthId);
+      return (actualSignalStatus === expectedColorHex);
+    }, browser.displayTimeout, 'Waiting for the headcode colour');
+
     expect(actualSignalStatus, 'Headcode colour is not ' + expectedColor)
       .to.equal(expectedColorHex);
   });

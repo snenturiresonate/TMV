@@ -826,10 +826,10 @@ Then(/^the actual\/predicted platform is correct$/, {timeout: 5 * 60 * 1000}, as
   const expectedValues: any = dataTable.hashes();
   for (const value of expectedValues) {
     await timetablePage.getRowByLocation(value.location, value.instance).then(async row => {
-      await row.refreshRowLocator();
+      const actualPlatform = await row.getValue('actualPlt');
       expect(
-        await row.getValue('actualPlt'),
-        `Actual/Predicted platform code was not ${value.platform}, was ${await row.getValue('actualPlt')}`)
+        actualPlatform,
+        `Actual/Predicted platform code was not ${value.platform}, was ${actualPlatform}`)
         .to.equal(value.platform);
     });
   }

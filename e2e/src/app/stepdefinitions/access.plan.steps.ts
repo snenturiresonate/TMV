@@ -87,7 +87,7 @@ When ('the train in CIF file below is updated accordingly so time at the referen
     await processCifInputs(inputs);
 });
 
-When ('the train in CIF file below is updated accordingly so time at the reference point is now + {string} minutes, and then received from LINX',
+When (/^the train in CIF file below is updated accordingly so time at the reference point is now \+ '?(.*)'? minutes?, and then received from LINX$/,
   async (plusMins: string, inputs: any) => {
     await processCifInputs(inputs, parseInt(plusMins, 10));
   });

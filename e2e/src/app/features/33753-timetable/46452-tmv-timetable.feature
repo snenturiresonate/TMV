@@ -119,18 +119,19 @@ Feature: 33753 - TMV Timetable
       | searchType | searchVal | serviceStatus | trainNum | planningUid |
       | Train      | 3B89      | UNMATCHED     | 3B89     | H87234      |
 
-#   This test appears to be flaky, but isolated testing have identified that schedule matching is working as expected
-  @bug @68331
+  # Used to be flaky - see 68331
   Scenario Outline: 33753-3c Open Timetable (from Manual Match Search Result - matched/unmatched services have timetable)
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1W06_EUSTON_BHAMNWS.cif | EUSTON      | WTT_dep       | <trainNum>          | B46452         |
-    And I am viewing the map HDGW01paddington.v
+    And I wait until today's train 'B46452' has loaded
     And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth | trainDescriber | trainDescription |
       | <berth> | D4             | <trainNum>       |
+    And I am viewing the map HDGW01paddington.v
     When I invoke the context menu on the map for train <trainNum>
     And I open schedule matching screen from the map context menu
+    And the number of tabs open is 2
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching'
     And I invoke the context menu from a <serviceStatus> service in the train list
@@ -138,6 +139,7 @@ Feature: 33753 - TMV Timetable
     And the '<searchType>' context menu is displayed
     And the '<searchType>' search context menu contains 'Open Timetable' on line 1
     And I click on the unscheduled timetable link
+    And the number of tabs open is 3
     And I switch to the new tab
     And the tab title is 'TMV Timetable'
 

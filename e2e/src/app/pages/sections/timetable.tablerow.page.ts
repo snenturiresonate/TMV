@@ -50,6 +50,7 @@ export class TimetableTableRowPageObject {
   }
 
   async getValue(valueName: string): Promise<string> {
+    await this.refreshRowLocator();
     try {
       switch (valueName) {
         case 'location':

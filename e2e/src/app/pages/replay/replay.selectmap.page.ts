@@ -20,6 +20,8 @@ export class ReplaySelectMapPage {
 
   public async expandMapGroupingForName(mapName: string): Promise<void> {
     const mapListItem: ElementFinder = element(by.xpath('//div[contains(text(),"' + mapName + '")]'));
+    await CommonActions.waitForElementToBePresent(mapListItem);
+    await CommonActions.waitForElementToBeVisible(mapListItem);
     return mapListItem.click();
   }
 
