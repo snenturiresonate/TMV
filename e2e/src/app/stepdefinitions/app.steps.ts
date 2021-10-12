@@ -385,7 +385,7 @@ When(/^the following signalling update messages? (?:is|are) sent from LINX$/, as
   await linxRestClient.waitMaxTransmissionTime();
 });
 
-When(/^the following live signalling update messages? (?:is|are) sent from LINX (.*)$/,
+When(/^the following live signalling update messages? (?:is|are) sent from LINX(.*)$/,
   async (explanation: string, signallingUpdateMessageTable: any) => {
     const signallingUpdateMessages: any = signallingUpdateMessageTable.hashes();
     const now = DateAndTimeUtils.getCurrentTimeString();

@@ -63,7 +63,7 @@ export class DateAndTimeUtils {
       case 'yesterday':
         return DateAndTimeUtils.getCurrentDateTime().minusDays(1).format(DateTimeFormatter.ofPattern(dateFormat));
       default:
-        return LocalDate.parse(date).format(DateTimeFormatter.ofPattern(dateFormat));
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern(dateFormat)).format(DateTimeFormatter.ofPattern(dateFormat));
     }
   }
   /**
