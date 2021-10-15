@@ -8,7 +8,7 @@ import {ReplayStep} from '../../utils/replay/replay-step';
 import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
 import {assert, expect} from 'chai';
 import {browser, by, element, ExpectedConditions} from 'protractor';
-import {ChronoUnit, DateTimeFormatter, LocalDateTime} from '@js-joda/core';
+import {ChronoUnit, DateTimeFormatter, LocalDateTime, LocalTime} from '@js-joda/core';
 import {ReplaySelectMapPage} from '../../pages/replay/replay.selectmap.page';
 import {ReplaySelectTimerangePage} from '../../pages/replay/replay.selecttimerange.page';
 import {TimeTablePageObject} from '../../pages/timetable/timetable.page';
@@ -18,6 +18,7 @@ import * as chaiDateTime from 'chai-datetime';
 const chai = require('chai');
 chai.use(require('chai-datetime'));
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
+import {CucumberLog} from '../../logging/cucumber-log';
 
 const replayPage: ReplayMapPage = new ReplayMapPage();
 const replaySelectMapPage: ReplaySelectMapPage = new ReplaySelectMapPage();
@@ -37,9 +38,12 @@ When('I select Next', async () => {
   await replaySelectTimerangePage.selectNext();
 });
 
-Given(/^I load the replay data from scenario '(.*)'$/, (filepath) => {
+Given(/^I load the replay data from scenario '(.*)'$/, async (filepath) => {
   const file = `.tmp/replay-recordings/${encodeURIComponent(filepath)}.json`;
   if (!fs.existsSync(file)) {
+    const errorMessage = `ERROR - No replay recording was found: ${file}`;
+    console.log(errorMessage);
+    await CucumberLog.addText(errorMessage);
     return 'skipped';
   }
   const data = fs.readFileSync(file, 'utf8');
@@ -47,10 +51,10 @@ Given(/^I load the replay data from scenario '(.*)'$/, (filepath) => {
 });
 
 Given(/^I have set replay time and date from the recorded session$/, async () => {
-
   await replaySelectTimerangePage.setStartDate(replayScenario.date);
   await replaySelectTimerangePage.setStartTime(replayScenario.startTime);
   await replaySelectTimerangePage.selectDurationOfReplay('10');
+  await CucumberLog.addText(`Setting the replay to start on ${replayScenario.date} at ${replayScenario.startTime} for 10 minutes`);
 });
 
 Given(/^I set the date and time for replay to$/, async (dataTable) => {
@@ -111,7 +115,7 @@ When(/^I wait for the buffer to fill$/, async () => {
 });
 
 When(/^I select skip forward until the end of the replay is reached$/, async () => {
-  while (replayPage.skipForwardButton.isEnabled()) {
+  while (!(await replayPage.skipForwardButton.getAttribute('class')).includes('disabled')) {
     await replayPage.selectSkipForward();
   }
 });
@@ -200,8 +204,8 @@ Then(/^the replay timestamp is equal to that which is saved$/, async () => {
 When(/^I select skip forward to just after replay scenario step '(.*)'$/, async (eventNum) => {
   const eventNumVal = parseInt(eventNum, 10);
   const eventTimeString: string = replayScenario.steps[eventNumVal].timestamp;
-  const eventTime: LocalDateTime = LocalDateTime.parse(eventTimeString, DateTimeFormatter.ofPattern('HH:mm:ss'));
-  const timeToCheck: LocalDateTime = eventTime.plusSeconds(1);
+  const eventTime: LocalTime = LocalTime.parse(eventTimeString, DateTimeFormatter.ofPattern('HH:mm:ss'));
+  const timeToCheck: LocalTime = eventTime.plusSeconds(1);
   const timeToCheckString = timeToCheck.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
   await replayPage.moveReplayTimeTo(timeToCheckString);
 });

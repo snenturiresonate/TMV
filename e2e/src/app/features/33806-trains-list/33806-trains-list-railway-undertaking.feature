@@ -5,12 +5,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
   So, that I can identify if the build meets the end to end requirements
 
   Background:
-    Given I am on the trains list Config page
-    And I restore to default train list config
-    And I have navigated to the 'Punctuality' configuration tab
-    And I toggle all trains list punctuality toggles 'off'
-    And I save the trains list config
-    And I have navigated to the 'TOC/FOC' configuration tab
+    * I remove all trains from the trains list
+    * I am on the trains list Config page
+    * I restore to default train list config
+    * I have navigated to the 'TOC/FOC' configuration tab
 
   #33806 -11 Trains List Config (TOC/FOC Selection)
     #Given the user is viewing the trains list config
@@ -254,14 +252,18 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
       | SLC OPERATIONS LIMITED (SO)         | keyboard_arrow_right |
       | GCNW (LN)                           | keyboard_arrow_right |
 
-  #33806 -13 Trains List Config (TOC/FOC Applied)
-    #Given the user has made changes to the trains list TOC/FOC selection
-    #When the user views the trains list
-    #Then the view is updated to reflect the user's TOC/FOC selection
-
-  @bug @bug:66859
-  Scenario Outline: 33806 -13 Selecting required columns and verifying if they are reflected in the trains list
-    Given the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
+  Scenario Outline: 33806 -13a Selecting required columns and verifying if they are reflected in the trains list - positive tests
+    #    Given the user has made changes to the trains list TOC/FOC selection
+    #    When the user views the trains list
+    #    Then the view is updated to reflect the user's TOC/FOC selection
+    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | <cif>    | <location>  | WTT_dep       | <trainDescription>  | <trainUid>     |
+    And I wait until today's train '<trainUid>' has loaded
+    When the following train activation message is sent from LINX
+      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <trainUid> | <trainDescription> | now                    | 99999               | RDNGSTN                | today         | now                 |
     When I select only the following railway undertaking entries
       | items                    |
       | <columnToSelectInConfig> |
@@ -270,8 +272,34 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
     Then I should see the trains list column TOC has only the below values
       | expectedValues               |
       | <valuesToExpectInTrainsList> |
-    And I restore to default train list config
+    * I restore to default train list config
+
     Examples:
-      | columnToSelectInConfig        | valuesToExpectInTrainsList |
-      | GREAT WESTERN RAILWAY (EF)    | EF                         |
-      | Govia Thameslink Railway (ET) | ET                         |
+      | columnToSelectInConfig        | valuesToExpectInTrainsList | trainUid | trainDescription | cif                                 | location |
+      | GREAT WESTERN RAILWAY (EF)    | EF                         | B33806   | 2P33             | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN  |
+      | WEST MIDLANDS TRAINS (EJ)     | EJ                         | B33807   | 2P34             | access-plan/1W06_EUSTON_BHAMNWS.cif | EUSTON   |
+
+  Scenario Outline: 33806 -13b Selecting required columns and verifying if they are reflected in the trains list - negative tests
+    #    Given the user has made changes to the trains list TOC/FOC selection
+    #    When the user views the trains list
+    #    Then the view is updated to reflect the user's TOC/FOC selection
+    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | <cif>    | <location>  | WTT_dep       | <trainDescription>  | <trainUid>     |
+    And I wait until today's train '<trainUid>' has loaded
+    When the following train activation message is sent from LINX
+      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <trainUid> | <trainDescription> | now                    | 99999               | RDNGSTN                | today         | now                 |
+    When I select only the following railway undertaking entries
+      | items                    |
+      | <columnToSelectInConfig> |
+    And I save the trains list config
+    And I am on the trains list page
+    Then the trains list column TOC FOC column is empty
+    * I restore to default train list config
+
+    Examples:
+      | columnToSelectInConfig        | trainUid | trainDescription | cif                                 | location |
+      | WEST MIDLANDS TRAINS (EJ)     | B33808   | 2P35             | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN  |
+      | GREAT WESTERN RAILWAY (EF)    | B33809   | 2P36             | access-plan/1W06_EUSTON_BHAMNWS.cif | EUSTON   |

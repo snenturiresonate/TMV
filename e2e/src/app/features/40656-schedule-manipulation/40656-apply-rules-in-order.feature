@@ -32,13 +32,14 @@ Feature: 40656 - Schedule Manipulation - Apply Rules In Order
     And I wait until today's train '<planningUid>' has loaded
     When I am on the timetable view for service '<planningUid>'
     And the Inserted toggle is 'on'
+    And the inserted location '<location>' is displayed in square brackets
     Then the path code for Location is correct
-      | location          | pathCode |
-      | [Ealing Broadway] | LIN      |
+      | location      | pathCode |
+      | [<location>]  | LIN      |
 
     Examples:
-      | trainNum | planningUid |
-      | 1G09     | G30009      |
+      | trainNum | planningUid | location        |
+      | 1G09     | G30009      | Ealing Broadway |
 
   Scenario Outline: 40656-10 Schedule with locations updated by path to line rules to match line to path
   #J0044	DIDCOTP

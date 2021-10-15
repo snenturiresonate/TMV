@@ -61,23 +61,24 @@ Then('I click on all the selected railway undertaking entries', async () => {
 When('I select only the following railway undertaking entries', async (table: any) => {
   const tableItems = table.hashes();
   await trainsListRailwayUndertakingConfigPage.trainListConfigSelectedSecondElements.click();
-  // tslint:disable-next-line:prefer-for-of
-  for (let i = 0; i < tableItems.length; i++) {
-    await trainsListRailwayUndertakingConfigPage.selectTrainConfigUnselectedItem(tableItems[i].items);
+  for (const item of tableItems) {
+    await trainsListRailwayUndertakingConfigPage.selectTrainConfigUnselectedItem(item.items);
   }
 });
 
 Then('I should see the trains list column TOC/FOC has only the below values', {timeout: 3 * 20000}, async (table: any) => {
   const tableValues = table.hashes();
   const expectedValues: any[] = [];
-  // Using for-loop as Foreach seems to be populating an array of objects while a string array is required.
-  // tslint:disable-next-line:prefer-for-of
-  for (let i = 0; i < tableValues.length; i++) {
-    expectedValues.push(tableValues[i].expectedValues);
+  for (const value of tableValues) {
+    expectedValues.push(value.expectedValues);
   }
   const tocFocColumnValues: string[] = await trainsListTable.getTocValues();
   expect(tocFocColumnValues, `Expected values not found in TOC/FOC column`)
     .to.include.members(expectedValues);
+});
+
+Then('the trains list column TOC FOC column is empty', {timeout: 3 * 20000}, async () => {
+  expect(await trainsListTable.isFirstTocVisible(), `The TOC/FOC column was not empty`).to.equal(false);
 });
 
 Then('the railway undertaking tab header is displayed as {string}', async (expectedTitle: string) => {

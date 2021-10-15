@@ -38,7 +38,7 @@ export class ScheduleBuilder {
     this.withApplicableTimetableCode('Y');
     this.withAtocCode('ZZ');
     this.withDateRunsTo('2050-01-01');
-    this.withDaysRun(new DaysBuilder().weekdays().build());
+    this.withDaysRun(new DaysBuilder().allDays().build());
     this.withScheduleIdentifier(new ScheduleIdentifierBuilder().build());
     this.withServiceCharacteristics(new ServiceCharacteristicsBuilder().build());
     this.withStockCharacteristics(new StockCharacteristicsBuilder().build());
@@ -149,7 +149,7 @@ export class ScheduleBuilder {
     this.daysRun.sunday = isRunning;
   }
 
-noRunDay(day : String, schedule : ScheduleBuilder){
+noRunDay(day: string, schedule: ScheduleBuilder){
 
       switch (day.toLowerCase()) {
         case 'monday':

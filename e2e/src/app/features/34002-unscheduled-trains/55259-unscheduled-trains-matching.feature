@@ -126,18 +126,17 @@ Feature: 34002 - Unscheduled Trains Matching
       | trainNum | planningUid1 | planningUid2 |
       | 1C12     | L12005       | L12006       |
 
-#    This test appears to be flaky, but isolated testing have identified that schedule matching is working as expected
-  @bug @68327
+  # Used to be flaky - see 68327
   Scenario Outline: 34002:6b Make Match - matching unmatched step to a matched service - and checking matching change shows on map
     * I remove today's train '<planningUid1>' from the Redis trainlist
     * I remove today's train '<planningUid2>' from the Redis trainlist
     And the following live berth interpose message is sent from LINX (to set up unmatched train on map at Uffington)
       | toBerth | trainDescriber | trainDescription |
       | 1115    | D7             | <trainNum>       |
-    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+    And the train in CIF file below is updated accordingly so time at the reference point is now + 1 minute, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1B69_PADTON_SWANSEA.cif | SDON        | WTT_arr       | <trainNum>          | <planningUid1> |
-    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+    And the train in CIF file below is updated accordingly so time at the reference point is now + 1 minute, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | <trainNum>          | <planningUid2> |
     And I wait until today's train '<planningUid1>' has loaded

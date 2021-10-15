@@ -5,10 +5,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
   So, that I can identify if the build meets the end to end requirements
 
   Background:
-    Given I am on the trains list Config page
-    And I restore to default train list config
-    And I refresh the browser
-    And I have navigated to the 'Locations' configuration tab
+    * I remove all trains from the trains list
+    * I am on the trains list Config page
+    * I restore to default train list config
+    * I have navigated to the 'Locations' configuration tab
 
 
   Scenario: Trains list TOC/FOC config header
@@ -119,76 +119,40 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
       | locationNameValue   | Originate | Stop       | Pass       | Terminate  |
       | Paddington (PADTON) | Checked   | un-checked | un-checked | un-checked |
 
-  @bug @bug:66859
-  Scenario: 33806 -18 Trains list config for location types - Stop type 'Originate'
-    Given the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
+  Scenario Outline: 33806 -18 Trains list config for location types - <testType> test - Stop type '<stopType>'
+    #    Given the user has made changes to the trains list Location selection
+    #    When the user views the trains list
+    #    Then the view is updated to reflect the user's Location selection
+    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
+      | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | <cif>     | <location>  | <timingType>  | <trainDescription>  | <trainUid>         |
+    And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX
-      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
-      | V30603   | 5G44        | now                    | 99999               | PADTON                 | today         | now                 |
-    And the following live berth interpose message is sent from LINX
-      | toBerth | trainDescriber | trainDescription |
-      | A007    | D3             | 5G44             |
+      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <trainUid> | <trainDescription> | now                    | 99999               | <location>             | today         | now                 |
+    # Baseline
     And I am on the trains list page
     And The trains list table is visible
-    Then train '5G44' with schedule id 'V30603' for today is visible on the trains list
+    Then train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
+    # Positive/Negative Test
     And I am on the trains list Config page
     And I have navigated to the 'Locations' configuration tab
     And I have only the following locations and stop types selected
-      | locationNameValue | Originate | Stop       | Pass       | Terminate  |
-      | PADTON            | Checked   | un-checked | un-checked | un-checked |
+      | locationNameValue | Originate   | Stop   | Pass   | Terminate   |
+      | <location>        | <originate> | <stop> | <pass> | <terminate> |
     And I save the trains list config
     And I am on the trains list page
-    #Services to be displayed might have to change based on data once the integration is done
-    Then train '5G44' with schedule id 'V30603' for today is visible on the trains list
-    And I restore to default train list config
+    Then train '<trainDescription>' with schedule id '<trainUid>' for today <visibility> visible on the trains list
+    * I restore to default train list config
 
-  @bug @bug:66859
-  Scenario: 33806 -18 Trains list config for location types - Stop type 'Terminate'
-    And the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train description '2P77' is visible on the trains list with schedule type 'LTP'
-    And I am on the trains list Config page
-    And I have navigated to the 'Locations' configuration tab
-    And I have only the following locations and stop types selected
-      | locationNameValue | Originate  | Stop       | Pass       | Terminate |
-      | PADTON            | un-checked | un-checked | un-checked | Checked   |
-    And I save the trains list config
-    And I am on the trains list page
-    #Services to be displayed might have to change based on data once the integration is done
-    Then train '2P77' with schedule id 'Y95686' for today is visible on the trains list
-    And I restore to default train list config
-
-  @bug @bug:66859
-  Scenario: 33806 -18 Trains list config for location types - Stop type 'Pass'
-    And the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train description '2P77' is visible on the trains list with schedule type 'LTP'
-    And I am on the trains list Config page
-    And I have navigated to the 'Locations' configuration tab
-    And I have only the following locations and stop types selected
-      | locationNameValue | Originate  | Stop       | Pass    | Terminate  |
-      | ACTONW            | un-checked | un-checked | Checked | un-checked |
-    And I save the trains list config
-    And I am on the trains list page
-    #Services to be displayed might have to change based on data once the integration is done
-    Then train '2P77' with schedule id 'Y95686' for today is visible on the trains list
-    And I restore to default train list config
-
-  @bug @bug:66859
-  Scenario: 33806 -18 Trains list config for location types - Stop type 'Stop'
-    And the access plan located in CIF file 'access-plan/trains_list_test.cif' is amended so that all services start within the next hour and then received from LINX
-    And I am on the trains list page
-    And The trains list table is visible
-    And train description '2P77' is visible on the trains list with schedule type 'LTP'
-    And I am on the trains list Config page
-    And I have navigated to the 'Locations' configuration tab
-    And I have only the following locations and stop types selected
-      | locationNameValue | Originate  | Stop    | Pass       | Terminate  |
-      | EALINGB           | un-checked | checked | un-checked | un-checked |
-    And I save the trains list config
-    And I am on the trains list page
-    #Services to be displayed might have to change based on data once the integration is done
-    Then train '2P77' with schedule id 'Y95686' for today is visible on the trains list
-    And I restore to default train list config
+    Examples:
+    | trainUid | trainDescription | cif                                 | location | timingType | originate  | stop       | pass       | terminate  | visibility | testType | stopType  |
+    | V33806   | 5G06             | access-plan/1D46_PADTON_OXFD.cif    | PADTON   | WTT_dep    | checked    | un-checked | un-checked | un-checked | is         | positive | originate |
+    | V33807   | 5G07             | access-plan/1D46_PADTON_OXFD.cif    | PADTON   | WTT_dep    | un-checked | checked    | un-checked | un-checked | is not     | negative | originate |
+    | V33808   | 5G08             | access-plan/2P77_RDNGSTN_PADTON.cif | PADTON   | WTT_arr    | un-checked | un-checked | un-checked | checked    | is         | positive | terminate |
+    | V33809   | 5G09             | access-plan/2P77_RDNGSTN_PADTON.cif | PADTON   | WTT_arr    | checked    | un-checked | un-checked | un-checked | is not     | negative | terminate |
+    | V33810   | 5G10             | access-plan/1D46_PADTON_OXFD.cif    | STHALL   | WTT_dep    | un-checked | un-checked | checked    | un-checked | is         | positive | pass      |
+    | V33811   | 5G11             | access-plan/1D46_PADTON_OXFD.cif    | STHALL   | WTT_dep    | un-checked | checked    | un-checked | un-checked | is not     | negative | pass      |
+    | V33812   | 5G12             | access-plan/1D46_PADTON_OXFD.cif    | SLOUGH   | WTT_dep    | un-checked | checked    | un-checked | un-checked | is         | positive | stop      |
+    | V33813   | 5G13             | access-plan/1D46_PADTON_OXFD.cif    | SLOUGH   | WTT_dep    | un-checked | un-checked | checked    | un-checked | is not     | negative | stop      |

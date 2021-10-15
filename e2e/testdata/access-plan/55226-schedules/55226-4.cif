@@ -1,5 +1,5 @@
 HDTPS.UCFT1LX.PD2010292910201954CFT1LXMCFT1LXLFA291020291120                    
-BSRC550042005185012111111100 PXX3U041032122330000 EMU506 110      B S          P
+BSRC550042005185012111111111 PXX3U041032122330000 EMU506 110      B S          P
 BX         LMY                                                                  
 LOCREWE   1333 13337  FL     TB                                                
 LICREWBHJ           1335H00000000                                              

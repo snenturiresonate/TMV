@@ -4,7 +4,6 @@ import {CssColorConverterService} from '../../services/css-color-converter.servi
 import {CucumberLog} from '../../logging/cucumber-log';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {AppPage} from '../app.po';
-import {BerthInterpose} from '../../../../../src/app/api/linx/models/berth-interpose';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {RedisClient} from '../../api/redis/redis-client';
 import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
@@ -32,6 +31,7 @@ export class MapPageObject {
   public originallyOpenedMapTitle: string;
   public lastMapLinkSelectedCode: string;
   public mapNameDropdown: ElementFinder;
+  public replayMapSearch: ElementFinder;
   public mapSearch: ElementFinder;
   public aesBoundaryElements: ElementFinder;
   public headcodeOnMap: ElementArrayFinder;
@@ -53,11 +53,22 @@ export class MapPageObject {
     this.originallyOpenedMapTitle = '';
     this.lastMapLinkSelectedCode = '';
     this.mapNameDropdown = element(by.css('.map-dropdown-button:nth-child(1)'));
-    this.mapSearch = element(by.css('.map-search input'));
+    this.replayMapSearch = element(by.css('.map-search input'));
+    this.mapSearch = element(by.id('map-search-box'));
     this.aesBoundaryElements = element(by.css('#aes-boundaries-elements'));
 
     this.headcodeOnMap = element.all(by.css('text[data-train-description]:not([data-train-description=""])'));
     linxRestClient = new LinxRestClient();
+  }
+
+  public static async waitForTracksToBeDisplayed(): Promise<void> {
+    const tracks = element.all(by.css('[name^=track-element]'));
+    await CommonActions.waitForElementToBePresent(tracks.first());
+    await browser.wait(
+      tracks.first().isDisplayed(),
+      30000,
+      'Tracks were not displayed'
+    );
   }
 
   public async isPlatformLayerPresent(): Promise<boolean> {
@@ -199,8 +210,7 @@ export class MapPageObject {
   public async getBerthElementFinder(berthId: string, trainDescriber: string): Promise<ElementFinder> {
     // id for berths can be either berth-element-text-bth.[train_id] or berth-element-text-btl.[train_id]
     // using $= to get element based on just train_id
-    const berth: ElementFinder = element(by.css('text[id$=' + trainDescriber + berthId + ']:not(text[id^=s-class])'));
-    return berth;
+    return element(by.css('text[id$=' + trainDescriber + berthId + ']:not(text[id^=s-class])'));
   }
 
   public async getSClassBerthElementFinder(berthId: string): Promise<ElementFinder> {
@@ -337,13 +347,21 @@ export class MapPageObject {
   public async clickMapName(): Promise<void> {
     return this.mapNameDropdown.click();
   }
-  public async enterMapSearchString(searchMap: string): Promise<void> {
-    this.mapSearch.clear();
-    return this.mapSearch.sendKeys(searchMap);
+  public async enterReplayMapSearchString(searchMap: string): Promise<void> {
+    this.replayMapSearch.clear();
+    return this.replayMapSearch.sendKeys(searchMap);
   }
-  public async launchMap(): Promise<any> {
+  public async launchReplayMap(): Promise<any> {
     browser.actions().mouseMove(element(by.css('li[id*=map-link]'))).perform();
     await element(by.css('li[id*=map-link] .new-tab-button')).click();
+  }
+  public async enterMapSearchString(searchMap: string): Promise<void> {
+    await this.mapSearch.clear();
+    await this.mapSearch.sendKeys(searchMap);
+    return this.mapSearch.sendKeys(protractor.Key.ENTER);
+  }
+  public async launchMap(): Promise<any> {
+    await element(by.css('#searchResultsTable tbody tr')).click();
   }
 
   public async getTrtsStatus(signalId: string): Promise<string> {
@@ -403,14 +421,12 @@ export class MapPageObject {
 
   public async getBerthType(berthId: string): Promise<string> {
     const berth: ElementFinder = element(by.id('berth-element-text-' + berthId));
-    const berthType: string = await berth.getCssValue('class');
-    return berthType;
+    return berth.getCssValue('class');
   }
 
   public async getManualBerthType(berthId: string): Promise<string> {
     const manualBerth: ElementFinder = element(by.id('manual-berth-element-text-' + berthId));
-    const manualBerthType: string = await manualBerth.getText();
-    return manualBerthType;
+    return manualBerth.getText();
   }
   public async getBerthRectangleColour(berthId: string): Promise<string> {
     const berthRectangleElement: ElementFinder = element(by.id('berth-element-rect-' + berthId));

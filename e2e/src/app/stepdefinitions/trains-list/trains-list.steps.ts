@@ -142,6 +142,8 @@ When(/^I remove today's train '(.*)' from the Redis trainlist$/, async (uid: str
 When(/^I wait until today's train '(.*)' has loaded$/, async (uid: string) => {
   const date: string = await DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd');
   await waitForTrainUid(uid, date);
+  // some services such as path extrapolation and search need a little longer
+  await browser.sleep(2000);
 });
 
 When(/^I wait until today's or tomorrow's train '(.*)' has loaded$/, async (uid: string) => {
@@ -241,6 +243,7 @@ When(/^I click on (?:Unmatch|Match) in the context menu$/, async () => {
 
 Then('I open timetable from the context menu', async () => {
   await trainsListPage.timeTableLink.click();
+  await browser.sleep(2000);
 });
 
 Then('the open timetable option is present on the context menu', async () => {
@@ -305,7 +308,7 @@ Then(/^the (Matched|Unmatched) version of the trains list context menu is displa
     .to.contain(expected1.toLowerCase());
   expect(contextMenuItem2.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
     .to.contain(expected2.toLowerCase());
-  if (!(matchType === 'Matched')) {
+  if (matchType !== 'Matched') {
     expect(contextMenuItem3.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
       .to.contain(expected3.toLowerCase());
   }
@@ -630,6 +633,7 @@ Then('I should see the trains list table to only display train description {stri
 Then('I should see the trains list table to only display the following trains', async (expectedTrainDescriptionTable: any) => {
   const expectedTrainDescriptionValues = expectedTrainDescriptionTable.hashes();
   const expectedTrainDescriptionArray: string[] = [];
+  // tslint:disable-next-line:forin
   for (const i in expectedTrainDescriptionValues) {
     expectedTrainDescriptionArray.push(expectedTrainDescriptionValues[i].trainDescription);
   }
@@ -641,6 +645,7 @@ Then('I should see the trains list table to only display the following trains', 
 Then('I should see the trains list table to display the following trains', async (expectedTrainDescriptionTable: any) => {
   const expectedTrainDescriptionValues = expectedTrainDescriptionTable.hashes();
   const expectedTrainDescriptionArray: string[] = [];
+  // tslint:disable-next-line:forin
   for (const i in expectedTrainDescriptionValues) {
     expectedTrainDescriptionArray.push(expectedTrainDescriptionValues[i].trainDescription);
   }
@@ -652,6 +657,7 @@ Then('I should see the trains list table to display the following trains', async
 Then('I should see the trains list table to not display the following trains', async (expectedTrainDescriptionTable: any) => {
   const expectedTrainDescriptionValues = expectedTrainDescriptionTable.hashes();
   const expectedTrainDescriptionArray: string[] = [];
+  // tslint:disable-next-line:forin
   for (const i in expectedTrainDescriptionValues) {
     expectedTrainDescriptionArray.push(expectedTrainDescriptionValues[i].trainDescription);
   }

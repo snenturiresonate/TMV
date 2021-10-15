@@ -2,7 +2,7 @@ import {Before, Given, Then, When} from 'cucumber';
 import {expect} from 'chai';
 import {MapPageObject} from '../../pages/maps/map.page';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
-import {browser, ElementFinder, ExpectedConditions, protractor} from 'protractor';
+import {browser, ElementFinder, protractor} from 'protractor';
 import {SignallingUpdate} from '../../../../../src/app/api/linx/models/signalling-update';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {MapLayerPageObject} from '../../pages/maps/map-layer.page';
@@ -404,7 +404,13 @@ Then('berth {string} in train describer {string} does not contain {string}',
 Then('the signal roundel for signal {string} is {word}',
   async (signalId: string, expectedSignalColour: string) => {
     const expectedSignalColourHex = mapColourHex[expectedSignalColour];
-    const actualSignalColourHex = await mapPageObject.getSignalLampRoundColour(signalId);
+    let actualSignalColourHex = 'none';
+
+    await browser.wait(async () => {
+      actualSignalColourHex = await mapPageObject.getSignalLampRoundColour(signalId);
+      return (expectedSignalColourHex === actualSignalColourHex);
+    }, browser.displayTimeout, 'Waiting for the signal colour');
+
     expect(actualSignalColourHex, `Signal ${signalId} colour is not correct`)
       .to.equal(expectedSignalColourHex);
   });
@@ -617,6 +623,12 @@ Then('the shunt signal state for signal {string} is {word}',
 
 When('I launch a new map {string} the new map should have start time from the moment it was opened', async (mapName: string) => {
   await mapPageObject.clickMapName();
+  await mapPageObject.enterReplayMapSearchString(mapName);
+  await mapPageObject.launchReplayMap();
+});
+
+When('I launch a new map {string}', async (mapName: string) => {
+  await mapPageObject.clickMapName();
   await mapPageObject.enterMapSearchString(mapName);
   await mapPageObject.launchMap();
 });
@@ -760,8 +772,15 @@ Then('the berth context menu is displayed with berth name {string}', async (expe
 
 Then('the train headcode color for berth {string} is {word}',
   async (berthId: string, expectedColor: string) => {
-    const expectedColorHex = mapColourHex[expectedColor];
-    const actualSignalStatus: string = await mapPageObject.getBerthColor(berthId);
+    let expectedColorHex = '';
+    let actualSignalStatus = '';
+
+    await browser.wait(async () => {
+      expectedColorHex = mapColourHex[expectedColor];
+      actualSignalStatus = await mapPageObject.getBerthColor(berthId);
+      return (actualSignalStatus === expectedColorHex);
+    }, browser.displayTimeout, 'Waiting for the headcode colour');
+
     expect(actualSignalStatus, 'Headcode colour is not ' + expectedColor)
       .to.equal(expectedColorHex);
   });
@@ -922,3 +941,6 @@ Given(/^headcode '(.*)' is not present in manual\-trust berth '(.*)'$/, async (h
   }, 30000, `headcode ${headcode} in manual trust berth stack ${berthID} when shouldn't be`);
 });
 
+Given(/^I wait for the tracks to be displayed$/, {timeout: 40000}, async () => {
+  await MapPageObject.waitForTracksToBeDisplayed();
+});

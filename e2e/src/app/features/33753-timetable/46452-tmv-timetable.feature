@@ -119,18 +119,19 @@ Feature: 33753 - TMV Timetable
       | searchType | searchVal | serviceStatus | trainNum | planningUid |
       | Train      | 3B89      | UNMATCHED     | 3B89     | H87234      |
 
-#   This test appears to be flaky, but isolated testing have identified that schedule matching is working as expected
-  @bug @68331
+  # Used to be flaky - see 68331
   Scenario Outline: 33753-3c Open Timetable (from Manual Match Search Result - matched/unmatched services have timetable)
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1W06_EUSTON_BHAMNWS.cif | EUSTON      | WTT_dep       | <trainNum>          | B46452         |
-    And I am viewing the map HDGW01paddington.v
+    And I wait until today's train 'B46452' has loaded
     And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth | trainDescriber | trainDescription |
       | <berth> | D4             | <trainNum>       |
+    And I am viewing the map HDGW01paddington.v
     When I invoke the context menu on the map for train <trainNum>
     And I open schedule matching screen from the map context menu
+    And the number of tabs open is 2
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching'
     And I invoke the context menu from a <serviceStatus> service in the train list
@@ -138,6 +139,7 @@ Feature: 33753 - TMV Timetable
     And the '<searchType>' context menu is displayed
     And the '<searchType>' search context menu contains 'Open Timetable' on line 1
     And I click on the unscheduled timetable link
+    And the number of tabs open is 3
     And I switch to the new tab
     And the tab title is 'TMV Timetable'
 
@@ -176,8 +178,9 @@ Feature: 33753 - TMV Timetable
     Then The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId   | lastTJM | headCode   |
       | LTP       | T519       |            | <planningUid> | <trustId> |         | <trainNum> |
-    And the navbar punctuality indicator is displayed as 'green'
-    And the punctuality is displayed as one of On time,+0m 30s,-0m 30s
+    And the navbar punctuality indicator is displayed as 'green' or 'yellow'
+    And the punctuality is displayed as one of On time,+0m 30s,-0m 30s,+1m,-1m
+    And I give the timetable a setting time of 2 seconds to load
     And The timetable entries contains the following data, with timings having live offset from 'earlier' at 'the beginning of the test'
       | location                    | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities |
       | London Paddington           |                    | 23:33:00        |                   | 23:33:00       | 4                 |                  | 1                |            | TB         |
@@ -304,11 +307,11 @@ Feature: 33753 - TMV Timetable
 
   @replaySetup
   Scenario Outline: 33753-5 - View Timetable (Schedule Not Matched - becoming matched)
-#    Given the user is authenticated to use TMV
-#    And the user has opened a timetable
-#    And the schedule is not matched to live stepping
-#    When the user is viewing the timetable
-#    Then the schedule is displayed with no predicted or live actual running information or header information.
+    #    Given the user is authenticated to use TMV
+    #    And the user has opened a timetable
+    #    And the schedule is not matched to live stepping
+    #    When the user is viewing the timetable
+    #    Then the schedule is displayed with no predicted or live actual running information or header information.
     Given the following live berth interpose message is sent from LINX (which won't match anything)
       | toBerth | trainDescriber | trainDescription |
       | 0831    | D1             | <trainNum>       |
@@ -352,6 +355,7 @@ Feature: 33753 - TMV Timetable
       | location | instance | column    | valType   |
       | Cholsey  | 1        | actualArr | actual    |
       | Cholsey  | 1        | actualDep | predicted |
+    And I wait for the last Signal to populate
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       | T839       |            | <planningUid> |         |         | <trainNum> |
@@ -385,6 +389,7 @@ Feature: 33753 - TMV Timetable
     And I switch to the new tab
     When I switch to the timetable details tab
     Then The timetable details tab is visible
+    And I wait for the last Signal to populate
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       | SN37       |            | <planningUid> |         |         | <trainNum> |
@@ -407,6 +412,7 @@ Feature: 33753 - TMV Timetable
       | <planningUid> | <changeTrainDescription> | <trainNum>     | 12            | create | 07        | 07              | 99999       | <time>           |
     Then the current headcode in the header row is '<changeTrainDescription>'
     And the old headcode in the header row is '(<trainNum>)'
+    And I wait for the last Signal to populate
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId                 | lastTJM                     | headCode                 |
       | LTP       | SN37       |            | <planningUid> | <trainNum><planningUid> | <description>, today <time> | <changeTrainDescription> |
@@ -439,6 +445,7 @@ Feature: 33753 - TMV Timetable
       | trainNum | planningUid | changeTrainDescription | description        | time  |
       | 1A09     | L10019      | 1X09                   | Change Of Identity | 12:00 |
 
+  @bug @bug:72179
   @replaySetup
   Scenario Outline: 33753-7 - View Timetable Detail (Not Schedule Matched - becoming matched)
     #Given the user is authenticated to use TMV
@@ -474,7 +481,7 @@ Feature: 33753 - TMV Timetable
     And The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed  | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
       | 15/12/2019 to 10/05/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | D11717  | EF       | 25507005         | P               | OO            |           |              | 1     | S            |              |            | EMU       | 110mph |           | m           | D                            |                 |
-    And the punctuality is displayed as one of On time,+0m 30s,-0m 30s
+    And the punctuality is displayed as one of On time,+0m 30s,-0m 30s,+1m,-1m
 
     Examples:
       | trainNum | planningUid |

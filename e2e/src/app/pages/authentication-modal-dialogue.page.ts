@@ -69,6 +69,10 @@ export class AuthenticationModalDialoguePage {
     return this.signIntoCurrentRoleBtn.isPresent();
   }
 
+  public async signInModalIsPresent(): Promise<boolean> {
+    return this.visibleModalElement.isPresent();
+  }
+
   public async signInModalIsVisible(): Promise<boolean> {
     return this.visibleModalElement.isDisplayed();
   }

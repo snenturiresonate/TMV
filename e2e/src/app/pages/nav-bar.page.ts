@@ -64,6 +64,7 @@ export class NavBarPageObject {
   public routeSetTrackIndicator: ElementFinder;
   public routeSetCodeIndicator: ElementFinder;
   public mapItemSearchContext: ElementFinder;
+  public signOutIcon: ElementFinder;
   constructor() {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
@@ -126,6 +127,7 @@ export class NavBarPageObject {
     this.routeSetTrackIndicator = element(by.css('#routesettracktoggle .toggle-switch'));
     this.routeSetCodeIndicator = element(by.css('#routesetcodetoggle .toggle-switch'));
     this.mapItemSearchContext = element(by.css('div.map-link'));
+    this.signOutIcon = element(by.id('logout1'));
   }
 
   public async navBarIsDisplayed(): Promise<boolean> {
@@ -140,6 +142,12 @@ export class NavBarPageObject {
     const userProfileMenu: ElementFinder = element(by.id('user-profile-menu-button'));
     await userProfileMenu.click();
   }
+
+  public async clickSignOutButton(): Promise<void> {
+    await CommonActions.waitForElementToBeVisible(this.signOutIcon);
+    await this.signOutIcon.click();
+  }
+
   public async openLayersMenu(): Promise<void> {
     const LayersMenu: ElementFinder = element(by.id('layers-menu-button'));
     await LayersMenu.click();
@@ -151,7 +159,7 @@ export class NavBarPageObject {
 
   public async getToggleState(toggleName: string): Promise<boolean> {
     const elm = await this.getToggle(toggleName);
-    return await CheckBox.getToggleCurrentState(elm);
+    return CheckBox.getToggleCurrentState(elm);
   }
 
   private async getToggle(toggleName): Promise<ElementFinder> {
@@ -171,7 +179,7 @@ export class NavBarPageObject {
 
   public async toggle(toggleName: string, requiredState: string): Promise<void> {
     const elm = await this.getToggle(toggleName);
-    return await CheckBox.updateToggle(elm, requiredState);
+    return CheckBox.updateToggle(elm, requiredState);
   }
 
   public async toggleMapPathOff(): Promise<void> {

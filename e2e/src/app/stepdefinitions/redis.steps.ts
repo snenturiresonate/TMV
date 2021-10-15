@@ -8,6 +8,9 @@ const redisClient: RedisClient = new RedisClient();
 
 When('I delete {string} from hash {string}', async (field: string, hash: string) => {
   const dateFormat = 'yyyy-MM-dd';
+  if (field.includes('generatedTrainUId')) {
+    field = field.replace('generatedTrainUId', browser.referenceTrainUid);
+  }
   redisClient.hashDelete(
     hash
       .replace('today', DateAndTimeUtils.convertToDesiredDateAndFormat(('today'), dateFormat))

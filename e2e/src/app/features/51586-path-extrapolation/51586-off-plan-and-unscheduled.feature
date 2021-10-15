@@ -7,6 +7,7 @@ Feature: 51586 - Path Extrapolation - Off plan and unscheduled
   Background:
     Given I reset redis
 
+  @bug @72055
   Scenario Outline: 51586 - 30 Display attention indicator for off plan train (TD)
     * I remove today's train '<trainUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
@@ -27,13 +28,14 @@ Feature: 51586 - Path Extrapolation - Off plan and unscheduled
       | 1B30             | A51586   | 0165      | A374    | WJ             | Off route   | blue            |
 
   Scenario Outline: 51586 - 31 Over midnight
-    Given I am on the trains list page
+    Given I am on the home page
     And the access plan located in CIF file '<cif>' is received from LINX
     And I wait until today's train '<trainUid>' has loaded
-    When I am on the timetable view for service '<trainUid>'
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | <trainUid> | <trainDescription> | 22                  | 22:30                  | 99999               | BHAMNWS                | today         |
+    When I am on the timetable view for service '<trainUid>'
+    And I give the timetable 2 second to load
     Then the actual/predicted values are
       | location                 | instance | arrival    | departure  | platform | path | line |
       | Birmingham New Street    | 1        |            | (22:30:00) | 2B       |      |      |

@@ -2,6 +2,7 @@ import {When} from 'cucumber';
 import {TrainRunningInformationMessageBuilder} from '../../utils/train-running-information/train-running-information-message';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {CucumberLog} from '../../logging/cucumber-log';
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 const linxRestClient: LinxRestClient = new LinxRestClient();
 
@@ -12,19 +13,18 @@ const linxRestClient: LinxRestClient = new LinxRestClient();
  * Input: trainUID,trainNumber,scheduledStartDate(accepts today),LocationPrimaryCode,LocationSubsidiaryCode,messageType
  */
 
-// tslint:disable-next-line:max-line-length
-When(/^the following train running information? (?:message|messages)? (?:is|are) sent from LINX$/, {timeout: 2 * 20000}, async (trainRunningInfoMessageTable: any) => {
+When(/^the following train running information? (?:message|messages)? (?:is|are) sent from LINX$/,
+  {timeout: 2 * 20000}, async (trainRunningInfoMessageTable: any) => {
   const trainRunningInfoMessages = trainRunningInfoMessageTable.hashes();
-  // tslint:disable-next-line:prefer-for-of
-  for (let i = 0; i < trainRunningInfoMessages.length; i++) {
+  for (const tri of trainRunningInfoMessages) {
     const trainRunningInformationMessageBuilder: TrainRunningInformationMessageBuilder = new TrainRunningInformationMessageBuilder();
-    const trainUID = trainRunningInfoMessages[i].trainUID;
-    const operationalTrainNumber = trainRunningInfoMessages[i].trainNumber;
-    const scheduledStartDate = trainRunningInfoMessages[i].scheduledStartDate;
-    const locationPrimaryCode = trainRunningInfoMessages[i].locationPrimaryCode;
-    const locationSubsidiaryCode = trainRunningInfoMessages[i].locationSubsidiaryCode;
-    const messageType = trainRunningInfoMessages[i].messageType;
-    const hourDepartFromOrigin = trainRunningInfoMessages[i].hourDepartFromOrigin;
+    const trainUID = tri.trainUID;
+    const operationalTrainNumber = tri.trainNumber;
+    const scheduledStartDate = tri.scheduledStartDate;
+    const locationPrimaryCode = tri.locationPrimaryCode;
+    const locationSubsidiaryCode = tri.locationSubsidiaryCode;
+    const messageType = tri.messageType;
+    const hourDepartFromOrigin = tri.hourDepartFromOrigin;
     const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithoutDelay(locationPrimaryCode, locationSubsidiaryCode,
       operationalTrainNumber, trainUID,
       scheduledStartDate, messageType, hourDepartFromOrigin);
@@ -44,20 +44,18 @@ When(/^the following train running information? (?:message|messages)? (?:is|are)
 When(/^the following train running information? (?:message|messages) with delay against booked time? (?:is|are) sent from LINX$/,
   async (trainRunningInfoMessageTable: any) => {
     const trainRunningInfoMessages = trainRunningInfoMessageTable.hashes();
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < trainRunningInfoMessages.length; i++) {
+    for (const tri of trainRunningInfoMessages) {
       const trainRunningInformationMessageBuilder: TrainRunningInformationMessageBuilder = new TrainRunningInformationMessageBuilder();
-      const trainUID = trainRunningInfoMessages[i].trainUID;
-      const operationalTrainNumber = trainRunningInfoMessages[i].trainNumber;
-      const scheduledStartDate = trainRunningInfoMessages[i].scheduledStartDate;
-      const locationPrimaryCode = trainRunningInfoMessages[i].locationPrimaryCode;
-      const locationSubsidiaryCode = trainRunningInfoMessages[i].locationSubsidiaryCode;
-      const messageType = trainRunningInfoMessages[i].messageType;
-      const delay = trainRunningInfoMessages[i].delay;
-      const hourDepartFromOrigin = trainRunningInfoMessages[i].hourDepartFromOrigin;
-      // tslint:disable-next-line:max-line-length
-      const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithDelayAgainstBookedTime(locationPrimaryCode, locationSubsidiaryCode,
-        operationalTrainNumber, trainUID,
+      const trainUID = tri.trainUID;
+      const operationalTrainNumber = tri.trainNumber;
+      const scheduledStartDate = tri.scheduledStartDate;
+      const locationPrimaryCode = tri.locationPrimaryCode;
+      const locationSubsidiaryCode = tri.locationSubsidiaryCode;
+      const messageType = tri.messageType;
+      const delay = tri.delay;
+      const hourDepartFromOrigin = tri.hourDepartFromOrigin;
+      const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithDelayAgainstBookedTime(
+        locationPrimaryCode, locationSubsidiaryCode, operationalTrainNumber, trainUID,
         scheduledStartDate, messageType, delay, hourDepartFromOrigin);
       const triMessage: string = trainRunningInfo.toString({prettyPrint: true});
       await CucumberLog.addText(`"${triMessage}"`);
@@ -69,18 +67,16 @@ When(/^the following train running information? (?:message|messages) with delay 
 When(/^the following train running info? (?:message|messages) with time? (?:is|are) sent from LINX$/,
   async (trainRunningInfoMessageTable: any) => {
     const trainRunningInfoMessages = trainRunningInfoMessageTable.hashes();
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < trainRunningInfoMessages.length; i++) {
+    for (const tri of trainRunningInfoMessages) {
       const trainRunningInformationMessageBuilder: TrainRunningInformationMessageBuilder = new TrainRunningInformationMessageBuilder();
-      const trainUID = trainRunningInfoMessages[i].trainUID;
-      const operationalTrainNumber = trainRunningInfoMessages[i].trainNumber;
-      const scheduledStartDate = trainRunningInfoMessages[i].scheduledStartDate;
-      const locationPrimaryCode = trainRunningInfoMessages[i].locationPrimaryCode;
-      const locationSubsidiaryCode = trainRunningInfoMessages[i].locationSubsidiaryCode;
-      const messageType = trainRunningInfoMessages[i].messageType;
-      const timestamp = trainRunningInfoMessages[i].timestamp;
-      const hourDepartFromOrigin = trainRunningInfoMessages[i].hourDepartFromOrigin;
-      // tslint:disable-next-line:max-line-length
+      const trainUID = tri.trainUID;
+      const operationalTrainNumber = tri.trainNumber;
+      const scheduledStartDate = tri.scheduledStartDate;
+      const locationPrimaryCode = tri.locationPrimaryCode;
+      const locationSubsidiaryCode = tri.locationSubsidiaryCode;
+      const messageType = tri.messageType;
+      const timestamp = DateAndTimeUtils.parseTimeEquation(tri.timestamp, 'HH:mm:ss');
+      const hourDepartFromOrigin = tri.hourDepartFromOrigin;
       const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithTime(locationPrimaryCode, locationSubsidiaryCode,
         operationalTrainNumber, trainUID, scheduledStartDate, messageType, timestamp, hourDepartFromOrigin);
       const triMessage: string = trainRunningInfo.toString({prettyPrint: true});
@@ -94,21 +90,20 @@ When(/^the following train running info? (?:message|messages) with time? (?:is|a
 When(/^the following train running info? (?:message|messages) with time? and delay (?:is|are) sent from LINX$/,
   async (trainRunningInfoMessageTable: any) => {
     const trainRunningInfoMessages = trainRunningInfoMessageTable.hashes();
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < trainRunningInfoMessages.length; i++) {
+    for (const tri of trainRunningInfoMessages) {
       const trainRunningInformationMessageBuilder: TrainRunningInformationMessageBuilder = new TrainRunningInformationMessageBuilder();
-      const trainUID = trainRunningInfoMessages[i].trainUID;
-      const operationalTrainNumber = trainRunningInfoMessages[i].trainNumber;
-      const scheduledStartDate = trainRunningInfoMessages[i].scheduledStartDate;
-      const locationPrimaryCode = trainRunningInfoMessages[i].locationPrimaryCode;
-      const locationSubsidiaryCode = trainRunningInfoMessages[i].locationSubsidiaryCode;
-      const messageType = trainRunningInfoMessages[i].messageType;
-      const bookedTime = trainRunningInfoMessages[i].bookedTime;
-      const timestamp = trainRunningInfoMessages[i].timestamp;
-      const hourDepartFromOrigin = trainRunningInfoMessages[i].hourDepartFromOrigin;
-      // tslint:disable-next-line:max-line-length
-      const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithTimeAgainstBooked(locationPrimaryCode, locationSubsidiaryCode,
-        operationalTrainNumber, trainUID, scheduledStartDate, messageType, bookedTime, timestamp, hourDepartFromOrigin);
+      const trainUID = tri.trainUID;
+      const operationalTrainNumber = tri.trainNumber;
+      const scheduledStartDate = tri.scheduledStartDate;
+      const locationPrimaryCode = tri.locationPrimaryCode;
+      const locationSubsidiaryCode = tri.locationSubsidiaryCode;
+      const messageType = tri.messageType;
+      const bookedTime = DateAndTimeUtils.parseTimeEquation(tri.bookedTime, 'HH:mm:ss');
+      const timestamp = DateAndTimeUtils.parseTimeEquation(tri.timestamp, 'HH:mm:ss');
+      const hourDepartFromOrigin = tri.hourDepartFromOrigin;
+      const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithTimeAgainstBooked(
+        locationPrimaryCode, locationSubsidiaryCode, operationalTrainNumber, trainUID, scheduledStartDate,
+        messageType, bookedTime, timestamp, hourDepartFromOrigin);
       const triMessage: string = trainRunningInfo.toString({prettyPrint: true});
       await CucumberLog.addText(`"${triMessage}"`);
       await linxRestClient.postTrainRunningInformation(triMessage);

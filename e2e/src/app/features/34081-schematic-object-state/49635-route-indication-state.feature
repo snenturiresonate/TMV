@@ -16,9 +16,9 @@ Feature: 49635 - Schematic State - route indication state
 #    Then the Main or Shunt Signal will display a Route Indication (1-3 alphanumeric char next to the signal)
     And I set up all signals for address 14 in D3 to be not-proceed
     And there is no text indication for s-class-berth 'D30105'
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 14      | 10   | 10:45:00  |
+    When the following live signalling update message is sent from LINX
+      | trainDescriber | address | data |
+      | D3             | 14      | 10   |
     Then the s-class-berth 'D30105' will display a Route indication of 'DM'
 
   @replaySetup
@@ -30,9 +30,9 @@ Feature: 49635 - Schematic State - route indication state
 #    Then the Main or Shunt Signal will display a Route Indication (1-3 alphanumeric char next to the signal)
     And I set up all signals for address 10 in D3 to be not-proceed
     And there is no text indication for s-class-berth 'D36003'
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 10      | 02   | 10:45:00  |
+    When the following live signalling update message is sent from LINX
+      | trainDescriber | address | data |
+      | D3             | 10      | 02   |
     Then the s-class-berth 'D36003' will display a Route indication of 'A'
 
   @replaySetup
