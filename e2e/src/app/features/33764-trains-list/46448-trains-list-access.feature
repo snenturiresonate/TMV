@@ -6,12 +6,9 @@ Feature: 46448 - TMV Trains List - access
   So that I have tailored list trains that I am interested in
 
   Background:
-    * I remove today's train 'B00701' from the Redis trainlist
-    * I remove today's train 'B00702' from the Redis trainlist
-    * I remove today's train 'B00703' from the Redis trainlist
-    * I remove today's train 'B00704' from the Redis trainlist
-    * I remove today's train 'B00705' from the Redis trainlist
-    * I remove today's train 'B00706' from the Redis trainlist
+    * I am on the home page
+    * I reset redis
+    * I restore to default train list config
     * the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1S42_PADTON_DIDCOTP.cif | PADTON      | WTT_dep       | 2P77                | B00701         |
@@ -36,12 +33,6 @@ Feature: 46448 - TMV Trains List - access
     * I wait until today's train 'B00704' has loaded
     * I wait until today's train 'B00705' has loaded
     * I wait until today's train 'B00706' has loaded
-    * I delete 'B00701:today' from hash 'schedule-modifications'
-    * I delete 'B00702:today' from hash 'schedule-modifications'
-    * I delete 'B00703:today' from hash 'schedule-modifications'
-    * I delete 'B00704:today' from hash 'schedule-modifications'
-    * I delete 'B00705:today' from hash 'schedule-modifications'
-    * I delete 'B00706:today' from hash 'schedule-modifications'
     * the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | B00701   | 2P77        | now                    | 99999               | PADTON                 | today         | now                 |
@@ -56,15 +47,7 @@ Feature: 46448 - TMV Trains List - access
       | B00704   | 2C45        | now                    | 99999               | PADTON                 | today         | now                 |
 
   Scenario Outline: 33764-1 Access Trains List (First Time)
-#    Given the user is authenticated to use TMV
-#    And the user is viewing the home page
-#    And the user has not opened the trains list before
-#    When the user selects the trains list
-#    Then the trains list opened in a new browser tab with all default columns (system) and filters applied
-#    And is populated with a selection of services based on activation, unscheduled and cancelled states
-    Given I am authenticated to use TMV
-    And I have not opened the trains list before
-    And I am on the home page
+    Given I have not opened the trains list before
     When I click the app 'trains-list'
     Then the number of tabs open is 2
     When I switch to the new tab
@@ -79,18 +62,10 @@ Feature: 46448 - TMV Trains List - access
       | 2P77, 3J41, 5G44, 2C45 | 1M34, 1Z27          |
 
   Scenario Outline: 33764-2 Access Trains List (User Configured)
-#    Given the user is authenticated to use TMV
-#    And the user is viewing the home page
-#    And the user has opened the trains list before
-#    And the user applied column selections and filters
-#    When the user selects the trains list
-#    Then the trains list opened in a new browser tab with column selection and filters applied
-#    And is populated with a selection of services based on activation, unscheduled and cancelled states
     * the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | B00705   | 1M34        | now                    | 99999               | PADTON                 | today         | now                 |
-    Given I am authenticated to use TMV
-    And I have not opened the trains list before
+    Given I have not opened the trains list before
     And I am on the trains list Config page
     And I set trains list columns to be '<columns>'
     And I have navigated to the 'TOC/FOC' configuration tab

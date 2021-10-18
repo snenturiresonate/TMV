@@ -11,7 +11,7 @@ When('I delete {string} from hash {string}', async (field: string, hash: string)
   if (field.includes('generatedTrainUId')) {
     field = field.replace('generatedTrainUId', browser.referenceTrainUid);
   }
-  redisClient.hashDelete(
+  await redisClient.hashDelete(
     hash
       .replace('today', DateAndTimeUtils.convertToDesiredDateAndFormat(('today'), dateFormat))
       .replace('yesterday', DateAndTimeUtils.convertToDesiredDateAndFormat(('yesterday'), dateFormat))
@@ -24,24 +24,22 @@ When('I delete {string} from hash {string}', async (field: string, hash: string)
 });
 
 When('I delete {string} from Redis', async (streamName: string) => {
-  await redisClient.deleteKey(streamName);
+  await redisClient.deleteKey(streamName, redisClient.getKeyMatcher().match(streamName));
 });
 
 When('I remove schedule {string} from the trains list', async (scheduleId: string) => {
   const dateFormat = 'yyyy-MM-dd';
-  redisClient.keyDelete('trainlist:' + scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat(('today'), dateFormat));
-  redisClient.keyDelete('trainlist:' + scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat(('tomorrow'), dateFormat));
+  await redisClient.keyDelete('trainlist:' + scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat(('today'), dateFormat));
+  await redisClient.keyDelete('trainlist:' + scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat(('tomorrow'), dateFormat));
 });
 
-Given(/^I clear all MTBs$/, () => {
-  redisClient.keyDelete('manual-trust-berths-hash');
-  redisClient.keyDelete('manual-trust-berths');
-  redisClient.keyDelete('manual-trust-berth-states');
-  redisClient.keyDelete('last-manual-trust-berth');
-  redisClient.keyDelete('manual-trust-berths-snapshot');
+Given(/^I clear all MTBs$/, async () => {
+  await redisClient.keyDelete('manual-trust-berths-hash');
+  await redisClient.keyDelete('manual-trust-berths');
+  await redisClient.keyDelete('manual-trust-berth-states');
+  await redisClient.keyDelete('last-manual-trust-berth');
 });
 
 Given(/^I reset redis$/, async () => {
   await new TMVRedisUtils().reset();
-  await browser.sleep(5000);
 });

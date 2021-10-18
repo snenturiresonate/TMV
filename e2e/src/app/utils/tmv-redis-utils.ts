@@ -1,10 +1,14 @@
 import {RedisClient} from '../api/redis/redis-client';
+import {RedisType} from '../api/redis/redis-type.model';
 import {BerthCancel} from '../../../../src/app/api/linx/models/berth-cancel';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {DateTimeFormatter, ZonedDateTime, ZoneId} from '@js-joda/core';
 import {CucumberLog} from '../logging/cucumber-log';
 
 export class TMVRedisUtils {
+
+  private readonly redisClient = new RedisClient();
+
   public async reset(): Promise<void> {
     const configKeys = ['path-extrap-rules-hash',
       'configuration-location-groups-hash',
@@ -56,18 +60,21 @@ export class TMVRedisUtils {
       'berth-translation-hash',
       'line-to-path-code-rules',
       '{last-berths-set}'];
-    const redisClient = new RedisClient();
-    await redisClient.listKeys('*')
-      .then(output => output.filter(key => !configKeys.includes(key))
-        .forEach(async key => {
-          await redisClient.deleteKey(key);
-        }));
+    await Promise.all([
+      await this.redisClient.listKeysByRedisType('*', RedisType.OPERATIONS)
+      .then(async output => this.redisClient.deleteKeys(output.filter(key => !configKeys.includes(key)), RedisType.OPERATIONS)),
+      await this.redisClient.listKeysByRedisType('*', RedisType.REPLAY)
+      .then(async output => this.redisClient.deleteKeys(output.filter(key => !configKeys.includes(key)), RedisType.REPLAY)),
+      await this.redisClient.listKeysByRedisType('*', RedisType.SCHEDULES)
+        .then(async output => this.redisClient.deleteKeys(output.filter(key => !configKeys.includes(key)), RedisType.SCHEDULES)),
+      await this.redisClient.listKeysByRedisType('*', RedisType.TRAINSLIST)
+        .then(async output => this.redisClient.deleteKeys(output.filter(key => !configKeys.includes(key)), RedisType.TRAINSLIST))
+    ]);
   }
 
   // pass no argument to clear all train describers
   public async clearBerths(clearFutureTimestamps = true, trainDescriber = ''): Promise<void> {
-    const redisClient = new RedisClient();
-    const berths = await redisClient.hgetall('map-states');
+    const berths = await this.redisClient.hgetall('map-states');
     const linxRestClient = new LinxRestClient();
     if (berths) {
       for (const [key, value] of Object.entries(berths)) {

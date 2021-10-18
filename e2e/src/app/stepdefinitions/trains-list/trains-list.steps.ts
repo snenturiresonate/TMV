@@ -158,7 +158,10 @@ async function waitForTrainUid(uid: string, firstDate: string, secondDate: strin
   }
   const client = new RedisClient();
   const firstTrainIdentifier = `${uid}:${firstDate}`;
-  const secondTrainIdentifier = `${uid}:${secondDate}`;
+  let secondTrainIdentifier = firstTrainIdentifier;
+  if (secondDate !== '') {
+    secondTrainIdentifier = `${uid}:${secondDate}`;
+  }
   const firstHash = `trainlist:` + firstTrainIdentifier;
   const secondHash = `trainlist:` + secondTrainIdentifier;
   return browser.wait(async () => {
@@ -608,9 +611,28 @@ Then('A selection of services are shown which match the {word} filters and setti
 });
 
 Then('{string} are {word} displayed', async (expectedTrainDescriptions: string, isDisplayed: string) => {
-  const actualTLServiceValues: string[] = await trainsListPage.getTrainsListValuesForColumn('train-description');
   const expectedTLServiceValues = expectedTrainDescriptions.split(',', 10).map(item => item.trim());
+  let actualTLServiceValues: string[] = [];
 
+  browser.wait(async () => {
+    actualTLServiceValues = await trainsListPage.getTrainsListValuesForColumn('train-description');
+    if (isDisplayed === 'not') {
+      for (const item of expectedTLServiceValues) {
+        if (actualTLServiceValues.includes(item)) {
+          return false;
+        }
+      }
+    } else {
+      for (const item of expectedTLServiceValues) {
+        if (!actualTLServiceValues.includes(item)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }, 60000, `Expected ${expectedTLServiceValues} to ${isDisplayed} contain ${actualTLServiceValues}`);
+
+  actualTLServiceValues = await trainsListPage.getTrainsListValuesForColumn('train-description');
   if (isDisplayed === 'not') {
     for (const item of expectedTLServiceValues) {
       expect(actualTLServiceValues).not.contains(item);
@@ -619,7 +641,6 @@ Then('{string} are {word} displayed', async (expectedTrainDescriptions: string, 
     for (const item of expectedTLServiceValues) {
       expect(actualTLServiceValues).contains(item);
     }
-
   }
 });
 

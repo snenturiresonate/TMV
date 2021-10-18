@@ -103,6 +103,7 @@ Feature: 34002 - Unscheduled Trains Matching
     And I wait until today's train '<planningUid1>' has loaded
     And I wait until today's train '<planningUid2>' has loaded
     And I am viewing the map gw2aslough.v
+    And berth '1629' in train describer 'D1' contains '<trainNum>' and is visible
     And I invoke the context menu on the map for train <trainNum>
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
@@ -145,8 +146,8 @@ Feature: 34002 - Unscheduled Trains Matching
       | toBerth | trainDescriber | trainDescription |
       | 1201    | D7             | <trainNum>       |
     And I am viewing the map gw05swindon.v
-    And the headcode displayed for 'D71115' is <trainNum>
-    And the headcode displayed for 'D71201' is <trainNum>
+    And berth '1115' in train describer 'D7' contains '<trainNum>' and is visible
+    And berth '1201' in train describer 'D7' contains '<trainNum>' and is visible
     And the train headcode color for berth 'D71115' is lightgrey
     And the train headcode color for berth 'D71201' is green
     And I right click on berth with id 'D71115'

@@ -802,9 +802,9 @@ Given(/^I log the berth level schedule for '(.*)'$/, async (trainUid) => {
 Given(/^I log the berth & locations from the berth level schedule for '(.*)'$/, async (trainUid) => {
   const client = new RedisClient();
   const scheduleKey = `${trainUid}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`;
-  const berthLevelSchedule = await client.hgetParseJSON('berth-level-schedule-pairs', scheduleKey);
+  const berthLevelSchedule = await client.hgetParseJSON('{schedule-matching}-berth-level-schedules-cache', scheduleKey);
 
-  for (const pathEntry of berthLevelSchedule.berthLevelSchedule.pathEntries) {
+  for (const pathEntry of berthLevelSchedule.pathEntries) {
     if (pathEntry.berths.length > 0) {
       const berth = pathEntry.berths[0];
       const berthKey = `${berth.trainDescriberCode}${berth.berthName}`;

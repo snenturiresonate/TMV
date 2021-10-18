@@ -4,5 +4,5 @@ import {Given} from 'cucumber';
 
 const trainListConfigRestClient: TrainsListConfigRestClient = new TrainsListConfigRestClient();
 Given('I restore to default train list config', async () => {
-  await expect(await trainListConfigRestClient.deleteConfiguration()).to.equal(200);
+  expect(await trainListConfigRestClient.deleteConfiguration()).to.equal(200);
 });

@@ -179,7 +179,9 @@ export class TrainsListPageObject {
 
   public async removeAllTrainsFromTrainsList(): Promise<void> {
     const trainslistRowKeys: string[] = await this.redisClient.listKeys('trainlist*');
-    trainslistRowKeys.forEach(trainListRowKey => this.redisClient.keyDelete(trainListRowKey));
+    for (const rowKey of trainslistRowKeys) {
+      await this.redisClient.keyDelete(rowKey);
+    }
   }
 
   public async trainDescriptionHasScheduleType(trainDescription: string, scheduleType: string): Promise<boolean> {
@@ -327,8 +329,7 @@ export class TrainsListPageObject {
   }
 
   public async getTrainsListValueForColumnAndSchedule(column: string, scheduleId: string): Promise<string> {
-    const gridElement: ElementFinder = element(by.css
-    ('[id=\'trains-list-row-' + scheduleId + '\'] .trains-list-row-entry-' + column));
+    const gridElement: ElementFinder = element(by.css('[id=\'trains-list-row-' + scheduleId + '\'] .trains-list-row-entry-' + column));
     return gridElement.getText();
   }
 

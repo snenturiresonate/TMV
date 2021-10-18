@@ -220,10 +220,7 @@ Feature: 33805 TMV Schedule Matching
     #      | location |
     #      | sub division |
     Given the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching-cancelled.cif' is received from LINX
-#    And I give the cancellation 2 seconds to load
-#    And I am on the trains list page
-#    Then train description '<origTrainDesc>' with schedule type 'STP' disappears from the trains list
-    And I wait until today's train '<origTrainDesc>' has been removed
+    And I wait until today's train '<trainUid>' has been removed
     When the following live berth interpose message is sent from LINX
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |

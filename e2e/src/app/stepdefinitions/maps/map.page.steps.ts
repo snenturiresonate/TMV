@@ -424,6 +424,12 @@ Then('the TRTS visibility status for {string} is {word}',
 
 Then('the marker board triangle for marker board {string} is {word}',
   async (markerBoardId: string, expectedMarkerBoardColour: string) => {
+    browser.wait(async () => {
+      const expectedMarkerBoardColourHexWait = mapColourHex[expectedMarkerBoardColour];
+      const actualMarkerBoardColourHexWait = await mapPageObject.getMarkerBoardTriangleColour(markerBoardId);
+      return (actualMarkerBoardColourHexWait === expectedMarkerBoardColourHexWait);
+    }, 60000, `Marker board triangle colour for ${markerBoardId} is not correct`);
+
     const expectedMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];
     const actualMarkerBoardColourHex = await mapPageObject.getMarkerBoardTriangleColour(markerBoardId);
     expect(actualMarkerBoardColourHex, `Marker board triangle colour for ${markerBoardId} is not correct`)
@@ -432,6 +438,12 @@ Then('the marker board triangle for marker board {string} is {word}',
 
 Then('the shunt marker board triangle for shunt marker board {string} is {word}',
   async (markerBoardId: string, expectedShuntMarkerBoardColour: string) => {
+    browser.wait(async () => {
+      const expectedShuntMarkerBoardColourHexWait = mapColourHex[expectedShuntMarkerBoardColour];
+      const actualShuntMarkerBoardColourHexWait = await mapPageObject.getShuntMarkerBoardTriangleColour(markerBoardId);
+      return (actualShuntMarkerBoardColourHexWait === expectedShuntMarkerBoardColourHexWait);
+    }, 60000, `Shunt marker board triangle colour for ${markerBoardId} is not correct`);
+
     const expectedShuntMarkerBoardColourHex = mapColourHex[expectedShuntMarkerBoardColour];
     const actualShuntMarkerBoardColourHex = await mapPageObject.getShuntMarkerBoardTriangleColour(markerBoardId);
     expect(actualShuntMarkerBoardColourHex, `Shunt marker board triangle colour for ${markerBoardId} is not correct`)

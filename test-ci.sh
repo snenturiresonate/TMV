@@ -47,6 +47,17 @@ fi
 
 echo "Found ${TEST_HARNESS_IP} created at ${CREATION_TIME}"
 
+# Update the hosts file with the Redis cluster hosts
+sudo sed -i '/redis-operations/d' /etc/hosts &> /dev/null
+sudo sed -i '/redis-schedules/d' /etc/hosts &> /dev/null
+sudo sed -i '/redis-replay/d' /etc/hosts &> /dev/null
+sudo sed -i '/redis-trainslist/d' /etc/hosts &> /dev/null
+sudo /bin/bash -c  "echo \"${REDIS_HOST} redis-operations\" >> /etc/hosts"
+sudo /bin/bash -c  "echo \"${REDIS_HOST} redis-schedules\" >> /etc/hosts"
+sudo /bin/bash -c  "echo \"${REDIS_HOST} redis-replay\" >> /etc/hosts"
+sudo /bin/bash -c  "echo \"${REDIS_HOST} redis-trainslist\" >> /etc/hosts"
+
+
 # Run the full end to end tests
 echo "CUCUMBER_TAGS: ${CUCUMBER_TAGS}"
 echo "DYNAMO_SUFFIX: ${DYNAMO_SUFFIX}"
@@ -60,6 +71,12 @@ export npm_config_ci_ip="${TMV_DOMAIN}";\
   export cucumber_tags="${CUCUMBER_TAGS}";\
   export dynamo_suffix="${DYNAMO_SUFFIX}";\
   npm run fe2e
+
+# Remove the Redis host entries from the hosts file
+sudo sed -i '/redis-operations/d' /etc/hosts
+sudo sed -i '/redis-schedules/d' /etc/hosts
+sudo sed -i '/redis-replay/d' /etc/hosts
+sudo sed -i '/redis-trainslist/d' /etc/hosts
 
 # Generate JUnit style XML to support VSTS reporting
 npm run junit-xml
