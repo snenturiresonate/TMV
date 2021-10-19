@@ -194,18 +194,28 @@ export class TimeTablePageObject {
       return colValue.getText();
     });
   }
-  public async getTimetableEntryValsForLoc(LocId: string): Promise<string[]> {
 
-    const locStrings = LocId.split('\n');
+  public async getTimetableEntryValsForLoc(locId: string): Promise<string[]> {
+
+    const locStrings = locId.split('\n');
     const locString = locStrings[0] + ' ';
     await browser.wait(async () => {
       return element.all(by.xpath('//*[child::*[text()=\'' + locString + '\']]')).isPresent();
     }, browser.displayTimeout, 'The timetable entry row should be displayed');
 
     const entryColValues: ElementArrayFinder = element.all(by.xpath('//*[child::*[text()=\'' + locString + '\']]/td'));
-    return entryColValues.map((colValue: ElementFinder) => {
-      return colValue.getText();
-    });
+    try {
+      return entryColValues.map(async (colValue: ElementFinder) => {
+        return colValue.getText();
+      });
+    }
+    catch (error) {
+      if (error.toString().includes('StaleElementReferenceError')) {
+        console.log('Found a StaleElementReferenceError - retrying...');
+        await browser.sleep(1000);
+        return this.getTimetableEntryValsForLoc(locId);
+      }
+    }
   }
 
   public async toggleInsertedLocationsOn(): Promise<void> {

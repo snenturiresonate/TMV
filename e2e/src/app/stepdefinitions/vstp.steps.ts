@@ -59,9 +59,9 @@ When(/^the following VSTP update messages? (?:is|are) sent from LINX starting (.
   const vstpMessages: any = vstpMessageTable.hashes();
   let updatedVstpMessage;
 
-  vstpMessages.forEach((vstpMessage: any) => {
+  for (const vstpMessage of vstpMessages) {
     if ( vstpUpdateValuesMap.size === 0 ){
-      linxRestClient.postVstp(vstpMessage.asXml);
+      await linxRestClient.postVstp(vstpMessage.asXml);
     }
     // To handle VSTP message updates
     else{
@@ -86,16 +86,15 @@ When(/^the following VSTP update messages? (?:is|are) sent from LINX starting (.
         for (const stpIndicator of stpIndicatorArr){
           const replacementValue = ' CIF_stp_indicator=" ' + stpIndicator + '"';
           updatedVstpMessage = vstpUpdates.updateVSTPXMLRegEx(/CIF_stp_indicator=".*"/g, replacementValue , updatedVstpMessage);
-          linxRestClient.postVstp(updatedVstpMessage);
-          CucumberLog.addText(updatedVstpMessage);
+          await linxRestClient.postVstp(updatedVstpMessage);
+          await CucumberLog.addText(updatedVstpMessage);
         }
       } else {
-        linxRestClient.postVstp(updatedVstpMessage);
-        CucumberLog.addText(updatedVstpMessage);
+        await linxRestClient.postVstp(updatedVstpMessage);
+        await CucumberLog.addText(updatedVstpMessage);
       }
     }
-  });
-  await linxRestClient.waitMaxTransmissionTime();
+  }
 });
 
 function adjustVSTPTimings(vstpXMLString: string, timeAdjustSecs: number): string {

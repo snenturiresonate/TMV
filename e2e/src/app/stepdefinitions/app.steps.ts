@@ -372,69 +372,65 @@ When(/^the following live berth cancel messages? (?:is|are) sent from LINX$/, as
 When(/^the following signalling update messages? (?:is|are) sent from LINX$/, async (signallingUpdateMessageTable: any) => {
   const signallingUpdateMessages: any = signallingUpdateMessageTable.hashes();
 
-  signallingUpdateMessages.forEach((signallingUpdateMessage: any) => {
+  for (const signallingUpdateMessage of signallingUpdateMessages) {
     const signallingUpdate: SignallingUpdate = new SignallingUpdate(
       signallingUpdateMessage.address,
       signallingUpdateMessage.data,
       signallingUpdateMessage.timestamp,
       signallingUpdateMessage.trainDescriber
     );
-    CucumberLog.addJson(signallingUpdate);
-    linxRestClient.postSignallingUpdate(signallingUpdate);
-  });
-  await linxRestClient.waitMaxTransmissionTime();
+    await CucumberLog.addJson(signallingUpdate);
+    await linxRestClient.postSignallingUpdate(signallingUpdate);
+  }
 });
 
 When(/^the following live signalling update messages? (?:is|are) sent from LINX(.*)$/,
   async (explanation: string, signallingUpdateMessageTable: any) => {
     const signallingUpdateMessages: any = signallingUpdateMessageTable.hashes();
     const now = DateAndTimeUtils.getCurrentTimeString();
-    signallingUpdateMessages.forEach((signallingUpdateMessage: any) => {
+
+    for (const signallingUpdateMessage of signallingUpdateMessages) {
       const signallingUpdate: SignallingUpdate = new SignallingUpdate(
         signallingUpdateMessage.address,
         signallingUpdateMessage.data,
         now,
         signallingUpdateMessage.trainDescriber
       );
-      CucumberLog.addJson(signallingUpdate);
-      linxRestClient.postSignallingUpdate(signallingUpdate);
-    });
-    await linxRestClient.waitMaxTransmissionTime();
+      await CucumberLog.addJson(signallingUpdate);
+      await linxRestClient.postSignallingUpdate(signallingUpdate);
+    }
   });
 
 When(/^the following heartbeat messages? (?:is|are) sent from LINX$/, async (heartbeatMessageTable: any) => {
   const heartbeatMessages: any = heartbeatMessageTable.hashes();
 
-  heartbeatMessages.forEach((heartbeatMessage: any) => {
+  for (const heartbeatMessage of heartbeatMessages) {
     const heartbeat: Heartbeat = new Heartbeat(
       heartbeatMessage.timestamp,
       heartbeatMessage.trainDescriber,
       heartbeatMessage.trainDescriberTimestamp
     );
-    CucumberLog.addJson(heartbeat);
-    linxRestClient.postHeartbeat(heartbeat);
-  });
-  await linxRestClient.waitMaxTransmissionTime();
+    await CucumberLog.addJson(heartbeat);
+    await linxRestClient.postHeartbeat(heartbeat);
+  }
 });
 
 When(/^the following train journey modification messages? (?:is|are) sent from LINX$/,
   async (trainJourneyModificationMessageTable: any) => {
     const trainJourneyModificationMessages: any = trainJourneyModificationMessageTable.hashes();
 
-    trainJourneyModificationMessages.forEach((trainJourneyModificationMessage: any) => {
-      linxRestClient.postTrainJourneyModification(trainJourneyModificationMessage.asXml);
-    });
-    await linxRestClient.waitMaxTransmissionTime();
+    for (const trainJourneyModificationMessage of trainJourneyModificationMessages) {
+      await linxRestClient.postTrainJourneyModification(trainJourneyModificationMessage.asXml);
+    }
   });
 
 When(/^the following train journey modification change of id messages? (?:is|are) sent from LINX$/,
   async (trainJourneyModificationChangeOfIdMessageTable: any) => {
     const trainJourneyModificationChangeOfIdMessages: any = trainJourneyModificationChangeOfIdMessageTable.hashes();
 
-    trainJourneyModificationChangeOfIdMessages.forEach((trainJourneyModificationChangeOfIdMessage: any) => {
-      linxRestClient.postTrainJourneyModificationIdChange(trainJourneyModificationChangeOfIdMessage.asXml);
-    });
-    await linxRestClient.waitMaxTransmissionTime();
+    for (const trainJourneyModificationChangeOfIdMessage of trainJourneyModificationChangeOfIdMessages) {
+      await linxRestClient.postTrainJourneyModificationIdChange(trainJourneyModificationChangeOfIdMessage.asXml);
+    }
   });
 
 /**
@@ -496,24 +492,19 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
       scheduledDepartureTime().toString(), trainNumber, trainUID, departureDate().toString(), actualDepartureHour().toString(), asmVal);
     await linxRestClient.postTrainActivation(trainActMss.toString({prettyPrint: true}));
     await CucumberLog.addText(`Train Activation message: ${trainActMss.toString({prettyPrint: true})}`);
-    await linxRestClient.waitMaxTransmissionTime();
   }
 });
 
 When('the activation message from location {string} is sent from LINX', async (xmlFilePath: string) => {
   const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), xmlFilePath));
-  linxRestClient.postTrainActivation(rawData.toString());
-
-  await linxRestClient.waitMaxTransmissionTime();
+  await linxRestClient.postTrainActivation(rawData.toString());
 });
 
 When(/^the following VSTP messages? (?:is|are) sent from LINX$/, async (vstpMessageTable: any) => {
   const vstpMessages: any = vstpMessageTable.hashes();
-
-  vstpMessages.forEach((vstpMessage: any) => {
-    linxRestClient.postVstp(vstpMessage.asXml);
-  });
-  await linxRestClient.waitMaxTransmissionTime();
+  for (const vstpMessage of vstpMessages) {
+    await linxRestClient.postVstp(vstpMessage.asXml);
+  }
 });
 
 Then(/^I should see nothing$/, async () => {
@@ -666,7 +657,7 @@ When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
     }
     const tjmMessage = tjmBuilder.build();
 
-    linxRestClient.postTrainJourneyModification(tjmMessage.toXML());
+    await linxRestClient.postTrainJourneyModification(tjmMessage.toXML());
     TestData.addTJM(tjmMessage);
     await linxRestClient.waitMaxTransmissionTime();
   }
@@ -695,7 +686,7 @@ When(/^the following change of ID TJM is received$/, async (table: any) => {
     }
     const tjmMessage = tjmBuilder.build();
 
-    linxRestClient.postTrainJourneyModificationIdChange(tjmMessage.toXML());
+    await linxRestClient.postTrainJourneyModificationIdChange(tjmMessage.toXML());
     TestData.addTJM(tjmMessage);
     await linxRestClient.waitMaxTransmissionTime();
   }

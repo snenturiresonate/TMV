@@ -22,6 +22,7 @@ Feature: 46482 - TMV Key - select key
     And I navigate to Replay page
     When I select time period 'Last 15 minutes' from the quick dropdown
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Eastern'
     And I select the map 'EA01liverpoolst.v'
     When I click on the Help icon

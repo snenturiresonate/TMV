@@ -19,6 +19,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     Then the map view is opened ready for replaying with timestamp
@@ -32,6 +33,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     Then the map view is opened ready for replaying with timestamp
@@ -41,17 +43,20 @@ Feature: 33763 - TMV Replay Playback Controls
   Scenario: Replay - Open Replay
     Given I am on the replay page
     And I set time period 'Last 15 minutes' from the quick dropdown
+    And I get the replay map configuration map groupings
     Then the replay map selection is presented
 
   Scenario: Replay - Search Map
     Given I am on the replay page
     And I set time period 'Last 15 minutes' from the quick dropdown
+    And I get the replay map configuration map groupings
     When I search for replay map 'Paddington'
     Then all replay map search results contain 'Paddington'
 
   Scenario: Replay - Map Tree
     Given I am on the replay page
     And I set time period 'Last 15 minutes' from the quick dropdown
+    And I get the replay map configuration map groupings
     When I expand the replay group of maps with name 'Wales & Western'
     Then replay map 'HDGW01 Paddington' is present in the tree view
 
@@ -66,6 +71,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -90,6 +96,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -123,6 +130,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -143,6 +151,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -163,6 +172,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -183,6 +193,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 5       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -209,6 +220,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 5       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -232,6 +244,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 5       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     When I click Play button
@@ -251,6 +264,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -280,6 +294,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -304,6 +319,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date   | time     | duration |
       | today  | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -334,6 +350,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 5       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     When I click Play button
@@ -368,6 +385,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 5       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And I click Play button
@@ -396,6 +414,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -414,6 +433,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -443,6 +463,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -472,6 +493,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date   | time     | duration |
       | today  | now - 10 | 5       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And I click Play button
@@ -501,6 +523,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -533,6 +556,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp
@@ -565,6 +589,7 @@ Feature: 33763 - TMV Replay Playback Controls
       | date  | time     | duration |
       | today | now - 10 | 10       |
     And I select Next
+    And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
     And the map view is opened ready for replaying with timestamp

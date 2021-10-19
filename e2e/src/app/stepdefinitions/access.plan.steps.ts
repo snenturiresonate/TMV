@@ -75,7 +75,7 @@ When('the access plan located in CIF file {string} is amended so that all servic
     // put it all back together and load
     const newData = cifLines.join('');
     await CucumberLog.addText(`Access Plan: ${newData}`);
-    linxRestClient.addAccessPlan('', newData);
+    await linxRestClient.addAccessPlan('', newData);
 });
 
 When ('I remove all CIFs from the LINX FTP server', async () => {
@@ -140,19 +140,19 @@ async function processCifInputs(cifInputs, plusMins = 0, minusMins = 0): Promise
 When('the access plan located in JSON file {string} is received from LINX', async (jsonFilePath: string) => {
   const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), jsonFilePath));
   const accessPlanRequest: AccessPlanRequest = JSON.parse(rawData.toString());
-  linxRestClient.writeAccessPlan(accessPlanRequest);
+  await linxRestClient.writeAccessPlan(accessPlanRequest);
 });
 
 When('the access plan located in CIF file {string} is received from LINX with name {string}',
   async (cifFilePath: string, cifName: string) => {
   const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), cifFilePath));
-  linxRestClient.addAccessPlan(cifName, rawData.toString());
+  await linxRestClient.addAccessPlan(cifName, rawData.toString());
 });
 
 When('the access plan located in CIF file {string} is received from LINX',
   async (cifFilePath: string) => {
     const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), cifFilePath));
-    linxRestClient.addAccessPlan('', rawData.toString());
+    await linxRestClient.addAccessPlan('', rawData.toString());
   });
 
 When('the access plan located in CIF file {string} is received from LINX with the new uid',
@@ -172,10 +172,10 @@ When('the access plan located in CIF file {string} is received from LINX with th
 
 When(/^the access (?:plan is|plans are) received from LINX$/, async (cifFilePaths: any) => {
     const cifFiles: any = cifFilePaths.hashes();
-    cifFiles.forEach((cifFile: any) => {
+    for (const cifFile of cifFiles) {
       const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), cifFile.path));
-      linxRestClient.addAccessPlan('', rawData.toString());
-    });
+      await linxRestClient.addAccessPlan('', rawData.toString());
+    }
   });
 
 function dealWithHDRecord(cifLine: string, dateOfExtract: string, timeOfExtract: string, extractEndDate: string): string {

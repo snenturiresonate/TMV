@@ -19,6 +19,7 @@ const chai = require('chai');
 chai.use(require('chai-datetime'));
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {CucumberLog} from '../../logging/cucumber-log';
+import {MapPageObject} from '../../pages/maps/map.page';
 
 const replayPage: ReplayMapPage = new ReplayMapPage();
 const replaySelectMapPage: ReplaySelectMapPage = new ReplaySelectMapPage();
@@ -32,6 +33,7 @@ When('I expand the replay group of maps with name {string}', async (mapName: str
 
 When('I select the map {string}', async (location: string) => {
   await replaySelectMapPage.openMapsList(location);
+  await MapPageObject.waitForTracksToBeDisplayed();
 });
 
 When('I select Next', async () => {

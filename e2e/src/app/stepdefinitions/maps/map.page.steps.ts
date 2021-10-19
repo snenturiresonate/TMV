@@ -101,15 +101,15 @@ Given('I set up all signals for address {word} in {word} to be {word}', async (a
   const redSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, '00', '10:45:00', trainDescriber);
   const greenSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, 'FF', '10:45:00', trainDescriber);
   if (state === 'not-proceed') {
-    linxRestClient.postSignallingUpdate(greenSignallingUpdate);
+    await linxRestClient.postSignallingUpdate(greenSignallingUpdate);
     await linxRestClient.waitMaxTransmissionTime();
-    linxRestClient.postSignallingUpdate(redSignallingUpdate);
+    await linxRestClient.postSignallingUpdate(redSignallingUpdate);
     await linxRestClient.waitMaxTransmissionTime();
   }
   if (state === 'proceed') {
-    linxRestClient.postSignallingUpdate(redSignallingUpdate);
+    await linxRestClient.postSignallingUpdate(redSignallingUpdate);
     await linxRestClient.waitMaxTransmissionTime();
-    linxRestClient.postSignallingUpdate(greenSignallingUpdate);
+    await linxRestClient.postSignallingUpdate(greenSignallingUpdate);
     await linxRestClient.waitMaxTransmissionTime();
   }
 });

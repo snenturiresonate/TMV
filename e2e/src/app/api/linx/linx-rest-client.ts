@@ -20,9 +20,11 @@ export class LinxRestClient {
     this.httpClient = new HttpClient(browser.params.test_harness_ci_ip + ':8480');
   }
 
-  public postBerthInterpose(body: BerthInterpose): ResponsePromise {
+  public async postBerthInterpose(body: BerthInterpose): Promise<ResponsePromise> {
     this.replayRecord(ReplayActionType.INTERPOSE, JSON.stringify(body));
-    return this.httpClient.post('/traindescriberupdates/berthinterpose', body);
+    const response = await this.httpClient.post('/traindescriberupdates/berthinterpose', body);
+    await this.waitMaxTransmissionTime();
+    return response;
   }
 
   public async postInterpose(timestamp: string, toBerth: string, trainDescriber: string, trainDescription: string): Promise<any> {
@@ -37,61 +39,79 @@ export class LinxRestClient {
     return this.waitMaxTransmissionTime();
   }
 
-  public postBerthCancel(body: BerthCancel): ResponsePromise {
+  public async postBerthCancel(body: BerthCancel): Promise<ResponsePromise> {
     this.replayRecord(ReplayActionType.CANCEL, JSON.stringify(body));
-    return this.httpClient.post('/traindescriberupdates/berthcancel', body);
+    const response = await this.httpClient.post('/traindescriberupdates/berthcancel', body);
+    await this.waitMaxTransmissionTime();
+    return response;
   }
 
-  public postBerthStep(body: BerthStep): ResponsePromise {
+  public async postBerthStep(body: BerthStep): Promise<ResponsePromise> {
     this.replayRecord(ReplayActionType.STEP, JSON.stringify(body));
-    return this.httpClient.post('/traindescriberupdates/berthstep', body);
+    const response = await this.httpClient.post('/traindescriberupdates/berthstep', body);
+    await this.waitMaxTransmissionTime();
+    return response;
   }
 
-  public postSignallingUpdate(body: SignallingUpdate): ResponsePromise {
+  public async postSignallingUpdate(body: SignallingUpdate): Promise<ResponsePromise> {
     this.replayRecord(ReplayActionType.SIGNAL_UPDATE, JSON.stringify(body));
-    return this.httpClient.post('/traindescriberupdates/signallingupdate', body);
+    const response = await this.httpClient.post('/traindescriberupdates/signallingupdate', body);
+    await this.waitMaxTransmissionTime();
+    return response;
   }
 
-  public postHeartbeat(body: Heartbeat): ResponsePromise {
+  public async postHeartbeat(body: Heartbeat): Promise<ResponsePromise> {
     this.replayRecord(ReplayActionType.HEARTBEAT, JSON.stringify(body));
-    return this.httpClient.post('/traindescriberupdates/heartbeat', body);
+    const response = await this.httpClient.post('/traindescriberupdates/heartbeat', body);
+    await this.waitMaxTransmissionTime();
+    return response;
   }
 
-  public postTrainJourneyModification(body: string): ResponsePromise {
+  public async postTrainJourneyModification(body: string): Promise<ResponsePromise> {
     this.replayRecord(ReplayActionType.MODIFY_TRAIN_JOURNEY, body);
-    return this.httpClient.post('/trainjourneymodification/modifytrainjourney', body, {'Content-Type': 'text/plain'});
+    const response = await this.httpClient.post('/trainjourneymodification/modifytrainjourney', body, {'Content-Type': 'text/plain'});
+    await this.waitMaxTransmissionTime();
+    return response;
   }
 
-  public postTrainJourneyModificationIdChange(body: string): ResponsePromise {
+  public async postTrainJourneyModificationIdChange(body: string): Promise<ResponsePromise> {
     this.replayRecord(ReplayActionType.CHANGE_ID, body);
-    return this.httpClient.post('/trainjourneymodification/changeid', body, {'Content-Type': 'text/plain'});
+    const response = await this.httpClient.post('/trainjourneymodification/changeid', body, {'Content-Type': 'text/plain'});
+    await this.waitMaxTransmissionTime();
+    return response;
   }
 
-  public postTrainActivation(body: string): ResponsePromise {
+  public async postTrainActivation(body: string): Promise<ResponsePromise> {
     this.replayRecord(ReplayActionType.ACTIVATE_TRAIN, body);
-    return this.httpClient.post('/trainactivation/activatetrain', body, {'Content-Type': 'text/plain'});
+    const response = await this.httpClient.post('/trainactivation/activatetrain', body, {'Content-Type': 'text/plain'});
+    await this.waitMaxTransmissionTime();
+    return response;
   }
 
-  public postVstp(body: string): ResponsePromise {
+  public async postVstp(body: string): Promise<ResponsePromise> {
     this.replayRecord(ReplayActionType.VSTP, body);
-    return this.httpClient.post('/vstp/vstp', body, {'Content-Type': 'text/plain'});
+    const response = await this.httpClient.post('/vstp/vstp', body, {'Content-Type': 'text/plain'});
+    await this.waitMaxTransmissionTime();
+    return response;
   }
 
-  public postTrainRunningInformation(body: string): ResponsePromise {
+  public async postTrainRunningInformation(body: string): Promise<ResponsePromise> {
     this.replayRecord(ReplayActionType.TRAIN_RUNNING_INFORMATION, body);
-    return this.httpClient.post('/trainrunninginformation/trainrunninginformation', body, {'Content-Type': 'text/plain'});
+    const response = await this.httpClient.post('/trainrunninginformation/trainrunninginformation', body, {'Content-Type': 'text/plain'});
+    await this.waitMaxTransmissionTime();
+    return response;
   }
 
-  public addAccessPlan(fileName: string, body: string): ResponsePromise {
+  public async addAccessPlan(fileName: string, body: string): Promise<ResponsePromise> {
     return this.httpClient.post('/add-access-plan', body,
       {'file-name': fileName, 'Content-Type': 'text/plain'});
   }
 
-  public clearCIFs(): ResponsePromise {
+  public async clearCIFs(): Promise<ResponsePromise> {
     return this.httpClient.post('/clear-access-plans');
   }
 
-  public writeAccessPlan(body: AccessPlanRequest): ResponsePromise {
+  public async writeAccessPlan(body: AccessPlanRequest): Promise<ResponsePromise> {
     return this.httpClient.post('/write-access-plan', body);
   }
 
