@@ -87,11 +87,11 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
       | cif                                     | trainUID | trainNumber |
       | access-plan/34082-schedules/60651-1.cif | C33605   | 2N02        |
 
-  @bug @bug:72066
   Scenario Outline: Don't show in MTB when later MTB already received
     * I remove today's train '<trainUID>' from the Redis trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
     And I wait until today's train '<trainUID>' has loaded
+    And I give the CIF 2 seconds to process
     Given I am viewing the map nw05sandhillsnl.v
     And the following train running info message with time is sent from LINX
       | trainUID   | trainNumber   | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | timestamp |
