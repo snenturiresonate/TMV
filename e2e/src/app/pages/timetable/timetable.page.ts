@@ -68,7 +68,7 @@ export class TimeTablePageObject {
   async getTableEntries(): Promise<string[][]> {
     await browser.wait(ExpectedConditions.visibilityOf(TimeTablePageObject.rows.first()), 4000, 'wait for timetable to load');
     await browser.sleep(2000);
-    const timetableEntryValues = await this.timetableEntries.map(entry => entry.getText());
+    const timetableEntryValues = await this.timetableEntries.map(entry => this.getNonStaleText(entry));
     const tableEntryMatrix = [];
     for (let i = 0, k = -1; i < timetableEntryValues.length; i++) {
       if (i % 16 === 0) {
@@ -168,9 +168,9 @@ export class TimeTablePageObject {
       return this.headerHeadcode.isPresent();
     }, browser.displayTimeout, 'The timetable header train description should be displayed');
 
-    const currentDescription: string = await this.headerHeadcode.getText();
+    const currentDescription: string = await this.getNonStaleText(this.headerHeadcode);
     const plannedDescription: string = await this.headerOldHeadcode.isPresent()
-      ? ' ' + await this.headerOldHeadcode.getText() : '';
+      ? ' ' + await this.getNonStaleText(this.headerOldHeadcode) : '';
 
     return of(currentDescription + plannedDescription).toPromise();
   }
@@ -180,7 +180,7 @@ export class TimeTablePageObject {
       return this.headerTrainUid.isPresent();
     }, browser.displayTimeout, 'The timetable header train UID should be displayed');
 
-    const trainUID: string = await this.headerTrainUid.getText();
+    const trainUID: string = await this.getNonStaleText(this.headerTrainUid);
     return of(trainUID).toPromise();
   }
 
@@ -206,7 +206,7 @@ export class TimeTablePageObject {
     const entryColValues: ElementArrayFinder = element.all(by.xpath('//*[child::*[text()=\'' + locString + '\']]/td'));
     try {
       return entryColValues.map(async (colValue: ElementFinder) => {
-        return colValue.getText();
+        return this.getNonStaleText(colValue);
       });
     }
     catch (error) {
@@ -216,6 +216,21 @@ export class TimeTablePageObject {
         return this.getTimetableEntryValsForLoc(locId);
       }
     }
+  }
+
+  async getNonStaleText(locator: ElementFinder): Promise<string> {
+    let text;
+    for (let i = 0; i <= 2; i++) {
+      try {
+        await CommonActions.waitForElementToBePresent(locator);
+        text = await locator.getText();
+        break;
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
+    return Promise.resolve(text);
   }
 
   public async toggleInsertedLocationsOn(): Promise<void> {
@@ -363,7 +378,7 @@ export class TimeTablePageObject {
   }
 
   private async getTimetableDetailsRowValue(attrId: string): Promise<string> {
-    return element(by.id(attrId)).getText();
+    return this.getNonStaleText(element(by.id(attrId)));
   }
 
   public async waitUntilPropertyValueIs(propertyName: string, expectedString: string): Promise<void> {

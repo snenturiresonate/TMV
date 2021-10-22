@@ -1,6 +1,7 @@
 import {browser, by, ElementFinder} from 'protractor';
 import {TimeTablePageObject} from '../timetable/timetable.page';
 import {CucumberLog} from '../../logging/cucumber-log';
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export class TimetableTableRowPageObject {
   public static locationBy = by.css('td:nth-child(1)');
@@ -54,43 +55,43 @@ export class TimetableTableRowPageObject {
     try {
       switch (valueName) {
         case 'location':
-          let loc = await this.location.getText();
+          let loc = await this.getNonStaleText(this.location);
           if (await this.changeEnRoute.isPresent()) {
-            loc = loc.replace(await this.changeEnRoute.getText(), '').replace('\n', '');
+            loc = loc.replace(await this.getNonStaleText(this.changeEnRoute), '').replace('\n', '');
           }
           return loc;
         case 'changeEnRoute':
-          return this.changeEnRoute.getText();
+          return this.getNonStaleText(this.changeEnRoute);
         case 'plannedArr':
-          return this.plannedArr.getText();
+          return this.getNonStaleText(this.plannedArr);
         case 'plannedDep':
-          return this.plannedDep.getText();
+          return this.getNonStaleText(this.plannedDep);
         case 'publicArr':
-          return this.publicArr.getText();
+          return this.getNonStaleText(this.publicArr);
         case 'publicDep':
-          return this.publicDep.getText();
+          return this.getNonStaleText(this.publicDep);
         case 'plt':
-          return this.plt.getText();
+          return this.getNonStaleText(this.plt);
         case 'path':
-          return this.path.getText();
+          return this.getNonStaleText(this.path);
         case 'ln':
-          return this.ln.getText();
+          return this.getNonStaleText(this.ln);
         case 'allowances':
-          return this.allowances.getText();
+          return this.getNonStaleText(this.allowances);
         case 'activity':
-          return this.activity.getText();
+          return this.getNonStaleText(this.activity);
         case 'actualArr':
-          return this.actualArr.getText();
+          return this.getNonStaleText(this.actualArr);
         case 'actualDep':
-          return this.actualDep.getText();
+          return this.getNonStaleText(this.actualDep);
         case 'actualPlt':
-          return this.actualPlt.getText();
+          return this.getNonStaleText(this.actualPlt);
         case 'actualPath':
-          return this.actualPath.getText();
+          return this.getNonStaleText(this.actualPath);
         case 'actualLn':
-          return this.actualLn.getText();
+          return this.getNonStaleText(this.actualLn);
         case 'punctuality':
-          return this.punctuality.getText();
+          return this.getNonStaleText(this.punctuality);
       }
     }
     catch (issue) {
@@ -112,6 +113,22 @@ export class TimetableTableRowPageObject {
 
   async refreshRowLocator(): Promise<void> {
     this.rowLocator = await TimeTablePageObject.getRowAtIndex(this.index);
+  }
+
+  async getNonStaleText(locator: ElementFinder): Promise<string> {
+    let text;
+    for (let i = 0; i <= 2; i++) {
+      try {
+        await this.refreshRowLocator();
+        await CommonActions.waitForElementToBePresent(locator);
+        text = await locator.getText();
+        break;
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
+    return Promise.resolve(text);
   }
 
 }
