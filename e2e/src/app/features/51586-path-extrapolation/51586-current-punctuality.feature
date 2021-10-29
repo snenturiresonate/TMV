@@ -127,7 +127,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | access-plan/51586-schedules/51586-24.cif | A50024   | 5A24             | 22:49:30  | +1m                 | Departure from Station | 99999               | WVRMPTN                | 22:48:30   |
       | access-plan/51586-schedules/51586-24.cif | A50024   | 5A24             | 22:53:00  | +2m                 | Passing Location       | 99999               | BSBYJN                 | 22:51:00   |
 
-  Scenario Outline: 51586 - 25 Current punctuality after an earlier TRI update
+  Scenario Outline: 51586 - 25 Current punctuality after an earlier TRI update - <messageType>
     * I remove today's train '<trainUid>' from the Redis trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
     And I wait until today's train '<trainUid>' has loaded

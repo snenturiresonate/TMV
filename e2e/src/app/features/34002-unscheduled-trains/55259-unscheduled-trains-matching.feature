@@ -6,7 +6,7 @@ Feature: 34002 - Unscheduled Trains Matching
 
   Background:
     * I reset redis
-    Given I am authenticated to use TMV with 'matching' role
+    * I am authenticated to use TMV with 'matching' role
 
   @bug @bug_65507
   Scenario Outline: 34002:5a Matching Services (several possible matches including cancelled and already matched)
@@ -127,6 +127,7 @@ Feature: 34002 - Unscheduled Trains Matching
       | trainNum | planningUid1 | planningUid2 |
       | 1C12     | L12005       | L12006       |
 
+  @bug @bug:79090
   # Used to be flaky - see 68327
   Scenario Outline: 34002:6b Make Match - matching unmatched step to a matched service - and checking matching change shows on map
     * I remove today's train '<planningUid1>' from the Redis trainlist
