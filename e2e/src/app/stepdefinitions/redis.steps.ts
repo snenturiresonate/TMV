@@ -42,4 +42,5 @@ Given(/^I clear all MTBs$/, async () => {
 
 Given(/^I reset redis$/, async () => {
   await new TMVRedisUtils().reset();
+  await browser.sleep(3000);
 });

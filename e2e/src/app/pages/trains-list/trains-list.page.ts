@@ -27,7 +27,7 @@ export class TrainsListPageObject {
   private redisClient: RedisClient;
 
   // towards the end of the day, trains take a long time to appear on the trains list
-  private trainsListDisplayTimeout = 45 * 1000;
+  private trainsListDisplayTimeout = 60 * 1000;
 
   constructor() {
     this.trainsListItems = element.all(by.css('#train-tbody tr'));

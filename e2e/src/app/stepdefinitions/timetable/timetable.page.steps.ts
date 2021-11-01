@@ -534,7 +534,7 @@ Then('The live timetable actual time entries are populated as follows:', async (
   }
 });
 
-Then('The timetable entries contains the following data, with timings having {word} offset from {string} at {string}', {timeout: 2 * 20000},
+Then('The timetable entries contains the following data, with timings having {word} offset from {string} at {string}', {timeout: 60 * 1000},
   async (liveOrRecorded: string, referenceScenario: string, referenceTime: string, timetableEntryDataTable: any) => {
     let offsetMs = 0;
     if (liveOrRecorded === 'live') {

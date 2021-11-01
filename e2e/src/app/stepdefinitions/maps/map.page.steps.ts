@@ -944,7 +944,7 @@ Given(/^I have cleared out all headcodes$/, async () => {
 Given(/^headcode '(.*)' is present in manual\-trust berth '(.*)'$/, async (headcode: string, berthID: string) => {
   await browser.wait(async () => {
     return (await mapPageObject.getHeadcodesAtManualTrustBerth(berthID)).includes(headcode);
-  }, 30000, `headcode ${headcode} not in manual trust berth stack ${berthID} when should be`);
+  }, 60000, `headcode ${headcode} not in manual trust berth stack ${berthID} when should be`);
 });
 
 Given(/^headcode '(.*)' is not present in manual\-trust berth '(.*)'$/, async (headcode: string, berthID: string) => {
