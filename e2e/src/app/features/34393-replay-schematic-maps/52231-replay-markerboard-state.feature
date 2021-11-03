@@ -4,7 +4,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
   I want the view schematic maps in replay mode
   So that I can view the historic running railway
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393 - 14 Marker Board State (Movement Authority Not Given)
     # Replay Setup - 34081-8 - Marker Board State (Movement Authority Given)
@@ -28,11 +27,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'GW15cambrian.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the marker board 'MH1201' will display a Movement Authority given [green triangle on blue background]
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393 - 15 Marker Board State (Movement Authority Given)
     # Replay Setup - 34081-9 - Marker Board State (Movement Authority Not Given)
@@ -56,6 +54,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'GW15cambrian.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the marker board 'MH1201' will display a Movement Authority not-given [red triangle on blue background]

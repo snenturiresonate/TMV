@@ -43,24 +43,14 @@ Feature: 46446 - Schematic State - Signals
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN128' is green
 
-    @replaySetup
+  @replaySetup
   Scenario:34081 - 3 Main Signal State (Not Proceed)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a main signal
     #And the S-Class message is setting the main signal to not proceed
     #When a user is viewing a map that contains the main signal
     #Then the main signal will display a not proceed aspect (red roundel)
-    And I set up all signals for address 80 in D3 to be proceed
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 80      | FF   | 10:45:00  |
-    Then the signal roundel for signal 'SN128' is green
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 80      | 00   | 10:45:00  |
-    And the maximum amount of time is allowed for end to end transmission
-    Then the signal roundel for signal 'SN128' is red
-
+    * this replay setup test has been moved to become part of the replay test: 34393-9 Main Signal State (Not Proceed)
 
   Scenario: 34081 - 4  Main Signal State (Unknown)
     #Given an S-Class message is received and processed
@@ -73,23 +63,12 @@ Feature: 46446 - Schematic State - Signals
 
   @replaySetup
   Scenario:34081 - 5 Subsidiary Signal State (Proceed)
-
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a subsidiary signal
     #And the S-Class message is setting the subsidiary signal to proceed
     #When a user is viewing a map that contains the subsidiary signal
     #Then the subsidiary signal will display a proceed aspect (white roundel)
-    And I set up all signals for address 29 in D4 to be not-proceed
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D4             | 29      | 00   | 10:45:00  |
-    And the maximum amount of time is allowed for end to end transmission
-    Then the signal roundel for signal 'SN271' is red
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D4             | 29      | 08   | 10:45:00  |
-    And the maximum amount of time is allowed for end to end transmission
-    Then the signal roundel for signal 'SN271' is white
+    * this replay setup test has been moved to become part of the replay test: 34393 - 11 Subsidiary Signal State (Proceed)
 
   @replaySetup
   Scenario:34081 - 6 Shunt Signal State (Proceed)
@@ -98,13 +77,7 @@ Feature: 46446 - Schematic State - Signals
     #And the S-Class message is setting the shunt signal to proceed
     #When a user is viewing a map that contains the shunt signal
     #Then the shunt signal will display a proceed aspect (white quadrant)
-    When I set up all signals for address 8F in D3 to be not-proceed
-    And the shunt signal state for signal 'SN6142' is red
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 8F      | 03   | 10:02:06  |
-    And the maximum amount of time is allowed for end to end transmission
-    Then the shunt signal state for signal 'SN6142' is white
+    * this replay setup test has been moved to become part of the replay test: 34393 - 12 Shunt Signal State (Proceed)
 
   @replaySetup
   Scenario: 34081 - 7 Shunt Signal State (Not Proceed)
@@ -113,10 +86,4 @@ Feature: 46446 - Schematic State - Signals
     #And the S-Class message is setting the shunt signal to not proceed
     #When a user is viewing a map that contains the shunt signal
     #Then the shunt signal will display a not proceed aspect (red quadrant)
-    When I set up all signals for address 8F in D3 to be proceed
-    And the shunt signal state for signal 'SN6142' is white
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 8F      | 00   | 10:02:06  |
-    And the maximum amount of time is allowed for end to end transmission
-    Then the shunt signal state for signal 'SN6142' is red
+    * this replay setup test has been moved to become part of the replay test: 34393 - 13 Shunt Signal State (Not Proceed)

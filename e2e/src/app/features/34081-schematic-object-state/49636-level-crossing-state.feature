@@ -11,14 +11,7 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
     #And the S-Class message is setting the Level Crossing to "Proved up"
     #When a user is viewing a map that contains the Level Crossing
     #Then the Level Crossing will display an "Up" lefthand side
-    Given I am viewing the map gw08cardiffswml.v
-    And I set up all signals for address 7D in C2 to be not-proceed
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | C2             | 7D      | 30   | 10:45:00  |
-    Then the level crossing barrier status of 'C2LXPN' is Up
-    And the level crossing barrier status of 'C2PNWK' is Wk
-
+    * this replay setup test has been moved to become part of the replay test: 34393 - 27 Level Crossing State (Up)
 
   @replaySetup
   Scenario: 34081 - 22 Level Crossing State (Down)
@@ -27,12 +20,7 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
     #And the S-Class message is setting the Level Crossing to "Down"
     #When a user is viewing a map that contains the Level Crossing
     #Then the Level Crossing will display a "Dn" on the left side and a "Wk" for the working on the right side
-    Given I am viewing the map md19marstonvale.v
-    And I set up all signals for address 1E in RT to be not-proceed
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | RT             | 1E      | 02   | 10:45:00  |
-    Then the level crossing barrier status of 'RTFSUD' is Dn
+    * this replay setup test has been moved to become part of the replay test: 34393 - 28 Level Crossing State (Down)
 
   @replaySetup
   Scenario Outline: 34081 - 23 Level Crossing State - <significance>
@@ -61,12 +49,7 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
     #And the S-Class message is setting the Direction Lock to not locked
     #When a user is viewing a map that contains the Direction Lock
     #Then the Direction Lock will display a chevron in the direction of the lock
-    Given I am viewing the map gw15cambrian.v
-    And I set up all signals for address 36 in MH to be not-proceed
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | MH             | 36      | 02   | 10:45:00  |
-    Then the direction lock chevron of 'MHSBWP' is <
+    * this replay setup test has been moved to become part of the replay test: 34393 - 30a Direction Lock State (Locked)
 
   @replaySetup
   Scenario: 34081 - 24b Direction Lock State (Locked) both directions
@@ -75,13 +58,7 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
     #And the S-Class message is setting the Direction Lock to not locked
     #When a user is viewing a map that contains the Direction Lock
     #Then the Direction Lock will display a chevron in the direction of the lock
-    Given I am viewing the map gw15cambrian.v
-    And I set up all signals for address 37 in MH to be not-proceed
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | MH             | 37      | 03   | 10:45:00  |
-    Then the direction lock chevron of 'MHDJMH' is >
-    And the direction lock chevron of 'MHMHDJ' is <
+    * this replay setup test has been moved to become part of the replay test: 34393 - 30b Direction Lock State (Locked) both directions
 
   @replaySetup
   Scenario: 34081 - 25 Direction Lock State (Not Locked)
@@ -90,14 +67,7 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
     #And the S-Class message is setting the Direction Lock to not locked
     #When a user is viewing a map that contains the Direction Lock
     #Then the Direction Lock will not display a chevron
-    Given I am viewing the map gw15cambrian.v
-    And I set up all signals for address 37 in MH to be not-proceed
-    And I set up all signals for address 38 in MH to be not-proceed
-    And I set up all signals for address 36 in MH to be proceed
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | MH             | 36      | 00   | 10:45:00  |
-    Then the direction lock chevrons are not displayed
+    * this replay setup test has been moved to become part of the replay test: 34393 - 31 Direction Lock State (Not Locked)
 
   @replaySetup
   Scenario: 34081 - 26 AES State (AES Applied)
@@ -106,12 +76,7 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
     #And the S-Class message is setting the AES to applied
     #When a user is viewing a map that contains an AES indicator
     #Then the AES box will display an AES text (purple) in the box
-    Given I am viewing the map gw15cambrian.v
-    And I set up all signals for address 35 in MH to be not-proceed
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | MH             | 35      | 02   | 10:45:00  |
-    Then the AES box containing s-class-berth 'MHAES2' will display purple aes text of 'ES2'
+    * this replay setup test has been moved to become part of the replay test: 34393 - 32 AES State (AES Applied)
 
   @replaySetup
   Scenario: 34081 - 27 AES State (AES Not Applied)
@@ -120,12 +85,4 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
       #And the S-Class message is setting the AES to not applied
       #When a user is viewing a map that contains an AES indicator
       #Then the AES box will not display an AES text (purple) in the box
-    Given I am viewing the map gw15cambrian.v
-    And I set up all signals for address 35 in MH to be proceed
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | MH             | 35      | 0D   | 10:45:00  |
-    Then the AES box containing s-class-berth 'MHAES1' will display purple aes text of 'ES1'
-    And the AES box containing s-class-berth 'MHAES3' will display purple aes text of 'ES3'
-    And the AES box containing s-class-berth 'MHAES4' will display purple aes text of 'ES4'
-    And the AES box containing s-class-berth 'MHAES2' will display no aes text of 'ES2'
+    * this replay setup test has been moved to become part of the replay test: 34393 - 33 AES State (AES Not Applied)

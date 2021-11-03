@@ -4,7 +4,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
   I want the view schematic maps in replay mode
   So that I can view the historic running railway
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393 - 27 Level Crossing State (Up)
     # Replay Setup - 34081 - 21 Level Crossing State (Up)
@@ -27,12 +26,11 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     And I select the map 'GW08cardiffswml.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the level crossing barrier status of 'C2LXPN' is Up
     And the level crossing barrier status of 'C2PNWK' is Wk
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393 - 28 Level Crossing State (Down)
     # Replay Setup - 34081 - 22 Level Crossing State (Down)
@@ -54,11 +52,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     And I select the map 'MD19marstonvale.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the level crossing barrier status of 'RTFSUD' is Dn
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393 - 29 Level Crossing State (Failed)
     # Replay Setup - 34081 - 23 Level Crossing State - verification of non-working state display
@@ -80,12 +77,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     And I select the map 'MD19marstonvale.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
-    Then the level crossing barrier status of 'RTLLUD' is Dn
     Then the level crossing barrier status of 'RTLLFL' is Fal
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393 - 30a Direction Lock State (Locked)
     # Replay Setup - 34081 - 24a Direction Lock State (Locked)
@@ -107,11 +102,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     And I select the map 'GW15cambrian.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the direction lock chevron of 'MHSBWP' is <
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393 - 30b Direction Lock State (Locked) both directions
     # Replay Setup - 34081 - 24b Direction Lock State (Locked) both directions
@@ -124,15 +118,13 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     * the direction lock chevron of 'MHMHDJ' is <
 
     # Replay Test
-    Given I load the replay data from scenario '34081 - 24b Direction Lock State (Locked) both directions'
     And I am on the replay page
-    When I have set replay time and date from the recorded session
     And I select Next
     And I expand the replay group of maps with name 'Wales & Western'
-    And I select the map 'gw15cambrian.v'
+    And I select the map 'GW15cambrian.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the direction lock chevron of 'MHDJMH' is >
     And the direction lock chevron of 'MHMHDJ' is <
@@ -160,13 +152,12 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     And I select the map 'GW15cambrian.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the direction lock chevrons are not displayed
 
-  @bug @bug:78878
   @replayTest
-  Scenario:34393 - 32 AES State (AES Applied)
+  Scenario: 34393 - 32 AES State (AES Applied)
     # Replay Setup - 34081 - 26 AES State (AES Applied)
     * I am viewing the map GW15cambrian.v
     * I set up all signals for address 35 in MH to be not-proceed
@@ -186,13 +177,12 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     And I select the map 'GW15cambrian.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the AES box containing s-class-berth 'MHAES2' will display purple aes text of 'ES2'
 
-  @bug @bug:78878
   @replayTest
-  Scenario:34393 - 33 AES State (AES Not Applied)
+  Scenario: 34393 - 33 AES State (AES Not Applied)
     # Replay Setup - 34081 - 27 AES State (AES Not Applied)
     * I am viewing the map GW15cambrian.v
     * I set up all signals for address 35 in MH to be proceed
@@ -215,7 +205,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     And I select the map 'GW15cambrian.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the AES box containing s-class-berth 'MHAES1' will display purple aes text of 'ES1'
     And the AES box containing s-class-berth 'MHAES3' will display purple aes text of 'ES3'

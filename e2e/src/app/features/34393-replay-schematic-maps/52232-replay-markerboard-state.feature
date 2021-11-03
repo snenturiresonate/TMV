@@ -17,7 +17,7 @@ Feature: 52232 - Replay page Schematic Object State Scenarios
     And I select the map 'GW15cambrian.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the marker board 'MH1221' will display a Movement Authority unknown [grey triangle on blue background]
 

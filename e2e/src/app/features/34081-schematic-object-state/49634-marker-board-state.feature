@@ -15,12 +15,7 @@ Feature: 49634 - Schematic State - marker-board state
     #    And the S-Class message is setting the marker board to Movement Authority given
     #    When a user is viewing a map that contains the marker board
     #    Then the marker board will display a Movement Authority given (green triangle on blue background)
-    And I set up all signals for address 31 in MH to be not-proceed
-    And the marker board triangle for marker board 'MH1201' is red
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | MH             | 31      | 02   | 10:45:00  |
-    Then the marker board 'MH1201' will display a Movement Authority given [green triangle on blue background]
+    * this replay setup test has been moved to become part of the replay test: 34393 - 14 Marker Board State (Movement Authority Not Given)
 
   @replaySetup
   Scenario: 34081-9 - Marker Board State (Movement Authority Not Given)
@@ -29,12 +24,7 @@ Feature: 49634 - Schematic State - marker-board state
     #    And the S-Class message is setting the marker board to Movement Authority not given
     #    When a user is viewing a map that contains the marker board
     #    Then the marker board will display a Movement Authority not given (red triangle on blue background)
-    And I set up all signals for address 31 in MH to be proceed
-    And the marker board triangle for marker board 'MH1201' is green
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | MH             | 31      | FC   | 10:45:00  |
-    Then the marker board 'MH1201' will display a Movement Authority not-given [red triangle on blue background]
+    * this replay setup test has been moved to become part of the replay test: 34393 - 15 Marker Board State (Movement Authority Given)
 
   @replaySetup
   Scenario: 34081-10 - Marker Board State (Movement Authority Unknown)
@@ -52,12 +42,7 @@ Feature: 49634 - Schematic State - marker-board state
     #    And the S-Class message is setting the shunt marker board to Movement Authority given
     #    When a user is viewing a map that contains the shunt marker board
     #    Then the shunt marker board will display a Movement Authority given (white triangle with blue inner triangle)
-    And I set up all signals for address 31 in MH to be not-proceed
-    And the shunt marker board triangle for shunt marker board 'MH1199' is red
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | MH             | 31      | 01   | 10:45:00  |
-    Then the shunt marker board 'MH1199' will display a Movement Authority given [white triangle with blue inner triangle]
+    * this replay setup test has been moved to become part of the replay test: 34393-18 Shunt Marker Board State (Movement Authority Given)
 
   @replaySetup
   Scenario: 34081-13 - Shunt Marker Board State (Movement Authority Not Given)
@@ -66,12 +51,7 @@ Feature: 49634 - Schematic State - marker-board state
     #    And the S-Class message is setting the shunt marker board to Movement Authority not given
     #    When a user is viewing a map that contains the shunt marker board
     #    Then the shunt marker board will display a Movement Authority not given (red triangle with blue inner triangle)
-    And I set up all signals for address 31 in MH to be proceed
-    And the shunt marker board triangle for shunt marker board 'MH1199' is white
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | MH             | 31      | FE   | 10:45:00  |
-    Then the shunt marker board 'MH1199' will display a Movement Authority not-given [red triangle with blue inner triangle]
+    * this replay setup test has been moved to become part of the replay test: 34393-19 Shunt Marker Board State (Movement Authority Not Given)
 
   @replaySetup
   Scenario: 34081-14 - Shunt Marker Board State (Movement Authority Unknown)
@@ -80,4 +60,4 @@ Feature: 49634 - Schematic State - marker-board state
     #    And the S-Class message is setting the shunt marker board to Movement Authority unknown
     #    When a user is viewing a map that contains the shunt marker board
     #    Then the shunt marker board will display a Movement Authority unknown (grey triangle with blue inner triangle)
-    Then the shunt marker board 'MH1199' will display a Movement Authority unknown [grey triangle with blue inner triangle]
+    * this replay setup test has been moved to become part of the replay test: 34393-20 Shunt Marker Board State (Movement Authority Unknown)

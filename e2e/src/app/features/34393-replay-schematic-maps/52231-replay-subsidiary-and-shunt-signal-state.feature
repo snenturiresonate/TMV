@@ -7,9 +7,8 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
   Background:
     * I am viewing the map HDGW01paddington.v
 
-  @bug @bug:78878
   @replayTest
-  Scenario:34393 - 11 Subsidiary Signal State (Proceed)
+  Scenario: 34393 - 11 Subsidiary Signal State (Proceed)
     # Replay Setup - 34081 - 5 Subsidiary Signal State (Proceed)
     * I set up all signals for address 29 in D4 to be not-proceed
     * the following signalling update message is sent from LINX
@@ -34,13 +33,12 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW01paddington.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the signal roundel for signal 'SN271' is white
 
-  @bug @bug:78878
   @replayTest
-  Scenario:34393 - 12 Shunt Signal State (Proceed)
+  Scenario: 34393 - 12 Shunt Signal State (Proceed)
     # Replay Setup - 34081 - 6 Shunt Signal State (Proceed)
     * I set up all signals for address 8F in D3 to be not-proceed
     * the shunt signal state for signal 'SN6142' is red
@@ -61,11 +59,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW01paddington.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the shunt signal state for signal 'SN6142' is white
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393 - 13 Shunt Signal State (Not Proceed)
     # Replay Setup - 34081 - 7 Shunt Signal State (Not Proceed)
@@ -88,6 +85,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW01paddington.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the shunt signal state for signal 'SN6142' is red

@@ -328,6 +328,11 @@ Then('the replay is paused', async () => {
   expect(latestReplayTimestamp, 'Replay has not been paused').to.equal(browser.capturedReplayTimestamp);
 });
 
+Given(/^this replay setup test has been moved to become part of the replay test: (.*)$/, async (replayTest: string) => {
+  await CucumberLog.addText(`See ${replayTest}`);
+});
+
+
 async function formulateDateTime(timeStamp: string): Promise<Date> {
   const dateTime = LocalDateTime.parse(timeStamp, DateTimeFormatter.ofPattern('dd/MM/yyy HH:mm:ss'));
   const parsedDateTime = new Date(

@@ -4,7 +4,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
   I want the view schematic maps in replay mode
   So that I can view the historic running railway
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393-7 Current Signal State
     # Replay Setup - 34081-1 Current Signal State
@@ -22,16 +21,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW01paddington.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the signal roundel for signal 'SN128' is red
-    When I launch a new map 'HDGW02' the new map should have start time from the moment it was opened
-    And I switch to the new tab
-    Then the signal roundel for signal 'SN128' is red
-    And I refresh the browser
-    Then the signal roundel for signal 'SN128' is red
 
-  @bug @bug:78878
   @replayTest
   Scenario:34393-8 Main Signal State (Proceed)
     # Replay Setup - 34081 - 2  Main Signal State Proceed
@@ -53,11 +46,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW01paddington.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the signal roundel for signal 'SN128' is green
 
-  @bug @bug:78878
   @replayTest
   Scenario:34393-9 Main Signal State (Not Proceed)
     # Replay Setup - 34081 - 3 Main Signal State (Not Proceed)
@@ -79,7 +71,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW01paddington.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the signal roundel for signal 'SN128' is red
 
@@ -94,11 +86,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW01paddington.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the signal roundel for signal 'SN228' is grey
 
-  @bug @bug:78878
   @replayTest
   Scenario:34393-34 Track State (Route Set)
     # Replay Setup - 34081 - 28 Track State (Route Set)
@@ -121,7 +112,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW01paddington.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
     And the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in solid white
@@ -153,13 +144,12 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW01paddington.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
     And the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in solid white
     And the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393-36 Dual Signals
     # Replay Setup - 34081 - 30 Dual Signals
@@ -182,12 +172,11 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW01paddington.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the signal roundel for signal 'SN212' is red
     And the signal roundel for signal 'SN212' is green
 
-  @bug @bug:78878
   @replayTest
   Scenario:34393-37b Q Berth
     # Replay Setup - 34081 - 31 Q Berth
@@ -206,11 +195,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW06gloucester.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the s-class-berth 'GLQ070' will display '1' Route indication of 'DC'
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393-38a TRTS (Set from red)
     # Replay Setup - 34081 - 32a TRTS (Set - from red)
@@ -233,13 +221,12 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW01paddington.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the signal roundel for signal 'SN9' is red
     And the TRTS status for signal 'SN8' is white
     And the TRTS visibility status for 'SN9' is visible
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393-38b TRTS (Set from Green)
     # Replay Setup - 34081 - 32b TRTS (Set - from green)
@@ -262,13 +249,12 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW01paddington.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the signal roundel for signal 'SN9' is green
     And the TRTS status for signal 'SN9' is white
     And the TRTS visibility status for 'SN9' is visible
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393-39a TRTS (Not Set from red)
     # Replay Setup - 34081 - 33a TRTS (Not Set back)
@@ -297,14 +283,13 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW01paddington.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the TRTS status for signal 'SN9' is white
     And the TRTS visibility status for 'SN9' is visible
     And the signal roundel for signal 'SN9' is red
     And the TRTS visibility status for 'SN9' is hidden
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393-39b TRTS (Not Set from red)
     # Replay Setup - 34081 - 33b TRTS (Not Set)
@@ -332,7 +317,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     And I select the map 'HDGW01paddington.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the TRTS status for signal 'SN9' is white
     And the TRTS visibility status for 'SN9' is visible

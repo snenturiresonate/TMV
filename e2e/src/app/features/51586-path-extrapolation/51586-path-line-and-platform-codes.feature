@@ -7,6 +7,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
   Background:
     Given I reset redis
 
+  @flaky @manual
   Scenario Outline: 51586 - 26 Actual path and line code displayed
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -59,6 +60,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | access-plan/1D46_PADTON_OXFD-RDNGSTN_PASSING.cif | 1C27             | E51586   | 1685      | 1686    | 1733       | D1             | Reading  | 9        |
       | access-plan/1D46_PADTON_OXFD-RDNGSTN_PASSING.cif | 1D27             | F51586   | 1685      | 1684    | 1733       | D1             | Reading  | 8        |
 
+  @flaky @manual
   Scenario Outline: 51586 - 28 Predicted path and line code displayed
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |

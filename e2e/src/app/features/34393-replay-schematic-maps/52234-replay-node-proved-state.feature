@@ -7,7 +7,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Node Proved
   Background:
     * I am viewing the map GW15cambrian.v
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393 - 21 Node Proven State (Given)
     # Replay Setup - 34081-15 - Node Proven State (Given)
@@ -28,11 +27,10 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Node Proved
     And I select the map 'GW15cambrian.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the shunt-marker-board 'MH000C' will display a Node Proven given [a green cross next to the shunt marker board]
 
-  @bug @bug:78878
   @replayTest
   Scenario: 34393 - 22 Node Proven State (Not Given)
     # Replay Setup - 34081-16 - Node Proven State (Not Given)
@@ -54,6 +52,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Node Proved
     And I select the map 'GW15cambrian.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the shunt-marker-board 'MH000C' will display a Node Proven not-given [no green cross next to the shunt marker board]

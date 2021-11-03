@@ -29,7 +29,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Active Shunters 
     And I select the map 'GW5Abristolparkway.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the shunters-release 'BL7023' will display a given state [a white cross in the white box]
 
@@ -54,6 +54,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Active Shunters 
     And I select the map 'GW5Abristolparkway.v'
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    And I increase the replay speed at position 5
+    And I increase the replay speed at position 15
     When I click Play button
     Then the shunters-release 'BL7023' will display a not-given state [no white cross in the white box]
