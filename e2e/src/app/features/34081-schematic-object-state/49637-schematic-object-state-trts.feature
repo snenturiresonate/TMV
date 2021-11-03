@@ -11,12 +11,12 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     #And the S-Class message is setting the track(s) to route set
     #When a user is viewing a map that contains the track(s)
     #Then the track(s) will be displayed in solid white
-    Given I am viewing the map hdgw01paddington.v
+    Given I am viewing the map HDGW01paddington.v
     And I set up all signals for address 06 in D3 to be not-proceed
     And the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 06      | 08   | 10:45:00  |
+    When the following live signalling update message is sent from LINX
+      | trainDescriber | address | data |
+      | D3             | 06      | 08   |
     Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in solid white
 
   @replaySetup
@@ -27,16 +27,16 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     #And the S-Class message is setting the track(s) to route not set
     #When a user is viewing a map that contains the track(s)
     #Then the track(s) will be displayed in thin white
-    Given I am viewing the map hdgw01paddington.v
+    Given I am viewing the map HDGW01paddington.v
     And I set up all signals for address 06 in D3 to be not-proceed
     And the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
-    And the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 06      | 08   | 10:45:00  |
+    And the following live signalling update message is sent from LINX
+      | trainDescriber | address | data |
+      | D3             | 06      | 08   |
     And the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in solid white
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 06      | 00   | 10:45:00  |
+    When the following live signalling update message is sent from LINX
+      | trainDescriber | address | data |
+      | D3             | 06      | 00   |
     Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
 
   @replaySetup
@@ -48,10 +48,10 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     Given I am viewing the map hdgw01paddington.v
     And I set up all signals for address 92 in D3 to be not-proceed
     And the signal roundel for signal 'SN212' is red
-    When the following signalling update messages are sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 92      | 04   | 10:03:00  |
-      | D3             | 92      | 08   | 10:03:00  |
+    When the following live signalling update messages are sent from LINX
+      | trainDescriber | address | data |
+      | D3             | 92      | 04   |
+      | D3             | 92      | 08   |
     Then the signal roundel for signal 'SN212' is green
 
   @replaySetup
@@ -78,9 +78,9 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be not-proceed
     Then the signal roundel for signal 'SN9' is red
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 10   | 10:45:00  |
+    When the following live signalling update message is sent from LINX
+      | trainDescriber | address | data |
+      | D3             | 50      | 10   |
     Then the TRTS status for signal 'SN8' is white
     And the TRTS visibility status for 'SN9' is visible
 
@@ -93,9 +93,9 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     When I set up all signals for address 50 in D3 to be not-proceed
     And I set up all signals for address 78 in D3 to be proceed
     Then the signal roundel for signal 'SN9' is green
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 10   | 10:45:00  |
+    When the following live signalling update message is sent from LINX
+      | trainDescriber | address | data |
+      | D3             | 50      | 10   |
     Then the TRTS status for signal 'SN9' is white
     And the TRTS visibility status for 'SN9' is visible
 
@@ -109,14 +109,14 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     And I set up all signals for address 78 in D3 to be not-proceed
     And the signal roundel for signal 'SN9' is red
     And the TRTS visibility status for 'SN9' is hidden
-    And the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 10   | 10:45:00  |
+    And the following live signalling update message is sent from LINX
+      | trainDescriber | address | data |
+      | D3             | 50      | 10   |
     And the TRTS status for signal 'SN9' is white
     And the TRTS visibility status for 'SN9' is visible
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 00   | 10:45:00  |
+    When the following live signalling update message is sent from LINX
+      | trainDescriber | address | data |
+      | D3             | 50      | 00   |
     Then the signal roundel for signal 'SN9' is red
     And the TRTS visibility status for 'SN9' is hidden
 
@@ -130,13 +130,13 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     And I set up all signals for address 78 in D3 to be proceed
     And the signal roundel for signal 'SN9' is green
     #And the TRTS visibility status for 'SN1' is hidden
-    And the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 10   | 10:45:00  |
+    And the following live signalling update message is sent from LINX
+      | trainDescriber | address | data |
+      | D3             | 50      | 10   |
     And the TRTS status for signal 'SN9' is white
     And the TRTS visibility status for 'SN9' is visible
-    When the following signalling update message is sent from LINX
-      | trainDescriber | address | data | timestamp |
-      | D3             | 50      | 00   | 10:45:00  |
+    When the following live signalling update message is sent from LINX
+      | trainDescriber | address | data |
+      | D3             | 50      | 00   |
     Then the signal roundel for signal 'SN9' is green
     And the TRTS visibility status for 'SN9' is hidden

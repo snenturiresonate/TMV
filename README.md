@@ -35,3 +35,20 @@ Run `npm run e2e-ci --ci_ip=10.5.0.234` to execute the end-to-end tests via [Pro
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Example commands to resolve chromedriver conflict issues
+### Linux
+```shell
+sudo apt-get --only-upgrade install google-chrome-stable
+chromeVersion=$(google-chrome-stable --version | cut -d ' ' -f 3)
+node node_modules/protractor/bin/webdriver-manager clean
+node node_modules/protractor/bin/webdriver-manager update --versions.chrome=${chromeVersion}
+```
+### Mac
+```shell
+chromeVersion=$(/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version | cut -d ' ' -f 3)
+node node_modules/protractor/bin/webdriver-manager status
+node node_modules/protractor/bin/webdriver-manager clean
+node node_modules/protractor/bin/webdriver-manager update --versions.chrome=${chromeVersion}
+```
+

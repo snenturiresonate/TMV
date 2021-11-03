@@ -26,9 +26,9 @@ export class TrainsListServiceFilterTabPage {
   }
 
   public async waitForTrustIds(): Promise<boolean> {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       return element(by.id('services-filter-table-body')).isPresent();
-    }, browser.displayTimeout, 'The trust ID table should be displayed');
+    }, browser.params.general_timeout, 'The trust ID table should be displayed');
     return element(by.id('services-filter-table-body')).isPresent();
   }
 

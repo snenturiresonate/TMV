@@ -6,7 +6,7 @@ Feature: 49634 - Schematic State - marker-board state
 
   Background:
     * I reset redis
-    Given I am viewing the map gw15cambrian.v
+    * I am viewing the map gw15cambrian.v
 
   @replaySetup
   Scenario: 34081-8 - Marker Board State (Movement Authority Given)

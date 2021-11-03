@@ -614,7 +614,7 @@ Then('{string} are {word} displayed', async (expectedTrainDescriptions: string, 
   const expectedTLServiceValues = expectedTrainDescriptions.split(',', 10).map(item => item.trim());
   let actualTLServiceValues: string[] = [];
 
-  browser.wait(async () => {
+  await browser.wait(async () => {
     actualTLServiceValues = await trainsListPage.getTrainsListValuesForColumn('train-description');
     if (isDisplayed === 'not') {
       for (const item of expectedTLServiceValues) {
@@ -630,7 +630,7 @@ Then('{string} are {word} displayed', async (expectedTrainDescriptions: string, 
       }
     }
     return true;
-  }, 60000, `Expected ${expectedTLServiceValues} to ${isDisplayed} contain ${actualTLServiceValues}`);
+  }, browser.params.general_timeout, `Expected ${expectedTLServiceValues} to ${isDisplayed} contain ${actualTLServiceValues}`);
 
   actualTLServiceValues = await trainsListPage.getTrainsListValuesForColumn('train-description');
   if (isDisplayed === 'not') {

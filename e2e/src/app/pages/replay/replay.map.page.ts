@@ -53,7 +53,7 @@ export class ReplayMapPage {
 
   public async rightClickContinuationLink(linkText: any): Promise<void> {
     browser.actions().click(this.getContinuationLinkLocator(linkText), protractor.Button.RIGHT).perform();
-    browser.wait(this.continuationLinkContextMenu.isDisplayed());
+    await browser.wait(this.continuationLinkContextMenu.isDisplayed());
   }
 
   private getContinuationLinkLocator(linkText): ElementFinder {
@@ -124,10 +124,10 @@ export class ReplayMapPage {
   }
 
   private async setReplaySpeed(speed: ReplaySpeed): Promise<void> {
-    await browser.wait(() => this.replaySpeedButton.isPresent(), 20 * 1000);
+    await browser.wait(() => this.replaySpeedButton.isPresent(), browser.params.replay_timeout);
     await this.replaySpeedButton.click();
     const el = element(by.css('.speeds .speed:nth-child(' + speed.valueOf() + ')'));
-    await browser.wait(() => el.isPresent(), 20 * 1000);
+    await browser.wait(() => el.isPresent(), browser.params.replay_timeout);
     await browser.actions().mouseMove(el).click().perform();
   }
 

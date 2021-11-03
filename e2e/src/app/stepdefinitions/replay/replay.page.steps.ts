@@ -95,7 +95,7 @@ When(/^I open the next map in a new tab from the continuation button context men
 });
 
 Then(/^the context menu for the continuation button has options to open the map within to the same view or new tab$/, async () => {
-  browser.wait(ExpectedConditions.visibilityOf(replayPage.continuationLinkContextMenu.open));
+  await browser.wait(ExpectedConditions.visibilityOf(replayPage.continuationLinkContextMenu.open));
   expect(await replayPage.continuationLinkContextMenu.open.isPresent()).to.equal(true);
   expect(await replayPage.continuationLinkContextMenu.openNewTab.isPresent()).to.equal(true);
 });
@@ -143,7 +143,7 @@ Then(/^the replay time selection is presented$/, async () => {
 });
 
 Then(/^the replay map selection is presented$/, async () => {
-  browser.wait(ExpectedConditions.visibilityOf(replaySelectMapPage.selectYourMapTitle));
+  await browser.wait(ExpectedConditions.visibilityOf(replaySelectMapPage.selectYourMapTitle));
   expect((await replaySelectMapPage.mapsInputBox.isPresent())).to.equal(true);
   expect((await replaySelectMapPage.mapsListContainer.isPresent())).to.equal(true);
 });
@@ -233,6 +233,12 @@ When('I click Stop button', async () => {
 
 When('I click Skip forward button', async () => {
   await replayPage.selectSkipForward();
+});
+
+When('I click Skip forward button {string} times', async (clickQuantity: number) => {
+  for (let i = 0; i < clickQuantity; i++) {
+    await replayPage.selectSkipForward();
+  }
 });
 
 When('I click Skip back button', async () => {

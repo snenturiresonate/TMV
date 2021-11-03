@@ -125,7 +125,7 @@ Then('I click on all the unselected column entries', async () => {
   return browser.wait(async () => {
     const unselectedCount = await trainsListColumnConfigPage.trainListConfigUnselected.count();
     return unselectedCount === 0;
-  }, browser.displayTimeout, 'Not all columns have moved across');
+  }, browser.params.general_timeout, 'Not all columns have moved across');
 });
 
 Then('I click on all the selected column entries', async () => {
@@ -134,16 +134,16 @@ Then('I click on all the selected column entries', async () => {
   return browser.wait(async () => {
     const selectedCount = await trainsListColumnConfigPage.trainListConfigSelectedSecondElements.count();
     return selectedCount === 0;
-  }, browser.displayTimeout, 'Not all columns have moved across');
+  }, browser.params.general_timeout, 'Not all columns have moved across');
 });
 
 When('I set trains list columns to be {string}', {timeout: 15 * 1000}, async (wantedColumns: string) => {
   CommonActions.waitForElementToBePresent(trainsListColumnConfigPage.trainListConfigSelectedSecondElements.get(0));
   await trainsListColumnConfigPage.trainListConfigSelectedSecondElements.click();
-  browser.wait(async () => {
+  await browser.wait(async () => {
     const selectedCount = await trainsListColumnConfigPage.trainListConfigSelectedSecondElements.count();
     return selectedCount === 0;
-  }, browser.displayTimeout, 'Not all columns have moved across');
+  }, browser.params.general_timeout, 'Not all columns have moved across');
   const userTLColumns = wantedColumns.split(',', 16).map(item => item.trim());
   for (let i = 0; i < userTLColumns.length; i++) {
     await trainsListColumnConfigPage.moveToSelectedList(userTLColumns[i], i);
@@ -158,10 +158,10 @@ When('I set trains list columns to be {string}', {timeout: 15 * 1000}, async (wa
 When('I set trains list columns to the default', {timeout: 15 * 1000}, async () => {
   CommonActions.waitForElementToBePresent(trainsListColumnConfigPage.trainListConfigSelectedSecondElements.get(0));
   await trainsListColumnConfigPage.trainListConfigSelectedSecondElements.click();
-  browser.wait(async () => {
+  await browser.wait(async () => {
     const selectedCount = await trainsListColumnConfigPage.trainListConfigSelectedSecondElements.count();
     return selectedCount === 0;
-  }, browser.displayTimeout, 'Not all columns have moved across');
+  }, browser.params.general_timeout, 'Not all columns have moved across');
   const defaultColumns = 'Schedule Type, Service, Last Reported Time, Last Reported Location, Punctuality, Origin, Destination, Next location, Operator';
   const userTLColumns = defaultColumns.split(',', 16).map(item => item.trim());
   for (let i = 0; i < userTLColumns.length; i++) {
@@ -197,10 +197,10 @@ When('I set trains list columns to include {string} along with the mandatory col
   const colsToAdd = wantedColumns.split(',', 16).map(item => item.trim());
   CommonActions.waitForElementToBePresent(trainsListColumnConfigPage.trainListConfigSelectedSecondElements.get(0));
   await trainsListColumnConfigPage.trainListConfigSelectedSecondElements.click();
-  browser.wait(async () => {
+  await browser.wait(async () => {
     const selectedCount = await trainsListColumnConfigPage.trainListConfigSelectedSecondElements.count();
     return selectedCount === 0;
-  }, browser.displayTimeout, 'Not all columns have moved across');
+  }, browser.params.general_timeout, 'Not all columns have moved across');
   for (const item of colsToAdd) {
     await trainsListColumnConfigPage.moveToSelectedList(item, -1);
   }

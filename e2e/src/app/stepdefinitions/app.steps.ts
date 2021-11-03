@@ -141,18 +141,18 @@ Given(/^I navigate to (.*) page without prior authentication$/, async (pageName:
   }
 });
 
-Given(/^I am viewing the map (.*)$/, {timeout: 40000}, async (mapId: string) => {
+Given(/^I am viewing the map (.*)$/, {timeout: browser.params.general_timeout}, async (mapId: string) => {
   const url = '/tmv/maps/' + mapId;
   await page.navigateTo(url);
   await MapPageObject.waitForTracksToBeDisplayed();
 });
 
-Given(/^I view the map (.*) as (.*) user$/, {timeout: 40000}, async (mapId: string, user: string) => {
+Given(/^I view the map (.*) as (.*) user$/, {timeout: browser.params.general_timeout}, async (mapId: string, user: string) => {
   const url = '/tmv/maps/' + mapId;
   await page.navigateTo(url, user);
 });
 
-Given(/^I view the map (.*) without prior authentication$/, {timeout: 40000}, async (mapId: string) => {
+Given(/^I view the map (.*) without prior authentication$/, {timeout: browser.params.general_timeout}, async (mapId: string) => {
   const url = '/tmv/maps/' + mapId;
   await page.navigateToWithoutSignIn(url);
 });

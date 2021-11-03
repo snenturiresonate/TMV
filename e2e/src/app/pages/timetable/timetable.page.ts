@@ -115,7 +115,7 @@ export class TimeTablePageObject {
           `no row for location ${location} instance ${instance}, locations available are ${timetableLocations.join(',')}`);
         return false;
       }
-    }, 60000, 'Waiting to get location row index');
+    }, browser.params.general_timeout, 'Waiting to get location row index');
     return index;
   }
 
@@ -156,9 +156,9 @@ export class TimeTablePageObject {
     return timetableTabClasses.indexOf('tmv-tab-timetable-active') > -1;
   }
   public async isTimetableServiceDescriptionVisible(): Promise<boolean> {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       return this.headerHeadcode.isPresent();
-    }, browser.displayTimeout, 'The timetable service information description should be displayed');
+    }, browser.params.general_timeout, 'The timetable service information description should be displayed');
 
     return this.headerHeadcode.isPresent();
   }
@@ -166,7 +166,7 @@ export class TimeTablePageObject {
   public async getHeaderTrainDescription(): Promise<string> {
     await browser.wait(async () => {
       return this.headerHeadcode.isPresent();
-    }, browser.displayTimeout, 'The timetable header train description should be displayed');
+    }, browser.params.general_timeout, 'The timetable header train description should be displayed');
 
     const currentDescription: string = await this.getNonStaleText(this.headerHeadcode);
     const plannedDescription: string = await this.headerOldHeadcode.isPresent()
@@ -178,7 +178,7 @@ export class TimeTablePageObject {
   public async getHeaderTrainUID(): Promise<string> {
     await browser.wait(async () => {
       return this.headerTrainUid.isPresent();
-    }, browser.displayTimeout, 'The timetable header train UID should be displayed');
+    }, browser.params.general_timeout, 'The timetable header train UID should be displayed');
 
     const trainUID: string = await this.getNonStaleText(this.headerTrainUid);
     return of(trainUID).toPromise();
@@ -187,7 +187,7 @@ export class TimeTablePageObject {
   public async getTimetableEntryColValues(timetableEntryId: string): Promise<string[]> {
     await browser.wait(async () => {
       return element(by.id('tmv-timetable-row-' + timetableEntryId)).isPresent();
-    }, browser.displayTimeout, 'The timetable entry row should be displayed');
+    }, browser.params.general_timeout, 'The timetable entry row should be displayed');
 
     const entryColValues: ElementArrayFinder = element.all(by.css('#tmv-timetable-row-' + timetableEntryId + ' td'));
     return entryColValues.map((colValue: ElementFinder) => {
@@ -201,7 +201,7 @@ export class TimeTablePageObject {
     const locString = locStrings[0] + ' ';
     await browser.wait(async () => {
       return element.all(by.xpath('//*[child::*[text()=\'' + locString + '\']]')).isPresent();
-    }, browser.displayTimeout, 'The timetable entry row should be displayed');
+    }, browser.params.general_timeout, 'The timetable entry row should be displayed');
 
     const entryColValues: ElementArrayFinder = element.all(by.xpath('//*[child::*[text()=\'' + locString + '\']]/td'));
     try {
@@ -273,9 +273,9 @@ export class TimeTablePageObject {
   }
 
   public async isTimetableDetailsTabVisible(): Promise<boolean> {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       return element(by.id('timetable-details-table')).isPresent();
-    }, browser.displayTimeout, 'The timetable details table should be displayed');
+    }, browser.params.general_timeout, 'The timetable details table should be displayed');
 
     const timetableTabClasses: string = await element(by.id('timetable-details-tab')).getAttribute('class');
     return timetableTabClasses.indexOf('tmv-tab-timetable-active') > -1;
@@ -382,7 +382,7 @@ export class TimeTablePageObject {
   }
 
   public async waitUntilPropertyValueIs(propertyName: string, expectedString: string): Promise<void> {
-    browser.wait(ExpectedConditions.textToBePresentInElement(element(by.id(propertyName)), expectedString));
+    await browser.wait(ExpectedConditions.textToBePresentInElement(element(by.id(propertyName)), expectedString));
   }
 
   public async waitUntilLastReportLocNameHasLoaded(locName: string): Promise<void> {

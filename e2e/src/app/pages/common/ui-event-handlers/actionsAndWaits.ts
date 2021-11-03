@@ -32,14 +32,14 @@ export class CommonActions {
     const EC = protractor.ExpectedConditions;
     const elementVisible = EC.visibilityOf(elm);
     const elementIntractable = EC.elementToBeClickable(elm);
-    await browser.wait(EC.and(elementVisible, elementIntractable));
+    await browser.wait(EC.and(elementVisible, elementIntractable), browser.params.general_timeout, `Element was not visible and/or clickable`);
   }
 
   /**
    * Waits for the element to be visible.
    * Input: ElementFinder of the UI element to be visible
    */
-  public static async waitForElementToBeVisible(elm: ElementFinder, timeout = browser.displayTimeout): Promise<void> {
+  public static async waitForElementToBeVisible(elm: ElementFinder, timeout = browser.params.general_timeout): Promise<void> {
     const EC = protractor.ExpectedConditions;
     await browser.wait(EC.visibilityOf(elm), timeout);
   }
@@ -66,7 +66,7 @@ export class CommonActions {
    * passed in function cannot contain a this. reference or it will end up with a undefined error
    */
   public static async waitForFunctionalStringResult(func, argument, result: string): Promise<string> {
-    browser.wait(async (): Promise<boolean> => {
+    await browser.wait(async (): Promise<boolean> => {
       let actual: string;
       if (argument === null) {
         actual = await func();
@@ -75,7 +75,7 @@ export class CommonActions {
         actual = await func(argument);
       }
       return actual === result;
-    }, 30 * 1000, 'The functional result was not achieved within the given timeout')
+    }, browser.params.general_timeout, 'The functional result was not achieved within the given timeout')
       .catch(reason => CucumberLog.addText(reason.message));
     return func(argument);
   }

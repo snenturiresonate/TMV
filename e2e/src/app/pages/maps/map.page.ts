@@ -122,7 +122,7 @@ export class MapPageObject {
   public async waitUntilBerthTextIs(berthId: string, trainDescriber: string, expectedString: string): Promise<void> {
     const berth: ElementFinder = await this.getBerthElementFinder(berthId, trainDescriber);
     await browser.wait(ExpectedConditions.textToBePresentInElement(berth, expectedString),
-      browser.displayTimeout,
+      browser.params.general_timeout,
       `Berth text was not ${expectedString} in Berth ${trainDescriber}${berthId}`);
   }
 
@@ -139,7 +139,7 @@ export class MapPageObject {
   public async waitUntilSClassBerthElementIsPresent(berthId: string): Promise<void> {
     const sClassBerth: ElementFinder = await this.getSClassBerthElementFinder(berthId);
     await CommonActions.waitForElementToBePresent(sClassBerth,
-      10000,
+      browser.params.replay_timeout,
       `S class berth ${berthId} not present in time limit`);
   }
 
@@ -149,7 +149,7 @@ export class MapPageObject {
   }
 
   public async getSignalLampRoundColour(signalId: string): Promise<string> {
-    const signalLampRound: ElementFinder = element(by.css('[id^=signal-element-lamp-round-' + signalId  + ']'));
+    const signalLampRound: ElementFinder = element.all(by.css('[id^=signal-element-lamp-round-' + signalId  + ']')).first();
     const lampRoundColourRgb: string = await signalLampRound.getCssValue('fill');
     return CssColorConverterService.rgb2Hex(lampRoundColourRgb);
   }
@@ -233,7 +233,7 @@ export class MapPageObject {
   public async waitForContextMenu(): Promise<boolean> {
     await browser.wait(async () => {
       return this.mapContextMenuItems.isPresent();
-    }, browser.displayTimeout, 'The context menu should be displayed');
+    }, browser.params.general_timeout, 'The context menu should be displayed');
     return this.mapContextMenuItems.isPresent();
   }
 
@@ -292,7 +292,7 @@ export class MapPageObject {
       }
       return false;
     },
-    browser.displayTimeout, `${indication} not found in context menu`);
+      browser.params.general_timeout, `${indication} not found in context menu`);
   }
 
   public async getMapContextMenuElementByRow(rowIndex: number): Promise<ElementFinder> {
@@ -365,7 +365,7 @@ export class MapPageObject {
   }
 
   public async getTrtsStatus(signalId: string): Promise<string> {
-    const signalLatchElement: ElementFinder = element(by.css('[id^=signal-latch-cross-element-line-1-' + signalId  + ']'));
+    const signalLatchElement: ElementFinder = element.all(by.css('[id^=signal-latch-cross-element-line-1-' + signalId  + ']')).first();
     const latchColourRgb: string = await signalLatchElement.getCssValue('stroke');
     return CssColorConverterService.rgb2Hex(latchColourRgb);
   }

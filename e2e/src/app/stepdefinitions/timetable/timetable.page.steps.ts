@@ -110,7 +110,7 @@ When('I wait for the last Signal to populate', async () => {
     } catch (error) {
       return false;
     }
-  }, browser.displayTimeout, 'Last Signal not populated');
+  }, browser.params.general_timeout, 'Last Signal not populated');
 });
 
 When('I wait for the last Signal to be {string}', async (sigName) => {
@@ -125,7 +125,7 @@ When('I wait for the last Signal to be {string}', async (sigName) => {
     } catch (error) {
       return false;
     }
-  }, browser.displayTimeout, `Last Signal was not ${sigName}`);
+  }, browser.params.general_timeout, `Last Signal was not ${sigName}`);
 });
 
 Then('The values for the header properties are as follows',
@@ -534,7 +534,8 @@ Then('The live timetable actual time entries are populated as follows:', async (
   }
 });
 
-Then('The timetable entries contains the following data, with timings having {word} offset from {string} at {string}', {timeout: 60 * 1000},
+Then('The timetable entries contains the following data, with timings having {word} offset from {string} at {string}',
+  {timeout: browser.params.general_timeout},
   async (liveOrRecorded: string, referenceScenario: string, referenceTime: string, timetableEntryDataTable: any) => {
     let offsetMs = 0;
     if (liveOrRecorded === 'live') {
@@ -673,7 +674,7 @@ Then('The timetable details table contains the following data in each row', asyn
     .to.equal(expectedDetailsRowValues.serviceBranding);
 });
 
-When('I am on the timetable view for service {string}', {timeout: 40 * 1000}, async (service: string) => {
+When('I am on the timetable view for service {string}', {timeout: browser.params.general_timeout}, async (service: string) => {
   // try for today's service and if not try for tomorrow's
   if (service === 'generatedTrainUId') {
     service = browser.referenceTrainUid;
@@ -687,7 +688,7 @@ When('I am on the timetable view for service {string}', {timeout: 40 * 1000}, as
     }
     await appPage.navigateTo(`/tmv/live-timetable/${service}:${DateAndTimeUtils.getCurrentDateTime().plusDays(1).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`);
     return timetablePage.timetableTab.isPresent();
-  }, 30000, `Timetable page loading timed out`);
+  }, 50000, `Timetable page loading timed out`);
 });
 
 When(/^the Inserted toggle is '(on|off)'$/, async (state: string) => {

@@ -12,6 +12,7 @@ import {HomePageObject} from '../../pages/home.page';
 import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
 import {AppPage} from '../../pages/app.po';
 import {TMVRedisUtils} from '../../utils/tmv-redis-utils';
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 let page: MapPageObject;
 const appPage: AppPage = new AppPage();
@@ -98,8 +99,9 @@ Given('I view a schematic that contains a continuation button', async () => {
 });
 
 Given('I set up all signals for address {word} in {word} to be {word}', async (address: string, trainDescriber: string, state: string) => {
-  const redSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, '00', '10:45:00', trainDescriber);
-  const greenSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, 'FF', '10:45:00', trainDescriber);
+  const currentTime = DateAndTimeUtils.getCurrentDateTimeString('HH:mm:ss');
+  const redSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, '00', currentTime, trainDescriber);
+  const greenSignallingUpdate: SignallingUpdate = new SignallingUpdate( address, 'FF', currentTime, trainDescriber);
   if (state === 'not-proceed') {
     await linxRestClient.postSignallingUpdate(greenSignallingUpdate);
     await linxRestClient.waitMaxTransmissionTime();
@@ -409,14 +411,19 @@ Then('the signal roundel for signal {string} is {word}',
     await browser.wait(async () => {
       actualSignalColourHex = await mapPageObject.getSignalLampRoundColour(signalId);
       return (expectedSignalColourHex === actualSignalColourHex);
-    }, browser.displayTimeout, 'Waiting for the signal colour');
+    }, browser.params.general_timeout, `The signal roundel for signal ${signalId} was not ${expectedSignalColour}`);
 
-    expect(actualSignalColourHex, `Signal ${signalId} colour is not correct`)
+    expect(actualSignalColourHex, `The signal roundel for signal ${signalId} was not ${expectedSignalColour}`)
       .to.equal(expectedSignalColourHex);
   });
 
 Then('the TRTS visibility status for {string} is {word}',
   async (signalId: string, expectedStatus: string) => {
+    await browser.wait(async () => {
+      const actualStatusWait = await mapPageObject.getVisibilityStatus(signalId);
+      return (actualStatusWait === expectedStatus);
+    }, browser.params.replay_timeout, `The TRTS visibility status for ${signalId} was not ${expectedStatus}`);
+
     const actualStatus = await mapPageObject.getVisibilityStatus(signalId);
     expect(actualStatus, `TRTS ${signalId} status is not correct`)
       .to.equal(expectedStatus);
@@ -424,11 +431,11 @@ Then('the TRTS visibility status for {string} is {word}',
 
 Then('the marker board triangle for marker board {string} is {word}',
   async (markerBoardId: string, expectedMarkerBoardColour: string) => {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       const expectedMarkerBoardColourHexWait = mapColourHex[expectedMarkerBoardColour];
       const actualMarkerBoardColourHexWait = await mapPageObject.getMarkerBoardTriangleColour(markerBoardId);
       return (actualMarkerBoardColourHexWait === expectedMarkerBoardColourHexWait);
-    }, 60000, `Marker board triangle colour for ${markerBoardId} is not correct`);
+    }, browser.params.general_timeout, `Marker board triangle colour for ${markerBoardId} is not correct`);
 
     const expectedMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];
     const actualMarkerBoardColourHex = await mapPageObject.getMarkerBoardTriangleColour(markerBoardId);
@@ -438,11 +445,11 @@ Then('the marker board triangle for marker board {string} is {word}',
 
 Then('the shunt marker board triangle for shunt marker board {string} is {word}',
   async (markerBoardId: string, expectedShuntMarkerBoardColour: string) => {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       const expectedShuntMarkerBoardColourHexWait = mapColourHex[expectedShuntMarkerBoardColour];
       const actualShuntMarkerBoardColourHexWait = await mapPageObject.getShuntMarkerBoardTriangleColour(markerBoardId);
       return (actualShuntMarkerBoardColourHexWait === expectedShuntMarkerBoardColourHexWait);
-    }, 60000, `Shunt marker board triangle colour for ${markerBoardId} is not correct`);
+    }, browser.params.general_timeout, `Shunt marker board triangle colour for ${markerBoardId} is not correct`);
 
     const expectedShuntMarkerBoardColourHex = mapColourHex[expectedShuntMarkerBoardColour];
     const actualShuntMarkerBoardColourHex = await mapPageObject.getShuntMarkerBoardTriangleColour(markerBoardId);
@@ -453,6 +460,16 @@ Then('the shunt marker board triangle for shunt marker board {string} is {word}'
 Then('the marker board {string} will display a Movement Authority {word} [{word} triangle on blue background]',
   async (markerBoardId: string, authorityType: string, expectedMarkerBoardColour: string) => {
     const expectedMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];
+
+    await browser.wait(async () => {
+      const actualMarkerBoardColourHexWait = await mapPageObject.getMarkerBoardTriangleColour(markerBoardId);
+      const actualMarkerBoardBackgroundColourHexWait = await mapPageObject.getMarkerBoardBackgroundColour(markerBoardId);
+      return (
+        (actualMarkerBoardColourHexWait === expectedMarkerBoardColourHex) &&
+        (actualMarkerBoardBackgroundColourHexWait === mapColourHex.blue)
+      );
+    }, browser.params.replay_timeout, `The marker board ${markerBoardId} did not display movement authority ${authorityType}`);
+
     const actualMarkerBoardColourHex = await mapPageObject.getMarkerBoardTriangleColour(markerBoardId);
     const actualMarkerBoardBackgroundColourHex = await mapPageObject.getMarkerBoardBackgroundColour(markerBoardId);
     expect(actualMarkerBoardColourHex, `Marker board triangle colour for ${markerBoardId} is not correct`)
@@ -464,6 +481,16 @@ Then('the marker board {string} will display a Movement Authority {word} [{word}
 Then('the shunt marker board {string} will display a Movement Authority {word} [{word} triangle with blue inner triangle]',
   async (markerBoardId: string, authorityType: string, expectedMarkerBoardColour: string) => {
     const expectedShuntMarkerBoardColourHex = mapColourHex[expectedMarkerBoardColour];
+
+    await browser.wait(async () => {
+        const actualShuntMarkerBoardTriangleColourHexWait = await mapPageObject.getShuntMarkerBoardTriangleColour(markerBoardId);
+        const actualShuntMarkerBoardSmallTriangleColourHexWait = await mapPageObject.getShuntMarkerBoardSmallTriangleColour(markerBoardId);
+        return (
+          (actualShuntMarkerBoardTriangleColourHexWait === expectedShuntMarkerBoardColourHex) &&
+          (actualShuntMarkerBoardSmallTriangleColourHexWait === mapColourHex.blue));
+    }, browser.params.replay_timeout,
+      `The shunt marker board ${markerBoardId} did not display a Movement Authority ${authorityType} [${expectedMarkerBoardColour} triangle with blue inner triangle]`);
+
     const actualShuntMarkerBoardTriangleColourHex = await mapPageObject.getShuntMarkerBoardTriangleColour(markerBoardId);
     const actualShuntMarkerBoardSmallTriangleColourHex = await mapPageObject.getShuntMarkerBoardSmallTriangleColour(markerBoardId);
     expect(actualShuntMarkerBoardTriangleColourHex, `Shunt marker board triangle colour for ${markerBoardId} is not correct`)
@@ -478,6 +505,12 @@ Then('the s-class-berth {string} will display {word} Route indication of {string
     expect(! await mapPageObject.isSClassBerthElementPresent(sClassBerthId));
   }
   else {
+    await browser.wait(async () => {
+      const actualIndicationTextWait = await mapPageObject.getSClassBerthElementText(sClassBerthId);
+      const actualIndicationTextColourHexWait = await mapPageObject.getSClassBerthElementTextColour(sClassBerthId);
+      return ((actualIndicationTextWait === lineCode) && (actualIndicationTextColourHexWait === mapColourHex.paleblue));
+    }, browser.params.replay_timeout, `S-class berth ${sClassBerthId} did not display ${expectedIndicationCount} route indication of ${lineCode}`);
+
     const actualIndicationText = await mapPageObject.getSClassBerthElementText(sClassBerthId);
     const actualIndicationTextColourHex = await mapPageObject.getSClassBerthElementTextColour(sClassBerthId);
     expect(actualIndicationTextColourHex).to.equal(mapColourHex.paleblue);
@@ -491,6 +524,13 @@ Then('the AES box containing s-class-berth {string} will display {word} aes text
       expect(! await mapPageObject.isSClassBerthElementPresent(sClassBerthId));
     }
     else {
+      await browser.wait(async () => {
+        const actualIndicationTextWait = await mapPageObject.getSClassBerthElementText(sClassBerthId);
+        const actualIndicationTextColourHexWait = await mapPageObject.getSClassBerthElementTextColour(sClassBerthId);
+        return ((actualIndicationTextWait === aesCode) && (actualIndicationTextColourHexWait === mapColourHex.purple));
+      }, browser.params.replay_timeout,
+        `The AES box containing s-class-berth ${sClassBerthId} did not display ${expectedIndicationCount} aes text of ${aesCode}`);
+
       const actualIndicationText = await mapPageObject.getSClassBerthElementText(sClassBerthId);
       const actualIndicationTextColourHex = await mapPageObject.getSClassBerthElementTextColour(sClassBerthId);
       expect(actualIndicationTextColourHex, 'Text colour is not purple')
@@ -539,6 +579,14 @@ Then('the shunters-release {string} will display a {word} state [{word} white cr
     }
     else {
       expect(await mapPageObject.releaseElementIsVisible(releaseId));
+
+      await browser.wait(async () => {
+          const actualIndicationTextColourHexWait = await mapPageObject.getReleaseElementColour(releaseId);
+          return (actualIndicationTextColourHexWait === mapColourHex.white);
+      }, browser.params.replay_timeout,
+        `The shunters-release ${releaseId} did not display a ${authorityType} state
+        [${expectedIndicationCount} white cross in the white box]`);
+
       const actualIndicationTextColourHex = await mapPageObject.getReleaseElementColour(releaseId);
       expect(actualIndicationTextColourHex, 'Text colour is not white')
         .to.equal(mapColourHex.white);
@@ -628,6 +676,12 @@ Given('I am on a map showing berth {string} and in train describer {string}', as
 Then('the shunt signal state for signal {string} is {word}',
   async (signalId: string, expectedSignalColour: string) => {
     const expectedSignalColourHex = mapColourHex[expectedSignalColour];
+
+    await browser.wait(async () => {
+      const actualSignalColourHexWait = await mapPageObject.getShuntSignalColour(signalId);
+      return (actualSignalColourHexWait === expectedSignalColourHex);
+    }, browser.params.replay_timeout, `The shunt signal state for signal ${signalId} was not ${expectedSignalColour}`);
+
     const actualSignalColourHex = await mapPageObject.getShuntSignalColour(signalId);
     expect(actualSignalColourHex, `shunt signal for ${signalId} is not the correct colour`)
       .to.equal(expectedSignalColourHex);
@@ -647,6 +701,12 @@ When('I launch a new map {string}', async (mapName: string) => {
 
 Then('the TRTS status for signal {string} is {word}',
   async (signalId: string, expectedSignalStatus: string) => {
+    await browser.wait(async () => {
+      const expectedSignalStatusHexWait = mapColourHex[expectedSignalStatus];
+      const actualSignalStatusWait: string = await mapPageObject.getTrtsStatus(signalId);
+      return (actualSignalStatusWait === expectedSignalStatusHexWait);
+    }, browser.params.replay_timeout, `The TRTS status for signal ${signalId} was not ${expectedSignalStatus}`);
+
     const expectedSignalStatusHex = mapColourHex[expectedSignalStatus];
     const actualSignalStatus: string = await mapPageObject.getTrtsStatus(signalId);
     expect(actualSignalStatus, `TRTS status for ${signalId} is not correct`)
@@ -663,6 +723,10 @@ Then('the level crossing barrier status of {string} is {word}',
 
 Then('the direction lock chevron of {string} is {word}',
   async (directionLockId: string, expectedStatus: string) => {
+    await browser.wait(async () => {
+      const actualBarrierStatusWait = await mapPageObject.getLvlCrossingBarrierState(directionLockId);
+      return (actualBarrierStatusWait === expectedStatus);
+    }, browser.params.replay_timeout, `The direction lock chevron of ${directionLockId} is not ${expectedStatus}`);
     const actualBarrierStatus = await mapPageObject.getLvlCrossingBarrierState(directionLockId);
     expect(actualBarrierStatus, `direction lock chevron for ${directionLockId} is not correct`)
       .to.equal(expectedStatus);
@@ -738,6 +802,17 @@ Then('the tracks {string} are displayed in {word} {word}',
     const expectedTrackIds = trackIds.split(',').map(item => item.trim());
     const expectedTrackColourHex = mapColourHex[expectedColour];
     const expectedTrackWidth = mapLineWidth[expectedWidth];
+    await browser.wait(async () => {
+      for (const trackId of expectedTrackIds) {
+        const actualTrackColour: string = await mapPageObject.getTrackColour(trackId);
+        const actualTrackWidth: string = await mapPageObject.getTrackWidth(trackId);
+        if ((actualTrackColour !== expectedTrackColourHex) || (actualTrackWidth !== expectedTrackWidth)) {
+          return false;
+        }
+      }
+      return true;
+    }, browser.params.replay_timeout, `Tracks ${trackIds} were not displayed in ${expectedWidth} ${expectedColour}`);
+
     for (const trackId of expectedTrackIds) {
       const actualTrackColour: string = await mapPageObject.getTrackColour(trackId);
       const actualTrackWidth: string = await mapPageObject.getTrackWidth(trackId);
@@ -791,7 +866,7 @@ Then('the train headcode color for berth {string} is {word}',
       expectedColorHex = mapColourHex[expectedColor];
       actualSignalStatus = await mapPageObject.getBerthColor(berthId);
       return (actualSignalStatus === expectedColorHex);
-    }, browser.displayTimeout, 'Waiting for the headcode colour');
+    }, browser.params.general_timeout, 'Waiting for the headcode colour');
 
     expect(actualSignalStatus, 'Headcode colour is not ' + expectedColor)
       .to.equal(expectedColorHex);
@@ -944,7 +1019,7 @@ Given(/^I have cleared out all headcodes$/, async () => {
 Given(/^headcode '(.*)' is present in manual\-trust berth '(.*)'$/, async (headcode: string, berthID: string) => {
   await browser.wait(async () => {
     return (await mapPageObject.getHeadcodesAtManualTrustBerth(berthID)).includes(headcode);
-  }, 60000, `headcode ${headcode} not in manual trust berth stack ${berthID} when should be`);
+  }, browser.params.general_timeout, `headcode ${headcode} not in manual trust berth stack ${berthID} when should be`);
 });
 
 Given(/^headcode '(.*)' is not present in manual\-trust berth '(.*)'$/, async (headcode: string, berthID: string) => {

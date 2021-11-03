@@ -22,7 +22,7 @@ Then(/^results are returned with that planning UID '(.*)'$/, async (planningUID:
   }
   const row = await searchResultsPage.getRowByPlanningUID(planningUID);
   await browser.wait(async () => await row.isPresent(),
-    browser.displayTimeout,
+    browser.params.general_timeout,
     `Waiting for search result row ${planningUID}`);
   expect(await row.isPresent(), `Row with planning UID ${planningUID} is not present`)
     .to.equal(true);

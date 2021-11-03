@@ -17,9 +17,9 @@ public trainIndicationTabHeader: ElementFinder;
   }
 
   public async waitForIndicationData(): Promise<boolean> {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       return element(by.id('indication-div-container')).isPresent();
-    }, browser.displayTimeout, 'The indication table should be displayed');
+    }, browser.params.general_timeout, 'The indication table should be displayed');
     return element(by.id('indication-div-container')).isPresent();
   }
 

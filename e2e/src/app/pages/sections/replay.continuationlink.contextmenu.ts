@@ -15,11 +15,11 @@ export class ContinuationLinkContextMenu {
     this.openNewTab = element(by.xpath('//span[text()="Open (new tab)"]'));
   }
   public async selectOpen(): Promise<void> {
-    browser.wait(() => this.open.isPresent(), 10 * 1000);
+    await browser.wait(() => this.open.isPresent(), 10 * 1000);
     await this.open.click();
   }
   public async selectOpenNewTab(): Promise<void> {
-    browser.wait(() => this.openNewTab.isPresent(), 10 * 1000);
+    await browser.wait(() => this.openNewTab.isPresent(), 10 * 1000);
     await this.openNewTab.click();
   }
   public async isDisplayed(): Promise<boolean> {

@@ -392,29 +392,29 @@ export class NavBarPageObject {
   }
 
   public async waitForTimetableContext(): Promise<boolean> {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       return this.timeTableContextMenu.isPresent();
-    }, browser.displayTimeout, 'The trains list context menu should be displayed');
+    }, browser.params.general_timeout, 'The trains list context menu should be displayed');
     return this.timeTableContextMenu.isPresent();
   }
   public async waitForSignalContext(): Promise<boolean> {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       return this.signalContext.isPresent();
-    }, browser.displayTimeout, 'The trains list context menu should be displayed');
+    }, browser.params.general_timeout, 'The trains list context menu should be displayed');
     return this.signalContext.isPresent();
   }
 
   public async waitForUnscheduledContext(): Promise<boolean> {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       return this.unscheduledContext.isPresent();
-    }, browser.displayTimeout, 'The unscheduled context menu should be displayed');
+    }, browser.params.general_timeout, 'The unscheduled context menu should be displayed');
     return this.unscheduledContext.isPresent();
   }
 
   public async waitForContextMap(): Promise<boolean> {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       return this.contextMapLink.isPresent();
-    }, browser.displayTimeout, 'The trains list context menu map should be displayed');
+    }, browser.params.general_timeout, 'The trains list context menu map should be displayed');
     return this.contextMapLink.isPresent();
   }
 
@@ -437,9 +437,9 @@ export class NavBarPageObject {
   }
 
   public async waitForTrainContext(): Promise<boolean> {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       return this.trainContextMenu.isPresent();
-    }, browser.displayTimeout, 'The trains list context menu should be displayed');
+    }, browser.params.general_timeout, 'The trains list context menu should be displayed');
     return this.trainContextMenu.isPresent();
   }
 

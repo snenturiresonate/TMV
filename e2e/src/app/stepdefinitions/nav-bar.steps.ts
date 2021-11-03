@@ -118,9 +118,9 @@ When('I click on the Resonate Home logo', async () => {
 });
 
 Then('The current time is displayed as {string}', async (currentTime: string) => {
-  browser.wait(async () => {
+  await browser.wait(async () => {
     return element(by.id('nav-bar-current-time')).isPresent();
-  }, browser.displayTimeout, 'The current time should be displayed');
+  }, browser.params.general_timeout, 'The current time should be displayed');
 
   const currentTimeText: string = await navBarPage.getCurrentTimeText();
   expect(currentTime, `Current time is not displayed as ${currentTimeText}`)

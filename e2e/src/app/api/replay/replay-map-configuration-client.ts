@@ -16,7 +16,7 @@ export class ReplayMapConfigurationClient {
 
       this.client = axios.create({
         baseURL: browser.baseUrl,
-        timeout: 60000,
+        timeout: browser.params.general_timeout,
         headers: {
           Accept: 'application/json',
           Connection: 'keep-alive',

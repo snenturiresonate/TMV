@@ -5,7 +5,7 @@ Feature: 33757 - TMV National Search
   So that there is confidence that it continues to work as expected as more of the system is developed
 
   Background:
-    Given I remove all trains from the trains list
+    * I remove all trains from the trains list
 
   Scenario Outline: 33757-1a Train search window shown - Train Search entering trainUid - <pageName>
     #Given the user is authenticated to use TMV
@@ -48,20 +48,18 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  @bug @bug_56581
   Scenario: 33757-1b Train search window shown - Train Search entering trainUid - Replay page
-    Given I am on the replay page
-    When I set the date and time for replay to
-      | date       | time     | duration |
-      | 01/01/2020 | 12:00:00 | 10       |
-    And I select Next
-    And I expand the replay group of maps with name 'Wales & Western'
-    And I select the map 'hdgw01paddington.v'
-    And the Train Search Box has the value 'Train Desc, Trust ID, Planning UID'
-    And the access plan located in CIF file 'access-plan/1L24_PADTON_RDNGSTN.cif' is received from LINX
+    Given the access plan located in CIF file 'access-plan/1L24_PADTON_RDNGSTN.cif' is received from LINX
     And the following live berth interpose message is sent from LINX (to create a match)
       | toBerth | trainDescriber | trainDescription |
       | R029    | D3             | 1L24             |
+    And I am on the replay page
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'HDGW01paddington.v'
+    And I click Skip forward button '4' times
+    And I click Play button
+    And the Train Search Box has the value 'Train Desc, Trust ID, Planning UID'
     When I search Train for 'A'
     And Warning Message is displayed for minimum characters
     And I search Train for '#'
@@ -102,21 +100,19 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  @bug @bug_56581
   Scenario: 33757-2b Timetable search window shown - Warning message- Replay page
     Given the access plan located in CIF file 'access-plan/1L24_PADTON_RDNGSTN.cif' is received from LINX
-    And I am on the replay page as existing user
-    When I set the date and time for replay to
-      | date       | time     | duration |
-      | 01/01/2020 | 12:00:00 | 10       |
+    And I am on the replay page
     And I select Next
     And I expand the replay group of maps with name 'Wales & Western'
-    And I select the map 'hdgw01paddington.v'
+    And I select the map 'HDGW01paddington.v'
     And the Train Search Box has the value 'Train Desc, Trust ID, Planning UID'
     When I search Timetable for '1'
     Then Warning Message is displayed for minimum characters
-    And I search Timetable for '&'
-    And Warning Message is displayed for minimum characters
+    When I search Timetable for '&'
+    Then Warning Message is displayed for minimum characters
+    When I search Timetable for '£'
+    Then Warning Message is displayed for minimum characters
 
   Scenario Outline: 33757-2c Timetable search - Old Schedules
     Given I navigate to <pageName> page
@@ -239,15 +235,11 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  @bug @bug_56581
   Scenario: 33757-3b Signal search window shown- Replay page
     Given I am on the replay page
-    When I set the date and time for replay to
-      | date       | time     | duration |
-      | 01/01/2020 | 12:00:00 | 10       |
     And I select Next
     And I expand the replay group of maps with name 'Wales & Western'
-    And I select the map 'hdgw01paddington.v'
+    And I select the map 'HDGW01paddington.v'
     And the Train Search Box has the value 'Train Desc, Trust ID, Planning UID'
     When I search Signal for 'A'
     And Warning Message is displayed for minimum characters

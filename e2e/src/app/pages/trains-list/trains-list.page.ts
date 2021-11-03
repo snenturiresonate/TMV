@@ -27,7 +27,7 @@ export class TrainsListPageObject {
   private redisClient: RedisClient;
 
   // towards the end of the day, trains take a long time to appear on the trains list
-  private trainsListDisplayTimeout = 60 * 1000;
+  private trainsListDisplayTimeout = browser.params.general_timeout;
 
   constructor() {
     this.trainsListItems = element.all(by.css('#train-tbody tr'));
@@ -105,16 +105,16 @@ export class TrainsListPageObject {
   }
 
   public async isTrainsListTableVisible(): Promise<boolean> {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       return element(by.id('train-tbody')).isPresent();
-    }, browser.displayTimeout, 'The trains list table should be displayed');
+    }, browser.params.general_timeout, 'The trains list table should be displayed');
 
     return element(by.id('train-tbody')).isPresent();
   }
   public async waitForContextMenu(): Promise<boolean> {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       return this.trainsListContextMenu.isPresent();
-    }, browser.displayTimeout, 'The trains list context menu should be displayed');
+    }, browser.params.general_timeout, 'The trains list context menu should be displayed');
     return this.trainsListContextMenu.isPresent();
   }
   public async rightClickTrainListItemNum(position: number): Promise<void> {
@@ -152,9 +152,9 @@ export class TrainsListPageObject {
     return CommonActions.waitAndClick(this.matchUnmatchLink);
   }
   public async isScheduleVisible(scheduleId: string): Promise<boolean> {
-    browser.wait(async () => {
+    await browser.wait(async () => {
       return element(by.css('[id=\'trains-list-row-' + scheduleId + '\'')).isPresent();
-    }, browser.displayTimeout, 'The schedule should be displayed');
+    }, browser.params.general_timeout, 'The schedule should be displayed');
     const trainScheduleId: ElementFinder = element(by.css('[id=\'trains-list-row-' + scheduleId + '\''));
     return trainScheduleId.isPresent();
   }
@@ -221,7 +221,7 @@ export class TrainsListPageObject {
         }
       }
       return true;
-      }, browser.displayTimeout, 'Columns have not updated to reflect config changes');
+      }, browser.params.general_timeout, 'Columns have not updated to reflect config changes');
    }
 
   public async trainDescriptionHasDisappeared(trainDescription: string): Promise<boolean> {
@@ -229,7 +229,7 @@ export class TrainsListPageObject {
       const trainRow: ElementFinder = element(by.css('#trains-list-row-' + trainDescription));
       await browser.wait(async () => {
         return !(await trainRow.isPresent());
-      }, browser.displayTimeout, 'The train description did not disappear');
+      }, browser.params.general_timeout, 'The train description did not disappear');
       return !(await trainRow.isPresent());
     }
     catch (error) {
@@ -262,7 +262,7 @@ export class TrainsListPageObject {
           return true;
         }
       }
-    }, browser.displayTimeout, 'Train description with schedule type ${scheduleType} did not disappear');
+    }, browser.params.general_timeout, 'Train description with schedule type ${scheduleType} did not disappear');
   }
 
   public async getTrainsListRowFillForSchedule(scheduleId: string): Promise<string> {
