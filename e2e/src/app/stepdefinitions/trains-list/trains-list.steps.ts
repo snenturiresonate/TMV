@@ -143,7 +143,7 @@ When(/^I wait until today's train '(.*)' has loaded$/, async (uid: string) => {
   const date: string = await DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd');
   await waitForTrainUid(uid, date);
   // some services such as path extrapolation and search need a little longer
-  await browser.sleep(2000);
+  await browser.sleep(1000);
 });
 
 When(/^I wait until today's or tomorrow's train '(.*)' has loaded$/, async (uid: string) => {

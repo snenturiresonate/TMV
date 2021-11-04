@@ -83,6 +83,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | 1A28             | G51586   | Royal Oak Junction | 1        | 1        |
       | 1B28             | H51586   | [Acton Main Line]  | ML       | ML       |
 
+  @flaky @manual
   Scenario Outline: 51586 - 29 Predicted platform code displayed
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath | refLocation | refTimingType | newTrainDescription | newPlanningUid |
