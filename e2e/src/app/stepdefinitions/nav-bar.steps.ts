@@ -4,6 +4,7 @@ import {expect} from 'chai';
 import {browser, by, element, ExpectedConditions} from 'protractor';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 import {ElasticSearchClient} from '../api/elastic/elastic-search-client';
+import {MapPageObject} from '../pages/maps/map.page';
 
 const navBarPage: NavBarPageObject = new NavBarPageObject();
 const elasticSearchClient: ElasticSearchClient = new ElasticSearchClient();
@@ -209,7 +210,7 @@ When(/^I search (Train|Signal|Timetable) for '(.*)' and wait for result$/,
     await navBarPage.enterSearchValue(searchFor);
     await navBarPage.clickSearchIcon();
     return element(by.xpath(locator)).isPresent();
-  }, 30000, `${filter} search result for ${searchFor} did not return a result in the column. locator used ${locator}`);
+  }, browser.params.general_timeout, `${filter} search result for ${searchFor} did not return a result in the column. locator used ${locator}`);
 });
 
 Then('the option in the train search is displayed as {string}', async (expectedValue: string) => {
@@ -513,6 +514,15 @@ Then('the following map names can be seen', async (mapNameDataTable: any) => {
   });
 });
 
+Then('the following map names can be seen for the signal', async (mapNameDataTable: any) => {
+  const expectedMapNames = mapNameDataTable.hashes();
+  const actualMapNames = await navBarPage.getMapNamesForSignal();
+
+  expectedMapNames.forEach((expectedMapName: any) => {
+    expect(actualMapNames).to.contain(expectedMapName.mapName);
+  });
+});
+
 Then('the following signal map names can be seen', async (mapNameDataTable: any) => {
   const expectedMapNames = mapNameDataTable.hashes();
   const actualMapNames = await navBarPage.getSignalMapNames();
@@ -528,6 +538,10 @@ return browser.actions().mouseMove(navBarPage.mapItemSearchContext).perform();
 
 Then('I open the Map {string}', async (mapName: string) => {
   await navBarPage.openMap(mapName);
+});
+
+When('I wait for tracks to be displayed', async () => {
+  await MapPageObject.waitForTracksToBeDisplayed();
 });
 
 Then('the signal {string} is {word}',

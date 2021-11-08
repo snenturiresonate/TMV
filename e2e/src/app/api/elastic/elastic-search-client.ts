@@ -7,7 +7,7 @@ export class ElasticSearchClient {
   public httpClient: HttpClient;
 
   constructor() {
-    this.httpClient = new HttpClient(`http://${browser.params.redis_host}:8210`);
+    this.httpClient = new HttpClient(`http://${browser.params.operations_redis_host}:8210`);
     this.httpClient.failOnHttpError = true;
   }
 

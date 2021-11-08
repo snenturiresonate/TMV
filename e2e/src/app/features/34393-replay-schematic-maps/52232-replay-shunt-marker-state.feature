@@ -7,7 +7,6 @@ Feature: 52232 - Replay page Schematic Object State Scenarios - Shunt Markers
     * I reset redis
     * I am viewing the map gw15cambrian.v
 
-  @replayTest
   Scenario: 34393-18 Shunt Marker Board State (Movement Authority Given)
     # Replay Setup - 34081-12 - Shunt Marker Board State (Movement Authority Given)
     * I set up all signals for address 31 in MH to be not-proceed
@@ -28,7 +27,6 @@ Feature: 52232 - Replay page Schematic Object State Scenarios - Shunt Markers
     When I click Play button
     Then the shunt marker board 'MH1199' will display a Movement Authority given [white triangle with blue inner triangle]
 
-  @replayTest
   Scenario: 34393-19 Shunt Marker Board State (Movement Authority Not Given)
     # Replay Setup - 34081-13 - Shunt Marker Board State (Movement Authority Not Given)
     * I set up all signals for address 31 in MH to be proceed
@@ -49,7 +47,6 @@ Feature: 52232 - Replay page Schematic Object State Scenarios - Shunt Markers
     When I click Play button
     Then the shunt marker board 'MH1199' will display a Movement Authority not-given [red triangle with blue inner triangle]
 
-  @replayTest
   Scenario: 34393-20 Shunt Marker Board State (Movement Authority Unknown)
     # Replay Setup - 34081-14 - Shunt Marker Board State (Movement Authority Unknown)
     * the shunt marker board 'MH1199' will display a Movement Authority unknown [grey triangle with blue inner triangle]

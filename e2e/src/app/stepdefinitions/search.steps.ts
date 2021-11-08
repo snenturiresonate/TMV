@@ -56,13 +56,22 @@ Then('results are returned with planning UID {string} and schedule type {string}
 
 Then('the result for todays service planning UID {string} has service identifier {string}',
   async (planningUID: string, trainDesc: string) =>
-{
-  const dateString = DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy');
-  const row = await searchResultsPage.getRowByPlanningUIDandDate(planningUID, dateString);
-  expect(await row.isPresent(), `Row with planning UID ${planningUID} & schedule date of today is not present`)
-    .to.equal(true);
-  expect(await row.service.getText(), `Search returned incorrect train description`).to.equal(trainDesc);
-});
+  {
+    const dateString = DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy');
+    const row = await searchResultsPage.getRowByPlanningUIDandDate(planningUID, dateString);
+    expect(await row.isPresent(), `Row with planning UID ${planningUID} & schedule date of today is not present`)
+      .to.equal(true);
+    expect(await row.service.getText(), `Search returned incorrect train description`).to.equal(trainDesc);
+  });
+
+Then('no results for today\'s train description {string} with planning UID {string} are found',
+  async (trainDesc: string, planningUID: string) =>
+  {
+    const dateString = DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy');
+    const rowExists = await searchResultsPage.rowByPlanningUIDandDateExists(planningUID, dateString);
+    expect(rowExists, `Row with planning UID ${planningUID} & schedule date of today is present`)
+      .to.equal(false);
+  });
 
 When('I invoke the context menu from train with planning UID {string} on the search results table', async (planningUID: string) => {
   const targetRow = await searchResultsPage.getRowByPlanningUID(planningUID);

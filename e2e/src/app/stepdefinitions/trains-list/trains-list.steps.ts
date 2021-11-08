@@ -142,8 +142,6 @@ When(/^I remove today's train '(.*)' from the Redis trainlist$/, async (uid: str
 When(/^I wait until today's train '(.*)' has loaded$/, async (uid: string) => {
   const date: string = await DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd');
   await waitForTrainUid(uid, date);
-  // some services such as path extrapolation and search need a little longer
-  await browser.sleep(1000);
 });
 
 When(/^I wait until today's or tomorrow's train '(.*)' has loaded$/, async (uid: string) => {
@@ -170,7 +168,7 @@ async function waitForTrainUid(uid: string, firstDate: string, secondDate: strin
       data = await client.hgetString(secondHash, 'scheduleId');
     }
     return (data === firstTrainIdentifier || data === secondTrainIdentifier);
-  }, 35000, `${firstTrainIdentifier} not found in Redis trainlist`);
+  }, browser.params.general_timeout, `${firstTrainIdentifier} not found in Redis trainlist`);
 }
 
 When(/^I wait until today's train '(.*)' has been removed$/, async (uid: string) => {

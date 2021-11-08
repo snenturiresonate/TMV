@@ -734,9 +734,10 @@ Then('the direction lock chevron of {string} is {word}',
 
 Then('the direction lock chevrons are not displayed',
   async () => {
-    const chevronsDisplayed = await mapPageObject.isDirectionChevronDisplayed();
-    expect(chevronsDisplayed, 'Direction lock chevron is displayed when it shouldn\'t be')
-      .to.equal(false);
+    browser.wait(async () => {
+      const chevronsDisplayed = await mapPageObject.isDirectionChevronDisplayed();
+      return (chevronsDisplayed === false);
+    }, browser.params.replay_timeout, `The direction lock chevrons were displayed, but should not have been`);
   });
 
 Then('I should see the AES boundary elements', async () => {
@@ -880,18 +881,25 @@ Then('the train highlight color for berth {string} is {word}',
       .to.equal(expectedColorHex);
   });
 
-Then(/^the train in berth (\w+) (is|is not) highlighted$/,
-  async (berthId: string, negate: string) => {
-    const berthIsHighlighted: boolean = await mapPageObject.isBerthHighlighted(berthId);
+Then(/^the (?:train|signal) in berth (\w+) is highlighted$/,
+  async (berthId: string) => {
+    await browser.wait(() => {
+      return mapPageObject.isBerthHighlighted(berthId);
+    }, browser.params.general_timeout, `The train in berth ${berthId} was not highlighted`);
+  });
 
-    if (negate === 'is') {
-      expect(berthIsHighlighted, 'Berth was not highlighted: ' + berthId)
-        .to.equal(true);
-    }
-    else {
-      expect(berthIsHighlighted, 'Berth was highlighted: ' + berthId)
-        .to.equal(false);
-    }
+Then(/^the (?:train|signal) in replay berth (\w+) is highlighted$/,
+  async (berthId: string) => {
+    await browser.wait(() => {
+      return mapPageObject.isReplayBerthHighlighted(berthId);
+    }, browser.params.general_timeout, `The train in berth ${berthId} was not highlighted`);
+  });
+
+Then(/^the train in berth (\w+) is not highlighted$/,
+  async (berthId: string) => {
+    const berthIsHighlighted: boolean = await mapPageObject.isBerthHighlighted(berthId);
+    expect(berthIsHighlighted, `The train in berth ${berthId} was highlighted`)
+      .to.equal(false);
   });
 
 Then('the menu is displayed with {string} option',

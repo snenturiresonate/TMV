@@ -43,7 +43,6 @@ Feature: 46446 - Schematic State - Signals
     And the maximum amount of time is allowed for end to end transmission
     Then the signal roundel for signal 'SN128' is green
 
-  @replaySetup
   Scenario:34081 - 3 Main Signal State (Not Proceed)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a main signal
@@ -60,8 +59,6 @@ Feature: 46446 - Schematic State - Signals
     #Then the main signal will display an unknown aspect (grey roundel)
     Then the signal roundel for signal 'SN145' is grey
 
-
-  @replaySetup
   Scenario:34081 - 5 Subsidiary Signal State (Proceed)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a subsidiary signal
@@ -70,7 +67,6 @@ Feature: 46446 - Schematic State - Signals
     #Then the subsidiary signal will display a proceed aspect (white roundel)
     * this replay setup test has been moved to become part of the replay test: 34393 - 11 Subsidiary Signal State (Proceed)
 
-  @replaySetup
   Scenario:34081 - 6 Shunt Signal State (Proceed)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a shunt signal
@@ -79,7 +75,6 @@ Feature: 46446 - Schematic State - Signals
     #Then the shunt signal will display a proceed aspect (white quadrant)
     * this replay setup test has been moved to become part of the replay test: 34393 - 12 Shunt Signal State (Proceed)
 
-  @replaySetup
   Scenario: 34081 - 7 Shunt Signal State (Not Proceed)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with a shunt signal

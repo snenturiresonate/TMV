@@ -543,7 +543,7 @@ Given(/^I am on the admin page$/, {timeout: 5 * 10000}, async () => {
   }
 });
 
-Given(/^I am on the replay page$/, {timeout: 2 * 20000}, async () => {
+Given(/^I am on the replay page$/, {timeout: browser.params.general_timeout}, async () => {
   await page.navigateTo('/tmv/replay/replay-session-1');
 });
 

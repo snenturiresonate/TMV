@@ -4,7 +4,6 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
   I want to schematic objects displayed with the latest state
   So that I have a live view of the railway
 
-  @replaySetup
   Scenario: 34081 - 21 Level Crossing State (Up)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type Level Crossing
@@ -13,7 +12,6 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
     #Then the Level Crossing will display an "Up" lefthand side
     * this replay setup test has been moved to become part of the replay test: 34393 - 27 Level Crossing State (Up)
 
-  @replaySetup
   Scenario: 34081 - 22 Level Crossing State (Down)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type Level Crossing
@@ -42,7 +40,6 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
     | 80  | RTLLFL    | Fal          | Barrier non-working          |
     | 88  | RTLLFL    | Fal          | Barrier Down and non-working |
 
-  @replaySetup
   Scenario: 34081 - 24a Direction Lock State (Locked)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type Direction Lock
@@ -51,7 +48,6 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
     #Then the Direction Lock will display a chevron in the direction of the lock
     * this replay setup test has been moved to become part of the replay test: 34393 - 30a Direction Lock State (Locked)
 
-  @replaySetup
   Scenario: 34081 - 24b Direction Lock State (Locked) both directions
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type Direction Lock
@@ -60,7 +56,6 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
     #Then the Direction Lock will display a chevron in the direction of the lock
     * this replay setup test has been moved to become part of the replay test: 34393 - 30b Direction Lock State (Locked) both directions
 
-  @replaySetup
   Scenario: 34081 - 25 Direction Lock State (Not Locked)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type Direction Lock
@@ -69,7 +64,6 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
     #Then the Direction Lock will not display a chevron
     * this replay setup test has been moved to become part of the replay test: 34393 - 31 Direction Lock State (Not Locked)
 
-  @replaySetup
   Scenario: 34081 - 26 AES State (AES Applied)
     #Given an S-Class message is received and processed
     #And the S-Class message is associated with an S-Class berth of type AES
@@ -78,7 +72,6 @@ Feature: 49636 - Schematic State - Level Crossing, Direction Lock and AES
     #Then the AES box will display an AES text (purple) in the box
     * this replay setup test has been moved to become part of the replay test: 34393 - 32 AES State (AES Applied)
 
-  @replaySetup
   Scenario: 34081 - 27 AES State (AES Not Applied)
       #Given an S-Class message is received and processed
       #And the S-Class message is associated with an S-Class berth of type AES

@@ -163,11 +163,11 @@ Feature: 33757 - TMV National Search
     And the schedule has a basic timetable
     And the schedule has schedule identifier characteristics
       | trainUid | stpIndicator | dateRunsFrom |
-      | A537657  | P            | 2020-01-01   |
+      | A53765   | P            | 2020-01-01   |
     And the schedule does not run on a day that is today
     And the schedule is received from LINX
     When I search Timetable for '4F05'
-    Then no results are returned with that planning UID 'A537657'
+    Then no results for today's train description '4F05' with planning UID 'A53765' are found
     Examples:
       | pageName         |
       | Home             |

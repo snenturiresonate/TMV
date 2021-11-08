@@ -416,7 +416,21 @@ export class MapPageObject {
   public async isBerthHighlighted(berthId: string): Promise<boolean> {
     const berth: ElementFinder = element(by.id('berth-element-rect-' + berthId));
     const berthClass: string = await berth.getAttribute('class');
+    if (berthClass === null) {
+      return Promise.resolve(false);
+    }
+    await CucumberLog.addText(`Berth class: ${berthClass}`);
     return Promise.resolve(berthClass.indexOf('berth_highlighted') >= 0);
+  }
+
+  public async isReplayBerthHighlighted(berthId: string): Promise<boolean> {
+    const berth: ElementFinder = element(by.id('berth-element-rect-' + berthId));
+    const berthClass: string = await berth.getAttribute('class');
+    if (berthClass === null) {
+      return Promise.resolve(false);
+    }
+    await CucumberLog.addText(`Berth class: ${berthClass}`);
+    return Promise.resolve(berthClass.indexOf('berth_highlight_temp') >= 0);
   }
 
   public async getBerthType(berthId: string): Promise<string> {

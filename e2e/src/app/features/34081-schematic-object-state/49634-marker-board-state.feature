@@ -8,7 +8,6 @@ Feature: 49634 - Schematic State - marker-board state
     * I reset redis
     * I am viewing the map gw15cambrian.v
 
-  @replaySetup
   Scenario: 34081-8 - Marker Board State (Movement Authority Given)
     #    Given an S-Class message is received and processed
     #    And the S-Class message is associated with a marker board
@@ -17,7 +16,6 @@ Feature: 49634 - Schematic State - marker-board state
     #    Then the marker board will display a Movement Authority given (green triangle on blue background)
     * this replay setup test has been moved to become part of the replay test: 34393 - 14 Marker Board State (Movement Authority Not Given)
 
-  @replaySetup
   Scenario: 34081-9 - Marker Board State (Movement Authority Not Given)
     #    Given an S-Class message is received and processed
     #    And the S-Class message is associated with a marker board
@@ -26,7 +24,6 @@ Feature: 49634 - Schematic State - marker-board state
     #    Then the marker board will display a Movement Authority not given (red triangle on blue background)
     * this replay setup test has been moved to become part of the replay test: 34393 - 15 Marker Board State (Movement Authority Given)
 
-  @replaySetup
   Scenario: 34081-10 - Marker Board State (Movement Authority Unknown)
 #    Given an S-Class message is received and processed
 #    And the S-Class message is associated with a marker board
@@ -35,7 +32,6 @@ Feature: 49634 - Schematic State - marker-board state
 #    Then the marker board will display a Movement Authority unknown (grey triangle on blue background)
     Then the marker board 'MH1201' will display a Movement Authority unknown [grey triangle on blue background]
 
-  @replaySetup
   Scenario: 34081-12 - Shunt Marker Board State (Movement Authority Given)
     #    Given an S-Class message is received and processed
     #    And the S-Class message is associated with a shunt marker board
@@ -44,7 +40,6 @@ Feature: 49634 - Schematic State - marker-board state
     #    Then the shunt marker board will display a Movement Authority given (white triangle with blue inner triangle)
     * this replay setup test has been moved to become part of the replay test: 34393-18 Shunt Marker Board State (Movement Authority Given)
 
-  @replaySetup
   Scenario: 34081-13 - Shunt Marker Board State (Movement Authority Not Given)
     #    Given an S-Class message is received and processed
     #    And the S-Class message is associated with a shunt marker board
@@ -53,7 +48,6 @@ Feature: 49634 - Schematic State - marker-board state
     #    Then the shunt marker board will display a Movement Authority not given (red triangle with blue inner triangle)
     * this replay setup test has been moved to become part of the replay test: 34393-19 Shunt Marker Board State (Movement Authority Not Given)
 
-  @replaySetup
   Scenario: 34081-14 - Shunt Marker Board State (Movement Authority Unknown)
     #    Given an S-Class message is received and processed
     #    And the S-Class message is associated with a shunt marker board

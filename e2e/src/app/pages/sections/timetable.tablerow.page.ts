@@ -5,7 +5,6 @@ import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export class TimetableTableRowPageObject {
   public static locationBy = by.css('td:nth-child(1)');
-  private valueRetry = 5;
 
   private location: ElementFinder;
   private changeEnRoute: ElementFinder;
@@ -52,62 +51,45 @@ export class TimetableTableRowPageObject {
 
   async getValue(valueName: string): Promise<string> {
     await this.refreshRowLocator();
-    try {
-      switch (valueName) {
-        case 'location':
-          let loc = await this.getNonStaleText(this.location);
-          if (await this.changeEnRoute.isPresent()) {
-            loc = loc.replace(await this.getNonStaleText(this.changeEnRoute), '').replace('\n', '');
-          }
-          return loc;
-        case 'changeEnRoute':
-          return this.getNonStaleText(this.changeEnRoute);
-        case 'plannedArr':
-          return this.getNonStaleText(this.plannedArr);
-        case 'plannedDep':
-          return this.getNonStaleText(this.plannedDep);
-        case 'publicArr':
-          return this.getNonStaleText(this.publicArr);
-        case 'publicDep':
-          return this.getNonStaleText(this.publicDep);
-        case 'plt':
-          return this.getNonStaleText(this.plt);
-        case 'path':
-          return this.getNonStaleText(this.path);
-        case 'ln':
-          return this.getNonStaleText(this.ln);
-        case 'allowances':
-          return this.getNonStaleText(this.allowances);
-        case 'activity':
-          return this.getNonStaleText(this.activity);
-        case 'actualArr':
-          return this.getNonStaleText(this.actualArr);
-        case 'actualDep':
-          return this.getNonStaleText(this.actualDep);
-        case 'actualPlt':
-          return this.getNonStaleText(this.actualPlt);
-        case 'actualPath':
-          return this.getNonStaleText(this.actualPath);
-        case 'actualLn':
-          return this.getNonStaleText(this.actualLn);
-        case 'punctuality':
-          return this.getNonStaleText(this.punctuality);
-      }
-    }
-    catch (issue) {
-      console.log(issue.toString());
-      await CucumberLog.addText(issue.toString());
-      let value = '';
-      if (this.valueRetry-- > 0) {
-        const logMsg = `Refreshing the row locator for ${valueName}, ${this.valueRetry} attempts remaining`;
-        console.log(logMsg);
-        await CucumberLog.addText(logMsg);
-        await this.refreshRowLocator();
-        await browser.sleep(1000);
-        value = await this.getValue(valueName);
-      }
-      this.valueRetry = 5;
-      return value;
+    switch (valueName) {
+      case 'location':
+        let loc = await this.getNonStaleText(this.location);
+        if (await this.changeEnRoute.isPresent()) {
+          loc = loc.replace(await this.getNonStaleText(this.changeEnRoute), '').replace('\n', '');
+        }
+        return loc;
+      case 'changeEnRoute':
+        return this.getNonStaleText(this.changeEnRoute);
+      case 'plannedArr':
+        return this.getNonStaleText(this.plannedArr);
+      case 'plannedDep':
+        return this.getNonStaleText(this.plannedDep);
+      case 'publicArr':
+        return this.getNonStaleText(this.publicArr);
+      case 'publicDep':
+        return this.getNonStaleText(this.publicDep);
+      case 'plt':
+        return this.getNonStaleText(this.plt);
+      case 'path':
+        return this.getNonStaleText(this.path);
+      case 'ln':
+        return this.getNonStaleText(this.ln);
+      case 'allowances':
+        return this.getNonStaleText(this.allowances);
+      case 'activity':
+        return this.getNonStaleText(this.activity);
+      case 'actualArr':
+        return this.getNonStaleText(this.actualArr);
+      case 'actualDep':
+        return this.getNonStaleText(this.actualDep);
+      case 'actualPlt':
+        return this.getNonStaleText(this.actualPlt);
+      case 'actualPath':
+        return this.getNonStaleText(this.actualPath);
+      case 'actualLn':
+        return this.getNonStaleText(this.actualLn);
+      case 'punctuality':
+        return this.getNonStaleText(this.punctuality);
     }
   }
 
@@ -116,7 +98,7 @@ export class TimetableTableRowPageObject {
   }
 
   async getNonStaleText(locator: ElementFinder): Promise<string> {
-    let text;
+    let text: string;
     for (let i = 0; i <= 2; i++) {
       try {
         await this.refreshRowLocator();
@@ -125,7 +107,10 @@ export class TimetableTableRowPageObject {
         break;
       }
       catch (error) {
-        console.log(error);
+        const msg = 'Error trying to get non-stale text, will retry...';
+        console.log(msg);
+        await CucumberLog.addText(msg);
+        await browser.sleep(1000);
       }
     }
     return Promise.resolve(text);

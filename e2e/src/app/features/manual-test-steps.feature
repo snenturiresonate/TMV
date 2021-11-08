@@ -12,8 +12,8 @@ Feature: Manual test steps
     Then I wait until today's train '<trainUID>' has loaded
 
     Examples:
-      | file                                | trainNum | trainUID | location | timing   |
-      | access-plan/1S42_PADTON_DIDCOTP.cif | 1B01     | L11001   | PADTON   | WTT_dep  |
+      | file                                       | trainNum | trainUID | location | timing   |
+      | access-plan/schedules_to_penzance_temp.cif | 1B01     | L11001   | PARR     | WTT_arr  |
 
   Scenario Outline: Activate a train
     * I delete '<trainUID>:today' from hash 'schedule-modifications'
@@ -57,3 +57,13 @@ Feature: Manual test steps
     Given the following change of ID TJM is received
       | trainUid | newTrainNumber | oldTrainNumber | departureHour | status | indicator | statusIndicator | primaryCode | time     |
       | L11001   | 1B03           | 1B01           | 13            | create | 07        | 07              | 99999       | 14:29:00 |
+
+  Scenario: TRI - Arrival at station
+    Given the following train running information message is sent from LINX
+      | trainUID | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType        |
+      | L11001   | 1B01        | today              | 15220               | PARR                   | Arrival at Station |
+
+  Scenario: TRI - Departure from station
+    Given the following train running information message is sent from LINX
+      | trainUID | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            |
+      | L11001   | 1B01        | today              | 15220               | PARR                   | Departure from Station |

@@ -57,6 +57,7 @@ export class NavBarPageObject {
   public helpMenu: ElementFinder;
   public searchFilterToggle: ElementFinder;
   public mapLink: ElementArrayFinder;
+  public mapLinkSignal: ElementArrayFinder;
   public mapPathToggle: ElementArrayFinder;
   public recentMaps: ElementArrayFinder;
   public mapChanger: ElementFinder;
@@ -120,6 +121,7 @@ export class NavBarPageObject {
     this.modalWindow = element.all(by.css('.modalpopup'));
     this.helpMenu = element(by.id('help-menu-button'));
     this.mapLink = element.all(by.css('#map-list>ul>li'));
+    this.mapLinkSignal = element.all(by.css('#signal-map-list>ul>li'));
     this.mapPathToggle = element.all(by.css('#map-path-toggle-button'));
     this.recentMaps = element.all(by.css('.map-details'));
     this.mapChanger = element(by.css('#mapNameDropDown'));
@@ -469,9 +471,14 @@ export class NavBarPageObject {
     await browser.actions().mouseMove(this.mapItemSearchContext).perform();
   }
 
-  public async getMapNames(): Promise<string> {
+  public async getMapNames(): Promise<any> {
     await this.hoverOverContextMenuMapsLink();
     return this.mapLink.getText();
+  }
+
+  public async getMapNamesForSignal(): Promise<any> {
+    await this.hoverOverContextMenuMapsLink();
+    return this.mapLinkSignal.getText();
   }
 
   public async getSignalMapNames(): Promise<string> {

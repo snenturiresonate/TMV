@@ -4,7 +4,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
   I want the view schematic maps in replay mode
   So that I can view the historic running railway
 
-  @replayTest
   Scenario: 34393 - 27 Level Crossing State (Up)
     # Replay Setup - 34081 - 21 Level Crossing State (Up)
     * I am viewing the map GW08cardiffswml.v
@@ -31,7 +30,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     Then the level crossing barrier status of 'C2LXPN' is Up
     And the level crossing barrier status of 'C2PNWK' is Wk
 
-  @replayTest
   Scenario: 34393 - 28 Level Crossing State (Down)
     # Replay Setup - 34081 - 22 Level Crossing State (Down)
     * I am viewing the map MD19marstonvale.v
@@ -56,7 +54,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     When I click Play button
     Then the level crossing barrier status of 'RTFSUD' is Dn
 
-  @replayTest
   Scenario: 34393 - 29 Level Crossing State (Failed)
     # Replay Setup - 34081 - 23 Level Crossing State - verification of non-working state display
     * I am viewing the map MD19marstonvale.v
@@ -81,7 +78,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     When I click Play button
     Then the level crossing barrier status of 'RTLLFL' is Fal
 
-  @replayTest
   Scenario: 34393 - 30a Direction Lock State (Locked)
     # Replay Setup - 34081 - 24a Direction Lock State (Locked)
     * I am viewing the map GW15cambrian.v
@@ -106,7 +102,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     When I click Play button
     Then the direction lock chevron of 'MHSBWP' is <
 
-  @replayTest
   Scenario: 34393 - 30b Direction Lock State (Locked) both directions
     # Replay Setup - 34081 - 24b Direction Lock State (Locked) both directions
     * I am viewing the map gw15cambrian.v
@@ -129,7 +124,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     Then the direction lock chevron of 'MHDJMH' is >
     And the direction lock chevron of 'MHMHDJ' is <
 
-  @replayTest
   Scenario: 34393 - 31 Direction Lock State (Not Locked)
     # Replay Setup - 34081 - 25 Direction Lock State (Not Locked)
     * I am viewing the map gw15cambrian.v
@@ -156,7 +150,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     When I click Play button
     Then the direction lock chevrons are not displayed
 
-  @replayTest
   Scenario: 34393 - 32 AES State (AES Applied)
     # Replay Setup - 34081 - 26 AES State (AES Applied)
     * I am viewing the map GW15cambrian.v
@@ -181,7 +174,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Level Crossing, 
     When I click Play button
     Then the AES box containing s-class-berth 'MHAES2' will display purple aes text of 'ES2'
 
-  @replayTest
   Scenario: 34393 - 33 AES State (AES Not Applied)
     # Replay Setup - 34081 - 27 AES State (AES Not Applied)
     * I am viewing the map GW15cambrian.v

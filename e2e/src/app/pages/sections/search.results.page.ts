@@ -58,6 +58,18 @@ export class SearchResultsPageObject {
     return new SearchResultsTableRowPage(rows.get(0));
   }
 
+  async rowByPlanningUIDandDateExists(planningUID: string, runDate: string): Promise<boolean> {
+    const activeTable: ElementFinder = await this.getActiveTable();
+    const rows: ElementArrayFinder = activeTable.all(by.xpath(`//tr[descendant::td[text()='${planningUID}'] and descendant::td[text()='${runDate}']]`));
+    const numRows = await rows.count();
+    if (numRows > 0) {
+      return Promise.resolve(true);
+    }
+    if (numRows < 1) {
+      return Promise.resolve(false);
+    }
+  }
+
   async getRowByService(service: string): Promise<SearchResultsTableRowPage> {
     const activeTable: ElementFinder = await this.getActiveTable();
     return new SearchResultsTableRowPage(activeTable.element(by.xpath(`//tr[descendant::td[text()='${service}']]`)));

@@ -204,30 +204,24 @@ export class TimeTablePageObject {
     }, browser.params.general_timeout, 'The timetable entry row should be displayed');
 
     const entryColValues: ElementArrayFinder = element.all(by.xpath('//*[child::*[text()=\'' + locString + '\']]/td'));
-    try {
-      return entryColValues.map(async (colValue: ElementFinder) => {
-        return this.getNonStaleText(colValue);
+    return entryColValues.map(async (colValue: ElementFinder) => {
+      return this.getNonStaleText(colValue);
       });
-    }
-    catch (error) {
-      if (error.toString().includes('StaleElementReferenceError')) {
-        console.log('Found a StaleElementReferenceError - retrying...');
-        await browser.sleep(1000);
-        return this.getTimetableEntryValsForLoc(locId);
-      }
-    }
   }
 
   async getNonStaleText(locator: ElementFinder): Promise<string> {
     let text;
     for (let i = 0; i <= 2; i++) {
       try {
-        await CommonActions.waitForElementToBePresent(locator);
+        await CommonActions.waitForElementToBePresent(locator, 20 * 1000, `Timeout waiting for locator, attempt ${i}`);
         text = await locator.getText();
         break;
       }
       catch (error) {
-        console.log(error);
+        const msg = 'Error getting non-stale timetable text, will retry...';
+        console.log(msg);
+        await CucumberLog.addText(msg);
+        await browser.sleep(1000);
       }
     }
     return Promise.resolve(text);

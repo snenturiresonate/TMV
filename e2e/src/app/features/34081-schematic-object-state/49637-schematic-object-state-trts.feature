@@ -4,7 +4,6 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
   I want to schematic objects displayed with the latest state
   So that I have a live view of the railway
 
-  @replaySetup
   Scenario:34081 - 28 Track State (Route Set)
     #Given an S-Class message is received and processed
     #And the S-Class message is a Route Expression Signalling function
@@ -33,7 +32,6 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
       | D3             | 06      | 00   |
     Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
 
-  @replaySetup
   Scenario: 34081 - 30 Dual Signals
     #Given a signal exists on a map
     #And that signal has multiple bits that are configured for the main signal
@@ -41,7 +39,6 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     #Then the signal roundel displays green
     * this replay setup test has been moved to become part of the replay test: 34393-36 Dual Signals
 
-  @replaySetup
   Scenario: 34081 - 31 Q Berth
     #Given An S-Class display berth exists in the Q berth configuration data
     #When a Q berth message is received
@@ -49,28 +46,24 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
     # Has type I
     * this replay setup test has been moved to become part of the replay test: 34393-37b Q Berth
 
-  @replaySetup
   Scenario: 34081 - 32a TRTS (Set - from red)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
     #Then the TRTS is  displayed for the signal
     * this replay setup test has been moved to become part of the replay test: 34393-38a TRTS (Set from red)
 
-  @replaySetup
   Scenario: 34081 - 32b TRTS (Set - from green)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 1
     #Then the TRTS is  displayed for the signal
     * this replay setup test has been moved to become part of the replay test: 34393-38b TRTS (Set from Green)
 
-  @replaySetup
   Scenario:34081 - 33a TRTS (Not Set back)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0
     #Then the TRTS is not displayed for the signal
     * this replay setup test has been moved to become part of the replay test: 34393-39a TRTS (Not Set from red)
 
-  @replaySetup
   Scenario: 34081 - 33b TRTS (Not Set)
     #Given a TRTS exists on a map
     #When a message is received setting the corresponding bit to 0

@@ -7,7 +7,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Active Shunters 
   Background:
     Given I am viewing the map GW5Abristolparkway.v
 
-  @replayTest
   Scenario: 34393 - 23 Active Shunters Release State (Given)
     # Replay Setup - 34081-15 - Active Shunters Release State (Given)
     * I set up all signals for address 53 in D0 to be not-proceed

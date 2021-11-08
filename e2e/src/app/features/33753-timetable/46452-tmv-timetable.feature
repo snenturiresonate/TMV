@@ -179,7 +179,7 @@ Feature: 33753 - TMV Timetable
       | schedType | lastSignal | lastReport | trainUid      | trustId   | lastTJM | headCode   |
       | LTP       | T519       |            | <planningUid> | <trustId> |         | <trainNum> |
     And the navbar punctuality indicator is displayed as 'green' or 'yellow'
-    And the punctuality is displayed as one of On time,+0m 30s,-0m 30s,+1m,-1m
+    And the punctuality is displayed as one of On time,+0m 30s,-0m 30s,+1m,-1m,+1m 30s,-1m 30s
     And I give the timetable a setting time of 2 seconds to load
     And The timetable entries contains the following data, with timings having live offset from 'earlier' at 'the beginning of the test'
       | location                    | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities |

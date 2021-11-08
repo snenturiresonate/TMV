@@ -7,7 +7,6 @@ Feature: 49635 - Schematic State - node proved state
   Background:
     Given I am viewing the map gw15cambrian.v
 
-  @replaySetup
   Scenario: 34081-15 - Node Proven State (Given)
     # Given an S-Class message is received and processed
     # And the S-Class message is associated with an S-Class berth of type Node Proved
@@ -16,7 +15,6 @@ Feature: 49635 - Schematic State - node proved state
     # Then the shunt marker board will display a Node Proven given (green cross next to the shunt marker board)
     * this replay setup test has been moved to become part of the replay test: 34393 - 21 Node Proven State (Given)
 
-  @replaySetup
   Scenario: 34081-16 - Node Proven State (Not Given)
     # Given an S-Class message is received and processed
     # And the S-Class message is associated with an S-Class berth of type Node Proved

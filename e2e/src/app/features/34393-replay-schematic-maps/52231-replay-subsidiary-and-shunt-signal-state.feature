@@ -7,7 +7,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
   Background:
     * I am viewing the map HDGW01paddington.v
 
-  @replayTest
   Scenario: 34393 - 11 Subsidiary Signal State (Proceed)
     # Replay Setup - 34081 - 5 Subsidiary Signal State (Proceed)
     * I set up all signals for address 29 in D4 to be not-proceed
@@ -37,7 +36,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     When I click Play button
     Then the signal roundel for signal 'SN271' is white
 
-  @replayTest
   Scenario: 34393 - 12 Shunt Signal State (Proceed)
     # Replay Setup - 34081 - 6 Shunt Signal State (Proceed)
     * I set up all signals for address 8F in D3 to be not-proceed
@@ -63,7 +61,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     When I click Play button
     Then the shunt signal state for signal 'SN6142' is white
 
-  @replayTest
   Scenario: 34393 - 13 Shunt Signal State (Not Proceed)
     # Replay Setup - 34081 - 7 Shunt Signal State (Not Proceed)
     * I set up all signals for address 8F in D3 to be proceed

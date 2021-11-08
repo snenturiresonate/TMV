@@ -7,7 +7,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Node Proved
   Background:
     * I am viewing the map GW15cambrian.v
 
-  @replayTest
   Scenario: 34393 - 21 Node Proven State (Given)
     # Replay Setup - 34081-15 - Node Proven State (Given)
     * I set up all signals for address 14 in MH to be not-proceed
@@ -31,7 +30,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - Node Proved
     When I click Play button
     Then the shunt-marker-board 'MH000C' will display a Node Proven given [a green cross next to the shunt marker board]
 
-  @replayTest
   Scenario: 34393 - 22 Node Proven State (Not Given)
     # Replay Setup - 34081-16 - Node Proven State (Not Given)
     * I set up all signals for address 14 in MH to be proceed

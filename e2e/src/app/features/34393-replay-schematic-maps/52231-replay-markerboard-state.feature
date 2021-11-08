@@ -4,7 +4,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
   I want the view schematic maps in replay mode
   So that I can view the historic running railway
 
-  @replayTest
   Scenario: 34393 - 14 Marker Board State (Movement Authority Not Given)
     # Replay Setup - 34081-8 - Marker Board State (Movement Authority Given)
     * I reset redis
@@ -31,7 +30,6 @@ Feature: 34393 - Replay page Schematic Object State Scenarios
     When I click Play button
     Then the marker board 'MH1201' will display a Movement Authority given [green triangle on blue background]
 
-  @replayTest
   Scenario: 34393 - 15 Marker Board State (Movement Authority Given)
     # Replay Setup - 34081-9 - Marker Board State (Movement Authority Not Given)
     * I reset redis
