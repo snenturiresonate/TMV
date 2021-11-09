@@ -62,13 +62,13 @@ export class TMVRedisUtils {
       '{last-berths-set}'];
     await Promise.all([
       await this.redisClient.listKeysByRedisType('*', RedisType.OPERATIONS)
-      .then(async output => this.redisClient.deleteKeys(output.filter(key => !configKeys.includes(key)), RedisType.OPERATIONS)),
+      .then(async output => this.redisClient.trimKeys(output.filter(key => !configKeys.includes(key)), RedisType.OPERATIONS)),
       await this.redisClient.listKeysByRedisType('*', RedisType.REPLAY)
-      .then(async output => this.redisClient.deleteKeys(output.filter(key => !configKeys.includes(key)), RedisType.REPLAY)),
+      .then(async output => this.redisClient.trimKeys(output.filter(key => !configKeys.includes(key)), RedisType.REPLAY)),
       await this.redisClient.listKeysByRedisType('*', RedisType.SCHEDULES)
-        .then(async output => this.redisClient.deleteKeys(output.filter(key => !configKeys.includes(key)), RedisType.SCHEDULES)),
+        .then(async output => this.redisClient.trimKeys(output.filter(key => !configKeys.includes(key)), RedisType.SCHEDULES)),
       await this.redisClient.listKeysByRedisType('*', RedisType.TRAINSLIST)
-        .then(async output => this.redisClient.deleteKeys(output.filter(key => !configKeys.includes(key)), RedisType.TRAINSLIST))
+        .then(async output => this.redisClient.trimKeys(output.filter(key => !configKeys.includes(key)), RedisType.TRAINSLIST))
     ]);
   }
 

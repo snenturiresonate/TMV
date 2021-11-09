@@ -412,9 +412,6 @@ Then('the signal roundel for signal {string} is {word}',
       actualSignalColourHex = await mapPageObject.getSignalLampRoundColour(signalId);
       return (expectedSignalColourHex === actualSignalColourHex);
     }, browser.params.general_timeout, `The signal roundel for signal ${signalId} was not ${expectedSignalColour}`);
-
-    expect(actualSignalColourHex, `The signal roundel for signal ${signalId} was not ${expectedSignalColour}`)
-      .to.equal(expectedSignalColourHex);
   });
 
 Then('the TRTS visibility status for {string} is {word}',
@@ -813,15 +810,6 @@ Then('the tracks {string} are displayed in {word} {word}',
       }
       return true;
     }, browser.params.replay_timeout, `Tracks ${trackIds} were not displayed in ${expectedWidth} ${expectedColour}`);
-
-    for (const trackId of expectedTrackIds) {
-      const actualTrackColour: string = await mapPageObject.getTrackColour(trackId);
-      const actualTrackWidth: string = await mapPageObject.getTrackWidth(trackId);
-      expect(actualTrackColour, `Track colour for ${trackIds} is not as expected`)
-        .to.equal(expectedTrackColourHex);
-      expect(actualTrackWidth, `Track width for ${trackIds} is not as expected`)
-        .to.equal(expectedTrackWidth);
-    }
   });
 
 Then('the berth context menu contains the signal id {string}', async (signalId: string) => {

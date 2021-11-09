@@ -4,10 +4,10 @@ import {RedisClient} from '../api/redis/redis-client';
 const redisClient: RedisClient = new RedisClient();
 
 When('I find berths that have configuration data for Berth translation and Step Translation', async () => {
-  const stepTranslationConfigResult: string[][][] = await redisClient.geAllFromStream('step-translation');
+  const stepTranslationConfigResult: [string, string[]][] = await redisClient.geAllFromStream('step-translation');
   const stepTranslationConfig = JSON.parse(stepTranslationConfigResult[0][1][1]);
 
-  const berthTranslationConfigResult: string[][][] = await redisClient.geAllFromStream('berth-translation');
+  const berthTranslationConfigResult: [string, string[]][] = await redisClient.geAllFromStream('berth-translation');
   const berthTranslationConfig = JSON.parse(berthTranslationConfigResult[0][1][1]);
 
   stepTranslationConfig.list.forEach(stepTranslationEntry => {

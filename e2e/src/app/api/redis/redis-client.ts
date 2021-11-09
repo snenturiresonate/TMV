@@ -2,32 +2,31 @@ import {browser} from 'protractor';
 import {RedisType} from './redis-type.model';
 import {RedisTypeToKeyMatcher} from './redis-type-to-key-matcher';
 import {StopWatch} from '../../utils/stopwatch';
-
-const Redis = require('ioredis');
+import * as RedisLibrary from 'ioredis';
 require('events').EventEmitter.defaultMaxListeners = 15;
 
 export class RedisClient {
   private static readonly slotsRefreshTimeout = 5000;
   private static constructed = false;
-  public static operationsClient = new Redis.Cluster([
+  public static operationsClient: RedisLibrary.Cluster = new RedisLibrary.Cluster([
     {
       port: browser.params.operations_redis_port,
       host: browser.params.operations_redis_host.replace('http://', '').replace('https://', ''),
     }
   ], {slotsRefreshTimeout: RedisClient.slotsRefreshTimeout});
-  public static schedulesClient = new Redis.Cluster([
+  public static schedulesClient: RedisLibrary.Cluster = new RedisLibrary.Cluster([
     {
       port: browser.params.schedules_redis_port,
       host: browser.params.schedules_redis_host.replace('http://', '').replace('https://', ''),
     }
   ], {slotsRefreshTimeout: RedisClient.slotsRefreshTimeout});
-  public static replayClient = new Redis.Cluster([
+  public static replayClient: RedisLibrary.Cluster = new RedisLibrary.Cluster([
     {
       port: browser.params.replay_redis_port,
       host: browser.params.replay_redis_host.replace('http://', '').replace('https://', ''),
     }
   ], {slotsRefreshTimeout: RedisClient.slotsRefreshTimeout});
-  public static trainsListClient = new Redis(
+  public static trainsListClient: RedisLibrary.Redis = new RedisLibrary(
     {
       port: browser.params.trainslist_redis_port,
       host: browser.params.replay_redis_host.replace('http://', '').replace('https://', ''),
@@ -123,6 +122,30 @@ export class RedisClient {
     return Promise.resolve();
   }
 
+  public async trimKeys(keys: string[], type?: RedisType): Promise<any> {
+    const promisesToTrim = [];
+    if (type) {
+      for (const key of keys) {
+        promisesToTrim.push(this.trimStream(key, this.getClient(type)));
+      }
+    } else {
+      for (const key of keys) {
+        promisesToTrim.push(this.trimStream(key, RedisClient.operationsClient));
+        promisesToTrim.push(this.trimStream(key, RedisClient.schedulesClient));
+        promisesToTrim.push(this.trimStream(key, RedisClient.replayClient));
+        promisesToTrim.push(this.trimStream(key, RedisClient.trainsListClient));
+      }
+    }
+    return Promise.all(promisesToTrim);
+  }
+
+  public async trimStream(key: string, client: any): Promise<void> {
+    const keyType = await client.type(key);
+    if (keyType === 'stream') {
+      await client.xtrim(key, ['MAXLEN', '0']);
+    }
+  }
+
   public async listKeys(fuzzyKey: string): Promise<string[]> {
     return Promise.all([
       await this.listKeysByRedisType(fuzzyKey, RedisType.OPERATIONS),
@@ -151,17 +174,17 @@ export class RedisClient {
     return Promise.resolve(keys);
   }
 
-  public async geAllFromStream(stream: string): Promise<string[][][]> {
+  public async geAllFromStream(stream: string): Promise<[string, string[]][]> {
     return RedisClient.operationsClient.xrevrange(stream, '+', '-');
   }
 
   public async hgetall(hashName: string): Promise<any> {
-    const client = this.getClient(this.redisKeyMatcher.match(hashName));
+    const client: RedisLibrary.Redis = this.getClient(this.redisKeyMatcher.match(hashName));
     return client.hgetall(hashName);
   }
 
   public async hgetParseJSON(hashName: string, key: string): Promise<any> {
-    const client = this.getClient(this.redisKeyMatcher.match(hashName));
+    const client: RedisLibrary.Redis = this.getClient(this.redisKeyMatcher.match(hashName));
     return new Promise((resolve, reject) => {
       client.hget(hashName, key, (error, value) => {
         if (error) {
@@ -174,7 +197,7 @@ export class RedisClient {
   }
 
   public async hgetString(hashName: string, key: string): Promise<any> {
-    const client = this.getClient(this.redisKeyMatcher.match(hashName));
+    const client: RedisLibrary.Redis = this.getClient(this.redisKeyMatcher.match(hashName));
     return new Promise((resolve, reject) => {
       client.hget(hashName, key, (error, value) => {
         if (error) {
@@ -187,7 +210,7 @@ export class RedisClient {
   }
 
   public async hkeys(hashName: string): Promise<any> {
-    const client = this.getClient(this.redisKeyMatcher.match(hashName));
+    const client: RedisLibrary.Redis = this.getClient(this.redisKeyMatcher.match(hashName));
     return new Promise((resolve, reject) => {
       client.hkeys(hashName, (error, value) => {
         if (error) {
