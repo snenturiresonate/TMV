@@ -106,6 +106,7 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       #Passing
       | access-plan/42006-schedules/42006-4c.cif | C11110   | Norton Bridge | 13:46:51  | 14:55:30   |
 
+  @bug @bug:79755
   Scenario Outline: 42006-5 Calculated arrival time for a location is not displayed when a TRI has already been received - <messageType>
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath  | refLocation | refTimingType           | newTrainDescription | newPlanningUid |
