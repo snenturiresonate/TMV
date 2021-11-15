@@ -269,8 +269,12 @@ When(/^the following live berth interpose messages? (?:is|are) sent from LINX(.*
     const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
     const now = DateAndTimeUtils.getCurrentTimeString();
     for (const berthInterposeMessage of berthInterposeMessages) {
+      let trainDescription = berthInterposeMessage.trainDescription;
+      if (trainDescription.includes('generated')) {
+        trainDescription = browser.referenceTrainDescription;
+      }
       await linxRestClient.postInterpose(
-        now, berthInterposeMessage.toBerth, berthInterposeMessage.trainDescriber, berthInterposeMessage.trainDescription);
+        now, berthInterposeMessage.toBerth, berthInterposeMessage.trainDescriber, trainDescription);
     }
   });
 
@@ -306,12 +310,16 @@ When(/^the following live berth step messages? (?:is|are) sent from LINX(.*)$/,
     const berthStepMessages: any = berthStepMessageTable.hashes();
     const now = DateAndTimeUtils.getCurrentTimeString();
     for (const berthStepMessage of berthStepMessages) {
+      let trainDescription = berthStepMessage.trainDescription;
+      if (trainDescription.includes('generated')) {
+        trainDescription = browser.referenceTrainDescription;
+      }
       const berthStep: BerthStep = new BerthStep(
         berthStepMessage.fromBerth,
         now,
         berthStepMessage.toBerth,
         berthStepMessage.trainDescriber,
-        berthStepMessage.trainDescription
+        trainDescription
       );
       await CucumberLog.addJson(berthStep);
       await linxRestClient.postBerthStep(berthStep);
@@ -446,7 +454,7 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
   for (const activation of trainActivationMessages) {
     const trainActivationMessageBuilder: TrainActivationMessageBuilder = new TrainActivationMessageBuilder();
     let trainUID = activation.trainUID;
-    if (trainUID === 'generatedTrainUId') {
+    if (trainUID === 'generatedTrainUId' || trainUID === 'generated') {
       trainUID = browser.referenceTrainUid;
     }
     const trainNumber = activation.trainNumber;
@@ -782,6 +790,12 @@ When(/^I step through the Berth Level Schedule for '(.*)'$/, async (uid: string)
 
 Given(/^I generate a new trainUID$/, async () => {
   browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
+  await CucumberLog.addText(`New train UID: ${browser.referenceTrainUid}`);
+});
+
+Given(/^I generate a new train description$/, async () => {
+  browser.referenceTrainDescription = await TrainUIDUtils.generateTrainDescription();
+  await CucumberLog.addText(`New train description: ${browser.referenceTrainDescription}`);
 });
 
 Given(/^I log the berth level schedule for '(.*)'$/, async (trainUid) => {

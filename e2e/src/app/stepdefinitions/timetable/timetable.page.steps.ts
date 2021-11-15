@@ -140,14 +140,18 @@ Then('The values for the header properties are as follows',
     const actualHeaderTrustId: string = await timetablePage.headerTrustId.getText();
     const actualHeaderTJM: string = await timetablePage.headerTJM.getText();
     let expectedUid = expectedHeaderPropertyValues.trainUid;
+    let expectedTrainDescription = expectedHeaderPropertyValues.headCode;
     const expectedTJM = expectedHeaderPropertyValues.lastTJM;
-    if (expectedUid === 'generatedTrainUId') {
+    if (expectedUid === 'generatedTrainUId' || expectedUid === 'generated') {
       expectedUid = browser.referenceTrainUid;
+    }
+    if (expectedTrainDescription.includes('generated')) {
+      expectedTrainDescription = browser.referenceTrainDescription;
     }
     expectedTJM.replace('today', DateAndTimeUtils.getCurrentDateTimeString('dd-MM-yyyy'));
 
     expect(actualHeaderHeadcode, 'Headcode is not as expected')
-      .to.equal(expectedHeaderPropertyValues.headCode);
+      .to.equal(expectedTrainDescription);
     expect(actualHeaderScheduleType, 'Schedule type is not as expected')
       .to.equal(expectedHeaderPropertyValues.schedType);
     expect(actualHeaderSignal, 'Last Signal is not as expected')
@@ -676,7 +680,7 @@ Then('The timetable details table contains the following data in each row', asyn
 
 When('I am on the timetable view for service {string}', {timeout: browser.params.general_timeout}, async (service: string) => {
   // try for today's service and if not try for tomorrow's
-  if (service === 'generatedTrainUId') {
+  if (service === 'generatedTrainUId' || service === 'generated') {
     service = browser.referenceTrainUid;
   }
   await browser.wait(async () => {

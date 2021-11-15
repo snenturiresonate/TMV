@@ -100,7 +100,7 @@ When ('the train in CIF file below is updated accordingly so time at the referen
 async function processCifInputs(cifInputs, plusMins = 0, minusMins = 0): Promise<any> {
   const newTrainProps: any = cifInputs.hashes()[0];
   let refTrainUid;
-  expect(newTrainProps.newTrainDescription.length, 'Train Description should be of form nCnn').to.equal(4);
+  let refTrainDescription = newTrainProps.newTrainDescription;
   if (newTrainProps.newPlanningUid === 'generated') {
     refTrainUid = browser.referenceTrainUid;
   }
@@ -108,6 +108,10 @@ async function processCifInputs(cifInputs, plusMins = 0, minusMins = 0): Promise
     expect(newTrainProps.newPlanningUid.length, 'Train UID (aka schedule ID) should be length 6').to.equal(6);
     refTrainUid = newTrainProps.newPlanningUid;
   }
+  if (refTrainDescription.includes('generated')) {
+    refTrainDescription = browser.referenceTrainDescription;
+  }
+  expect(refTrainDescription.length, 'Train Description should be of form nCnn').to.equal(4);
   const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), newTrainProps.filePath));
   const initialString = rawData.toString();
   const cifLines: string[] = initialString.split(/\r?\n/, 1000);
@@ -124,7 +128,7 @@ async function processCifInputs(cifInputs, plusMins = 0, minusMins = 0): Promise
   for (let j = 0; j < cifLines.length; j++) {
     const rowType = cifLines[j].substr(0, 2);
     if ((rowType === 'BS') || (rowType === 'CR')) {
-      cifLines[j] = adjustCIFTrainIds(cifLines[j], rowType, newTrainProps.newTrainDescription, refTrainUid);
+      cifLines[j] = adjustCIFTrainIds(cifLines[j], rowType, refTrainDescription, refTrainUid);
     }
     else {
       cifLines[j] = adjustCIFTimes(cifLines[j], rowType, browser.timeAdjustMs);

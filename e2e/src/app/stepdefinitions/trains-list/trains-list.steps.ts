@@ -87,7 +87,7 @@ When('I invoke the context menu for todays train {string} schedule uid {string} 
       await trainsListPage.rightClickTrainListItemNum(schedNum);
     }
     else {
-      if (scheduleId === 'generatedTrainUId') {
+      if (scheduleId === 'generatedTrainUId' || scheduleId === 'generated') {
         scheduleId = browser.referenceTrainUid;
       }
       const todaysScheduleString = scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
@@ -112,7 +112,7 @@ Then('train description {string} is visible on the trains list with schedule typ
 
 Then(/^train '?(\w+)'? with schedule id '?(\w+)'? for today (is|is not) visible on the trains list$/,
   async (serviceId: string, scheduleId: string, negate: string) => {
-    if (scheduleId === 'generatedTrainUId') {
+    if (scheduleId === 'generatedTrainUId' || scheduleId === 'generated') {
       scheduleId = browser.referenceTrainUid;
     }
     const todaysScheduleString = scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
@@ -130,7 +130,7 @@ Then(/^train '?(\w+)'? with schedule id '?(\w+)'? for today (is|is not) visible 
   });
 
 When(/^I remove today's train '(.*)' from the Redis trainlist$/, async (uid: string) => {
-  if (uid === 'generatedTrainUId') {
+  if (uid === 'generatedTrainUId' || uid === 'generated') {
     uid = browser.referenceTrainUid;
   }
   const client = new RedisClient();
@@ -151,7 +151,7 @@ When(/^I wait until today's or tomorrow's train '(.*)' has loaded$/, async (uid:
 });
 
 async function waitForTrainUid(uid: string, firstDate: string, secondDate: string = ''): Promise<boolean> {
-  if (uid === 'generatedTrainUId') {
+  if (uid === 'generatedTrainUId' || uid === 'generated') {
     uid = browser.referenceTrainUid;
   }
   const client = new RedisClient();
@@ -172,7 +172,7 @@ async function waitForTrainUid(uid: string, firstDate: string, secondDate: strin
 }
 
 When(/^I wait until today's train '(.*)' has been removed$/, async (uid: string) => {
-  if (uid === 'generatedTrainUId') {
+  if (uid === 'generatedTrainUId' || uid === 'generated') {
     uid = browser.referenceTrainUid;
   }
   const client = new RedisClient();

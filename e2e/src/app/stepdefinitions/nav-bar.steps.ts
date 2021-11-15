@@ -1,7 +1,7 @@
 import {NavBarPageObject} from '../pages/nav-bar.page';
 import {Then, When} from 'cucumber';
 import {expect} from 'chai';
-import {browser, by, element, ExpectedConditions} from 'protractor';
+import {browser, by, element} from 'protractor';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 import {ElasticSearchClient} from '../api/elastic/elastic-search-client';
 import {MapPageObject} from '../pages/maps/map.page';
@@ -157,7 +157,7 @@ When('I refresh the Elastic Search indices', async () => {
 });
 
 When(/^I search (Train|Signal|Timetable) for '(.*)'$/, async (filter: string, searchFor: string) => {
-  if (searchFor === 'generatedTrainUId') {
+  if (searchFor === 'generatedTrainUId' || searchFor === 'generated') {
     searchFor = browser.referenceTrainUid;
   }
 
@@ -190,14 +190,14 @@ When(/^I search (Train|Signal|Timetable) for '(.*)' and wait for result$/,
       <td _ngcontent-cvf-c94="" id="trainSearchDestination">CREWBHJ</td>
     </tr>
    */
-  if (searchFor === 'generatedTrainUId') {
+  if (searchFor === 'generatedTrainUId' || searchFor === 'generated') {
     searchFor = browser.referenceTrainUid;
   }
 
   let locator = `//table[@id='${filter.toLowerCase()}SearchResults']//tr`;
   for (const [key, value] of Object.entries(table.hashes()[0])) {
     let val = value;
-    if (value === 'generatedTrainUId') {
+    if (value === 'generatedTrainUId' || value === 'generated') {
       val = browser.referenceTrainUid;
     }
     if (value === 'today') {

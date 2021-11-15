@@ -8,7 +8,7 @@ const searchResultsPage: SearchResultsPageObject = new SearchResultsPageObject()
 
 
 Then(/^no results are returned with that planning UID '(.*)'$/, async (planningUID: string) => {
-  if (planningUID === 'generatedTrainUId') {
+  if (planningUID === 'generatedTrainUId' || planningUID === 'generated') {
     planningUID = browser.referenceTrainUid;
   }
   const row = await searchResultsPage.getRowByPlanningUID(planningUID);
@@ -17,7 +17,7 @@ Then(/^no results are returned with that planning UID '(.*)'$/, async (planningU
 });
 
 Then(/^results are returned with that planning UID '(.*)'$/, async (planningUID: string) => {
-  if (planningUID === 'generatedTrainUId') {
+  if (planningUID === 'generatedTrainUId' || planningUID === 'generated') {
     planningUID = browser.referenceTrainUid;
   }
   const row = await searchResultsPage.getRowByPlanningUID(planningUID);
@@ -30,7 +30,7 @@ Then(/^results are returned with that planning UID '(.*)'$/, async (planningUID:
 
 Then(/^one result is returned for today with that planning UID (.*) and it has status (.*) and sched (.*) and service (.*)$/,
     async (planningUID: string, expectedStatus: string, expectedSchedType: string, expectedServDesc: string) => {
-  if (planningUID === 'generatedTrainUId') {
+  if (planningUID === 'generatedTrainUId' || planningUID === 'generated') {
     planningUID = browser.referenceTrainUid;
   }
   const dateString = DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy');

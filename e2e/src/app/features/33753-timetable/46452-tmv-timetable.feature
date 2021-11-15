@@ -312,10 +312,12 @@ Feature: 33753 - TMV Timetable
     #    And the schedule is not matched to live stepping
     #    When the user is viewing the timetable
     #    Then the schedule is displayed with no predicted or live actual running information or header information.
+    * I generate a new trainUID
+    * I generate a new train description
     Given the following live berth interpose message is sent from LINX (which won't match anything)
       | toBerth | trainDescriber | trainDescription |
       | 0831    | D1             | <trainNum>       |
-    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+    And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1S42_PADTON_DIDCOTP.cif | CHOLSEY     | WTT_arr       | <trainNum>          | <planningUid>  |
     And I wait until today's train '<planningUid>' has loaded
@@ -361,8 +363,8 @@ Feature: 33753 - TMV Timetable
       | LTP       | T839       |            | <planningUid> |         |         | <trainNum> |
 
     Examples:
-      | trainNum | planningUid |
-      | 1A08     | L10008      |
+      | trainNum  | planningUid |
+      | generated | generated   |
 
   @replaySetup @tdd @tdd:60541
   Scenario Outline: 33753-6 - View Timetable Detail (Schedule Matched - becoming unmatched)

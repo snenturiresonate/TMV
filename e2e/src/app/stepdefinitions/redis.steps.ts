@@ -11,6 +11,9 @@ When('I delete {string} from hash {string}', async (field: string, hash: string)
   if (field.includes('generatedTrainUId')) {
     field = field.replace('generatedTrainUId', browser.referenceTrainUid);
   }
+  else if (field.includes('generated')) {
+    field = field.replace('generated', browser.referenceTrainUid);
+  }
   await redisClient.hashDelete(
     hash
       .replace('today', DateAndTimeUtils.convertToDesiredDateAndFormat(('today'), dateFormat))
