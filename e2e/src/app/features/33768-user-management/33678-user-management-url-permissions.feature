@@ -101,8 +101,9 @@ Feature: 33768-1: TMV User Management - Direct URL permissions
       | trainUID | trainDesc | scheduleDate |
       | C46096   | 1B69      | today        |
     Then I am re-directed to home page
-  @tdd
-  Scenario Outline: 33768 -20 Prevent direct navigation for user without Restrictions Role
+
+  @tdd @tdd:54546
+  Scenario Outline: 33768 -20 Prevent direct navigation for user without Restrictions Role - <user>
     #Given I have signed in
     #And I have a valid TMV role of <Role Type>
     #When I navigate to restrictions by URL
@@ -118,8 +119,8 @@ Feature: 33768-1: TMV User Management - Direct URL permissions
     Examples:
       | user             |
       | adminOnly        |
-      | Standard         |
-      | ScheduleMatching |
+      | standardOnly     |
+      | scheduleMatching |
 
   Scenario Outline: 33768 -21a Allow direct navigation for user Standard Role
     #Given I have signed in

@@ -21,6 +21,13 @@ export class UserCredentials {
     };
   }
 
+  public userStandardOnly = () => {
+    return {
+      userName: 'userStandard2',
+      password: 'password'
+    };
+  }
+
   public userRestrictions = () => {
     return {
       userName: 'userRestrictions',

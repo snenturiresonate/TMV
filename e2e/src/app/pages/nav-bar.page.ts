@@ -58,7 +58,7 @@ export class NavBarPageObject {
   public searchFilterToggle: ElementFinder;
   public mapLink: ElementArrayFinder;
   public mapLinkSignal: ElementArrayFinder;
-  public mapPathToggle: ElementArrayFinder;
+  public mapPathToggle: ElementFinder;
   public recentMaps: ElementArrayFinder;
   public mapChanger: ElementFinder;
   public mapSearchBox: ElementFinder;
@@ -122,7 +122,7 @@ export class NavBarPageObject {
     this.helpMenu = element(by.id('help-menu-button'));
     this.mapLink = element.all(by.css('#map-list>ul>li'));
     this.mapLinkSignal = element.all(by.css('#signal-map-list>ul>li'));
-    this.mapPathToggle = element.all(by.css('#map-path-toggle-button'));
+    this.mapPathToggle = element(by.id('map-path-toggle-button'));
     this.recentMaps = element.all(by.css('.map-details'));
     this.mapChanger = element(by.css('#mapNameDropDown'));
     this.mapSearchBox = element(by.id('map-search-box'));
@@ -500,8 +500,8 @@ export class NavBarPageObject {
 
   public async changeToRecentMap(mapName: string): Promise<void> {
     await this.mapChanger.click();
-    const recentMap = element(by.css('[id^=map-search-menu-recent-history-item-map-name-' + mapName.toLowerCase() + ']'));
-    await recentMap.click();
+    const recentMap = element(by.id('map-search-menu-recent-history-item-map-name-' + mapName));
+    await CommonActions.waitAndClick(recentMap);
   }
 
   public async getHighlightStatus(signalId: string): Promise<string> {

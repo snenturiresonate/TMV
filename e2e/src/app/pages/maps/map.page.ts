@@ -376,12 +376,12 @@ export class MapPageObject {
   }
 
   public async getTrackWidth(trackId: string): Promise<string> {
-    const track: ElementFinder = element(by.name('track-element-path-' + trackId));
+    const track: ElementFinder = element.all(by.name('track-element-path-' + trackId)).first();
     return track.getCssValue('stroke-width');
   }
 
   public async getTrackColour(trackId: string): Promise<string> {
-    const track: ElementFinder = element(by.name('track-element-path-' + trackId));
+    const track: ElementFinder = element.all(by.name('track-element-path-' + trackId)).first();
     const trackColourRgb: string = await track.getCssValue('stroke');
     return CssColorConverterService.rgb2Hex(trackColourRgb);
   }

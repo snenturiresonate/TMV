@@ -143,6 +143,9 @@ export class AppPage {
       case('standard'):
         authentication = this.authenticateAsStandardUser();
         break;
+      case('standardonly'):
+        authentication = this.authenticateAsStandardOnlyUser();
+        break;
       case('schedulematching'):
         authentication = this.authenticateAsScheduleMatchingUser();
         break;
@@ -190,6 +193,12 @@ export class AppPage {
   public async authenticateAsStandardUser(): Promise<void> {
     const userName = userCreds.userStandard().userName;
     const Password = userCreds.userStandard().password;
+    await authPage.authenticate(userName, Password);
+  }
+
+  public async authenticateAsStandardOnlyUser(): Promise<void> {
+    const userName = userCreds.userStandardOnly().userName;
+    const Password = userCreds.userStandardOnly().password;
     await authPage.authenticate(userName, Password);
   }
 

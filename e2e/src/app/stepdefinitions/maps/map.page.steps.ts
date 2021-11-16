@@ -39,7 +39,8 @@ const mapColourHex = {
   palegrey: '#b2b2b2',
   paleblue: '#00d2ff',
   purple: '#ff3cb1',
-  lightgrey: '#e1e1e1'
+  lightgrey: '#e1e1e1',
+  lightgreen: '#78ff78'
 };
 
 const mapLineWidth = {
@@ -753,6 +754,14 @@ When(/^I invoke the context menu on the map for train (.*)$/, async (trainDescri
   await mapPageObject.openContextMenuForTrainDescription(trainDescription);
 });
 
+When(/^I disable waiting for angular$/, async () => {
+  await browser.waitForAngularEnabled(false);
+});
+
+When(/^I enable waiting for angular$/, async () => {
+  await browser.waitForAngularEnabled(true);
+});
+
 When('I open timetable from the map context menu', async () => {
   await mapPageObject.mapContextMenuItems.get(1).click();
 });
@@ -762,11 +771,11 @@ When('I open schedule matching screen from the map context menu', async () => {
 });
 
 When(/^I toggle path (?:on|off) from the map context menu$/, async () => {
-  await mapPageObject.mapContextMenuItems.get(3).click();
+  await mapPageObject.mapContextMenuItems.get(2).click();
 });
 
 Then('the map context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
-  const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
+  const actualContextMenuItem: string = await CommonActions.waitAndGetText(mapPageObject.mapContextMenuItems.get(rowNum - 1));
   expect(actualContextMenuItem.toLowerCase(), `Map menu item not as expected`).to.contain(expectedText.toLowerCase());
 });
 
@@ -849,15 +858,15 @@ Then('the berth context menu is displayed with berth name {string}', async (expe
 Then('the train headcode color for berth {string} is {word}',
   async (berthId: string, expectedColor: string) => {
     let expectedColorHex = '';
-    let actualSignalStatus = '';
+    let actualBerthColour = '';
 
     await browser.wait(async () => {
       expectedColorHex = mapColourHex[expectedColor];
-      actualSignalStatus = await mapPageObject.getBerthColor(berthId);
-      return (actualSignalStatus === expectedColorHex);
-    }, browser.params.general_timeout, 'Waiting for the headcode colour');
+      actualBerthColour = await mapPageObject.getBerthColor(berthId);
+      return (actualBerthColour === expectedColorHex);
+    }, browser.params.general_timeout, `Berth colour was ${actualBerthColour}, but expected it to be ${expectedColorHex}`);
 
-    expect(actualSignalStatus, 'Headcode colour is not ' + expectedColor)
+    expect(actualBerthColour, `Berth colour was ${actualBerthColour}, but expected it to be ${expectedColorHex}`)
       .to.equal(expectedColorHex);
   });
 

@@ -5,6 +5,7 @@ import {browser, by, element} from 'protractor';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 import {ElasticSearchClient} from '../api/elastic/elastic-search-client';
 import {MapPageObject} from '../pages/maps/map.page';
+import {CommonActions} from '../pages/common/ui-event-handlers/actionsAndWaits';
 
 const navBarPage: NavBarPageObject = new NavBarPageObject();
 const elasticSearchClient: ElasticSearchClient = new ElasticSearchClient();
@@ -52,7 +53,7 @@ Then('{string} toggle is displayed in the title bar', async (expectedState: stri
       .to.equal(false);
   }
   else {
-    const mapPathIndicator = await navBarPage.mapPathToggle.getText();
+    const mapPathIndicator = await CommonActions.waitAndGetText(navBarPage.mapPathToggle);
     expect(mapPathIndicator, `PATH toggle is not shown when it should be`)
       .to.equal(expectedState);
   }
