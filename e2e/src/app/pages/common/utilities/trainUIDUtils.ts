@@ -24,7 +24,8 @@ export class TrainUIDUtils {
 
   public static generateTrainDescription(): Promise<string> {
     const randomCharacter = TrainUIDUtils.alphabet[Math.floor(Math.random() * TrainUIDUtils.alphabet.length)];
-    const randomOneDigitNumber = Math.floor((Math.random() * (10))).toString();
+    let randomOneDigitNumber = '0';
+    while (randomOneDigitNumber === '0') { randomOneDigitNumber = Math.floor((Math.random() * (10))).toString(); }
     const randomTwoDigitNumber = Math.floor((Math.random() * (100))).toString().padStart(1, '0');
     return Promise.resolve(`${randomOneDigitNumber}${randomCharacter}${randomTwoDigitNumber}`);
   }

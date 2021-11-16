@@ -45,7 +45,7 @@ exports.config = {
     //tags: ['@test']
     // To run all scenarios not marked @bug or @tdd, uncomment the next line
     tags: ['not (@bug or @tdd or @manual)'],
-    retry: 2
+    retry: 1
   },
   ignoreUncaughtExceptions: true,
   async onPrepare() {

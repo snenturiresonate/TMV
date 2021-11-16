@@ -201,7 +201,7 @@ export class TimeTablePageObject {
     const locString = locStrings[0] + ' ';
     await browser.wait(async () => {
       return element.all(by.xpath('//*[child::*[text()=\'' + locString + '\']]')).isPresent();
-    }, browser.params.general_timeout, 'The timetable entry row should be displayed');
+    }, browser.params.general_timeout, `The timetable entry row should be displayed for ${locString}, but could not be found`);
 
     const entryColValues: ElementArrayFinder = element.all(by.xpath('//*[child::*[text()=\'' + locString + '\']]/td'));
     return entryColValues.map(async (colValue: ElementFinder) => {

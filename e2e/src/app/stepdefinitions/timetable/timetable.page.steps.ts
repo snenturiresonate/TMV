@@ -502,44 +502,55 @@ Then('The timetable entries contains the following data',
 
 Then('The live timetable actual time entries are populated as follows:', async (timetableEntryDataTable: any) => {
   const expectedTimetableEntryColValues: any[] = timetableEntryDataTable.hashes();
+
+  const timetableRowPromises = [];
   for (const expectedTimetableEntryCol of expectedTimetableEntryColValues) {
-    await timetablePage.getRowByLocation(expectedTimetableEntryCol.location, expectedTimetableEntryCol.instance).then(async row => {
-      let actualTimetableEntryElement;
-      let actualTimetableEntryElementValue = 'UNKNOWN';
-      if (expectedTimetableEntryCol.column === 'actualArr') {
-        actualTimetableEntryElement = row.actualArr;
-        actualTimetableEntryElementValue = await row.actualArr.getText();
-      } else if (expectedTimetableEntryCol.column === 'actualDep') {
-        actualTimetableEntryElement = row.actualDep;
-        actualTimetableEntryElementValue = await row.actualDep.getText();
-      }
-      if (expectedTimetableEntryCol.valType === 'predicted') {
-        await browser.wait(ExpectedConditions.and(
-          ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, '('),
-          ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, ')')),
-          60 * 1000)
-          .catch(() => assert.fail(`${expectedTimetableEntryCol.column} is not showing as predicted - there should be brackets`));
-      } else if (expectedTimetableEntryCol.valType === 'actual') {
-        await browser.wait(ExpectedConditions.and(
-          ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, '(')),
-          ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, ')'))),
-          60 * 1000)
-          .catch(() => assert.fail(`${expectedTimetableEntryCol.column} is showing as predicted - there should be no brackets`));
-      } else if (expectedTimetableEntryCol.valType === 'absent') {
-        expect(actualTimetableEntryElementValue,
-          `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing time when should be nothing`)
-          .to.equal('');
-      } else {
-        expect(actualTimetableEntryElementValue,
-          `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} not as expected`)
-          .to.equal(expectedTimetableEntryCol.value);
-      }
+    timetableRowPromises.push(timetablePage.getRowByLocation(expectedTimetableEntryCol.location, expectedTimetableEntryCol.instance));
+  }
+  const timetableRows = await Promise.all(timetableRowPromises);
+
+  for (const expectedTimetableEntryCol of expectedTimetableEntryColValues) {
+    const possibleRows = timetableRows.filter(async possibleRow => {
+      return (await possibleRow.location.getText() === expectedTimetableEntryCol.location);
     });
+    expect(possibleRows.length, `Did not find the correct instances of ${expectedTimetableEntryCol.location}`)
+      .to.be.greaterThan(expectedTimetableEntryCol.instance - 1);
+    const row = possibleRows[expectedTimetableEntryCol.instance - 1];
+
+    let actualTimetableEntryElement;
+    let actualTimetableEntryElementValue = 'UNKNOWN';
+    if (expectedTimetableEntryCol.column === 'actualArr') {
+      actualTimetableEntryElement = row.actualArr;
+      actualTimetableEntryElementValue = await row.actualArr.getText();
+    } else if (expectedTimetableEntryCol.column === 'actualDep') {
+      actualTimetableEntryElement = row.actualDep;
+      actualTimetableEntryElementValue = await row.actualDep.getText();
+    }
+    if (expectedTimetableEntryCol.valType === 'predicted') {
+      await browser.wait(ExpectedConditions.and(
+        ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, '('),
+        ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, ')')),
+        20 * 1000)
+        .catch(() => assert.fail(`${expectedTimetableEntryCol.column} is not showing as predicted - there should be brackets`));
+    } else if (expectedTimetableEntryCol.valType === 'actual') {
+      await browser.wait(ExpectedConditions.and(
+        ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, '(')),
+        ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(actualTimetableEntryElement, ')'))),
+        20 * 1000)
+        .catch(() => assert.fail(`${expectedTimetableEntryCol.column} is showing as predicted - there should be no brackets`));
+    } else if (expectedTimetableEntryCol.valType === 'absent') {
+      expect(actualTimetableEntryElementValue,
+        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} showing time when should be nothing`)
+        .to.equal('');
+    } else {
+      expect(actualTimetableEntryElementValue,
+        `${expectedTimetableEntryCol.column} at ${expectedTimetableEntryCol.location} not as expected`)
+        .to.equal(expectedTimetableEntryCol.value);
+    }
   }
 });
 
 Then('The timetable entries contains the following data, with timings having {word} offset from {string} at {string}',
-  {timeout: browser.params.general_timeout},
   async (liveOrRecorded: string, referenceScenario: string, referenceTime: string, timetableEntryDataTable: any) => {
     let offsetMs = 0;
     if (liveOrRecorded === 'live') {
@@ -549,32 +560,45 @@ Then('The timetable entries contains the following data, with timings having {wo
       offsetMs = calculateOriginalTimeAdjustment(replayScenario.startTime, referenceTime);
     }
     const expectedTimetableEntryColValues: any[] = timetableEntryDataTable.hashes();
+    const timetableEntryValuePromises = [];
     for (const expectedTimetableEntryCol of expectedTimetableEntryColValues) {
-      const actualTimetableEntryColValues: string[] = await timetablePage.getTimetableEntryValsForLoc(expectedTimetableEntryCol.location);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.location],
-        `${expectedTimetableEntryCol.location} entry not present`).to.equal(expectedTimetableEntryCol.location);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.workingArrivalTime],
-        `workingArrivalTime for ${expectedTimetableEntryCol.location} not as expected`)
-        .to.equal(applyTimeAdjustment(expectedTimetableEntryCol.workingArrivalTime, offsetMs));
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.workingDeptTime],
-        `workingDeptTime for ${expectedTimetableEntryCol.location} not as expected`)
-        .to.equal(applyTimeAdjustment(expectedTimetableEntryCol.workingDeptTime, offsetMs));
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.publicArrivalTime],
-        `publicArrivalTime for ${expectedTimetableEntryCol.location} not as expected`)
-        .to.equal(applyTimeAdjustment(expectedTimetableEntryCol.publicArrivalTime, offsetMs));
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.publicDeptTime],
-        `publicDeptTime for ${expectedTimetableEntryCol.location} not as expected`)
-        .to.equal(applyTimeAdjustment(expectedTimetableEntryCol.publicDeptTime, offsetMs));
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalAssetCode],
-        `Platform for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.originalAssetCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalPathCode],
-        `pathCode for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.originalPathCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.originalLineCode],
-        `lineCode for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.originalLineCode);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.allowances],
-        `allowances for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.allowances);
-      expect(actualTimetableEntryColValues[timetableColumnIndexes.activities],
-        `activities for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.activities);
+      timetableEntryValuePromises.push(timetablePage.getTimetableEntryValsForLoc(expectedTimetableEntryCol.location));
+    }
+    const actualTimetableEntryValues = await Promise.all(timetableEntryValuePromises);
+
+    let actualTimetableRow = [];
+    for (const expectedTimetableEntryCol of expectedTimetableEntryColValues) {
+      actualTimetableRow = actualTimetableEntryValues.filter(timetableRow => {
+        return (timetableRow[timetableColumnIndexes.location] === expectedTimetableEntryCol.location);
+      });
+      expect(actualTimetableRow.length, `Could not find ${expectedTimetableEntryCol.location}`).to.be.greaterThan(0);
+      actualTimetableRow = actualTimetableRow[0];
+      if (actualTimetableRow !== undefined) {
+        expect(actualTimetableRow[timetableColumnIndexes.location],
+          `${expectedTimetableEntryCol.location} entry not present`).to.equal(expectedTimetableEntryCol.location);
+        expect(actualTimetableRow[timetableColumnIndexes.workingArrivalTime],
+          `adjusted workingArrivalTime for ${expectedTimetableEntryCol.location} not as expected`)
+          .to.equal(applyTimeAdjustment(expectedTimetableEntryCol.workingArrivalTime, offsetMs));
+        expect(actualTimetableRow[timetableColumnIndexes.workingDeptTime],
+          `adjusted workingDeptTime for ${expectedTimetableEntryCol.location} not as expected`)
+          .to.equal(applyTimeAdjustment(expectedTimetableEntryCol.workingDeptTime, offsetMs));
+        expect(actualTimetableRow[timetableColumnIndexes.publicArrivalTime],
+          `adjusted publicArrivalTime for ${expectedTimetableEntryCol.location} not as expected`)
+          .to.equal(applyTimeAdjustment(expectedTimetableEntryCol.publicArrivalTime, offsetMs));
+        expect(actualTimetableRow[timetableColumnIndexes.publicDeptTime],
+          `adjusted publicDeptTime for ${expectedTimetableEntryCol.location} not as expected`)
+          .to.equal(applyTimeAdjustment(expectedTimetableEntryCol.publicDeptTime, offsetMs));
+        expect(actualTimetableRow[timetableColumnIndexes.originalAssetCode],
+          `Platform for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.originalAssetCode);
+        expect(actualTimetableRow[timetableColumnIndexes.originalPathCode],
+          `pathCode for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.originalPathCode);
+        expect(actualTimetableRow[timetableColumnIndexes.originalLineCode],
+          `lineCode for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.originalLineCode);
+        expect(actualTimetableRow[timetableColumnIndexes.allowances],
+          `allowances for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.allowances);
+        expect(actualTimetableRow[timetableColumnIndexes.activities],
+          `activities for ${expectedTimetableEntryCol.location} not as expected`).to.equal(expectedTimetableEntryCol.activities);
+      }
     }
   });
 

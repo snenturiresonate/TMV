@@ -180,7 +180,7 @@ Feature: 33753 - TMV Timetable
       | LTP       | T519       |            | <planningUid> | <trustId> |         | <trainNum> |
     And the navbar punctuality indicator is displayed as 'green' or 'yellow'
     And the punctuality is displayed as one of On time,+0m 30s,-0m 30s,+1m,-1m,+1m 30s,-1m 30s
-    And I give the timetable a setting time of 2 seconds to load
+    And I give the timetable a settling time of 2 seconds to update
     And The timetable entries contains the following data, with timings having live offset from 'earlier' at 'the beginning of the test'
       | location                    | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities |
       | London Paddington           |                    | 23:33:00        |                   | 23:33:00       | 4                 |                  | 1                |            | TB         |
@@ -242,7 +242,7 @@ Feature: 33753 - TMV Timetable
     When the following live berth step message is sent from LINX (moving train along)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 0519      | 0533    | D6             | <trainNum>       |
-    And the maximum amount of time is allowed for end to end transmission
+    And I give the timetable a settling time of 2 seconds to update
     Then The live timetable actual time entries are populated as follows:
       | location | instance | column    | valType |
       | Slough   | 1        | actualArr | actual  |
@@ -270,6 +270,7 @@ Feature: 33753 - TMV Timetable
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       | SN206      |            | <planningUid> |         |         | <trainNum> |
+    And I give the timetable a settling time of 2 seconds to update
     And The live timetable actual time entries are populated as follows:
       | location        | instance | column    | valType   |
       | Ealing Broadway | 1        | actualArr | actual    |
@@ -282,6 +283,7 @@ Feature: 33753 - TMV Timetable
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       | SN202      |            | <planningUid> |         |         | <trainNum> |
+    And I give the timetable a settling time of 2 seconds to update
     And The live timetable actual time entries are populated as follows:
       | location        | instance | column    | valType |
       | Ealing Broadway | 1        | actualArr | actual  |
@@ -322,6 +324,7 @@ Feature: 33753 - TMV Timetable
       | access-plan/1S42_PADTON_DIDCOTP.cif | CHOLSEY     | WTT_arr       | <trainNum>          | <planningUid>  |
     And I wait until today's train '<planningUid>' has loaded
     And I am on the timetable view for service '<planningUid>'
+    And I give the timetable a settling time of 2 seconds to update
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       |            |            | <planningUid> |         |         | <trainNum> |
@@ -353,6 +356,7 @@ Feature: 33753 - TMV Timetable
     And the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 0831      | 0839    | D1             | <trainNum>       |
+    And I give the timetable a settling time of 2 seconds to update
     Then The live timetable actual time entries are populated as follows:
       | location | instance | column    | valType   |
       | Cholsey  | 1        | actualArr | actual    |
@@ -395,6 +399,7 @@ Feature: 33753 - TMV Timetable
     And The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       | SN37       |            | <planningUid> |         |         | <trainNum> |
+    And I give the timetable a settling time of 2 seconds to update
     And The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed           | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
       | 04/01/2021 to 25/03/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | D30037  | EF       | 25507005         | P               | XX            |           | ,            | 1     | B ,          | A ,          | 802 , 811  | EMU , DMU | 120mph , 144mph | ,         | m , m       | D , D,B,A                    |                 |
@@ -427,6 +432,7 @@ Feature: 33753 - TMV Timetable
     And I switch to the new tab
     And I un-match the currently matched schedule
     And I switch to the second-newest tab
+    And I give the timetable a settling time of 2 seconds to update
     And The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed           | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
       | 04/01/2021 to 25/03/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             |         | EF       | 25507005         | P               | XX            |           | ,            | 1     | B ,          | A ,          | 802 , 811  | EMU , DMU | 120mph , 144mph | ,         | m , m       | D , D,B,A                    |                 |
@@ -470,6 +476,7 @@ Feature: 33753 - TMV Timetable
     And the punctuality is displayed as ''
     When I switch to the timetable details tab
     And The timetable details tab is visible
+    And I give the timetable a settling time of 2 seconds to update
     Then The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed  | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
       | 15/12/2019 to 10/05/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             |         | EF       | 25507005         | P               | OO            |           |              | 1     | S            |              |            | EMU       | 110mph |           | m           | D                            |                 |
@@ -480,6 +487,7 @@ Feature: 33753 - TMV Timetable
     Then The values for the header properties are as follows
       | schedType | lastSignal    | lastReport | trainUid      | trustId | lastTJM | headCode   |
       | LTP       | T1717X, T1717 |            | <planningUid> |         |         | <trainNum> |
+    And I give the timetable a settling time of 2 seconds to update
     And The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed  | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
       | 15/12/2019 to 10/05/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | D11717  | EF       | 25507005         | P               | OO            |           |              | 1     | S            |              |            | EMU       | 110mph |           | m           | D                            |                 |
