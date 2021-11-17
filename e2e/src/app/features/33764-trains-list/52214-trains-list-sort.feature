@@ -7,22 +7,23 @@ Feature: 52214 - TMV Trains List - sort
 
   Background:
     * I remove all trains from the trains list
-    Given the access plan located in CIF file 'access-plan/trains_list_sort_test.cif' is amended so that all services start within the next hour and then received from LINX
-    And the following train running information messages with delay against booked time are sent from LINX
+    * the access plan located in CIF file 'access-plan/trains_list_sort_test.cif' is amended so that all services start within the next hour and then received from LINX
+    * the following train running information messages with delay against booked time are sent from LINX
       | trainUID | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | delay  | hourDepartFromOrigin |
       | V30607   | 5G14        | today              | 73000               | PADTON                 | Departure from Origin  | +01:20 | 9                    |
       | C74257   | 2M34        | today              | 74237               | RDNGSTN                | Departure from station | -00:17 | 9                    |
       | V77798   | 1Z37        | today              | 73000               | DIDCOTP                | Arrival at station     | +00:00 | 19                   |
       | Y95687   | 1P77        | today              | 73000               | STHALL                 | Passing Location       | +02:08 | 21                   |
+    * I am authenticated to use TMV
+    * I restore to default train list config
 
 
   Scenario Outline: 33764-3a Trains List Column (Primary/Secondary Sorting - Initial defaults header indication)
-#    Given the user is viewing the trains list
-#    And the default columns have a sort (primary and secondary)
-#    When the user is selecting a column to primary/secondary sort on
-#    Then the trains list is sorted based on the selected primary sort (default descending) with the secondary sort (default descending) applied
-    Given I am authenticated to use TMV
-    And I have not opened the trains list before
+    # Given the user is viewing the trains list
+    # And the default columns have a sort (primary and secondary)
+    # When the user is selecting a column to primary/secondary sort on
+    # Then the trains list is sorted based on the selected primary sort (default descending) with the secondary sort (default descending) applied
+    Given I have not opened the trains list before
     And I am on the trains list Config page
     And I set trains list columns to include '<columnsToInclude>'
     And I save the trains list config
@@ -50,12 +51,11 @@ Feature: 52214 - TMV Trains List - sort
 
   @tdd
   Scenario: 33764-4a Trains List Column (Ascending/Descending Sorting - Initial display list is correctly sorted)
-#    Given the user is viewing the trains list
-#    And the default columns have a sort (primary and secondary)
-#    When the user selects a primary or secondary to sort on (ascending or descending)
-#    Then the trains list is sorted based on the selected primary/secondary sort (ascending or descending) with the secondary sort (ascending or descending) applied
-    Given I am authenticated to use TMV
-    And I have not opened the trains list before
+    # Given the user is viewing the trains list
+    # And the default columns have a sort (primary and secondary)
+    # When the user selects a primary or secondary to sort on (ascending or descending)
+    # Then the trains list is sorted based on the selected primary/secondary sort (ascending or descending) with the secondary sort (ascending or descending) applied
+    Given I have not opened the trains list before
     And I am on the trains list page
     When The trains list table is visible
     Then the entries in PUNCT. column are in descending order
@@ -63,12 +63,11 @@ Feature: 52214 - TMV Trains List - sort
     * the access plan located in CIF file 'access-plan/trains_list_sort_cancelled.cif' is received from LINX
 
   Scenario Outline: 33764-4b Trains List Column (Ascending/Descending Sorting - sorting of list updates to reflect selections made)
-#    Given the user is viewing the trains list
-#    And the default columns have a sort (primary and secondary)
-#    When the user selects a primary or secondary to sort on (ascending or descending)
-#    Then the trains list is sorted based on the selected primary/secondary sort (ascending or descending) with the secondary sort (ascending or descending) applied
-    Given I am authenticated to use TMV
-    And I am on the trains list Config page
+    # Given the user is viewing the trains list
+    # And the default columns have a sort (primary and secondary)
+    # When the user selects a primary or secondary to sort on (ascending or descending)
+    # Then the trains list is sorted based on the selected primary/secondary sort (ascending or descending) with the secondary sort (ascending or descending) applied
+    Given I am on the trains list Config page
     And I set trains list columns to include '<columnsToInclude>'
     And I save the trains list config
     And There is no unsaved indicator

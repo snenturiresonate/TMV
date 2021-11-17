@@ -180,6 +180,7 @@ export class MapPageObject {
 
   public async getSClassBerthElementTextColour(elementId: string): Promise<string> {
     const textElement: ElementFinder = await this.getSClassBerthElementFinder(elementId);
+    await CommonActions.waitForElementToBeVisible(textElement);
     const textElementRgb: string = await textElement.getCssValue('fill');
     return CssColorConverterService.rgb2Hex(textElementRgb);
   }
@@ -187,6 +188,7 @@ export class MapPageObject {
   public async getSClassBerthElementText(elementId: string): Promise<string> {
     await this.waitUntilSClassBerthElementIsPresent(elementId);
     const textElement: ElementFinder = await this.getSClassBerthElementFinder(elementId);
+    await CommonActions.waitForElementToBeVisible(textElement);
     return textElement.getText();
   }
 
