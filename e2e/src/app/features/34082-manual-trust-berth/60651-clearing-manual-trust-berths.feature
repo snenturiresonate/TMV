@@ -91,7 +91,6 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
     * I remove today's train '<trainUID>' from the Redis trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
     And I wait until today's train '<trainUID>' has loaded
-    And I give the CIF 2 seconds to process
     Given I am viewing the map nw05sandhillsnl.v
     And the following train running info message with time is sent from LINX
       | trainUID   | trainNumber   | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | timestamp |
