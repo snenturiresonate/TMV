@@ -204,6 +204,7 @@ async function logout(): Promise<void> {
   if (await homePage.userProfileIcon.isPresent()) {
     await navBar.openUserProfileMenu();
     await navBar.clickSignOutButton();
+    await authPage.waitForSignInModalToBeVisible();
   }
   if (await authPage.signInModalIsPresent() === false) {
     // An error must have occurred, so recursively retry

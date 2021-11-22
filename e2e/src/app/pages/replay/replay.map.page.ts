@@ -29,7 +29,7 @@ export class ReplayMapPage {
     // Replay Map Page
     this.continuationLinkContextMenu = new ContinuationLinkContextMenu();
     this.berthContextMenu = new BerthContextMenu();
-    this.bufferingIndicator = element(by.css('.buffering-indicator'));
+    this.bufferingIndicator = element.all(by.css('.buffering-indicator')).first();
     this.skipForwardButton = element(by.xpath('//li[contains(text(),"skip_next")]'));
     this.skipBackButton = element(by.xpath('//li[contains(text(),"skip_previous")]'));
     this.playButton = element(by.xpath('//li[contains(text(),"play_circle_outline")]'));

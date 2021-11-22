@@ -76,4 +76,9 @@ export class AuthenticationModalDialoguePage {
   public async signInModalIsVisible(): Promise<boolean> {
     return this.visibleModalElement.isDisplayed();
   }
+
+  public async waitForSignInModalToBeVisible(): Promise<void> {
+    await CommonActions.waitForElementToBePresent(this.visibleModalElement);
+    return CommonActions.waitForElementToBeVisible(this.visibleModalElement);
+  }
 }

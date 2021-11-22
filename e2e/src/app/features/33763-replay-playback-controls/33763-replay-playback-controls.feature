@@ -1,4 +1,3 @@
-@bug @bug:72967
 Feature: 33763 - TMV Replay Playback Controls
   As a TMV User
   I want the replay to have a rich set of controls
