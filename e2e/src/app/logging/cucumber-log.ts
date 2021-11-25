@@ -12,6 +12,11 @@ export class CucumberLog
       await CucumberLog.addScreenshot();
     }
   }
+  public static async addEnvironmentDetailsOnFailure(scenario: any): Promise<void> {
+    if (scenario.result.status === Status.FAILED){
+      await CucumberLog.addText(`Stack Name: ${browser.params.dynamo_suffix}, IP: ${browser.params.test_harness_ci_ip}`);
+    }
+  }
   public static async addJson(obj: any): Promise<void> {
       CucumberLog.cucumberLog.attach(JSON.stringify(obj), 'application/json');
   }

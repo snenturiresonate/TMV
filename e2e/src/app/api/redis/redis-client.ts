@@ -8,28 +8,75 @@ require('events').EventEmitter.defaultMaxListeners = 15;
 export class RedisClient {
   private static readonly slotsRefreshTimeout = 5000;
   private static constructed = false;
+  private static redisHostIp: string = browser.params.test_harness_ci_ip.replace('http://', '').replace('https://', '');
+
   public static operationsClient: RedisLibrary.Cluster = new RedisLibrary.Cluster([
     {
       port: browser.params.operations_redis_port,
-      host: browser.params.operations_redis_host.replace('http://', '').replace('https://', ''),
+      host: 'redis-operations',
     }
-  ], {slotsRefreshTimeout: RedisClient.slotsRefreshTimeout});
+  ], {
+    slotsRefreshTimeout: RedisClient.slotsRefreshTimeout,
+    natMap: {
+      'redis-operations:8600': {host: RedisClient.redisHostIp, port: 8600},
+      'redis-operations:8601': {host: RedisClient.redisHostIp, port: 8601},
+      'redis-operations:8602': {host: RedisClient.redisHostIp, port: 8602},
+      'redis-operations:8603': {host: RedisClient.redisHostIp, port: 8603},
+      'redis-operations:8604': {host: RedisClient.redisHostIp, port: 8604},
+      'redis-operations:8605': {host: RedisClient.redisHostIp, port: 8605},
+    },
+    dnsLookup(hostname: string, callback: any): void {
+      if (hostname === 'redis-operations') {
+        callback(null, RedisClient.redisHostIp);
+      }
+    }
+  });
   public static schedulesClient: RedisLibrary.Cluster = new RedisLibrary.Cluster([
     {
       port: browser.params.schedules_redis_port,
-      host: browser.params.schedules_redis_host.replace('http://', '').replace('https://', ''),
+      host: 'redis-schedules',
     }
-  ], {slotsRefreshTimeout: RedisClient.slotsRefreshTimeout});
+  ], {
+    slotsRefreshTimeout: RedisClient.slotsRefreshTimeout,
+    natMap: {
+      'redis-schedules:8800': {host: RedisClient.redisHostIp, port: 8800},
+      'redis-schedules:8801': {host: RedisClient.redisHostIp, port: 8801},
+      'redis-schedules:8802': {host: RedisClient.redisHostIp, port: 8802},
+      'redis-schedules:8803': {host: RedisClient.redisHostIp, port: 8803},
+      'redis-schedules:8804': {host: RedisClient.redisHostIp, port: 8804},
+      'redis-schedules:8805': {host: RedisClient.redisHostIp, port: 8805},
+    },
+    dnsLookup(hostname: string, callback: any): void {
+      if (hostname === 'redis-schedules') {
+        callback(null, RedisClient.redisHostIp);
+      }
+    }
+  });
   public static replayClient: RedisLibrary.Cluster = new RedisLibrary.Cluster([
     {
       port: browser.params.replay_redis_port,
-      host: browser.params.replay_redis_host.replace('http://', '').replace('https://', ''),
+      host: 'redis-replay',
     }
-  ], {slotsRefreshTimeout: RedisClient.slotsRefreshTimeout});
+  ], {
+    slotsRefreshTimeout: RedisClient.slotsRefreshTimeout,
+    natMap: {
+      'redis-replay:8700': {host: RedisClient.redisHostIp, port: 8700},
+      'redis-replay:8701': {host: RedisClient.redisHostIp, port: 8701},
+      'redis-replay:8702': {host: RedisClient.redisHostIp, port: 8702},
+      'redis-replay:8703': {host: RedisClient.redisHostIp, port: 8703},
+      'redis-replay:8704': {host: RedisClient.redisHostIp, port: 8704},
+      'redis-replay:8705': {host: RedisClient.redisHostIp, port: 8705},
+    },
+    dnsLookup(hostname: string, callback: any): void {
+      if (hostname === 'redis-replay') {
+        callback(null, RedisClient.redisHostIp);
+      }
+    }
+  });
   public static trainsListClient: RedisLibrary.Redis = new RedisLibrary(
     {
       port: browser.params.trainslist_redis_port,
-      host: browser.params.replay_redis_host.replace('http://', '').replace('https://', ''),
+      host: RedisClient.redisHostIp,
     }
   );
 

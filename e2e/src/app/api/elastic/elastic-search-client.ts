@@ -5,9 +5,11 @@ import {CucumberLog} from '../../logging/cucumber-log';
 
 export class ElasticSearchClient {
   public httpClient: HttpClient;
+  private elasticHost: string;
 
   constructor() {
-    this.httpClient = new HttpClient(`http://${browser.params.operations_redis_host}:8210`);
+    this.elasticHost = browser.params.test_harness_ci_ip.replace('http://', '').replace('https://', '');
+    this.httpClient = new HttpClient(`http://${this.elasticHost}:8210`);
     this.httpClient.failOnHttpError = true;
   }
 

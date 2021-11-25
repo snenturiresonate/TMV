@@ -44,6 +44,7 @@ After('@loginPageTest', async () => {
 After(async function(scenario) {
   await handleUnexpectedAlert();
   await CucumberLog.addScreenshotOnFailure(scenario);
+  await CucumberLog.addEnvironmentDetailsOnFailure(scenario);
   browser.manage().logs().get(logging.Type.BROWSER)
     .then(logs => expect(logs).not.have.deep.property('level', logging.Level.SEVERE))
     .catch(reason => console.log(scenario.name + ' : ' + reason));
