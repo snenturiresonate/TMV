@@ -9,9 +9,8 @@ Feature: 34080 - Last Berth
     * I remove all trains from the trains list
     * I am on the home page
     * I restore to default train list config
-    * I delete 'train-describer-D6' from Redis
-    * I delete 'train-describer-state-D6' from Redis
     * I delete 'last-berth-states' from Redis
+    * I reset redis
 
 
   Scenario Outline: 34080-1a Last Berth (Secondary Click) - less than 10
@@ -55,6 +54,12 @@ Feature: 34080 - Last Berth
       | trainUID   | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | C56457     | 2B57        | now                    | 99999               | MDNHEAD                | today         |
 
+    # Log the berth level schedules
+    * I log the berth & locations from the berth level schedule for 'C56451'
+    * I log the berth & locations from the berth level schedule for 'C56453'
+    * I log the berth & locations from the berth level schedule for 'C56455'
+    * I log the berth & locations from the berth level schedule for 'C56457'
+
     # Inject stepping
     When the following live - 7 minutes berth interpose messages are sent from LINX (setting up matches)
       | toBerth | trainDescriber | trainDescription |
@@ -94,14 +99,14 @@ Feature: 34080 - Last Berth
     * berth '<lB2>' in train describer '<lBTD>' contains '<lTD2>' and is visible
     When I use the secondary mouse on last berth <TDandBerthId1>
     Then the user is presented with a list of the last '<numTrains1>' services that have 'finished at' this berth
-      | serviceDescription | operatorCode | punct      | eventDateTime |
-      | 2B51               | (EF)         | +0m        | now + 0       |
-      | 2B53               | (EF)         | +2m or +3m | now - 2       |
-      | 2B55               | (EF)         | +7m or +8m | now - 7       |
+      | serviceDescription | operatorCode | punct             | eventDateTime |
+      | 2B51               | (EF)         | -1m or -2m or -3m | now + 0       |
+      | 2B53               | (EF)         | +2m or +3m or +4m | now - 2       |
+      | 2B55               | (EF)         | +7m or +8m or +9m | now - 7       |
     When I use the secondary mouse on last berth <TDandBerthId2>
     Then the user is presented with a list of the last '<numTrains2>' services that have 'finished at' this berth
-      | serviceDescription | operatorCode | punct   | eventDateTime |
-      | 2B57               | (EF)         | +0m     | now + 0       |
+      | serviceDescription | operatorCode | punct      | eventDateTime |
+      | 2B57               | (EF)         | -1m or -2m | now + 0       |
 
     Examples:
       | cifFile                                              | map          | lBTD | lB1  | lTD1 | TDandBerthId1 | numTrains1 | lB2  | lTD2 | TDandBerthId2 | numTrains2 |
@@ -295,12 +300,13 @@ Feature: 34080 - Last Berth
       | access-plan/34080-schedules/2B51-MDNHEAD-BORNEND.cif | gw2aslough.v | D6   | LMBE | 2B68 | D6LMBE        | 10         |
 
   Scenario Outline: 34080-2a Last Berth (Select Timetable) - matched trains
-#    Given the user is viewing a live schematic map
-#    And there are services running
-#    And performs a secondary click on the last berth
-#    When the user views a list of the last services that have finished at this berth
-#    And performs a primary click on a train
-#    Then the user is presented with the timetable in a new tab
+    # Given the user is viewing a live schematic map
+    # And there are services running
+    # And performs a secondary click on the last berth
+    # When the user views a list of the last services that have finished at this berth
+    # And performs a primary click on a train
+    # Then the user is presented with the timetable in a new tab
+
     #setup
     * I delete 'C56471:today' from hash 'schedule-modifications'
     * I remove today's train 'C56471' from the Redis trainlist
@@ -312,6 +318,9 @@ Feature: 34080 - Last Berth
     * the following train activation message is sent from LINX
       | trainUID   | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | C56471     | 2B71        | now                    | 99999               | MDNHEAD                | today         |
+
+    # Log the berth level schedule
+    * I log the berth & locations from the berth level schedule for 'C56471'
 
     # Inject stepping
     When the following live berth interpose messages are sent from LINX (setting up matches)
@@ -330,8 +339,8 @@ Feature: 34080 - Last Berth
     Then berth '<lB1>' in train describer '<lBTD>' contains '<lTD1>' and is visible
     When I use the secondary mouse on last berth <TDandBerthId1>
     Then the user is presented with a list of the last '1' services that have 'finished at' this berth
-      | serviceDescription | operatorCode | punct             | eventDateTime |
-      | 2B71               | (EF)         | +0m or -1m or +1m | now + 0       |
+      | serviceDescription | operatorCode | punct      | eventDateTime |
+      | 2B71               | (EF)         | -1m or -2m | now + 0       |
 
     # Open the timetable
     And I use the primary mouse on train '2B71'

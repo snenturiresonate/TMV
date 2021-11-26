@@ -4,6 +4,7 @@ import {expect} from 'chai';
 import {DateTimeFormatter, LocalDateTime} from '@js-joda/core';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {browser} from 'protractor';
+import {CucumberLog} from '../../logging/cucumber-log';
 
 const lastBerthServiceListPageObject: LastberthServicelistPageObject = new LastberthServicelistPageObject();
 
@@ -39,6 +40,8 @@ Then('the user is presented with a list of the last {string} services that have 
       expectedEventDateTime = await DateAndTimeUtils.adjustNowTime(
         expectedEventDateTime.substr(4, 1), parseInt(expectedEventDateTime.substr(6), 10));
       expectedEventDateTime = expectedEventDateTime.substr(0, 4);
+      await CucumberLog.addText(
+        `Actuals: ${await actualRow.getService()}, ${await actualRow.getOperator()}, ${await actualRow.getPunctuality()}`);
       expect(await actualRow.getService(), `The service was not as expected on row ${rowNumber}`).to.equal(expectedService);
       expect(await actualRow.getOperator(), `The Operator was not as expected on row ${rowNumber}`).to.equal(expectedOperator);
       expect(expectedPunctuality, `The Punctuality was not as expected on row ${rowNumber}`)
