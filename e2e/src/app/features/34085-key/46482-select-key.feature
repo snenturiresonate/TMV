@@ -62,8 +62,8 @@ Feature: 46482 - TMV Key - select key
     And I select the TMV Key option
     And a modal displays with title 'Key'
     When I click on the layers icon in the nav bar
-    And I toggle the 'Platform' toggle 'on'
-    Then the platform layer is shown
+    And I toggle the 'Berth' toggle 'on'
+    Then berth 'A019' in train describer 'D3' contains 'A019' and is visible
     And a modal displays with title 'Key'
 
   Scenario: 34085-1h Verify the map still updates whilst the TMV Modal Key is open

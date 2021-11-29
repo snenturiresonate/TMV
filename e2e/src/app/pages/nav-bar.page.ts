@@ -6,7 +6,6 @@ export class NavBarPageObject {
   public navBarIcons: ElementArrayFinder;
   public mapLayerToggles: ElementArrayFinder;
   public berthToggle: ElementFinder;
-  public platformToggle: ElementFinder;
   public routeSetTrackToggle: ElementFinder;
   public routeSetCodeToggle: ElementFinder;
   public platformToggleIndicator: ElementFinder;
@@ -70,7 +69,6 @@ export class NavBarPageObject {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
     this.berthToggle = element(by.css('#berthtoggle .toggle-switch'));
-    this.platformToggle = element(by.css('#platformtoggle .toggle-switch'));
     this.routeSetTrackToggle = element(by.css('#routesettracktoggle .toggle-switch'));
     this.routeSetCodeToggle = element(by.css('#routesetcodetoggle .toggle-switch'));
     this.platformToggleIndicator = element(by.css('#platformtoggle .toggle-switch'));
@@ -165,10 +163,7 @@ export class NavBarPageObject {
   }
 
   private async getToggle(toggleName): Promise<ElementFinder> {
-    if (toggleName === 'Platform') {
-      return this.platformToggle;
-    }
-    else if (toggleName === 'Berth') {
+    if (toggleName === 'Berth') {
       return this.berthToggle;
     }
     else if (toggleName === 'Route Set - Track') {
