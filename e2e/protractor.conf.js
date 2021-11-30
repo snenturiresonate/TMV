@@ -18,7 +18,8 @@ exports.config = {
     trainslist_redis_host: 'redis-trainslist',
     dynamo_suffix: 'tmv-national-develop',
     general_timeout: 60 * 1000,
-    replay_timeout: 20 * 1000
+    replay_timeout: 20 * 1000,
+    quick_timeout: 10 * 1000
   },
   specs: [
     './src/**/features/**/*.feature'
@@ -45,7 +46,7 @@ exports.config = {
     //tags: ['@test']
     // To run all scenarios not marked @bug or @tdd, uncomment the next line
     tags: ['not (@bug or @tdd or @manual)'],
-    retry: 1
+    retry: 2
   },
   ignoreUncaughtExceptions: true,
   async onPrepare() {

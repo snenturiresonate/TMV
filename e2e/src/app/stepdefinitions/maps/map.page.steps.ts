@@ -13,6 +13,7 @@ import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWait
 import {AppPage} from '../../pages/app.po';
 import {TMVRedisUtils} from '../../utils/tmv-redis-utils';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
+import {CucumberLog} from '../../logging/cucumber-log';
 
 let page: MapPageObject;
 const appPage: AppPage = new AppPage();
@@ -857,17 +858,12 @@ Then('the berth context menu is displayed with berth name {string}', async (expe
 
 Then('the train headcode color for berth {string} is {word}',
   async (berthId: string, expectedColor: string) => {
-    let expectedColorHex = '';
-    let actualBerthColour = '';
-
     await browser.wait(async () => {
-      expectedColorHex = mapColourHex[expectedColor];
-      actualBerthColour = await mapPageObject.getBerthColor(berthId);
+      const expectedColorHex = mapColourHex[expectedColor];
+      const actualBerthColour = await mapPageObject.getBerthColor(berthId);
+      await CucumberLog.addText(`Expecting ${actualBerthColour} to be ${expectedColorHex}`);
       return (actualBerthColour === expectedColorHex);
-    }, browser.params.general_timeout, `Berth colour was ${actualBerthColour}, but expected it to be ${expectedColorHex}`);
-
-    expect(actualBerthColour, `Berth colour was ${actualBerthColour}, but expected it to be ${expectedColorHex}`)
-      .to.equal(expectedColorHex);
+    }, browser.params.quick_timeout, `Berth colour was not ${expectedColor}, see info for more details`);
   });
 
 Then('the train highlight color for berth {string} is {word}',

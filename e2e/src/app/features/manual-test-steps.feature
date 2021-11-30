@@ -58,6 +58,11 @@ Feature: Manual test steps
       | trainUid | newTrainNumber | oldTrainNumber | departureHour | status | indicator | statusIndicator | primaryCode | time     |
       | L11001   | 1B03           | 1B01           | 13            | create | 07        | 07              | 99999       | 14:29:00 |
 
+  Scenario: Change of origin
+    When the following TJM is received
+      | trainUid | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason | nationalDelayCode |
+      | L11001   | 1B03               | now           | create | 94        | 94              | 43331       | RUGL           | now  | 82                 | VA                |
+
   Scenario: TRI - Arrival at station
     Given the following train running information message is sent from LINX
       | trainUID | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType        |

@@ -25,7 +25,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
       | toBerth | trainDescriber | trainDescription |
       | A007    | D3             | 1F21             |
     Then berth 'A007' in train describer 'D3' contains '1F21' and is visible
-    And the train headcode color for berth 'D3A007' is green
+    And the train headcode color for berth 'D3A007' is lightgreen
 
   Scenario: 33998-2 Punctuality (Un-matched Service)
     # Given the user is authenticated to use TMV
@@ -129,7 +129,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     And the following live signalling update message is sent from LINX (setting a route)
       | trainDescriber | address | data |
       | D1             | 25      | 02   |
-    And the train headcode color for berth 'D11698' is green
+    And the train headcode color for berth 'D11698' is lightgreen
     And the tracks 'RGRGLS, RGRGKT, RGRGL3, RGRGL2' are displayed in solid white
     And the tracks 'RGRGLK, RGRGL6, RGRG1I, RGRG8H' are displayed in thin palegrey
     And the tracks 'PNSH8V, PNSH7V, PNSH6V' are displayed in thin palegrey

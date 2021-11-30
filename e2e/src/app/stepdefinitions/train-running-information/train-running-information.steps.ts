@@ -3,6 +3,7 @@ import {TrainRunningInformationMessageBuilder} from '../../utils/train-running-i
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {CucumberLog} from '../../logging/cucumber-log';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
+import {browser} from 'protractor';
 
 const linxRestClient: LinxRestClient = new LinxRestClient();
 
@@ -18,7 +19,10 @@ When(/^the following train running information? (?:message|messages)? (?:is|are)
   const trainRunningInfoMessages = trainRunningInfoMessageTable.hashes();
   for (const tri of trainRunningInfoMessages) {
     const trainRunningInformationMessageBuilder: TrainRunningInformationMessageBuilder = new TrainRunningInformationMessageBuilder();
-    const trainUID = tri.trainUID;
+    let trainUID = tri.trainUID;
+    if (trainUID === 'generatedTrainUId' || trainUID === 'generated') {
+      trainUID = browser.referenceTrainUid;
+    }
     const operationalTrainNumber = tri.trainNumber;
     const scheduledStartDate = tri.scheduledStartDate;
     const locationPrimaryCode = tri.locationPrimaryCode;
@@ -46,7 +50,10 @@ When(/^the following train running information? (?:message|messages) with delay 
     const trainRunningInfoMessages = trainRunningInfoMessageTable.hashes();
     for (const tri of trainRunningInfoMessages) {
       const trainRunningInformationMessageBuilder: TrainRunningInformationMessageBuilder = new TrainRunningInformationMessageBuilder();
-      const trainUID = tri.trainUID;
+      let trainUID = tri.trainUID;
+      if (trainUID === 'generatedTrainUId' || trainUID === 'generated') {
+        trainUID = browser.referenceTrainUid;
+      }
       const operationalTrainNumber = tri.trainNumber;
       const scheduledStartDate = tri.scheduledStartDate;
       const locationPrimaryCode = tri.locationPrimaryCode;

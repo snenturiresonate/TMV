@@ -115,7 +115,7 @@ export class TimeTablePageObject {
           `no row for location ${location} instance ${instance}, locations available are ${timetableLocations.join(',')}`);
         return false;
       }
-    }, browser.params.general_timeout, 'Waiting to get location row index');
+    }, browser.params.quick_timeout, 'Waiting to get location row index');
     return index;
   }
 

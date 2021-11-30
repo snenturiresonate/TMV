@@ -1,4 +1,4 @@
-import {browser, by, ElementFinder} from 'protractor';
+import {by, ElementFinder} from 'protractor';
 import {TimeTablePageObject} from '../timetable/timetable.page';
 import {CucumberLog} from '../../logging/cucumber-log';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
@@ -99,19 +99,16 @@ export class TimetableTableRowPageObject {
 
   async getNonStaleText(locator: ElementFinder): Promise<string> {
     let text: string;
-    for (let i = 0; i <= 2; i++) {
-      try {
-        await this.refreshRowLocator();
-        await CommonActions.waitForElementToBePresent(locator);
-        text = await locator.getText();
-        break;
-      }
-      catch (error) {
-        const msg = 'Error trying to get non-stale text, will retry...';
-        console.log(msg);
-        await CucumberLog.addText(msg);
-        await browser.sleep(1000);
-      }
+    try {
+      await this.refreshRowLocator();
+      await CommonActions.waitForElementToBePresent(locator);
+      text = await locator.getText();
+    }
+    catch (error) {
+      const msg = 'Error trying to get non-stale text, please ignore this test failure.';
+      console.log(msg);
+      await CucumberLog.addText(msg);
+      throw(msg);
     }
     return Promise.resolve(text);
   }

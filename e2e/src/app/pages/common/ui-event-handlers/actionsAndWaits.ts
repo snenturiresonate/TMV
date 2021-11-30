@@ -32,14 +32,15 @@ export class CommonActions {
     const EC = protractor.ExpectedConditions;
     const elementVisible = EC.visibilityOf(elm);
     const elementIntractable = EC.elementToBeClickable(elm);
-    await browser.wait(EC.and(elementVisible, elementIntractable), browser.params.general_timeout, `Element was not visible and/or clickable`);
+    await browser
+      .wait(EC.and(elementVisible, elementIntractable), browser.params.quick_timeout, `Element was not visible and/or clickable`);
   }
 
   /**
    * Waits for the element to be visible.
    * Input: ElementFinder of the UI element to be visible
    */
-  public static async waitForElementToBeVisible(elm: ElementFinder, timeout = browser.params.general_timeout): Promise<void> {
+  public static async waitForElementToBeVisible(elm: ElementFinder, timeout = browser.params.quick_timeout): Promise<void> {
     const EC = protractor.ExpectedConditions;
     await browser.wait(EC.visibilityOf(elm), timeout);
   }

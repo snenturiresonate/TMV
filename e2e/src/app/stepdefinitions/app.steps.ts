@@ -575,8 +575,9 @@ Then('the tab title is {string}', async (expectedTabTitle: string) => {
 Then('the tab title contains {string}', async (expectedTabTitle: string) => {
   await browser.driver.wait(async () => {
     const tabTitle: string = await browser.driver.getTitle();
+    await CucumberLog.addText(`Expecting ${tabTitle} to include ${expectedTabTitle}`);
     return tabTitle.includes(expectedTabTitle);
-  });
+  }, browser.params.quick_timeout, `Tab title did not contain ${expectedTabTitle}, see info for more details`);
   const actualTabTitle: string = await browser.driver.getTitle();
   expect(actualTabTitle, `Tab title is ${actualTabTitle} not ${expectedTabTitle}`)
     .to.contains(expectedTabTitle);
@@ -652,7 +653,11 @@ When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
     if (message.runDate === 'tomorrow') {
       runDate = 'tomorrow';
     }
-    const tjmBuilder = createBaseTjmMessage(message.trainNumber, message.trainUid, depHour, runDate)
+    let trainUID = message.trainUid;
+    if (trainUID === 'generatedTrainUId' || trainUID === 'generated') {
+      trainUID = browser.referenceTrainUid;
+    }
+    const tjmBuilder = createBaseTjmMessage(message.trainNumber, trainUID, depHour, runDate)
       .withTrainJourneyModification(createBaseTjm(message.indicator,
         message.statusIndicator,
         message.primaryCode,
@@ -791,7 +796,9 @@ When(/^I step through the Berth Level Schedule for '(.*)'$/, async (uid: string)
 
 Given(/^I generate a new trainUID$/, async () => {
   browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
-  await CucumberLog.addText(`New train UID: ${browser.referenceTrainUid}`);
+  const msg = `Generated train UID: ${browser.referenceTrainUid}`;
+  console.log(msg);
+  await CucumberLog.addText(msg);
 });
 
 Given(/^I generate a new train description$/, async () => {
@@ -807,6 +814,9 @@ Given(/^I log the berth level schedule for '(.*)'$/, async (trainUid) => {
 
 Given(/^I log the berth & locations from the berth level schedule for '(.*)'$/, async (trainUid) => {
   const client = new RedisClient();
+  if (trainUid === 'generatedTrainUId' || trainUid === 'generated') {
+    trainUid = browser.referenceTrainUid;
+  }
   const scheduleKey = `${trainUid}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`;
   const berthLevelSchedule = await client.hgetParseJSON('{schedule-matching}-berth-level-schedules-cache', scheduleKey);
 

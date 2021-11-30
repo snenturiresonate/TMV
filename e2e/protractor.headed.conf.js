@@ -18,7 +18,8 @@ exports.config = {
     trainslist_redis_port: '8082',
     trainslist_redis_host: 'redis-trainslist',
     general_timeout: 60 * 1000,
-    replay_timeout: 20 * 1000
+    replay_timeout: 20 * 1000,
+    quick_timeout: 10 * 1000
   },
   specs: [
     './src/**/features/**/*.feature'

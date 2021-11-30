@@ -1034,29 +1034,102 @@ function calculateOriginalTimeAdjustment(scenarioStart: string, originalTime: st
 }
 
 Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instance (.*) is correctly calculated based on (Internal|External) timing "(.*)"$/,
-  {timeout: 5 * 60 * 1000},
   async (arrivalOrDeparture, location, instance, internalExternal, expected) => {
-    await timetablePage.getRowByLocation(location, instance).then(async row => {
-      await row.refreshRowLocator();
-      let field;
-      if (arrivalOrDeparture === 'Arrival') {
-        field = await row.getValue('actualArr');
-      } else {
-        field = await row.getValue('actualDep');
-      }
+    if (expected == null) {
+      expected = '';
+    }
+    const row = await timetablePage.getRowByLocation(location, instance);
+    await row.refreshRowLocator();
+    let field;
+    if (arrivalOrDeparture === 'Arrival') {
+      field = await row.getValue('actualArr');
+    } else {
+      field = await row.getValue('actualDep');
+    }
+    if (expected !== '') {
       expected = DateAndTimeUtils.parseTimeEquation(expected, 'HH:mm:ss');
       if (internalExternal === 'Internal') {
         expected = actualsTimeRounding(expected, arrivalOrDeparture);
       }
       const error = `Actual ${arrivalOrDeparture} not correct for location ${location}`;
       expect(
-        await DateAndTimeUtils.formulateTime((field).substr(0, 8)), error)
-        .to.be.closeToTime(await DateAndTimeUtils.formulateTime(expected), 120);
-    });
+        await DateAndTimeUtils.formulateTime(
+          stripBrackets(field).substr(0, 8)), error)
+        .to.be.closeToTime(await DateAndTimeUtils.formulateTime(expected), 180);
+    }
+    else {
+      expect(field, `The time was not empty, it was ${field}`).to.equal(expected);
+    }
+  });
+
+Then(/^the actual\/predicted departure time for location "(.*)" instance (.*) matches the planned departure time$/,
+  async (location, instance) => {
+    const row = await timetablePage.getRowByLocation(location, instance);
+    await row.refreshRowLocator();
+    const plannedDeparture = await row.getValue('plannedDep');
+    const actualDeparture = await row.getValue('actualDep');
+    expect(stripBrackets(actualDeparture),
+      `The actual departure ${actualDeparture} did not equal the planned departure ${plannedDeparture}`)
+      .to.equal(plannedDeparture);
+  });
+
+Then(/^the actual\/predicted departure time for location "(.*)" instance (.*) is \+ (.*) mins after the actual\/predicted arrival time$/,
+  async (location, instance, minutes) => {
+    const row = await timetablePage.getRowByLocation(location, instance);
+    await row.refreshRowLocator();
+    const actualArrival = stripBrackets(await row.getValue('actualArr'));
+    const actualDeparture = stripBrackets(await row.getValue('actualDep'));
+
+    const arrivalTimeAdjusted: string = (await DateAndTimeUtils
+      .addMinsToDateTime((await DateAndTimeUtils.formulateTime(actualArrival)).toString(), minutes))
+      .toLocaleTimeString('en-GB', { hour12: false });
+
+    expect(arrivalTimeAdjusted,
+      `The act/pred departure ${actualDeparture} was not ${minutes} minutes after the act/pred arrival ${actualArrival}`)
+      .to.equal(actualDeparture);
+  });
+
+Then(/^the predicted (arrival|departure) time displayed for location "(.*)" instance (.*) is the current punctuality \+ the planned location (?:arrival|departure) time$/,
+  async (timingType, location, instance) => {
+    const row = await timetablePage.getRowByLocation(location, instance);
+    await row.refreshRowLocator();
+
+    let planned: string;
+    let predicted: string;
+    if (timingType === 'arrival') {
+      planned = stripBrackets(await row.getValue('plannedArr'));
+      predicted = stripBrackets(await row.getValue('actualArr'));
+    }
+    else {
+      planned = stripBrackets(await row.getValue('plannedDep'));
+      predicted = stripBrackets(await row.getValue('actualDep'));
+    }
+    const punctuality: string = stripBrackets(await row.getValue('punctuality'));
+    await CucumberLog.addText(`Planned: ${planned}, Predicted: ${predicted}, Punctuality: ${punctuality}`);
+
+    const punctualityMins: string = punctuality.split(' ')[0].replace('+', '').replace('-', '').replace('m', '');
+    let punctualitySecs = '0';
+    if (punctuality.split(' ').length > 1) {
+      punctualitySecs = punctuality.split(' ')[1].replace('s', '');
+    }
+    await CucumberLog.addText(`Punct Mins: ${punctualityMins}, Punct Secs: ${punctualitySecs}`);
+
+    const plannedDateTime: Date = await DateAndTimeUtils.formulateTime(planned);
+    const predictedDateTime: Date = await DateAndTimeUtils.formulateTime(predicted);
+
+    const errorMessage = `The predicted time: ${predicted} was not the current punctuality: ${punctuality} + the planned time: ${planned}`;
+    expect(predictedDateTime, errorMessage)
+      .to.be.closeToTime(plannedDateTime, ((parseInt(punctualityMins, 10) * 60) + parseInt(punctualitySecs, 10) + 180));
   });
 
 Then(/^the (Arrival|Departure) time for location "(.*)" instance (.*) is "(.*)"$/,
   async (arrivalOrDeparture, location, instance, expected) => {
+    if (expected == null) {
+      expected = '';
+    }
+    if (expected.includes('now')) {
+      expected = DateAndTimeUtils.parseTimeEquation(expected, 'HH:mm:ss');
+    }
     await timetablePage.getRowByLocation(location, instance).then(async row => {
       let field;
       if (arrivalOrDeparture === 'Arrival') {
@@ -1065,7 +1138,15 @@ Then(/^the (Arrival|Departure) time for location "(.*)" instance (.*) is "(.*)"$
         field = await row.getValue('actualDep');
       }
       const error = `${arrivalOrDeparture} not correct for location ${location}`;
-      expect(field, error).to.equal(expected);
+      if (expected === '') {
+        expect(field, error).to.equal(expected);
+      }
+      else {
+        expect(
+          await DateAndTimeUtils.formulateTime(
+            stripBrackets(field).substr(0, 8)), error)
+          .to.be.closeToTime(await DateAndTimeUtils.formulateTime(expected), 120);
+      }
     });
   });
 
@@ -1099,11 +1180,14 @@ Then(/^the (Arrival|Departure) punctuality for location "(.*)" instance (\d+) is
   });
 
 Then(/^the (Arrival|Departure) punctuality for location "(.*)" instance (\d+) is "(.*)"$/,
-  async (arrivalDeparture, location, instance, expectedPunctuality) => {
-    await timetablePage.getRowByLocation(location, instance).then(async row => {
-      const field = await row.getValue('punctuality');
-      expect(field, `Punctuality not ${expectedPunctuality} for location ${location}, was ${field}`).to.equal(expectedPunctuality);
-    });
+  async (arrivalDeparture, location, instance, expectedPunctualities) => {
+    await browser.wait(async () => {
+      const row = await timetablePage.getRowByLocation(location, instance);
+      await row.refreshRowLocator();
+      const field: string = stripBrackets(await row.getValue('punctuality')).split(' ')[0];
+      await CucumberLog.addText(`Actual punctuality: ${field}`);
+      return expectedPunctualities.includes(field);
+    }, browser.params.quick_timeout, `Punctuality not ${expectedPunctualities} for location ${location}`);
   });
 
 Then(/^the predicted Departure punctuality for location "(.*)" instance (\d+) is correctly calculated based on the planned time of '(.*)' or the current time$/,
@@ -1183,4 +1267,12 @@ function actualsTimeRounding(timestamp: string, arrivalOrDeparture: string): str
     ltTimestamp = ltTimestamp.second() < 30 ? ltTimestamp.withSecond(0) : ltTimestamp.withSecond(30);
   }
   return ltTimestamp.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+}
+
+function stripBrackets(toBeStripped: string): string {
+  return toBeStripped
+    .replace('(', '')
+    .replace(')', '')
+    .replace('[', '')
+    .replace(']', '');
 }
