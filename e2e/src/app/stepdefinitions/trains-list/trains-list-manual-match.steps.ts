@@ -25,6 +25,9 @@ When('I un-match the currently matched schedule', async () =>  {
 });
 
 When('I select to match the result for todays service with planning Id {string}', async (planId: string) =>  {
+  if (planId.includes('generated')) {
+    planId = browser.referenceTrainUid;
+  }
   await trainsListManualMatchPage.selectTodaysService(planId);
   await trainsListManualMatchPage.clickMatch();
   await trainsListManualMatchPage.enterConfirmMessage('Test match');
@@ -44,6 +47,9 @@ Then('the matched service is shown as {string}', async (expectedMatchedServiceTe
 });
 
 Then('the matched service uid is shown as {string}', async (expectedMatchedServiceUIDText: string) =>  {
+  if (expectedMatchedServiceUIDText.includes('generated')) {
+    expectedMatchedServiceUIDText = browser.referenceTrainUid;
+  }
   const actualMatchedServiceText = await trainsListManualMatchPage.matchedTrainUID.getText();
   expect(actualMatchedServiceText, `UID for Matched service is not correct`)
     .equals(expectedMatchedServiceUIDText);

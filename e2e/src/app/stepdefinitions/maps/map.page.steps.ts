@@ -382,6 +382,9 @@ Then('berth {string} in train describer {string} contains {string}',
 
 Then('berth {string} in train describer {string} contains {string} and is visible',
   async (berthId: string, trainDescriber: string, berthContents: string) => {
+    if (berthContents.includes('generated')) {
+      berthContents = browser.referenceTrainDescription;
+    }
     await mapPageObject.waitUntilBerthTextIs(berthId, trainDescriber, berthContents);
     const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
     expect(trainDescription, 'Train description is not in the berth text')

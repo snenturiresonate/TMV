@@ -240,6 +240,9 @@ export class MapPageObject {
   }
 
   public async openContextMenuForTrainDescription(trainDescription: string): Promise<void> {
+    if (trainDescription.includes('generated')) {
+      trainDescription = browser.referenceTrainDescription;
+    }
     const berth: ElementFinder = element(by.xpath('//*[@data-train-description=\"' + trainDescription + '\"]'));
     await CommonActions.waitForElementInteraction(berth);
     await browser.actions().click(berth, protractor.Button.RIGHT).perform();

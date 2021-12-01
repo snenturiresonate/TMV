@@ -68,6 +68,43 @@ Feature: 34002 - Unscheduled Trains Matching
       | trainNum  | planningUid1 | planningUid2 | planningUid3 | planningUid4 |
       | generated | generated    | L12002       | L12003       | L12004       |
 
+  Scenario Outline: 65053:bug: Manual Matched consistent step following unmatched, unscheduled id not persisted
+    * I generate a new train description
+    * I generate a new trainUID
+    Given I am viewing the map HDGW01paddington.v
+    And the following live berth step message is sent from LINX (to create an unmatched service)
+      | fromBerth   | toBerth   | trainDescriber   | trainDescription   |
+      | <fromBerth> | <toBerth> | <trainDescriber> | <trainDescription> |
+    And berth '<toBerth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1L24_PADTON_RDNGSTN.cif | STHALL      | WTT_arr       | <trainDescription>  | <trainUid1>    |
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1L24_PADTON_RDNGSTN.cif | STHALL      | WTT_arr       | <trainDescription>  | <trainUid2>    |
+    And I wait until today's train '<trainUid1>' has loaded
+    And I wait until today's train '<trainUid2>' has loaded
+    And I right click on berth with id '<trainDescriber><toBerth>'
+    And I open schedule matching screen from the map context menu
+    And I switch to the new tab
+    And the tab title is 'TMV Schedule Matching <trainDescription>'
+    And I select to match the result for todays service with planning Id '<trainUid2>'
+    And the matched service uid is shown as '<trainUid2>'
+    And I am viewing the map HDGW01paddington.v
+    When the following live berth step message is sent from LINX (to create a consistent step)
+      | fromBerth   | toBerth    | trainDescriber   | trainDescription   |
+      | <toBerth>   | <toBerth2> | <trainDescriber> | <trainDescription> |
+    And I invoke the context menu on the map for train <trainDescription>
+    And I open timetable from the map context menu
+    And I switch to the new tab
+    And I wait for the last Signal to populate
+    Then The values for the header properties are as follows
+      | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode           |
+      | VAR       | SN253      |            | <trainUid2>   |         |         | <trainDescription> |
+
+    Examples:
+      | fromBerth | toBerth | toBerth2 | trainDescriber | trainDescription | trainUid1 | trainUid2 |
+      | 0239      | 0243    | 0253     | D4             | generated        | W00001    | generated |
 
   Scenario Outline: 34002:5b Matching Services (no possible matches)
     And the following live berth interpose message is sent from LINX (to set up unmatched train on map)
