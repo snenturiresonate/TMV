@@ -4,6 +4,7 @@ import {expect} from 'chai';
 import {TrainsListManualMatchPageObject} from '../../pages/trains-list/trains-list-manual-match-page';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {DateTimeFormatter} from '@js-joda/core';
+import {browser} from 'protractor';
 
 const trainsListManualMatchPage: TrainsListManualMatchPageObject = new TrainsListManualMatchPageObject();
 
@@ -65,7 +66,10 @@ Then(/^the unmatched search results show the following (.*) results?$/,
   expect(numActualSearchResults, `Number of search results incorrect`).to.equal(numExpectedSearchResults);
   for (const expectedSearchResult of expectedSearchResults) {
     const expectedDate = DateAndTimeUtils.convertToDesiredDateAndFormat(expectedSearchResult.date, 'dd-MM-yyyy');
-    const expectedPlanUID = expectedSearchResult.planUID;
+    let expectedPlanUID = expectedSearchResult.planUID;
+    if (expectedPlanUID.includes('generated')) {
+      expectedPlanUID = browser.referenceTrainUid;
+    }
     const timeAdjust = parseFloat(expectedSearchResult.originTime.substr(6));
     if (expectedSearchResult.originTime.substr(4, 1) === '-') {
       expectedOriginTime = now.minusMinutes(timeAdjust);
@@ -83,8 +87,12 @@ Then(/^the unmatched search results show the following (.*) results?$/,
     const actualTimeMinsPastMidnight = await hhmmToMinutesPastMidnight(actualTime);
     const timeDiff = Math.abs(actualTimeMinsPastMidnight - expectedTimeMinsPastMidnight);
     const timesCloseEnough = (timeDiff <= 2) || (timeDiff >= 1438);
+    let trainDescription = expectedSearchResult.trainNumber;
+    if (trainDescription.includes('generated')) {
+      trainDescription = browser.referenceTrainDescription;
+    }
     expect(actualSearchValues[searchColumnIndexes.service], `Service for ${expectedPlanUID} is incorrect`)
-      .to.equal(expectedSearchResult.trainNumber);
+      .to.equal(trainDescription);
     expect(actualSearchValues[searchColumnIndexes.status], `Status for ${expectedPlanUID} is incorrect`)
       .to.equal(expectedSearchResult.status);
     expect(actualSearchValues[searchColumnIndexes.sched], `Sched. for ${expectedPlanUID} is incorrect`)

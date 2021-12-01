@@ -458,7 +458,10 @@ When(/^the following train activation? (?:message|messages)? (?:is|are) sent fro
     if (trainUID === 'generatedTrainUId' || trainUID === 'generated') {
       trainUID = browser.referenceTrainUid;
     }
-    const trainNumber = activation.trainNumber;
+    let trainNumber = activation.trainNumber;
+    if (trainNumber.includes('generated')) {
+      trainNumber = browser.referenceTrainDescription;
+    }
     const schedDepString = (activation.scheduledDepartureTime).toLowerCase();
     const scheduledDepartureTime = () => {
       if (schedDepString === 'now') {
@@ -566,6 +569,9 @@ Given('I am on the live timetable page with schedule id {string}', async (schedu
 
 
 Then('the tab title is {string}', async (expectedTabTitle: string) => {
+  if (expectedTabTitle.includes('generated')) {
+    expectedTabTitle = expectedTabTitle.replace('generated', browser.referenceTrainDescription);
+  }
   await browser.driver.wait(ExpectedConditions.titleContains(expectedTabTitle));
   const actualTabTitle: string = await browser.driver.getTitle();
   expect(actualTabTitle, `Tab title is ${actualTabTitle} not ${expectedTabTitle}`)
@@ -657,7 +663,11 @@ When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
     if (trainUID === 'generatedTrainUId' || trainUID === 'generated') {
       trainUID = browser.referenceTrainUid;
     }
-    const tjmBuilder = createBaseTjmMessage(message.trainNumber, trainUID, depHour, runDate)
+    let trainDescription = message.trainNumber;
+    if (trainDescription.includes('generated')) {
+      trainDescription = browser.referenceTrainDescription;
+    }
+    const tjmBuilder = createBaseTjmMessage(trainDescription, trainUID, depHour, runDate)
       .withTrainJourneyModification(createBaseTjm(message.indicator,
         message.statusIndicator,
         message.primaryCode,

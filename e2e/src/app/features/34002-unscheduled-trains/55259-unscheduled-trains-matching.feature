@@ -8,14 +8,15 @@ Feature: 34002 - Unscheduled Trains Matching
     * I reset redis
     * I am authenticated to use TMV with 'matching' role
 
-  @bug @bug_65507
   Scenario Outline: 34002:5a Matching Services (several possible matches including cancelled and already matched)
-#      Given the user selected a service to match/rematch
-#      And the user has the schedule matching role
-#      When the user selects match/rematch option from the menu of a service
-#      Then the user is presented with a manual matching tab
-#      And the view is populated with a list of possible services to match to
+    # Given the user selected a service to match/rematch
+    # And the user has the schedule matching role
+    # When the user selects match/rematch option from the menu of a service
+    # Then the user is presented with a manual matching tab
+    # And the view is populated with a list of possible services to match to
     * I have cleared out all headcodes
+    * I generate a new train description
+    * I generate a new trainUID
     And the following live berth interpose message is sent from LINX (to set up unmatched train on map)
       | toBerth | trainDescriber | trainDescription |
       | 0481    | D6             | <trainNum>       |
@@ -31,9 +32,10 @@ Feature: 34002 - Unscheduled Trains Matching
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | STHALL      | WTT_pass      | <trainNum>          | <planningUid4> |
-    And I am on the trains list page
-    And The trains list table is visible
-    And train '<trainNum>' with schedule id '<planningUid4>' for today is visible on the trains list
+    And I wait until today's train '<planningUid1>' has loaded
+    And I wait until today's train '<planningUid2>' has loaded
+    And I wait until today's train '<planningUid3>' has loaded
+    And I wait until today's train '<planningUid4>' has loaded
     And the following train activation message is sent from LINX
       | trainUID       | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <planningUid1> | <trainNum>  | now                    | 99999               | PADTON                 | today         | now                 |
@@ -63,8 +65,8 @@ Feature: 34002 - Unscheduled Trains Matching
       | <trainNum>  | <planningUid4> | UNCALLED  | LTP   | today    | RDNGSTN | now - 35   | PADTON  |
 
     Examples:
-      | trainNum | planningUid1 | planningUid2 | planningUid3 | planningUid4 |
-      | 1C10     | L12001       | L12002       | L12003       | L12004       |
+      | trainNum  | planningUid1 | planningUid2 | planningUid3 | planningUid4 |
+      | generated | generated    | L12002       | L12003       | L12004       |
 
 
   Scenario Outline: 34002:5b Matching Services (no possible matches)
