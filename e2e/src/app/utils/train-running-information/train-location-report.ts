@@ -8,14 +8,16 @@ export class TRITrainLocationReport {
   public static locationDateTime = DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
   private static delayedLocationDateTime(delayMins: number): string {
+    TRITrainLocationReport.locationDateTime = DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     return OffsetDateTime
-      .parse(this.locationDateTime)
+      .parse(TRITrainLocationReport.locationDateTime)
       .minusMinutes(delayMins)
       .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
   }
 
   public static trainLocationReportWithoutDelay = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                                    trainLocationStatus: string) => {
+    TRITrainLocationReport.locationDateTime = DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     const trainLocationReport = fragment().ele('TrainLocationReport')
       .ele(TRILocation.trainLocation(locationPrimaryCode, locationSubsidiaryCode))
       .ele('LocationDateTime').txt(TRITrainLocationReport.locationDateTime).up()
@@ -77,6 +79,7 @@ export class TRITrainLocationReport {
 
   public static trainLocationReportWithDelayAgainstBookedTime = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                                                  trainLocationStatus: string, delay: string) => {
+    TRITrainLocationReport.locationDateTime = DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     let isEarly = false;
     let absTimeDiff = delay;
     if (delay.substr(0, 1) === '-') {
@@ -100,6 +103,7 @@ export class TRITrainLocationReport {
 
   public static trainLocationReportWithTime = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                                trainLocationStatus: string, timeInfo: string) => {
+    TRITrainLocationReport.locationDateTime = DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     const trainLocationReport = fragment().ele('TrainLocationReport')
       .ele(TRILocation.trainLocation(locationPrimaryCode, locationSubsidiaryCode))
       .ele('LocationDateTime').txt(TRITrainLocationReport.locationDateTime).up()

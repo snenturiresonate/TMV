@@ -77,6 +77,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     # When the user views the timetable
     # Then predicted times and punctuality is displayed for all locations in the schedule
     * I generate a new trainUID
+    * I generate a new train description
     * I delete '<trainUid>:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -91,7 +92,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     And the Departure time for location "Crewe Basford Hall Jn" instance 1 is "now + 3"
     Examples:
       | cif                                     | trainUid  | trainDescription |
-      | access-plan/55226-schedules/55226-4.cif | generated | 3U04             |
+      | access-plan/55226-schedules/55226-4.cif | generated | generated        |
 
   @bug @bug:80955
   Scenario Outline: 51586 -5  Start predicting from new origin

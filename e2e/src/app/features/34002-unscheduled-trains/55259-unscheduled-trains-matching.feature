@@ -84,6 +84,8 @@ Feature: 34002 - Unscheduled Trains Matching
       | access-plan/1L24_PADTON_RDNGSTN.cif | STHALL      | WTT_arr       | <trainDescription>  | <trainUid2>    |
     And I wait until today's train '<trainUid1>' has loaded
     And I wait until today's train '<trainUid2>' has loaded
+    And I give the trains 2 seconds to reach Elastic
+    And I refresh the Elastic Search indices
     And I right click on berth with id '<trainDescriber><toBerth>'
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
@@ -123,13 +125,14 @@ Feature: 34002 - Unscheduled Trains Matching
       | 1C11     |
 
   Scenario Outline: 34002:6a Make Match - matching unmatched step to an unmatched service
-#    Given the user is viewing the manual matching view
-#    And the user has the schedule matching role
-#    And the user is presented with at least one new schedule to match with (other than the currently matched schedule)
-#    When the user selects an entry to match
-#    Then the system will create a match
+    # Given the user is viewing the manual matching view
+    # And the user has the schedule matching role
+    # And the user is presented with at least one new schedule to match with (other than the currently matched schedule)
+    # When the user selects an entry to match
+    # Then the system will create a match
     * I remove today's train '<planningUid1>' from the Redis trainlist
     * I remove today's train '<planningUid2>' from the Redis trainlist
+    * I generate a new train description
     And the following live berth interpose message is sent from LINX (to set up unmatched service on map)
       | toBerth | trainDescriber | trainDescription |
       | 1629    | D1             | <trainNum>       |
@@ -163,8 +166,8 @@ Feature: 34002 - Unscheduled Trains Matching
       | <trainNum>  | <planningUid2> | UNCALLED  | LTP   | tomorrow | PADTON | now - 30   | DIDCOTP |
 
     Examples:
-      | trainNum | planningUid1 | planningUid2 |
-      | 1C12     | L12005       | L12006       |
+      | trainNum  | planningUid1 | planningUid2 |
+      | generated | L12005       | L12006       |
 
   @bug @bug:79090
   # Used to be flaky - see 68327
