@@ -314,6 +314,27 @@ export class MapPageObject {
     await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
   }
 
+  public async clickSignal(signalId: string, signalType: string, clickType: string): Promise<void> {
+    let signalLink: ElementFinder = element(by.id('signal-element-' + signalId));
+    if (signalType === 'main') {
+      signalLink = element(by.id('signal-element-lamp-round-' + signalId));
+    }
+    if (signalType === 'shunt') {
+      signalLink = element(by.id('shunt-element-lamp-round-' + signalId));
+    }
+    if (signalType === 'shunt_markerboard') {
+      signalLink = element(by.id('shunt-marker-boards-element-triangle-' + signalId));
+    }
+    if (signalType === 'markerboard') {
+      signalLink = element(by.id('marker-boards-element-rect-' + signalId));
+    }
+    let mouseButton = protractor.Button.LEFT;
+    if (clickType === 'secondary') {
+      mouseButton = protractor.Button.RIGHT;
+    }
+    await browser.actions().click(signalLink, mouseButton).perform();
+  }
+
   public async trainHighlight(highlightOption: string): Promise<void> {
     let highlightLink: ElementFinder;
     if (highlightOption === 'Highlight') {
@@ -343,6 +364,10 @@ export class MapPageObject {
 
   public async getBerthContextInfoText(): Promise<string> {
     return element(by.id('berthContextMenu')).getText();
+  }
+
+  public async getSignalContextInfoText(): Promise<string> {
+    return element(by.id('signalContextMenu')).getText();
   }
 
   public async getManualTrustBerthContextInfoText(): Promise<string> {

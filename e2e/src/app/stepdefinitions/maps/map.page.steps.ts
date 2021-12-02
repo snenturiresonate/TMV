@@ -196,6 +196,24 @@ When('I use the secondary mouse on {word} berth {word}', async (berthType: strin
   }
 });
 
+When('I use the {word} mouse on {word} signal {word}', async (mouseButtonType: string, signalType: string, signalId: string) => {
+  if (signalType.includes('main')) {
+    await mapPageObject.clickSignal(signalId, 'main', mouseButtonType);
+  }
+  else if (signalType.includes('shunt_markerboard')) {
+    await mapPageObject.clickSignal(signalId, 'shunt_markerboard', mouseButtonType);
+  }
+  else if (signalType.includes('markerboard')) {
+    await mapPageObject.clickSignal(signalId, 'markerboard', mouseButtonType);
+  }
+  else if (signalType.includes('shunt')) {
+    await mapPageObject.clickSignal(signalId, 'shunt', mouseButtonType);
+  }
+  else {
+    await mapPageObject.clickSignal(signalId, 'other', mouseButtonType);
+  }
+});
+
 Then('the zoom level is the same as previously noted', async () => {
   const currentSF = await mapPageObject.getCurrentScaleFactor();
   expect(currentSF, 'the zoom level has changed')
@@ -647,7 +665,7 @@ Then('the previous tab still displays the original map', async () => {
     .equals(mapPageObject.originallyOpenedMapTitle);
 });
 
-Then('I am presented with a set of information about the berth', async () => {
+Then(/^I am presented with a set of information about the (?:berth|signal)$/, async () => {
   const contextMenuAppears = await mapPageObject.waitForContextMenu();
   expect(contextMenuAppears, 'Context menu is not displayed')
     .equals(true);
@@ -669,6 +687,12 @@ Then('the manual trust berth information for {word} only contains {string}', asy
   const infoString: string = await mapPageObject.getManualTrustBerthContextInfoText();
   expect(infoString, 'Expected berth information not correct')
     .to.equal(expectedBerthInfo);
+});
+
+Then('the signal information for {word} contains {word}', async (berthId: string, expectedSignalInfo: string) => {
+  const infoString: string = await mapPageObject.getSignalContextInfoText();
+  expect(infoString, 'Expected signal information not correct')
+    .to.contain(expectedSignalInfo);
 });
 
 Given('I am on a map showing berth {string} and in train describer {string}', async (berthId: string, trainDescriber: string) => {
