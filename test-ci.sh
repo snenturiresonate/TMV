@@ -7,6 +7,7 @@ STACK_NAME=${STACK_NAME:-tmv-national-develop-suffix}
 CUCUMBER_TAGS=${CUCUMBER_TAGS:-"not (@bug or @tdd or @manual)"}
 DYNAMO_SUFFIX=${DYNAMO_SUFFIX:-"${STACK_NAME}"}
 REDIS_PORT=${REDIS_PORT:-"8082"}
+PR_RUN=${PR_RUN:-false}
 
 # ensure aws cli is installed
 sudo apt-get -y install awscli
@@ -32,12 +33,17 @@ done < <(./node_modules/ts-node/dist/bin.js src/app/util/stack.interrogator.ts -
 echo "Found the following environments: ${INSTANCES_TO_TEST[*]}"
 
 # Get an array of the features that need to be executed
+listFeaturesCommand="ls e2e/src/app/features/**/*.feature | sort | uniq -u | tr -s ' '"
+if [[ ${PR_RUN} == "true" ]]
+then
+  listFeaturesCommand="git --no-pager diff --name-only origin/develop | grep -e '\.feature'"
+fi
 featureIndex=0
 while read -r feature
 do
   featureList[${featureIndex}]=${feature}
   featureIndex=$((featureIndex+1))
-done < <(ls e2e/src/app/features/**/*.feature | sort | uniq -u | tr -s ' ')
+done < <(bash -c "${listFeaturesCommand}")
 
 featureCount=${#featureList[*]}
 echo "Found ${featureCount} features"
