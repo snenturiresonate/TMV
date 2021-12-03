@@ -71,7 +71,7 @@ do
    SPECS_TO_RUN=${featureList[${startIndex}]}
    TMV_DOMAIN=$(./node_modules/ts-node/dist/bin.js src/app/util/cognito.interrogator.ts -s ${ENVIRONMENT_NAME} | jq '.logoutUrl' | tr -d '"' | cut -d '/' -f 3)
 
-   for (( feature=$(( startIndex + 1 )); feature<${endIndex}; feature++ ))
+   for (( feature=$(( startIndex + 1 )); feature<=${endIndex}; feature++ ))
    do
      SPECS_TO_RUN="${SPECS_TO_RUN},${featureList[${feature}]}"
    done
