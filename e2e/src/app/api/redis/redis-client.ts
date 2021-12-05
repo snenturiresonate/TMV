@@ -225,6 +225,12 @@ export class RedisClient {
     return RedisClient.operationsClient.xrevrange(stream, '+', '-');
   }
 
+  public async getLatestFromStream(stream: string): Promise<[string, string[]][]> {
+    const clientType: RedisType = this.redisKeyMatcher.match(stream);
+    const redisClient = await this.getClient(clientType);
+    return redisClient.xrevrange(stream, '+', '-', 'COUNT', 1);
+  }
+
   public async hgetall(hashName: string): Promise<any> {
     const client: RedisLibrary.Redis = this.getClient(this.redisKeyMatcher.match(hashName));
     return client.hgetall(hashName);
