@@ -141,6 +141,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       | H51114   | 5X14             | Passing Location       | 73111               | LDBRKJ                 | Departure from Ladbroke Grove     | Ladbroke Grove     |
 
   Scenario Outline: 34138 -4 Update existing TRI time with replacement TRI
+    ##
     # Given a TRI message with the <TRI type> is received for a valid schedule
     # And a TRI with different times for the same location has already been received
     # When a user views the timetable for that schedule

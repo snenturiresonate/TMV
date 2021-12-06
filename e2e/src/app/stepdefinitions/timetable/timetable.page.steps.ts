@@ -772,21 +772,21 @@ Then(/^the expected departure time for inserted location (.*) is proportionally 
 
 Then('the actual {string} time displayed for that location {string} matches that provided in the TRI message', async (
   expected: string, location: string) => {
-  const expectedTime = OffsetDateTime
+  const expectedTime = await DateAndTimeUtils.formulateTime(OffsetDateTime
     .parse(TRITrainLocationReport.locationDateTime)
-    .format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+    .format(DateTimeFormatter.ofPattern('HH:mm:ss')));
   const row = await timetablePage.getRowByLocation(location, 1);
 
   if (expected.toUpperCase() === 'ARRIVAL') {
-    const actualArrivalTime = await row.getValue('actualArr');
+    const actualArrivalTime = await DateAndTimeUtils.formulateTime(await row.getValue('actualArr'));
     expect(actualArrivalTime, 'Expected arrival time of the location is not correct')
-      .to.equal(expectedTime.toString());
+      .to.be.closeToTime(expectedTime, 10);
   }
 
   if (expected.toUpperCase() === 'DEPARTURE') {
-    const actualDepartureTime = await row.getValue('actualDep');
+    const actualDepartureTime = await DateAndTimeUtils.formulateTime(await row.getValue('actualDep'));
     expect(actualDepartureTime, 'Expected departure time of the location is not correct')
-      .to.equal(expectedTime.toString());
+      .to.be.closeToTime(expectedTime, 10);
   }
 });
 

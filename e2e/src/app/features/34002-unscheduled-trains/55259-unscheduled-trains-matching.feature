@@ -69,6 +69,7 @@ Feature: 34002 - Unscheduled Trains Matching
       | generated | generated    | L12002       | L12003       | L12004       |
 
   Scenario Outline: 65053:bug: Manual Matched consistent step following unmatched, unscheduled id not persisted
+    ##
     * I generate a new train description
     * I generate a new trainUID
     Given I am viewing the map HDGW01paddington.v
@@ -125,6 +126,7 @@ Feature: 34002 - Unscheduled Trains Matching
       | 1C11     |
 
   Scenario Outline: 34002:6a Make Match - matching unmatched step to an unmatched service
+    ##
     # Given the user is viewing the manual matching view
     # And the user has the schedule matching role
     # And the user is presented with at least one new schedule to match with (other than the currently matched schedule)

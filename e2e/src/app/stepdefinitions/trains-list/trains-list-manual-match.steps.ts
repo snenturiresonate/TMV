@@ -30,6 +30,8 @@ When('I select to match the result for todays service with planning Id {string}'
   }
   await trainsListManualMatchPage.selectTodaysService(planId);
   await trainsListManualMatchPage.clickMatch();
+  await trainsListManualMatchPage.enterConfirmMessage('Test match');
+  await trainsListManualMatchPage.clickSaveMessage();
 });
 
 Then('a matched service is visible', async () =>  {
