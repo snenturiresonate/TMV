@@ -8,6 +8,7 @@ CUCUMBER_TAGS=${CUCUMBER_TAGS:-"not (@bug or @tdd or @manual)"}
 DYNAMO_SUFFIX=${DYNAMO_SUFFIX:-"${STACK_NAME}"}
 REDIS_PORT=${REDIS_PORT:-"8082"}
 PR_RUN=${PR_RUN:-false}
+SMOKE_TEST=${SMOKE_TEST:-false}
 
 # ensure aws cli is installed
 sudo apt-get -y install awscli
@@ -37,6 +38,10 @@ listFeaturesCommand="ls e2e/src/app/features/**/*.feature | sort | uniq -u | tr 
 if [[ ${PR_RUN} == "true" ]]
 then
   listFeaturesCommand="git --no-pager diff --name-only origin/develop | grep -e '\.feature'"
+fi
+if [[ ${SMOKE_TEST} == "true" ]]
+then
+  listFeaturesCommand="grep SmokeTest e2e/src/app/features/**/*.feature | cut -d ':' -f 1"
 fi
 featureIndex=0
 while read -r feature

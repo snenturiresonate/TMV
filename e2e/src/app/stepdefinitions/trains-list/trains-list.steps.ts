@@ -111,21 +111,25 @@ Then('train description {string} is visible on the trains list with schedule typ
   });
 
 Then(/^train '?(\w+)'? with schedule id '?(\w+)'? for today (is|is not) visible on the trains list$/,
-  async (serviceId: string, scheduleId: string, negate: string) => {
+  async (trainDescription: string, scheduleId: string, negate: string) => {
     if (scheduleId === 'generatedTrainUId' || scheduleId === 'generated') {
       scheduleId = browser.referenceTrainUid;
     }
+    if (trainDescription.includes('generated')) {
+      trainDescription = browser.referenceTrainDescription;
+    }
     const todaysScheduleString = scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
     if (negate === 'is') {
-      while (!await trainsListPage.isTrainVisible(serviceId, todaysScheduleString) && await trainsListPage.paginationNext.isEnabled()) {
+      while (
+        !await trainsListPage.isTrainVisible(trainDescription, todaysScheduleString) && await trainsListPage.paginationNext.isEnabled()) {
         await trainsListPage.paginationNext.click();
       }
-      const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(serviceId, todaysScheduleString);
-      expect(isScheduleVisible, `Train ${serviceId}:${scheduleId} was not visible on the trains list`).to.equal(true);
+      const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(trainDescription, todaysScheduleString);
+      expect(isScheduleVisible, `Train ${trainDescription}:${scheduleId} was not visible on the trains list`).to.equal(true);
     }
     else {
-      const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(serviceId, todaysScheduleString, 500);
-      expect(isScheduleVisible, `Train ${serviceId}:${scheduleId} was visible on the trains list`).to.equal(false);
+      const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(trainDescription, todaysScheduleString, 500);
+      expect(isScheduleVisible, `Train ${trainDescription}:${scheduleId} was visible on the trains list`).to.equal(false);
     }
   });
 
