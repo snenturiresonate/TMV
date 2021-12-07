@@ -807,6 +807,12 @@ Then('the map context menu contains {string} on line {int}', async (expectedText
   expect(actualContextMenuItem.toLowerCase(), `Map menu item not as expected`).to.contain(expectedText.toLowerCase());
 });
 
+Then(/^the map context menu punctuality is one of (.*)$/, async (expectedList: string) => {
+  const possibleValues = expectedList.split(',');
+  const punctuality: string = await mapPageObject.getContextMenuPunctuality();
+  expect(punctuality, `Map menu punctuality not as expected`).to.be.oneOf(possibleValues);
+});
+
 Then('the map context menu does not contain {string} on line {int}', async (expectedText: string, rowNum: number) => {
   const actualContextMenuItem: string = await mapPageObject.mapContextMenuItems.get(rowNum - 1).getText();
   expect(actualContextMenuItem, `Map menu item not as expected`).to.not.contain(expectedText);

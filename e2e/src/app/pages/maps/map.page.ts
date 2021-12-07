@@ -28,6 +28,7 @@ export class MapPageObject {
   public draggableLayer: ElementFinder;
   public currentlyDraggedLayer: ElementFinder;
   public mapContextMenuItems: ElementArrayFinder;
+  public contextMenuPunctualityText: ElementFinder;
   public originallyOpenedMapTitle: string;
   public lastMapLinkSelectedCode: string;
   public mapNameDropdown: ElementFinder;
@@ -50,6 +51,7 @@ export class MapPageObject {
     this.draggableLayer = element(by.css('.draggable-map'));
     this.currentlyDraggedLayer = element(by.css('.draggable-map.grabbing'));
     this.mapContextMenuItems = element.all(by.css('.dropdown-item'));
+    this.contextMenuPunctualityText = element(by.id('schedule-context-menu-punctuality'));
     this.originallyOpenedMapTitle = '';
     this.lastMapLinkSelectedCode = '';
     this.mapNameDropdown = element(by.css('.map-dropdown-button:nth-child(1)'));
@@ -489,5 +491,9 @@ export class MapPageObject {
   public async getHeadcodesAtManualTrustBerth(berthID: string): Promise<Array<string>> {
     const elements = element.all(by.xpath(`//*[@id='manual-trust-berth-list-container-element-${berthID}']//*[starts-with(@id, 'manual-trust-berth-entry-element-text')]`));
     return elements.map(el => el.getText());
+  }
+
+  public async getContextMenuPunctuality(): Promise<string> {
+    return this.contextMenuPunctualityText.getText();
   }
 }
