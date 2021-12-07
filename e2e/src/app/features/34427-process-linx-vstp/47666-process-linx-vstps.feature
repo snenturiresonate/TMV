@@ -102,10 +102,10 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | 1B88             | 20500101        | 1111111          | N                | UNCALLED   | VSTP        |
 
   Scenario Outline: 34427-4b Base Schedule is displayed - vstp on top of original cif (cif P, vstp N)
-    #Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
-    #And no other STPs have been received for that service
-    #When a user searches for that timetable
-    #Then one timetable with the planning UID and schedule date is returned and the type is <DisplayType>
+    # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
+    # And no other STPs have been received for that service
+    # When a user searches for that timetable
+    # Then one timetable with the planning UID and schedule date is returned and the type is <DisplayType>
     Given I generate a new trainUID
     * I remove today's train 'generatedTrainUId' from the Redis trainlist
     * I delete 'generatedTrainUId:today' from hash 'schedule-modifications'
