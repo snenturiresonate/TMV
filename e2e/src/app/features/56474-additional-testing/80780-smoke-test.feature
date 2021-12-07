@@ -32,7 +32,7 @@ Feature: 80780 - Smoke Test TMV Environments
     * the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <CIF>    | PADTON      | WTT_dep       | <trainDescription>  | <trainUid>     |
-    * I wait until today's train 'B00701' has loaded
+    * I wait until today's train 'generated' has loaded
     * the following train activation message is sent from LINX
       | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUid> | <trainDescription> | now                    | 99999               | PADTON                 | today         | now                 |
