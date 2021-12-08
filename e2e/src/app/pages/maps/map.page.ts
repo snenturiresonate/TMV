@@ -7,6 +7,7 @@ import {AppPage} from '../app.po';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {RedisClient} from '../../api/redis/redis-client';
 import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
+import {IButton} from "selenium-webdriver";
 
 let linxRestClient: LinxRestClient;
 
@@ -241,14 +242,16 @@ export class MapPageObject {
     return this.mapContextMenuItems.isPresent();
   }
 
-  public async openContextMenuForTrainDescription(trainDescription: string): Promise<void> {
+  public async clickScheduleForTrainDescription(trainDescription: string, type: string): Promise<void> {
     if (trainDescription.includes('generated')) {
       trainDescription = browser.referenceTrainDescription;
     }
     const berth: ElementFinder = element(by.xpath('//*[@data-train-description=\"' + trainDescription + '\"]'));
     await CommonActions.waitForElementInteraction(berth);
-    await browser.actions().click(berth, protractor.Button.RIGHT).perform();
-    await this.waitForContextMenu();
+    await browser.actions().click(berth, type).perform();
+    if (type === protractor.Button.RIGHT) {
+      await this.waitForContextMenu();
+    }
   }
 
   public async openContextMenuForTrainDescriptionInBerth(trainDescription: string, trainDescriber: string, berth: string): Promise<void> {

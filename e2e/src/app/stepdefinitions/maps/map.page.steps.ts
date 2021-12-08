@@ -779,7 +779,11 @@ Then('I should not see the AES boundary elements', async () => {
 });
 
 When(/^I invoke the context menu on the map for train (.*)$/, async (trainDescription: string) => {
-  await mapPageObject.openContextMenuForTrainDescription(trainDescription);
+  await mapPageObject.clickScheduleForTrainDescription(trainDescription, protractor.Button.RIGHT);
+});
+
+When(/^I click on the map for train (.*)$/, async (trainDescription: string) => {
+  await mapPageObject.clickScheduleForTrainDescription(trainDescription, protractor.Button.LEFT);
 });
 
 When(/^I disable waiting for angular$/, async () => {

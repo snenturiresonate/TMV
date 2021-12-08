@@ -485,6 +485,8 @@ Feature: 33998 - TMV Train Service - full end to end testing
       | 1168    | D7             | 1F38             |
     Then berth '1168' in train describer 'D7' contains '1F38' and is visible
     And 'no' toggle is displayed in the title bar
+    When I click on the map for train 1F38
+    Then the tab title is 'TMV Map HDGW04'
     When I invoke the context menu on the map for train 1F38
     Then the map context menu contains 'No Timetable' on line 2
     And the map context menu contains 'Match' on line 3
@@ -523,3 +525,18 @@ Feature: 33998 - TMV Train Service - full end to end testing
     When I click on Match in the context menu
     And I switch to the new tab
     Then the tab title is 'TMV Schedule Matching'
+
+  Scenario: 78844 - Open timetable from left click berth
+    Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | GORASTR     | WTT_pass      | 1F34                | L00014         |
+    And I wait until today's train 'L00014' has loaded
+    And I am viewing the map GW03reading.v
+    And the following live berth interpose message is sent from LINX (creating a match)
+      | toBerth | trainDescriber | trainDescription |
+      | 0813    | D1             | 1F34             |
+    Then berth '0813' in train describer 'D1' contains '1F34' and is visible
+    And 'no' toggle is displayed in the title bar
+    When I click on the map for train 1F34
+    And I switch to the new tab
+    Then the tab title is 'TMV Timetable'
