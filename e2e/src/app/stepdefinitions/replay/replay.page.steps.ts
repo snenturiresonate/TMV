@@ -273,6 +273,10 @@ When('I increase the replay speed at position {int}', async (position: number) =
   await replayPage.increaseReplaySpeed(position);
 });
 
+When('I increase the replay speed to {int}, using the manual input', async (speed: number) => {
+  await replayPage.setManualInputSpeed(speed);
+});
+
 Then('the replay button {string} is {string}', async (button: string, expectedType: string) => {
   const actualType = await replayPage.getButtonType(button);
   if (expectedType === 'enabled') {
