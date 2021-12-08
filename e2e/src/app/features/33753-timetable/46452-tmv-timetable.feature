@@ -111,7 +111,11 @@ Feature: 33753 - TMV Timetable
     And The trains list table is visible
     And Train description '<trainNum>' is visible on the trains list
     Given I am on the home page
-    And I search <searchType> for '<searchVal>'
+    And I give the TRI 2 seconds to reach Elastic
+    And I refresh the Elastic Search indices
+    And I search <searchType> for '<searchVal>' and wait for result
+      | TrainDesc  |
+      | <trainNum> |
     And the search table is shown
     When I invoke the context menu from a <serviceStatus> service in the <searchType> list
     Then the '<searchType>' context menu is not displayed
@@ -128,6 +132,8 @@ Feature: 33753 - TMV Timetable
     And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth | trainDescriber | trainDescription |
       | <berth> | D4             | <trainNum>       |
+    And I give the interpose 2 seconds to reach Elastic
+    And I refresh the Elastic Search indices
     And I am viewing the map HDGW01paddington.v
     When I invoke the context menu on the map for train <trainNum>
     And I open schedule matching screen from the map context menu

@@ -22,6 +22,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | cif                                      | trainUid | trainDescription |
       | access-plan/51586-schedules/51586-20.cif | A50020   | 5A20             |
 
+  @bug @bug:81830
   Scenario Outline: 51586 - 20 Current punctuality at origin (on time/early)
     * I remove today's train '<trainUid>' from the Redis trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX

@@ -196,6 +196,7 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | access-plan/42006-schedules/42006-8.cif  | C11117   | 1U17             | Crewe Basford Hall Jn | now       | now + 2     | CE             | H056    | A120      | H114          | CREWE   | passing  |
       | access-plan/42006-schedules/42006-8b.cif | C11118   | 1U18             | Stafford              | now       | now + 2     | R3             | 9355    | 3598      | 3580          | STAFFRD | stopping |
 
+  # possible flaky test - see PR against 81826
   Scenario Outline: 42006-8b Display calculated actual punctuality following a departure - <stepType>
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |

@@ -228,11 +228,15 @@ export class TimeTablePageObject {
   }
 
   public async toggleInsertedLocationsOn(): Promise<void> {
-    await element(by.css('#live-timetable-toggle-menu .toggle-switch .absolute-off')).click();
+    const toggleOn: ElementFinder = element(by.css('#live-timetable-toggle-menu .toggle-switch .absolute-off'));
+    await CommonActions.waitForElementInteraction(toggleOn);
+    await toggleOn.click();
   }
 
   public async toggleInsertedLocationsOff(): Promise<void> {
-    await element(by.css('#live-timetable-toggle-menu .toggle-switch .absolute-on')).click();
+    const toggleOff: ElementFinder = element(by.css('#live-timetable-toggle-menu .toggle-switch .absolute-on'));
+    await CommonActions.waitForElementInteraction(toggleOff);
+    await toggleOff.click();
   }
 
   public async getLiveTimetableTabName(): Promise<string> {
