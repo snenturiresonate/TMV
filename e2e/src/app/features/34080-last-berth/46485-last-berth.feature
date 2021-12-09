@@ -356,47 +356,6 @@ Feature: 34080 - Last Berth
       | cifFile                                              | map          | lBTD | lB1  | lTD1 | TDandBerthId1 |
       | access-plan/34080-schedules/2B51-MDNHEAD-BORNEND.cif | gw2aslough.v | D6   | LMBE | 2B71 | D6LMBE        |
 
-  Scenario Outline: 78844 Last Berth (Select Timetable, left click) - matched trains
-    #setup
-    * I delete 'C56471:today' from hash 'schedule-modifications'
-    * I remove today's train 'C56471' from the Redis trainlist
-
-    Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
-      | filePath  | refLocation  | refTimingType | newTrainDescription | newPlanningUid |
-      | <cifFile> | MDNHEAD      | WTT_dep       | <lTD1>              | C56471         |
-    * I wait until today's train 'C56471' has loaded
-    * the following train activation message is sent from LINX
-      | trainUID   | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
-      | C56471     | <lTD1>      | now                    | 99999               | MDNHEAD                | today         |
-
-    # Log the berth level schedule
-    * I log the berth & locations from the berth level schedule for 'C56471'
-
-    # Inject stepping
-    When the following live berth interpose messages are sent from LINX (setting up matches)
-      | toBerth | trainDescriber | trainDescription |
-      | 0581    | D6             | <lTD1>           |
-    * the following live berth step messages are sent from LINX (moving through last berth)
-      | fromBerth | toBerth | trainDescriber | trainDescription |
-      | 0581      | LMBE    | D6             | <lTD1>           |
-
-    # Check that trains have loaded
-    And I am on the trains list page
-    * train <lTD1> with schedule id 'C56471' for today is visible on the trains list
-
-    # Check the last berth
-    And I am viewing the map <map>
-    Then berth '<lB1>' in train describer '<lBTD>' contains '<lTD1>' and is visible
-    When I click on the map for train <lTD1>
-    Then the number of tabs open is 2
-    When I switch to the new tab
-    Then the tab title contains '2B71 TMV Timetable'
-
-    Examples:
-      | cifFile                                              | map          | lBTD | lB1  | lTD1 | TDandBerthId1 |
-      | access-plan/34080-schedules/2B51-MDNHEAD-BORNEND.cif | gw2aslough.v | D6   | LMBE | 2B71 | D6LMBE        |
-
-
   Scenario: 34080-2b Last Berth (Select Timetable) - unmatched trains
     # Inject stepping
     When the following live berth interpose messages are sent from LINX (setting up matches)

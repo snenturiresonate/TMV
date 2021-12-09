@@ -1,8 +1,8 @@
-Feature: 78843 - TMV Replay Map Context Menu - full end to end testing
+Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Replay)
 
-  As a Tester
-  I want end to end tests to be created for the Replay Map Context Menu functionality
-  So that there is confidence that it continues to work as expected as more of the system is developed
+  As a TMV User
+  I want the ability to interact with the schematic maps
+  So that I can access additional functions or information
 
   Background:
     * I have not already authenticated
@@ -67,29 +67,3 @@ Feature: 78843 - TMV Replay Map Context Menu - full end to end testing
     And the map context menu contains '1F38' on line 3
     And the map context menu punctuality is one of Unavailable
     And the map context menu contains 'D71168' on line 4
-
-  Scenario: 78844 - Open timetable from left click berth
-    # Replay setup
-    * I reset redis
-    * the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
-      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1D46_PADTON_OXFD.cif | GORASTR     | WTT_pass      | 1F34                | L00014         |
-    * I wait until today's train 'L00014' has loaded
-    * I am viewing the map GW03reading.v
-    * the following live berth interpose message is sent from LINX (creating a match)
-      | toBerth | trainDescriber | trainDescription |
-      | 0813    | D1             | 1F34             |
-    * berth '0813' in train describer 'D1' contains '1F34' and is visible
-
-    And I am on the replay page
-    And I select Next
-    And I expand the replay group of maps with name 'Wales & Western'
-    And I select the map 'GW03reading.v'
-    And I wait for the buffer to fill
-    And I click Skip forward button '4' times
-    And I increase the replay speed at position 15
-    When I click Play button
-    Then berth '0813' in train describer 'D1' contains '1F34' and is visible
-    When I click on the map for train 1F34
-    And I switch to the new tab
-    Then the tab title is 'TMV Replay Timetable'
