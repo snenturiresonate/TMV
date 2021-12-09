@@ -410,7 +410,6 @@ Feature: 34080 - Last Berth
     And I am viewing the map gw2aslough.v
     Then berth 'LMBE' in train describer 'D6' contains '2B72' and is visible
     When I click on the map for train 2B72
-    Then the number of tabs open is 1
     When I use the secondary mouse on last berth D6LMBE
     And I use the primary mouse on train '2B72'
     Then the number of tabs open is 1
