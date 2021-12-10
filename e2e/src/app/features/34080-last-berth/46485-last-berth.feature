@@ -371,7 +371,7 @@ Feature: 34080 - Last Berth
     When I click on the map for train 2B72
     When I use the secondary mouse on last berth D6LMBE
     And I use the primary mouse on train '2B72'
-    Then the number of tabs open is 1
+      Then the tab title contains 'TMV Map GW2A'
 
   Scenario Outline: 34080-3 and 34080-4 Last Berth - response times for secondary click and select timetable
     * I delete 'C56473:today' from hash 'schedule-modifications'
