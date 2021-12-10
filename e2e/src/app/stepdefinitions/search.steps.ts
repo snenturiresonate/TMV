@@ -11,9 +11,15 @@ Then(/^no results are returned with that planning UID '(.*)'$/, async (planningU
   if (planningUID === 'generatedTrainUId' || planningUID === 'generated') {
     planningUID = browser.referenceTrainUid;
   }
-  const row = await searchResultsPage.getRowByPlanningUID(planningUID);
-  expect(await row.isPresent(), `Row with planning UID ${planningUID} is present`)
-    .to.equal(false);
+  const noResultsAreFound: boolean = await searchResultsPage.noResultsAreFound();
+  if (noResultsAreFound) {
+    return true;
+  }
+  else {
+    const row = await searchResultsPage.getRowByPlanningUID(planningUID);
+    expect(await row.isPresent(), `Row with planning UID ${planningUID} is present`)
+      .to.equal(false);
+  }
 });
 
 Then(/^results are returned with that planning UID '(.*)'$/, async (planningUID: string) => {

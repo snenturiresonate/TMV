@@ -45,6 +45,12 @@ export class SearchResultsPageObject {
     return new SearchResultsTableRowPage(activeTable.element(by.xpath(`//tr[descendant::td[text()='${planningUID}']]`)));
   }
 
+  async noResultsAreFound(): Promise<boolean> {
+    const searchType = await element(by.id('national-search-dropdown-toggle')).getText();
+    const noResultsFoundText: ElementFinder = element(by.id(`no-${searchType}-search-results`.toLowerCase()));
+    return noResultsFoundText.isDisplayed();
+  }
+
   async getRowByPlanningUIDandDate(planningUID: string, runDate: string): Promise<SearchResultsTableRowPage> {
     const activeTable: ElementFinder = await this.getActiveTable();
     const rows: ElementArrayFinder = activeTable.all(by.xpath(`//tr[descendant::td[text()='${planningUID}'] and descendant::td[text()='${runDate}']]`));

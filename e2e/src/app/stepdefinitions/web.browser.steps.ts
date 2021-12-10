@@ -1,8 +1,9 @@
 import {After, Given, Then, When} from 'cucumber';
 import {browser, protractor} from 'protractor';
 import {expect} from 'chai';
+import {CucumberLog} from '../logging/cucumber-log';
 
-const TAB_CREATION_TIMEOUT = 1000;
+const TAB_CREATION_TIMEOUT = 10000;
 const TAB_CLOSE_DOWN_TIMEOUT = 10000;
 const defaultBrowserWidth = 1980;
 const defaultBrowserHeight = 1080;
@@ -15,6 +16,7 @@ After({timeout: TAB_CLOSE_DOWN_TIMEOUT}, async () => {
 Given('the number of tabs open is {int}', async (tabs: number) => {
   await browser.wait(async () => {
     const handles = await browser.getAllWindowHandles();
+    await CucumberLog.addText(`The number of tabs was ${handles.length}`);
     return handles.length === tabs;
   }, TAB_CREATION_TIMEOUT, 'The number of tabs should be ' + tabs.toString());
 
