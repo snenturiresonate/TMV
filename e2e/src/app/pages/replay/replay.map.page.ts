@@ -40,7 +40,7 @@ export class ReplayMapPage {
     this.stopButton = element(by.xpath('//li[contains(text(),"stop")]'));
     this.replayButton = element(by.xpath('//li[contains(text(),"replay")]'));
     this.replayContainer = element(by.css('.reply-container'));
-    this.timestamp = element(by.css('.playback-status div'));
+    this.timestamp = element.all(by.css('.playback-status div')).first();
     this.replaySpeedButton = element(by.xpath('//button[@title="Playback speed"]'));
     this.manualSpeedInput = element(by.id('speed-editor-manual-input'));
     this.mapName = element(by.css('.map-dropdown-button h2'));
@@ -121,7 +121,7 @@ export class ReplayMapPage {
 
   public async getTimestamp(): Promise<LocalDateTime> {
     const timestamp = await this.timestamp.getText();
-    return LocalDateTime.parse(timestamp.replace('Replay: ', ''),
+    return LocalDateTime.parse(timestamp.replace('Replay: ', '').substr(0, 19),
       DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm:ss'));
   }
 
@@ -165,7 +165,7 @@ export class ReplayMapPage {
 
   public async getReplayTimestamp(): Promise<any> {
     const fullString: string = await this.replayTimestamp.getText();
-    return fullString.replace('Replay: ', '');
+    return fullString.replace('Replay: ', '').substr(0, 19);
   }
 
   public async clickReplaySpeed(): Promise<void> {

@@ -16,7 +16,7 @@ Feature: 33763 - TMV Replay Playback Controls
     Given I am on the replay page
     When I set the date and time for replay to
       | date  | time     | duration |
-      | today | now - 10 | 10       |
+      | today | now - 3  | 3        |
     And I select Next
     And I get the replay map configuration map groupings
     And I expand the replay group of maps with name 'Wales & Western'
