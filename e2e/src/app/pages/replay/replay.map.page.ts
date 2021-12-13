@@ -26,6 +26,7 @@ export class ReplayMapPage {
   public replayTimestamp: ElementFinder;
   public replayIncreaseSpeed: ElementArrayFinder;
   public replayMinimise: ElementFinder;
+  public replayWindowTitle: ElementFinder;
   constructor() {
     // Replay Map Page
     this.continuationLinkContextMenu = new ContinuationLinkContextMenu();
@@ -47,6 +48,7 @@ export class ReplayMapPage {
     this.replayTimestamp = element(by.css('.playback-status >div'));
     this.replayIncreaseSpeed = element.all(by.css('.speed-editor-popup .speeds .speed'));
     this.replayMinimise = element(by.css('.collapse-button-container'));
+    this.replayWindowTitle = element(by.css('[data-id=\'replay-window-title\']'));
   }
 
   public async selectContinuationLink(linkText): Promise<void> {
@@ -61,6 +63,10 @@ export class ReplayMapPage {
   private getContinuationLinkLocator(linkText): ElementFinder {
     return element(by.xpath(`//*[child::*[text()='${linkText.substring(2, 4)}']]
     [preceding-sibling::*[child::*[text()='${linkText.substring(0, 2)}']]]`));
+  }
+
+  public getReplayWindowTitle(): Promise<string> {
+    return CommonActions.waitAndGetText(this.replayWindowTitle);
   }
 
   public async selectSkipForward(): Promise<void> {

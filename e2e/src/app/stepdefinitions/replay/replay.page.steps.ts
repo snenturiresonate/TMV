@@ -31,6 +31,13 @@ When('I expand the replay group of maps with name {string}', async (mapName: str
   await replaySelectMapPage.expandMapGroupingForName(mapName);
 });
 
+Then('the replay session header is correctly formatted', async () => {
+  const replayWindowTitle = await replayPage.getReplayWindowTitle();
+  const expectedTitleFormat: RegExp = new RegExp('Replay Session: . \\(Start Date: ..\\/..\\/.. Start Time: ..:..\\)');
+  expect(replayWindowTitle, `Title \'${replayWindowTitle}\' did not match the expected format \'${expectedTitleFormat}\'`)
+    .matches(expectedTitleFormat);
+});
+
 When('I select the map {string}', async (location: string) => {
   await replaySelectMapPage.openMapsList(location);
   await MapPageObject.waitForTracksToBeDisplayed();
