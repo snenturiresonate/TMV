@@ -154,6 +154,7 @@ Feature: 33753 - TMV Timetable
       | 1B04     | 0249  | Unscheduled | UNCALLED      |
 
 
+  @manual @flaky
   @replaySetup
   Scenario Outline: 33753-4a - View Timetable (Schedule Matched - live updates are applied)
     #Given the user is authenticated to use TMV
@@ -162,6 +163,7 @@ Feature: 33753 - TMV Timetable
     #When the user is viewing the timetable
     #Then the train's schedule is displayed with any predicted and live running information and header information
     * I remove today's train '<planningUid>' from the Redis trainlist
+    * I generate a new trainUID
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | SLOUGH      | WTT_arr       | <trainNum>          | <planningUid>  |
@@ -182,8 +184,8 @@ Feature: 33753 - TMV Timetable
     And I switch to the new tab
     And I wait for the last Signal to populate
     Then The values for the header properties are as follows
-      | schedType | lastSignal | lastReport | trainUid      | trustId   | lastTJM | headCode   |
-      | LTP       | T519       |            | <planningUid> | <trustId> |         | <trainNum> |
+      | schedType | lastSignal | lastReport | trainUid      | trustId                 | lastTJM | headCode   |
+      | LTP       | T519       |            | <planningUid> | <trainNum><planningUid> |         | <trainNum> |
     And the navbar punctuality indicator is displayed as 'green' or 'yellow'
     And the punctuality is displayed as one of On time,+0m 30s,-0m 30s,+1m,-1m,+1m 30s,-1m 30s
     And I give the timetable a settling time of 2 seconds to update
@@ -255,8 +257,8 @@ Feature: 33753 - TMV Timetable
       | Slough   | 1        | actualDep | actual  |
 
     Examples:
-      | trainNum | planningUid | trustId    |
-      | 1A06     | L10006      | 1A06L10006 |
+      | trainNum | planningUid |
+      | 1A06     | generated   |
 
   @replaySetup @tdd @tdd:60541
   Scenario Outline: 33753-4b - View Timetable (Schedule Matched - becoming unmatched)

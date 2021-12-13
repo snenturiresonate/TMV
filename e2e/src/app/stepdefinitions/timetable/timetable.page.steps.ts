@@ -161,7 +161,7 @@ Then('The values for the header properties are as follows',
     expect(actualHeaderTrainUid, 'Train UID is not as expected')
       .to.equal(expectedUid);
     expect(actualHeaderTrustId, 'Trust ID is not as expected')
-      .to.equal(expectedHeaderPropertyValues.trustId);
+      .to.equal(expectedHeaderPropertyValues.trustId.replace('generated', browser.referenceTrainUid));
     expect(actualHeaderTJM, 'Last TJM is not as expected')
       .to.equal(expectedHeaderPropertyValues.lastTJM);
   });

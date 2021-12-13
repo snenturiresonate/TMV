@@ -1,8 +1,12 @@
+@newSession
 Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Live)
 
   As a TMV User
   I want the ability to interact with the schematic maps
   So that I can access additional functions or information
+
+  Background:
+    * I have not already authenticated
 
   Scenario: 78842-1 - Display punctuality, signal, berth on context menu
     # Given the user is authenticated to use TMV
