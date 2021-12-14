@@ -172,6 +172,15 @@ When(/^I set time period '(.*)' from the quick dropdown$/, async (duration) => {
   await replaySelectTimerangePage.setTimeRange(duration);
 });
 
+When(/^I expand the replay duration dropdown$/, async () => {
+  await replaySelectTimerangePage.expandDurationDropdown();
+});
+
+Then(/^the replay duration dropdown does not display a scroll bar$/, async () => {
+  const scrollBarDisplayed = await replaySelectTimerangePage.replayDurationDropdownDisplaysScrollBar();
+  expect(scrollBarDisplayed, 'The replay duration dropdown displayed a scroll bar when it shouldn\'t').to.equal(false);
+});
+
 Then(/^the map view is opened ready for replaying with timestamp$/, async (dataTable) => {
   const table = dataTable.hashes()[0];
   const replayMapName = await replayPage.getMapName();
