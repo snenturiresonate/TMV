@@ -157,7 +157,7 @@ When('I refresh the Elastic Search indices', async () => {
   await elasticSearchClient.refreshIndices();
 });
 
-When(/^I search (Train|Signal|Timetable) for '(.*)'$/, async (filter: string, searchFor: string) => {
+When(/^I search (Train|Signal|Timetable|Berth) for '(.*)'$/, async (filter: string, searchFor: string) => {
   if (searchFor === 'generatedTrainUId' || searchFor === 'generated') {
     searchFor = browser.referenceTrainUid;
   }
@@ -270,6 +270,30 @@ Then('Warning Message is displayed for minimum characters', async () => {
   const trainWarningMessage = await navBarPage.isTrainTableWarningPresent();
   expect(trainWarningMessage, `Minimum characters warning is not displayed`)
     .to.equal(true);
+});
+
+Then('a warning message is displayed for invalid characters', async () => {
+  const invalidCharactersWarningIsDisplayed = await navBarPage.isInvalidCharactersWarningPresent();
+  expect(invalidCharactersWarningIsDisplayed, `Invalid characters warning message is not displayed`)
+    .to.equal(true);
+});
+
+Then('a message is displayed stating that no results were found', async () => {
+  const noResultsFoundMessageIsPresent = await navBarPage.isNoResultsFoundMessagePresent();
+  expect(noResultsFoundMessageIsPresent, `No results found message was not present`)
+    .to.equal(true);
+});
+
+Then('the berth search results table is displayed', async () => {
+  const berthSearchResultsTitle = await navBarPage.isBerthSearchResultsTitlePresent();
+  expect(berthSearchResultsTitle, `Berth search results were not displayed`)
+    .to.equal(true);
+});
+
+Then('the berth search results table displays {int} results', async (expectedCount: number) => {
+  const actualCount = await navBarPage.countBerthSearchResults();
+  expect(actualCount, `Expected ${expectedCount} berth search results but found ${actualCount}`)
+    .to.equal(expectedCount);
 });
 
 Then('the Train search table is not shown', async () => {

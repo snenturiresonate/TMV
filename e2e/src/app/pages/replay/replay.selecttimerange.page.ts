@@ -6,6 +6,7 @@ import {DatePicker} from '../sections/datepicker';
 import {TimePicker} from '../sections/timepicker';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
+import {CucumberLog} from '../../logging/cucumber-log';
 
 export class ReplaySelectTimerangePage {
   public selectYourTimeRangeTitle: ElementFinder;
@@ -17,6 +18,7 @@ export class ReplaySelectTimerangePage {
   public startTime: ElementFinder;
   public durationContainer: ElementFinder;
   public durationExpand: ElementFinder;
+  public expandedDurationSelector: ElementFinder;
   public endDateAndTime: ElementFinder;
   public nextButton: ElementFinder;
   public timePicker: TimePicker;
@@ -32,6 +34,7 @@ export class ReplaySelectTimerangePage {
     this.quickExpand = this.quickContainer.element(by.css('.dropdown-arrow'));
     this.durationContainer = element(by.xpath('//app-dropdown[preceding-sibling::span[text()="Duration (minutes)"]]'));
     this.durationExpand = this.durationContainer.element(by.css('.dropdown-arrow'));
+    this.expandedDurationSelector = element(by.css('[class=\'show\']'));
     this.endDateAndTime = element(by.xpath('//input[@formcontrolname="endDate"]'));
     this.openTimePickerButton = element(by.css('.time-button'));
     this.timePicker = new TimePicker();
@@ -65,6 +68,17 @@ export class ReplaySelectTimerangePage {
   public async selectDurationOfReplay(duration): Promise<void> {
     await this.durationExpand.click();
     await this.durationContainer.element(by.cssContainingText('li', duration)).click();
+  }
+
+  public async expandDurationDropdown(): Promise<void> {
+    return this.durationExpand.click();
+  }
+
+  public async replayDurationDropdownDisplaysScrollBar(): Promise<boolean> {
+    const height = (await this.expandedDurationSelector.getSize()).height;
+    const scrollHeight = await this.expandedDurationSelector.getAttribute('scrollHeight');
+    await CucumberLog.addText(`Height: ${height}, Scroll Height: ${scrollHeight}`);
+    return Promise.resolve(parseInt(scrollHeight, 10) > height);
   }
 
   public async selectQuickDuration(duration): Promise<void> {

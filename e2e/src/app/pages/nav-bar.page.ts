@@ -40,6 +40,9 @@ export class NavBarPageObject {
   public trainsContextListItems: ElementArrayFinder;
   public contextListItems: ElementArrayFinder;
   public trainSearchWarningMsg: ElementFinder;
+  public invalidCharactersWarningMsg: ElementFinder;
+  public noResultsFoundMessage: ElementFinder;
+  public berthSearchResultsTitle: ElementFinder;
   public timeTableLink: ElementFinder;
   public contextMapArrowLink: ElementFinder;
   public contextMapLink: ElementFinder;
@@ -65,6 +68,7 @@ export class NavBarPageObject {
   public routeSetCodeIndicator: ElementFinder;
   public mapItemSearchContext: ElementFinder;
   public signOutIcon: ElementFinder;
+  public berthSearchResults: ElementArrayFinder;
   constructor() {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
@@ -104,6 +108,9 @@ export class NavBarPageObject {
     this.trainsContextListItems = element.all(by.css('.dropdown-item-menu:nth-child(1)'));
     this.contextListItems = element.all(by.css('.dropdown-item-menu:nth-child(1)'));
     this.trainSearchWarningMsg = element(by.css('.div-warning-msg:nth-child(1)'));
+    this.invalidCharactersWarningMsg = element(by.xpath('//div[contains(text(),\'Invalid characters\')]'));
+    this.noResultsFoundMessage = element(by.id('no-berth-search-results'));
+    this.berthSearchResultsTitle = element(by.xpath('//div[contains(text(),\'Berth Search Results\')]'));
     this.timeTableLink = element(by.id('btn-open-timetable'));
     this.contextMapArrowLink = element(by.css('#right-arrow:nth-child(1)'));
     this.contextMapLink = element(by.css('#map-list >ul >li:nth-child(1)'));
@@ -128,6 +135,7 @@ export class NavBarPageObject {
     this.routeSetCodeIndicator = element(by.css('#routesetcodetoggle .toggle-switch'));
     this.mapItemSearchContext = element(by.css('div.map-link'));
     this.signOutIcon = element(by.id('logout1'));
+    this.berthSearchResults = element.all(by.css('#berthSearchResults tr'));
   }
 
   public async navBarIsDisplayed(): Promise<boolean> {
@@ -321,6 +329,22 @@ export class NavBarPageObject {
 
   public async isTrainTableWarningPresent(): Promise<boolean> {
     return browser.isElementPresent(this.trainSearchWarningMsg);
+  }
+
+  public async isInvalidCharactersWarningPresent(): Promise<boolean> {
+    return browser.isElementPresent(this.invalidCharactersWarningMsg);
+  }
+
+  public async isNoResultsFoundMessagePresent(): Promise<boolean> {
+    return browser.isElementPresent(this.noResultsFoundMessage);
+  }
+
+  public async isBerthSearchResultsTitlePresent(): Promise<boolean> {
+    return browser.isElementPresent(this.berthSearchResultsTitle);
+  }
+
+  public async countBerthSearchResults(): Promise<number> {
+    return (await this.berthSearchResults.count()) - 1;
   }
 
   public async trainClickCloseIcon(): Promise<void> {
