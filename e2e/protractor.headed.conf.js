@@ -8,7 +8,7 @@
 exports.config = {
   allScriptsTimeout: 11000,
   params: {
-    test_harness_ci_ip: 'http://tmv',
+    test_harness_ci_ip: 'http://10.5.1.177',
     operations_redis_port: '8600',
     operations_redis_host: 'redis-operations',
     replay_redis_port: '8700',
@@ -35,7 +35,7 @@ exports.config = {
     trainsList: ['./src/**/features/33806-trains-list/*.feature']
   },
   directConnect: true,
-  baseUrl: 'https://suffix.tmv.resonate.tech',
+  baseUrl: 'https://ap.tmv.resonate.tech',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
@@ -45,7 +45,7 @@ exports.config = {
     // To run specific Scenarios marked with the tag @test (for example), uncomment the next line
     //tags: ['@test']
     // To run all scenarios not marked @bug or @tdd, uncomment the next line
-    tags: ['not (@bug or @tdd or @manual)']
+    tags: ['@dev']
   },
   ignoreUncaughtExceptions: true,
   async onPrepare() {

@@ -429,7 +429,7 @@ Feature: 33757 - TMV National Search
       | A12345      |
     And the Train search table is shown
     And the window title is displayed as 'Train Search Results'
-    And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results
+    And I invoke the context menu from train with planning UID 'A12345' on the search results table
     And I wait for the train search context menu to display
     And the trains context menu is displayed
     And the train search context menu contains 'Open Timetable' on line 1
@@ -440,28 +440,12 @@ Feature: 33757 - TMV National Search
       | HDGW01  |
     And I open the Map 'GW01'
     And I switch to the new tab
+    Then the train in berth D3R029 is highlighted on page load
+    And berth 'R029' in train describer 'D3' contains '1L24' and is visible
+    And I click on the layers icon in the nav bar
     And I toggle the 'Berth' toggle 'On'
-    And the following berth status is displayed
-      | berthId | trainDescription | status      |
-      | R029    | D3               | highlighted |
-    And the following live berth step message is sent from LINX (to move train)
-      | fromBerth | toBerth | trainDescriber | trainDescription |
-      | R029      | 0043    | D3             | 1L24             |
-    And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results
-    And I wait for the train search context menu to display
-    Then the trains context menu is displayed
-    And the train search context menu contains 'Open Timetable' on line 1
-    And the train search context menu contains 'Select maps' on line 2
-    And the following map names can be seen
-      | mapName |
-      | GW01    |
-      | HDGW01  |
-    And I open the Map 'HDGW01'
-    And I switch to the new tab
-    And I toggle the 'Berth' toggle 'On'
-    And the following berth status is displayed
-      | berthId | trainDescription | status      |
-      | 0043    | D3               | highlighted |
+    Then the train in berth D3R029 is highlighted on page load
+    And berth 'R029' in train describer 'D3' contains 'R029' and is visible
     Examples:
       | pageName         |
       | Home             |
@@ -472,13 +456,13 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  @manual
+  @manual @dev
   Scenario Outline:33757-8 National Signal Search Highlight
     #Given the user is authenticated to use TMV
     #And the user is viewing the signal search results
     #When the user selects a map from the signal search results
     #Then the user is presented with a map that contains the signal
-    #And the signal is highlighted for a brief period
+    #And the associated berth is highlighted for a brief period
     Given I navigate to <pageName> page
     And I search Signal for 'SN259'
     Then results are returned with that signal ID 'SN259'
@@ -495,7 +479,8 @@ Feature: 33757 - TMV National Search
     And I open the Map 'GW02'
     And I switch to the new tab
     And the tab title is 'TMV Map GW02'
-    And the signal 'SN254' is 'highlighted'
+    And the train in berth D40259 is highlighted on page load
+    And berth '0259' in train describer 'D4' contains 'SGNL' and is visible
     Examples:
       | pageName         |
       | Home             |

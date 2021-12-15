@@ -375,10 +375,6 @@ Then('the train search context menu contains {string} on line {int}', async (exp
     .to.contain(expectedText.toLowerCase());
 });
 
-Then('I select map {string} on line {int} from the search context menu', async (expectedText: string, rowNum: number) => {
-  await navBarPage.clickTrainsSearchContextMenuItem(rowNum);
-});
-
 Then('the {string} search context menu contains {string} on line {int}',
   async (searchType: string, expectedText: string, rowNum: number) => {
   const actualContextMenuItem = await navBarPage.getSearchContextMenuItem(rowNum);
