@@ -17,7 +17,7 @@ Feature: 79015 - TMV National Search Additions - National Berth Search
   #    No results found message is displayed for zero results
   #    Alphanumeric characters only
 
-  Scenario Outline: 79015-1 - less than 2 search characters are rejected - <searchFor>
+  Scenario Outline: 79189-1 - less than 2 search characters are rejected - <searchFor>
     Given I am viewing the map <map>
     When I search Berth for '<searchFor>'
     Then Warning Message is displayed for minimum characters
@@ -29,7 +29,7 @@ Feature: 79015 - TMV National Search Additions - National Berth Search
     | NW22mpsccsig.v     | a         |
     | MD01euston.v       | Z         |
 
-  Scenario Outline: 79015-2 - invalid characters are rejected - <searchFor>
+  Scenario Outline: 79189-2 - invalid characters are rejected - <searchFor>
     Given I am viewing the map <map>
     When I search Berth for '<searchFor>'
     Then a warning message is displayed for invalid characters
@@ -41,7 +41,7 @@ Feature: 79015 - TMV National Search Additions - National Berth Search
       | NW22mpsccsig.v     | %!@*      |
       | MD01euston.v       | 00*9      |
 
-  Scenario Outline: 79015-3 - 2 search characters are accepted - <searchFor>
+  Scenario Outline: 79189-3 - 2 search characters are accepted - <searchFor>
     Given I am viewing the map <map>
     When I search Berth for '<searchFor>'
     Then the berth search results table is displayed
@@ -53,7 +53,7 @@ Feature: 79015 - TMV National Search Additions - National Berth Search
       | NW22mpsccsig.v     | NJ        |
       | MD01euston.v       | SW        |
 
-  Scenario Outline: 79015-4 - full berth name is accepted - <searchFor> - <expectedCount>
+  Scenario Outline: 79189-4 - full berth name is accepted - <searchFor> - <expectedCount>
     Given I am viewing the map <map>
     When I search Berth for '<searchFor>'
     Then the berth search results table displays <expectedCount> results
@@ -65,7 +65,7 @@ Feature: 79015 - TMV National Search Additions - National Berth Search
       | NW22mpsccsig.v     | NJUN      | 1             |
       | MD01euston.v       | SWSG      | 1             |
 
-  Scenario Outline: 79015-5 - no search results found - <searchFor>
+  Scenario Outline: 79189-5 - no search results found - <searchFor>
     Given I am viewing the map <map>
     When I search Berth for '<searchFor>'
     Then a message is displayed stating that no results were found
@@ -77,7 +77,7 @@ Feature: 79015 - TMV National Search Additions - National Berth Search
       | NW22mpsccsig.v     | NADA      |
       | MD01euston.v       | ZZ99      |
 
-  Scenario Outline: 79015-6 - large search string
+  Scenario Outline: 79189-6 - large search string
     Given I am viewing the map <map>
     When I search Berth for '<searchFor>'
     Then a message is displayed stating that no results were found
