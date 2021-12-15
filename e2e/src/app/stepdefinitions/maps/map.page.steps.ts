@@ -921,7 +921,7 @@ Then(/^the (?:train|signal) in berth (\w+) is highlighted$/,
 Then(/^the (?:train|signal) in berth (\w+) is highlighted on page load$/,
   async (berthId: string) => {
     await browser.wait(() => {
-      return mapPageObject.isReplayBerthHighlighted(berthId);
+      return mapPageObject.isBerthTempHighlighted(berthId);
     }, browser.params.general_timeout, `The train in berth ${berthId} was not highlighted`);
   });
 

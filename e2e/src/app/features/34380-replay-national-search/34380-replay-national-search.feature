@@ -134,7 +134,7 @@ Feature: 34380 - TMV Replay National Search
       |HDGW01 |
       |GW01   |
 
-  @manual @flaky @dev
+  @manual @flaky
   Scenario: 34380-7 National Train Search Highlight
     # Given the user is authenticated to use TMV replay
     # And the user is viewing the train search results
@@ -155,28 +155,3 @@ Feature: 34380 - TMV Replay National Search
     And I switch to the new tab
     And the tab title is 'TMV Replay GW2A'
     Then the train in berth D60519 is highlighted on page load
-    And berth '0519' in train describer 'D6' contains '1A06' and is visible
-
-  @manual @dev
-  Scenario: 34380-8 National Signal Search Highlight
-    # Given the user is authenticated to use TMV replay
-    # And the user is viewing the signal search results
-    # When the user selects a map from the signal search results
-    # Then the user is presented with a map that contains the signal
-    # And the associated berth is highlighted for a brief period
-    Given I search Signal for 'SN15'
-    Then the signal search table is shown
-    And the window title is displayed as 'Signal Search Results'
-    When I invoke the context menu for signal with ID 'SN15'
-    And I wait for the signal search context menu to display
-    Then the signal context menu is displayed
-    And the 'signal' search context menu contains 'Select maps' on line 1
-    And the following map names can be seen for the signal
-      |mapName|
-      |HDGW01 |
-      |GW01   |
-    And I open the Map 'HDGW01'
-    And I switch to the new tab
-    Then the tab title is 'TMV Replay HDGW01'
-    Then the train in berth D3A015 is highlighted on page load
-    And berth 'A015' in train describer 'D3' contains 'SGNL' and is visible

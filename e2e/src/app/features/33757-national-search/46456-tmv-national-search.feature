@@ -412,7 +412,6 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  @manual
   Scenario Outline:33757-7 National Trains Search Highlight
     #Given the user is authenticated to use TMV
     #And the user is viewing the train search results
@@ -456,37 +455,3 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  @manual @dev
-  Scenario Outline:33757-8 National Signal Search Highlight
-    #Given the user is authenticated to use TMV
-    #And the user is viewing the signal search results
-    #When the user selects a map from the signal search results
-    #Then the user is presented with a map that contains the signal
-    #And the associated berth is highlighted for a brief period
-    Given I navigate to <pageName> page
-    And I search Signal for 'SN259'
-    Then results are returned with that signal ID 'SN259'
-    And the window title is displayed as 'Signal Search Results'
-    And I invoke the context menu for signal with ID 'SN259'
-    And I wait for the signal search context menu to display
-    And the signal context menu is displayed
-    And the train search context menu contains 'Select maps' on line 1
-    And I placed the mouseover on signal map option
-    And the following signal map names can be seen
-      | mapName |
-      | GW02    |
-      | HDGW01  |
-    And I open the Map 'GW02'
-    And I switch to the new tab
-    And the tab title is 'TMV Map GW02'
-    And the train in berth D40259 is highlighted on page load
-    And berth '0259' in train describer 'D4' contains 'SGNL' and is visible
-    Examples:
-      | pageName         |
-      | Home             |
-      | TrainsList       |
-      | TimeTable        |
-      | TrainsListConfig |
-      | Maps             |
-      | LogViewer        |
-      | Admin            |

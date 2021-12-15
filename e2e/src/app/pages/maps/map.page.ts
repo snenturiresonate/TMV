@@ -458,7 +458,7 @@ export class MapPageObject {
     return Promise.resolve(berthClass.indexOf('berth_highlighted') >= 0);
   }
 
-  public async isReplayBerthHighlighted(berthId: string): Promise<boolean> {
+  public async isBerthTempHighlighted(berthId: string): Promise<boolean> {
     const berth: ElementFinder = element(by.id('berth-element-rect-' + berthId));
     const berthClass: string = await berth.getAttribute('class');
     if (berthClass === null) {

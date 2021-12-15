@@ -393,6 +393,12 @@ Then('the signal context menu is displayed', async () => {
     .to.equal(true);
 });
 
+Then('the berth context menu is displayed', async () => {
+  const isTrainsContextMenuVisible: boolean = await navBarPage.isBerthContextMenuDisplayed();
+  expect(isTrainsContextMenuVisible, `Berth context menu is not shown`)
+    .to.equal(true);
+});
+
 Then('the train search context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
   const actualContextMenuItem: string = await navBarPage.getTrainsSearchContextMenuItem(rowNum);
   expect(actualContextMenuItem.toLowerCase(), `Item ${rowNum} in train search context menu was not ${expectedText}`)
@@ -433,6 +439,10 @@ When('I wait for the timetable search context menu to display', async () => {
 
 When('I wait for the signal search context menu to display', async () => {
   await navBarPage.waitForSignalContext();
+});
+
+When('I wait for the berth search context menu to display', async () => {
+  await navBarPage.waitForBerthContext();
 });
 
 When('I wait for the train search context menu map to display', async () => {
@@ -538,6 +548,15 @@ Then('the following map names can be seen', async (mapNameDataTable: any) => {
 Then('the following map names can be seen for the signal', async (mapNameDataTable: any) => {
   const expectedMapNames = mapNameDataTable.hashes();
   const actualMapNames = await navBarPage.getMapNamesForSignal();
+
+  expectedMapNames.forEach((expectedMapName: any) => {
+    expect(actualMapNames).to.contain(expectedMapName.mapName);
+  });
+});
+
+Then('the following map names can be seen for the berth', async (mapNameDataTable: any) => {
+  const expectedMapNames = mapNameDataTable.hashes();
+  const actualMapNames = await navBarPage.getMapNamesForBerth();
 
   expectedMapNames.forEach((expectedMapName: any) => {
     expect(actualMapNames).to.contain(expectedMapName.mapName);

@@ -53,6 +53,7 @@ export class NavBarPageObject {
   public statusUnmatched: ElementFinder;
   public signalColumnHeader: ElementFinder;
   public signalContext: ElementFinder;
+  public berthContext: ElementFinder;
   public unscheduledContext: ElementFinder;
   public tmvKeyButton: ElementFinder;
   public modalWindow: ElementArrayFinder;
@@ -60,6 +61,7 @@ export class NavBarPageObject {
   public searchFilterToggle: ElementFinder;
   public mapLink: ElementArrayFinder;
   public mapLinkSignal: ElementArrayFinder;
+  public mapLinkBerth: ElementArrayFinder;
   public mapPathToggle: ElementFinder;
   public recentMaps: ElementArrayFinder;
   public mapChanger: ElementFinder;
@@ -121,12 +123,14 @@ export class NavBarPageObject {
     this.signalColumnHeader = element(by.css('#signalSearchResults thead'));
     this.signalSearchRow = element.all(by.css('#signalSearchResults tbody>tr'));
     this.signalContext = element(by.id('signalSearchContextMenu'));
+    this.berthContext = element(by.id('berthSearchContextMenu'));
     this.unscheduledContext = element(by.id('un-schedule-context-menu-timetable'));
     this.tmvKeyButton = element(by.id('tmv-key-button'));
     this.modalWindow = element.all(by.css('.modalpopup'));
     this.helpMenu = element(by.id('help-menu-button'));
     this.mapLink = element.all(by.css('#map-list>ul>li'));
     this.mapLinkSignal = element.all(by.css('#signal-map-list>ul>li'));
+    this.mapLinkBerth = element.all(by.css('#berth-map-list>ul>li'));
     this.mapPathToggle = element(by.id('map-path-toggle-button'));
     this.recentMaps = element.all(by.css('.map-details'));
     this.mapChanger = element(by.css('#mapNameDropDown'));
@@ -158,6 +162,7 @@ export class NavBarPageObject {
 
   public async openLayersMenu(): Promise<void> {
     const LayersMenu: ElementFinder = element(by.id('layers-menu-button'));
+    await CommonActions.waitForElementInteraction(LayersMenu);
     await LayersMenu.click();
   }
 
@@ -391,6 +396,10 @@ export class NavBarPageObject {
     return this.signalContext.isPresent();
   }
 
+  public async isBerthContextMenuDisplayed(): Promise<boolean> {
+    return this.berthContext.isPresent();
+  }
+
   public async isUnscheduledContextMenuDisplayed(): Promise<boolean> {
     return this.unscheduledContext.isPresent();
   }
@@ -410,14 +419,21 @@ export class NavBarPageObject {
   public async waitForTimetableContext(): Promise<boolean> {
     await browser.wait(async () => {
       return this.timeTableContextMenu.isPresent();
-    }, browser.params.general_timeout, 'The trains list context menu should be displayed');
+    }, browser.params.general_timeout, 'The timetable context menu should be displayed');
     return this.timeTableContextMenu.isPresent();
   }
   public async waitForSignalContext(): Promise<boolean> {
     await browser.wait(async () => {
       return this.signalContext.isPresent();
-    }, browser.params.general_timeout, 'The trains list context menu should be displayed');
+    }, browser.params.general_timeout, 'The signal context menu should be displayed');
     return this.signalContext.isPresent();
+  }
+
+  public async waitForBerthContext(): Promise<boolean> {
+    await browser.wait(async () => {
+      return this.berthContext.isPresent();
+    }, browser.params.general_timeout, 'The berth context menu should be displayed');
+    return this.berthContext.isPresent();
   }
 
   public async waitForUnscheduledContext(): Promise<boolean> {
@@ -493,6 +509,11 @@ export class NavBarPageObject {
   public async getMapNamesForSignal(): Promise<any> {
     await this.hoverOverContextMenuMapsLink();
     return this.mapLinkSignal.getText();
+  }
+
+  public async getMapNamesForBerth(): Promise<any> {
+    await this.hoverOverContextMenuMapsLink();
+    return this.mapLinkBerth.getText();
   }
 
   public async getSignalMapNames(): Promise<string> {

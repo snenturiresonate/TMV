@@ -104,3 +104,8 @@ When('I invoke the context menu for signal with ID {string}', async (signalID: s
   const targetRow = await searchResultsPage.getRowBySignalID(signalID);
   await targetRow.performRightClick();
 });
+
+When('I invoke the context menu for berth containing signalID {string}', async (signalID: string) => {
+  const targetRow = await searchResultsPage.getRowBySignalID(signalID);
+  await targetRow.performRightClick();
+});
