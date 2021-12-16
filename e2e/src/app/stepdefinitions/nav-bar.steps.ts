@@ -161,7 +161,9 @@ When(/^I search (Train|Signal|Timetable|Berth) for '(.*)'$/, async (filter: stri
   if (searchFor === 'generatedTrainUId' || searchFor === 'generated') {
     searchFor = browser.referenceTrainUid;
   }
-
+  if (searchFor === 'generatedTrainDescription') {
+    searchFor = browser.referenceTrainDescription;
+  }
   await navBarPage.setSearchFilter(filter);
   await navBarPage.enterSearchValue(searchFor);
   await navBarPage.clickSearchIcon();
@@ -193,6 +195,9 @@ When(/^I search (Train|Signal|Timetable) for '(.*)' and wait for result$/,
    */
   if (searchFor === 'generatedTrainUId' || searchFor === 'generated') {
     searchFor = browser.referenceTrainUid;
+  }
+  if (searchFor === 'generatedTrainDescription') {
+    searchFor = browser.referenceTrainDescription;
   }
 
   let locator = `//table[@id='${filter.toLowerCase()}SearchResults']//tr`;
@@ -515,6 +520,10 @@ When('I invoke the context menu from train {int} on the timetable results table'
 
 When('I invoke the context menu from train {int} on the trains list table', async (itemNum: number) => {
   await navBarPage.rightClickTrainSearchList(itemNum);
+});
+
+When(/^I open the timetable for the next train with UID (.*) fron the search results$/, async (trainUid: string) => {
+  await navBarPage.openTimetableForTrainUid(trainUid);
 });
 
 When('I click on the Help icon', async () => {

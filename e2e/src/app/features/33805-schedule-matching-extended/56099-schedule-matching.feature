@@ -369,7 +369,7 @@ Feature: 33805 TMV Schedule Matching
     Then the Matched version of the map context menu is displayed
     When I open timetable from the map context menu
     And I switch to the new tab
-    And the tab title is 'TMV Timetable'
+    And the tab title is '<origTrainDesc> TMV Timetable'
     Then the timetable header train UID is '<trainUid>'
     # clean up
     * I remove schedule '<trainUid>' from the trains list
@@ -416,7 +416,7 @@ Feature: 33805 TMV Schedule Matching
     Then the Matched version of the map context menu is displayed
     When I open timetable from the map context menu
     And I switch to the new tab
-    And the tab title is 'TMV Timetable'
+    And the tab title is '<origTrainDesc> TMV Timetable'
     Then the timetable header train UID is '<trainUid>'
     # clean up
     * I remove schedule '<trainUid>' from the trains list

@@ -26,13 +26,14 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Live)
     And 'no' toggle is displayed in the title bar
     When I invoke the context menu on the map for train 1F34
     Then the map context menu contains 'Open Timetable' on line 2
-    And the map context menu contains 'Turn Path On' on line 3
-    And the map context menu contains 'Highlight' on line 4
-    And the map context menu contains '1F34' on line 5
+    And the map context menu contains 'Unmatch/Rematch' on line 3
+    And the map context menu contains 'Turn Path On' on line 4
+    And the map context menu contains 'Highlight' on line 5
+    And the map context menu contains '1F34' on line 6
     And the map context menu punctuality is one of On time,+0m 30s,-0m 30s,+1m,-1m,+1m 30s,-1m 30s
-    And the map context menu contains 'T813' on line 6
-    And the map context menu contains 'D10813' on line 7
-    And the map context menu contains 'PADTON - OXFD' on line 8
+    And the map context menu contains 'T813' on line 7
+    And the map context menu contains 'D10813' on line 8
+    And the map context menu contains 'PADTON - OXFD' on line 9
     When I toggle path on from the map context menu
     Then 'PATH OFF' toggle is displayed in the title bar
     When I am on the timetable view for service 'L00014'
@@ -54,12 +55,13 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Live)
     Then 'PATH OFF' toggle is displayed in the title bar
     When I invoke the context menu on the map for train 1F35
     Then the map context menu contains 'Open Timetable' on line 2
-    And the map context menu contains 'Turn Path Off' on line 3
-    And the map context menu contains 'Highlight' on line 4
-    And the map context menu contains '1F35' on line 5
-    And the map context menu contains 'SB1007, SB1X07' on line 6
-    And the map context menu contains 'D51007' on line 7
-    And the map context menu contains 'PADTON - SWANSEA' on line 8
+    And the map context menu contains 'Unmatch/Rematch' on line 3
+    And the map context menu contains 'Turn Path Off' on line 4
+    And the map context menu contains 'Highlight' on line 5
+    And the map context menu contains '1F35' on line 6
+    And the map context menu contains 'SB1007, SB1X07' on line 7
+    And the map context menu contains 'D51007' on line 8
+    And the map context menu contains 'PADTON - SWANSEA' on line 9
     When I am on the timetable view for service 'L00015'
     Then the current headcode in the header row is '1F35'
 
@@ -82,33 +84,34 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Live)
     Then berth '0574' in train describer 'D6' contains '1F36' and is visible
     Then berth '0516' in train describer 'D6' contains '1F37' and is visible
     And I invoke the context menu on the map for train 1F36
-    And the map context menu contains 'Turn Path On' on line 3
-    And the map context menu contains 'Highlight' on line 4
-    And the map context menu contains '1F36' on line 5
-    And the map context menu contains 'T574' on line 6
-    And the map context menu contains 'D60574' on line 7
-    And the map context menu contains 'RDNGSTN - PADTON' on line 8
+    And the map context menu contains 'Turn Path On' on line 4
+    And the map context menu contains 'Highlight' on line 5
+    And the map context menu contains '1F36' on line 6
+    And the map context menu contains 'T574' on line 7
+    And the map context menu contains 'D60574' on line 8
+    And the map context menu contains 'RDNGSTN - PADTON' on line 9
     And I toggle path on from the map context menu
     And 'PATH OFF' toggle is displayed in the title bar
     When I invoke the context menu on the map for train 1F37
     Then the map context menu contains 'Open Timetable' on line 2
-    And the map context menu contains 'Turn Path On' on line 3
-    And the map context menu contains 'Highlight' on line 4
-    And the map context menu contains '1F37' on line 5
-    And the map context menu contains 'T516' on line 6
-    And the map context menu contains 'D60516' on line 7
-    And the map context menu contains 'RDNGSTN - PADTON' on line 8
+    And the map context menu contains 'Unmatch/Rematch' on line 3
+    And the map context menu contains 'Turn Path On' on line 4
+    And the map context menu contains 'Highlight' on line 5
+    And the map context menu contains '1F37' on line 6
+    And the map context menu contains 'T516' on line 7
+    And the map context menu contains 'D60516' on line 8
+    And the map context menu contains 'RDNGSTN - PADTON' on line 9
     When I toggle path on from the map context menu
     Then 'PATH OFF' toggle is displayed in the title bar
     When I invoke the context menu on the map for train 1F37
-    Then the map context menu contains 'Turn Path Off' on line 3
+    Then the map context menu contains 'Turn Path Off' on line 4
     When I invoke the context menu on the map for train 1F36
-    Then the map context menu contains 'Turn Path On' on line 3
-    And the map context menu contains 'Highlight' on line 4
-    And the map context menu contains '1F36' on line 5
-    And the map context menu contains 'T574' on line 6
-    And the map context menu contains 'D60574' on line 7
-    And the map context menu contains 'RDNGSTN - PADTON' on line 8
+    Then the map context menu contains 'Turn Path On' on line 4
+    And the map context menu contains 'Highlight' on line 5
+    And the map context menu contains '1F36' on line 6
+    And the map context menu contains 'T574' on line 7
+    And the map context menu contains 'D60574' on line 8
+    And the map context menu contains 'RDNGSTN - PADTON' on line 9
     When I open timetable from the map context menu
     And I switch to the new tab
     Then the current headcode in the header row is '1F36'
@@ -129,7 +132,7 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Live)
     And the map context menu contains 'D71168' on line 6
     When I click on Match in the context menu
     And I switch to the new tab
-    Then the tab title is 'TMV Schedule Matching'
+    Then the tab title is 'TMV Schedule Matching 1F38'
 
   Scenario: 78842-5 - Display punctuality, signal, berth on context menu
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
@@ -157,7 +160,7 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Live)
     And the map context menu contains 'D52368' on line 6
     When I click on Match in the context menu
     And I switch to the new tab
-    Then the tab title is 'TMV Schedule Matching'
+    Then the tab title is 'TMV Schedule Matching 1F40'
 
   Scenario: 78842-6 - Display punctuality, signal, berth on context menu
     Given I am viewing the map HDGW04bristolparkway.v
@@ -177,4 +180,4 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Live)
     And the map context menu contains 'D71168' on line 6
     When I click on Match in the context menu
     And I switch to the new tab
-    Then the tab title is 'TMV Schedule Matching'
+    Then the tab title is 'TMV Schedule Matching 1F38'

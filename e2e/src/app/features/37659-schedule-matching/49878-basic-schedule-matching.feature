@@ -17,6 +17,7 @@ Feature: 37659 - Basic Schedule matching framework
     #  | Step Type |
     #  | Interpose |
     #  | Step |
+    #
     * I remove today's train 'M00001' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |

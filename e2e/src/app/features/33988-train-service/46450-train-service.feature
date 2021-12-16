@@ -148,7 +148,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     And I switch to the new tab
     And the maximum amount of time is allowed for end to end transmission
     And I invoke the context menu on the map for train 1F25
-    Then the map context menu contains 'Path Off' on line 3
+    Then the map context menu contains 'Path Off' on line 4
 
   Scenario: 33998-7b Path On Toggle (Matched Off-Plan can show path)
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
@@ -170,7 +170,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     Then the tracks 'PNPNF4, PNPNF5, PNPNK5, PNPNK9, PNPNL1, PNPNL2, PNPNL3' are displayed in solid paleblue
     And 'PATH OFF' toggle is displayed in the title bar
     When I invoke the context menu on the map for train 1F26
-    Then the map context menu contains 'Path Off' on line 3
+    Then the map context menu contains 'Path Off' on line 4
 
   Scenario: 33998-7c Path On Toggle (Matched Off-Route cannot show path)
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
@@ -196,7 +196,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     Then 'no' toggle is displayed in the title bar
     And the tracks 'SNSNB7, SNSNB8, SNSNB9, SNSNBA, SNSND3, SNSND4' are displayed in solid white
     When I invoke the context menu on the map for train 1F27
-    Then the map context menu contains 'Turn Path On' on line 3
+    Then the map context menu contains 'Turn Path On' on line 4
     * I enable waiting for angular
 
   Scenario: 33998-7d Path On Toggle (Only one train can have path on at a time)
@@ -391,7 +391,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     And 'no' toggle is displayed in the title bar
     When I invoke the context menu on the map for train 1F34
     Then the map context menu contains 'Open Timetable' on line 2
-    And the map context menu contains 'Turn Path On' on line 3
+    And the map context menu contains 'Turn Path On' on line 4
     When I toggle path on from the map context menu
     Then 'PATH OFF' toggle is displayed in the title bar
     When I am on the timetable view for service 'L00014'
@@ -413,7 +413,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     Then 'PATH OFF' toggle is displayed in the title bar
     When I invoke the context menu on the map for train 1F35
     Then the map context menu contains 'Open Timetable' on line 2
-    And the map context menu contains 'Turn Path Off' on line 3
+    And the map context menu contains 'Turn Path Off' on line 4
     When I am on the timetable view for service 'L00015'
     Then the current headcode in the header row is '1F35'
 
@@ -436,18 +436,18 @@ Feature: 33998 - TMV Train Service - full end to end testing
     Then berth '0574' in train describer 'D6' contains '1F36' and is visible
     Then berth '0516' in train describer 'D6' contains '1F37' and is visible
     And I invoke the context menu on the map for train 1F36
-    And the map context menu contains 'Turn Path On' on line 3
+    And the map context menu contains 'Turn Path On' on line 4
     And I toggle path on from the map context menu
     And 'PATH OFF' toggle is displayed in the title bar
     When I invoke the context menu on the map for train 1F37
     Then the map context menu contains 'Open Timetable' on line 2
-    And the map context menu contains 'Turn Path On' on line 3
+    And the map context menu contains 'Turn Path On' on line 4
     When I toggle path on from the map context menu
     Then 'PATH OFF' toggle is displayed in the title bar
     When I invoke the context menu on the map for train 1F37
-    Then the map context menu contains 'Turn Path Off' on line 3
+    Then the map context menu contains 'Turn Path Off' on line 4
     When I invoke the context menu on the map for train 1F36
-    Then the map context menu contains 'Turn Path On' on line 3
+    Then the map context menu contains 'Turn Path On' on line 4
     When I open timetable from the map context menu
     And I switch to the new tab
     Then the current headcode in the header row is '1F36'

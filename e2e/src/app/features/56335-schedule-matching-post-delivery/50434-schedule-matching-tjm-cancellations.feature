@@ -14,6 +14,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     # And the user is viewing the map that contains that berth
     # When the user opens the context menu for the train description
     # Then the matched version of the context menu is displayed
+    #
     * I remove today's train '<trainUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -164,7 +165,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     Then the Matched version of the map context menu is displayed
     When I open timetable from the map context menu
     And I switch to the new tab
-    And the tab title is 'TMV Timetable'
+    And the tab title is '<origTrainDesc> TMV Timetable'
     Then the timetable header train UID is '<secondTrainUid>'
 
     Examples:
@@ -221,7 +222,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     Then the Matched version of the map context menu is displayed
     When I open timetable from the map context menu
     And I switch to the new tab
-    And the tab title is 'TMV Timetable'
+    And the tab title is '<origTrainDesc> TMV Timetable'
     Then the timetable header train UID is '<secondTrainUid>'
 
     Examples:
@@ -255,7 +256,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     Then the Matched version of the map context menu is displayed
     When I open timetable from the map context menu
     And I switch to the new tab
-    And the tab title is 'TMV Timetable'
+    And the tab title is '<origTrainDesc> TMV Timetable'
     Then the timetable header train UID is '<trainUid>'
 
     Examples:
