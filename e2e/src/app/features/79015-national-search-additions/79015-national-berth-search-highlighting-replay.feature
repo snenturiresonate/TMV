@@ -47,4 +47,4 @@ Feature: 79015 - TMV National Search Additions - National Berth Search Highlight
     And I switch to the new tab
     And the tab title is 'TMV Replay GW02'
     And I give the system 2 seconds to load
-    Then the train in berth D40259 is highlighted on page load
+    Then berth '0259' in train describer 'D4' is visible

@@ -25,7 +25,7 @@ Feature: 79015 - TMV National Search Additions - National Signal Search Highligh
     And I open the Map 'GW02'
     And I switch to the new tab
     And the tab title is 'TMV Map GW02'
-    Then the train in berth D40259 is highlighted on page load
+    Then berth '0259' in train describer 'D4' is visible
     Examples:
     | pageName         |
     | Home             |

@@ -439,12 +439,10 @@ Feature: 33757 - TMV National Search
       | HDGW01  |
     And I open the Map 'GW01'
     And I switch to the new tab
-    Then the train in berth D3R029 is highlighted on page load
-    And berth 'R029' in train describer 'D3' contains '1L24' and is visible
+    Then berth 'R029' in train describer 'D3' contains '1L24' and is visible
     And I click on the layers icon in the nav bar
     And I toggle the 'Berth' toggle 'On'
-    Then the train in berth D3R029 is highlighted on page load
-    And berth 'R029' in train describer 'D3' contains 'R029' and is visible
+    Then berth 'R029' in train describer 'D3' contains 'R029' and is visible
     Examples:
       | pageName         |
       | Home             |
