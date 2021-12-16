@@ -1,6 +1,7 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {CheckBox} from './common/ui-element-handlers/checkBox';
 import {CommonActions} from './common/ui-event-handlers/actionsAndWaits';
+import {DateAndTimeUtils} from './common/utilities/DateAndTimeUtils';
 
 export class NavBarPageObject {
   public navBarIcons: ElementArrayFinder;
@@ -38,6 +39,7 @@ export class NavBarPageObject {
   public trainContextMenu: ElementFinder;
   public timeTableContextMenu: ElementFinder;
   public trainsContextListItems: ElementArrayFinder;
+  public searchContextMenu: ElementFinder;
   public contextListItems: ElementArrayFinder;
   public trainSearchWarningMsg: ElementFinder;
   public invalidCharactersWarningMsg: ElementFinder;
@@ -103,6 +105,7 @@ export class NavBarPageObject {
     this.trainTableWindow = element(by.css('.modaltitle:nth-child(1)'));
     this.trainContextMenu = element(by.id('trainSearchContextmenu'));
     this.timeTableContextMenu = element(by.id('timetableSearchContextmenu'));
+    this.searchContextMenu = element(by.css('[id$=SearchContextmenu]'));
     this.trainSearchRow = element.all(by.css('#trainSearchResults-tbody tr'));
     this.timeTableSearchRow = element.all(by.css('#timetableSearchResults-tbody tr'));
     this.trainsContextListItems = element.all(by.css('.dropdown-item-menu:nth-child(1)'));
@@ -464,11 +467,33 @@ export class NavBarPageObject {
     return this.trainContextMenu.isPresent();
   }
 
+  public async waitForSearchContext(): Promise<boolean> {
+    await browser.wait(async () => {
+      return this.searchContextMenu.isPresent();
+    }, browser.params.general_timeout, 'The search context menu should be displayed');
+    return this.searchContextMenu.isPresent();
+  }
+
   public async getTimetableEntryValues(): Promise<string[]> {
     const entryColValue: ElementArrayFinder = element.all(by.css('#trainSearchResults-tbody tr'));
     return entryColValue.map((colValues: ElementFinder) => {
       return colValues.getText();
     });
+  }
+
+  public async openTimetableForTrainUid(trainUid: string): Promise<void> {
+    const today: string = await DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy');
+    const tomorrow: string = DateAndTimeUtils.convertToDesiredDateAndFormat('tomorrow', 'dd/MM/yyyy');
+    let rowLocator: ElementFinder =
+      element(by.xpath(`//*[child::*[text()='${trainUid}']][following-sibling::*[child::*[text()='${today}']]]`));
+    if (!rowLocator.isPresent()) {
+      rowLocator =
+        element(by.xpath(`//*[child::*[text()='${trainUid}']][following-sibling::*[child::*[text()='${tomorrow}']]]`));
+    }
+    await CommonActions.waitForElementInteraction(rowLocator);
+    await browser.actions().click(rowLocator, protractor.Button.RIGHT).perform();
+    await this.waitForSearchContext();
+    await this.timeTableLink.click();
   }
 
   public async openHelpMenu(): Promise<void> {

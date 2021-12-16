@@ -511,6 +511,10 @@ When('I invoke the context menu from train {int} on the trains list table', asyn
   await navBarPage.rightClickTrainSearchList(itemNum);
 });
 
+When(/^I open the timetable for the next train with UID (.*) fron the search results$/, async (trainUid: string) => {
+  await navBarPage.openTimetableForTrainUid(trainUid);
+});
+
 When('I click on the Help icon', async () => {
   await navBarPage.openHelpMenu();
 });
