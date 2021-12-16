@@ -1,7 +1,7 @@
 import {Then, When} from 'cucumber';
 import {expect} from 'chai';
 import {AdministrationDefaultSettingsTab} from '../../pages/administration/administration-defaultSettings-tab.page';
-import {protractor} from 'protractor';
+import {browser, protractor} from 'protractor';
 
 const adminSystemDefaults: AdministrationDefaultSettingsTab = new AdministrationDefaultSettingsTab();
 
@@ -41,6 +41,10 @@ Then('I should see the system default settings as', async (table: any) => {
       .to.contain(tableValues.MaxNoOfMapsPerReplay)
   ];
   return protractor.promise.all(results);
+});
+
+When('I make a note of the replay background colour', async () => {
+  browser.referenceReplayBackgroundColour = await adminSystemDefaults.getReplayBackgroundColour();
 });
 
 When('I update the system default settings as', async (table: any) => {

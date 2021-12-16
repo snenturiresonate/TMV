@@ -132,7 +132,7 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Live)
     And the map context menu contains 'D71168' on line 6
     When I click on Match in the context menu
     And I switch to the new tab
-    Then the tab title is 'TMV Schedule Matching'
+    Then the tab title is 'TMV Schedule Matching 1F38'
 
   Scenario: 78842-5 - Display punctuality, signal, berth on context menu
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
@@ -160,7 +160,7 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Live)
     And the map context menu contains 'D52368' on line 6
     When I click on Match in the context menu
     And I switch to the new tab
-    Then the tab title is 'TMV Schedule Matching'
+    Then the tab title is 'TMV Schedule Matching 1F40'
 
   Scenario: 78842-6 - Display punctuality, signal, berth on context menu
     Given I am viewing the map HDGW04bristolparkway.v
@@ -180,4 +180,4 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Live)
     And the map context menu contains 'D71168' on line 6
     When I click on Match in the context menu
     And I switch to the new tab
-    Then the tab title is 'TMV Schedule Matching'
+    Then the tab title is 'TMV Schedule Matching 1F38'

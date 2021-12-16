@@ -4,7 +4,7 @@ Feature: 78815 - TMV Map Interaction - Map Timetable Primary Click
   I want the ability to interact with the schematic maps
   So that I can access additional functions or information
 
-  Scenario: 78844 - Open timetable from left click berth
+  Scenario: 78844 - Open timetable from left click berth (Live)
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | GORASTR     | WTT_pass      | 1F34                | L00014         |
@@ -14,10 +14,10 @@ Feature: 78815 - TMV Map Interaction - Map Timetable Primary Click
       | toBerth | trainDescriber | trainDescription |
       | 0813    | D1             | 1F34             |
     Then berth '0813' in train describer 'D1' contains '1F34' and is visible
-    And 'no' toggle is displayed in the title bar
-    When I click on the map for train 1F34
+    When I wait for the Open timetable option for train description 1F34 in berth 0813, describer D1 to be available
+    And I click on the map for train 1F34
     And I switch to the new tab
-    Then the tab title is 'TMV Timetable'
+    Then the tab title is '1F34 TMV Timetable'
 
   Scenario Outline: 78844 - Last Berth (Select Timetable, left click) - matched trains
     #setup
@@ -53,13 +53,13 @@ Feature: 78815 - TMV Map Interaction - Map Timetable Primary Click
     When I click on the map for train <lTD1>
     Then the number of tabs open is 2
     When I switch to the new tab
-    Then the tab title contains '2B71 TMV Timetable'
+    Then the tab title is '2B71 TMV Timetable'
 
     Examples:
       | cifFile                                              | map          | lBTD | lB1  | lTD1 | TDandBerthId1 |
       | access-plan/34080-schedules/2B51-MDNHEAD-BORNEND.cif | gw2aslough.v | D6   | LMBE | 2B71 | D6LMBE        |
 
-  Scenario: 78844 - Open timetable from left click berth
+  Scenario: 78844 - Open timetable from left click berth (Replay)
     # Replay setup
     * I reset redis
     * the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
@@ -81,6 +81,7 @@ Feature: 78815 - TMV Map Interaction - Map Timetable Primary Click
     And I increase the replay speed at position 15
     When I click Play button
     Then berth '0813' in train describer 'D1' contains '1F34' and is visible
-    When I click on the map for train 1F34
+    When I wait for the Open timetable option for train description 1F34 in berth 0813, describer D1 to be available
+    And I click on the map for train 1F34
     And I switch to the new tab
-    Then the tab title is 'TMV Replay Timetable'
+    Then the tab title is '1F34 TMV Replay Timetable'

@@ -11,12 +11,13 @@ Feature: 33753 - TMV Timetable
     * I restore to default train list config
 
   Scenario Outline: 33753-1 -Open Timetable (Trains List)
-     #Open Timetable (Trains List)
-     #Given the user is authenticated to use TMV
-     #And the user is viewing the trains list
-     #When the user selects a train from the trains list using the secondary mouse click
-     #And selects the "open timetable" option from the menu
-     #Then the train's timetable is opened in a new browser tab
+    #   Given the user is authenticated to use TMV
+    #   And the user is viewing the trains list
+    #   When the user selects a train from the trains list using the secondary mouse click
+    #   And selects the "open timetable" option from the menu
+    #   Then the train's timetable is opened in a new browser tab
+    * I generate a new trainUID
+    * I generate a new train description
     * I remove all trains from the trains list
     * I remove today's train '<planningUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
@@ -34,101 +35,61 @@ Feature: 33753 - TMV Timetable
     And the trains list context menu is displayed
     And I open timetable from the context menu
     And I switch to the new tab
-    And the tab title is 'TMV Timetable'
-    Examples:
-      | trainNum | planningUid |
-      | 1A01     | L10001      |
+    And the tab title is '<trainNum> TMV Timetable'
 
-  @replaySetup
-  Scenario Outline: 33753-2a -Open Timetable (from Map - Schedule Matched)
-#    Given the user is authenticated to use TMV
-#    And the user is viewing a map
-#    When the user selects a train (occupied berth) from the map using the secondary click for a service which has been Schedule Matched
-#    And selects the "open timetable" option from the menu
-#    Then the train's timetable is opened in a new browser tab
-    * I remove today's train '<planningUid>' from the Redis trainlist
-    Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
-      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |
-    And I wait until today's train '<planningUid>' has loaded
-    And the following live berth interpose message is sent from LINX (to indicate train is present)
-      | toBerth | trainDescriber | trainDescription |
-      | 0037    | D3             | <trainNum>       |
-    And the following live berth step message is sent from LINX (creating a match)
-      | fromBerth | toBerth | trainDescriber | trainDescription |
-      | 0037      | 0057    | D3             | <trainNum>       |
-    And I am viewing the map HDGW01paddington.v
-    When I invoke the context menu on the map for train <trainNum>
-    And I open timetable from the map context menu
-    And I switch to the new tab
-    And the tab title is 'TMV Timetable'
     Examples:
-      | trainNum | planningUid |
-      | 1A02     | L10002      |
+      | trainNum  | planningUid |
+      | generated | generated   |
 
-  @replaySetup
-  Scenario Outline: 33753-2b -Open Timetable (from Map - Unmatched)
-    Given I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
-    And the following live berth interpose message is sent from LINX (to indicate train is present)
-      | toBerth | trainDescriber | trainDescription |
-      | 0099    | D3             | <trainNum>       |
-    When I invoke the context menu on the map for train <trainNum>
-    Then the map context menu contains 'No Timetable' on line 2
-    Examples:
-      | trainNum |
-      | 1A03     |
+  Scenario: 33753-2a -Open Timetable (from Map - Schedule Matched not activated)
+    #    Given the user is authenticated to use TMV
+    #    And the user is viewing a map
+    #    When the user selects a train (occupied berth) from the map using the secondary click for a service which has been Schedule Matched
+    #    And selects the "open timetable" option from the menu
+    #    Then the train's timetable is opened in a new browser tab
+    * this replay setup test has been moved to become part of the replay test: 34375-2a Replay - Open Timetable (from Map - Schedule Matched not activated)
 
-  @replaySetup @bug @test-data-not-created
-  Scenario Outline: 33753-3a Open Timetable (from Search Result - matched service (Train) and matched/unmatched services (Timetable) have timetables)
-#    Given the user is authenticated to use TMV
-#    And the user is viewing a search results list
-#    When the user selects a train search result using the secondary click
-#    And selects the "open timetable" option from the menu
-#    Then the timetable is opened in a new browser tab
-    Given I am on the home page
-    And I search <searchType> for '<searchVal>'
-    And the search table is shown
-    When I invoke the context menu from a <serviceStatus> service in the <searchType> list
-    And I wait for the '<searchType>' search context menu to display
-    And the '<searchType>' context menu is displayed
-    And the '<searchType>' search context menu contains 'Open Timetable' on line 1
-    And the '<searchType>' search context menu contains 'Select maps' on line 2
-    And I click on timetable link
-    And I switch to the new tab
-    And the tab title is 'TMV Timetable'
-    Examples:
-      | searchType | searchVal | serviceStatus |
-      | Train      | 1A        | ACTIVATED     |
-      | Timetable  | 1A        | ACTIVATED     |
-      | Timetable  | 1A        | UNMATCHED     |
+  Scenario: 33753-2b -Open Timetable (from Map - Unmatched)
+    #    Given the user is authenticated to use TMV
+    #    And the user is viewing a map
+    #    When the user selects a train (occupied berth) from the map using the secondary click for a service which has been Schedule Matched
+    #    And selects the "open timetable" option from the menu
+    #    Then the train's timetable is opened in a new browser tab
+    * this replay setup test has been moved to become part of the replay test: 34375-2b Replay - Open Timetable (from Map - Unmatched)
 
-  Scenario Outline: 33753-3b Open Timetable (from Search Result - unmatched service (Train) has no timetable)
-    Given the following train running information message is sent from LINX
-        | trainUID      | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           |
-        | <planningUid> | <trainNum>  | today              | 73822               | SLOUGH                 | Departure from Origin |
-    And I am on the trains list page
-    And The trains list table is visible
-    And Train description '<trainNum>' is visible on the trains list
-    Given I am on the home page
-    And I give the TRI 2 seconds to reach Elastic
-    And I refresh the Elastic Search indices
-    And I search <searchType> for '<searchVal>' and wait for result
-      | TrainDesc  |
-      | <trainNum> |
-    And the search table is shown
-    When I invoke the context menu from a <serviceStatus> service in the <searchType> list
-    Then the '<searchType>' context menu is not displayed
-    Examples:
-      | searchType | searchVal | serviceStatus | trainNum | planningUid |
-      | Train      | 3B89      | UNMATCHED     | 3B89     | H87234      |
+  Scenario: 33753-2c - Open Timetable (from Map - Activated and Schedule Matched)
+    #    Given the user is authenticated to use TMV
+    #    And the user is viewing a map
+    #    When the user selects a train (occupied berth) from the map using the secondary click for a service which has been Schedule Matched
+    #    And selects the "open timetable" option from the menu
+    #    Then the train's timetable is opened in a new browser tab
+    * this replay setup test has been moved to become part of the replay test: 34375-2c Replay - Open Timetable (from Map - Activated and Schedule Matched)
+
+  Scenario: 33753-3a Open Timetable (from Search Result - matched service (Train) and matched/unmatched services (Timetable) have timetables)
+    #    Given the user is authenticated to use TMV
+    #    And the user is viewing a search results list
+    #    When the user selects a train search result using the secondary click
+    #    And selects the "open timetable" option from the menu
+    #    Then the timetable is opened in a new browser tab
+    * this replay setup test has been moved to become part of the replay test: 34375-3a Replay - Open Timetable (from Search Result - matched service (Train) and matched/unmatched services (Timetable) have timetables
+
+  Scenario: 33753-3b Open Timetable (from Search Result - unmatched service (Train) has no timetable)
+    #    Given the following train running information message is sent from LINX
+    #      | trainUID      | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           |
+    #      | <planningUid> | <trainNum>  | today              | 73822               | SLOUGH                 | Departure from Origin |
+    #    And I am on the trains list page
+    #    And The trains list table is visible
+    #    And Train description '<trainNum>' is visible on the trains list
+    * this replay setup test has been moved to become part of the replay test: 33753-3b Replay - Open Timetable (from Search Result - unmatched service (Train) has no timetable)
 
   # Used to be flaky - see 68331
   Scenario Outline: 33753-3c Open Timetable (from Manual Match Search Result - matched/unmatched services have timetable)
+    * I generate a new trainUID
+    * I generate a new train description
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1W06_EUSTON_BHAMNWS.cif | EUSTON      | WTT_dep       | <trainNum>          | B46452         |
-    And I wait until today's train 'B46452' has loaded
+      | access-plan/1W06_EUSTON_BHAMNWS.cif | EUSTON      | WTT_dep       | <trainNum>          | <planningUid>  |
+    And I wait until today's train '<planningUid>' has loaded
     And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth | trainDescriber | trainDescription |
       | <berth> | D4             | <trainNum>       |
@@ -139,7 +100,7 @@ Feature: 33753 - TMV Timetable
     And I open schedule matching screen from the map context menu
     And the number of tabs open is 2
     And I switch to the new tab
-    And the tab title is 'TMV Schedule Matching'
+    And the tab title is 'TMV Schedule Matching <trainNum>'
     And I invoke the context menu from a <serviceStatus> service in the train list
     And I wait for the '<searchType>' search context menu to display
     And the '<searchType>' context menu is displayed
@@ -147,11 +108,11 @@ Feature: 33753 - TMV Timetable
     And I click on the unscheduled timetable link
     And the number of tabs open is 3
     And I switch to the new tab
-    And the tab title is 'TMV Timetable'
+    And the tab title is '<trainNum> TMV Timetable'
 
     Examples:
-      | trainNum | berth | searchType  | serviceStatus |
-      | 1B04     | 0249  | Unscheduled | UNCALLED      |
+      | trainNum  | planningUid | berth | searchType  | serviceStatus |
+      | generated | generated   | 0249  | Unscheduled | UNCALLED      |
 
 
   @manual @flaky

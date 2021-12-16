@@ -29,6 +29,7 @@ export class TimeTablePageObject {
   public associationEntries: ElementArrayFinder;
   public insertedToggle: ElementFinder;
   public insertedToggleState: ElementFinder;
+  public timetableHeader: ElementFinder;
   public timetableHeaderThElements: ElementArrayFinder;
   constructor() {
     this.headerLabels = element.all(by.css('.tmv-header-content [id$=Label]'));
@@ -50,6 +51,7 @@ export class TimeTablePageObject {
     this.associationEntries = element.all(by.css('[id^=timetable-associations-] td'));
     this.insertedToggle = element(by.css('#live-timetable-toggle-menu .toggle-switch'));
     this.insertedToggleState = element(by.css('#live-timetable-toggle-menu [class^=absolute]'));
+    this.timetableHeader = element(by.css('.timetable-header'));
     this.timetableHeaderThElements = element.all(by.css('[id^=tmv-timetable-header-row] th'));
   }
 
@@ -83,7 +85,11 @@ export class TimeTablePageObject {
   }
 
   async getHeaderColours(): Promise<string[]> {
-    return this.timetableHeaderThElements.map(elem => elem.getCssValue('background-colour'));
+    return this.timetableHeaderThElements.map(elem => elem.getCssValue('background-color'));
+  }
+
+  async getHeaderColour(): Promise<string> {
+    return this.timetableHeader.getCssValue('background-color');
   }
   async toggleInserted(status: string): Promise<void> {
     const state = await this.insertedToggleState.getText();

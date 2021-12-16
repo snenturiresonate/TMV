@@ -346,7 +346,7 @@ Feature: 34080 - Last Berth
     And I use the primary mouse on train '2B71'
     Then the number of tabs open is 2
     When I switch to the new tab
-    Then the tab title contains '2B71 TMV Timetable'
+    Then the tab title is '2B71 TMV Timetable'
     When I wait for the last Signal to populate
     Then The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId    | lastTJM | headCode   |
@@ -416,7 +416,7 @@ Feature: 34080 - Last Berth
     When I stop the stopwatch
     Then the stopwatch reads less than '1000' milliseconds, within a tolerance of '500' milliseconds
     When I switch to the new tab
-    Then the tab title contains '2B73 TMV Timetable'
+    Then the tab title is '2B73 TMV Timetable'
     When I wait for the last Signal to populate
     Then The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId    | lastTJM | headCode   |

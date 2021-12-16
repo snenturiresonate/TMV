@@ -161,7 +161,9 @@ When(/^I search (Train|Signal|Timetable|Berth) for '(.*)'$/, async (filter: stri
   if (searchFor === 'generatedTrainUId' || searchFor === 'generated') {
     searchFor = browser.referenceTrainUid;
   }
-
+  if (searchFor === 'generatedTrainDescription') {
+    searchFor = browser.referenceTrainDescription;
+  }
   await navBarPage.setSearchFilter(filter);
   await navBarPage.enterSearchValue(searchFor);
   await navBarPage.clickSearchIcon();
@@ -193,6 +195,9 @@ When(/^I search (Train|Signal|Timetable) for '(.*)' and wait for result$/,
    */
   if (searchFor === 'generatedTrainUId' || searchFor === 'generated') {
     searchFor = browser.referenceTrainUid;
+  }
+  if (searchFor === 'generatedTrainDescription') {
+    searchFor = browser.referenceTrainDescription;
   }
 
   let locator = `//table[@id='${filter.toLowerCase()}SearchResults']//tr`;

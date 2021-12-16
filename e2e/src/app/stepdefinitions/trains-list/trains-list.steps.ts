@@ -96,6 +96,9 @@ When('I invoke the context menu for todays train {string} schedule uid {string} 
 });
 
 Then('Train description {string} is visible on the trains list', async (scheduleNum: string) => {
+  if (scheduleNum === 'generated' || scheduleNum === 'generatedTrainDescription') {
+    scheduleNum = browser.referenceTrainDescription;
+  }
   const itemNum = await trainsListPage.getRowForSchedule(scheduleNum) + 1;
   expect(itemNum, `Train ${scheduleNum} does not appear on the trains list`).to.not.equal(0);
 });

@@ -20,6 +20,7 @@ chai.use(require('chai-datetime'));
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {CucumberLog} from '../../logging/cucumber-log';
 import {MapPageObject} from '../../pages/maps/map.page';
+import {CssColorConverterService} from '../../services/css-color-converter.service';
 
 const replayPage: ReplayMapPage = new ReplayMapPage();
 const replaySelectMapPage: ReplaySelectMapPage = new ReplaySelectMapPage();
@@ -115,7 +116,7 @@ Then(/^the context menu for the berth has a signal plated name of '(.*)'$/, asyn
   expect(await replayPage.berthContextMenu.signalName.getText()).to.contain(signal);
 });
 
-When('I make a note of the main replay map background colour', async () => {
+When('I make a note of the main replay map background colours', async () => {
   browser.referenceReplayBackgroundColours = await replayPage.getCurrentBackgroundColours();
 });
 
@@ -229,10 +230,10 @@ When(/^I select skip forward to just after replay scenario step '(.*)'$/, async 
 });
 
 Then('the timetable background colour is the same as the map background colour', async () => {
-  const timetableHeaderElementColours = await replayTimetablePage.getHeaderColours();
-  for (const elem of timetableHeaderElementColours) {
-    expect(elem).oneOf(browser.referenceReplayBackgroundColours);
-  }
+  const ttHeaderElementColour = await replayTimetablePage.getHeaderColour();
+  const ttHeaderElementColourHex = CssColorConverterService.rgb2Hex(ttHeaderElementColour);
+  expect(ttHeaderElementColourHex, 'The replay timetable background colour was not as expected')
+    .to.equal(browser.referenceReplayBackgroundColour);
 });
 
 When('I click Play button', async () => {

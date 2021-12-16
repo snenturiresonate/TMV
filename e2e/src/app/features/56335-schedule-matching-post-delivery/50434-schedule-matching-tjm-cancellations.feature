@@ -165,7 +165,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     Then the Matched version of the map context menu is displayed
     When I open timetable from the map context menu
     And I switch to the new tab
-    And the tab title is 'TMV Timetable'
+    And the tab title is '<origTrainDesc> TMV Timetable'
     Then the timetable header train UID is '<secondTrainUid>'
 
     Examples:
@@ -222,7 +222,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     Then the Matched version of the map context menu is displayed
     When I open timetable from the map context menu
     And I switch to the new tab
-    And the tab title is 'TMV Timetable'
+    And the tab title is '<origTrainDesc> TMV Timetable'
     Then the timetable header train UID is '<secondTrainUid>'
 
     Examples:
@@ -256,7 +256,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     Then the Matched version of the map context menu is displayed
     When I open timetable from the map context menu
     And I switch to the new tab
-    And the tab title is 'TMV Timetable'
+    And the tab title is '<origTrainDesc> TMV Timetable'
     Then the timetable header train UID is '<trainUid>'
 
     Examples:

@@ -1053,12 +1053,18 @@ Then(/^the Matched or Left behind Matched version of the map context menu (is|is
 
 When(/^I wait for the option to (Match|Unmatch) train description (\w+) in berth (\w+), describer (\w+) to be available$/,
   async (matchIndicator: string, trainDescription: string, berth: string, describer: string) => {
+    if (trainDescription.includes('generated')) {
+      trainDescription = browser.referenceTrainDescription;
+    }
     const optionAvailable: boolean = await mapPageObject.waitForMatchIndication(trainDescription, matchIndicator, berth, describer, 3);
     expect(optionAvailable).to.equal(true);
 });
 
 When(/^I wait for the (Open|No) timetable option for train description (\w+) in berth (\w+), describer (\w+) to be available$/,
   async (matchIndicator: string, trainDescription: string, berth: string, describer: string) => {
+    if (trainDescription.includes('generated')) {
+      trainDescription = browser.referenceTrainDescription;
+    }
     const optionAvailable: boolean = await mapPageObject.waitForMatchIndication(trainDescription, matchIndicator, berth, describer, 2);
     expect(optionAvailable).to.equal(true);
   });
