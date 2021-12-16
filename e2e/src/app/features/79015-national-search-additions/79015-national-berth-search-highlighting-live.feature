@@ -13,6 +13,7 @@ Feature: 79015 - TMV National Search Additions - National Berth Search Highlight
     And I search Berth for '0259'
     Then results are returned with that signal ID 'SN259X,SN259'
     And the window title is displayed as 'Berth Search Results'
+    And I give the system 2 seconds to load
     And I invoke the context menu for berth containing signalID 'SN259X,SN259'
     And I wait for the berth search context menu to display
     And the berth context menu is displayed
@@ -25,6 +26,7 @@ Feature: 79015 - TMV National Search Additions - National Berth Search Highlight
     And I open the Map 'GW02'
     And I switch to the new tab
     And the tab title is 'TMV Map GW02'
+    And I give the system 2 seconds to load
     Then the train in berth D40259 is highlighted on page load
     Examples:
       | pageName         |

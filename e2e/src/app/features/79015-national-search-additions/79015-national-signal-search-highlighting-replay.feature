@@ -43,4 +43,5 @@ Feature: 79015 - TMV National Search Additions - National Signal Search Highligh
     And I open the Map 'HDGW01'
     And I switch to the new tab
     Then the tab title is 'TMV Replay HDGW01'
+    And I give the system 2 seconds to load
     Then the train in berth D3A015 is highlighted on page load
