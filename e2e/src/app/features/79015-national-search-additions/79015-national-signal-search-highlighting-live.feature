@@ -3,7 +3,8 @@ Feature: 79015 - TMV National Search Additions - National Signal Search Highligh
   Background:
     * I remove all trains from the trains list
 
-  Scenario Outline:79193-1 National Signal Search Highlight Live
+  @blp
+  Scenario Outline:79193-1 National Signal Search Highlight Live - <pageName>
     # Given the user is authenticated to use TMV
     # And the user is viewing the signal search results
     # When the user selects a map from the signal search results

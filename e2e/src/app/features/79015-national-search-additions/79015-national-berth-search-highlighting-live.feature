@@ -32,9 +32,9 @@ Feature: 79015 - TMV National Search Additions - National Berth Search Highlight
     Examples:
       | pageName         |
       | Home             |
-#      | TrainsList       |
-#      | TimeTable        |
-#      | TrainsListConfig |
-#      | Maps             |
-#      | LogViewer        |
-#      | Admin            |
+      | TrainsList       |
+      | TimeTable        |
+      | TrainsListConfig |
+      | Maps             |
+      | LogViewer        |
+      | Admin            |
