@@ -1,4 +1,3 @@
-@blp
 Feature: 79015 - TMV National Search Additions - National Signal Search Highlight Live
 
   Background:
