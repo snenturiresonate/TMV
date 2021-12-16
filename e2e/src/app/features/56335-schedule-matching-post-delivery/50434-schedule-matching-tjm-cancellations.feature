@@ -14,6 +14,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     # And the user is viewing the map that contains that berth
     # When the user opens the context menu for the train description
     # Then the matched version of the context menu is displayed
+    #
     * I remove today's train '<trainUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
