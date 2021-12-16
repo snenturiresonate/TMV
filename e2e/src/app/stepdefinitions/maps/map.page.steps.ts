@@ -925,9 +925,11 @@ Then(/^the (?:train|signal) in berth (\w+) is highlighted$/,
 
 Then(/^the (?:train|signal) in berth (\w+) is highlighted on page load$/,
   async (berthId: string) => {
-    await browser.driver.wait(() => {
+    await browser.waitForAngularEnabled(false);
+    await browser.wait(() => {
       return mapPageObject.isBerthTempHighlighted(berthId);
     }, browser.params.general_timeout, `The train in berth ${berthId} was not highlighted`);
+    await browser.waitForAngularEnabled(true);
   });
 
 Then(/^the train in berth (\w+) is not highlighted$/,
