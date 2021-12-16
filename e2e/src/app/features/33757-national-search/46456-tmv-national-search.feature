@@ -1,4 +1,3 @@
-@blp
 Feature: 33757 - TMV National Search
 
   As a TMV dev team member
@@ -73,7 +72,7 @@ Feature: 33757 - TMV National Search
     And I click close button at the bottom of table
     Then the Train search table is not shown
 
-  Scenario Outline: 33757-2a Timetable search window shown - Warning message
+  Scenario Outline: 33757-2a Timetable search window shown - Warning message - <pageName>
       #Given the user is authenticated to use TMV
       #And the user is viewing TMV screen with a national search in the title bar
       #When the user selects a timetable search option
@@ -115,7 +114,7 @@ Feature: 33757 - TMV National Search
     When I search Timetable for '£'
     Then Warning Message is displayed for minimum characters
 
-  Scenario Outline: 33757-2c Timetable search - Old Schedules
+  Scenario Outline: 33757-2c Timetable search - Old Schedules - <pageName>
     #
     Given I navigate to <pageName> page
     And there is a Schedule for '4F01'
@@ -138,7 +137,7 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  Scenario Outline: 33757-2d Timetable search - Future Schedules
+  Scenario Outline: 33757-2d Timetable search - Future Schedules - <pageName>
     Given I navigate to <pageName> page
     And there is a Schedule for '4F03'
     And the schedule has a basic timetable
@@ -159,7 +158,7 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  Scenario Outline: 33757-2e Timetable search - outside current period
+  Scenario Outline: 33757-2e Timetable search - outside current period - <pageName>
     Given I navigate to <pageName> page
     And there is a Schedule for '4F05'
     And the schedule has a basic timetable
@@ -180,7 +179,7 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  Scenario Outline: 33757-2f Timetable search - all days
+  Scenario Outline: 33757-2f Timetable search - all days - <pageName>
     * I remove today's train 'F10001' from the Redis trainlist
     Given I navigate to <pageName> page
     #And there is a Schedule for '4F07'
@@ -210,7 +209,7 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  Scenario Outline: 33757-3a Signal search window shown
+  Scenario Outline: 33757-3a Signal search window shown - <pageName>
       #Given the user is authenticated to use TMV
       #And the user is viewing TMV screen with a national search in the title bar
       #When the user selects a signal search option
@@ -324,7 +323,7 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  Scenario Outline:5 National Timetable Search Selection
+  Scenario Outline:5 National Timetable Search Selection - <pageName>
     #Given the user is authenticated to use TMV
     #And the user is viewing the timetable search results pop-up
     #When the user selects a timetable from search result by using the secondary mouse click
@@ -384,7 +383,7 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  Scenario Outline:33757-6 National Signal Search Selection
+  Scenario Outline:33757-6 National Signal Search Selection - <pageName>
     #Given the user is authenticated to use TMV
     #And the user is viewing the signal search results pop-up
     #When the user selects a train from search result by using the secondary mouse click
@@ -413,7 +412,7 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  Scenario Outline:33757-7 National Trains Search Highlight
+  Scenario Outline:33757-7 National Trains Search Highlight - <pageName>
     #Given the user is authenticated to use TMV
     #And the user is viewing the train search results
     #When the user selects a map from the train search results

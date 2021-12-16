@@ -1,9 +1,9 @@
+@blp
 Feature: 79015 - TMV National Search Additions - National Signal Search Highlight Live
 
   Background:
     * I remove all trains from the trains list
 
-  @blp
   Scenario Outline:79193-1 National Signal Search Highlight Live - <pageName>
     # Given the user is authenticated to use TMV
     # And the user is viewing the signal search results

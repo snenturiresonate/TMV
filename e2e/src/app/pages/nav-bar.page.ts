@@ -498,6 +498,7 @@ export class NavBarPageObject {
   }
 
   public async hoverOverContextMenuMapsLink(): Promise<void> {
+    await CommonActions.waitForElementInteraction(this.mapItemSearchContext);
     await browser.actions().mouseMove(this.mapItemSearchContext).perform();
   }
 
@@ -522,10 +523,9 @@ export class NavBarPageObject {
   }
 
   public async openMap(mapName: string): Promise<void> {
-    if (mapName !== (await this.mapLink.getText())) {
-      await this.hoverOverContextMenuMapsLink();
-      await CommonActions.waitAndClick(element(by.xpath(`//li//span[text() = '${mapName}']`)));
-    }
+    await this.hoverOverContextMenuMapsLink();
+    const mapLink = element(by.xpath(`//li//span[text() = '${mapName}']`));
+    await CommonActions.waitAndClick(mapLink);
   }
 
   public async enterMapSearchString(searchString: string): Promise<void> {

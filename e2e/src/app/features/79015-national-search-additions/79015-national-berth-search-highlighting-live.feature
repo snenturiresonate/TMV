@@ -3,7 +3,6 @@ Feature: 79015 - TMV National Search Additions - National Berth Search Highlight
   Background:
     * I remove all trains from the trains list
 
-  @blp
   Scenario Outline:79190-1,79191-1 National Berth Search Highlight Live
     # Given the user is authenticated to use TMV
     # And the user is viewing the berth search results
