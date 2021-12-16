@@ -7,7 +7,6 @@ import {AppPage} from '../app.po';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {RedisClient} from '../../api/redis/redis-client';
 import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
-import {IButton} from "selenium-webdriver";
 
 let linxRestClient: LinxRestClient;
 
@@ -460,6 +459,7 @@ export class MapPageObject {
 
   public async isBerthTempHighlighted(berthId: string): Promise<boolean> {
     const berth: ElementFinder = element(by.id('berth-element-rect-' + berthId));
+    await CommonActions.waitForElementToBeVisible(berth);
     const berthClass: string = await berth.getAttribute('class');
     if (berthClass === null) {
       return Promise.resolve(false);
