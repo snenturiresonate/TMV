@@ -50,7 +50,12 @@ Then(/^one result is returned for today with that planning UID (.*) and it has s
 });
 
 Then(/^results are returned with that signal ID '(.*)'$/, async (signalID: string) => {
-  const row = await searchResultsPage.getRowBySignalID(signalID);
+  const row = await searchResultsPage.getRowByText(signalID);
+  expect(await row.isPresent()).to.equal(true);
+});
+
+Then(/^results are returned with text '(.*)'$/, async (signalID: string) => {
+  const row = await searchResultsPage.getRowByText(signalID);
   expect(await row.isPresent()).to.equal(true);
 });
 
@@ -101,11 +106,11 @@ When(/^I invoke the context menu from train with planning UID '(.*)' and schedul
 });
 
 When('I invoke the context menu for signal with ID {string}', async (signalID: string) => {
-  const targetRow = await searchResultsPage.getRowBySignalID(signalID);
+  const targetRow = await searchResultsPage.getRowByText(signalID);
   await targetRow.performRightClick();
 });
 
-When('I invoke the context menu for berth containing signalID {string}', async (signalID: string) => {
-  const targetRow = await searchResultsPage.getRowBySignalID(signalID);
+When('I invoke the context menu for berth containing text {string}', async (signalID: string) => {
+  const targetRow = await searchResultsPage.getRowByText(signalID);
   await targetRow.performRightClick();
 });
