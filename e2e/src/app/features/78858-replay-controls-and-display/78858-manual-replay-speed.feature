@@ -1,3 +1,4 @@
+@newSession
 Feature: 78858 - TMV Replay Controls & Display - Manual Replay Speed
   As a TMV User
   I want to the replay controls and view updated

@@ -126,6 +126,9 @@ Feature: 33998 - TMV Train Service - full end to end testing
     When the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 1698    | D1             | 1F25             |
+    And the following live signalling update message is sent from LINX (clearing any existing state)
+      | trainDescriber | address | data |
+      | D1             | 25      | 00   |
     And the following live signalling update message is sent from LINX (setting a route)
       | trainDescriber | address | data |
       | D1             | 25      | 02   |
@@ -159,15 +162,18 @@ Feature: 33998 - TMV Train Service - full end to end testing
     When the following live berth interpose message is sent from LINX (at wrong platform - i.e. off-plan)
       | toBerth | trainDescriber | trainDescription |
       | A009    | D3             | 1F26             |
+    And the following live signalling update message is sent from LINX (clearing any existing state)
+      | trainDescriber | address | data |
+      | D3             | 02      | 00   |
     And the following live signalling update message is sent from LINX (setting a route)
       | trainDescriber | address | data |
       | D3             | 02      | 02   |
     Then berth 'A009' in train describer 'D3' contains '1F26' and is visible
     And the train headcode color for berth 'D3A009' is blue
-    And the tracks 'PNPNF4, PNPNF5, PNPNK5, PNPNK9, PNPNL1, PNPNL2, PNPNL3' are displayed in solid white
+    And the tracks 'PNPNF5, PNPNK5, PNPNK9, PNPNL1, PNPNL2, PNPNL3' are displayed in solid white
     When I invoke the context menu on the map for train 1F26
     And I toggle path on from the map context menu
-    Then the tracks 'PNPNF4, PNPNF5, PNPNK5, PNPNK9, PNPNL1, PNPNL2, PNPNL3' are displayed in solid paleblue
+    Then the tracks 'PNPNF5, PNPNK5, PNPNK9, PNPNL1, PNPNL2, PNPNL3' are displayed in solid paleblue
     And 'PATH OFF' toggle is displayed in the title bar
     When I invoke the context menu on the map for train 1F26
     Then the map context menu contains 'Path Off' on line 4
@@ -181,6 +187,9 @@ Feature: 33998 - TMV Train Service - full end to end testing
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 1235    | D7             | 1F27             |
+    And the following live signalling update message is sent from LINX (clearing any existing state)
+      | trainDescriber | address | data |
+      | D7             | 18      | 00   |
     And the following live signalling update message is sent from LINX (setting a route)
       | trainDescriber | address | data |
       | D7             | 18      | 20   |
@@ -242,6 +251,9 @@ Feature: 33998 - TMV Train Service - full end to end testing
     When the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 1630    | D1             | 1F30             |
+    And the following live signalling update message is sent from LINX (clearing existing state)
+      | trainDescriber | address | data |
+      | D1             | 2D      | 00   |
     And the following live signalling update message is sent from LINX (setting a route)
       | trainDescriber | address | data |
       | D1             | 2D      | 40   |
@@ -286,6 +298,9 @@ Feature: 33998 - TMV Train Service - full end to end testing
     When the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 1637    | D1             | 1F31             |
+    And the following live signalling update message is sent from LINX (clearing any existing state)
+      | trainDescriber | address | data |
+      | D1             | 2E      | 00   |
     And the following live signalling update message is sent from LINX (setting a route)
       | trainDescriber | address | data |
       | D1             | 2E      | 80   |
@@ -332,6 +347,9 @@ Feature: 33998 - TMV Train Service - full end to end testing
     And the following live berth step message is sent from LINX (moving train off the map)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 0472      | 0466    | D4             | 1F32             |
+    And the following live signalling update message is sent from LINX (clearing any existing state)
+      | trainDescriber | address | data |
+      | D4             | 23      | 00   |
     And the following live signalling update message is sent from LINX (setting a route)
       | trainDescriber | address | data |
       | D4             | 23      | 08   |
@@ -464,7 +482,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     And the map context menu contains 'Match' on line 3
     When I click on Match in the context menu
     And I switch to the new tab
-    Then the tab title is 'TMV Schedule Matching'
+    Then the tab title is 'TMV Schedule Matching 1F38'
 
   Scenario: 33998-10e Map (Train Menu - unmatched train with another path on)
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
@@ -488,4 +506,4 @@ Feature: 33998 - TMV Train Service - full end to end testing
     And the map context menu contains 'Match' on line 3
     When I click on Match in the context menu
     And I switch to the new tab
-    Then the tab title is 'TMV Schedule Matching'
+    Then the tab title is 'TMV Schedule Matching 1F40'
