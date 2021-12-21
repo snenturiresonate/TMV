@@ -410,7 +410,7 @@ Then('berth {string} in train describer {string} contains {string} and is visibl
     expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber), 'Berth text is not visible');
 });
 
-Then('berth {string} in train describer {string} contains {string} and is visible on page load',
+Then('berth {string} in train describer {string} contains {string} and is visible on map',
   async (berthId: string, trainDescriber: string, berthContents: string) => {
     await browser.waitForAngularEnabled(false);
     if (berthContents.includes('generated')) {

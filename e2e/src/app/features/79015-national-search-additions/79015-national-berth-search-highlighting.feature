@@ -1,15 +1,16 @@
 @newSession
-Feature: 79015 - TMV National Search Additions - National Berth Search Highlight Live
+Feature: 79015 - TMV National Search Additions - National Berth Search Highlight
 
   Background:
     * I remove all trains from the trains list
 
-  Scenario Outline:79190-1,79191-1 National Berth Search Highlight Live
+  Scenario Outline:79190-1,79191-1 National Berth Search Highlight - Live
     # Given the user is authenticated to use TMV
     # And the user is viewing the berth search results
     # When the user selects a map from the berth search results
     # Then the user is presented with a map that contains the berth
     # And the berth is highlighted for 10 seconds flashing between green and purple
+    And I have cleared out all headcodes
     And I navigate to <pageName> page
     And I search Berth for '6207'
     Then results are returned with text 'D4'
@@ -28,12 +29,51 @@ Feature: 79015 - TMV National Search Additions - National Berth Search Highlight
     When I switch to the new tab
     And the tab title is 'TMV Map GW02'
     Then the train in berth D46207 is highlighted on page load
-    And berth '6207' in train describer 'D4' contains '6207' and is visible on page load
+    And berth '6207' in train describer 'D4' contains '6207' and is visible on map
     When the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth | trainDescriber | trainDescription |
       | 6207    | D4             | 1G69             |
-    And I give the Map 10 seconds to highlight
-    Then berth '6207' in train describer 'D4' contains '1G69' and is visible on page load
+    Then berth '6207' in train describer 'D4' contains '6207' and is visible on map
+    When I give the Map 10 seconds to highlight
+    Then berth '6207' in train describer 'D4' contains '1G69' and is visible on map
+    Examples:
+      | pageName         |
+      | Home             |
+
+  Scenario Outline:79190-1,79191-1 National Berth Search Highlight with train in berth - Live
+    # Given the user is authenticated to use TMV
+    # And the user is viewing the berth search results
+    # When the user selects a map from the berth search results
+    # Then the user is presented with a map that contains the berth
+    # And the berth is highlighted for 10 seconds flashing between green and purple
+    And I have cleared out all headcodes
+    And I navigate to <pageName> page
+    And I search Berth for '6207'
+    And the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth | trainDescriber | trainDescription |
+      | 6207    | D4             | 1G69             |
+    Then results are returned with text 'D4'
+    And the window title is displayed as 'Berth Search Results'
+    And I invoke the context menu for berth containing text 'D4'
+    And I wait for the berth search context menu to display
+    And the berth context menu is displayed
+    And the train search context menu contains 'Select maps' on line 1
+    And I placed the mouseover on map arrow link
+    And the following map names can be seen for the berth
+      | mapName |
+      | GW02    |
+      | HDGW01  |
+    And I open the Map 'GW02'
+    Then the number of tabs open is 2
+    When I switch to the new tab
+    And the tab title is 'TMV Map GW02'
+    Then the train in berth D46207 is highlighted on page load
+    And berth '6207' in train describer 'D4' contains '6207' and is visible on map
+    When I click on the layers icon in the nav bar
+    And I toggle the 'Berth' toggle 'On'
+    Then berth '6207' in train describer 'D4' contains '6207' and is visible on map
+    When I give the Map 10 seconds to highlight
+    Then berth '6207' in train describer 'D4' contains '6207' and is visible on map
     Examples:
       | pageName         |
       | Home             |
@@ -47,6 +87,7 @@ Feature: 79015 - TMV National Search Additions - National Berth Search Highlight
     # Then the user is presented with a map that contains the berth
     # And the berth is highlighted for 10 seconds flashing between green and purple
     Given I have not already authenticated
+    And I have cleared out all headcodes
     And I remove today's train 'L10006' from the Redis trainlist
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -86,4 +127,4 @@ Feature: 79015 - TMV National Search Additions - National Berth Search Highlight
     And the tab title is 'TMV Replay GW02'
     And I give the system 2 seconds to load
     Then the train in berth D46207 is highlighted on page load
-    And berth '6207' in train describer 'D4' contains '6207' and is visible on page load
+    And berth '6207' in train describer 'D4' contains '6207' and is visible on map

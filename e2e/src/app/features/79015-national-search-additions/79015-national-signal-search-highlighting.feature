@@ -1,5 +1,8 @@
 @newSession
-Feature: 79015 - TMV National Search Additions - National Signal Search Highlight Live
+Feature: 79015 - TMV National Search Additions - National Signal Search Highlight
+
+  Background:
+    Given I have cleared out all headcodes
 
   Scenario Outline:79193-1 National Signal Search Highlight Live - <pageName>
     # Given the user is authenticated to use TMV
@@ -26,14 +29,88 @@ Feature: 79015 - TMV National Search Additions - National Signal Search Highligh
     When I switch to the new tab
     And the tab title is 'TMV Map GW02'
     Then the train in berth D40259 is highlighted on page load
-    And berth '0259' in train describer 'D4' contains 'SGNL' and is visible on page load
+    And berth '0259' in train describer 'D4' contains 'SGNL' and is visible on map
     When I give the Map 10 seconds to highlight
     Then berth '0259' in train describer 'D4' and is not visible
     Examples:
     | pageName         |
     | Home             |
 
-  Scenario:  79193-2 National Signal Search Highlight
+  Scenario Outline:79193-1 National Signal Search Highlight Live with train in berth - <pageName>
+    # Given the user is authenticated to use TMV
+    # And the user is viewing the signal search results
+    # When the user selects a map from the signal search results
+    # Then the user is presented with a map that contains the signal
+    # And the berth associated to the signal is highlighted for 10 seconds flashing between green and purple with the letters "SGNL"
+    Given I remove all trains from the trains list
+    And I navigate to <pageName> page
+    When the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth | trainDescriber | trainDescription |
+      | 0259    | D4             | 1G69             |
+    And I search Signal for 'SN259'
+    Then results are returned with that signal ID 'SN259'
+    And the window title is displayed as 'Signal Search Results'
+    When I invoke the context menu for signal with ID 'SN259'
+    And I wait for the signal search context menu to display
+    And the signal context menu is displayed
+    And the train search context menu contains 'Select maps' on line 1
+    And I placed the mouseover on signal map option
+    And the following signal map names can be seen
+      | mapName |
+      | GW02    |
+      | HDGW01  |
+    And I open the Map 'GW02'
+    Then the number of tabs open is 2
+    When I switch to the new tab
+    And the tab title is 'TMV Map GW02'
+    Then the train in berth D40259 is highlighted on page load
+    And berth '0259' in train describer 'D4' contains 'SGNL' and is visible on map
+    When I give the Map 10 seconds to highlight
+    Then berth '0259' in train describer 'D4' contains '1G69' and is visible on map
+    Examples:
+      | pageName         |
+      | Home             |
+
+  Scenario Outline:79193-1 National Signal Search Highlight Live with train in berth, toggle on - <pageName>
+    # Given the user is authenticated to use TMV
+    # And the user is viewing the signal search results
+    # When the user selects a map from the signal search results
+    # Then the user is presented with a map that contains the signal
+    # And the berth associated to the signal is highlighted for 10 seconds flashing between green and purple with the letters "SGNL"
+    Given I remove all trains from the trains list
+    And I navigate to <pageName> page
+    When the following live berth interpose message is sent from LINX (to indicate train is present)
+      | toBerth | trainDescriber | trainDescription |
+      | 0259    | D4             | 1G69             |
+    And I search Signal for 'SN259'
+    Then results are returned with that signal ID 'SN259'
+    And the window title is displayed as 'Signal Search Results'
+    When I invoke the context menu for signal with ID 'SN259'
+    And I wait for the signal search context menu to display
+    And the signal context menu is displayed
+    And the train search context menu contains 'Select maps' on line 1
+    And I placed the mouseover on signal map option
+    And the following signal map names can be seen
+      | mapName |
+      | GW02    |
+      | HDGW01  |
+    And I open the Map 'GW02'
+    Then the number of tabs open is 2
+    When I switch to the new tab
+    And the tab title is 'TMV Map GW02'
+    Then the train in berth D40259 is highlighted on page load
+    And berth '0259' in train describer 'D4' contains 'SGNL' and is visible on map
+    When I click on the layers icon in the nav bar
+    And I toggle the 'Berth' toggle 'On'
+    Then the train in berth D40259 is highlighted on page load
+    And berth '0259' in train describer 'D4' contains 'SGNL' and is visible on map
+    When I give the Map 10 seconds to highlight
+    Then berth '0259' in train describer 'D4' contains '0259' and is visible on map
+    Examples:
+      | pageName         |
+      | Home             |
+
+  Scenario:  79193-2 National Signal Search Highlight - Replay
     # Given the user is authenticated to use TMV
     # And the user is viewing the signal search results
     # When the user selects a map from the signal search results
@@ -75,4 +152,4 @@ Feature: 79015 - TMV National Search Additions - National Signal Search Highligh
     When I switch to the new tab
     Then the tab title is 'TMV Replay HDGW01'
     Then the train in berth D3A015 is highlighted on page load
-    And berth 'A015' in train describer 'D3' contains 'SGNL' and is visible on page load
+    And berth 'A015' in train describer 'D3' contains 'SGNL' and is visible on map

@@ -16,11 +16,15 @@ When('I open the user profile menu', async () => {
 });
 
 When('I click on the layers icon in the nav bar', async () => {
+  await browser.waitForAngularEnabled(false);
   await navBarPage.openLayersMenu();
+  await browser.waitForAngularEnabled(true);
 });
 
 When('I toggle the {string} toggle {string}', async (toggle: string, toState: string) => {
+  await browser.waitForAngularEnabled(false);
   await navBarPage.toggle(toggle, toState);
+  await browser.waitForAngularEnabled(true);
 });
 
 When('I toggle path off from the nav bar', async () => {
