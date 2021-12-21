@@ -7,7 +7,6 @@ import {AppPage} from '../app.po';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {RedisClient} from '../../api/redis/redis-client';
 import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
-import {IButton} from "selenium-webdriver";
 
 let linxRestClient: LinxRestClient;
 
@@ -458,8 +457,9 @@ export class MapPageObject {
     return Promise.resolve(berthClass.indexOf('berth_highlighted') >= 0);
   }
 
-  public async isReplayBerthHighlighted(berthId: string): Promise<boolean> {
+  public async isBerthTempHighlighted(berthId: string): Promise<boolean> {
     const berth: ElementFinder = element(by.id('berth-element-rect-' + berthId));
+    await CommonActions.waitForElementToBeVisible(berth);
     const berthClass: string = await berth.getAttribute('class');
     if (berthClass === null) {
       return Promise.resolve(false);

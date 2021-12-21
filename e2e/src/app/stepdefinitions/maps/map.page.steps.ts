@@ -410,6 +410,32 @@ Then('berth {string} in train describer {string} contains {string} and is visibl
     expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber), 'Berth text is not visible');
 });
 
+Then('berth {string} in train describer {string} contains {string} and is visible on page load',
+  async (berthId: string, trainDescriber: string, berthContents: string) => {
+    await browser.waitForAngularEnabled(false);
+    if (berthContents.includes('generated')) {
+      berthContents = browser.referenceTrainDescription;
+    }
+    await mapPageObject.waitUntilBerthTextIs(berthId, trainDescriber, berthContents);
+    const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
+    expect(trainDescription, 'Train description is not in the berth text')
+      .equals(berthContents);
+    expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber), 'Berth text is not visible');
+    await browser.waitForAngularEnabled(true);
+  });
+
+Then('berth {string} in train describer {string} and is not visible',
+  async (berthId: string, trainDescriber: string) => {
+    await browser.waitForAngularEnabled(false);
+    expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber), 'Berth text is not visible').equals(false);
+    await browser.waitForAngularEnabled(true);
+  });
+
+Then('berth {string} in train describer {string} is visible',
+  async (berthId: string, trainDescriber: string) => {
+    expect(await mapPageObject.berthTextIsVisible(berthId, trainDescriber), 'Berth text is not visible');
+  });
+
 Then('it is {string} that berth {string} in train describer {string} is present',
   async (isPresent: string, berthId: string, trainDescriber: string) => {
     const expectedPresent: boolean = (isPresent === 'true');
@@ -918,11 +944,13 @@ Then(/^the (?:train|signal) in berth (\w+) is highlighted$/,
     }, browser.params.general_timeout, `The train in berth ${berthId} was not highlighted`);
   });
 
-Then(/^the (?:train|signal) in replay berth (\w+) is highlighted$/,
+Then(/^the (?:train|signal) in berth (\w+) is highlighted on page load$/,
   async (berthId: string) => {
+    await browser.waitForAngularEnabled(false);
     await browser.wait(() => {
-      return mapPageObject.isReplayBerthHighlighted(berthId);
+      return mapPageObject.isBerthTempHighlighted(berthId);
     }, browser.params.general_timeout, `The train in berth ${berthId} was not highlighted`);
+    await browser.waitForAngularEnabled(true);
   });
 
 Then(/^the train in berth (\w+) is not highlighted$/,

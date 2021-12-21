@@ -72,7 +72,7 @@ Feature: 33757 - TMV National Search
     And I click close button at the bottom of table
     Then the Train search table is not shown
 
-  Scenario Outline: 33757-2a Timetable search window shown - Warning message
+  Scenario Outline: 33757-2a Timetable search window shown - Warning message - <pageName>
       #Given the user is authenticated to use TMV
       #And the user is viewing TMV screen with a national search in the title bar
       #When the user selects a timetable search option
@@ -114,7 +114,7 @@ Feature: 33757 - TMV National Search
     When I search Timetable for '£'
     Then Warning Message is displayed for minimum characters
 
-  Scenario Outline: 33757-2c Timetable search - Old Schedules
+  Scenario Outline: 33757-2c Timetable search - Old Schedules - <pageName>
     #
     Given I navigate to <pageName> page
     And there is a Schedule for '4F01'
@@ -137,7 +137,7 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  Scenario Outline: 33757-2d Timetable search - Future Schedules
+  Scenario Outline: 33757-2d Timetable search - Future Schedules - <pageName>
     Given I navigate to <pageName> page
     And there is a Schedule for '4F03'
     And the schedule has a basic timetable
@@ -158,7 +158,7 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  Scenario Outline: 33757-2e Timetable search - outside current period
+  Scenario Outline: 33757-2e Timetable search - outside current period - <pageName>
     Given I navigate to <pageName> page
     And there is a Schedule for '4F05'
     And the schedule has a basic timetable
@@ -179,7 +179,7 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  Scenario Outline: 33757-2f Timetable search - all days
+  Scenario Outline: 33757-2f Timetable search - all days - <pageName>
     * I remove today's train 'F10001' from the Redis trainlist
     Given I navigate to <pageName> page
     #And there is a Schedule for '4F07'
@@ -209,7 +209,7 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  Scenario Outline: 33757-3a Signal search window shown
+  Scenario Outline: 33757-3a Signal search window shown - <pageName>
       #Given the user is authenticated to use TMV
       #And the user is viewing TMV screen with a national search in the title bar
       #When the user selects a signal search option
@@ -323,7 +323,7 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  Scenario Outline:5 National Timetable Search Selection
+  Scenario Outline:5 National Timetable Search Selection - <pageName>
     #Given the user is authenticated to use TMV
     #And the user is viewing the timetable search results pop-up
     #When the user selects a timetable from search result by using the secondary mouse click
@@ -383,7 +383,7 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  Scenario Outline:33757-6 National Signal Search Selection
+  Scenario Outline:33757-6 National Signal Search Selection - <pageName>
     #Given the user is authenticated to use TMV
     #And the user is viewing the signal search results pop-up
     #When the user selects a train from search result by using the secondary mouse click
@@ -412,8 +412,7 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  @manual
-  Scenario Outline:33757-7 National Trains Search Highlight
+  Scenario Outline:33757-7 National Trains Search Highlight - <pageName>
     #Given the user is authenticated to use TMV
     #And the user is viewing the train search results
     #When the user selects a map from the train search results
@@ -429,7 +428,7 @@ Feature: 33757 - TMV National Search
       | A12345      |
     And the Train search table is shown
     And the window title is displayed as 'Train Search Results'
-    And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results
+    And I invoke the context menu from train with planning UID 'A12345' on the search results table
     And I wait for the train search context menu to display
     And the trains context menu is displayed
     And the train search context menu contains 'Open Timetable' on line 1
@@ -439,29 +438,14 @@ Feature: 33757 - TMV National Search
       | GW01    |
       | HDGW01  |
     And I open the Map 'GW01'
-    And I switch to the new tab
+    Then the number of tabs open is 2
+    When I switch to the new tab
+    Then the train in berth D3R029 is highlighted on page load
+    And berth 'R029' in train describer 'D3' contains '1L24' and is visible
+    And I click on the layers icon in the nav bar
     And I toggle the 'Berth' toggle 'On'
-    And the following berth status is displayed
-      | berthId | trainDescription | status      |
-      | R029    | D3               | highlighted |
-    And the following live berth step message is sent from LINX (to move train)
-      | fromBerth | toBerth | trainDescriber | trainDescription |
-      | R029      | 0043    | D3             | 1L24             |
-    And I invoke the context menu from train with planning UID 'A12345' and schedule date 'today' from the search results
-    And I wait for the train search context menu to display
-    Then the trains context menu is displayed
-    And the train search context menu contains 'Open Timetable' on line 1
-    And the train search context menu contains 'Select maps' on line 2
-    And the following map names can be seen
-      | mapName |
-      | GW01    |
-      | HDGW01  |
-    And I open the Map 'HDGW01'
-    And I switch to the new tab
-    And I toggle the 'Berth' toggle 'On'
-    And the following berth status is displayed
-      | berthId | trainDescription | status      |
-      | 0043    | D3               | highlighted |
+    Then the train in berth D3R029 is highlighted on page load
+    And berth 'R029' in train describer 'D3' contains 'R029' and is visible
     Examples:
       | pageName         |
       | Home             |
@@ -472,36 +456,3 @@ Feature: 33757 - TMV National Search
       | LogViewer        |
       | Admin            |
 
-  @manual
-  Scenario Outline:33757-8 National Signal Search Highlight
-    #Given the user is authenticated to use TMV
-    #And the user is viewing the signal search results
-    #When the user selects a map from the signal search results
-    #Then the user is presented with a map that contains the signal
-    #And the signal is highlighted for a brief period
-    Given I navigate to <pageName> page
-    And I search Signal for 'SN259'
-    Then results are returned with that signal ID 'SN259'
-    And the window title is displayed as 'Signal Search Results'
-    And I invoke the context menu for signal with ID 'SN259'
-    And I wait for the signal search context menu to display
-    And the signal context menu is displayed
-    And the train search context menu contains 'Select maps' on line 1
-    And I placed the mouseover on signal map option
-    And the following signal map names can be seen
-      | mapName |
-      | GW02    |
-      | HDGW01  |
-    And I open the Map 'GW02'
-    And I switch to the new tab
-    And the tab title is 'TMV Map GW02'
-    And the signal 'SN254' is 'highlighted'
-    Examples:
-      | pageName         |
-      | Home             |
-      | TrainsList       |
-      | TimeTable        |
-      | TrainsListConfig |
-      | Maps             |
-      | LogViewer        |
-      | Admin            |

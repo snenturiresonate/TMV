@@ -9,12 +9,14 @@ export class SearchResultsPageObject {
   public trainSearchResults: ElementFinder;
   public timetableSearchResults: ElementFinder;
   public signalSearchResults: ElementFinder;
+  public berthSearchResults: ElementFinder;
 
   constructor() {
     this.close = element(by.css('.tmv-btn-cancel'));
     this.trainSearchResults = element(by.id('trainSearchResults'));
     this.timetableSearchResults = element(by.id('timetableSearchResults'));
     this.signalSearchResults = element(by.id('signalSearchResults'));
+    this.berthSearchResults = element(by.id('berthSearchResults'));
   }
 
   async getActiveTable(): Promise<ElementFinder> {
@@ -27,6 +29,8 @@ export class SearchResultsPageObject {
         return this.timetableSearchResults;
       case 'Signal':
         return this.signalSearchResults;
+      case 'Berth':
+        return this.berthSearchResults;
     }
   }
 
@@ -86,7 +90,7 @@ export class SearchResultsPageObject {
     return new SearchResultsTableRowPage(activeTable.element(by.xpath(`//tr[descendant::td[text()='${planningUID}'] and td[text()='${scheduleType}']]`)));
   }
 
-  async getRowBySignalID(signalID: string): Promise<SearchResultsTableRowPage> {
+  async getRowByText(signalID: string): Promise<SearchResultsTableRowPage> {
     const activeTable: ElementFinder = await this.getActiveTable();
     return new SearchResultsTableRowPage(activeTable.element(by.xpath(`//tr[descendant::td[text()='${signalID}']]`)));
   }
