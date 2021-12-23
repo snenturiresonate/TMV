@@ -31,10 +31,11 @@ Feature: 46482 - TMV Key - display key
     Then a modal displays with title 'Key'
     And The key berth table contains the following data
       | position | text                     | backgroundColour | colour  |
-      | 0        | Left Behind              | #969696          | #000000 |
-      | 1        | No Timetable             | #e1e1e1          | #000000 |
-      | 2        | Last Berth               | #ffffff          | #000000 |
-      | 3        | Unknown Delay            | #ffffff          | #000000 |
+      | 0        | Off Plan                 | #0000ff          | #ffffff |
+      | 1        | Left Behind              | #969696          | #000000 |
+      | 2        | No Timetable             | #e1e1e1          | #000000 |
+      | 3        | Last Berth               | #ffffff          | #000000 |
+      | 4        | Unknown Delay            | #ffffff          | #000000 |
 
   Scenario: 34085-3 The TMV Key Symbol table is displayed when the Symbol tab is clicked
     When I click on the Help icon

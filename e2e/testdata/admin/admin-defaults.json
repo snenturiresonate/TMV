@@ -71,8 +71,8 @@
   "berthColourSettings": [
     {
       "colour": "#0000ff",
-      "state": "Attention",
-      "visible": false
+      "state": "Off Plan",
+      "visible": true
     },
     {
       "colour": "#969696",

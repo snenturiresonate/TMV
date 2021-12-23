@@ -15,7 +15,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - ber
   Scenario: Berth colour settings default color and entries
     Then the following can be seen on the berth color settings table
       | name           | colour  |
-      | Attention      | #0000ff |
+      | Off Plan       | #0000ff |
       | Left Behind    | #969696 |
       | No Timetable   | #e1e1e1 |
       | Last Berth     | #ffffff |
@@ -30,7 +30,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - ber
     And I navigate to the 'Display Settings' admin tab
     Then the following can be seen on the berth color settings table
       | name           | colour  |
-      | Attention      | #bbbb11 |
+      | Off Plan       | #bbbb11 |
       | Left Behind    | #969696 |
       | No Timetable   | #e1e1e1 |
       | Last Berth     | #ffffff |
