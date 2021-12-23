@@ -24,6 +24,10 @@ When('I un-match the currently matched schedule', async () =>  {
   await trainsListManualMatchPage.clickUnMatch();
 });
 
+Then(/^the (?:Unmatch|Match) confirmation dialogue is displayed$/, async () =>  {
+  await trainsListManualMatchPage.isConfirmationDialogueDisplayed();
+});
+
 When('I select to match the result for todays service with planning Id {string}', async (planId: string) =>  {
   if (planId.includes('generated')) {
     planId = browser.referenceTrainUid;
