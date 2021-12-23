@@ -166,9 +166,7 @@ export class TrainsListManualMatchPageObject {
   public async clickUnMatch(): Promise<void> {
     return this.unMatchButton.click();
   }
-
   public async isConfirmationDialogueDisplayed(): Promise<boolean> {
     return this.confirmMessage.isPresent();
   }
-
 }
