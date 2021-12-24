@@ -225,9 +225,14 @@ export class DateAndTimeUtils {
     return moment(parsedDateTime).toDate();
   }
 
-  public static async formulateTime(timeStamp: string, format = 'HH:mm:ss'): Promise<Date> {
+  public static async formulateTime(timeStamp: string, format = 'HH:mm:ss', secondaryFormat = 'HH:mm'): Promise<Date> {
     const now = LocalDateTime.now();
-    const dateTime = LocalTime.parse(timeStamp, DateTimeFormatter.ofPattern(format));
+    let dateTime = null;
+    try {
+      dateTime = LocalTime.parse(timeStamp, DateTimeFormatter.ofPattern(format));
+    } catch {
+      dateTime = LocalTime.parse(timeStamp, DateTimeFormatter.ofPattern(secondaryFormat));
+    }
     const parsedDateTime = new Date(
       now.year(), now.monthValue(), now.dayOfMonth(), dateTime.hour(), dateTime.minute(), dateTime.second());
     return moment(parsedDateTime).toDate();

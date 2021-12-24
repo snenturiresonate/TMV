@@ -1025,8 +1025,8 @@ function applyTimeAdjustment(colonSeparatedTimeStringHhMmSs: string, adjustmentM
   if ((colonSeparatedTimeStringHhMmSs === '') || (colonSeparatedTimeStringHhMmSs === '00:00:00') || adjustmentMs === 0) {
     return colonSeparatedTimeStringHhMmSs;
   }
-  return LocalTime.parse(colonSeparatedTimeStringHhMmSs).plusNanos(adjustmentMs * 1000000)
-    .format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+  const time: LocalTime = LocalTime.parse(colonSeparatedTimeStringHhMmSs).plusNanos(adjustmentMs * 1000000);
+  return time.format(DateTimeFormatter.ofPattern(time.second() > 0 ? 'HH:mm:ss' : 'HH:mm'));
 }
 
 function calculateOriginalTimeAdjustment(scenarioStart: string, originalTime: string): number {
@@ -1054,7 +1054,7 @@ Then(/^the actual\/predicted (Arrival|Departure) time for location "(.*)" instan
       const error = `Actual ${arrivalOrDeparture} not correct for location ${location}`;
       expect(
         await DateAndTimeUtils.formulateTime(
-          stripBrackets(field).substr(0, 8)), error)
+          stripBrackets(field).substr(0, 5).trim()), error)
         .to.be.closeToTime(await DateAndTimeUtils.formulateTime(expected), 180);
     }
     else {
