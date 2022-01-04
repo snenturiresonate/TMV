@@ -42,7 +42,7 @@ export class TrainsListPageObject {
     this.colourText = element.all(by.css('.indication-div-container input[class*=punctuality-colour]'));
     this.trainsListTableCols = element.all(by.css('#trainList th[id^=tmv-train-table-header] span:nth-child(1)'));
     this.trainListSettingsBtn = element(by.css('#settings-menu-button'));
-    this.matchUnmatchLink = element(by.css('#schedule-context-menu-unmatch'));
+    this.matchUnmatchLink = element(by.id('match-unmatch-selection-item'));
     this.primarySortCol = element(by.css('.primary-sort-header'));
     this.secondarySortCol = element(by.css('.secondary-sort-header'));
     this.paginationPrevious = element(by.id('trains-list-pagination-previous'));
