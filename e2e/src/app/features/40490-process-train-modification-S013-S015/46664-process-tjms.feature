@@ -19,7 +19,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     * I have navigated to the 'Punctuality' configuration tab
     * I toggle all trains list punctuality toggles 'off'
     * I save the trains list config
-    * I have navigated to the 'Misc' configuration tab
+    * I have navigated to the 'Trains Class & MISC' configuration tab
     * I set 'Include unmatched' to be 'off'
     * I save the trains list config
 

@@ -70,7 +70,7 @@ Feature: 46448 - TMV Trains List - access
     And I set trains list columns to be '<columns>'
     And I have navigated to the 'TOC/FOC' configuration tab
     And I set toc filters to be '<tocs>'
-    And I have navigated to the 'Misc' configuration tab
+    And I have navigated to the 'Trains Class & MISC' configuration tab
     And I set class filters to be '<classes>'
     And I set 'Ignore PD Cancels' to be '<ignorePDCancelsFlag>'
     And I set 'Include unmatched' to be '<unmatchedFlag>'

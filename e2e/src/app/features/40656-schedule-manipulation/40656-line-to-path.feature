@@ -9,7 +9,7 @@ Feature: 40656 - Schedule Manipulation - Line To Path
     * I am on the home page
     * I restore to default train list config
     * I am on the trains list Config page
-    * I have navigated to the 'Misc' configuration tab
+    * I have navigated to the 'Trains Class & MISC' configuration tab
     * I set 'Include unmatched' to be 'off'
     * I save the trains list config
 

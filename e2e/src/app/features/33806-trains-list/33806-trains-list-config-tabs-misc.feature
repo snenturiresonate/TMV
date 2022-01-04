@@ -10,7 +10,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     And I am on the home page
     And I restore to default train list config
     And I am on the trains list Config page
-    And I have navigated to the 'Misc' configuration tab
+    And I have navigated to the 'Trains Class & MISC' configuration tab
 
   #33806 -25 Trains List Config (Misc Settings View)
     #Given the user is viewing the trains list config
