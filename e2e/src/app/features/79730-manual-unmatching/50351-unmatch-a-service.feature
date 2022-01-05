@@ -6,8 +6,6 @@ Feature: 50561 - Unmatch a service
     * I restore to default train list config
     * I have navigated to the 'TOC/FOC' configuration tab
 
-    @bug
-    @82329
   Scenario: 80312 - Unmatch via Trains List dialogue
 #    Given the user is authenticated to use TMV
 #    And the user is viewing the trains list
@@ -35,8 +33,6 @@ Feature: 50561 - Unmatch a service
     When I un-match the currently matched schedule
     Then the Unmatch confirmation dialogue is displayed
 
-    @bug
-    @82329
   Scenario: 80312 - Unmatch via Trains List dialogue
 #    Given the user is authenticated to use TMV
 #    And the user is viewing the trains list
@@ -65,8 +61,6 @@ Feature: 50561 - Unmatch a service
     And I click the unmatch cancel option
     Then a matched service is visible
 
-    @bug
-    @82329
   Scenario: 80312 - Unmatch via Trains List dialogue
 #    Given the user is authenticated to use TMV
 #    And the user is viewing the trains list

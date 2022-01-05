@@ -42,7 +42,7 @@ export class TrainsListManualMatchPageObject {
     this.saveButton = element(by.id('saveManualMatching'));
     this.closeButton = element(by.css('.tmv-btn-cancel:nth-child(1)'));
     this.matchButton = element(by.css('.confirm-btn-container #confirmManualMatching'));
-    this.unMatchButton = element(by.css('.unmatch-btn-container #confirmManualMatching'));
+    this.unMatchButton = element(by.css('.unmatch-btn-container #unmatchManualMatching'));
     this.confirmMessage = element(by.css('.confirm-text-area:nth-child(2)'));
   }
   public async componentLoad(): Promise<void> {
