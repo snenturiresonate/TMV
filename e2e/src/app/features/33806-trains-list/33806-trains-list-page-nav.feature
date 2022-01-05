@@ -54,12 +54,12 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config navi
     And I navigate to train list configuration
     And I switch to the new tab
     Then I should see the trains list configuration tabs as
-      | tabs             |
-      | Columns          |
-      | Punctuality      |
-      | TOC/FOC          |
-      | Locations        |
-      | Train Indication |
-      | Misc             |
-      | TRUST IDs        |
-      | Region/Route     |
+      | tabs                |
+      | Columns             |
+      | Punctuality         |
+      | TOC/FOC             |
+      | Locations           |
+      | Train Indication    |
+      | Trains Class & MISC |
+      | TRUST IDs           |
+      | Region/Route        |

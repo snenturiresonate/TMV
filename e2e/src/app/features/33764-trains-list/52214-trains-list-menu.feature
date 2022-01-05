@@ -7,6 +7,7 @@ Feature: 52214 - TMV Trains List - menu
 
   Background:
     * I remove all trains from the trains list
+    * I generate a new trainUID
 
 
   Scenario Outline: 33764-5b Trains List - Context menu contains information specific to the train on that row, matching the grid values
@@ -33,13 +34,13 @@ Feature: 52214 - TMV Trains List - menu
     Then the trains list context menu contains 'SERVICE : ' on line 1
     And the trains list context menu contains 'Open Timetable' on line 2
     And the trains list context menu contains 'Find Train' on line 3
-    And the trains list context menu contains 'Departs' on line 6
-    And the trains list context menu contains 'Arrives' on line 7
+    And the trains list context menu contains 'Departs' on line 7
+    And the trains list context menu contains 'Arrives' on line 8
     And I can click away to clear the menu
 
     Examples:
-      | trainUid | trainDescription |
-      | Y95682   | 2P72             |
+      | trainUid  | trainDescription |
+      | generated | 2P72             |
 
   Scenario Outline: 33764-5c Trains List Context menu - matched service
     #    Given the user is authenticated to use TMV
@@ -65,12 +66,12 @@ Feature: 52214 - TMV Trains List - menu
     And I wait for the trains list context menu to display
     Then the trains list context menu contains '<trainDescription>' on line 1
     And the Matched version of the trains list context menu is displayed
-    And the trains list context menu contains 'RDNGSTN' on line 5
-    And the trains list context menu contains 'PADTON' on line 5
+    And the trains list context menu contains 'RDNGSTN' on line 6
+    And the trains list context menu contains 'PADTON' on line 6
 
     Examples:
-    | trainUid | trainDescription |
-    | Y95683   | 2P73             |
+    | trainUid  | trainDescription |
+    | generated | 2P73             |
 
   # unmatched services from stepping is part of CCN1
   @tdd

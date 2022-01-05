@@ -85,8 +85,11 @@ Then('the timetable header train description is {string}', async (expectedTrainD
 });
 
 Then('the timetable header train UID is {string}', async (expectedTrainUID: string) => {
-  const trainUID: string = await timetablePage.getHeaderTrainUID();
-  expect(trainUID, 'Timetable header train UID was not as expected')
+  if (expectedTrainUID.includes('generated')) {
+    expectedTrainUID = browser.referenceTrainUid;
+  }
+  const actualTrainUID: string = await timetablePage.getHeaderTrainUID();
+  expect(actualTrainUID, 'Timetable header train UID was not as expected')
     .to.equal(expectedTrainUID);
 });
 

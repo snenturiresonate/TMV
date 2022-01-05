@@ -417,7 +417,11 @@ Then('the service is displayed in the trains list with the following row colour'
       actualRowColFill = await CommonActions.waitForFunctionalStringResult(
         trainsListPage.getTrainsListRowFillForRow, rowNum, expectedTrainsListRow.rowColour);
     } else {
-      rowIdentifier = expectedTrainsListRow.trainUID + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
+      let trainUID: string = expectedTrainsListRow.trainUID;
+      if (trainUID.includes('generated')) {
+        trainUID = browser.referenceTrainUid;
+      }
+      rowIdentifier = trainUID + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
       actualRowColFill = await CommonActions.waitForFunctionalStringResult(
         trainsListPage.getTrainsListRowFillForSchedule, rowIdentifier, expectedTrainsListRow.rowColour);
     }

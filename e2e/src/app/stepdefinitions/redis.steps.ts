@@ -31,6 +31,9 @@ When('I delete {string} from Redis', async (streamName: string) => {
 });
 
 When('I remove schedule {string} from the trains list', async (scheduleId: string) => {
+  if (scheduleId.includes('generated')) {
+    scheduleId = browser.referenceTrainUid;
+  }
   const dateFormat = 'yyyy-MM-dd';
   await redisClient.keyDelete('trainlist:' + scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat(('today'), dateFormat));
   await redisClient.keyDelete('trainlist:' + scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat(('tomorrow'), dateFormat));

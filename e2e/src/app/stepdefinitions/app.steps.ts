@@ -824,7 +824,9 @@ Given(/^I generate a new trainUID$/, async () => {
 
 Given(/^I generate a new train description$/, async () => {
   browser.referenceTrainDescription = await TrainUIDUtils.generateTrainDescription();
-  await CucumberLog.addText(`New train description: ${browser.referenceTrainDescription}`);
+  const msg = `Generated train description: ${browser.referenceTrainDescription}`;
+  console.log(msg);
+  await CucumberLog.addText(msg);
 });
 
 Given(/^I log the berth level schedule for '(.*)'$/, async (trainUid) => {

@@ -221,6 +221,7 @@ Feature: 33805 TMV Schedule Matching
     #      | sub division |
     Given the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching-cancelled.cif' is received from LINX
     And I wait until today's train '<trainUid>' has been removed
+    And I give the cancellation an extra 2 seconds to be processed
     When the following live berth interpose message is sent from LINX
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
@@ -234,8 +235,8 @@ Feature: 33805 TMV Schedule Matching
     Examples:
       | trainDescriber | berth | origTrainDesc | trainUid | location | subdivision | matchLevel   |
       | D3             | A001  | 1B11          | B11111   | PADTON   | 401         | berth        |
-#      | D3             | A011  | 1B11          | B11111   | PADTON   | 401         | location     |
-#      | D3             | 0106  | 1B11          | B11111   | PRTOBJP  | 401         | sub-division |
+      | D3             | A011  | 1B11          | B11111   | PADTON   | 401         | location     |
+      | D3             | 0106  | 1B11          | B11111   | PRTOBJP  | 401         | sub-division |
 
   Scenario Outline: 4b. Step - Cancelled schedules are not matched - <matchLevel> match
     #    Given there is a valid schedule has a STP indicator of Cancelled  (C or CV)
@@ -249,7 +250,8 @@ Feature: 33805 TMV Schedule Matching
     #      | location |
     #      | sub division |
     Given the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching-cancelled.cif' is received from LINX
-    And I give the cancellation 2 seconds to load
+    And I wait until today's train '<trainUid>' has been removed
+    And I give the cancellation an extra 2 seconds to be processed
     And I am on the trains list page
     Then train description '<origTrainDesc>' with schedule type 'STP' disappears from the trains list
     When the following live berth step message is sent from LINX
@@ -346,19 +348,24 @@ Feature: 33805 TMV Schedule Matching
     #      | berth |
     #      | location |
     #      | sub division |
+    * I generate a new trainUID
+    * I generate a new train description
     * I remove today's train '<trainUid>' from the Redis trainlist
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
     And I wait until today's train '<trainUid>' has loaded
+    And I give the CIF an extra 2 seconds to be processed
     When the following train activation message is sent from LINX
       | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 |
+    And I give the activation an extra 2 seconds to be processed
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
     And I am on the trains list page
+    And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     And the service is displayed in the trains list with the following row colour
       | rowType       | trainUID   | rowColour              |
       | Origin called | <trainUid> | rgba(255, 181, 120, 1) |
@@ -375,10 +382,10 @@ Feature: 33805 TMV Schedule Matching
     * I remove schedule '<trainUid>' from the trains list
 
     Examples:
-      | trainDescriber | berth | origTrainDesc | trainUid | location | subdivision | matchLevel   |
-      | D3             | A001  | 2B11          | B33311   | PADTON   | 401         | berth        |
-      | D3             | A011  | 2B12          | B33312   | PADTON   | 401         | location     |
-      | D3             | 0106  | 2B13          | B33313   | PRTOBJP  | 401         | sub-division |
+      | trainDescriber | berth | origTrainDesc | trainUid  | location | subdivision | matchLevel   |
+      | D3             | A001  | generated     | generated | PADTON   | 401         | berth        |
+      | D3             | A011  | generated     | generated | PADTON   | 401         | location     |
+      | D3             | 0106  | generated     | generated | PRTOBJP  | 401         | sub-division |
 
   Scenario Outline: 6. Step - activated schedules take precedence - <matchLevel> match
     #    Given there two valid schedule
@@ -392,23 +399,25 @@ Feature: 33805 TMV Schedule Matching
     #      | berth |
     #      | location |
     #      | sub division |
+    * I generate a new trainUID
+    * I generate a new train description
     * I remove today's train '<trainUid>' from the Redis trainlist
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
     And I wait until today's train '<trainUid>' has loaded
+    And I give the CIF an extra 2 seconds to be processed
     When the following train activation message is sent from LINX
       | trainUID   | trainNumber     | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUid> | <origTrainDesc> | now                    | 73000               | PADTON                 | today         | now                 |
+    And I give the activation an extra 2 seconds to be processed
     And the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth       | trainDescriber   | trainDescription |
       | <berth>   | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
     And I am on the trains list page
     And The trains list table is visible
-    And the following service is displayed on the trains list
-      | trainId            | trainUId   |
-      | <origTrainDesc>    | <trainUid> |
+    And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     And I am viewing the map HDGW01paddington.v
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
@@ -422,7 +431,7 @@ Feature: 33805 TMV Schedule Matching
     * I remove schedule '<trainUid>' from the trains list
 
     Examples:
-      | trainDescriber | berth | secondBerth | origTrainDesc | trainUid | location | subdivision | matchLevel   |
-      | D3             | A007  | 0039        | 2B21          | B44441   | PADTON   | 401         | berth        |
-      | D3             | A011  | 0041        | 2B22          | B44442   | PADTON   | 401         | location     |
-      | D3             | 0107  | 0125        | 2B23          | B44443   | PRTOBJP  | 401         | sub-division |
+      | trainDescriber | berth | secondBerth | origTrainDesc | trainUid  | location | subdivision | matchLevel   |
+      | D3             | A007  | 0039        | generated     | generated | PADTON   | 401         | berth        |
+      | D3             | A011  | 0041        | generated     | generated | PADTON   | 401         | location     |
+      | D3             | 0107  | 0125        | generated     | generated | PRTOBJP  | 401         | sub-division |

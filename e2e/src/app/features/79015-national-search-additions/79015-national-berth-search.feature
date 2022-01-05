@@ -60,9 +60,13 @@ Feature: 79015 - TMV National Search Additions - National Berth Search
 
     Examples:
       | map                | searchFor | expectedCount |
-      | HDGW01paddington.v | 0099      | 17            |
-      | GW22heartofwales.v | A001      | 9             |
+      # Searched for "berthName":"0099" within the 'configuraiton-berths' config and got 14 hits
+      | HDGW01paddington.v | 0099      | 14            |
+      # Searched for "berthName":"A001" within the 'configuraiton-berths' config and got 6 hits
+      | GW22heartofwales.v | A001      | 6             |
+      # Searched for "berthName":"NJUN" within the 'configuraiton-berths' config and got 1 hit
       | NW22mpsccsig.v     | NJUN      | 1             |
+      # Searched for "berthName":"SWSG" within the 'configuraiton-berths' config and got 1 hit
       | MD01euston.v       | SWSG      | 1             |
 
   Scenario Outline: 79189-5 - no search results found - <searchFor>
