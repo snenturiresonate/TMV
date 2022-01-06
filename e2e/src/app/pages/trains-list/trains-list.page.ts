@@ -3,6 +3,7 @@ import {of} from 'rxjs';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {RedisClient} from '../../api/redis/redis-client';
 import {NFRConfig} from '../../config/nfr-config';
+import {CucumberLog} from '../../logging/cucumber-log';
 
 
 export class TrainsListPageObject {
@@ -217,11 +218,14 @@ export class TrainsListPageObject {
       {
         if (actualColHeaders[i] !== expectedColHeaders[i])
         {
+          const msg = `${actualColHeaders[i]} is not equal to ${expectedColHeaders[i]}`;
+          console.log(msg);
+          await CucumberLog.addText(msg);
           return false;
         }
       }
       return true;
-      }, browser.params.general_timeout, 'Columns have not updated to reflect config changes');
+      }, browser.params.quick_timeout, 'Columns have not updated to reflect config changes');
    }
 
   public async trainDescriptionHasDisappeared(trainDescription: string): Promise<boolean> {

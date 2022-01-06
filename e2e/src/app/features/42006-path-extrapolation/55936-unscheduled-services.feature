@@ -60,9 +60,9 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
       | unmatched step | 2P02      |
 
     Scenario Outline: 42006-14  Unscheduled service is displayed when an unmatched TRI is received - <triType>
-#    Given no valid schedule exists
-#    And a TRI timing has been received for a location with the <TRI type>
-#    Then a corresponding unscheduled service is displayed in the trains list
+    # Given no valid schedule exists
+    # And a TRI timing has been received for a location with the <TRI type>
+    # Then a corresponding unscheduled service is displayed in the trains list
     When the following train running information message is sent from LINX
       | trainUID   | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType |
       | <trainUID> | <trainDesc> | today              | <locCode>           | <locSubCode>           | <triType>   |
