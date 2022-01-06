@@ -1,4 +1,4 @@
-Feature: 50561 - Unmatch a service
+Feature: 50561 - Unmatch a service - Trains List
 
   Background:
     * I remove all trains from the trains list
@@ -38,8 +38,9 @@ Feature: 50561 - Unmatch a service
 #    And the user is viewing the trains list
 #    And the has the schedule matching privilege
 #    And has select a matched service to unmatch
-#    When the user selects the unmatch option
-#    Then the unmatch confirmation dialogue is displayed
+#    And is viewing unmatch confirmation dialogue
+#    When the user selects to the cancel the action
+#    Then the service remains matched
     * I generate a new trainUID
     * I generate a new train description
     * I delete 'generatedTrainUId:today' from hash 'schedule-modifications'
@@ -66,8 +67,10 @@ Feature: 50561 - Unmatch a service
 #    And the user is viewing the trains list
 #    And the has the schedule matching privilege
 #    And has select a matched service to unmatch
-#    When the user selects the unmatch option
-#    Then the unmatch confirmation dialogue is displayed
+#    And is viewing unmatch confirmation dialogue
+#    When the user selects to the cancel the action
+#    Then the service is unmatched
+#    And remains unmatch for the remainder of its journey unless rematched by a user
     * I generate a new trainUID
     * I generate a new train description
     * I delete 'generatedTrainUId:today' from hash 'schedule-modifications'

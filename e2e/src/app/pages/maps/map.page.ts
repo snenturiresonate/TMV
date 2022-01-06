@@ -308,6 +308,11 @@ export class MapPageObject {
     return this.mapContextMenuItems.get(rowIndex - 1);
   }
 
+  public async clickUnmatchRematchMatchOption(): Promise<void> {
+    const berthLink: ElementFinder = element(by.id('match-unmatch-selection-item'));
+    await browser.actions().click(berthLink, protractor.Button.LEFT).perform();
+  }
+
   public async rightClickManualTrustBerth(manualTrustBerthId: string): Promise<void> {
     const berthLink: ElementFinder = element(by.id('manual-trust-berth-element-text-' + manualTrustBerthId));
     await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
