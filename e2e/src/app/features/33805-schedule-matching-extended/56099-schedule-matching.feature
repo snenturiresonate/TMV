@@ -18,7 +18,7 @@ Feature: 33805 TMV Schedule Matching
     * I am on the home page
     * I restore to default train list config
     * I am on the trains list Config page
-    * I have navigated to the 'Trains Class & MISC' configuration tab
+    * I have navigated to the 'Train Class & MISC' configuration tab
     * I set 'Include unmatched' to be 'on'
     * I save the trains list config
 
