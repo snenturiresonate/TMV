@@ -95,6 +95,23 @@ When('I invoke the context menu for todays train {string} schedule uid {string} 
     }
 });
 
+When('I primary click for todays train {string} schedule uid {string} from the trains list',
+  async (trainDescription: string, scheduleId: string) => {
+  if (trainDescription.includes('generated')) {
+    trainDescription = browser.referenceTrainDescription;
+  }
+  if (scheduleId === 'UNPLANNED') {
+    const schedNum = await trainsListPage.getRowForSchedule(trainDescription) + 1;
+    await trainsListPage.leftClickTrainListItemNum(schedNum);
+  } else {
+    if (scheduleId === 'generatedTrainUId' || scheduleId === 'generated') {
+      scheduleId = browser.referenceTrainUid;
+    }
+    const todaysScheduleString = scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
+    await trainsListPage.leftClickHeadcodeOnTrainListItem(todaysScheduleString);
+  }
+});
+
 Then('Train description {string} is visible on the trains list', async (scheduleNum: string) => {
   if (scheduleNum === 'generated' || scheduleNum === 'generatedTrainDescription') {
     scheduleNum = browser.referenceTrainDescription;

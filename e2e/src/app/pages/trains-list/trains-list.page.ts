@@ -127,6 +127,15 @@ export class TrainsListPageObject {
     const trainScheduleId: ElementFinder = element(by.css('[id=\'trains-list-row-' + scheduleString + '\''));
     browser.actions().click(trainScheduleId, protractor.Button.RIGHT).perform();
   }
+  public async leftClickTrainListItemNum(position: number): Promise<void> {
+    const rows = this.trainsListItems;
+    const targetRow = rows.get(position - 1);
+    browser.actions().click(targetRow, protractor.Button.LEFT).perform();
+  }
+  public async leftClickHeadcodeOnTrainListItem(scheduleString: string): Promise<void> {
+    const trainScheduleId: ElementFinder = element(by.css('[id=\'trains-list-row-entry-train-description-' + scheduleString + '\''));
+    browser.actions().click(trainScheduleId, protractor.Button.LEFT).perform();
+  }
   public async isTrainsListContextMenuDisplayed(): Promise<boolean> {
     return this.trainsListContextMenu.isPresent();
   }
