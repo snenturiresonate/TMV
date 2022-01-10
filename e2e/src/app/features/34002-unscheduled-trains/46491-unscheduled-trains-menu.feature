@@ -5,6 +5,8 @@ Feature: 34002 - Unscheduled Trains Menu
   So that I can determine if the unscheduled requires schedule matching
 
   Background:
+    * I generate a new train description
+    * I generate a new trainUID
     Given I am authenticated to use TMV with 'matching' role
 
   Scenario Outline:34002-3a Select Service for Matching (Map)
@@ -24,7 +26,7 @@ Feature: 34002 - Unscheduled Trains Menu
       | trainNum |
       | 2B01     |
 
-  # unmatched services from stepping is part of CCN1
+  # unmatched services from stepping is part of CCN1 - needs unscheduled trains list
   @tdd
   Scenario Outline:34002-3b Select Service for Matching (Trains List - unmatched stepping)
     And the following live berth interpose message is sent from LINX (to indicate train is present)
@@ -53,16 +55,16 @@ Feature: 34002 - Unscheduled Trains Menu
       | trainNum | planningUid |
       | 2B03     | L20003      |
 
-  @tdd @tdd:50351
   Scenario Outline:34002-4a Select Service for Rematching (Map)
-#    Given the user is viewing a live schematic map or trains list
-#    And there are matched services viewable
-#    And the user has the schedule matching role
-#    When the user selects a matched service using the secondary click
-#    Then the user is presented with a menu with a rematch option
+    # Given the user is viewing a live schematic map or trains list
+    # And there are matched services viewable
+    # And the user has the schedule matching role
+    # When the user selects a matched service using the secondary click
+    # Then the user is presented with a menu with a rematch option
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | RDNGSTN     | WTT_dep       | <trainNum>          | <planningUid>  |
+    And I wait until today's train '<trainNum>' has loaded
     And I am viewing the map HDGW02reading.v
     And I have cleared out all headcodes
     And the following live berth interpose message is sent from LINX (to indicate train is present)
@@ -74,14 +76,17 @@ Feature: 34002 - Unscheduled Trains Menu
     When I invoke the context menu on the map for train <trainNum>
     Then the Matched version of the map context menu is displayed
     Examples:
-      | trainNum | planningUid |
-      | 2B04     | L20004      |
+      | trainNum  | planningUid |
+      | generated | generated   |
 
-  @tdd @tdd:50351
-  Scenario Outline:34002-4b Select Service for Rematching (Trains List)
+  Scenario Outline: 34002-4b Select Service for Rematching (Trains List)
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | STHALL      | WTT_pass      | <trainNum>          | <planningUid>  |
+    And I wait until today's train '<planningUid>' has loaded
+    And the following train activation message is sent from LINX
+      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | <planningUid> | <trainNum>  | now                    | 99999               | PADTON                 | today         | now                 |
     And I navigate to TrainsList page
     And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
     And the following live berth interpose message is sent from LINX (to indicate train is present)
@@ -96,5 +101,5 @@ Feature: 34002 - Unscheduled Trains Menu
     Then the trains list context menu is displayed
     And the Matched version of the trains list context menu is displayed
     Examples:
-      | trainNum | planningUid |
-      | 2B05     | L20005      |
+      | trainNum  | planningUid |
+      | generated | generated   |

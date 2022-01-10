@@ -22,6 +22,8 @@ const searchColumnIndexes = {
 
 When('I un-match the currently matched schedule', async () =>  {
   await trainsListManualMatchPage.clickUnMatch();
+  await trainsListManualMatchPage.enterConfirmMessage('Test unmatch');
+  await trainsListManualMatchPage.clickSaveMessage();
 });
 
 When('I click the unmatch cancel option', async () =>  {
@@ -67,11 +69,11 @@ Then('the matched service uid is shown as {string}', async (expectedMatchedServi
     .equals(expectedMatchedServiceUIDText);
 });
 
-
 Then('no matched service is visible', async () =>  {
-  const matchedService = await trainsListManualMatchPage.isMatchedServiceVisible();
-  expect(matchedService, `Matched service is visible when shouldn't be`)
-    .equals(false);
+  await browser.wait(async () => {
+    const matchedService = await trainsListManualMatchPage.isMatchedServiceVisible();
+    return matchedService === false;
+  }, browser.params.quick_timeout, `Matched service is visible when shouldn't be`);
 });
 
 Then(/^the unmatched search results show the following (.*) results?$/,

@@ -82,8 +82,8 @@ export class TrainsListManualMatchPageObject {
         break;
       }
     }
-    const entryColValues: ElementArrayFinder = element.all(by.css
-      ('#trainSearchResults-tbody >tr:nth-child(' + i.toString() + ') >span >td'));
+    const entryColValues: ElementArrayFinder = element.all(
+      by.css('#trainSearchResults-tbody >tr:nth-child(' + i.toString() + ') >span >td'));
     return entryColValues.map((colValue: ElementFinder) => {
       return colValue.getText();
     });
@@ -95,7 +95,7 @@ export class TrainsListManualMatchPageObject {
     let i = 0;
     for (i; i < numServices; i++) {
       if ((await this.getPlanUid(i) === planningUID) &&
-        (await this.getScheduleDate(i) === DateAndTimeUtils.getCurrentDateTimeString('dd-MM-yyyy'))) {
+        (await this.getScheduleDate(i) === DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy'))) {
         i++;
         break;
       }
