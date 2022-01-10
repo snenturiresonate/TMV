@@ -1,3 +1,4 @@
+@TMVPhase2 @P2.S1
 @bug @bug:82219
 Feature: 78887 - Timetable Details - Timetable Associations
 

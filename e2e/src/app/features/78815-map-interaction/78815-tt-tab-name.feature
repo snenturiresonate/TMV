@@ -1,3 +1,4 @@
+@TMVPhase2 @P2.S1
 Feature: 78815 - TMV Map Interaction - Launched Timetable Tab Name (Live and Replay)
 
   As a TMV User

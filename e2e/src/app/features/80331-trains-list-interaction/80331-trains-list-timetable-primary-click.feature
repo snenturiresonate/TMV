@@ -1,3 +1,4 @@
+@TMVPhase2 @P2.S3
 Feature: 80331 - TMV Trains List Interaction - Trains List Timetable Primary Click
 
   As a TMV User

@@ -1,3 +1,4 @@
+@TMVPhase2 @P2.S1
 Feature: 78815 - TMV Map Interaction - Off plan TMV key
 Given the user is authenticated to use TMV
 And the user is viewing a live the map

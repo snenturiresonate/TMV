@@ -1,3 +1,4 @@
+@TMVPhase2 @P2.S2
 Feature: 79015 - TMV National Search Additions - National Berth Search
   As a TMV User
   I want the ability to search for a berth

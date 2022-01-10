@@ -1,3 +1,4 @@
+@TMVPhase2 @P2.S1
 Feature: 78858 - TMV Replay Controls & Display - PreReplay Search Box Removal
   As a TMV User
   I want to the replay controls and view updated

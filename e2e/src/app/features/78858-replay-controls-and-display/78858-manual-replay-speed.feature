@@ -1,3 +1,4 @@
+@TMVPhase2 @P2.S1
 @newSession
 Feature: 78858 - TMV Replay Controls & Display - Manual Replay Speed
   As a TMV User

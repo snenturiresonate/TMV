@@ -1,3 +1,4 @@
+@TMVPhase2 @P2.S1
 Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Replay)
 
   As a TMV User

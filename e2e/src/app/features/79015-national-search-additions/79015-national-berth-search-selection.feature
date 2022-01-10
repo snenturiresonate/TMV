@@ -1,3 +1,4 @@
+@TMVPhase2 @P2.S2
 @newSession
 Feature: 79015 - TMV National Search Additions - National Berth Search Selection
 

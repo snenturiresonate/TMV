@@ -1,3 +1,4 @@
+@TMVPhase2 @P2.S1
 @newSession
 Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Live)
 
