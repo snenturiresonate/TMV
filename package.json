@@ -52,6 +52,7 @@
     "@types/jasminewd2": "2.0.8",
     "@types/node": "12.12.48",
     "chai": "4.2.0",
+    "colors": "1.4.0",
     "chai-datetime": "1.7.0",
     "codelyzer": "6.0.0",
     "cucumber": "6.0.5",
