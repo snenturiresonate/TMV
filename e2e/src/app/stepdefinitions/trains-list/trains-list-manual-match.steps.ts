@@ -26,6 +26,10 @@ When('I un-match the currently matched schedule', async () =>  {
   await trainsListManualMatchPage.clickSaveMessage();
 });
 
+When('I click unmatch', async () =>  {
+  await trainsListManualMatchPage.clickUnMatch();
+});
+
 When('I click the unmatch cancel option', async () =>  {
   await trainsListManualMatchPage.clickClose();
 });

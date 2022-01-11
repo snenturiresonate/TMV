@@ -28,7 +28,7 @@ Feature: 79730 - Unmatch a service - Map
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching 1F45'
-    When I un-match the currently matched schedule
+    And I click unmatch
     Then the Unmatch confirmation dialogue is displayed
 
   Scenario Outline: 80311 - Unmatch via Map Dialogue (Cancel)
@@ -56,7 +56,7 @@ Feature: 79730 - Unmatch a service - Map
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching <trainDescription>'
-    And I un-match the currently matched schedule
+    And I click unmatch
     And I click the unmatch cancel option
     Then a matched service is visible
     When the following live berth step message is sent from LINX (to move train)
@@ -97,7 +97,7 @@ Feature: 79730 - Unmatch a service - Map
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching <trainDescription>'
-    And I un-match the currently matched schedule
+    And I click unmatch
     And I click the unmatch save option
     Then no matched service is visible
     When the following live berth step message is sent from LINX (to move train)
