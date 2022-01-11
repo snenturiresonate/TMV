@@ -50,5 +50,14 @@ export class ReplaySelectMapPage {
     await this.mapsInputBox.sendKeys(input);
     browser.sleep(2000);
   }
+
+  public async selectMapPageIsDisplayed(): Promise<boolean> {
+    if (await this.selectYourMapTitle.isPresent() === false) {
+      return Promise.resolve(false);
+    }
+    else {
+      return this.selectYourMapTitle.isDisplayed();
+    }
+  }
 }
 

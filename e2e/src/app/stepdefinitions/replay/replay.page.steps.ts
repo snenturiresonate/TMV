@@ -74,6 +74,26 @@ Given(/^I set the date and time for replay to$/, async (dataTable) => {
   await replaySelectTimerangePage.selectDurationOfReplay(table.duration);
 });
 
+Given(/^the maximum duration possible is (.*) minutes$/, async (expectedMaxDuration) => {
+  const maxPossibleDuration: string = await replaySelectTimerangePage.getMaximumPossibleDuration();
+  expect(maxPossibleDuration, `The maximum duration possible is was not ${expectedMaxDuration} minutes`)
+    .to.equal(expectedMaxDuration);
+});
+
+Then(/^the replay start time is pre-populated with an initial value$/, async () => {
+  const startTime: string = await replaySelectTimerangePage.getStartTime();
+  const expectedTimeRegularExpression = new RegExp(`[[0-9]{2}:[0-9]{2}:[0-9]{2}`);
+  expect(startTime, `Start time ${startTime} was not pre-populated with an initial value`)
+    .to.match(expectedTimeRegularExpression);
+});
+
+Then(/^the replay date is pre-populated with an initial value$/, async () => {
+  const startDate: string = await replaySelectTimerangePage.getStartDate();
+  const expectedDateRegularExpression = new RegExp(`[[0-9]{2}/[0-9]{2}/[0-9]{4}`);
+  expect(startDate, `Start date ${startDate} was not pre-populated with an initial value`)
+    .to.match(expectedDateRegularExpression);
+});
+
 When(/^I set the date and time using the dropdowns for replay to$/, async (dataTable) => {
   const table = dataTable.hashes()[0];
   await replaySelectTimerangePage.setStartDateWithDropdown(table.date);
@@ -353,6 +373,32 @@ Given(/^this replay setup test has been moved to become part of the replay test:
   await CucumberLog.addText(`See ${replayTest}`);
 });
 
+When(/^I primary click the replay time$/, async () => {
+  await replayPage.clickReplayPlaybackTime();
+});
+
+Then(/^the replay playback time and status contains '(.*)'$/, async (expectedToContain: string) => {
+  const replayPlaybackStatusText = await replayPage.getReplayPlaybackTimeAndStatus();
+  expect(replayPlaybackStatusText, `The replay playback status text did not contain ${expectedToContain}`)
+    .to.contain(expectedToContain);
+});
+
+Then(/^the replay playback time and status does not contain '(.*)'$/, async (expectedToNotContain: string) => {
+  await browser.wait(async () => {
+    const replayPlaybackStatusText = await replayPage.getReplayPlaybackTimeAndStatus();
+    return !replayPlaybackStatusText.includes(expectedToNotContain);
+  }, browser.params.replay_timeout, `The replay playback status text did not contain ${expectedToNotContain}`);
+});
+
+Then(/^the select map page (is not|is) displayed$/, async (negateFlag: string) => {
+  const isDisplayed: boolean = await replaySelectMapPage.selectMapPageIsDisplayed();
+  if (negateFlag === 'is not') {
+    expect(isDisplayed, `Select map page is displayed but shouldn't be`).to.equal(false);
+  }
+  else {
+    expect(isDisplayed, 'Select map page is not displayed but it should be').to.equal(true);
+  }
+});
 
 async function formulateDateTime(timeStamp: string): Promise<Date> {
   const dateTime = LocalDateTime.parse(timeStamp, DateTimeFormatter.ofPattern('dd/MM/yyy HH:mm:ss'));

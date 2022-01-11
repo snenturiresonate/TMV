@@ -21,6 +21,7 @@ export class ReplayMapPage {
   public berthContextMenu: BerthContextMenu;
   public timestamp: ElementFinder;
   public replaySpeedButton: ElementFinder;
+  public replayPlaybackTime: ElementFinder;
   public manualSpeedInput: ElementFinder;
   public mapName: ElementFinder;
   public replayTimestamp: ElementFinder;
@@ -43,6 +44,7 @@ export class ReplayMapPage {
     this.replayContainer = element(by.css('.reply-container'));
     this.timestamp = element.all(by.css('.playback-status div')).first();
     this.replaySpeedButton = element(by.xpath('//button[@title="Playback speed"]'));
+    this.replayPlaybackTime = element(by.id('playback-time'));
     this.manualSpeedInput = element(by.id('speed-editor-manual-input'));
     this.mapName = element(by.css('.map-dropdown-button h2'));
     this.replayTimestamp = element(by.css('.playback-status >div'));
@@ -176,6 +178,14 @@ export class ReplayMapPage {
 
   public async clickReplaySpeed(): Promise<void> {
     return this.replaySpeedButton.click();
+  }
+
+  public async clickReplayPlaybackTime(): Promise<void> {
+    return this.replayPlaybackTime.click();
+  }
+
+  public async getReplayPlaybackTimeAndStatus(): Promise<string> {
+    return this.replayPlaybackTime.getText();
   }
 
   public async setManualInputSpeed(speed: number): Promise<void> {

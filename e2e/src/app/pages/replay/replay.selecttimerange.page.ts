@@ -65,9 +65,22 @@ export class ReplaySelectTimerangePage {
       });
   }
 
+  public async getStartTime(): Promise<string> {
+    return this.startTime.getAttribute('value');
+  }
+
+  public async getStartDate(): Promise<string> {
+    return this.startDate.getAttribute('value');
+  }
+
   public async selectDurationOfReplay(duration): Promise<void> {
     await this.durationExpand.click();
-    await this.durationContainer.element(by.cssContainingText('li', duration)).click();
+    await this.durationContainer.all(by.cssContainingText('li', duration)).first().click();
+  }
+
+  public async getMaximumPossibleDuration(): Promise<string> {
+    await this.durationExpand.click();
+    return  this.durationContainer.all(by.css('li')).last().getText();
   }
 
   public async expandDurationDropdown(): Promise<void> {
