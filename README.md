@@ -26,6 +26,11 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 Run `npm run e2e-ci --ci_ip=10.5.0.234` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/), targeting the CI IP address.
 
+## Running with IntelliJ
+
+Select Run from the context menu of the relevant protractor file. Make sure baseUrl is set correctly in the conf file and either alias `tmv` to 
+the CI IP in your hosts file or update the test_harness_ci_ip config value.
+
 ## Generating the LINX Test Harness models
 
 * Get the swagger JSON from the swagger UI of the LINX Test Harness and place it into the `tools/*/openapi.json` file.

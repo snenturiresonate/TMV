@@ -13,13 +13,14 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
 #    When the user is viewing the timetable
 #    Then the schedule is displayed with any predicted and live actual running information and header information
     Given I load the replay data from scenario '33753-4a - View Timetable (Schedule Matched - live updates are applied)'
-    And I am on the replay page as existing user
+    And I am on the replay page
     And I have set replay time and date from the recorded session
     And I select Next
     And I expand the replay group of maps with name 'Wales & Western'
-    And I select the map 'hdgw02reading.v'
+    And I select the map 'HDGW02reading.v'
     And I wait for the buffer to fill
-    And I select skip forward to just after replay scenario step '1'
+    # Doesn't go far enough forwards
+    And I select skip forward to just after replay scenario step '2'
     When I invoke the context menu on the map for train 1A06
     And I switch to the new tab
     Then the tab title is 'TMV Replay Timetable 1A06'

@@ -78,6 +78,22 @@ Feature: 34380 - TMV Replay National Search
     And the window title is displayed as 'Signal Search Results'
     And I click close button at the bottom of table
 
+  Scenario: 33757-4 Berth search window shown
+    #Given the user is authenticated to use TMV replay
+    #And the user is viewing TMV screen with a national search in the title bar
+    #When the user selects a signal search option
+    #And the user enters at least two alphanumeric characters
+    #And the user submits the search
+    #Then the signal search results list is displayed with zero or many results
+    Given I search Berth for 'A'
+    Then Warning Message is displayed for minimum characters
+    When I search Berth for '#'
+    Then Warning Message is displayed for minimum characters
+    When I search Berth for 'A001'
+    Then results are returned with that signal ID 'A001'
+    And the window title is displayed as 'Berth Search Results'
+    And I click close button at the bottom of table
+
   Scenario: 34380-4 National Train Search Selection
     #Given the user is authenticated to use TMV replay
     #And the user is viewing the train search results pop-up
