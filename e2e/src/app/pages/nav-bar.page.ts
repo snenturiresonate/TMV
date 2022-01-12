@@ -20,6 +20,8 @@ export class NavBarPageObject {
   public routeSetTrackToggleOn: ElementFinder;
   public routeSetTrackToggleOff: ElementFinder;
   public version: ElementFinder;
+  public mapVersion: ElementFinder;
+  public mapDate: ElementFinder;
   public configOption: ElementFinder;
   public trainSearchBox: ElementFinder;
   public trainSearchOption: ElementFinder;
@@ -89,6 +91,8 @@ export class NavBarPageObject {
     this.routeSetCodeToggleOn = element(by.css('#routesetcodetoggle .absolute-on'));
     this.routeSetCodeToggleOff = element(by.css('#routesetcodetoggle .absolute-off'));
     this.version = element(by.id('settings-menu-tmvVersion'));
+    this.mapVersion = element(by.id('help-menu-mapVersion'));
+    this.mapDate = element(by.id('help-menu-mapDate'));
     this.configOption = element(by.css('li.dropdown-item.dropdown-item-Menu.trains-config-button'));
     this.trainSearchBox = element(by.id('national-search-box'));
     this.trainSearchBtn = element(by.css('#national-search-submit >span'));
@@ -238,6 +242,14 @@ export class NavBarPageObject {
 
   public async getVersionNumber(): Promise<string> {
     return this.version.getText();
+  }
+
+  public async getMapVersionNumber(): Promise<string> {
+    return this.mapVersion.getText();
+  }
+
+  public async getMapDate(): Promise<string> {
+    return this.mapDate.getText();
   }
 
   public async getTmvListConfig(): Promise<string> {

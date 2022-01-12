@@ -105,6 +105,18 @@ Then('Version number should be displayed as {string}', async (expectedVersionNo:
     .to.equal(expectedVersionNo);
 });
 
+Then('the map version number should be displayed as {string}', async (expectedMapVersion: string) => {
+  const actualMapVersion: string = await navBarPage.getMapVersionNumber();
+  expect(actualMapVersion, 'Map version is not correct')
+    .to.equal(expectedMapVersion);
+});
+
+Then('the map date should be displayed as {string}', async (expectedMapDate: string) => {
+  const actualMapDate: string = await navBarPage.getMapDate();
+  expect(actualMapDate, 'Map date is not correct')
+    .to.equal(expectedMapDate);
+});
+
 Then('Configuration should be displayed as {string}', async (expConfigOption: string) => {
   const actualConfigOption: string = await navBarPage.getTmvListConfig();
   expect(actualConfigOption, `Configuration is not displayed as ${expConfigOption}`)
