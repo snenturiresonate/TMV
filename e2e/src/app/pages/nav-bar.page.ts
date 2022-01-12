@@ -279,6 +279,10 @@ export class NavBarPageObject {
     return this.trainSearchBox.getAttribute('placeholder');
   }
 
+  public async getNoResultsText(): Promise<string> {
+    return element(by.id('no-train-search-results')).getText();
+  }
+
   public async trainSearchBoxIsVisible(): Promise<boolean> {
     await CommonActions.waitForElementToBeVisible(this.trainSearchBox);
     return true;
