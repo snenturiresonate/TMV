@@ -391,6 +391,10 @@ When('I toggle the inserted locations off', async () => {
   await timetablePage.toggleInsertedLocationsOff();
 });
 
+When('I toggle the TRUST times off', async () => {
+  await timetablePage.toggleTrustTimesOff();
+});
+
 Then('The timetable header contains the following property labels:',
   async (headerPropertyLabels: any) => {
     const expectedHeaderPropertyLabels: any[] = headerPropertyLabels.hashes();
@@ -1149,6 +1153,26 @@ Then(/^the (Arrival|Departure) time for location "(.*)" instance (.*) is "(.*)"$
           await DateAndTimeUtils.formulateTime(
             stripBrackets(field).substr(0, 8)), error)
           .to.be.closeToTime(await DateAndTimeUtils.formulateTime(expected), 120);
+      }
+    });
+  });
+
+Then(/^(no|the TRUST|the calculated) (Arrival|Departure) time for location "(.*)" instance (.*) is shown$/,
+  async (trustOrCalculated, arrivalOrDeparture, location, instance) => {
+    await timetablePage.getRowByLocation(location, instance).then(async row => {
+      let field;
+      if (arrivalOrDeparture === 'Arrival') {
+        field = await row.getValue('actualArr');
+      } else {
+        field = await row.getValue('actualDep');
+      }
+      const error = `${trustOrCalculated} ${arrivalOrDeparture} time not available/shown for location ${location} (displayed time string was: \`${field}\`)`;
+      if (trustOrCalculated === 'the TRUST') {
+        expect(field).to.match(/^\d{2}:\d{2}(:\d{2})?$/, error);
+      } else if (trustOrCalculated === 'the calculated') {
+        expect(field).to.match(/^\d{2}:\d{2}(:\d{2})? c$/, error);
+      } else {
+        expect(field).to.equal('', `${arrivalOrDeparture} was not empty (was \`${field}\`)`);
       }
     });
   });

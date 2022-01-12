@@ -23,7 +23,10 @@ When(/^the following train running information? (?:message|messages)? (?:is|are)
     if (trainUID === 'generatedTrainUId' || trainUID === 'generated') {
       trainUID = browser.referenceTrainUid;
     }
-    const operationalTrainNumber = tri.trainNumber;
+    let operationalTrainNumber = tri.trainNumber;
+    if (operationalTrainNumber.includes('generated')) {
+      operationalTrainNumber = browser.referenceTrainDescription;
+    }
     const scheduledStartDate = tri.scheduledStartDate;
     const locationPrimaryCode = tri.locationPrimaryCode;
     const locationSubsidiaryCode = tri.locationSubsidiaryCode;

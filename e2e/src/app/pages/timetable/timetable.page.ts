@@ -245,6 +245,12 @@ export class TimeTablePageObject {
     await toggleOff.click();
   }
 
+  public async toggleTrustTimesOff(): Promise<void> {
+    const toggleOff: ElementFinder = element(by.css('#live-timetable-toggle-trust-times-menu .toggle-switch .absolute-on'));
+    await CommonActions.waitForElementInteraction(toggleOff);
+    await toggleOff.click();
+  }
+
   public async getLiveTimetableTabName(): Promise<string> {
     return this.timetableTab.getText();
   }
