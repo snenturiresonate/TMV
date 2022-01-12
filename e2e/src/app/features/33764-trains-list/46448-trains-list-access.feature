@@ -8,7 +8,7 @@ Feature: 46448 - TMV Trains List - access
   Background:
     * I am on the home page
     * I reset redis
-    * I restore to default train list config
+    * I restore to default train list config '1'
     * the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1S42_PADTON_DIDCOTP.cif | PADTON      | WTT_dep       | 2P77                | B00701         |
@@ -47,12 +47,12 @@ Feature: 46448 - TMV Trains List - access
       | B00704   | 2C45        | now                    | 99999               | PADTON                 | today         | now                 |
 
   Scenario Outline: 33764-1 Access Trains List (First Time)
-    Given I have not opened the trains list before
-    When I click the app 'trains-list'
+    When I click the app 'trains-list-1'
     Then the number of tabs open is 2
     When I switch to the new tab
-    Then the url contains 'trains-list'
-    And The trains list table is visible
+    Then the url contains 'trains-list/1'
+    When I save the trains list config
+    Then The trains list table is visible
     And The default trains list columns are displayed in order
     And '<filteredServices>' are then displayed
     And '<filteredOutServices>' are not displayed
@@ -65,8 +65,7 @@ Feature: 46448 - TMV Trains List - access
     * the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | B00705   | 1M34        | now                    | 99999               | PADTON                 | today         | now                 |
-    Given I have not opened the trains list before
-    And I am on the trains list Config page
+    And I am on the trains list page 1
     And I set trains list columns to be '<columns>'
     And I have navigated to the 'TOC/FOC' configuration tab
     And I set toc filters to be '<tocs>'
@@ -75,12 +74,11 @@ Feature: 46448 - TMV Trains List - access
     And I set 'Ignore PD Cancels' to be '<ignorePDCancelsFlag>'
     And I set 'Include unmatched' to be '<unmatchedFlag>'
     And I save the trains list config
-    And There is no unsaved indicator
     And I am on the home page
-    When I click the app 'trains-list'
+    And I click the app 'trains-list-1'
     Then the number of tabs open is 2
     When I switch to the new tab
-    Then the url contains 'trains-list'
+    Then the url contains 'trains-list/1'
     And The trains list table is visible
     And The configured trains list columns are displayed in order
     And '<filteredServices>' are then displayed

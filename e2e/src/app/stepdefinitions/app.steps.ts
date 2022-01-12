@@ -231,11 +231,6 @@ Given('I am authenticated to use TMV with {string} role', {timeout: 5 * 10000}, 
   await page.navigateTo('', userForRole[userRole]);
 });
 
-Given(/^I have not opened the trains list before$/, async () => {
-  await dynamoDBClient.deleteTable('TrainsListSettings-' + `${browser.params.dynamo_suffix}`);
-  await dynamoDBClient.addTable('TrainsListSettings-' + `${browser.params.dynamo_suffix}`);
-});
-
 Given(/^The admin setting defaults are as originally shipped$/, async () => {
   const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), 'admin/admin-defaults.json'));
   const adminDefaults = rawData.toString();
@@ -540,12 +535,8 @@ Then('the modal contains a {string} button', async (buttonName: string) => {
     .to.contain(buttonName);
 });
 
-Given(/^I am on the trains list page$/, {timeout: 4 * 10000}, async () => {
-  await page.navigateTo('/tmv/trains-list');
-});
-
-Given(/^I am on the trains list Config page$/, {timeout: 4 * 10000}, async () => {
-  await page.navigateTo('/tmv/trains-list-config');
+Given(/^I am on the trains list page (.*)$/, {timeout: 4 * 10000}, async (configId: string) => {
+  await page.navigateTo('/tmv/trains-list/' + configId);
 });
 
 Given(/^I am on the log viewer page$/, async () => {

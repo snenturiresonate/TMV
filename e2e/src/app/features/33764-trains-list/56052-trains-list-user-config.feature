@@ -6,7 +6,7 @@ Feature: 56052 - TMV Trains List - User Configuration Applied (Service Called)
 
   Background:
     * I am on the home page
-    * I restore to default train list config
+    * I restore to default train list config '1'
     * I remove all trains from the trains list
 
   # Origin Called - active trains that are due to depart their origin within x minutes (default 15 min) are displayed (results)
@@ -18,20 +18,20 @@ Feature: 56052 - TMV Trains List - User Configuration Applied (Service Called)
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription>  | <trainUID>     |
     And I wait until today's train '<trainUID>' has loaded
-    When I am on the trains list Config page
+    When I am on the trains list page 1
     * I have navigated to the 'Train Indication' configuration tab
     * I update only the below train list indication config settings as
       | name          | colour | toggleValue |
       | Origin Called | #6a6   | <toggle>    |
     * I save the trains list config
-    * I am on the trains list page
+    * I am on the trains list page 1
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | scheduledDepartureTime   | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUID> | <trainDescription> | now + <departsInMinutes> | 99999               | PADTON                 | today         | now                 |
     And The trains list table is visible
     Then train '<trainDescription>' with schedule id '<trainUID>' for today <visibility> visible on the trains list
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
     Examples:
       | trainUID | departsInMinutes | trainDescription | toggle | visibility |
@@ -49,13 +49,13 @@ Feature: 56052 - TMV Trains List - User Configuration Applied (Service Called)
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription>  | <trainUID>     |
     And I wait until today's train '<trainUID>' has loaded
-    When I am on the trains list Config page
+    When I am on the trains list page 1
     * I have navigated to the 'Train Indication' configuration tab
     * I update only the below train list indication config settings as
       | name          | colour | toggleValue |
       | Origin Called | #6a6   | <toggle>    |
     * I save the trains list config
-    * I am on the trains list page
+    * I am on the trains list page 1
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | scheduledDepartureTime   | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUID> | <trainDescription> | now + <departsInMinutes> | 73000               | PADTON                 | today         | now                 |
@@ -68,7 +68,7 @@ Feature: 56052 - TMV Trains List - User Configuration Applied (Service Called)
     And The trains list table is visible
     Then train '<trainDescription>' with schedule id '<trainUID>' for today <visibility> visible on the trains list
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
     Examples:
       | trainUID | departsInMinutes | trainDescription | toggle | visibility |
@@ -84,20 +84,20 @@ Feature: 56052 - TMV Trains List - User Configuration Applied (Service Called)
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription>  | <trainUID>     |
     And I wait until today's train '<trainUID>' has loaded
-    When I am on the trains list Config page
+    When I am on the trains list page 1
     * I have navigated to the 'Train Indication' configuration tab
     * I update only the below train list indication config settings as
       | name                     | colour | toggleValue |
       | Origin Departure Overdue | #6a6   | <toggle>    |
     * I save the trains list config
-    * I am on the trains list page
+    * I am on the trains list page 1
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUID> | <trainDescription> | now - <overdueMinutes> | 73000               | PADTON                 | today         | now                 |
     And The trains list table is visible
     Then train '<trainDescription>' with schedule id '<trainUID>' for today <visibility> visible on the trains list
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
     Examples:
       | trainUID | overdueMinutes | trainDescription | toggle | visibility |

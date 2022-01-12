@@ -28,7 +28,7 @@ Feature: 80780 - Smoke Test TMV Environments
   Scenario Outline: 81123-2 - Smoke Test - Trains List is Working
     Given I am on the home page
     * I reset redis
-    * I restore to default train list config
+    * I restore to default train list config '1'
     * the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <CIF>    | PADTON      | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -36,11 +36,12 @@ Feature: 80780 - Smoke Test TMV Environments
     * the following train activation message is sent from LINX
       | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUid> | <trainDescription> | now                    | 99999               | PADTON                 | today         | now                 |
-    When I click the app 'trains-list'
+    When I click the app 'trains-list-1'
     Then the number of tabs open is 2
     When I switch to the new tab
-    Then the url contains 'trains-list'
-    And The trains list table is visible
+    Then the url contains 'trains-list/1'
+    When I save the trains list config
+    Then The trains list table is visible
     And The default trains list columns are displayed in order
     Then train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
 

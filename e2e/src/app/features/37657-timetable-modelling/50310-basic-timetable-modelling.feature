@@ -227,7 +227,10 @@ Feature: 37657 - Basic Timetable Modelling
     # Then the associations displayed match those provided in the CIF
     # ***** NB - CIF covers STP types P, O and N
     Given the access plan located in CIF file 'access-plan/associations_test.cif' is received from LINX
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I restore to default train list config '1'
+    And I refresh the browser
+    And I save the trains list config
     And The trains list table is visible
     And train '<trainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     And I invoke the context menu for todays train '<trainDesc>' schedule uid '<trainUid>' from the trains list

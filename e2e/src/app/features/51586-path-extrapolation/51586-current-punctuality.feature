@@ -39,9 +39,12 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
 
   @manual
   Scenario Outline: 51586 - 21 Current punctuality for a train that is not moving
-    Given I am on the trains list page
+    Given I am on the trains list page 1
     And the access plan located in CIF file '<cif>' is received from LINX
-    And the following service is displayed on the trains list
+    And I restore to default train list config '1'
+    And I refresh the browser
+    And I save the trains list config
+    And the following service is displayed on the trains list '1'
       | trainId            | trainUId   |
       | <trainDescription> | <trainUid> |
     And the following train activation message is sent from LINX
@@ -56,9 +59,12 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
 
   @tdd @tdd:64086 # Flaky updating of punctuality in timetable
   Scenario Outline: 51586 - 22 Current punctuality at a stopping location
-    Given I am on the trains list page
+    Given I am on the trains list page 1
     And the access plan located in CIF file '<cif>' is received from LINX
-    And the following service is displayed on the trains list
+    And I restore to default train list config '1'
+    And I refresh the browser
+    And I save the trains list config
+    And the following service is displayed on the trains list '1'
       | trainId            | trainUId   |
       | <trainDescription> | <trainUid> |
     And the following train activation message is sent from LINX
@@ -81,9 +87,12 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
 
   @tdd @tdd:64086 # Flaky updating of punctuality in timetable
   Scenario Outline: 51586 - 23 Current punctuality after a TD update
-    Given I am on the trains list page
+    Given I am on the trains list page 1
     And the access plan located in CIF file '<cif>' is received from LINX
-    And the following service is displayed on the trains list
+    And I restore to default train list config '1'
+    And I refresh the browser
+    And I save the trains list config
+    And the following service is displayed on the trains list '1'
       | trainId            | trainUId   |
       | <trainDescription> | <trainUid> |
     And the following train activation message is sent from LINX
@@ -104,9 +113,12 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
 
   @tdd @tdd:64086 # Flaky updating of punctuality in timetable
   Scenario Outline: 51586 - 24 Current punctuality after a later TRI update
-    Given I am on the trains list page
+    Given I am on the trains list page 1
     And the access plan located in CIF file '<cif>' is received from LINX
-    And the following service is displayed on the trains list
+    And I restore to default train list config '1'
+    And I refresh the browser
+    And I save the trains list config
+    And the following service is displayed on the trains list '1'
       | trainId            | trainUId   |
       | <trainDescription> | <trainUid> |
     And the following train activation message is sent from LINX

@@ -7,8 +7,8 @@ Feature: 40656 - Schedule Manipulation - Line To Path
   Background:
     * I remove all trains from the trains list
     * I am on the home page
-    * I restore to default train list config
-    * I am on the trains list Config page
+    * I restore to default train list config '1'
+    * I am on the trains list page 1
     * I have navigated to the 'Train Class & MISC' configuration tab
     * I set 'Include unmatched' to be 'off'
     * I save the trains list config

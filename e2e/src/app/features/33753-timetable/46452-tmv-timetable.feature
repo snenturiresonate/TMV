@@ -8,7 +8,7 @@ Feature: 33753 - TMV Timetable
     * I reset redis
     * I have cleared out all headcodes
     * I am on the home page
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario Outline: 33753-1 -Open Timetable (Trains List)
     #   Given the user is authenticated to use TMV
@@ -23,7 +23,8 @@ Feature: 33753 - TMV Timetable
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | RDNGSTN     | WTT_arr       | <trainNum>          | <planningUid>  |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     And The trains list table is visible
     And I wait until today's train '<planningUid>' has loaded
     When the following train activation message is sent from LINX
@@ -135,7 +136,8 @@ Feature: 33753 - TMV Timetable
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
       | 0519    | D6             | <trainNum>       |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     And The trains list table is visible
     And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
     When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list

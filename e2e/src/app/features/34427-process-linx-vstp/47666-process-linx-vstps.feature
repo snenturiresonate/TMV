@@ -6,7 +6,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
   Background:
     * I am on the home page
     * I remove all trains from the trains list
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario Outline: 34427-1 Old Schedules are not displayed
     #Given a schedule has been received with <STP indicator> which has a 'Date Runs To' before the current time period
@@ -122,7 +122,8 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
     When the following train activation message is sent from LINX
       | trainUID          | trainNumber            | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | generatedTrainUId | <newTrainDescription>  | now                    | 99999               | <refLocation>             | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     Then train '<newTrainDescription>' with schedule id 'generatedTrainUId' for today is visible on the trains list
     When I give the train 2 seconds to get into elastic search
     And I refresh the Elastic Search indices
@@ -373,7 +374,8 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
     #When a user views the timetable for the VSTP schedule
     #Then the associations displayed match those provided in the CIF
     Given the access plan located in CIF file 'access-plan/associations_test.cif' is received from LINX
-    Given I am on the trains list page
+    Given I am on the trains list page 1
+    And I save the trains list config
     And The trains list table is visible
     And train '<trainDesc1>' with schedule id '<trainUid1>' for today is visible on the trains list
     And the vstp schedule has a schedule in the current time period with the dummy uid
@@ -429,7 +431,8 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
     #When a user views the timetable for the VSTP schedule
     #Then the associations displayed match those provided in the CIF
     Given the access plan located in CIF file 'access-plan/associations_test.cif' is received from LINX
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     And The trains list table is visible
     And train '<trainDesc1>' with schedule id '<trainUid1>' for today is visible on the trains list
     And the vstp schedule has a schedule in the current time period with the dummy uid
@@ -460,7 +463,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
     #When a user views the timetable for the VSTP schedule
     #Then the associations displayed match those provided in the CIF
     Given the access plan located in CIF file 'access-plan/associations_test.cif' is received from LINX
-    And I am on the trains list page
+    And I am on the trains list page 1
     And The trains list table is visible
     And train '<trainDesc1>' with schedule id '<trainUid1>' for today is visible on the trains list
     And the vstp schedule has a schedule in the current time period with the dummy uid

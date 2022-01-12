@@ -10,8 +10,9 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
   #Then the user is presented with the punctuality settings view (defaulted to system settings)
 
   Background:
-    Given I am on the trains list Config page
-    And I restore to default train list config
+    Given I am on the trains list page 1
+    And I restore to default train list config '1'
+    And I refresh the browser
     And I have navigated to the 'Punctuality' configuration tab
 
   Scenario: 33806 -5a Trains list punctuality config header
@@ -131,7 +132,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
       | #de7                 | 15       | 20     | 15 to 20 minutes late-edit   | on      |
       | #ff6                 | 21       |        | 21 minutes or more late-edit | on      |
     And I save the trains list config
-    And I am on the trains list page
     Then I should see the punctuality colour for the time-bands as
       | punctualityColor   | fromTime | toTime |
       #End time-bands blanked out
@@ -147,4 +147,4 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
       | rgb(0, 0, 0)       | 5        | 15     |
       | rgb(221, 238, 119) | 15       | 20     |
       | rgb(255, 255, 102) | 21       |        |
-    And I restore to default train list config
+    And I restore to default train list config '1'

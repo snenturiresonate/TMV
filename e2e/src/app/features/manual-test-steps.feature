@@ -20,7 +20,10 @@ Feature: Manual test steps
     When the following train activation message is sent from LINX
       | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUID> | <trainDescription> | now                    | 99999               | PADTON                 | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I restore to default train list config '1'
+    And I refresh the browser
+    And I save the trains list config
     And The trains list table is visible
     Then the service is displayed in the trains list with the following row colour
       | rowType        | trainUID   | rowColour              |

@@ -7,11 +7,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing
   Background:
     * I remove all trains from the trains list
     * I am on the home page
-    * I restore to default train list config
-    * I am on the trains list Config page
+    * I restore to default train list config '1'
+    * I am on the trains list page 1
     * I have navigated to the 'Train Class & MISC' configuration tab
     * I set 'Include unmatched' to be 'off'
-    * I save the trains list config
     * I have navigated to the 'TRUST IDs' configuration tab
 
   #33806 - 33 Trains List Config (TRUST IDs View)
@@ -69,6 +68,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     And I click the clear all button for TRUST Service Filter
     Then I see the selected trusts table to not have any items
 
+
   Scenario Outline: 33806 -37 Trains List Config (TRUST IDs Applied)
     #Given the user has made changes to the TRUST ID settings
     #When the user views the trains list
@@ -85,9 +85,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUid> | <trainDescription> | now                    | 73000               | PADTON                 | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     Then train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
-    When I am on the trains list Config page
+    When I navigate to train list configuration
     And I have navigated to the 'TRUST IDs' configuration tab
     When I input '<nonExistentTrustId>' in the TRUST input field
     And I click the add button for TRUST Service Filter
@@ -95,10 +96,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       | trustId              |
       | <nonExistentTrustId> |
     And I save the service filter changes for Trust Id
-    And I refresh the browser
-    And I am on the trains list page
     Then train description '<trainDescription>' with schedule type 'LTP' disappears from the trains list
-    When I am on the trains list Config page
+    When I navigate to train list configuration
     And I have navigated to the 'TRUST IDs' configuration tab
     When I input '<existentTrustId>' in the TRUST input field
     And I click the add button for TRUST Service Filter
@@ -106,8 +105,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       | trustId           |
       | <existentTrustId> |
     And I save the service filter changes for Trust Id
-    And I refresh the browser
-    And I am on the trains list page
     Then train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
 
     Examples:
@@ -115,7 +112,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       | H62991   | 5B62             | 5B62H62990         | 5B62H62991      |
 
   Scenario: 33806 AC2 - Limit of 50 TRUST IDs - frontend and backend validation
-    Given I am on the trains list Config page
+    Given I am on the trains list page 1
     And I have navigated to the 'TRUST IDs' configuration tab
     Then the trust ID input box is not disabled
     When I add 50 TRUST IDs to the filter list

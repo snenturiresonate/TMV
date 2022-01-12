@@ -5,7 +5,7 @@ Feature: 33761-2 Train activation for a valid service
 
   Background:
     * I am on the home page
-    * I restore to default train list config
+    * I restore to default train list config '1'
     * I remove all trains from the trains list
 
   Scenario: 33761-2 Train Activation for a valid service
@@ -14,7 +14,8 @@ Feature: 33761-2 Train activation for a valid service
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 0A01                | L11001         |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     And I wait until today's train 'L11001' has loaded
     When the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
@@ -24,7 +25,7 @@ Feature: 33761-2 Train activation for a valid service
       | rowType                   | trainUID      | rowColour              |
       | Origin called             | L11001        | rgba(255, 181, 120, 1) |
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario: 33761-3 Train Activation for a cancelled service
       # A cancelled service that has been planned to be cancelled will not appear even when activated.
@@ -36,10 +37,10 @@ Feature: 33761-2 Train activation for a valid service
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | B10001   | 0B00        | now                    | 99999               | PADTON                 | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
     Then train '0A01' with schedule id 'L11001' for today is not visible on the trains list
     # clean up
-    And I restore to default train list config
+    And I restore to default train list config '1'
 
   Scenario: 33761-4 Train Activation for an active service
     * I remove today's train 'C10001' from the Redis trainlist
@@ -54,13 +55,14 @@ Feature: 33761-2 Train activation for a valid service
     And the following live berth interpose message is sent from LINX
       | toBerth | trainDescriber | trainDescription |
       | A007    | D3             | 1C01             |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     And The trains list table is visible
     Then the service is displayed in the trains list with the following row colour
       | rowType                   | trainUID      | rowColour              |
       | Origin called             | C10001        | rgba(255, 181, 120, 1) |
     # clean up
-    And I restore to default train list config
+    And I restore to default train list config '1'
 
   Scenario: 33761-5 Train Activation for a valid service with a different origin
     * I remove today's train 'D10001' from the Redis trainlist
@@ -72,19 +74,20 @@ Feature: 33761-2 Train activation for a valid service
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | D10001   | 1D01        | now                    | 99999               | ROYAOJN                | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     And The trains list table is visible
     Then the service is displayed in the trains list with the following row colour
       | rowType                   | trainUID      | rowColour              |
       | Origin called             | D10001        | rgba(255, 181, 120, 1) |
     # clean up
-    And I restore to default train list config
+    And I restore to default train list config '1'
 
   Scenario: 33761-6 & 7 Train Activation for a valid service with a change of origin
     # A TJM for Change of origin will be required to bring about a Change of Origin indication
     * I remove today's train 'W15214' from the Redis trainlist
     Given I delete 'W15214:today' from hash 'schedule-modifications'
-    And I am on the trains list Config page
+    And I am on the trains list page 1
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
       | name                     | colour | toggleValue |
@@ -102,19 +105,19 @@ Feature: 33761-2 Train activation for a valid service
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | W15214   | 0E00        | now                    | 99999               | PADTON                 | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
     And The trains list table is visible
     Then the service is displayed in the trains list with the following row colour
       | rowType                   | trainUID      | rowColour              |
       | Origin called             | W15214        | rgba(255, 181, 120, 1) |
     # clean up
-    And I restore to default train list config
+    And I restore to default train list config '1'
 
   Scenario: 33761-8 Train Activation for a valid service with a change of origin matching current origin
     # A TJM for Change of origin will be required to bring about a Change of Origin indication
     * I remove today's train 'W15216' from the Redis trainlist
     Given I delete 'W15216:today' from hash 'schedule-modifications'
-    And I am on the trains list Config page
+    And I am on the trains list page 1
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
       | name                     | colour | toggleValue |
@@ -132,10 +135,10 @@ Feature: 33761-2 Train activation for a valid service
     And the following train activation message is sent from LINX
       | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | W15216   | 0E01        | now                    | 99999               | PADTON                 | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
     And The trains list table is visible
     Then the service is displayed in the trains list with the following row colour
       | rowType                   | trainUID      | rowColour              |
       | Origin called             | W15216        | rgba(255, 181, 120, 1) |
     # clean up
-    And I restore to default train list config
+    And I restore to default train list config '1'

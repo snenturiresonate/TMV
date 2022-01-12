@@ -11,8 +11,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
   #Then the column item is moved to the selected columns list
 
   Background:
-    Given I am on the trains list Config page
-    And I restore to default train list config
+    Given I am on the trains list page 1
+    And I restore to default train list config '1'
     And I refresh the browser
 
   Scenario: 33806 -2a Verify that columns tab is displayed with the available and selected tables
@@ -131,20 +131,20 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
     And There is an unsaved indicator
     And I save the trains list config
     And There is no unsaved indicator
-    And I am on the trains list page
+    And I am on the trains list page 1
     Then I should see the trains list columns as
       | header  |
       | SERVICE |
       | TIME    |
       | PUNCT.  |
-    And I restore to default train list config
+    And I restore to default train list config '1'
 
   Scenario: 33806 -4b Selecting the 'origin' column includes the columns 'Origin', 'Planned' & 'Actual/Predict' columns in trains list
     When I set trains list columns to include 'Origin' along with the mandatory columns
     And There is an unsaved indicator
     And I save the trains list config
     And There is no unsaved indicator
-    And I am on the trains list page
+    And I am on the trains list page 1
     Then I should see the trains list columns as
       | header           |
       | SERVICE          |
@@ -153,14 +153,14 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
       | ORIGIN           |
       | PLANNED          |
       | ACTUAL / PREDICT |
-    And I restore to default train list config
+    And I restore to default train list config '1'
 
   Scenario: 33806 -4c Selecting the 'Destination' column includes the columns 'Dest.', 'Planned' & 'Actual/Predict' columns in trains list
     When I set trains list columns to include 'Destination' along with the mandatory columns
     And There is an unsaved indicator
     And I save the trains list config
     And There is no unsaved indicator
-    And I am on the trains list page
+    And I am on the trains list page 1
     Then I should see the trains list columns as
       | header           |
       | SERVICE          |
@@ -169,7 +169,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
       | DEST.            |
       | PLANNED          |
       | ACTUAL / PREDICT |
-    And I restore to default train list config
+    And I restore to default train list config '1'
 
   Scenario: 33806 -4d Changing the order of the selected column items and verifying the changes are reflected in trains list
     When I move 'Up' the selected column item 'Service'
@@ -177,7 +177,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
     And There is an unsaved indicator
     And I save the trains list config
     And There is no unsaved indicator
-    And I am on the trains list page
+    And I am on the trains list page 1
     Then I should see the trains list columns as
       | header           |
       | SERVICE          |
@@ -193,5 +193,5 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
       | ACTUAL / PREDICT |
       | NEXT LOC.        |
       | OPERATOR         |
-    And I restore to default train list config
+    And I restore to default train list config '1'
 

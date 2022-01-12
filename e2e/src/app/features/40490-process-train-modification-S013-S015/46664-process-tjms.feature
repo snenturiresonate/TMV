@@ -7,8 +7,8 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
   Background:
     * I remove all trains from the trains list
     * I am on the home page
-    * I restore to default train list config
-    * I am on the trains list Config page
+    * I restore to default train list config '1'
+    * I am on the trains list page 1
     * I have navigated to the 'Train Indication' configuration tab
     * I update only the below train list indication config settings as
       | name                     | colour  | toggleValue |
@@ -16,9 +16,11 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | Cancellation             | #eba1a1 | on          |
       | Reinstatement            | #edaaed | on          |
     * I save the trains list config
+    * I navigate to train list configuration
     * I have navigated to the 'Punctuality' configuration tab
     * I toggle all trains list punctuality toggles 'off'
     * I save the trains list config
+    * I navigate to train list configuration
     * I have navigated to the 'Train Class & MISC' configuration tab
     * I set 'Include unmatched' to be 'off'
     * I save the trains list config
@@ -70,7 +72,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUid> | <trainDescription> | now                    | 73000               | PADTON                 | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
     And The trains list table is visible
     And the service is displayed in the trains list with the following row colour
       | rowType       | trainUID      | rowColour              |
@@ -220,7 +222,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | H41113   | 1X13        | now            | 10:01:00         | create | 96        | 96              | 99999       | OLDOXRS        | now  | 82                 | VA                 | reinstated |
       | H41113   | 1X13        | now            | 10:00:00         | create | 91        | 91              | 99999       | OLDOXRS        | now  | 82                 | VA                 | cancelled  |
     And I give the TJMs 2 seconds to load
-    And I am on the trains list page
+    And I am on the trains list page 1
     And The trains list table is visible
     Then the service is displayed in the trains list with the following row colour
       | rowType       | trainUID | rowColour              | meaning    |
@@ -239,7 +241,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | trainUid | trainNumber | departureHour  | modificationTime | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time| modificationReason | nationalDelayCode | meaning    |
       | H41114   | 1X14        | now            | 10:00:00         | create | 96        | 96              | 99999       | OLDOXRS        | now | 82                 | VA                | reinstated |
       | H41114   | 1X14        | now            | 10:01:00         | create | 91        | 91              | 99999       | OLDOXRS        | now | 82                 | VA                | cancelled  |
-    When I am on the trains list page
+    When I am on the trains list page 1
     And The trains list table is visible
     Then the service is displayed in the trains list with the following row colour
       | rowType       | trainUID   | rowColour              | meaning   |

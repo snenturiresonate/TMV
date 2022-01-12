@@ -8,8 +8,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     Given the access plan located in CIF file 'access-plan/trains_list_test.cif' is received from LINX
     And I remove all trains from the trains list
     And I am on the home page
-    And I restore to default train list config
-    And I am on the trains list Config page
+    And I restore to default train list config '1'
+    And I am on the trains list page 1
     And I have navigated to the 'Train Class & MISC' configuration tab
 
   #33806 -25 Trains List Config (Misc Settings View)
@@ -39,7 +39,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Include unmatched                  | on          |
       | Time to remain on list             | 5           |
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   #33806 -26 Trains List Config (Misc Train Class On/Off)
     #Given the user is viewing the trains list train indication view
@@ -72,7 +72,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Class 8    | off         |
       | Class 9    | off         |
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario: 33806 -26 b Trains list misc config Train class update using - Select all
     When I click on the Select All button
@@ -89,7 +89,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Class 8    | on          |
       | Class 9    | on          |
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario: 33806 -26 c Trains list misc config Train class update using - Clear all
     When I click on the Clear All button
@@ -106,7 +106,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Class 8    | off         |
       | Class 9    | off         |
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   #33806 -27 Trains List Config (Misc Ignore PD On/Off)
     #Given the user is viewing the trains list train indication view
@@ -140,7 +140,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Include unmatched                  | on          |
       | Time to remain on list             | 5           |
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   #33806 -32 Trains List Config (Train Misc Settings Applied)
     #Given the user has made changes to the trains list misc settings
@@ -178,13 +178,13 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Class 8    | off         |
       | Class 9    | off         |
     And I save the service filter changes
-    And I am on the trains list page
+    And I am on the trains list page 1
     Then I should see the trains list table to only display the following trains
       | trainDescription |
       | 2B31             |
       | 2B32             |
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario: 33806 -32b Trains List Config (Train Misc Settings Applied) - Ignore PD cancel toggle on
     Given the following train activation message is sent from LINX
@@ -199,10 +199,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Ignore PD Cancels | on          |
       | Include unmatched | off         |
     And I save the service filter changes
-    And I am on the trains list page
+    And I am on the trains list page 1
     Then train 2P77 with schedule id Y95686 for today is not visible on the trains list
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario: 33806 -32c Trains List Config (Train Misc Settings Applied) - Ignore PD cancel toggle off
     * I remove today's train 'B30003' from the Redis trainlist
@@ -223,10 +223,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | Ignore PD Cancels | off         |
       | Include unmatched | off         |
     And I save the service filter changes
-    And I am on the trains list page
+    And I am on the trains list page 1
     Then train 2B33 with schedule id B30003 for today is visible on the trains list
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   # unmatched services from stepping is part of CCN1
   @tdd
@@ -239,12 +239,12 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | classValue        | toggleValue |
       | Include unmatched | on          |
     And I save the service filter changes
-    And I am on the trains list page
+    And I am on the trains list page 1
     Then I should see the trains list table to display the following trains
       | trainDescription |
       | 1G65             |
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
 
   Scenario: 33806 -32e Trains List Config (Train Misc Settings Applied) - Unmatched toggle off
@@ -256,16 +256,16 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
       | classValue        | toggleValue |
       | Include unmatched | on          |
     And I save the service filter changes
-    And I am on the trains list page
+    And I am on the trains list page 1
     Then I should see the trains list table to not display the following trains
       | trainDescription |
       | 1G65             |
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario: 33806 -32g Trains List Config (Train Misc Settings Applied) - Uncalled toggle off
     #Services not activated from the loaded access plan - 5G44
-    When I am on the trains list page
+    When I am on the trains list page 1
     Then train '5G44' with schedule id 'V30603' for today is not visible on the trains list
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'

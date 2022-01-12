@@ -8,7 +8,7 @@ Feature: 34080 - Last Berth
     * I have cleared out all headcodes
     * I remove all trains from the trains list
     * I am on the home page
-    * I restore to default train list config
+    * I restore to default train list config '1'
     * I delete 'last-berth-states' from Redis
     * I reset redis
 
@@ -87,7 +87,8 @@ Feature: 34080 - Last Berth
       | 0581      | MDES    | D6             | 2B57             |
 
     # Check that trains have loaded
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     * train '2B51' with schedule id 'C56451' for today is visible on the trains list
     * train '2B53' with schedule id 'C56453' for today is visible on the trains list
     * train '2B55' with schedule id 'C56455' for today is visible on the trains list
@@ -264,7 +265,8 @@ Feature: 34080 - Last Berth
       | 0581      | LMBE    | D6             | 2B68             |
 
     # Check that trains have loaded
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     * train '2B68' with schedule id 'C56468' for today is visible on the trains list
     * train '2B67' with schedule id 'C56467' for today is visible on the trains list
     * train '2B66' with schedule id 'C56466' for today is visible on the trains list
@@ -331,7 +333,8 @@ Feature: 34080 - Last Berth
       | 0581      | LMBE    | D6             | 2B71             |
 
     # Check that trains have loaded
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     * train '2B71' with schedule id 'C56471' for today is visible on the trains list
 
     # Check the last berth
@@ -394,7 +397,8 @@ Feature: 34080 - Last Berth
       | 0581      | LMBE    | D6             | 2B73             |
 
     # Check that trains have loaded
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     * train '2B73' with schedule id 'C56473' for today is visible on the trains list
 
     # Check the last berth

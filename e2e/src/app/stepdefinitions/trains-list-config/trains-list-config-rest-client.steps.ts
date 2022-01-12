@@ -3,6 +3,6 @@ import {TrainsListConfigRestClient} from '../../api/trains-list-config/trains-li
 import {Given} from 'cucumber';
 
 const trainListConfigRestClient: TrainsListConfigRestClient = new TrainsListConfigRestClient();
-Given('I restore to default train list config', async () => {
-  expect(await trainListConfigRestClient.deleteConfiguration()).to.equal(200);
+Given('I restore to default train list config {string}', async (configId: string) => {
+  expect(await trainListConfigRestClient.deleteConfiguration(configId)).to.equal(200);
 });

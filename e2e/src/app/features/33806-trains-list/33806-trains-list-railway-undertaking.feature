@@ -6,8 +6,9 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
 
   Background:
     * I remove all trains from the trains list
-    * I am on the trains list Config page
-    * I restore to default train list config
+    * I am on the trains list page 1
+    * I restore to default train list config '1'
+    * I refresh the browser
     * I have navigated to the 'TOC/FOC' configuration tab
 
   #33806 -11 Trains List Config (TOC/FOC Selection)
@@ -268,11 +269,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
       | items                    |
       | <columnToSelectInConfig> |
     And I save the trains list config
-    And I am on the trains list page
     Then I should see the trains list column TOC has only the below values
       | expectedValues               |
       | <valuesToExpectInTrainsList> |
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
     Examples:
       | columnToSelectInConfig        | valuesToExpectInTrainsList | trainUid | trainDescription | cif                                 | location |
@@ -295,9 +295,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
       | items                    |
       | <columnToSelectInConfig> |
     And I save the trains list config
-    And I am on the trains list page
     Then the trains list column TOC FOC column is empty
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
     Examples:
       | columnToSelectInConfig        | trainUid | trainDescription | cif                                 | location |

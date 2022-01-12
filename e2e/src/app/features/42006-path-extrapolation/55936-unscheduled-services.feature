@@ -5,8 +5,8 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
   So that they can be displayed in the UI and used to predict future timings and punctuality
 
   Background:
-    Given I am on the trains list Config page
-    And I restore to default train list config
+    Given I am on the trains list page 1
+    And I restore to default train list config '1'
     And I refresh the browser
     And I have navigated to the 'Columns' configuration tab
     And I click on all the unselected column entries
@@ -23,7 +23,7 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
     When the following live berth interpose message is sent from LINX (creating an unmatched service)
       | toBerth | trainDescriber | trainDescription |
       | 1224    | D7             | <trainDesc>      |
-    And I am on the trains list page
+    And I am on the trains list page 1
     And I see all the available trains list columns with defaults first
     Then Train description '<trainDesc>' is visible on the trains list
     And all grid entries for <case> train <trainDesc> are blank except for SERVICE, PUNCT.
@@ -32,7 +32,7 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
       | rowId       |
       | <trainDesc> |
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
     Examples:
       | case                | trainDesc |
@@ -44,7 +44,7 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
     When the following live berth step messages is sent from LINX (creating an unmatched service)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 1577      | 1583    | D9             | <trainDesc>      |
-    And I am on the trains list page
+    And I am on the trains list page 1
     And I see all the available trains list columns with defaults first
     Then Train description '<trainDesc>' is visible on the trains list
     And all grid entries for <case> train <trainDesc> are blank except for SERVICE, PUNCT.
@@ -53,7 +53,7 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
       | rowId       |
       | <trainDesc> |
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
     Examples:
       | case           | trainDesc |
@@ -66,7 +66,7 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
     When the following train running information message is sent from LINX
       | trainUID   | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType |
       | <trainUID> | <trainDesc> | today              | <locCode>           | <locSubCode>           | <triType>   |
-    And I am on the trains list page
+    And I am on the trains list page 1
     And I see all the available trains list columns with defaults first
     Then train '<trainDesc>' with schedule id '<trainUID>' for today is visible on the trains list
     And all grid entries for <case> train <trainUID> are blank except for SERVICE, TIME, REPORT, PUNCT., REPORT (TPL), TRUST ID, SCHED. UID
@@ -74,7 +74,7 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
       | rowId       |
       | <trainDesc> |
     # clean up
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
 
     Examples:

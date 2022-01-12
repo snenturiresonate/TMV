@@ -6,8 +6,9 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
 
   Background:
     * I remove all trains from the trains list
-    * I am on the trains list Config page
-    * I restore to default train list config
+    * I am on the trains list page 1
+    * I restore to default train list config '1'
+    * I refresh the browser
     * I have navigated to the 'Locations' configuration tab
 
 
@@ -119,6 +120,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
       | locationNameValue   | Originate | Stop       | Pass       | Terminate  |
       | Paddington (PADTON) | Checked   | un-checked | un-checked | un-checked |
 
+
   Scenario Outline: 33806 -18 Trains list config for location types - <testType> test - Stop type '<stopType>'
     #    Given the user has made changes to the trains list Location selection
     #    When the user views the trains list
@@ -132,19 +134,19 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
       | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUid> | <trainDescription> | now                    | 99999               | <location>             | today         | now                 |
     # Baseline
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     And The trains list table is visible
     Then train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
     # Positive/Negative Test
-    And I am on the trains list Config page
+    And I navigate to train list configuration
     And I have navigated to the 'Locations' configuration tab
     And I have only the following locations and stop types selected
       | locationNameValue | Originate   | Stop   | Pass   | Terminate   |
       | <location>        | <originate> | <stop> | <pass> | <terminate> |
     And I save the trains list config
-    And I am on the trains list page
     Then train '<trainDescription>' with schedule id '<trainUid>' for today <visibility> visible on the trains list
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
     Examples:
     | trainUid | trainDescription | cif                                 | location | timingType | originate  | stop       | pass       | terminate  | visibility | testType | stopType  |

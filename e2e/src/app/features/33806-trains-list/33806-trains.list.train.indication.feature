@@ -7,8 +7,9 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
   Background:
     * I remove all trains from the trains list
     * I have cleared out all headcodes
-    * I am on the trains list Config page
-    * I restore to default train list config
+    * I am on the trains list page 1
+    * I restore to default train list config '1'
+    * I refresh the browser
     * I have navigated to the 'Train Indication' configuration tab
 
   Scenario: Trains list punctuality config header
@@ -90,7 +91,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     When the following train activation message is sent from LINX
       | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | B21001        | 1B21        | now                    | 99999               | PADTON                 | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     Then train '1B21' with schedule id 'B21001' for today is visible on the trains list
     When the following TJM is received
         #tjmType-Cancel at origin
@@ -99,18 +101,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     Then the service is displayed in the trains list with the following row colour
       | rowType                     | trainUID   | rowColour              |
       | Default Cancelled at origin | B21001     | rgba(255, 255, 255, 1) |
-    When I am on the trains list Config page
+    When I navigate to train list configuration
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
       | name         | colour | toggleValue |
       | Cancellation | #dde   | on          |
     And I save the trains list config
-    And I am on the trains list page
     Then the service is displayed in the trains list with the following row colour
       | rowType                | trainUID   | rowColour              |
       | Cancellation at origin | B21001     | rgba(221, 221, 238, 1) |
     # cleanup
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario: 33806 -24-b Trains indication table - Train Cancellation - Train terminates short of planned destination
     #Given the user has made changes to the trains list train indication
@@ -125,7 +126,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     When the following train activation message is sent from LINX
       | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | B21002        | 1B22        | now                    | 99999               | PADTON                 | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     Then train '1B22' with schedule id 'B21002' for today is visible on the trains list
     When the following TJM is received
         #tjmType-Cancel en route
@@ -134,18 +136,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     Then the service is displayed in the trains list with the following row colour
       | rowType                    | trainUID   | rowColour              |
       | Default Cancelled on route | B21002     | rgba(255, 255, 255, 1) |
-    When I am on the trains list Config page
+    When I navigate to train list configuration
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
       | name         | colour | toggleValue |
       | Cancellation | #dde   | on          |
     And I save the trains list config
-    And I am on the trains list page
     Then the service is displayed in the trains list with the following row colour
       | rowType                | trainUID   | rowColour              |
       | Cancellation on route  | B21002     | rgba(221, 221, 238, 1) |
     # cleanup
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario: 33806 -24-c Trains indication table - Train Reinstatement - Train terminates at a location not in the plan
     #Given the user has made changes to the trains list train indication
@@ -160,7 +161,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     When the following train activation message is sent from LINX
       | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | B21003        | 1B23        | now                    | 99999               | PADTON                 | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     And train '1B23' with schedule id 'B21003' for today is visible on the trains list
     When the following TJM is received
         #tjmType-Out of plan cancellation
@@ -169,18 +171,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     Then the service is displayed in the trains list with the following row colour
       | rowType                       | trainUID   | rowColour              |
       | Default Cancelled out of plan | B21003     | rgba(255, 255, 255, 1) |
-    And I am on the trains list Config page
+    And I navigate to train list configuration
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
       | name         | colour | toggleValue |
       | Cancellation | #dde   | on          |
     And I save the trains list config
-    And I am on the trains list page
     Then the service is displayed in the trains list with the following row colour
       | rowType                  | trainUID   | rowColour              |
       | Cancellation out of plan | B21003     | rgba(221, 221, 238, 1) |
     # cleanup
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario: 33806 -24-d Trains indication table - Change of Origin - Train has origin changed
     #Given the user has made changes to the trains list train indication
@@ -195,7 +196,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     When the following train activation message is sent from LINX
       | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | B21004        | 1B24        | now                    | 99999               | PADTON                 | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     And train '1B24' with schedule id 'B21004' for today is visible on the trains list
     And the following TJM is received
         #tjmType-Change of Origin
@@ -204,18 +206,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     Then the service is displayed in the trains list with the following row colour
       | rowType                  | trainUID   | rowColour              |
       | Default change of origin | B21004     | rgba(255, 255, 255, 1) |
-    And I am on the trains list Config page
+    And I navigate to train list configuration
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
       | name             | colour | toggleValue |
       | Change of Origin | #dde   | on          |
     And I save the trains list config
-    And I am on the trains list page
     Then the service is displayed in the trains list with the following row colour
       | rowType          | trainUID   | rowColour              |
       | Change of Origin | B21004     | rgba(221, 221, 238, 1) |
     # cleanup
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario: 33806 -24-e Trains reinstatement - Whole train has been reinstated
     #Given the user has made changes to the trains list train indication
@@ -230,7 +231,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     When the following train activation message is sent from LINX
       | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | B21005        | 1B25        | now                    | 99999               | PADTON                 | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     And train '1B25' with schedule id 'B21005' for today is visible on the trains list
     When the following TJM is received
         #tjmType-Trains reinstatement - Whole train
@@ -239,18 +241,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     Then the service is displayed in the trains list with the following row colour
       | rowType                  | trainUID   | rowColour              |
       | Default reinstatement    | B21005     | rgba(255, 255, 255, 1) |
-    When I am on the trains list Config page
+    When I navigate to train list configuration
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
       | name          | colour | toggleValue |
       | Reinstatement | #dde   | on          |
     And I save the trains list config
-    And I am on the trains list page
     Then the service is displayed in the trains list with the following row colour
       | rowType          | trainUID   | rowColour              |
       | Reinstatement    | B21005     | rgba(221, 221, 238, 1) |
     # cleanup
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario: 33806 -24-f Change Of Origin - Train starts at a different planned location (start forward)
     #Given the user has made changes to the trains list train indication
@@ -265,7 +266,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     When the following train activation message is sent from LINX
       | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | B21006        | 1B26        | now                    | 99999               | PADTON                 | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     And train '1B26' with schedule id 'B21006' for today is visible on the trains list
     When the following TJM is received
         #tjmType-Change of Origin
@@ -274,18 +276,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     Then the service is displayed in the trains list with the following row colour
       | rowType                  | trainUID   | rowColour              |
       | Default start forward    | B21006     | rgba(255, 255, 255, 1) |
-    And I am on the trains list Config page
+    And I navigate to train list configuration
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
       | name             | colour | toggleValue |
       | Change of Origin | #dde   | on          |
     And I save the trains list config
-    And I am on the trains list page
     Then the service is displayed in the trains list with the following row colour
       | rowType          | trainUID   | rowColour              |
       | Start forward    | B21006     | rgba(221, 221, 238, 1) |
     # cleanup
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario: 33806 -24-g Off route - Train has moved off route
     #Given the user has made changes to the trains list train indication
@@ -300,7 +301,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     When the following train activation message is sent from LINX
       | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | B21007        | 1B27        | now                    | 99999               | PADTON                 | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     And train '1B27' with schedule id 'B21007' for today is visible on the trains list
     When the following live berth step message is sent from LINX (to match the service)
       | fromBerth | toBerth | trainDescriber | trainDescription |
@@ -311,18 +313,18 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     Then the service is displayed in the trains list with the following row colour
       | rowType                  | trainUID   | rowColour              |
       | Default off route        | B21007     | rgba(255, 255, 255, 1) |
-    When I am on the trains list Config page
+    When I navigate to train list configuration
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
       | name      | colour | toggleValue |
       | Off-Route | #dde   | on          |
     And I save the trains list config
-    And I am on the trains list page
+    And I am on the trains list page 1
     Then the service is displayed in the trains list with the following row colour
       | rowType          | trainUID   | rowColour              |
       | Off route        | B21007     | rgba(221, 221, 238, 1) |
     # cleanup
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario: 33806 -24-h Change Of Identity - Train running has a change of Train Id
     #Given the user has made changes to the trains list train indication
@@ -337,7 +339,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     When the following train activation message is sent from LINX
       | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | B21008        | 1B28        | now                    | 99999               | PADTON                 | today         | now                 |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     And train '1B28' with schedule id 'B21008' for today is visible on the trains list
     When the following change of ID TJM is received
       | trainUid | newTrainNumber | oldTrainNumber | departureHour | modificationTime | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     |
@@ -345,17 +348,17 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     Then the service is displayed in the trains list with the following row colour
       | rowType                  | trainUID   | rowColour              |
       | Default change of ID     | B21008     | rgba(255, 255, 255, 1) |
-    And I am on the trains list Config page
+    And I navigate to train list configuration
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
       | name               | colour | toggleValue |
       | Change of Identity | #dde   | on          |
     And I save the trains list config
-    And the following service is displayed on the trains list
+    And the following service is displayed on the trains list '1'
       | trainId | trainUId |
       | 1B28    | B21008   |
     Then the service is displayed in the trains list with the following row colour
       | rowType          | trainUID   | rowColour              |
       | Change of ID     | B21008     | rgba(221, 221, 238, 1) |
     # cleanup
-    * I restore to default train list config
+    * I restore to default train list config '1'

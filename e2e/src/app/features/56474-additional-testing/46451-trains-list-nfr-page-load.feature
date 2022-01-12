@@ -7,6 +7,10 @@ Feature: 46451 - Trains List - NFR testing (Page load)
     * I am on the home page
     * The admin setting defaults are as originally shipped
     * I reset the stopwatch
+    * I am on the trains list page 1
+    * I restore to default train list config '1'
+    * I refresh the browser
+    * I save the trains list config
 
   Scenario: 33764-6. Access Trains List (Response time)
     #  33764-6 Access Trains List (Response time)
@@ -16,7 +20,7 @@ Feature: 46451 - Trains List - NFR testing (Page load)
     #    When the user selects the trains list
     #    Then the trains list opened in a new browser tab within 1 second
     Given I start the stopwatch
-    And I am on the trains list page
+    And I am on the trains list page 1
     And The trains list table is visible
     When I stop the stopwatch
     Then the stopwatch reads less than '1000' milliseconds, within a tolerance of '1000' milliseconds
@@ -27,7 +31,7 @@ Feature: 46451 - Trains List - NFR testing (Page load)
     #    And has opened the trains list
     #    When the user refreshes the trains list
     #    Then the trains list information is displayed within 1 second
-    Given I am on the trains list page
+    Given I am on the trains list page 1
     And The trains list table is visible
     When I start the stopwatch
     And I refresh the browser

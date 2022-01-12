@@ -27,7 +27,10 @@ Feature: 52214 - TMV Trains List - menu
     And the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth | trainDescriber | trainDescription   |
       | 1668      | 1664    | D1             | <trainDescription> |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I restore to default train list config '1'
+    And I refresh the browser
+    And I save the trains list config
     And The trains list table is visible
     When I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
@@ -59,7 +62,10 @@ Feature: 52214 - TMV Trains List - menu
     And the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth | trainDescriber | trainDescription   |
       | 1668      | 1664    | D1             | <trainDescription> |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I restore to default train list config '1'
+    And I refresh the browser
+    And I save the trains list config
     And The trains list table is visible
     And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
     When I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
@@ -84,7 +90,10 @@ Feature: 52214 - TMV Trains List - menu
     Given the following live berth interpose message is sent from LINX (which won't match anything)
       | toBerth | trainDescriber | trainDescription |
       | 0535    | D6             | 5N68             |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I restore to default train list config '1'
+    And I refresh the browser
+    And I save the trains list config
     And The trains list table is visible
     And train description '5N68' is visible on the trains list with schedule type ''
     When I invoke the context menu for todays train '5N68' schedule uid 'UNPLANNED' from the trains list

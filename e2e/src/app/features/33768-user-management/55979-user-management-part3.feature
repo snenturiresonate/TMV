@@ -93,10 +93,11 @@ Feature: 33768-3: TMV User Management
     When I access the homepage as schedulematching
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
-    And I restore to default train list config
+    And I restore to default train list config '1'
     And I am viewing the map HDGW01paddington.v
     And I have cleared out all headcodes
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     And the following live berth interpose message is sent from LINX <description>
       | toBerth | trainDescriber | trainDescription   |
       | A001    | D3             | <trainDescription> |

@@ -42,7 +42,7 @@ Feature: 46482 - TMV Key - select key
     Then the TMV Key option should not be visible
 
   Scenario: 34085-1d The TMV Key modal window is not displayed in the help menu for the trains list
-    Given I am on the trains list page
+    Given I am on the trains list page 1
     When I click on the Help icon
     Then the TMV Key option should not be visible
 

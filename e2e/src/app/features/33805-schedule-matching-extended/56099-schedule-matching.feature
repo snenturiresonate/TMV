@@ -16,8 +16,8 @@ Feature: 33805 TMV Schedule Matching
     * I wait until today's train 'B22222' has loaded
     * I wait until today's train 'B33333' has loaded
     * I am on the home page
-    * I restore to default train list config
-    * I am on the trains list Config page
+    * I restore to default train list config '1'
+    * I am on the trains list page 1
     * I have navigated to the 'Train Class & MISC' configuration tab
     * I set 'Include unmatched' to be 'on'
     * I save the trains list config
@@ -252,7 +252,7 @@ Feature: 33805 TMV Schedule Matching
     Given the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching-cancelled.cif' is received from LINX
     And I wait until today's train '<trainUid>' has been removed
     And I give the cancellation an extra 2 seconds to be processed
-    And I am on the trains list page
+    And I am on the trains list page 1
     Then train description '<origTrainDesc>' with schedule type 'STP' disappears from the trains list
     When the following live berth step message is sent from LINX
       | fromBerth | toBerth       | trainDescriber   | trainDescription |
@@ -364,7 +364,7 @@ Feature: 33805 TMV Schedule Matching
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber   | trainDescription |
       | <berth> | <trainDescriber> | <origTrainDesc>  |
-    And I am on the trains list page
+    And I am on the trains list page 1
     And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     And the service is displayed in the trains list with the following row colour
       | rowType       | trainUID   | rowColour              |
@@ -415,7 +415,7 @@ Feature: 33805 TMV Schedule Matching
     And the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth       | trainDescriber   | trainDescription |
       | <berth>   | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
-    And I am on the trains list page
+    And I am on the trains list page 1
     And The trains list table is visible
     And train '<origTrainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
     And I am viewing the map HDGW01paddington.v

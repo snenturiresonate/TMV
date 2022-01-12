@@ -27,7 +27,10 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Timetable Primary Cli
     And the following live berth step message is sent from LINX (creating a match)
       | fromBerth | toBerth | trainDescriber | trainDescription   |
       | 1668      | 1664    | D1             | <trainDescription> |
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I restore to default train list config '1'
+    And I refresh the browser
+    And I save the trains list config
     And The trains list table is visible
     And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
     And I primary click for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list

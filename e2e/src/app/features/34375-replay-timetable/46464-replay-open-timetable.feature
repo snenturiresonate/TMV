@@ -8,7 +8,7 @@ Feature: 34375 - TMV Replay Timetable - Open Timetable
     * I reset redis
     * I have cleared out all headcodes
     * I am on the home page
-    * I restore to default train list config
+    * I restore to default train list config '1'
 
   Scenario Outline: 34375-1 Replay - Open Timetable from Map (colour)
     # Replay Setup

@@ -24,6 +24,9 @@ Feature: 78815 - TMV Map Interaction - Map Timetable Primary Click
     #setup
     * I delete 'C56471:today' from hash 'schedule-modifications'
     * I remove today's train 'C56471' from the Redis trainlist
+    * I am on the trains list page 1
+    * I restore to default train list config '1'
+    * I refresh the browser
 
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath  | refLocation  | refTimingType | newTrainDescription | newPlanningUid |
@@ -45,7 +48,8 @@ Feature: 78815 - TMV Map Interaction - Map Timetable Primary Click
       | 0581      | LMBE    | D6             | <lTD1>           |
 
     # Check that trains have loaded
-    And I am on the trains list page
+    And I am on the trains list page 1
+    And I save the trains list config
     * train <lTD1> with schedule id 'C56471' for today is visible on the trains list
 
     # Check the last berth

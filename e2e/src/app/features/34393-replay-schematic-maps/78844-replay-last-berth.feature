@@ -8,7 +8,7 @@ Feature: 78855 - Replay Last Berth
     * I have cleared out all headcodes
     * I remove all trains from the trains list
     * I am on the home page
-    * I restore to default train list config
+    * I restore to default train list config '1'
     * I delete 'last-berth-states' from Redis
     * I reset redis
 
@@ -45,7 +45,8 @@ Feature: 78855 - Replay Last Berth
       | 0581      | LMBE    | D6             | 2B71             |
 
     # Check that trains have loaded
-    * I am on the trains list page
+    * I am on the trains list page 1
+    * I save the trains list config
     * train '2B71' with schedule id 'C56471' for today is visible on the trains list
 
     # Check the last berth
