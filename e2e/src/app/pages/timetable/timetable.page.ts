@@ -245,10 +245,30 @@ export class TimeTablePageObject {
     await toggleOff.click();
   }
 
+  public async trustTimesToggleExistsAndIsOn(): Promise<boolean> {
+    return element(by.css('#live-timetable-toggle-trust-times-menu .toggle-switch .absolute-on')).isPresent();
+  }
+
+  public async trustTimesToggleHasOnHasText(text: string): Promise<boolean> {
+    return element(by.css('#live-timetable-toggle-trust-times-menu .toggle-switch .absolute-on')).getText()
+    .then(val => val === text);
+  }
+
+  public async trustTimesToggleHasOffHasText(text: string): Promise<boolean> {
+    return element(by.css('#live-timetable-toggle-trust-times-menu .toggle-switch .absolute-off')).getText()
+    .then(val => val === text);
+  }
+
   public async toggleTrustTimesOff(): Promise<void> {
-    const toggleOff: ElementFinder = element(by.css('#live-timetable-toggle-trust-times-menu .toggle-switch .absolute-on'));
-    await CommonActions.waitForElementInteraction(toggleOff);
-    await toggleOff.click();
+    const toggle: ElementFinder = element(by.css('#live-timetable-toggle-trust-times-menu .toggle-switch .absolute-on'));
+    await CommonActions.waitForElementInteraction(toggle);
+    await toggle.click();
+  }
+
+  public async toggleTrustTimesOn(): Promise<void> {
+    const toggle: ElementFinder = element(by.css('#live-timetable-toggle-trust-times-menu .toggle-switch .absolute-off'));
+    await CommonActions.waitForElementInteraction(toggle);
+    await toggle.click();
   }
 
   public async getLiveTimetableTabName(): Promise<string> {

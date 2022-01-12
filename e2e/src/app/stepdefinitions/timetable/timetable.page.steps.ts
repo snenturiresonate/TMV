@@ -395,6 +395,22 @@ When('I toggle the TRUST times off', async () => {
   await timetablePage.toggleTrustTimesOff();
 });
 
+When('I toggle the TRUST times on', async () => {
+  await timetablePage.toggleTrustTimesOn();
+});
+
+Then('the TRUST times toggle exists and is on', async () => {
+  await timetablePage.trustTimesToggleExistsAndIsOn();
+});
+
+Then('the TRUST times toggle in the on state has the correct text {string}', async (text) => {
+  await timetablePage.trustTimesToggleHasOnHasText(text);
+});
+
+Then('the TRUST times toggle in the off state has the correct text {string}', async (text) => {
+  await timetablePage.trustTimesToggleHasOffHasText(text);
+});
+
 Then('The timetable header contains the following property labels:',
   async (headerPropertyLabels: any) => {
     const expectedHeaderPropertyLabels: any[] = headerPropertyLabels.hashes();
