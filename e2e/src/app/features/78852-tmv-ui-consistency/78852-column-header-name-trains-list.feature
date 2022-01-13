@@ -1,9 +1,13 @@
-@TMVPhase2 @P2.S2
+@TMVPhase2 @P2.S1
 Feature: 78852 - Column Header Name - Trains List
 
   # Given a user is viewing a trains list
   # When the user the column header names
   # Then they are consistently named
+
+  #  TMV Trains List
+  #     Change column name "PUB. ARR." to "GBTT ARR"
+  #     Change column name "PUB. DEPT." to "GBTT DEP"
 
   Background:
     Given I am on the trains list page 1

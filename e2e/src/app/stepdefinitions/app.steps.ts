@@ -534,6 +534,10 @@ Given(/^I am on the log viewer page$/, async () => {
   await page.navigateTo('/tmv/log-viewer');
 });
 
+Given(/^I am on the enquiries page$/, async () => {
+  await page.navigateTo('/tmv/enquiries');
+});
+
 Given(/^I am on the admin page$/, {timeout: 5 * 10000}, async () => {
   try {
     await page.navigateTo('/tmv/administration');
