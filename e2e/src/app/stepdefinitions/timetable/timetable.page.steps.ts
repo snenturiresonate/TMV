@@ -93,6 +93,25 @@ Then('the timetable header train UID is {string}', async (expectedTrainUID: stri
     .to.equal(expectedTrainUID);
 });
 
+Then('the timetable header train UID label is {string}', async (expectedTrainUIDLabel: string) => {
+  const actualTrainUIDLabel: string = await timetablePage.getHeaderTrainUIDLabel();
+  expect(actualTrainUIDLabel, 'Timetable header train UID label was not as expected')
+    .to.equal(expectedTrainUIDLabel);
+});
+
+Then('the timetable planned {string} header label is {string}', async (arrDept: string, expectedPlannedArrivalLabel: string) => {
+  if ('arrival' === arrDept) {
+    const actualArrLabel: string = await timetablePage.getPlannedArrivalHeaderLabel();
+    expect(actualArrLabel, 'Timetable planned arrival header label was not as expected')
+      .to.equal(expectedPlannedArrivalLabel);
+  } else
+  {
+    const actualArrLabel: string = await timetablePage.getPlannedDeptHeaderLabel();
+    expect(actualArrLabel, 'Timetable planned departure header label was not as expected')
+      .to.equal(expectedPlannedArrivalLabel);
+  }
+});
+
 Then('The live timetable tab will be titled {string}', async (expectedTabName: string) => {
   const actualTimetableTabName: string = await timetablePage.getLiveTimetableTabName();
 

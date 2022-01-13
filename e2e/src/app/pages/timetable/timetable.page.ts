@@ -17,6 +17,9 @@ export class TimeTablePageObject {
   public headerSignal: ElementFinder;
   public headerLastReported: ElementFinder;
   public headerTrainUid: ElementFinder;
+  public headerTrainUidLabel: ElementFinder;
+  public plannedArrivalHeaderLabel: ElementFinder;
+  public plannedDeptHeaderLabel: ElementFinder;
   public headerTrustId: ElementFinder;
   public headerTJM: ElementFinder;
   public changeEnRoute: ElementArrayFinder;
@@ -41,6 +44,9 @@ export class TimeTablePageObject {
     this.headerSignal = element(by.id('timetableHeaderSignalPlatedName'));
     this.headerLastReported = element(by.id('timetableHeaderTrainRunningInformation'));
     this.headerTrainUid = element(by.id('timetableHeaderPlanningUid'));
+    this.headerTrainUidLabel = element(by.id('trainUidLabel'));
+    this.plannedArrivalHeaderLabel = element(by.id('tmv-timetable-header-arr'));
+    this.plannedDeptHeaderLabel = element(by.id('tmv-timetable-header-dep'));
     this.headerTrustId = element(by.id('timetableHeaderTrustTrainId'));
     this.headerTJM = element(by.id('timetableHeaderTrainJourneyModification'));
     this.changeEnRoute = element.all(by.css('.change-en-route-table >tbody >div >tr>td'));
@@ -188,6 +194,33 @@ export class TimeTablePageObject {
 
     const trainUID: string = await this.getNonStaleText(this.headerTrainUid);
     return of(trainUID).toPromise();
+  }
+
+  public async getHeaderTrainUIDLabel(): Promise<string> {
+    await browser.wait(async () => {
+      return this.headerTrainUidLabel.isPresent();
+    }, browser.params.general_timeout, 'The timetable header train UID label should be displayed');
+
+    const trainUIDLabel: string = await this.getNonStaleText(this.headerTrainUidLabel);
+    return of(trainUIDLabel).toPromise();
+  }
+
+  public async getPlannedArrivalHeaderLabel(): Promise<string> {
+    await browser.wait(async () => {
+      return this.plannedArrivalHeaderLabel.isPresent();
+    }, browser.params.general_timeout, 'The timetable planned arrival label should be displayed');
+
+    const arrivalHeaderLabel: string = await this.getNonStaleText(this.plannedArrivalHeaderLabel);
+    return of(arrivalHeaderLabel).toPromise();
+  }
+
+  public async getPlannedDeptHeaderLabel(): Promise<string> {
+    await browser.wait(async () => {
+      return this.plannedDeptHeaderLabel.isPresent();
+    }, browser.params.general_timeout, 'The timetable planned departure label should be displayed');
+
+    const deptHeaderLabel: string = await this.getNonStaleText(this.plannedDeptHeaderLabel);
+    return of(deptHeaderLabel).toPromise();
   }
 
   public async getTimetableEntryColValues(timetableEntryId: string): Promise<string[]> {
