@@ -32,7 +32,6 @@ Feature: 33768-1: TMV User Management - Direct URL permissions
       | LogViewer  |
       | Replay     |
       | Enquiries  |
-    |TrainsListConfig|
 
   Scenario: 33768 -17b Prevent direct navigation for user without Standard Role - Admin Only User to the timetable page
     Given the access plan located in CIF file 'access-plan/1S42_PADTON_DIDCOTP.cif' is amended so that all services start within the next hour and then received from LINX
@@ -143,7 +142,6 @@ Feature: 33768-1: TMV User Management - Direct URL permissions
     | LogViewer  |
     | Replay     |
     | Enquiries  |
-    |TrainsListConfig|
 
   Scenario: 33768 -21b Allow direct navigation for user Standard Role - Timetable
     Given the access plan located in CIF file 'access-plan/1B69_PADTON_SWANSEA.cif' is amended so that all services start within the next hour and then received from LINX
@@ -176,7 +174,6 @@ Feature: 33768-1: TMV User Management - Direct URL permissions
       | LogViewer  |
       | Replay     |
       | Enquiries  |
-    |TrainsListConfig|
 
   Scenario: 33768 -22b Prevent direct navigation for user that has not signed in - Timetable
     Given the access plan located in CIF file 'access-plan/1B69_PADTON_SWANSEA.cif' is amended so that all services start within the next hour and then received from LINX

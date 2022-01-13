@@ -22,7 +22,6 @@ Feature: 79015 - TMV National Search Additions - train search, no results
       | Home             |
       | TrainsList       |
       | TimeTable        |
-      | TrainsListConfig |
       | Maps             |
       | LogViewer        |
       | Admin            |

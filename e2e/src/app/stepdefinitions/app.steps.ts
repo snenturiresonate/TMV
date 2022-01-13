@@ -55,7 +55,7 @@ Given(/^I navigate to (.*) page$/, async (pageName: string) => {
       await page.navigateTo('');
       break;
     case 'TrainsList':
-      await page.navigateTo('/tmv/trains-list');
+      await page.navigateTo('/tmv/trains-list/1');
       break;
     case 'LogViewer':
       await page.navigateTo('/tmv/log-viewer');
@@ -68,9 +68,6 @@ Given(/^I navigate to (.*) page$/, async (pageName: string) => {
       break;
     case 'Maps':
       await page.navigateTo(`/tmv/maps/hdgw01paddington.v`);
-      break;
-    case 'TrainsListConfig':
-      await page.navigateTo('/tmv/trains-list-config');
       break;
     case 'TimeTable':
       await page.navigateTo('/tmv/live-timetable/1');
@@ -88,7 +85,7 @@ Given(/^I navigate to (.*) page as (.*) user$/, async (pageName: string, user: s
       await page.navigateTo('', user);
       break;
     case 'TrainsList':
-      await page.navigateTo('/tmv/trains-list', user);
+      await page.navigateTo('/tmv/trains-list/1', user);
       break;
     case 'LogViewer':
       await page.navigateTo('/tmv/log-viewer', user);
@@ -98,9 +95,6 @@ Given(/^I navigate to (.*) page as (.*) user$/, async (pageName: string, user: s
       break;
     case 'Maps':
       await page.navigateTo(`/tmv/maps/1`, user);
-      break;
-    case 'TrainsListConfig':
-      await page.navigateTo('/tmv/trains-list-config', user);
       break;
     case 'Admin':
       await page.navigateTo('/tmv/administration', user);
@@ -128,9 +122,6 @@ Given(/^I navigate to (.*) page without prior authentication$/, async (pageName:
       break;
     case 'Maps':
       await page.navigateToWithoutSignIn(`/tmv/maps/1`);
-      break;
-    case 'TrainsListConfig':
-      await page.navigateToWithoutSignIn('/tmv/trains-list-config');
       break;
     case 'Admin':
       await page.navigateToWithoutSignIn('/tmv/administration');

@@ -43,7 +43,6 @@ Feature: 33757 - TMV National Search
       | Home             |
       | TrainsList       |
       | TimeTable        |
-      | TrainsListConfig |
       | Maps             |
       | LogViewer        |
       | Admin            |
@@ -95,7 +94,6 @@ Feature: 33757 - TMV National Search
       | Home             |
       | TrainsList       |
       | TimeTable        |
-      | TrainsListConfig |
       | Maps             |
       | LogViewer        |
       | Admin            |
@@ -132,7 +130,6 @@ Feature: 33757 - TMV National Search
       | Home             |
       | TrainsList       |
       | TimeTable        |
-      | TrainsListConfig |
       | Maps             |
       | LogViewer        |
       | Admin            |
@@ -153,7 +150,6 @@ Feature: 33757 - TMV National Search
       | Home             |
       | TrainsList       |
       | TimeTable        |
-      | TrainsListConfig |
       | Maps             |
       | LogViewer        |
       | Admin            |
@@ -174,7 +170,6 @@ Feature: 33757 - TMV National Search
       | Home             |
       | TrainsList       |
       | TimeTable        |
-      | TrainsListConfig |
       | Maps             |
       | LogViewer        |
       | Admin            |
@@ -204,7 +199,6 @@ Feature: 33757 - TMV National Search
       | Home             |
       | TrainsList       |
       | TimeTable        |
-      | TrainsListConfig |
       | Maps             |
       | LogViewer        |
       | Admin            |
@@ -231,7 +225,6 @@ Feature: 33757 - TMV National Search
       | Home             |
       | TrainsList       |
       | TimeTable        |
-      | TrainsListConfig |
       | Maps             |
       | LogViewer        |
       | Admin            |
@@ -318,7 +311,6 @@ Feature: 33757 - TMV National Search
       | Home             |
       | TrainsList       |
       | TimeTable        |
-      | TrainsListConfig |
       | Maps             |
       | LogViewer        |
       | Admin            |
@@ -378,7 +370,6 @@ Feature: 33757 - TMV National Search
       | Home             |
       | TrainsList       |
       | TimeTable        |
-      | TrainsListConfig |
       | Maps             |
       | LogViewer        |
       | Admin            |
@@ -407,7 +398,6 @@ Feature: 33757 - TMV National Search
       | Home             |
       | TrainsList       |
       | TimeTable        |
-      | TrainsListConfig |
       | Maps             |
       | LogViewer        |
       | Admin            |
@@ -451,7 +441,6 @@ Feature: 33757 - TMV National Search
       | Home             |
       | TrainsList       |
       | TimeTable        |
-      | TrainsListConfig |
       | Maps             |
       | LogViewer        |
       | Admin            |
