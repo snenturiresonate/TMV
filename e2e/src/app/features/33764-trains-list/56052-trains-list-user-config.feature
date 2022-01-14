@@ -1,3 +1,4 @@
+@newSession
 Feature: 56052 - TMV Trains List - User Configuration Applied (Service Called)
 
   As a user

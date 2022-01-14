@@ -1,3 +1,4 @@
+@newSession
 Feature: 46448 - TMV Trains List - access
   (From Gherkin for Feature 33764)
 

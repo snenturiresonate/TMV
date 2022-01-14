@@ -26,7 +26,6 @@ Then('I should see the system default settings as', async (table: any) => {
   const actualBackgroundColour: string = await adminSystemDefaults.getReplayBackgroundColour();
   const actualNoOfReplays: string = await adminSystemDefaults.getNoOfReplays();
   const actualSchematicMapInstance: string = await adminSystemDefaults.getSchematicMapInstance();
-  const actualTrainListInstance: string = await adminSystemDefaults.getTrainListInstance();
   const actualMaxNoOfMapsPerReplay: string = await adminSystemDefaults.getMaxNoOfMapsPerReplay();
   const results = [
     expect(actualBackgroundColour, `Replay background colour is not ${tableValues.ReplayBackgroundColour}`)
@@ -35,8 +34,6 @@ Then('I should see the system default settings as', async (table: any) => {
       .to.contain(tableValues.MaxNoofSchematicMapDisplayInstances),
     expect(actualNoOfReplays, `No of replays is not ${tableValues.MaxNoofReplays}`)
       .to.contain(tableValues.MaxNoofReplays),
-    expect(actualTrainListInstance, `Trains list instances is not ${tableValues.MaxNoofTrainsListViewInstances}`)
-      .to.contain(tableValues.MaxNoofTrainsListViewInstances),
     expect(actualMaxNoOfMapsPerReplay, `Max no of maps per replay is not ${tableValues.MaxNoOfMapsPerReplay}`)
       .to.contain(tableValues.MaxNoOfMapsPerReplay)
   ];
@@ -52,7 +49,6 @@ When('I update the system default settings as', async (table: any) => {
   await adminSystemDefaults.updateReplayBackgroundColour(tableValues.ReplayBackgroundColour);
   await adminSystemDefaults.updateNoOfReplays(tableValues.MaxNoofReplays);
   await adminSystemDefaults.updateSchematicMapInstance(tableValues.MaxNoofSchematicMapDisplayInstances);
-  await adminSystemDefaults.updateTrainListInstance(tableValues.MaxNoofTrainsListViewInstances);
   await adminSystemDefaults.updateMaxNoOfMapsPerReplay(tableValues.MaxNoOfMapsPerReplay);
 });
 

@@ -1,3 +1,4 @@
+@newSession
 Feature: 52214 - TMV Trains List - menu
   (From Gherkin for Feature 33764)
 

@@ -1,4 +1,4 @@
-@TMVPhase2 @P2.S1
+@TMVPhase2 @P2.S1 @newSession
 Feature: 78815 - TMV Map Interaction - Map Timetable Primary Click
 
   As a TMV User
