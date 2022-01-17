@@ -8,7 +8,8 @@ export class TRITrainLocationReport {
   public static locationDateTime = DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
   private static delayedLocationDateTime(delayMins: number): string {
-    TRITrainLocationReport.locationDateTime = DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+    TRITrainLocationReport.locationDateTime =
+      DateAndTimeUtils.getCurrentDateTime().withSecond(0).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     return OffsetDateTime
       .parse(TRITrainLocationReport.locationDateTime)
       .minusMinutes(delayMins)
@@ -17,7 +18,8 @@ export class TRITrainLocationReport {
 
   public static trainLocationReportWithoutDelay = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                                    trainLocationStatus: string) => {
-    TRITrainLocationReport.locationDateTime = DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+    TRITrainLocationReport.locationDateTime =
+      DateAndTimeUtils.getCurrentDateTime().withSecond(0).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     const trainLocationReport = fragment().ele('TrainLocationReport')
       .ele(TRILocation.trainLocation(locationPrimaryCode, locationSubsidiaryCode))
       .ele('LocationDateTime').txt(TRITrainLocationReport.locationDateTime).up()
@@ -32,7 +34,7 @@ export class TRITrainLocationReport {
     const formattedTime = DateAndTimeUtils.getCurrentDateTime()
       .withHour(lt.hour())
       .withMinute(lt.minute())
-      .withSecond(lt.second())
+      .withSecond(0)
       .withNano(0)
       .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
@@ -53,7 +55,7 @@ export class TRITrainLocationReport {
     const eventTime = DateAndTimeUtils.getCurrentDateTime()
       .withHour(eventLocalTime.hour())
       .withMinute(eventLocalTime.minute())
-      .withSecond(eventLocalTime.second())
+      .withSecond(0)
       .withNano(0);
 
     const bookedLocalTime = LocalTime.parse(bookedTimestamp);
@@ -79,7 +81,8 @@ export class TRITrainLocationReport {
 
   public static trainLocationReportWithDelayAgainstBookedTime = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                                                  trainLocationStatus: string, delay: string) => {
-    TRITrainLocationReport.locationDateTime = DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+    TRITrainLocationReport.locationDateTime =
+      DateAndTimeUtils.getCurrentDateTime().withSecond(0).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     let isEarly = false;
     let absTimeDiff = delay;
     if (delay.substr(0, 1) === '-') {
@@ -103,7 +106,8 @@ export class TRITrainLocationReport {
 
   public static trainLocationReportWithTime = (locationPrimaryCode: string, locationSubsidiaryCode: string,
                                                trainLocationStatus: string, timeInfo: string) => {
-    TRITrainLocationReport.locationDateTime = DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+    TRITrainLocationReport.locationDateTime =
+      DateAndTimeUtils.getCurrentDateTime().withSecond(0).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     const trainLocationReport = fragment().ele('TrainLocationReport')
       .ele(TRILocation.trainLocation(locationPrimaryCode, locationSubsidiaryCode))
       .ele('LocationDateTime').txt(TRITrainLocationReport.locationDateTime).up()

@@ -1264,6 +1264,86 @@ Then(/^the predicted Departure punctuality for location "(.*)" instance (\d+) is
     });
   });
 
+Then(/^the planned times are either HH:MM or HH:MM:30 or Blank$/, async () => {
+  let index = 0;
+  const rowCount = (await timetablePage.getTableRows()).length;
+  while (index < rowCount) {
+    const row = (await timetablePage.getTableRows())[index++];
+    await row.refreshRowLocator();
+    const planArrEntry = await row.getValue('plannedArr');
+    const planDepEntry = await row.getValue('plannedDep');
+    expect(isTimeFormatValid(planArrEntry.trim(), 'Planned'), 'Incorrect format for Planned Arr').to.equal(true);
+    expect(isTimeFormatValid(planDepEntry.trim(), 'Planned'), 'Incorrect format for Planned Dep').to.equal(true);
+  }
+});
+
+Then(/^the public times are either HH:MM or Blank$/, async () => {
+  let index = 0;
+  const rowCount = (await timetablePage.getTableRows()).length;
+  while (index < rowCount) {
+    const row = (await timetablePage.getTableRows())[index++];
+    await row.refreshRowLocator();
+    const pubArrEntry = await row.getValue('publicArr');
+    const pubDepEntry = await row.getValue('publicDep');
+    expect(isTimeFormatValid(pubArrEntry.trim(), 'Public'), 'Incorrect format for Public Arr').to.equal(true);
+    expect(isTimeFormatValid(pubDepEntry.trim(), 'Public'), 'Incorrect format for Public Dep').to.equal(true);
+  }
+});
+
+Then(/^the actual times are either HH:MM or HH:MM c or HH:MM:30 c or N\/R or Blank$/, async () => {
+  let index = 0;
+  let actualsCount = 0;
+  let actualsZeroSecondsCount = 0;
+  let stillActuals = true;
+  const regexZeroSeconds = /^([0-1][0-9]|2[0-3]):[0-5][0-9]( c)?$/;
+  const rowCount = (await timetablePage.getTableRows()).length;
+  const entryTypes = ['actualArr', 'actualDep'];
+  while (index < rowCount && stillActuals) {
+    const row = (await timetablePage.getTableRows())[index++];
+    await row.refreshRowLocator();
+    for (const entryType of entryTypes) {
+      const actEntry = await row.getValue(entryType);
+      // As soon as we see times in brackets we are into the predicted times (covered by a different step)
+      if (actEntry.includes('(')) {
+        stillActuals = false;
+        continue;
+      }
+      expect(isTimeFormatValid(actEntry.trim(), 'Actual'), 'Incorrect format for ' + entryType + ' ' + actEntry).to.equal(true);
+      actualsCount++;
+      if (regexZeroSeconds.test(actEntry.trim())) {
+        actualsZeroSecondsCount++;
+      }
+    }
+  }
+  expect(actualsCount, 'No actual times found').to.be.greaterThan(0);
+  expect(actualsZeroSecondsCount, 'No actual times found on the whole minute').to.be.greaterThan(0);
+});
+
+Then(/^the predicted times do not show zero seconds$/, async () => {
+  let index = 0;
+  let predictedCount = 0;
+  let predictedZeroSecondsCount = 0;
+  const regexZeroSeconds = /^\(([0-1][0-9]|2[0-3]):[0-5][0-9]\)$/;
+  const rowCount = (await timetablePage.getTableRows()).length;
+  const entryTypes = ['actualArr', 'actualDep'];
+  while (index < rowCount) {
+    const row = (await timetablePage.getTableRows())[index++];
+    await row.refreshRowLocator();
+    for (const entryType of entryTypes) {
+      const actEntry = await row.getValue(entryType);
+      if (actEntry.includes('(')) {
+        expect(isTimeFormatValid(actEntry.trim(), 'Predicted'), 'Incorrect format for ' + entryType).to.equal(true);
+        predictedCount++;
+        if (regexZeroSeconds.test(actEntry.trim())) {
+          predictedZeroSecondsCount++;
+        }
+      }
+    }
+  }
+  expect(predictedCount, 'No predicted times found').to.be.greaterThan(0);
+  expect(predictedZeroSecondsCount, 'No predicted times found on the whole minute').to.be.greaterThan(0);
+});
+
 function convertDaysStringIfNecessary(daysString: string): string {
   if (daysString.length !== 7) {
     return daysString;
@@ -1337,4 +1417,26 @@ function stripBrackets(toBeStripped: string): string {
     .replace(')', '')
     .replace('[', '')
     .replace(']', '');
+}
+
+function isTimeFormatValid(gridEntry: string, timeType: string): boolean {
+  const regexPlanned = /^(([0-1][0-9]|2[0-3]):[0-5][0-9](:30)?|)$/;
+  const regexPublic = /^(([0-1][0-9]|2[0-3]):[0-5][0-9]|)$/;
+  const regexActual = /^(([0-1][0-9]|2[0-3]):[0-5][0-9](:30)?( c)?|N\/R|)$/;
+  const regexPredicted = /^(\(([0-1][0-9]|2[0-3]):[0-5][0-9](:[0][1-9]|:[1-5][0-9])?\)|)$/;
+  if (timeType === 'Planned') {
+    return regexPlanned.test(gridEntry);
+  }
+  else if (timeType === 'Public') {
+    return regexPublic.test(gridEntry);
+  }
+  else if  (timeType === 'Actual') {
+    return regexActual.test(gridEntry);
+  }
+  else if  (timeType === 'Predicted') {
+    return regexPredicted.test(gridEntry);
+  }
+  else {
+    return false;
+  }
 }

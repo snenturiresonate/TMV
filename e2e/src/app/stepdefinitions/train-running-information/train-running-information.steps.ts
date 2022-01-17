@@ -4,6 +4,7 @@ import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {CucumberLog} from '../../logging/cucumber-log';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {browser} from 'protractor';
+import {DateTimeFormatter} from '@js-joda/core';
 
 const linxRestClient: LinxRestClient = new LinxRestClient();
 
@@ -24,14 +25,17 @@ When(/^the following train running information? (?:message|messages)? (?:is|are)
       trainUID = browser.referenceTrainUid;
     }
     let operationalTrainNumber = tri.trainNumber;
-    if (operationalTrainNumber.includes('generated')) {
+    if (operationalTrainNumber === 'generatedTrainDescription' || operationalTrainNumber === 'generated') {
       operationalTrainNumber = browser.referenceTrainDescription;
     }
     const scheduledStartDate = tri.scheduledStartDate;
     const locationPrimaryCode = tri.locationPrimaryCode;
     const locationSubsidiaryCode = tri.locationSubsidiaryCode;
     const messageType = tri.messageType;
-    const hourDepartFromOrigin = tri.hourDepartFromOrigin;
+    let hourDepartFromOrigin = tri.hourDepartFromOrigin;
+    if (tri.hourDepartFromOrigin === 'now') {
+      hourDepartFromOrigin = DateAndTimeUtils.getCurrentTime().format(DateTimeFormatter.ofPattern('HH')).toString.replace(/^0+/, '');
+    }
     const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithoutDelay(locationPrimaryCode, locationSubsidiaryCode,
       operationalTrainNumber, trainUID,
       scheduledStartDate, messageType, hourDepartFromOrigin);
@@ -57,13 +61,20 @@ When(/^the following train running information? (?:message|messages) with delay 
       if (trainUID === 'generatedTrainUId' || trainUID === 'generated') {
         trainUID = browser.referenceTrainUid;
       }
-      const operationalTrainNumber = tri.trainNumber;
+      let operationalTrainNumber = tri.trainNumber;
+      if (operationalTrainNumber === 'generatedTrainDescription' || operationalTrainNumber === 'generated') {
+        operationalTrainNumber = browser.referenceTrainDescription;
+      }
       const scheduledStartDate = tri.scheduledStartDate;
       const locationPrimaryCode = tri.locationPrimaryCode;
       const locationSubsidiaryCode = tri.locationSubsidiaryCode;
       const messageType = tri.messageType;
       const delay = tri.delay;
-      const hourDepartFromOrigin = tri.hourDepartFromOrigin;
+      let hourDepartFromOrigin = tri.hourDepartFromOrigin;
+      if (tri.hourDepartFromOrigin === 'now') {
+        hourDepartFromOrigin = DateAndTimeUtils.getCurrentTime().format(DateTimeFormatter.ofPattern('HH'));
+        hourDepartFromOrigin.replace(/^0+/, '');
+      }
       const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithDelayAgainstBookedTime(
         locationPrimaryCode, locationSubsidiaryCode, operationalTrainNumber, trainUID,
         scheduledStartDate, messageType, delay, hourDepartFromOrigin);
@@ -79,14 +90,24 @@ When(/^the following train running info? (?:message|messages) with time? (?:is|a
     const trainRunningInfoMessages = trainRunningInfoMessageTable.hashes();
     for (const tri of trainRunningInfoMessages) {
       const trainRunningInformationMessageBuilder: TrainRunningInformationMessageBuilder = new TrainRunningInformationMessageBuilder();
-      const trainUID = tri.trainUID;
-      const operationalTrainNumber = tri.trainNumber;
+      let trainUID = tri.trainUID;
+      if (trainUID === 'generatedTrainUId' || trainUID === 'generated') {
+        trainUID = browser.referenceTrainUid;
+      }
+      let operationalTrainNumber = tri.trainNumber;
+      if (operationalTrainNumber === 'generatedTrainDescription' || operationalTrainNumber === 'generated') {
+        operationalTrainNumber = browser.referenceTrainDescription;
+      }
       const scheduledStartDate = tri.scheduledStartDate;
       const locationPrimaryCode = tri.locationPrimaryCode;
       const locationSubsidiaryCode = tri.locationSubsidiaryCode;
       const messageType = tri.messageType;
       const timestamp = DateAndTimeUtils.parseTimeEquation(tri.timestamp, 'HH:mm:ss');
-      const hourDepartFromOrigin = tri.hourDepartFromOrigin;
+      let hourDepartFromOrigin = tri.hourDepartFromOrigin;
+      if (tri.hourDepartFromOrigin === 'now') {
+        hourDepartFromOrigin = DateAndTimeUtils.getCurrentTime().format(DateTimeFormatter.ofPattern('HH'));
+        hourDepartFromOrigin.replace(/^0+/, '');
+      }
       const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithTime(locationPrimaryCode, locationSubsidiaryCode,
         operationalTrainNumber, trainUID, scheduledStartDate, messageType, timestamp, hourDepartFromOrigin);
       const triMessage: string = trainRunningInfo.toString({prettyPrint: true});
@@ -102,15 +123,25 @@ When(/^the following train running info? (?:message|messages) with time? and del
     const trainRunningInfoMessages = trainRunningInfoMessageTable.hashes();
     for (const tri of trainRunningInfoMessages) {
       const trainRunningInformationMessageBuilder: TrainRunningInformationMessageBuilder = new TrainRunningInformationMessageBuilder();
-      const trainUID = tri.trainUID;
-      const operationalTrainNumber = tri.trainNumber;
+      let trainUID = tri.trainUID;
+      if (trainUID === 'generatedTrainUId' || trainUID === 'generated') {
+        trainUID = browser.referenceTrainUid;
+      }
+      let operationalTrainNumber = tri.trainNumber;
+      if (operationalTrainNumber === 'generatedTrainDescription' || operationalTrainNumber === 'generated') {
+        operationalTrainNumber = browser.referenceTrainDescription;
+      }
       const scheduledStartDate = tri.scheduledStartDate;
       const locationPrimaryCode = tri.locationPrimaryCode;
       const locationSubsidiaryCode = tri.locationSubsidiaryCode;
       const messageType = tri.messageType;
       const bookedTime = DateAndTimeUtils.parseTimeEquation(tri.bookedTime, 'HH:mm:ss');
       const timestamp = DateAndTimeUtils.parseTimeEquation(tri.timestamp, 'HH:mm:ss');
-      const hourDepartFromOrigin = tri.hourDepartFromOrigin;
+      let hourDepartFromOrigin = tri.hourDepartFromOrigin;
+      if (tri.hourDepartFromOrigin === 'now') {
+        hourDepartFromOrigin = DateAndTimeUtils.getCurrentTime().format(DateTimeFormatter.ofPattern('HH'));
+        hourDepartFromOrigin.replace(/^0+/, '');
+      }
       const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithTimeAgainstBooked(
         locationPrimaryCode, locationSubsidiaryCode, operationalTrainNumber, trainUID, scheduledStartDate,
         messageType, bookedTime, timestamp, hourDepartFromOrigin);
