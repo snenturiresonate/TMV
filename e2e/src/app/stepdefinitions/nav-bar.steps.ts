@@ -347,6 +347,12 @@ Then('the results window shows no results found', async () => {
     .to.contain('No results found');
 });
 
+Then('the signal results window shows no results found', async () => {
+  const text: string = await navBarPage.getNoSignalResultsText();
+  expect(text, `Results box does not contain no results found message`)
+    .to.contain('No results found');
+});
+
 Then('the table column header is {string}', async (expectedTitle: string) => {
   const actualTitle: string = await navBarPage.getTableColumnHeader();
   expect(actualTitle, `Table column header does not contain ${expectedTitle}`)

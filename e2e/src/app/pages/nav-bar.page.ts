@@ -283,6 +283,10 @@ export class NavBarPageObject {
     return element(by.id('no-train-search-results')).getText();
   }
 
+  public async getNoSignalResultsText(): Promise<string> {
+    return element(by.id('no-signal-search-results')).getText();
+  }
+
   public async trainSearchBoxIsVisible(): Promise<boolean> {
     await CommonActions.waitForElementToBeVisible(this.trainSearchBox);
     return true;
