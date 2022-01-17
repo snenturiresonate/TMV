@@ -34,13 +34,12 @@ Feature: 78858 - TMV Replay Controls & Display - Change Replay Session Start and
       | today | now - 5  | 5        |
     And the maximum duration possible is 240 minutes
     And I select Next
-    And I start the stopwatch
-    Then the select map page is not displayed
-    And the replay playback time and status contains 'Loading data...'
-#    @bug @bug:83244
-#    When the replay playback time and status does not contain 'Loading data...'
-#    And I stop the stopwatch
-#    Then the stopwatch reads less than '5000' milliseconds, within a tolerance of '500' milliseconds
+    Then the replay playback time and status contains 'Loading data...'
+    And the select map page is not displayed
+    When I start the stopwatch
+    And the replay playback time and status does not contain 'Loading data...'
+    And I stop the stopwatch
+    Then the stopwatch reads less than '5000' milliseconds, within a tolerance of '500' milliseconds
 
   Examples:
     | mapGroup               | map                   |
