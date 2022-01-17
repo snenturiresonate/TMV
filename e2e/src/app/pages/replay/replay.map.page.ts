@@ -188,6 +188,10 @@ export class ReplayMapPage {
     return this.replayPlaybackTime.getText();
   }
 
+  public async getReplayDateAndTimeFontSize(): Promise<string> {
+    return this.replayPlaybackTime.getCssValue('font-size');
+  }
+
   public async setManualInputSpeed(speed: number): Promise<void> {
     await CommonActions.waitForElementInteraction(this.manualSpeedInput);
     await this.manualSpeedInput.clear();

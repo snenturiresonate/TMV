@@ -377,6 +377,12 @@ When(/^I primary click the replay time$/, async () => {
   await replayPage.clickReplayPlaybackTime();
 });
 
+Then(/^the replay date and time text size is (.*)$/, async (expectedFontSize: string) => {
+  const textSize: string = await replayPage.getReplayDateAndTimeFontSize();
+  expect(textSize, `The replay date and time text size was not ${expectedFontSize} pixels, it was ${textSize}`)
+    .to.equal(expectedFontSize);
+});
+
 Then(/^the replay playback time and status contains '(.*)'$/, async (expectedToContain: string) => {
   const replayPlaybackStatusText = await replayPage.getReplayPlaybackTimeAndStatus();
   expect(replayPlaybackStatusText, `The replay playback status text did not contain ${expectedToContain}`)
