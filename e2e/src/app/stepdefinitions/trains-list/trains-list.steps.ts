@@ -27,7 +27,10 @@ const defaultColumns = ['SCHED.', 'SERVICE', 'TIME', 'REPORT', 'PUNCT.', 'ORIGIN
 
 const colTextColourHex = {
   green: '#28a745',
-  orange: '#ffc107'
+  orange: '#ffc107',
+  blue: '#007bff',
+  black: '#212529',
+  hoverBlack: '#16181b'
 };
 
 const mapTLColIds = new Map([
@@ -318,9 +321,20 @@ Then('the trains list context menu contains {string} on line {int}', async (expe
   expect(actualContextMenuItem.toLowerCase(), 'Trains list menu item is not as expected').to.contain(expectedText.toLowerCase());
 });
 
-Then('the trains list context menu has {string} on line {int}', async (expectedText: string, rowNum: number) => {
-  const actualContextMenuItem: string = await trainsListPage.getTrainsListContextMenuItem(rowNum);
-  expect(actualContextMenuItem, 'Trains list menu item is not as expected').to.equal(expectedText);
+Then('the trains list context menu on line {int} has text colour {string}', async (rowNum: number, expectedColour: string) => {
+  const actualContextMenuItemColorRgb: string = await trainsListPage.getTrainsListContextMenuItemColor(rowNum);
+  const actualContextMenuItemColorHex: string = CssColorConverterService.rgb2Hex(actualContextMenuItemColorRgb);
+  const expectedColourHex: string = colTextColourHex[expectedColour];
+  expect(actualContextMenuItemColorHex, 'Trains list menu item text colour is not as expected').to.contain(expectedColourHex);
+});
+
+Then('the trains list context menu on line {int} has text underline {string}', async (rowNum: number, expectedUnderline: string) => {
+  const actualContextMenuItemTextDecorationLine: string = await trainsListPage.getTrainsListContextMenuItemTextDecorationLine(rowNum);
+  expect(actualContextMenuItemTextDecorationLine, 'Trains list menu item text underline is not as expected').to.contain(expectedUnderline);
+});
+
+When('I hover over the trains list context menu on line {int}', async (rowNum: number) => {
+  await trainsListPage.hoverOverContextMenuRow(rowNum);
 });
 
 Then('the trains list context menu contains the {word} {string} of train {int} on line {int}',

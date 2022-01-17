@@ -144,6 +144,19 @@ export class TrainsListPageObject {
     return this.trainsListContextMenuItems.get(rowIndex - 1).getText();
   }
 
+  public async getTrainsListContextMenuItemColor(rowIndex: number): Promise<string> {
+    return this.trainsListContextMenuItems.get(rowIndex - 1).getCssValue('color');
+  }
+
+  public async getTrainsListContextMenuItemTextDecorationLine(rowIndex: number): Promise<string> {
+    return this.trainsListContextMenuItems.get(rowIndex - 1).getCssValue('text-decoration-line');
+  }
+
+  public async hoverOverContextMenuRow(rowIndex: number): Promise<void> {
+    await CommonActions.waitForElementInteraction(this.trainsListContextMenuItems.get(rowIndex - 1));
+    await browser.actions().mouseMove(this.trainsListContextMenuItems.get(rowIndex - 1)).perform();
+  }
+
   public async getCountOfPredictedTimesForRow(row: number): Promise<number> {
     const rowStr: string = row.toString();
     const predictedValues: ElementArrayFinder = element.all(by.css('#train-tbody tr:nth-child(' + rowStr + ') td .predicted-data'));
