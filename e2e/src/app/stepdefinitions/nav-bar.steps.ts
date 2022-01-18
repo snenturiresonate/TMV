@@ -494,8 +494,8 @@ Then('I click on the unscheduled timetable link', async () => {
   await navBarPage.unscheduledContext.click();
 });
 
-Then('I placed the mouseover on map arrow link', async () => {
-  await browser.actions().mouseMove(element(by.css('.map-link:nth-child(1)'))).perform();
+When('I place the mouseover on map arrow link', async () => {
+  await browser.actions().mouseMove(element(by.id('right-arrow'))).perform();
 });
 
 Then('I placed the mouseover on map option', async () => {

@@ -20,7 +20,7 @@ Feature: 79015 - TMV National Search Additions - National Berth Search Highlight
     And I wait for the berth search context menu to display
     And the berth context menu is displayed
     And the train search context menu contains 'Select maps' on line 1
-    And I placed the mouseover on map arrow link
+    And I place the mouseover on map arrow link
     And the following map names can be seen for the berth
       | mapName |
       | GW02    |
@@ -59,7 +59,7 @@ Feature: 79015 - TMV National Search Additions - National Berth Search Highlight
     And I wait for the berth search context menu to display
     And the berth context menu is displayed
     And the train search context menu contains 'Select maps' on line 1
-    And I placed the mouseover on map arrow link
+    And I place the mouseover on map arrow link
     And the following map names can be seen for the berth
       | mapName |
       | GW02    |
@@ -117,7 +117,7 @@ Feature: 79015 - TMV National Search Additions - National Berth Search Highlight
     And I wait for the berth search context menu to display
     And the berth context menu is displayed
     And the train search context menu contains 'Select maps' on line 1
-    And I placed the mouseover on map arrow link
+    And I place the mouseover on map arrow link
     And the following map names can be seen for the berth
       | mapName |
       | GW02    |

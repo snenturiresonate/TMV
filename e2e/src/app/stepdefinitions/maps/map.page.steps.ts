@@ -966,9 +966,12 @@ Then(/^the (?:train|signal) in berth (\w+) is highlighted on page load$/,
 
 Then(/^the train in berth (\w+) is not highlighted$/,
   async (berthId: string) => {
+    // needed when checking replay
+    await browser.waitForAngularEnabled(false);
     const berthIsHighlighted: boolean = await mapPageObject.isBerthHighlighted(berthId);
     expect(berthIsHighlighted, `The train in berth ${berthId} was highlighted`)
       .to.equal(false);
+    await browser.waitForAngularEnabled(true);
   });
 
 Then('the menu is displayed with {string} option',

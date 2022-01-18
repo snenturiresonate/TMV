@@ -92,6 +92,9 @@ When('I invoke the context menu from train with planning UID {string} on the sea
 // tslint:disable-next-line:max-line-length
 When(/^I invoke the context menu from train with planning UID '(.*)' and schedule date '(.*)' from the search results$/,
   async (planningUID: string, schedDate: string) => {
+  if (planningUID.includes('generated')) {
+    planningUID = browser.referenceTrainUid;
+  }
   const date = () => {
     if (schedDate === 'today') {
       return DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy');
