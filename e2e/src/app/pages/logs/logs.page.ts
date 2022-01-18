@@ -32,4 +32,14 @@ export class LogsPage {
     const colNames: ElementArrayFinder =  element.all(by.css('.tmv-tab-content-active th'));
     return colNames.get(pos).getText();
   }
+
+  public async getLogResultsValuesForRow(row: number): Promise<string[]> {
+    const rowStr: string = row.toString();
+    const values: ElementArrayFinder = element.all(by.css('#berth-logs-table tbody :nth-child(' + rowStr + ') td'));
+    return values.map((colValue: ElementFinder) => {
+      return colValue.getText();
+    });
+  }
+
+
 }

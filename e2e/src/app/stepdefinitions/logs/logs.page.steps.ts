@@ -32,3 +32,17 @@ Then('the log results table has columns in the following order', async (tabNameD
     i++;
   }
 });
+
+Then(/^the log results for row '(\d+)' are$/, async (row: number, table: any) => {
+  const expectedValues = table.hashes()[0];
+  const actualValues = await logsPage.getLogResultsValuesForRow(row);
+
+  compareLogResultField(actualValues[0], expectedValues.trainId);
+  compareLogResultField(actualValues[1], expectedValues.fromBerth);
+  compareLogResultField(actualValues[2], expectedValues.toBerth);
+  compareLogResultField(actualValues[3], expectedValues.previousTrainId);
+});
+
+function compareLogResultField(actual: string, expected: string): void {
+  expect(actual, `Expected ${expected} but was ${actual}`).to.equal(expected);
+}
