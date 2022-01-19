@@ -1,4 +1,4 @@
-@TMVPhase2 @P2.S3
+@TMVPhase2 @P2.S1
 Feature: 79622 - TMV Schematic Map Version - Display map version and applicable date
 
   As a TMV User

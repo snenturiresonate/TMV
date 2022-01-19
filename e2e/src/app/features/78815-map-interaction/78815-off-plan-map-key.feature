@@ -11,7 +11,7 @@ Then the Off Plan indication is displayed
     And The admin setting defaults are as originally shipped
     And I refresh the browser
 
-  Scenario: 34085-2b The TMV Key berth table is displayed within the modal when the tmv icon is clicked
+  Scenario: 79589-1 The TMV Key berth table is displayed within the modal when the tmv icon is clicked
     When I click on the Help icon
     And I select the TMV Key option
     Then a modal displays with title 'Key'

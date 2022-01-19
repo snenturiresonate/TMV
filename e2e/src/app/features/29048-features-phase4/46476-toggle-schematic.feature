@@ -1,3 +1,4 @@
+@TMVPhase2 @P2.S1
 Feature: 33751 - Toggle Schematic
 
   As a TMV User

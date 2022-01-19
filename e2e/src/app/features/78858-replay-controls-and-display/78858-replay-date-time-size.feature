@@ -1,5 +1,5 @@
 @TMVPhase2 @P2.S1
-Feature: 78858 - TMV Replay Controls & Display - PreReplay Search Box Removal
+Feature: 78858 - TMV Replay Controls & Display - Replay Date Time Size
   As a TMV User
   I want to the replay controls and view updated
   So that it is closer to CCF which I am familiar with
