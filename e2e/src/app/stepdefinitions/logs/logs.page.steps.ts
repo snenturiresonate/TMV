@@ -43,6 +43,30 @@ Then(/^the log results for row '(\d+)' are$/, async (row: number, table: any) =>
   compareLogResultField(actualValues[3], expectedValues.previousTrainId);
 });
 
+Then(/^the log results for row '(\d+)' displays '(.*)' and punctuality '(.*)'$/,  async (row: number, trainNum: string, expectedPunctuality: string) => {
+  const actualValues = await logsPage.getLogResultsValuesForRow(row);
+  if (trainNum.includes('generated')) {
+    trainNum = browser.referenceTrainDescription;
+  }
+  compareLogResultField(actualValues[0], trainNum);
+  if (expectedPunctuality === 'null') {
+    compareLogResultField(actualValues[6], '');
+  }
+
+  if (expectedPunctuality === '0') {
+    compareLogResultField(actualValues[6], '00:00:00');
+  }
+
+  if (expectedPunctuality === '+' || expectedPunctuality === '-'){
+    const colon = /\:/gi;
+    const actualPunctuality = actualValues[6].replace('+', '')
+                                  .replace('-', '')
+                                  .replace(colon, '');
+    expect(actualValues[6], `Expected ${expectedPunctuality} but was ${actualValues[6]}`).to.contain(expectedPunctuality);
+    expect(parseInt(actualPunctuality, 10), `Expected ${expectedPunctuality} but was ${actualValues[6]}`).to.greaterThan(1);
+  }
+});
+
 function compareLogResultField(actual: string, expected: string): void {
   expect(actual, `Expected ${expected} but was ${actual}`).to.equal(expected);
 }
