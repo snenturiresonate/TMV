@@ -23,7 +23,7 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Previous Train 
       | <berth1> | <trainDescriber> | <trainDescription2> |
     And I navigate to the Berth log tab
     When I search for Berth logs for toBerthId '<berth1>'
-    Then the log results for row '1' are
+    Then the first movement log berth results are
       | trainId             | fromBerth | toBerth | previousTrainId     |
       | <trainDescription2> |           | D3C007  | <trainDescription1> |
 
@@ -38,7 +38,7 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Previous Train 
 #    And a Previous Train ID is not available
 #    Then the Previous Train ID column displays an empty cell
     Given I am on the log viewer page
-    And the following live berth interpose message is sent from LINX (to indicate train is present)
+    And the following live berth interpose message is sent from LINX (to ensure following cancel will clear the berth)
       | toBerth  | trainDescriber   | trainDescription    |
       | <berth1> | <trainDescriber> | <trainDescription1> |
     And the following live berth cancel messages are sent from LINX
@@ -49,7 +49,7 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Previous Train 
       | <berth1> | <trainDescriber> | <trainDescription1> |
     And I navigate to the Berth log tab
     When I search for Berth logs for toBerthId '<berth1>'
-    Then the log results for row '1' are
+    Then the first movement log berth results are
       | trainId             | fromBerth | toBerth | previousTrainId |
       | <trainDescription1> |           | D3C007  |                 |
 

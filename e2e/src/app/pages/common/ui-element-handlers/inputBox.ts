@@ -79,9 +79,22 @@ export class InputBox {
   }
   /**
    * for when .clear() just isn't working
+   * This can be when the <input> tag has an onBlur event associated with it (i.e. JS validation)
+   * https://stackoverflow.com/questions/19966240/protractor-clear-not-working
    * Input: Location of <input> tag
    */
   public static async ctrlADeleteClear(elm: ElementFinder): Promise<void> {
-    elm.sendKeys(protractor.Key.chord(protractor.Key.CONTROL, 'a', protractor.Key.DELETE));
+    const platformControlKey = await this.getControlKeyForPlatform();
+    await elm.sendKeys(protractor.Key.chord(platformControlKey, 'a'));
+    await elm.sendKeys(protractor.Key.DELETE);
+  }
+  /**
+   * Determine the control key for the platform
+   */
+  public static async getControlKeyForPlatform(): Promise<string> {
+    const caps = await browser.getCapabilities();
+    const platform = caps.get('platform');
+    const isMac = /^mac/.test(platform.toLowerCase());
+    return isMac ? protractor.Key.COMMAND : protractor.Key.CONTROL;
   }
 }

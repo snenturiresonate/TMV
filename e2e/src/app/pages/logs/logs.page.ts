@@ -1,8 +1,28 @@
 import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
+import {InputBox} from '../common/ui-element-handlers/inputBox';
 
 export class LogsPage {
   public logTabs: ElementArrayFinder;
 
+  private static getDivIdStarter(tabName: string): string {
+    let divIdStarter = tabName.toLowerCase();
+    if (tabName === 'Signal') {
+      divIdStarter = 'latch';
+    }
+    else if (tabName === 'S-Class') {
+      divIdStarter = 's';
+    }
+    return divIdStarter;
+  }
+
+  private static async setSearchField(divIdStarter: string, fieldName: string, searchVal: any): Promise<void> {
+    const inputTextElement: ElementFinder = element(by.css(`div[id*=${divIdStarter}] input[formcontrolname = ${fieldName}]`));
+    await InputBox.ctrlADeleteClear(inputTextElement);
+    const trimmedValue = searchVal.trim();
+    if (!(!searchVal || trimmedValue.length === 0)) {   // if not blank
+      await inputTextElement.sendKeys(trimmedValue);
+    }
+  }
   constructor() {
     this.logTabs = element.all(by.css('.tmv-tabs-vertical li span'));
   }
@@ -12,19 +32,18 @@ export class LogsPage {
   }
 
   public async searchSingleField(tabName: string, fieldName: string, searchVal: string): Promise<void> {
-    let divIdStarter = tabName.toLowerCase();
-    if (tabName === 'Signal') {
-      divIdStarter = 'latch';
-    }
-    else if (tabName === 'S-Class') {
-      divIdStarter = 's';
-    }
+    const divIdStarter = LogsPage.getDivIdStarter(tabName);
+    await LogsPage.setSearchField(divIdStarter, fieldName, searchVal);
+    const searchButton: ElementFinder = element(by.css(`button[id^=${divIdStarter}][id$=submit]`));
+    return searchButton.click();
+  }
 
-    const inputTextElement: ElementFinder =
-      element(by.css('div[id*=' + divIdStarter + '] input[formcontrolname = ' + fieldName + ']'));
-    const searchButton: ElementFinder = element(by.css('button[id^=' + divIdStarter + '][id$=submit]'));
-    await inputTextElement.clear();
-    await inputTextElement.sendKeys(searchVal);
+  public async searchMultipleFields(tabName: string, criteria: any): Promise<void> {
+    const divIdStarter = LogsPage.getDivIdStarter(tabName);
+    for (const [field, value] of Object.entries(criteria)) {
+      await LogsPage.setSearchField(divIdStarter, field, value);
+    }
+    const searchButton: ElementFinder = element(by.css(`button[id^=${divIdStarter}][id$=submit]`));
     return searchButton.click();
   }
 
@@ -33,13 +52,16 @@ export class LogsPage {
     return colNames.get(pos).getText();
   }
 
-  public async getLogResultsValuesForRow(row: number): Promise<string[]> {
+  public async getMovementLogResultsValuesForRow(tab: string, row: number): Promise<string[]> {
     const rowStr: string = row.toString();
-    const values: ElementArrayFinder = element.all(by.css('#berth-logs-table tbody :nth-child(' + rowStr + ') td'));
+    const values: ElementArrayFinder = element.all(by.css(`#${tab}-logs-table tbody :nth-child(${rowStr}) td`));
     return values.map((colValue: ElementFinder) => {
       return colValue.getText();
     });
   }
 
-
+  public async getSearchError(tab: string): Promise<string> {
+    const value: ElementFinder = element(by.css(`#${tab}-logs-form-submit + span`));
+    return value.getText();
+  }
 }
