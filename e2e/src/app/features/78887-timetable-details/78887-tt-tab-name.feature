@@ -1,9 +1,9 @@
 @TMVPhase2 @P2.S1
-Feature: 78815 - TMV Map Interaction - Launched Timetable Tab Name (Live and Replay)
+Feature: 78887 - TMV Timetable Details - Launched Timetable Tab Name (Live and Replay)
 
   As a TMV User
-  I want the ability to interact with the schematic maps
-  So that I can access additional functions or information
+  I want the system to provide the Timetable Details in replay and live
+  So that I can view the Timetable Details whether I'm in replay or live
 
   Scenario Outline: 78846-1 Live and Replay - Open Timetable (from Map - Schedule Matched not activated)
     # Replay Setup
