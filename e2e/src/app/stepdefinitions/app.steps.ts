@@ -558,21 +558,21 @@ Given('I am on the live timetable page with schedule id {string}', async (schedu
   await page.navigateTo(`tmv/live-timetable/${scheduleId}`);
 });
 
-
 Then('the tab title is {string}', async (expectedTabTitle: string) => {
-  if (expectedTabTitle.includes('generated')) {
+  if (expectedTabTitle.includes('generated ')) {
     expectedTabTitle = expectedTabTitle.replace('generated', browser.referenceTrainDescription);
+  }
+  if (expectedTabTitle.includes('generatedTrainDescription')) {
+    expectedTabTitle = expectedTabTitle.replace('generatedTrainDescription', browser.referenceTrainDescription);
   }
   await browser.driver.wait(async () => {
     const tabTitle: string = await browser.driver.getTitle();
     await CucumberLog.addText(`Expecting ${tabTitle} to be ${expectedTabTitle}`);
     return tabTitle.includes(expectedTabTitle);
-  }, browser.params.quick_timeout, `Tab title did not contain ${expectedTabTitle}, see info for more details`);
+  }, browser.params.replay_timeout, `Tab title did not contain ${expectedTabTitle}, see info for more details`);
   const actualTabTitle: string = await browser.driver.getTitle();
   expect(actualTabTitle, `Tab title is ${actualTabTitle} not ${expectedTabTitle}`)
     .to.equal(expectedTabTitle);
-
-
 });
 
 Then('the tab title contains {string}', async (expectedTabTitle: string) => {
@@ -687,23 +687,49 @@ When(/^the following TJMs? (?:is|are) received$/, async (table: any) => {
 When(/^the following change of ID TJM is received$/, async (table: any) => {
   const messages: any = table.hashes();
   for (const message of messages) {
-    const tjmBuilder = createBaseTjmMessage(message.newTrainNumber, message.trainUid, message.departureHour)
+    let runDate = 'today';
+    const now = DateAndTimeUtils.getCurrentDateTime();
+    let depHour = now.format(DateTimeFormatter.ofPattern('HH'));
+    let timeStamp = now.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+    if (message.departureHour !== 'now') {
+      depHour = message.departureHour;
+    }
+    if (message.modificationTime !== 'now') {
+      timeStamp = message.modificationTime;
+    }
+    if (message.runDate === 'tomorrow') {
+      runDate = 'tomorrow';
+    }
+    let trainUID = message.trainUid;
+    if (trainUID === 'generatedTrainUId' || trainUID === 'generated') {
+      trainUID = browser.referenceTrainUid;
+    }
+    let trainDescription = message.newTrainNumber;
+    if (trainDescription.includes('generated')) {
+      trainDescription = browser.referenceTrainDescription;
+    }
+
+    const tjmBuilder = createBaseTjmMessage(trainDescription, trainUID, depHour, runDate)
       .withTrainJourneyModification(new TrainJourneyModificationBuilder()
         .withTrainJourneyModificationIndicator(message.indicator)
         .withLocationModified(new LocationModifiedBuilder()
           .withModificationStatusIndicator(message.statusIndicator)
           .withLocation(new LocationBuilder()
             .withLocationPrimaryCode(message.primaryCode)
+            .withLocationSubsidiaryIdentification(new LocationSubsidiaryIdentificationBuilder()
+              .withLocationSubsidiaryCode(message.subsidiaryCode)
+              .build())
             .build())
           .build())
         .build())
+      .withModificationReason(message.modificationReason)
       .withReferenceOTN(new ReferenceOTNBuilder()
         .withOperationalTrainNumberIdentifier(new OperationalTrainNumberIdentifierBuilder()
           .withOperationalTrainNumber(message.oldTrainNumber)
           .build())
         .build());
     if (message.modificationTime !== undefined) {
-      tjmBuilder.withTrainJourneyModificationTime(message.modificationTime);
+      tjmBuilder.withTrainJourneyModificationTime(timeStamp);
     }
     const tjmMessage = tjmBuilder.build();
 

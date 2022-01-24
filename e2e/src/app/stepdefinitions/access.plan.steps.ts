@@ -101,7 +101,7 @@ async function processCifInputs(cifInputs, plusMins = 0, minusMins = 0): Promise
   const newTrainProps: any = cifInputs.hashes()[0];
   let refTrainUid;
   let refTrainDescription = newTrainProps.newTrainDescription;
-  if (newTrainProps.newPlanningUid === 'generated') {
+  if (newTrainProps.newPlanningUid.includes('generated')) {
     refTrainUid = browser.referenceTrainUid;
   }
   else {

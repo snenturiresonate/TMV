@@ -527,6 +527,15 @@ export class NavBarPageObject {
     await this.timeTableLink.click();
   }
 
+  public async openTodayTimetableForTrainUid(trainUid: string): Promise<void> {
+    const today: string = DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy');
+    const rowLocator = element(by.xpath(`//*[child::*[text()='${trainUid}'][following-sibling::*[text()='${today}']]]`));
+    await CommonActions.waitForElementInteraction(rowLocator);
+    await browser.actions().click(rowLocator, protractor.Button.RIGHT).perform();
+    await this.waitForSearchContext();
+    await this.timeTableLink.click();
+  }
+
   public async openHelpMenu(): Promise<void> {
     await this.helpMenu.click();
   }

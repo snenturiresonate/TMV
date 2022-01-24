@@ -551,7 +551,17 @@ When('I invoke the context menu from train {int} on the trains list table', asyn
 });
 
 When(/^I open the timetable for the next train with UID (.*) fron the search results$/, async (trainUid: string) => {
+  if (trainUid.includes('generated')) {
+    trainUid = browser.referenceTrainUid;
+  }
   await navBarPage.openTimetableForTrainUid(trainUid);
+});
+
+When(/^I open today's timetable with planning UID (.*) fron the search results$/, async (trainUid: string) => {
+  if (trainUid.includes('generated')) {
+    trainUid = browser.referenceTrainUid;
+  }
+  await navBarPage.openTodayTimetableForTrainUid(trainUid);
 });
 
 When('I click on the Help icon', async () => {

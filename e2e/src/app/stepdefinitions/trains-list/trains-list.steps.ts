@@ -167,7 +167,7 @@ When(/^I remove today's train '(.*)' from the Redis trainlist$/, async (uid: str
 });
 
 When(/^I wait until today's train '(.*)' has loaded$/, async (uid: string) => {
-  if (uid === 'generatedTrainUId' || uid === 'generated') {
+  if (uid.includes('generated')) {
     uid = browser.referenceTrainUid;
   }
   const date: string = await DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd');

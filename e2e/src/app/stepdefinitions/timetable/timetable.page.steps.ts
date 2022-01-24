@@ -164,7 +164,7 @@ Then('The values for the header properties are as follows',
     let expectedUid = expectedHeaderPropertyValues.trainUid;
     let expectedTrainDescription = expectedHeaderPropertyValues.headCode;
     const expectedTJM = expectedHeaderPropertyValues.lastTJM;
-    if (expectedUid === 'generatedTrainUId' || expectedUid === 'generated') {
+    if (expectedUid.includes('generated')) {
       expectedUid = browser.referenceTrainUid;
     }
     if (expectedTrainDescription.includes('generated')) {
@@ -179,13 +179,15 @@ Then('The values for the header properties are as follows',
     expect(actualHeaderSignal, 'Last Signal is not as expected')
       .to.equal(expectedHeaderPropertyValues.lastSignal);
     expect(actualHeaderLastReported, 'Last Reported is not as expected')
-      .to.equal(expectedHeaderPropertyValues.lastReport);
+      .to.contain(expectedHeaderPropertyValues.lastReport);
     expect(actualHeaderTrainUid, 'Train UID is not as expected')
       .to.equal(expectedUid);
     expect(actualHeaderTrustId, 'Trust ID is not as expected')
-      .to.equal(expectedHeaderPropertyValues.trustId.replace('generated', browser.referenceTrainUid));
+      .to.equal(expectedHeaderPropertyValues.trustId
+      .replace('generatedTrainUId', browser.referenceTrainUid)
+      .replace('generatedTrainDescription', browser.referenceTrainDescription));
     expect(actualHeaderTJM, 'Last TJM is not as expected')
-      .to.equal(expectedHeaderPropertyValues.lastTJM);
+      .to.contain(expectedHeaderPropertyValues.lastTJM);
   });
 
 Then('the last reported information reflects the TRI message {string} for {string}',
@@ -200,13 +202,15 @@ Then('the last reported information reflects the TRI message {string} for {strin
   });
 
 Then('The values for {string} are the following as time passes',
-  async (propertyName: string, expectedValues: any) => {
-    const expectedVals = expectedValues.split(',', 10).map(item => item.trim());
-    for (const val of expectedVals) {
-      if (val === 'blank') {
+  async (propertyName: string, expectedIds: any) => {
+    const IDs = expectedIds.hashes();
+    const firstIdList: string = IDs[0].values;
+    const expectedValues = firstIdList.split(',', 10).map(item => item.trim());
+    for (const value of expectedValues) {
+      if (value === 'blank') {
         await timetablePage.waitUntilPropertyValueIs(propertyName, '');
       } else {
-        await timetablePage.waitUntilPropertyValueIs(propertyName, val);
+        await timetablePage.waitUntilPropertyValueIs(propertyName, value);
       }
     }
   });
@@ -221,16 +225,19 @@ Then('The timetable service description is visible', async () => {
     .to.equal(true);
 });
 
-Then(/^the current headcode in the header row is '(.*)'$/, async (header: string) => {
-  const headerHeadcode = await timetablePage.headerHeadcode.getText();
-  expect(headerHeadcode, 'Current Headcode in the header row is not as expected')
-    .to.equal(header);
+Then(/^the current headcode in the header row is '(.*)'$/, async (expectedHeaderHeadcode: string) => {
+  if (expectedHeaderHeadcode.includes('generated')) {
+    expectedHeaderHeadcode = browser.referenceTrainDescription;
+  }
+  const actualHeaderHeadcode = await timetablePage.headerHeadcode.getText();
+  expect(actualHeaderHeadcode, 'Current Headcode in the header row is not as expected')
+    .to.equal(expectedHeaderHeadcode);
 });
 
 Then(/^the old headcode in the header row is '(.*)'$/, async (header: string) => {
   const headerHeadcode = await timetablePage.headerOldHeadcode.getText();
   expect(headerHeadcode, 'Old Headcode in the header row is not as expected')
-    .to.equal(header);
+    .to.equal(header.replace('generatedTrainDescription', browser.referenceTrainDescription));
 });
 
 Then(/^there is a record in the modifications table$/, async (table: any) => {
@@ -246,18 +253,17 @@ Then(/^there is a record in the modifications table$/, async (table: any) => {
       modification = await row.getTypeOfModification();
       modLocation = await row.getLocation();
       modTime = await row.getTime();
-      modTime = modTime.replace('today', DateAndTimeUtils.getCurrentDateTimeString('dd-MM-yyyy'));
       modType = await row.getModificationReason();
       found = ((modification === expectedRecord.description)
         && (modLocation === expectedRecord.location)
-        && (modTime === expectedRecord.time)
-        && (modType === expectedRecord.type));
+        && (modTime.includes(expectedRecord.time.replace('now', DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy HH:'))))
+        && (modType === expectedRecord.reason));
       if (found) {
         break;
       }
     }
-    expect(found, `Record found in modifications table was ${modification} at ${modLocation} ${modTime} type ${modType} instead of
-    ${expectedRecord.description} at ${expectedRecord.location} ${expectedRecord.time} type ${expectedRecord.type}`)
+    expect(found, `Record found in modifications table was: ${modification} at: ${modLocation} ${modTime} reason: ${modType} instead of:
+    ${expectedRecord.description} at: ${expectedRecord.location} ${expectedRecord.time} reason: ${expectedRecord.reason}`)
       .to.equal(true);
   }
 });
@@ -661,6 +667,7 @@ Then('the navbar punctuality indicator is displayed as {string} or {string}', as
 
 Then('the punctuality is displayed as {string}', async (expectedText: string) => {
   // long timeout for punctuality recalculation cycle
+  await CommonActions.waitForElementToBeVisible(timetablePage.navBarIndicatorText);
   await browser.wait(ExpectedConditions.textToBePresentInElement(timetablePage.navBarIndicatorText, expectedText),
     60 * 1000,
     `Punctuality value is not '${expectedText}'`);
@@ -724,8 +731,12 @@ Then('The timetable details table contains the following data in each row', asyn
     .to.equal(expectedDetailsRowValues.direction);
   expect(await timetablePage.getTimetableDetailsRowValueCateringCode(), 'Timetable Details entry Catering Code is not correct')
     .to.equal(expectedDetailsRowValues.cateringCode);
+  let expectedClass: string;
+  if (expectedDetailsRowValues.class.includes('generated')) {
+    expectedClass = browser.referenceTrainDescription.substring(0, 1);
+  }
   expect(await timetablePage.getTimetableDetailsRowValueClass(), 'Timetable Details entry Class is not correct')
-    .to.equal(expectedDetailsRowValues.class);
+    .to.equal(expectedClass);
   expect(await timetablePage.getTimetableDetailsRowValueReservations(), 'Timetable Details entry Reservations is not correct')
     .to.equal(expectedDetailsRowValues.reservations);
   expect(await timetablePage.getTimetableDetailsRowValueTimingLoad(), 'Timetable Details entry Timing Load is not correct')
@@ -759,6 +770,25 @@ When('I am on the timetable view for service {string}', {timeout: browser.params
     await appPage.navigateTo(`/tmv/live-timetable/${service}:${DateAndTimeUtils.getCurrentDateTime().plusDays(1).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`);
     return timetablePage.timetableTab.isPresent();
   }, 50000, `Timetable page loading timed out`);
+});
+
+When('I am on the replay timetable session {string} view for service {string}',
+  {timeout: browser.params.general_timeout},
+  async (session: string, service: string) => {
+  // try for today's service and if not try for tomorrow's
+  if (service === 'generatedTrainUId' || service === 'generated') {
+    service = browser.referenceTrainUid;
+  }
+  await browser.wait(async () => {
+    await appPage.navigateTo(`/tmv/replay/replay-session-${session}/timetable/${service}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`);
+    if (await timetablePage.timetableTab.isPresent()) {
+      if (await element(TimetableTableRowPageObject.locationBy).isPresent()) {
+        return true;
+      }
+    }
+    await appPage.navigateTo(`/tmv/replay/replay-session-${session}/timetable/${service}:${DateAndTimeUtils.getCurrentDateTime().plusDays(1).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))}`);
+    return timetablePage.timetableTab.isPresent();
+  }, 50000, `Replay timetable page loading timed out`);
 });
 
 When(/^the Inserted toggle is '(on|off)'$/, async (state: string) => {
@@ -1264,6 +1294,19 @@ Then(/^the predicted Departure punctuality for location "(.*)" instance (\d+) is
     });
   });
 
+Then(/^the actual\/predicted times are blank$/, async () => {
+  let index = 0;
+  const rowCount = (await timetablePage.getTableRows()).length;
+  while (index < rowCount) {
+    const row = (await timetablePage.getTableRows())[index++];
+    await row.refreshRowLocator();
+    const actualArrEntry = await row.getValue('actualArr');
+    const actualDepEntry = await row.getValue('actualDep');
+    expect(isTimeBlank(actualArrEntry.trim()), `Actual Arr was not blank - ${actualArrEntry}`).to.equal(true);
+    expect(isTimeBlank(actualDepEntry.trim()), `Actual Dep was not blank - ${actualDepEntry}`).to.equal(true);
+  }
+});
+
 Then(/^the planned times are either HH:MM or HH:MM:30 or Blank$/, async () => {
   let index = 0;
   const rowCount = (await timetablePage.getTableRows()).length;
@@ -1439,4 +1482,9 @@ function isTimeFormatValid(gridEntry: string, timeType: string): boolean {
   else {
     return false;
   }
+}
+
+function isTimeBlank(time: string): boolean {
+  const regex = /^(\s*)$/;
+  return regex.test(time);
 }
