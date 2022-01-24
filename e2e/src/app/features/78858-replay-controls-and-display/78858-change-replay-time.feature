@@ -17,6 +17,37 @@ Feature: 78858 - TMV Replay Controls & Display - Change Replay Session Start and
   #    * 5 second max reload time
   #    * Need to handle loading errors <- manual test
 
+  Background:
+    * I generate a new trainUID
+    * I generate a new train description
+    * the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | generated           | generated      |
+    * I wait until today's train 'generated' has loaded
+    * the following live berth interpose messages are sent from LINX (to generate some replay data to load)
+      | toBerth | trainDescriber | trainDescription |
+      | A007    | D3             | generated        |
+    * I generate a new trainUID
+    * I generate a new train description
+    * the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | generated           | generated      |
+    * I wait until today's train 'generated' has loaded
+    * the following live berth interpose messages are sent from LINX (to generate some replay data to load)
+      | toBerth | trainDescriber | trainDescription |
+      | 0036    | D3             | generated        |
+    * I generate a new trainUID
+    * I generate a new train description
+    * the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | generated           | generated      |
+    * I wait until today's train 'generated' has loaded
+    * the following live berth interpose messages are sent from LINX (to generate some replay data to load)
+      | toBerth | trainDescriber | trainDescription |
+      | 0056    | D3             | generated        |
+    * I give the replay data 2 seconds to record
+    * I refresh the Elastic Search indices
+
   Scenario Outline: 78869-1 - Change Replay Session Start and End Time - also check reload time
     * I reset the stopwatch
     Given I am on the replay page
@@ -34,7 +65,8 @@ Feature: 78858 - TMV Replay Controls & Display - Change Replay Session Start and
       | today | now - 5  | 5        |
     And the maximum duration possible is 240 minutes
     And I select Next
-    Then the replay playback time and status contains 'Loading data...'
+    # @manual - check monthly stepping
+    # Then the replay playback time and status contains 'Loading data...'
     And the select map page is not displayed
     When I start the stopwatch
     And the replay playback time and status does not contain 'Loading data...'

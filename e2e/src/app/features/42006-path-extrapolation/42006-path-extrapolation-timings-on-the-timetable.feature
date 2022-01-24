@@ -14,8 +14,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | <cif>     | <tiploc>    | <cifLocationTimingType> | <trainDescription>  | <trainUid>     |
     And I wait until today's train '<trainUid>' has loaded
     And I am on the timetable view for service '<trainUid>'
-    And I toggle the inserted locations on and wait for them to be displayed
-    And I give the inserted locations 1 second to fully load
+    And I toggle the inserted locations on
+    And I give the inserted locations 2 second to fully load
     When I log the berth & locations from the berth level schedule for '<trainUid>'
     And the following live berth interpose messages is sent from LINX
       | toBerth   | trainDescriber   | trainDescription   |
@@ -34,8 +34,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | <cif>     | <tiploc>    | WTT_dep       | <trainDescription>  | <trainUid>     |
     And I wait until today's train '<trainUid>' has loaded
     And I am on the timetable view for service '<trainUid>'
-    And I toggle the inserted locations on and wait for them to be displayed
-    And I give the inserted locations 1 second to fully load
+    And I toggle the inserted locations on
+    And I give the inserted locations 2 second to fully load
     When I log the berth & locations from the berth level schedule for '<trainUid>'
     When the following live berth step message is sent from LINX
       | fromBerth   | toBerth   | trainDescriber   | trainDescription   |
@@ -113,8 +113,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | <cif>     | <tiploc>    | <cifLocationTimingType> | <trainDescription>  | <trainUid>     |
     And I wait until today's train '<trainUid>' has loaded
     And I am on the timetable view for service '<trainUid>'
-    And I toggle the inserted locations on and wait for them to be displayed
-    And I give the inserted locations 1 second to fully load
+    And I toggle the inserted locations on
+    And I give the inserted locations 2 second to fully load
     And I log the berth & locations from the berth level schedule for '<trainUid>'
     And the following train running info message with time is sent from LINX
       | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType   | timestamp      |
@@ -137,8 +137,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | <cif>     | <tiploc>    | WTT_dep       | <trainDescription>  | <trainUid>     |
     And I wait until today's train '<trainUid>' has loaded
     And I am on the timetable view for service '<trainUid>'
-    And I toggle the inserted locations on and wait for them to be displayed
-    And I give the inserted locations 1 second to fully load
+    And I toggle the inserted locations on
+    And I give the inserted locations 2 second to fully load
     And I log the berth & locations from the berth level schedule for '<trainUid>'
     And the following train running info message with time is sent from LINX
       | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType   | timestamp      |
@@ -162,8 +162,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | <cif>     | <tiploc>    | WTT_arr       | <trainDescription>  | <trainUid>     |
     And I wait until today's train '<trainUid>' has loaded
     And I am on the timetable view for service '<trainUid>'
-    And I toggle the inserted locations on and wait for them to be displayed
-    And I give the inserted locations 1 second to fully load
+    And I toggle the inserted locations on
+    And I give the inserted locations 2 second to fully load
     And I log the berth & locations from the berth level schedule for '<trainUid>'
     When the following live berth step messages is sent from LINX
       | fromBerth   | toBerth   | trainDescriber   | trainDescription   |
@@ -181,8 +181,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | <cif>     | <tiploc>    | WTT_dep       | <trainDescription>  | <trainUid>     |
     And I wait until today's train '<trainUid>' has loaded
     And I am on the timetable view for service '<trainUid>'
-    And I toggle the inserted locations on and wait for them to be displayed
-    And I give the inserted locations 1 second to fully load
+    And I toggle the inserted locations on
+    And I give the inserted locations 2 second to fully load
     And I log the berth & locations from the berth level schedule for '<trainUid>'
     When the following live berth step messages are sent from LINX
       | fromBerth   | toBerth         | trainDescriber   | trainDescription   |
@@ -203,8 +203,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
     And I wait until today's train '<trainUid>' has loaded
     And I am on the timetable view for service '<trainUid>'
-    And I toggle the inserted locations on and wait for them to be displayed
-    And I give the inserted locations 1 second to fully load
+    And I toggle the inserted locations on
+    And I give the inserted locations 2 seconds to fully load
     And I log the berth & locations from the berth level schedule for '<trainUid>'
     When the following live berth step message is sent from LINX
       | fromBerth   | toBerth   | trainDescriber   | trainDescription   |
@@ -293,8 +293,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | <cif>     | <tiploc>    | WTT_arr       | <trainDescription>  | <trainUid>     |
     And I wait until today's train '<trainUid>' has loaded
     And I am on the timetable view for service '<trainUid>'
-    And I toggle the inserted locations on and wait for them to be displayed
-    And I give the inserted locations 1 second to fully load
+    And I toggle the inserted locations on
+    And I give the inserted locations 2 second to fully load
     And I log the berth & locations from the berth level schedule for '<trainUid>'
     And the following train running info message with time and delay is sent from LINX
       | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType   | timestamp      | bookedTime   |
@@ -316,8 +316,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | <cif>     | <tiploc>    | WTT_dep       | <trainDescription>  | <trainUid>     |
     And I wait until today's train '<trainUid>' has loaded
     And I am on the timetable view for service '<trainUid>'
-    And I toggle the inserted locations on and wait for them to be displayed
-    And I give the inserted locations 1 second to fully load
+    And I toggle the inserted locations on
+    And I give the inserted locations 2 second to fully load
     And I log the berth & locations from the berth level schedule for '<trainUid>'
     And the following train running info message with time and delay is sent from LINX
       | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType   | timestamp      | bookedTime   |
