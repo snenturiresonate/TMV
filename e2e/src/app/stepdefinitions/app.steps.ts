@@ -28,13 +28,11 @@ import '@js-joda/timezone';
 import {NavBarPageObject} from '../pages/nav-bar.page';
 import {RedisClient} from '../api/redis/redis-client';
 import {TrainUIDUtils} from '../pages/common/utilities/trainUIDUtils';
-import {DynamodbClient} from '../api/dynamo/dynamodb-client';
 import {MapPageObject} from '../pages/maps/map.page';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
 const adminRestClient: AdminRestClient = new AdminRestClient();
-const dynamoDBClient: DynamodbClient = new DynamodbClient();
 const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
 const homePage: HomePageObject = new HomePageObject();
 const navBar: NavBarPageObject = new NavBarPageObject();
@@ -562,11 +560,11 @@ Given('I am on the live timetable page with schedule id {string}', async (schedu
 });
 
 Then('the tab title is {string}', async (expectedTabTitle: string) => {
-  if (expectedTabTitle.includes('generated ')) {
-    expectedTabTitle = expectedTabTitle.replace('generated', browser.referenceTrainDescription);
-  }
   if (expectedTabTitle.includes('generatedTrainDescription')) {
     expectedTabTitle = expectedTabTitle.replace('generatedTrainDescription', browser.referenceTrainDescription);
+  }
+  if (expectedTabTitle.includes('generated')) {
+    expectedTabTitle = expectedTabTitle.replace('generated', browser.referenceTrainDescription);
   }
   await browser.driver.wait(async () => {
     const tabTitle: string = await browser.driver.getTitle();

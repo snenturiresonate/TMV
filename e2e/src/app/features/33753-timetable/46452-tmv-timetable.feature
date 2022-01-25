@@ -84,6 +84,7 @@ Feature: 33753 - TMV Timetable
     * this replay setup test has been moved to become part of the replay test: 33753-3b Replay - Open Timetable (from Search Result - unmatched service (Train) has no timetable)
 
   # Used to be flaky - see 68331
+  #
   Scenario Outline: 33753-3c Open Timetable (from Manual Match Search Result - matched/unmatched services have timetable)
     * I generate a new trainUID
     * I generate a new train description
