@@ -79,7 +79,7 @@ Feature: 37659 - Basic Schedule matching framework
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
     And the rectangle colour for berth <trainDescriber><berth> is not lightgrey meaning 'no timetable'
 
     Examples:
@@ -117,7 +117,7 @@ Feature: 37659 - Basic Schedule matching framework
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <secondBerth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
     And the rectangle colour for berth <trainDescriber><secondBerth> is not lightgrey meaning 'no timetable'
 
     Examples:
@@ -159,7 +159,7 @@ Feature: 37659 - Basic Schedule matching framework
       | <berth>   | <secondBerth> | <trainDescriber> | <origTrainDesc>  |
     Then berth '<secondBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
     And the rectangle colour for berth <trainDescriber><secondBerth> is not lightgrey meaning 'no timetable'
 
     Examples:

@@ -143,7 +143,7 @@ Feature: 33753 - TMV Timetable
     And train '<trainNum>' with schedule id '<planningUid>' for today is visible on the trains list
     When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
-    And the Matched version of the trains list context menu is displayed
+    And the Matched version of the Schedule-matching trains list context menu is displayed
     And I open timetable from the context menu
     And I switch to the new tab
     And I wait for the last Signal to populate
@@ -235,7 +235,7 @@ Feature: 33753 - TMV Timetable
       | 0206    | D3             | <trainNum>       |
     Given I am viewing the map hdgw01paddington.v
     And I invoke the context menu on the map for train <trainNum>
-    And the Matched version of the map context menu is displayed
+    And the Matched version of the Schedule-matching map context menu is displayed
     And I open timetable from the map context menu
     And I switch to the new tab
     And I wait for the last Signal to populate
@@ -362,7 +362,7 @@ Feature: 33753 - TMV Timetable
       | A001      | 0037    | D3             | <trainNum>       |
     And I am viewing the map hdgw01paddington.v
     And I invoke the context menu on the map for train <trainNum>
-    And the Matched version of the map context menu is displayed
+    And the Matched version of the Schedule-matching map context menu is displayed
     And I open timetable from the map context menu
     And I switch to the new tab
     When I switch to the timetable details tab

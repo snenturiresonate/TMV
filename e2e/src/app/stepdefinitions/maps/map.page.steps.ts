@@ -1036,46 +1036,75 @@ Then('the manual trust berth type for {string} is {word}',
       .to.equal(expectedType);
   });
 
-Then(/^the (Matched|Unmatched|Left behind Matched) version of the map context menu is displayed$/, async (matchType: string) => {
+Then(/^the (Matched|Unmatched|Left behind Matched) version of the (Schedule-matching|Non-Schedule-matching) map context menu is displayed$/,
+  async (matchType: string, userType: string) => {
   await mapPageObject.waitForContextMenu();
   let expected1;
   let expected2;
   let expected3;
   let expected4;
-  if (matchType === 'Matched') {
-    expected1 = 'Open Timetable';
-    expected2 = 'Unmatch/Rematch';
-    expected3 = 'Turn Path On';
-    expected4 = 'Highlight';
+  let expected5;
+  if (userType === 'Schedule-matching') {
+    if (matchType === 'Matched') {
+      expected1 = 'Open Timetable';
+      expected2 = 'Unmatch/Rematch';
+      expected3 = 'Turn Path On';
+      expected4 = 'Highlight';
 
-  } else if (matchType === 'Left behind Matched') {
-    expected1 = 'Open Timetable';
-    expected2 = 'Unmatch/Rematch';
-    expected3 = 'Turn Path On';
-    expected4 = 'Clear Berth';
+    } else if (matchType === 'Left behind Matched') {
+      expected1 = 'Open Timetable';
+      expected2 = 'Unmatch/Rematch';
+      expected3 = 'Turn Path On';
+      expected4 = 'Clear Berth';
+      expected5 = 'Highlight';
 
+    } else {
+      expected1 = 'No Timetable';
+      expected2 = 'Match';
+      expected3 = 'Highlight';
+    }
   } else {
-    expected1 = 'No Timetable';
-    expected2 = 'Match';
-    expected3 = 'Highlight';
+    if (matchType === 'Matched') {
+      expected1 = 'Open Timetable';
+      expected2 = 'Turn Path On';
+      expected3 = 'Highlight';
+
+    } else if (matchType === 'Left behind Matched') {
+      expected1 = 'Open Timetable';
+      expected2 = 'Turn Path On';
+      expected3 = 'Clear Berth';
+      expected4 = 'Highlight';
+
+    } else {
+      expected1 = 'No Timetable';
+      expected2 = 'Highlight';
+    }
   }
   const contextMenuItem1: string = await mapPageObject.getMapContextMenuItem(2);
   const contextMenuItem2: string = await mapPageObject.getMapContextMenuItem(3);
-  const contextMenuItem3: string = await mapPageObject.getMapContextMenuItem(4);
-  const contextMenuItem4: string = await mapPageObject.getMapContextMenuItem(5);
-  expect(contextMenuItem1.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected1}`)
+  expect(contextMenuItem1.toLowerCase(), `Context menu does not imply ${userType} ${matchType} state - does not contain ${expected1}`)
     .to.contain(expected1.toLowerCase());
-  expect(contextMenuItem2.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
+  expect(contextMenuItem2.toLowerCase(), `Context menu does not imply ${userType} ${matchType} state - does not contain ${expected2}`)
     .to.contain(expected2.toLowerCase());
-  expect(contextMenuItem3.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected3}`)
-    .to.contain(expected3.toLowerCase());
+  if (expected3 != null) {
+    const contextMenuItem3: string = await mapPageObject.getMapContextMenuItem(4);
+    expect(contextMenuItem3.toLowerCase(), `Context menu does not imply ${userType} ${matchType} state - does not contain ${expected3}`)
+      .to.contain(expected3.toLowerCase());
+  }
   if (expected4 != null) {
-    expect(contextMenuItem4.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected4}`)
+    const contextMenuItem4: string = await mapPageObject.getMapContextMenuItem(5);
+    expect(contextMenuItem4.toLowerCase(), `Context menu does not imply ${userType} ${matchType} state - does not contain ${expected4}`)
       .to.contain(expected4.toLowerCase());
+  }
+  if (expected5 != null) {
+    const contextMenuItem5: string = await mapPageObject.getMapContextMenuItem(6);
+    expect(contextMenuItem5.toLowerCase(), `Context menu does not imply ${userType} ${matchType} state - does not contain ${expected5}`)
+      .to.contain(expected5.toLowerCase());
   }
 });
 
-Then(/^the Matched or Left behind Matched version of the map context menu (is|is not) displayed$/, async (negate: string) => {
+Then(/^the Matched or Left behind Matched version of the Schedule-matching map context menu (is|is not) displayed$/,
+  async (negate: string) => {
   await mapPageObject.waitForContextMenu();
   const expected1 = 'Open Timetable';
   const expected2 = 'Unmatch/Rematch';

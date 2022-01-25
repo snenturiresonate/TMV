@@ -24,7 +24,7 @@ Feature: 79730 - Unmatch a service - Map
       | A007    | D3             | 1F45             |
     Then berth 'A007' in train describer 'D3' contains '1F45' and is visible
     When I invoke the context menu on the map for train 1F45
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching 1F45'
@@ -52,7 +52,7 @@ Feature: 79730 - Unmatch a service - Map
     Then berth 'A007' in train describer 'D3' contains '<trainDescription>' and is visible
     When I wait for the Open timetable option for train description <trainDescription> in berth A007, describer D3 to be available
     And I invoke the context menu on the map for train <trainDescription>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching <trainDescription>'
@@ -65,7 +65,7 @@ Feature: 79730 - Unmatch a service - Map
     And I switch to the second-newest tab
     And I wait for the option to Match train description <trainDescription> in berth 0039, describer D3 to be available
     And I invoke the context menu on the map for train <trainDescription>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
 
     Examples:
       | trainDescription | trainUid  |
@@ -93,7 +93,7 @@ Feature: 79730 - Unmatch a service - Map
     Then berth 'A007' in train describer 'D3' contains '<trainDescription>' and is visible
     When I wait for the Open timetable option for train description <trainDescription> in berth A007, describer D3 to be available
     And I invoke the context menu on the map for train <trainDescription>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching <trainDescription>'
@@ -106,7 +106,7 @@ Feature: 79730 - Unmatch a service - Map
     And I switch to the second-newest tab
     And I wait for the option to Match train description <trainDescription> in berth 0039, describer D3 to be available
     And I invoke the context menu on the map for train <trainDescription>
-    Then the Unmatched version of the map context menu is displayed
+    Then the Unmatched version of the Schedule-matching map context menu is displayed
 
     Examples:
       | trainDescription | trainUid  |

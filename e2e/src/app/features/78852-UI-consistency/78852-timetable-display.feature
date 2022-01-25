@@ -50,7 +50,7 @@ Feature: 78852 - UI Consistency - Timetable Display 30 seconds
     Then berth '0125' in train describer 'D3' contains '<trainNum>' and is visible
     When I wait for the Open timetable option for train description <trainNum> in berth 0125, describer D3 to be available
     And I invoke the context menu on the map for train <trainNum>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
     When I open timetable from the map context menu
     And I switch to the new tab
     Then the planned times are either HH:MM or HH:MM:30 or Blank

@@ -21,7 +21,7 @@ Feature: 34002 - Unscheduled Trains Menu
       | toBerth | trainDescriber | trainDescription |
       | 0523    | D6             | <trainNum>       |
     When I invoke the context menu on the map for train <trainNum>
-    Then the Unmatched version of the map context menu is displayed
+    Then the Unmatched version of the Schedule-matching map context menu is displayed
     Examples:
       | trainNum |
       | 2B01     |
@@ -36,7 +36,7 @@ Feature: 34002 - Unscheduled Trains Menu
     When I invoke the context menu for todays train '<trainNum>' schedule uid 'UNPLANNED' from the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu is displayed
-    And the Unmatched version of the trains list context menu is displayed
+    And the Unmatched version of the Schedule-matching trains list context menu is displayed
     Examples:
       | trainNum |
       | 2B02     |
@@ -53,7 +53,7 @@ Feature: 34002 - Unscheduled Trains Menu
     When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu is displayed
-    And the Unmatched version of the trains list context menu is displayed
+    And the Unmatched version of the Schedule-matching trains list context menu is displayed
     Examples:
       | trainNum | planningUid |
       | 2B03     | L20003      |
@@ -77,7 +77,7 @@ Feature: 34002 - Unscheduled Trains Menu
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 1711      | 1733    | D1             | <trainNum>       |
     When I invoke the context menu on the map for train <trainNum>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
     Examples:
       | trainNum  | planningUid |
       | generated | generated   |
@@ -105,7 +105,7 @@ Feature: 34002 - Unscheduled Trains Menu
     When I invoke the context menu for todays train '<trainNum>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu is displayed
-    And the Matched version of the trains list context menu is displayed
+    And the Matched version of the Schedule-matching trains list context menu is displayed
     Examples:
       | trainNum  | planningUid |
       | generated | generated   |

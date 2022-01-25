@@ -31,7 +31,7 @@ Feature: 34080 - Manually Clear Train Description
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Left behind Matched version of the map context menu is displayed
+    Then the Left behind Matched version of the Schedule-matching map context menu is displayed
     When I click on the clear berth option
     Then berth '<berth>' in train describer '<trainDescriber>' does not contain '<origTrainDesc>'
 

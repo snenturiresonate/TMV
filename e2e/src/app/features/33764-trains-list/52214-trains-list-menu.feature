@@ -72,7 +72,7 @@ Feature: 52214 - TMV Trains List - menu
     When I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu contains '<trainDescription>' on line 1
-    And the Matched version of the trains list context menu is displayed
+    And the Matched version of the Schedule-matching trains list context menu is displayed
     And the trains list context menu contains 'RDNGSTN' on line 6
     And the trains list context menu contains 'PADTON' on line 6
 

@@ -27,7 +27,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
 
     Examples:
       | trainDescriber | berth | origTrainDesc | trainUid | location | subdivision | matchLevel |
@@ -65,7 +65,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
 
     Examples:
       | trainDescriber | berth | origTrainDesc | trainUid | type | modificationReason | nationalDelayCode | significance |
@@ -162,7 +162,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
     When I open timetable from the map context menu
     And I switch to the new tab
     And the tab title is '<origTrainDesc> TMV Timetable'
@@ -219,7 +219,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
     When I open timetable from the map context menu
     And I switch to the new tab
     And the tab title is '<origTrainDesc> TMV Timetable'
@@ -253,7 +253,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
     When I open timetable from the map context menu
     And I switch to the new tab
     And the tab title is '<origTrainDesc> TMV Timetable'
@@ -305,7 +305,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <berth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
     When the following TJM is received
       | trainUid   | trainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode      | time | modificationReason   | nationalDelayCode   |
       | <trainUid> | <origTrainDesc> | now           | create | <type>    | <type>          | 99999       | <cancelledLocation> | now  | <modificationReason> | <nationalDelayCode> |
@@ -319,7 +319,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     Then berth '<toBerth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     When I wait for the Open timetable option for train description <origTrainDesc> in berth <toBerth>, describer <trainDescriber> to be available
     And I invoke the context menu on the map for train <origTrainDesc>
-    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
 
     Examples:
       | trainDescriber | berth | origTrainDesc | trainUid | cancelledLocation | type | modificationReason | nationalDelayCode | toBerth |
