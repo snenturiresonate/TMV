@@ -351,6 +351,9 @@ When(/^the following berth cancel messages? (?:is|are) sent from LINX$/, async (
 When(/^the following live berth cancel messages? (?:is|are) sent from LINX$/, async (berthCancelMessageTable: any) => {
   const berthCancelMessages: any = berthCancelMessageTable.hashes();
   for (const berthCancelMessage of berthCancelMessages) {
+    if (berthCancelMessage.trainDescription.includes('generated')) {
+      berthCancelMessage.trainDescription = browser.referenceTrainDescription;
+    }
     const now = DateAndTimeUtils.getCurrentTimeString();
     const berthCancel: BerthCancel = new BerthCancel(
       berthCancelMessage.fromBerth,

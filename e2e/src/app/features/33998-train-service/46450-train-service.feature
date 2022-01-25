@@ -16,15 +16,17 @@ Feature: 33998 - TMV Train Service - full end to end testing
     # And the service is matched
     # And the service is running or activated (called)
     # Then the train's punctuality is displayed for each part of the journey not yet complete
+    * I generate a new train description
+    * I generate a new trainUID
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1F21                | L00001         |
-    And I wait until today's train 'L00001' has loaded
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | generated           | generated      |
+    And I wait until today's train 'generated' has loaded
     And I am viewing the map HDGW01paddington.v
     When the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
-      | A007    | D3             | 1F21             |
-    Then berth 'A007' in train describer 'D3' contains '1F21' and is visible
+      | A007    | D3             | generated        |
+    Then berth 'A007' in train describer 'D3' contains 'generated' and is visible
     And the train headcode color for berth 'D3A007' is lightgreen
 
   Scenario: 33998-2 Punctuality (Un-matched Service)
@@ -118,14 +120,16 @@ Feature: 33998 - TMV Train Service - full end to end testing
     # When the user selects to turn the path on
     # Then the train's predicted path is displayed in blue for the remainder of its journey
     # And the path off toggle is available (single train)
+    * I generate a new train description
+    * I generate a new trainUID
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | 1F25                | L00005         |
-    And I wait until today's train 'L00005' has loaded
+      | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | generated           | generated      |
+    And I wait until today's train 'generated' has loaded
     And I am viewing the map HDGW02reading.v
     When the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
-      | 1698    | D1             | 1F25             |
+      | 1698    | D1             | generated        |
     And the following live signalling update message is sent from LINX (clearing any existing state)
       | trainDescriber | address | data |
       | D1             | 25      | 00   |
@@ -136,7 +140,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     And the tracks 'RGRGLS, RGRGKT, RGRGL3, RGRGL2' are displayed in solid white
     And the tracks 'RGRGLK, RGRGL6, RGRG1I, RGRG8H' are displayed in thin palegrey
     And the tracks 'PNSH8V, PNSH7V, PNSH6V' are displayed in thin palegrey
-    When I invoke the context menu on the map for train 1F25
+    When I invoke the context menu on the map for train generated
     And I toggle path on from the map context menu
     Then the tracks 'RGRGLS, RGRGKT, RGRGL3, RGRGL2' are displayed in solid paleblue
     And the tracks 'RGRGLK, RGRGL6, RGRG1I, RGRG8H' are displayed in solid paleblue
@@ -150,7 +154,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     And I select the map at position 1 in the search results list
     And I switch to the new tab
     And the maximum amount of time is allowed for end to end transmission
-    And I invoke the context menu on the map for train 1F25
+    And I invoke the context menu on the map for train generated
     Then the map context menu contains 'Path Off' on line 4
 
   Scenario: 33998-7b Path On Toggle (Matched Off-Plan can show path)
@@ -245,23 +249,23 @@ Feature: 33998 - TMV Train Service - full end to end testing
     # Then the train's predicted path is displayed in white for the remainder of its journey
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/2P77_RDNGSTN_PADTON.cif | TWYFORD     | WTT_arr       | 1F30                | L00010         |
-    And I wait until today's train 'L00010' has loaded
+      | access-plan/2P77_RDNGSTN_PADTON.cif | TWYFORD     | WTT_arr       | generated           | generated      |
+    And I wait until today's train 'generated' has loaded
     And I am viewing the map HDGW02reading.v
     When the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
-      | 1630    | D1             | 1F30             |
+      | 1630    | D1             | generated        |
     And the following live signalling update message is sent from LINX (clearing existing state)
       | trainDescriber | address | data |
       | D1             | 2D      | 00   |
     And the following live signalling update message is sent from LINX (setting a route)
       | trainDescriber | address | data |
       | D1             | 2D      | 40   |
-    Then berth '1630' in train describer 'D1' contains '1F30' and is visible
+    Then berth '1630' in train describer 'D1' contains 'generated' and is visible
     And the train headcode color for berth 'D11630' is lightgreen
     And the tracks 'RGRG57, RGRG56' are displayed in solid white
     And the tracks 'RGRG55, RGRG54' are displayed in thin palegrey
-    When I invoke the context menu on the map for train 1F30
+    When I invoke the context menu on the map for train generated
     And I toggle path on from the map context menu
     Then 'PATH OFF' toggle is displayed in the title bar
     And the tracks 'RGRG57, RGRG56, RGRG55, RGRG54' are displayed in solid paleblue
@@ -273,7 +277,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     And I select the map at position 1 in the search results list
     And I switch to the new tab
     And the maximum amount of time is allowed for end to end transmission
-    And I invoke the context menu on the map for train 1F30
+    And I invoke the context menu on the map for train generated
     And I toggle path off from the map context menu
     Then 'no' toggle is displayed in the title bar
     And the tracks 'RGRG57, RGRG56' are displayed in solid white
@@ -331,22 +335,22 @@ Feature: 33998 - TMV Train Service - full end to end testing
   Scenario: 33998-9b Path Off Toggle (remains available on Nav Bar after train leaves map)
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                                    | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/2P04_RDNGSTN_PADTON_STOPPER.cif | IVER        | WTT_dep       | 1F32                | L00012         |
-    And I wait until today's train 'L00012' has loaded
+      | access-plan/2P04_RDNGSTN_PADTON_STOPPER.cif | IVER        | WTT_dep       | generated           | generated      |
+    And I wait until today's train 'generated' has loaded
     And I am viewing the map HDGW02reading.v
     And the following live berth interpose message is sent from LINX (creating a match)
       | toBerth | trainDescriber | trainDescription |
-      | 0478    | D6             | 1F32             |
-    When I invoke the context menu on the map for train 1F32
+      | 0478    | D6             | generated        |
+    When I invoke the context menu on the map for train generated
     And I toggle path on from the map context menu
     Then 'PATH OFF' toggle is displayed in the title bar
     And the tracks 'PNSH3U, PNSHTL' are displayed in solid paleblue
     When the following live berth step message is sent from LINX (moving train along)
       | fromBerth | toBerth | trainDescriber | trainDescription |
-      | 0478      | 0472    | D6             | 1F32             |
+      | 0478      | 0472    | D6             | generated        |
     And the following live berth step message is sent from LINX (moving train off the map)
       | fromBerth | toBerth | trainDescriber | trainDescription |
-      | 0472      | 0466    | D4             | 1F32             |
+      | 0472      | 0466    | D4             | generated        |
     And the following live signalling update message is sent from LINX (clearing any existing state)
       | trainDescriber | address | data |
       | D4             | 23      | 00   |
@@ -354,13 +358,13 @@ Feature: 33998 - TMV Train Service - full end to end testing
       | trainDescriber | address | data |
       | D4             | 23      | 08   |
     And the maximum amount of time is allowed for end to end transmission
-    Then the train headcode '1F32' is 'not displayed' on the map
+    Then the train headcode 'generated' is 'not displayed' on the map
     And the tracks 'PNSH3U, PNSHTL' are displayed in solid paleblue
     And 'PATH OFF' toggle is displayed in the title bar
     When I move to map 'HDGW01' via continuation link
     And the maximum amount of time is allowed for end to end transmission
     Then 'PATH OFF' toggle is displayed in the title bar
-    And berth '0466' in train describer 'D4' contains '1F32' and is visible
+    And berth '0466' in train describer 'D4' contains 'generated' and is visible
     And the tracks 'PNSH6U, PNSH4U, PNSH3U, PNSHTL, PNSHTM, PNSHTN, PNSHTP' are displayed in thin palegrey
     And the tracks 'PNSH1R, PNSH9Q, PNSH8Q' are displayed in solid paleblue
     When I move to map 'HDGW02' via continuation link

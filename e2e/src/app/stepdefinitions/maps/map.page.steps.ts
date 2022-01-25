@@ -29,19 +29,23 @@ const mapPageObject: MapPageObject = new MapPageObject();
 const mapLayerPageObject: MapLayerPageObject = new MapLayerPageObject();
 
 const mapColourHex = {
-  red: '#ff0000',
-  blue: '#0000ff',
-  green: '#00ff00',
-  yellow: '#ffff00',
-  white: '#ffffff',
-  orange: '#ffa700',
-  stone: '#f9cb9c',
-  grey: '#969696',
-  palegrey: '#b2b2b2',
-  paleblue: '#00d2ff',
-  purple: '#ff3cb1',
-  lightgrey: '#e1e1e1',
-  lightgreen: '#78ff78'
+  red:        '#ff0000',
+  blue:       '#0000ff',
+  green:      '#00ff00',
+  yellow:     '#ffff00',
+  white:      '#ffffff',
+  orange:     '#ffa700',
+  stone:      '#f9cb9c',
+  grey:       '#969696',
+  palegrey:   '#b2b2b2',
+  paleblue:   '#00d2ff',
+  purple:     '#ff3cb1',
+  lightgrey:  '#e1e1e1',
+  lightgreen: '#78ff78',
+  lightblue:  '#78e7ff',
+  lilac:      '#e5b4ff',
+  salmon:     '#ffb4b4',
+  pink:       '#ff009c'
 };
 
 const mapLineWidth = {
@@ -446,6 +450,9 @@ Then('it is {string} that berth {string} in train describer {string} is present'
 
 Then('berth {string} in train describer {string} does not contain {string}',
   async (berthId: string, trainDescriber: string, expectedBerthContents: string) => {
+    if (expectedBerthContents.includes('generated')) {
+      expectedBerthContents = browser.referenceTrainDescription;
+    }
     await browser.wait(async () => {
       const trainDescription = await mapPageObject.getBerthText(berthId, trainDescriber);
       return trainDescription !== expectedBerthContents;
