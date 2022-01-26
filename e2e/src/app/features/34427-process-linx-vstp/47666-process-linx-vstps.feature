@@ -249,12 +249,12 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | 20500101        | 1111111          | C                 | C                 | 6D10              | 6P51              | CANCELLED  | VSTP CAN    |
 
   Scenario Outline: 34427-8a Schedule details content are displayed (vstp N, vstp O)
-    #Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
-    #When a user views  that timetable
-    #Then the timetable is displayed with the type is <DisplayType>
-    #And the Train UID from the schedule
-    #And the Train description from the schedule
-    #And Details displayed match those provided in the VSTP
+    # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
+    # When a user views  that timetable
+    # Then the timetable is displayed with the type is <DisplayType>
+    # And the Train UID from the schedule
+    # And the Train description from the schedule
+    # And Details displayed match those provided in the VSTP
     Given I generate a new trainUID
     * I remove today's train 'generatedTrainUId' from the Redis trainlist
     And the vstp schedule has a schedule in the current time period with the new uid

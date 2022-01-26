@@ -11,7 +11,9 @@ Feature: 79622 - TMV Schematic Map Version - Display map version and applicable 
     Then the map version number should be displayed as '1.0'
     And the map date should be displayed as '05/01/2022 00:00'
 
+  @newSession
   Scenario: 82789 Display map version (Replay)
+    * I have not already authenticated
     Given I am on the replay page
     And I select Next
     And I expand the replay group of maps with name 'Wales & Western'

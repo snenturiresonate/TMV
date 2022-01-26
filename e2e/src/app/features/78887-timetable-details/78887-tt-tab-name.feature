@@ -1,9 +1,13 @@
 @TMVPhase2 @P2.S1
+@newSession
 Feature: 78887 - TMV Timetable Details - Launched Timetable Tab Name (Live and Replay)
 
   As a TMV User
   I want the system to provide the Timetable Details in replay and live
   So that I can view the Timetable Details whether I'm in replay or live
+
+  Background:
+    * I have not already authenticated
 
   Scenario Outline: 78846-1 Live and Replay - Open Timetable (from Map - Schedule Matched not activated)
     # Replay Setup

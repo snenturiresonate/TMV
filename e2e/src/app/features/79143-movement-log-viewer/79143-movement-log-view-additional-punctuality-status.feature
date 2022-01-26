@@ -62,10 +62,10 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Punctuality Sta
       | generated | generated    |
 
   Scenario Outline: 80283-3 - Movement Log - View Additional Data (Punctuality Status on time)
-#    Given the user is authenticated to use TMV
-#    And the user is viewing the Movement Logs
-#    When the search results are loaded
-#    Then on time punctuality status is available
+    # Given the user is authenticated to use TMV
+    # And the user is viewing the Movement Logs
+    # When the search results are loaded
+    # Then on time punctuality status is available
     * I generate a new train description
     * I generate a new trainUID
     And the train in CIF file below is updated accordingly so time at the reference point is now + '1' minute, and then received from LINX

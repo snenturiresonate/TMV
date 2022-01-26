@@ -1,9 +1,13 @@
 @TMVPhase2 @P2.S1
+@newSession
 Feature: 78887 - Timetable Details - Replay Timetable TRUST Times Toggle
 
   As a TMV user
   I want the Replay timetable view to have an option to turn the TRUST times off
   So that I can chose to display the internally calculated times only
+
+  Background:
+    * I have not already authenticated
 
   Scenario Outline: 79141 - Initial display should show both TRUST and calculated times
     # Replay Setup - 79140-2 Display calculated times where TRUST times are unavailable

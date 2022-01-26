@@ -59,7 +59,9 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | H41102   | 1X02             | 91   | 12                 | PD                |
       | H41122   | 1X03             | 92   | 19                 | OZ                |
 
-  Scenario Outline: Activated service is cancelled
+  Scenario Outline: 40490-2a2 Activated service is cancelled
+    * I generate a new trainUID
+    * I generate a new train description
     * I remove today's train '<trainUid>' from the Redis trainlist
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
@@ -87,7 +89,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
 
     Examples:
       | trainUid | trainDescription | type | modificationReason | nationalDelayCode |
-      | H41103   | 1X03             | 92   | 19                 | OZ                |
+      | generated| generated        | 92   | 19                 | OZ                |
 
   Scenario: 40490-2b Single Change of Origin at location received
     * I remove today's train 'H41104' from the Redis trainlist
@@ -140,6 +142,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the last TJM is correct
 
   Scenario: 40490-5 Multiple changes of ID
+    #
     * I remove today's train 'H41108' from the Redis trainlist
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |

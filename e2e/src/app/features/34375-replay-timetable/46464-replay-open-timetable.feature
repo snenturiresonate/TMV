@@ -1,3 +1,4 @@
+@newSession
 Feature: 34375 - TMV Replay Timetable - Open Timetable
 
   As a TMV User
@@ -5,6 +6,7 @@ Feature: 34375 - TMV Replay Timetable - Open Timetable
   So that I can view what timetable the train was running to and its historic actuals
 
   Background:
+    * I have not already authenticated
     * I reset redis
     * I have cleared out all headcodes
     * I am on the home page

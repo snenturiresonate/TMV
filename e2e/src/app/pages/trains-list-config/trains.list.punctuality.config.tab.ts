@@ -83,11 +83,9 @@ export class TrainsListPunctualityConfigTab {
     return element(by.css(`${cssText}`));
   }
   private punctualityFromTimeCssText(index: number): string {
-    const indexForCss = index + 2; // Incremented by 2 for the purposes of locator
-    return `#punctualityConfiguation div:nth-child(${indexForCss})[class*=col-grid] div:nth-child(2)[class*=section-name] input`;
+    return `#punctuality-from-time-${index}`;
   }
   private punctualityToTimeCssText(index: number): string {
-    const indexForCss = index + 2; // Incremented by 2 for the purposes of locator
-    return `#punctualityConfiguation div:nth-child(${indexForCss})[class*=col-grid] div:nth-child(3)[class*=section-name] input`;
+    return `#punctuality-to-time-${index}`;
   }
 }

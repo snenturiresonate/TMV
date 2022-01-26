@@ -311,7 +311,11 @@ Then(/^the sent TJMs in the modifications table are in time order$/, async () =>
 function tiplocToLocation(tiploc: string): any {
   const csvToJson = require('convert-csv-to-json');
   const locations = csvToJson.fieldDelimiter(',').getJsonFromCsv(`${ProjectDirectoryUtil.testDataFolderPath()}/TMVLocation.csv`);
-  return locations.filter(loc => loc.PlanningLocation.trim() === tiploc)[0].locationName.trim();
+  let location = '';
+  if (Boolean(locations.filter(loc => loc.PlanningLocation.trim() === tiploc)[0])) {
+    location = locations.filter(loc => loc.PlanningLocation.trim() === tiploc)[0].locationName.trim();
+  }
+  return location;
 }
 
 function getExpectedModificationType(trainJourneyModificationIndicator): string {
@@ -368,7 +372,7 @@ async function assertLastTJM(tjmMessage: TrainJourneyModificationMessage): Promi
   const expectedTime = LocalDateTime
     .parse(tjmMessage.TrainJourneyModificationTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
     .format(DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm').withLocale(Locale.ENGLISH));
-  const expectedLocation = (expectedTypeOfModification === 'Change Of Identity') ? '' : tiplocToLocation(tjmMessage
+  const expectedLocation = tiplocToLocation(tjmMessage
     .TrainJourneyModification
     .LocationModified
     .Location
@@ -731,7 +735,7 @@ Then('The timetable details table contains the following data in each row', asyn
     .to.equal(expectedDetailsRowValues.direction);
   expect(await timetablePage.getTimetableDetailsRowValueCateringCode(), 'Timetable Details entry Catering Code is not correct')
     .to.equal(expectedDetailsRowValues.cateringCode);
-  let expectedClass: string;
+  let expectedClass: string = expectedDetailsRowValues.class;
   if (expectedDetailsRowValues.class.includes('generated')) {
     expectedClass = browser.referenceTrainDescription.substring(0, 1);
   }

@@ -1,3 +1,4 @@
+@newSession
 Feature: 34375 - TMV Replay Timetable - View Timetable
 
   As a TMV User
@@ -5,6 +6,7 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
   So that I can view what timetable the train was running to and its historic actuals
 
   Background:
+    * I have not already authenticated
     * I have cleared out all headcodes
     * I generate a new train description
     * I generate a new trainUID
@@ -68,7 +70,7 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
     And I am viewing the map HDGW01paddington.v
     And berth 'A007' in train describer 'D3' contains '<trainDescription>' and is visible
     And I invoke the context menu on the map for train <trainDescription>
-    And the Matched version of the map context menu is displayed
+    And the Matched version of the Schedule-matching map context menu is displayed
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching <trainDescription>'
@@ -148,11 +150,12 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
     And I am viewing the map HDGW01paddington.v
     And berth '0039' in train describer 'D3' contains '<trainDescription>' and is visible
     And I invoke the context menu on the map for train <trainDescription>
-    And the Matched version of the map context menu is displayed
+    And the Matched version of the Schedule-matching map context menu is displayed
 
     # Check the matched timetable in replay
     And I give the replay data a further 2 seconds to be recorded
     And I refresh the Elastic Search indices
+    And I have not already authenticated
     And I am on the replay page
     And I select Next
     And I expand the replay group of maps with name 'Wales & Western'

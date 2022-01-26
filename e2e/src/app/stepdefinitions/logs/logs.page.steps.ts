@@ -1,7 +1,10 @@
 import {LogsPage} from '../../pages/logs/logs.page';
 import {Then, When} from 'cucumber';
+// this import looks like its not used but is by expect().to.be.closeToTime()
+import * as chaiDateTime from 'chai-datetime';
 import {expect} from 'chai';
 import {browser} from 'protractor';
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 const logsPage: LogsPage = new LogsPage();
 
@@ -77,7 +80,10 @@ Then(/^the log results for row '(\d+)' displays '(.*)' and punctuality '(.*)'$/,
   }
 
   if (expectedPunctuality === '0') {
-    compareLogResultField(actualValues[6], '00:00:00');
+    const expectedTime: Date = await DateAndTimeUtils.formulateTime('00:00:00');
+    const actualTime = await DateAndTimeUtils.formulateTime(actualValues[6].replace('-', ''));
+    return expect(actualTime, `replay playback speed is not as expected`)
+      .to.be.closeToTime(expectedTime, 60);
   }
 
   if (expectedPunctuality === '+' || expectedPunctuality === '-'){

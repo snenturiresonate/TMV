@@ -1,3 +1,4 @@
+@newSession
 Feature: 78855 - Replay Last Berth
 
   As a TMV User
@@ -5,6 +6,7 @@ Feature: 78855 - Replay Last Berth
   So that I see the last 10 trains that have reached a particular location
 
   Background:
+    * I have not already authenticated
     * I have cleared out all headcodes
     * I remove all trains from the trains list
     * I am on the home page
