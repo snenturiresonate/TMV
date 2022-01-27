@@ -30,10 +30,10 @@ Feature: 79143 - TMV Movement Log Viewer - Update Column Names
       | From Berth                      |
       | To Berth                        |
       | Previous Train ID               |
-      | Scheduled Origin Departure Date |
       | Date Time                       |
       | Punctuality Status              |
       | Planning UID                    |
+      | Scheduled Origin Departure Date |
 
     Examples:
       | berth1 | berth2 | trainDescriber | trainDescription | planningUid |

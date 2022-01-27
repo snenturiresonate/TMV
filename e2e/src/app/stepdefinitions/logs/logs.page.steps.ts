@@ -76,23 +76,23 @@ Then(/^the log results for row '(\d+)' displays '(.*)' and punctuality '(.*)'$/,
   }
   compareLogResultField(actualValues[0], trainNum);
   if (expectedPunctuality === 'null') {
-    compareLogResultField(actualValues[6], '');
+    compareLogResultField(actualValues[5], '');
   }
 
   if (expectedPunctuality === '0') {
     const expectedTime: Date = await DateAndTimeUtils.formulateTime('00:00:00');
-    const actualTime = await DateAndTimeUtils.formulateTime(actualValues[6].replace('-', ''));
+    const actualTime = await DateAndTimeUtils.formulateTime(actualValues[5].replace('-', ''));
     return expect(actualTime, `replay playback speed is not as expected`)
       .to.be.closeToTime(expectedTime, 60);
   }
 
   if (expectedPunctuality === '+' || expectedPunctuality === '-'){
     const colon = /:/gi;
-    const actualPunctuality = actualValues[6].replace('+', '')
+    const actualPunctuality = actualValues[5].replace('+', '')
       .replace('-', '')
       .replace(colon, '');
-    expect(actualValues[6], `Expected ${expectedPunctuality} but was ${actualValues[6]}`).to.contain(expectedPunctuality);
-    expect(parseInt(actualPunctuality, 10), `Expected ${expectedPunctuality} but was ${actualValues[6]}`).to.greaterThan(1);
+    expect(actualValues[5], `Expected ${expectedPunctuality} but was ${actualValues[5]}`).to.contain(expectedPunctuality);
+    expect(parseInt(actualPunctuality, 10), `Expected ${expectedPunctuality} but was ${actualValues[5]}`).to.greaterThan(1);
   }
 });
 
@@ -105,7 +105,7 @@ function compareMovementLogBerthResultRow(actual: string[], expected: any): void
   compareMovementLogResultField(actual[1], expected, 'fromBerth');
   compareMovementLogResultField(actual[2], expected, 'toBerth');
   compareMovementLogResultField(actual[3], expected, 'previousTrainId');
-  compareMovementLogResultField(actual[7], expected, 'planningUid');
+  compareMovementLogResultField(actual[6], expected, 'planningUid');
 }
 
 function compareMovementLogTimetableResultRow(actual: string[], expected: any): void {
