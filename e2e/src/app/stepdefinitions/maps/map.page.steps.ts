@@ -14,6 +14,8 @@ import {AppPage} from '../../pages/app.po';
 import {TMVRedisUtils} from '../../utils/tmv-redis-utils';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {CucumberLog} from '../../logging/cucumber-log';
+import {BerthStep} from '../../../../../src/app/api/linx/models/berth-step';
+import {BerthCancel} from '../../../../../src/app/api/linx/models/berth-cancel';
 
 let page: MapPageObject;
 const appPage: AppPage = new AppPage();
@@ -1165,4 +1167,49 @@ Given(/^headcode '(.*)' is not present in manual\-trust berth '(.*)'$/, async (h
 
 Given(/^I wait for the tracks to be displayed$/, {timeout: 40000}, async () => {
   await MapPageObject.waitForTracksToBeDisplayed();
+});
+
+Then(/^the train remains (matched|unmatched) throughout the following berth steps$/,
+  async (matchState: string, berthStepsDataTable: any) => {
+  const berthStepsRequired = berthStepsDataTable.hashes();
+  for (const requiredBerthStep of berthStepsRequired) {
+    // open appropriate map
+    if (! await mapPageObject.isCurrentMap(requiredBerthStep.map)) {
+      const url = '/tmv/maps/' + requiredBerthStep.map;
+      await appPage.navigateTo(url);
+      await MapPageObject.waitForTracksToBeDisplayed();
+    }
+
+    // step train
+    let trainDescription = requiredBerthStep.trainDescription;
+    if (trainDescription.includes('generated')) {
+      trainDescription = browser.referenceTrainDescription;
+    }
+    const berthCancel: BerthCancel = new BerthCancel(
+      requiredBerthStep.fromBerth,
+      DateAndTimeUtils.getCurrentTimeString(),
+      requiredBerthStep.fromTrainDescriber,
+      trainDescription
+    );
+    await CucumberLog.addJson(berthCancel);
+    await linxRestClient.postBerthCancel(berthCancel);
+    await linxRestClient.waitMaxTransmissionTime();
+    await linxRestClient.postInterpose(
+      DateAndTimeUtils.getCurrentTimeString(),
+      requiredBerthStep.toBerth, requiredBerthStep.toTrainDescriber, trainDescription);
+    await linxRestClient.waitMaxTransmissionTime();
+
+    // check match status
+    await mapPageObject.rightClickBerth(`${requiredBerthStep.toTrainDescriber}${requiredBerthStep.toBerth}`);
+    await mapPageObject.waitForContextMenu();
+    const contextMenuItem: string = await mapPageObject.getMapContextMenuItem(2);
+    if (matchState === 'matched') {
+      expect(contextMenuItem.toLowerCase(), `Context menu does not imply matched state - does not contain 'Open Timetable'`)
+        .to.contain('open timetable');
+    }
+    else {
+      expect(contextMenuItem.toLowerCase(), `Context menu does not imply matched state - does not contain 'Open Timetable'`)
+        .to.contain('no timetable');
+    }
+  }
 });

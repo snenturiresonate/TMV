@@ -282,7 +282,8 @@ export class MapPageObject {
                                       berth: string, describer: string, row: number): Promise<boolean> {
     return browser.wait(async () => {
       try {
-        await this.openContextMenuForTrainDescriptionInBerth(trainDescription, describer, berth);
+        await this.
+        openContextMenuForTrainDescriptionInBerth(trainDescription, describer, berth);
         await this.waitForContextMenu();
         const contextMenuItem = await this.getMapContextMenuItem(row);
         if (contextMenuItem.toLowerCase().includes(indication.toLowerCase())) {
@@ -503,5 +504,10 @@ export class MapPageObject {
 
   public async getContextMenuPunctuality(): Promise<string> {
     return this.contextMenuPunctualityText.getText();
+  }
+
+  public async isCurrentMap(mapId: string): Promise<boolean> {
+    const currentURL = await browser.getCurrentUrl();
+    return currentURL.includes(mapId);
   }
 }

@@ -849,6 +849,8 @@ Given(/^I log the berth level schedule for '(.*)'$/, async (trainUid) => {
 });
 
 Given(/^I log the berth & locations from the berth level schedule for '(.*)'$/, async (trainUid) => {
+  // give schedule matching service some extra time to process the CIF
+  await browser.sleep(1000);
   const client = new RedisClient();
   if (trainUid === 'generatedTrainUId' || trainUid === 'generated') {
     trainUid = browser.referenceTrainUid;
