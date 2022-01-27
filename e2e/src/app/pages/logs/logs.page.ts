@@ -1,4 +1,4 @@
-import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {InputBox} from '../common/ui-element-handlers/inputBox';
 
 export class LogsPage {
@@ -58,6 +58,17 @@ export class LogsPage {
     return values.map((colValue: ElementFinder) => {
       return colValue.getText();
     });
+  }
+
+  public async getLogRowCount(): Promise<number> {
+    const rows: ElementArrayFinder = element.all(by.css(`[id*=logs-table] tbody tr`));
+    return rows.count();
+  }
+
+  public async leftClickLogResultItem(dataItem: string): Promise<void> {
+    const logRowLocator: string = '//td[text()=\'' + dataItem + '\']//parent::tr';
+    const logRow: ElementFinder = element(by.xpath(logRowLocator));
+    browser.actions().click(logRow, protractor.Button.LEFT).perform();
   }
 
   public async getSearchError(tab: string): Promise<string> {

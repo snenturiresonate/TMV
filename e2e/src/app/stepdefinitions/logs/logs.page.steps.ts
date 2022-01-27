@@ -1,4 +1,5 @@
 import {LogsPage} from '../../pages/logs/logs.page';
+
 import {Then, When} from 'cucumber';
 // this import looks like its not used but is by expect().to.be.closeToTime()
 import * as chaiDateTime from 'chai-datetime';
@@ -96,6 +97,19 @@ Then(/^the log results for row '(\d+)' displays '(.*)' and punctuality '(.*)'$/,
   }
 });
 
+Then(/^there (?:is|are) (\d+) rows? returned in the log results$/, async (expectedRowCount: number) => {
+  const numRows = await logsPage.getLogRowCount();
+  expect(numRows, `Expected ${expectedRowCount} rows but was ${numRows}`).to.equal(expectedRowCount);
+});
+
+When('I primary click for the record for {string} schedule uid {string} from the timetable results',
+  async (trainDescription: string, scheduleId: string) => {
+    if (scheduleId.includes('generated')) {
+      scheduleId = browser.referenceTrainUid;
+    }
+    await logsPage.leftClickLogResultItem(scheduleId);
+  });
+
 function compareLogResultField(actual: string, expected: string): void {
   expect(actual, `Expected ${expected} but was ${actual}`).to.equal(expected);
 }
@@ -116,7 +130,15 @@ function compareMovementLogTimetableResultRow(actual: string[], expected: any): 
 
 function compareMovementLogResultField(actual: any, expected: any, property: string): void {
   if (expected.hasOwnProperty(property)) {
-    const expectedValue = expected[property];
+    let expectedValue = expected[property];
+    if (expectedValue === 'generated') {
+      if (property === 'trainId') {
+        expectedValue = browser.referenceTrainDescription;
+      }
+      if (property === 'planningUid') {
+        expectedValue = browser.referenceTrainUid;
+      }
+    }
     expect(actual, `Expected ${expectedValue} but was ${actual}`).to.equal(expectedValue);
   }
 }

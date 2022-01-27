@@ -112,10 +112,12 @@ Then('the timetable planned {string} header label is {string}', async (arrDept: 
   }
 });
 
-Then('The live timetable tab will be titled {string}', async (expectedTabName: string) => {
+Then('the timetable tab is titled {string}', async (expectedTabName: string) => {
   const actualTimetableTabName: string = await timetablePage.getLiveTimetableTabName();
-
-  expect(actualTimetableTabName, `Live timetable tab is not titled ${expectedTabName}`)
+  if (expectedTabName.includes('generated')) {
+    expectedTabName = expectedTabName.replace('generated', browser.referenceTrainDescription);
+  }
+  expect(actualTimetableTabName, `Timetable tab is not titled ${expectedTabName}`)
     .to.equal(expectedTabName);
 
 });
@@ -188,6 +190,22 @@ Then('The values for the header properties are as follows',
       .replace('generatedTrainDescription', browser.referenceTrainDescription));
     expect(actualHeaderTJM, 'Last TJM is not as expected')
       .to.contain(expectedHeaderPropertyValues.lastTJM);
+  });
+
+Then('The values for the cutdown header properties are as follows',
+  async (headerPropertyValues: any) => {
+    const expectedHeaderPropertyValues: any = headerPropertyValues.hashes()[0];
+    await CommonActions.waitForElementToBeVisible(timetablePage.headerScheduleType);
+    const actualHeaderScheduleType: string = await timetablePage.headerScheduleType.getText();
+    const actualHeaderTrainUid: string = await timetablePage.headerTrainUid.getText();
+    let expectedUid = expectedHeaderPropertyValues.trainUid;
+    if (expectedUid.includes('generated')) {
+      expectedUid = browser.referenceTrainUid;
+    }
+    expect(actualHeaderScheduleType, 'Schedule type is not as expected')
+      .to.equal(expectedHeaderPropertyValues.schedType);
+    expect(actualHeaderTrainUid, 'Train UID is not as expected')
+      .to.equal(expectedUid);
   });
 
 Then('the last reported information reflects the TRI message {string} for {string}',

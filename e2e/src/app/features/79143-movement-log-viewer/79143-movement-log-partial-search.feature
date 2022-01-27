@@ -39,6 +39,8 @@ Feature: 79143 - TMV Movement Log Viewer - Partial Search
     And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth  | trainDescriber   | trainDescription    |
       | <berth2> | <trainDescriber> | <trainDescription2> |
+    When I give the messages 2 seconds to get into elastic search
+    And I refresh the Elastic Search indices
     And I navigate to the Berth log tab
     When I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
@@ -101,58 +103,11 @@ Feature: 79143 - TMV Movement Log Viewer - Partial Search
       | berth1 | berth2 | trainDescriber | trainDescription1 | trainDescription2 | planningUid |
       | C007   | C008   | D3             | 2D20              | 4H19              | B12345      |
 
-  #  TMV User shall be able to filter a movement log search by using a data string including partial searches entered by the user.
-  #  Partial text search used in the text fields presented for the logs:
-  #     Train ID (any 2 consecutive characters, min of 2 characters)
-  #     Planning UID (min 5 characters, if provided)
-  #     Berth ID (min 4 characters, if provided)
-  #  If a field has a value then the query performs an AND search
-
-  Scenario Outline: 81038-2 - Movement Log - Partial Search - Timetable tab - valid train ID, berth and planningUid searches
-    Given I generate a new trainUID
-    And I remove all trains from the trains list
-    And I remove today's train '<planningUid>' from the Redis trainlist
-    And I am on the log viewer page
-    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
-      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription1> | <planningUid>  |
-    And I wait until today's train '<planningUid>' has loaded
-    And the following live berth interpose message is sent from LINX (to ensure following cancel clears the berth)
-      | toBerth  | trainDescriber   | trainDescription    |
-      | <berth1> | <trainDescriber> | <trainDescription1> |
-    And the following live berth interpose message is sent from LINX (to ensure following cancel clears the berth)
-      | toBerth  | trainDescriber   | trainDescription    |
-      | <berth2> | <trainDescriber> | <trainDescription2> |
-    And the following live berth cancel messages are sent from LINX
-      | fromBerth  | trainDescriber   | trainDescription    |
-      | <berth1>   | <trainDescriber> | <trainDescription1> |
-    And the following live berth cancel messages are sent from LINX
-      | fromBerth  | trainDescriber   | trainDescription    |
-      | <berth2>   | <trainDescriber> | <trainDescription2> |
-    And the following live berth interpose message is sent from LINX (to indicate train is present)
-      | toBerth  | trainDescriber   | trainDescription    |
-      | <berth1> | <trainDescriber> | <trainDescription1> |
-    And the following live berth interpose message is sent from LINX (to indicate train is present)
-      | toBerth  | trainDescriber   | trainDescription    |
-      | <berth2> | <trainDescriber> | <trainDescription2> |
-    And I navigate to the Timetable log tab
-    When I search for Timetable logs with
-      | trainDescription  | planningUid |
-      | 2d                | b1234       |
-    Then the first movement log timetable results are
-      | trainId             | scheduleType | planningUid   |
-      | <trainDescription1> | LTP          | <planningUid> |
-
-    Examples:
-      | berth1 | berth2 | trainDescriber | trainDescription1 | trainDescription2 | planningUid |
-      | C007   | C008   | D3             | 2D20              | 4H19              | B12345      |
-
-
 
   #  TMV User shall be able to filter a movement log search by using a data string including partial searches entered by the user.
   #  A validation error to be displayed if the minimum characters are not met.
 
-  Scenario: 81038-3 - Movement Log - Partial Search - Berth tab - invalid searches
+  Scenario: 81038-2 - Movement Log - Partial Search - Berth tab - invalid searches
     Given I am on the log viewer page
     And I navigate to the Berth log tab
     When I search for Berth logs with
@@ -180,17 +135,3 @@ Feature: 79143 - TMV Movement Log Viewer - Partial Search
       |                   |             |             |           |               | 1               |
     Then the movement logs berth tab search error message is shown * The Train Describer must contain 2 characters
 
-  #  TMV User shall be able to filter a movement log search by using a data string including partial searches entered by the user.
-  #  A validation error to be displayed if the minimum characters are not met.
-
-  Scenario: 81038-4 - Movement Log - Partial Search - Timetable tab - invalid searches
-    Given I am on the log viewer page
-    And I navigate to the Timetable log tab
-    When I search for Timetable logs with
-      | trainDescription  | planningUid |
-      | 1                 |             |
-    Then the movement logs timetable tab search error message is shown * The Train ID must contain at least 2 characters
-    When I search for Timetable logs with
-      | trainDescription  | planningUid |
-      |                   | 1234        |
-    Then the movement logs timetable tab search error message is shown * The Planning UID must contain at least 5 characters
