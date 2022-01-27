@@ -59,7 +59,7 @@ Given(/^I navigate to (.*) page$/, async (pageName: string) => {
       await page.navigateTo('/tmv/log-viewer');
       break;
     case 'Replay':
-      await page.navigateTo('/tmv/replay');
+      await page.navigateTo('/tmv/replay/replay-session-1');
       break;
     case 'UserManagement':
       await page.navigateTo('/tmv/user-management');
@@ -89,7 +89,7 @@ Given(/^I navigate to (.*) page as (.*) user$/, async (pageName: string, user: s
       await page.navigateTo('/tmv/log-viewer', user);
       break;
     case 'Replay':
-      await page.navigateTo('/tmv/replay', user);
+      await page.navigateTo('/tmv/replay/replay-session-1', user);
       break;
     case 'Maps':
       await page.navigateTo(`/tmv/maps/1`, user);
@@ -116,7 +116,7 @@ Given(/^I navigate to (.*) page without prior authentication$/, async (pageName:
       await page.navigateToWithoutSignIn('/tmv/log-viewer');
       break;
     case 'Replay':
-      await page.navigateToWithoutSignIn('/tmv/replay');
+      await page.navigateToWithoutSignIn('/tmv/replay/replay-session-1');
       break;
     case 'Maps':
       await page.navigateToWithoutSignIn(`/tmv/maps/1`);

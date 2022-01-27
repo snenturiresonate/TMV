@@ -122,7 +122,7 @@ Feature: 33768-1: TMV User Management - Direct URL permissions
       | scheduleMatching |
 
   Scenario Outline: 33768 -21a Allow direct navigation for user Standard Role
-    #Given I have signed in
+    ##Given I have signed in
     #And I have a valid TMV role of Standard
     #When I navigate to the <Location> URL
     #Then the page is displayed
