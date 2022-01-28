@@ -27,7 +27,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
       | toBerth | trainDescriber | trainDescription |
       | A007    | D3             | generated        |
     Then berth 'A007' in train describer 'D3' contains 'generated' and is visible
-    And the train headcode color for berth 'D3A007' is lightgreen
+    And the train headcode color for berth 'D3A007' is lightgreen or green
 
   Scenario: 33998-2 Punctuality (Un-matched Service)
     # Given the user is authenticated to use TMV
@@ -136,7 +136,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     And the following live signalling update message is sent from LINX (setting a route)
       | trainDescriber | address | data |
       | D1             | 25      | 02   |
-    And the train headcode color for berth 'D11698' is lightgreen
+    And the train headcode color for berth 'D11698' is lightgreen or green
     And the tracks 'RGRGLS, RGRGKT, RGRGL3, RGRGL2' are displayed in solid white
     And the tracks 'RGRGLK, RGRGL6, RGRG1I, RGRG8H' are displayed in thin palegrey
     And the tracks 'PNSH8V, PNSH7V, PNSH6V' are displayed in thin palegrey
@@ -247,6 +247,8 @@ Feature: 33998 - TMV Train Service - full end to end testing
     # And the user is viewing the trains service menu
     # When the user selects to turn the path off
     # Then the train's predicted path is displayed in white for the remainder of its journey
+    * I generate a new train description
+    * I generate a new trainUID
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | TWYFORD     | WTT_arr       | generated           | generated      |
@@ -257,12 +259,15 @@ Feature: 33998 - TMV Train Service - full end to end testing
       | 1630    | D1             | generated        |
     And the following live signalling update message is sent from LINX (clearing existing state)
       | trainDescriber | address | data |
+      | D1             | 2D      | FF   |
+    And the following live signalling update message is sent from LINX (clearing existing state)
+      | trainDescriber | address | data |
       | D1             | 2D      | 00   |
     And the following live signalling update message is sent from LINX (setting a route)
       | trainDescriber | address | data |
       | D1             | 2D      | 40   |
     Then berth '1630' in train describer 'D1' contains 'generated' and is visible
-    And the train headcode color for berth 'D11630' is lightgreen
+    And the train headcode color for berth 'D11630' is lightgreen or green
     And the tracks 'RGRG57, RGRG56' are displayed in solid white
     And the tracks 'RGRG55, RGRG54' are displayed in thin palegrey
     When I invoke the context menu on the map for train generated
@@ -309,7 +314,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
       | trainDescriber | address | data |
       | D1             | 2E      | 80   |
     Then berth '1637' in train describer 'D1' contains '1F31' and is visible
-    And the train headcode color for berth 'D11637' is lightgreen
+    And the train headcode color for berth 'D11637' is lightgreen or green
     And the tracks 'RGRG38' are displayed in solid white
     And the tracks 'RGRG39, RGRG40' are displayed in thin palegrey
     When I invoke the context menu on the map for train 1F31
@@ -333,6 +338,8 @@ Feature: 33998 - TMV Train Service - full end to end testing
     Then the map context menu contains 'Path On' on line 3
 
   Scenario: 33998-9b Path Off Toggle (remains available on Nav Bar after train leaves map)
+    * I generate a new train description
+    * I generate a new trainUID
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                                    | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P04_RDNGSTN_PADTON_STOPPER.cif | IVER        | WTT_dep       | generated           | generated      |
