@@ -1409,6 +1409,12 @@ Then(/^the predicted times do not show zero seconds$/, async () => {
   expect(predictedZeroSecondsCount, 'No predicted times found on the whole minute').to.be.greaterThan(0);
 });
 
+Then(/^the timetable table tab text is '(.*)'$/, async (expectedTabText) => {
+  expectedTabText = expectedTabText.replace('generated', browser.referenceTrainDescription);
+  const tabText = await timetablePage.getTimetableTableTabText();
+  expect(tabText, `The tab text was ${tabText} but expected it to be ${expectedTabText}`).to.equal(expectedTabText);
+});
+
 function convertDaysStringIfNecessary(daysString: string): string {
   if (daysString.length !== 7) {
     return daysString;

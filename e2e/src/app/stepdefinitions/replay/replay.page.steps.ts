@@ -406,6 +406,34 @@ Then(/^the select map page (is not|is) displayed$/, async (negateFlag: string) =
   }
 });
 
+When(/^I record the replay nav bar time$/, async () => {
+  browser.replayNavBarTime = await replayPage.getReplayWindowTitle();
+});
+
+When(/^I record the replay control time$/, async () => {
+  browser.replayControlTime = await replayPage.getReplayTimestamp();
+});
+
+Then(/^the replay nav bar time matches that which was recorded$/, async () => {
+  expect(await replayPage.getReplayWindowTitle(), `The replay nav bar time did not match that which was recorded`)
+    .to.equal(browser.replayNavBarTime);
+});
+
+Then(/^the replay control time matches that which was recorded$/, async () => {
+  expect(await replayPage.getReplayTimestamp(), `The replay nav bar time did not match that which was recorded`)
+    .to.equal(browser.replayControlTime);
+});
+
+Then(/^the replay nav bar time does not match that which was recorded$/, async () => {
+  expect(await replayPage.getReplayWindowTitle(), `The replay nav bar time did not match that which was recorded`)
+    .to.not.equal(browser.replayNavBarTime);
+});
+
+Then(/^the replay control time does not match that which was recorded$/, async () => {
+  expect(await replayPage.getReplayTimestamp(), `The replay nav bar time did not match that which was recorded`)
+    .to.not.equal(browser.replayControlTime);
+});
+
 async function formulateDateTime(timeStamp: string): Promise<Date> {
   const dateTime = LocalDateTime.parse(timeStamp, DateTimeFormatter.ofPattern('dd/MM/yyy HH:mm:ss'));
   const parsedDateTime = new Date(

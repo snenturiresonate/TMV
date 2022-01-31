@@ -167,6 +167,11 @@ export class TimeTablePageObject {
     const timetableTabClasses: string = await element(by.id('timetable-table-tab')).getAttribute('class');
     return timetableTabClasses.indexOf('tmv-tab-timetable-active') > -1;
   }
+
+  public async getTimetableTableTabText(): Promise<string> {
+    return this.timetableTab.getText();
+  }
+
   public async isTimetableServiceDescriptionVisible(): Promise<boolean> {
     await browser.wait(async () => {
       return this.headerHeadcode.isPresent();

@@ -754,6 +754,12 @@ When('I launch a new map {string} the new map should have start time from the mo
   await mapPageObject.launchReplayMap();
 });
 
+When('I launch a new replay map {string}', async (mapName: string) => {
+  await mapPageObject.clickMapName();
+  await mapPageObject.enterReplayMapSearchString(mapName);
+  await mapPageObject.launchReplayMap();
+});
+
 When('I launch a new map {string}', async (mapName: string) => {
   await mapPageObject.clickMapName();
   await mapPageObject.enterMapSearchString(mapName);
