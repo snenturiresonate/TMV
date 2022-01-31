@@ -41,7 +41,7 @@ Feature: 79143 - TMV Movement Log Viewer - Partial Search
       | <berth2> | <trainDescriber> | <trainDescription2> |
     When I give the messages 2 seconds to get into elastic search
     And I refresh the Elastic Search indices
-    And I navigate to the Berth log tab
+    And I navigate to the Movement log tab
     When I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       |                   |             |             |           |               |                 |
@@ -109,7 +109,7 @@ Feature: 79143 - TMV Movement Log Viewer - Partial Search
 
   Scenario: 81038-2 - Movement Log - Partial Search - Berth tab - invalid searches
     Given I am on the log viewer page
-    And I navigate to the Berth log tab
+    And I navigate to the Movement log tab
     When I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       | 1                 |             |             |           |               |                 |

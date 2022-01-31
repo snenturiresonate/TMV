@@ -22,7 +22,7 @@ Feature: 79143 - TMV Movement Log Viewer - Update Column Names
     And the following live berth step message is sent from LINX (adding a further movement)
       | fromBerth | toBerth  | trainDescriber   | trainDescription   |
       | <berth1>  | <berth2> | <trainDescriber> | <trainDescription> |
-    And I navigate to the Berth log tab
+    And I navigate to the Movement log tab
     When I search for Berth logs for planningUid '<planningUid>'
     Then the log results table has columns in the following order
       | colName                         |

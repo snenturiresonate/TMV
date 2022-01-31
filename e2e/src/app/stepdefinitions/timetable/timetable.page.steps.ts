@@ -1490,15 +1490,19 @@ function isTimeFormatValid(gridEntry: string, timeType: string): boolean {
   const regexActual = /^(([0-1][0-9]|2[0-3]):[0-5][0-9](:30)?( c)?|N\/R|)$/;
   const regexPredicted = /^(\(([0-1][0-9]|2[0-3]):[0-5][0-9](:[0][1-9]|:[1-5][0-9])?\)|)$/;
   if (timeType === 'Planned') {
+    expect(gridEntry, `Planned was not in the expected format`).matches(new RegExp(regexPlanned));
     return regexPlanned.test(gridEntry);
   }
   else if (timeType === 'Public') {
+    expect(gridEntry, `Public was not in the expected format`).matches(new RegExp(regexPublic));
     return regexPublic.test(gridEntry);
   }
   else if  (timeType === 'Actual') {
+    expect(gridEntry, `Actual was not in the expected format`).matches(new RegExp(regexActual));
     return regexActual.test(gridEntry);
   }
   else if  (timeType === 'Predicted') {
+    expect(gridEntry, `Predicted was not in the expected format`).matches(new RegExp(regexPredicted));
     return regexPredicted.test(gridEntry);
   }
   else {

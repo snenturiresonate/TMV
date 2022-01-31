@@ -26,7 +26,7 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Punctuality Sta
     And the following live berth step message is sent from LINX
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | A007      | 0039    | D3             | <trainNum>       |
-    And I navigate to the Berth log tab
+    And I navigate to the Movement log tab
     When I search for Berth logs for toBerthId '0039'
     Then the log results for row '1' displays '<trainNum>' and punctuality '+'
     Examples:
@@ -54,7 +54,7 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Punctuality Sta
     And the following live berth step message is sent from LINX
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | A007      | 0039    | D3             | <trainNum>       |
-    And I navigate to the Berth log tab
+    And I navigate to the Movement log tab
     When I search for Berth logs for toBerthId '0039'
     Then the log results for row '1' displays '<trainNum>' and punctuality '-'
     Examples:
@@ -82,7 +82,7 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Punctuality Sta
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 0214      | 0215    | D3             | <trainNum>       |
     And I am on the log viewer page
-    And I navigate to the Berth log tab
+    And I navigate to the Movement log tab
     When I search for Berth logs for toBerthId '0215'
     Then the log results for row '1' displays '<trainNum>' and punctuality '0'
     Examples:
@@ -108,7 +108,7 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Punctuality Sta
     When the following live berth interpose message is sent from LINX (to create a match at Paddington)
       | toBerth | trainDescriber | trainDescription |
       | A007    | D3             | <trainNum>       |
-    And I navigate to the Berth log tab
+    And I navigate to the Movement log tab
     When I search for Berth logs for toBerthId 'A007'
     Then the log results for row '1' displays '<trainNum>' and punctuality 'null'
     Examples:

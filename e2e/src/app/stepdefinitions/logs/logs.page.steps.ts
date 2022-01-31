@@ -9,7 +9,7 @@ import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 const logsPage: LogsPage = new LogsPage();
 
-When(/^I navigate to the (Timetable|Berth|S-Class|Latch|Signal) log tab$/, async (tabId: string) => {
+When(/^I navigate to the (Timetable|Movement|S-Class|Latch|Signal) log tab$/, async (tabId: string) => {
   await logsPage.openTab(tabId);
 });
 

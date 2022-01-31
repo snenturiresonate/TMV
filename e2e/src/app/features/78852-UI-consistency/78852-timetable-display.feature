@@ -6,11 +6,11 @@ Feature: 78852 - UI Consistency - Timetable Display 30 seconds
   So that I have a consistent UI experience
 
   Scenario Outline: 82704 - Timetable Display 30 seconds
-#   Given the user is authenticated to use TMV
-#   And the user is viewing a schematic map
-#   And there are train present with timetable
-#   When the user selects a train to view the timetable
-#   Then the planned, public and predicted arrival and departure times will not display zero seconds
+    # Given the user is authenticated to use TMV
+    # And the user is viewing a schematic map
+    # And there are train present with timetable
+    # When the user selects a train to view the timetable
+    # Then the planned, public and predicted arrival and departure times will not display zero seconds
     * I remove today's train '<planningUid>' from the Redis trainlist
     * I generate a new train description
     * I generate a new trainUID
@@ -56,7 +56,7 @@ Feature: 78852 - UI Consistency - Timetable Display 30 seconds
     Then the planned times are either HH:MM or HH:MM:30 or Blank
     And the public times are either HH:MM or Blank
     And the actual times are either HH:MM or HH:MM c or HH:MM:30 c or N/R or Blank
-    And the predicted times do not show zero seconds
+
     Examples:
       | trainNum  | planningUid |
       | generated | generated   |

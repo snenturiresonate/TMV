@@ -21,7 +21,7 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Previous Train 
     And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth  | trainDescriber   | trainDescription    |
       | <berth1> | <trainDescriber> | <trainDescription2> |
-    And I navigate to the Berth log tab
+    And I navigate to the Movement log tab
     When I search for Berth logs for toBerthId '<berth1>'
     Then the first movement log berth results are
       | trainId             | fromBerth | toBerth | previousTrainId     |
@@ -47,7 +47,7 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Previous Train 
     And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth  | trainDescriber   | trainDescription    |
       | <berth1> | <trainDescriber> | <trainDescription1> |
-    And I navigate to the Berth log tab
+    And I navigate to the Movement log tab
     When I search for Berth logs for toBerthId '<berth1>'
     Then the first movement log berth results are
       | trainId             | fromBerth | toBerth | previousTrainId |
