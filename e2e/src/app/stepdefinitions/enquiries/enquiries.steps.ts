@@ -78,3 +78,26 @@ Then(/^the (Matched|Unmatched) version of the (Schedule-matching|Non-Schedule-ma
     }
   });
 
+When(/^I set the start date to now (\+|-) (.*) minutes?$/, async (operator: string, minutes: number) => {
+  let now;
+  const timeFormat = 'HH:mm';
+  if (! Boolean(operator)) {
+    now = DateAndTimeUtils.getCurrentTimePlusOrMinusMins(0, 0, timeFormat);
+  }
+  if (operator === '+') {
+    now = DateAndTimeUtils.getCurrentTimePlusOrMinusMins(minutes, 0, timeFormat);
+  }
+  if (operator === '-') {
+    now = DateAndTimeUtils.getCurrentTimePlusOrMinusMins(0, minutes, timeFormat);
+  }
+  await enquiriesPage.setStartTime(now);
+});
+
+Then(/^(a|no) validation error is displayed$/, async (affirmity: string) => {
+  if (affirmity === 'a') {
+    expect(await enquiriesPage.isValidationErrorDisplayed()).to.equal(true);
+  }
+  else {
+    expect(await enquiriesPage.isValidationErrorDisplayed()).to.equal(false);
+  }
+});

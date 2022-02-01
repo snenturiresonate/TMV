@@ -1,6 +1,7 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {CucumberLog} from '../../logging/cucumber-log';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
+import {InputBox} from '../common/ui-element-handlers/inputBox';
 
 export class EnquiriesPageObject {
   public mapSearchBox: ElementFinder;
@@ -10,6 +11,8 @@ export class EnquiriesPageObject {
   public trainsListItems: ElementArrayFinder;
   public trainsListContextMenu: ElementFinder;
   public trainsListContextMenuItems: ElementArrayFinder;
+  public startTimeInput: ElementFinder;
+  public validationError: ElementFinder;
 
   constructor() {
     this.mapSearchBox = element(by.css('#map-search-box'));
@@ -19,6 +22,8 @@ export class EnquiriesPageObject {
     this.trainsListItems = element.all(by.css('#train-tbody tr'));
     this.trainsListContextMenu = element(by.id('trainlistcontextmenu'));
     this.trainsListContextMenuItems = element.all(by.css('.dropdown-item'));
+    this.startTimeInput = element(by.css('app-time-picker[formControlName=startTime] input#timePicker'));
+    this.validationError = element(by.css('.validation-error'));
   }
 
   public async enterLocationSearchString(searchString: string): Promise<void> {
@@ -90,4 +95,16 @@ export class EnquiriesPageObject {
     return this.trainsListContextMenuItems.get(rowIndex - 1).getText();
   }
 
+  public async setStartTime(time: string): Promise<void> {
+    await InputBox.ctrlADeleteClear(this.startTimeInput);
+    await this.startTimeInput.sendKeys(time);
+    return this.startTimeInput.sendKeys(protractor.Key.TAB);
+  }
+
+  public async isValidationErrorDisplayed(): Promise<boolean> {
+    if (!await this.validationError.isPresent()) {
+      return Promise.resolve(false);
+    }
+    return this.validationError.isDisplayed();
+  }
 }
