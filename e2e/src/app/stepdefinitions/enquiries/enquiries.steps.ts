@@ -3,6 +3,7 @@ import {EnquiriesPageObject} from '../../pages/enquiries/enquiries.page';
 import {expect} from 'chai';
 import {browser} from 'protractor';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
+import {DateTimeFormatter, LocalDateTime, ZoneId} from "@js-joda/core";
 
 const enquiriesPage: EnquiriesPageObject = new EnquiriesPageObject();
 const ENQUIRIES_LOAD_DELAY = 2000;
@@ -103,3 +104,23 @@ Then(/^(a|no) validation error is displayed$/, async (affirmity: string) => {
     }
   }, browser.params.quick_timeout, `Expected ${affirmity} validation error to be displayed`);
 });
+
+Then('the enquiries start time is about {int} minutes ago',
+  async (minutes: number) => {
+    let shown : number = LocalDateTime.parse(await enquiriesPage.getStartDate() + ' ' + await enquiriesPage.getStartTime(),
+      DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm')).atZone(ZoneId.systemDefault()).toEpochSecond();
+    let currentTime : number = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
+
+    expect(shown, 'Incorrect start time').to.above(currentTime - minutes * 60 - 90);
+    expect(shown, 'Incorrect start time').to.below(currentTime - minutes * 60 + 90);
+  });
+
+Then('the enquiries end time is in about {int} minutes',
+  async (minutes: number) => {
+    let shown : number = LocalDateTime.parse(await enquiriesPage.getEndDate() + ' ' + await enquiriesPage.getEndTime(),
+      DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm')).atZone(ZoneId.systemDefault()).toEpochSecond();
+    let currentTime : number = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
+
+    expect(shown, 'Incorrect end time').to.above(currentTime + minutes * 60 - 90);
+    expect(shown, 'Incorrect end time').to.below(currentTime + minutes * 60 + 90);
+  });

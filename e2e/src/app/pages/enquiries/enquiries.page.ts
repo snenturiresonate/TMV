@@ -11,8 +11,11 @@ export class EnquiriesPageObject {
   public trainsListItems: ElementArrayFinder;
   public trainsListContextMenu: ElementFinder;
   public trainsListContextMenuItems: ElementArrayFinder;
-  public startTimeInput: ElementFinder;
   public validationError: ElementFinder;
+  public startDateInput: ElementFinder;
+  public endDateInput: ElementFinder;
+  public startTimeInput: ElementFinder;
+  public endTimeInput: ElementFinder;
 
   constructor() {
     this.mapSearchBox = element(by.css('#map-search-box'));
@@ -22,8 +25,11 @@ export class EnquiriesPageObject {
     this.trainsListItems = element.all(by.css('#train-tbody tr'));
     this.trainsListContextMenu = element(by.id('trainlistcontextmenu'));
     this.trainsListContextMenuItems = element.all(by.css('.dropdown-item'));
-    this.startTimeInput = element(by.css('app-time-picker[formControlName=startTime] input#timePicker'));
     this.validationError = element(by.css('.validation-error'));
+    this.startDateInput = element(by.id('mat-input-0'));
+    this.endDateInput = element(by.id('mat-input-1'));
+    this.endTimeInput = element(by.css('app-time-picker[formControlName="endTime"] > input#timePicker'));
+    this.startTimeInput = element(by.css('app-time-picker[formControlName=startTime] > input#timePicker'));
   }
 
   public async enterLocationSearchString(searchString: string): Promise<void> {
@@ -106,5 +112,21 @@ export class EnquiriesPageObject {
       return Promise.resolve(false);
     }
     return this.validationError.isDisplayed();
+  }
+
+  public async getStartDate(): Promise<string> {
+    return this.startDateInput.getAttribute('value');
+  }
+
+  public async getStartTime(): Promise<string> {
+    return this.startTimeInput.getAttribute('value');
+  }
+
+  public async getEndDate(): Promise<string> {
+    return this.endDateInput.getAttribute('value');
+  }
+
+  public async getEndTime(): Promise<string> {
+    return this.endTimeInput.getAttribute('value');
   }
 }

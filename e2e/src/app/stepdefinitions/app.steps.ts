@@ -73,6 +73,9 @@ Given(/^I navigate to (.*) page$/, async (pageName: string) => {
     case 'Admin':
       await page.navigateTo('/tmv/administration');
       break;
+    case 'Enquiries':
+      await page.navigateTo('/tmv/enquiries');
+      break;
   }
 });
 
