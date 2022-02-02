@@ -36,7 +36,7 @@ Feature: 78858 - TMV Replay Controls & Display - Multi-tab Change Replay Session
     And the following live berth step message is sent from LINX (departing from Paddington)
       | fromBerth | toBerth | trainDescriber | trainDescription   |
       | A007      | 0039    | D3             | <trainDescription> |
-    And I give the replay data 2 seconds to be stored
+    And I give the replay data 4 seconds to be stored
     And I refresh the Elastic Search indices
 
     # starting conditions
@@ -58,9 +58,7 @@ Feature: 78858 - TMV Replay Controls & Display - Multi-tab Change Replay Session
 
     # change the replay start time
     When I primary click the replay time
-    And I set the date and time for replay to
-      | date  | time     | duration |
-      | today | now - 10 | 10       |
+    And I select time period 'Last 9 minutes' from the quick dropdown
     And I select Next
     And I wait for the buffer to fill
     And I click Skip forward button '5' times
@@ -76,7 +74,7 @@ Feature: 78858 - TMV Replay Controls & Display - Multi-tab Change Replay Session
     And the replay control time does not match that which was recorded
 
     # check that original replay state is in sync across tabs
-    When I click Skip forward button '5' times
+    When I click Skip forward button '4' times
     And I record the replay nav bar time
     And I record the replay control time
     Then berth '0039' in train describer 'D3' contains '<trainDescription>' and is visible on map
@@ -105,7 +103,7 @@ Feature: 78858 - TMV Replay Controls & Display - Multi-tab Change Replay Session
     And the following live berth step message is sent from LINX (departing from Paddington)
       | fromBerth | toBerth | trainDescriber | trainDescription   |
       | A007      | 0039    | D3             | <trainDescription> |
-    And I give the replay data 2 seconds to be stored
+    And I give the replay data 4 seconds to be stored
     And I refresh the Elastic Search indices
 
     # starting conditions
@@ -181,7 +179,7 @@ Feature: 78858 - TMV Replay Controls & Display - Multi-tab Change Replay Session
     And the following live berth step message is sent from LINX (departing from Paddington)
       | fromBerth | toBerth | trainDescriber | trainDescription   |
       | A007      | 0039    | D3             | <trainDescription> |
-    And I give the replay data 2 seconds to be stored
+    And I give the replay data 4 seconds to be stored
     And I refresh the Elastic Search indices
 
     # starting conditions

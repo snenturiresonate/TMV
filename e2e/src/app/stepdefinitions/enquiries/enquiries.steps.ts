@@ -94,10 +94,12 @@ When(/^I set the start date to now (\+|-) (.*) minutes?$/, async (operator: stri
 });
 
 Then(/^(a|no) validation error is displayed$/, async (affirmity: string) => {
-  if (affirmity === 'a') {
-    expect(await enquiriesPage.isValidationErrorDisplayed()).to.equal(true);
-  }
-  else {
-    expect(await enquiriesPage.isValidationErrorDisplayed()).to.equal(false);
-  }
+  browser.wait(async () => {
+    if (affirmity === 'a') {
+      return (await enquiriesPage.isValidationErrorDisplayed()) === true;
+    }
+    else {
+      return (await enquiriesPage.isValidationErrorDisplayed()) === false;
+    }
+  }, browser.params.quick_timeout, `Expected ${affirmity} validation error to be displayed`);
 });
