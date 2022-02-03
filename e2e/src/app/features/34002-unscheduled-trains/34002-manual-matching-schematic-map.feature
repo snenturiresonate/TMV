@@ -64,7 +64,6 @@ Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Schematic Map
       | fromBerth | toBerth | toBerth2 | trainDescriber | trainDescription | trainUid  | toPunctualityColour |
       | 0239      | 0243    | 0253     | D4             | generated        | generated | green               |
 
-  @bug @bug:84178
   Scenario Outline: 83315-2 - Manual Matching - Schematic Map - Remains Matched Until Unmatched and Remains Unmatched
     Given I am viewing the map HDGW01paddington.v
     And the following live berth step message is sent from LINX (to create an unmatched service)
