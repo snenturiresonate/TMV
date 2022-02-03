@@ -1,6 +1,7 @@
 @newSession
 Feature: 33806 - TMV User Preferences - full end to end testing - TL config navigation
 
+
   As a tester
   I want to verify the train list page
   So, that I can identify if the build meets the end to end requirements

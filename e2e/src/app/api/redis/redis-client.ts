@@ -2,6 +2,7 @@ import {browser} from 'protractor';
 import {RedisType} from './redis-type.model';
 import {RedisTypeToKeyMatcher} from './redis-type-to-key-matcher';
 import {StopWatch} from '../../utils/stopwatch';
+import {CucumberLog} from '../../logging/cucumber-log';
 import * as RedisLibrary from 'ioredis';
 require('events').EventEmitter.defaultMaxListeners = 15;
 
@@ -126,6 +127,10 @@ export class RedisClient {
   public async hashDelete(hash: string, field: string, type?: RedisType): Promise<void> {
     if (!type) {
       type = this.redisKeyMatcher.match(hash);
+      if (!type) {
+        await CucumberLog.addText(`Redis type not found for key ${hash}`);
+        return Promise.resolve();
+      }
     }
     await this.getClient(type).hdel(hash, field);
     return Promise.resolve();
@@ -134,6 +139,10 @@ export class RedisClient {
   public async keyDelete(key: string, type?: RedisType): Promise<void> {
     if (!type) {
       type = this.redisKeyMatcher.match(key);
+      if (!type) {
+        await CucumberLog.addText(`Redis type not found for key ${key}`);
+        return Promise.resolve();
+      }
     }
     await this.getClient(type).del(key);
     return Promise.resolve();
@@ -142,6 +151,10 @@ export class RedisClient {
   public async deleteKey(key: string, type?: RedisType): Promise<any> {
     if (type) {
       const client = this.getClient(type);
+      if (!client) {
+        await CucumberLog.addText(`Redis type not found for key ${key}`);
+        return Promise.resolve();
+      }
       await client.del(key);
     } else {
       await RedisClient.operationsClient.del(key);
