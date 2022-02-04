@@ -307,6 +307,10 @@ Then('I open timetable from the context menu', async () => {
   await browser.sleep(2000);
 });
 
+When('I open timetable from the context menu, without delay', async () => {
+  await trainsListPage.timeTableLink.click();
+});
+
 Then('the open timetable option is present on the context menu', async () => {
   await trainsListPage.timeTableLink.isPresent();
 });
