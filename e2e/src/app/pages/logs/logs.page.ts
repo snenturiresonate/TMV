@@ -17,10 +17,9 @@ export class LogsPage {
 
   private static async setSearchField(divIdStarter: string, fieldName: string, searchVal: any): Promise<void> {
     const inputTextElement: ElementFinder = element(by.css(`div[id*=${divIdStarter}] input[formcontrolname = ${fieldName}]`));
-    await InputBox.ctrlADeleteClear(inputTextElement);
     const trimmedValue = searchVal.trim();
     if (!(!searchVal || trimmedValue.length === 0)) {   // if not blank
-      await inputTextElement.sendKeys(trimmedValue);
+      await InputBox.updateInputBox(inputTextElement, trimmedValue);
     }
   }
   constructor() {

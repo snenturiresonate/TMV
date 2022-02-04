@@ -9,11 +9,11 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Previous Train 
   #  Two conditions for either Previous Train ID available or not available.
 
   Scenario Outline: 80275-1 - Movement Log - View Additional Data (Previous Train ID available)
-#    Given the user is authenticated to use TMV
-#    And the user is viewing the Movement Logs
-#    When the search results are loaded:
-#    And a Previous Train ID is available
-#    Then the Previous Train ID column displays The Train ID of the Train previously occupying the To Berth
+    # Given the user is authenticated to use TMV
+    # And the user is viewing the Movement Logs
+    # When the search results are loaded:
+    # And a Previous Train ID is available
+    # Then the Previous Train ID column displays The Train ID of the Train previously occupying the To Berth
     Given I am on the log viewer page
     And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth  | trainDescriber   | trainDescription    |
@@ -32,11 +32,11 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Previous Train 
       | C007   | D3             | 2D19              | 4H19              |
 
   Scenario Outline: 80275-2 - Movement Log - View Additional Data (Previous Train ID not available)
-#    Given the user is authenticated to use TMV
-#    And the user is viewing the Movement Logs
-#    When the search results are loaded:
-#    And a Previous Train ID is not available
-#    Then the Previous Train ID column displays an empty cell
+    # Given the user is authenticated to use TMV
+    # And the user is viewing the Movement Logs
+    # When the search results are loaded:
+    # And a Previous Train ID is not available
+    # Then the Previous Train ID column displays an empty cell
     Given I am on the log viewer page
     And the following live berth interpose message is sent from LINX (to ensure following cancel will clear the berth)
       | toBerth  | trainDescriber   | trainDescription    |

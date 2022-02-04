@@ -6,10 +6,10 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Punctuality Sta
   So that I can work with the data that is of interest to me within the Movement Logs
 
   Scenario Outline: 80283-1 - Movement Log - View Additional Data (Punctuality Status late)
-#    Given the user is authenticated to use TMV
-#    And the user is viewing the Movement Logs
-#    When the search results are loaded:
-#    Then a late punctuality status is available
+    # Given the user is authenticated to use TMV
+    # And the user is viewing the Movement Logs
+    # When the search results are loaded:
+    # Then a late punctuality status is available
     * I am on the log viewer page
     * I generate a new train description
     * I generate a new trainUID
@@ -34,10 +34,10 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Punctuality Sta
       | generated | generated    |
 
   Scenario Outline: 80283-2 - Movement Log - View Additional Data (Punctuality Status early)
-#    Given the user is authenticated to use TMV
-#    And the user is viewing the Movement Logs
-#    When the search results are loaded
-#    Then an early  punctuality status is available
+    # Given the user is authenticated to use TMV
+    # And the user is viewing the Movement Logs
+    # When the search results are loaded
+    # Then an early  punctuality status is available
     * I am on the log viewer page
     * I generate a new train description
     * I generate a new trainUID
@@ -91,10 +91,10 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Punctuality Sta
 
 
   Scenario Outline: 80283-4 - Movement Log - View Additional Data (Punctuality Status unavailable)
-#    Given the user is authenticated to use TMV
-#    And the user is viewing the Movement Logs
-#    When the search results are loaded
-#    Then the punctuality status is unavailable
+    # Given the user is authenticated to use TMV
+    # And the user is viewing the Movement Logs
+    # When the search results are loaded
+    # Then the punctuality status is unavailable
     * I am on the log viewer page
     * I generate a new train description
     * I generate a new trainUID
