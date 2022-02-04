@@ -17,7 +17,7 @@ Feature: 79015 - TMV National Search Additions - National Berth Search Selection
     And I invoke the context menu for berth containing text 'D4'
     And I wait for the berth search context menu to display
     And the berth context menu is displayed
-    And the train search context menu contains 'Select maps' on line 1
+    And the train search context menu contains 'Select Maps' on line 1
     And I place the mouseover on map arrow link
     And the following map names can be seen for the berth
       | mapName |

@@ -163,7 +163,7 @@ Scenario Outline: 78846-3 Live and Replay - Open Timetable (from Map secondary c
     * I wait for the '<searchType>' search context menu to display
     * the '<searchType>' context menu is displayed
     * the '<searchType>' search context menu contains 'Open Timetable' on line 1
-    * the '<searchType>' search context menu contains 'Select maps' on line 2
+    * the '<searchType>' search context menu contains 'Select Maps' on line 2
     * I click on timetable link
     * I switch to the new tab
     * the tab title contains 'TMV Timetable'
@@ -191,7 +191,7 @@ Scenario Outline: 78846-3 Live and Replay - Open Timetable (from Map secondary c
     And I wait for the '<searchType>' search context menu to display
     And the '<searchType>' context menu is displayed
     And the '<searchType>' search context menu contains 'Open Timetable' on line 1
-    And the '<searchType>' search context menu contains 'Select maps' on line 2
+    And the '<searchType>' search context menu contains 'Select Maps' on line 2
     And I click on timetable link
     And I switch to the new tab
     And the tab title contains 'TMV Replay Timetable'

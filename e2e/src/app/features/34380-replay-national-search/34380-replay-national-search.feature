@@ -108,7 +108,7 @@ Feature: 34380 - TMV Replay National Search
     And I wait for the train search context menu to display
     And the trains context menu is displayed
     And the train search context menu contains 'Open Timetable' on line 1
-    And the train search context menu contains 'Select maps' on line 2
+    And the train search context menu contains 'Select Maps' on line 2
     Then the following map names can be seen
       | mapName |
       | GW2A    |
@@ -128,7 +128,7 @@ Feature: 34380 - TMV Replay National Search
     And I wait for the timetable search context menu to display
     Then the timetable context menu is displayed
     And the train search context menu contains 'Open Timetable' on line 1
-    And the train search context menu contains 'Select maps' on line 2
+    And the train search context menu contains 'Select Maps' on line 2
     And the following map names can be seen
       |mapName|
       |GW2A   |
@@ -144,7 +144,7 @@ Feature: 34380 - TMV Replay National Search
     And I invoke the context menu for signal with ID 'SN15'
     And I wait for the signal search context menu to display
     And the signal context menu is displayed
-    And the 'signal' search context menu contains 'Select maps' on line 1
+    And the 'signal' search context menu contains 'Select Maps' on line 1
     Then the following map names can be seen for the signal
       |mapName|
       |HDGW01 |
@@ -166,7 +166,7 @@ Feature: 34380 - TMV Replay National Search
     And I wait for the train search context menu to display
     Then the trains context menu is displayed
     And the train search context menu contains 'Open Timetable' on line 1
-    And the train search context menu contains 'Select maps' on line 2
+    And the train search context menu contains 'Select Maps' on line 2
     When I open the Map 'GW2A'
     And I switch to the new tab
     And the tab title is 'TMV Replay GW2A'

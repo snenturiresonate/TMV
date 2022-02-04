@@ -34,8 +34,8 @@ Feature: 79015 - TMV National Search Additions - National Train Search Highlight
     When I invoke the context menu from train with planning UID '<planningUID>' and schedule date 'today' from the search results
     And I wait for the train search context menu to display
     Then the trains context menu is displayed
-    And the train search context menu contains 'Open timetable' on line 1
-    And the train search context menu contains 'Select maps' on line 2
+    And the train search context menu contains 'Open Timetable' on line 1
+    And the train search context menu contains 'Select Maps' on line 2
     When I place the mouseover on map arrow link
     Then the following map names can be seen
       | mapName |
@@ -77,8 +77,8 @@ Feature: 79015 - TMV National Search Additions - National Train Search Highlight
     When I invoke the context menu from train with planning UID '<planningUID>' and schedule date 'today' from the search results
     And I wait for the train search context menu to display
     Then the trains context menu is displayed
-    And the train search context menu contains 'Open timetable' on line 1
-    And the train search context menu contains 'Select maps' on line 2
+    And the train search context menu contains 'Open Timetable' on line 1
+    And the train search context menu contains 'Select Maps' on line 2
     When I place the mouseover on map arrow link
     Then the following map names can be seen
       | mapName |

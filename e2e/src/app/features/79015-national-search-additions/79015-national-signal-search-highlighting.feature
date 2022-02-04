@@ -19,7 +19,7 @@ Feature: 79015 - TMV National Search Additions - National Signal Search Highligh
     When I invoke the context menu for signal with ID 'SN259'
     And I wait for the signal search context menu to display
     And the signal context menu is displayed
-    And the train search context menu contains 'Select maps' on line 1
+    And the train search context menu contains 'Select Maps' on line 1
     And I placed the mouseover on signal map option
     And the following signal map names can be seen
     | mapName |
@@ -54,7 +54,7 @@ Feature: 79015 - TMV National Search Additions - National Signal Search Highligh
     When I invoke the context menu for signal with ID 'SN259'
     And I wait for the signal search context menu to display
     And the signal context menu is displayed
-    And the train search context menu contains 'Select maps' on line 1
+    And the train search context menu contains 'Select Maps' on line 1
     And I placed the mouseover on signal map option
     And the following signal map names can be seen
       | mapName |
@@ -89,7 +89,7 @@ Feature: 79015 - TMV National Search Additions - National Signal Search Highligh
     When I invoke the context menu for signal with ID 'SN259'
     And I wait for the signal search context menu to display
     And the signal context menu is displayed
-    And the train search context menu contains 'Select maps' on line 1
+    And the train search context menu contains 'Select Maps' on line 1
     And I placed the mouseover on signal map option
     And the following signal map names can be seen
       | mapName |
@@ -143,7 +143,7 @@ Feature: 79015 - TMV National Search Additions - National Signal Search Highligh
     When I invoke the context menu for signal with ID 'SN15'
     And I wait for the signal search context menu to display
     Then the signal context menu is displayed
-    And the 'signal' search context menu contains 'Select maps' on line 1
+    And the 'signal' search context menu contains 'Select Maps' on line 1
     And the following map names can be seen for the signal
       |mapName|
       |HDGW01 |
