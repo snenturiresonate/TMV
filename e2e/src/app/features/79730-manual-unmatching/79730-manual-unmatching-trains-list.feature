@@ -9,12 +9,12 @@ Feature: 50561 - Unmatch a service - Trains List
     * I have navigated to the 'TOC/FOC' configuration tab
 
   Scenario: 80312 - Unmatch via Trains List dialogue
-#    Given the user is authenticated to use TMV
-#    And the user is viewing the trains list
-#    And the has the schedule matching privilege
-#    And has select a matched service to unmatch
-#    When the user selects the unmatch option
-#    Then the unmatch confirmation dialogue is displayed
+    #  Given the user is authenticated to use TMV
+    #  And the user is viewing the trains list
+    #  And the has the schedule matching privilege
+    #  And has select a matched service to unmatch
+    #  When the user selects the unmatch option
+    #  Then the unmatch confirmation dialogue is displayed
     * I generate a new trainUID
     * I generate a new train description
     * I delete 'generatedTrainUId:today' from hash 'schedule-modifications'
@@ -36,13 +36,13 @@ Feature: 50561 - Unmatch a service - Trains List
     Then the Unmatch confirmation dialogue is displayed
 
   Scenario: 80312 - Unmatch via Trains List dialogue
-#    Given the user is authenticated to use TMV
-#    And the user is viewing the trains list
-#    And the has the schedule matching privilege
-#    And has select a matched service to unmatch
-#    And is viewing unmatch confirmation dialogue
-#    When the user selects to the cancel the action
-#    Then the service remains matched
+    #  Given the user is authenticated to use TMV
+    #  And the user is viewing the trains list
+    #  And the has the schedule matching privilege
+    #  And has select a matched service to unmatch
+    #  And is viewing unmatch confirmation dialogue
+    #  When the user selects to the cancel the action
+    #  Then the service remains matched
     * I generate a new trainUID
     * I generate a new train description
     * I delete 'generatedTrainUId:today' from hash 'schedule-modifications'
@@ -65,14 +65,14 @@ Feature: 50561 - Unmatch a service - Trains List
     Then a matched service is visible
 
   Scenario: 80312 - Unmatch via Trains List dialogue
-#    Given the user is authenticated to use TMV
-#    And the user is viewing the trains list
-#    And the has the schedule matching privilege
-#    And has select a matched service to unmatch
-#    And is viewing unmatch confirmation dialogue
-#    When the user selects to the cancel the action
-#    Then the service is unmatched
-#    And remains unmatch for the remainder of its journey unless rematched by a user
+    #  Given the user is authenticated to use TMV
+    #  And the user is viewing the trains list
+    #  And the has the schedule matching privilege
+    #  And has select a matched service to unmatch
+    #  And is viewing unmatch confirmation dialogue
+    #  When the user selects to the cancel the action
+    #  Then the service is unmatched
+    #  And remains unmatch for the remainder of its journey unless rematched by a user
     * I generate a new trainUID
     * I generate a new train description
     * I delete 'generatedTrainUId:today' from hash 'schedule-modifications'

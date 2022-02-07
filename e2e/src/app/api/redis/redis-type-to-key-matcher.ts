@@ -1,5 +1,4 @@
 import {RedisType} from './redis-type.model';
-import {CucumberLog} from '../../logging/cucumber-log';
 
 const TYPE_TO_KEY_PATTERN = [
   {pattern: new RegExp('\{last-berths-set\}-[a-zA-Z0-9-]+'), type: RedisType.OPERATIONS},
@@ -120,7 +119,11 @@ const TYPE_TO_KEY_PATTERN = [
 export class RedisTypeToKeyMatcher {
   private readonly typeToKeyPatterns: PatternTypePair[] = TYPE_TO_KEY_PATTERN;
   public match(key: string): RedisType {
-    return this.typeToKeyPatterns.find(pair => pair.pattern.test(key)).type;
+    const patternPair = this.typeToKeyPatterns.find(pair => pair.pattern.test(key));
+    if (!patternPair) {
+      return undefined;
+    }
+    return patternPair.type;
   }
 }
 
