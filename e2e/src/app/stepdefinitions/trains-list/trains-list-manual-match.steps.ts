@@ -86,7 +86,7 @@ Then(/^the unmatched search results show the following (.*) results?$/,
   const numExpectedSearchResults = parseFloat(numExpectedSearchResultsString);
   const numActualSearchResults = await trainsListManualMatchPage.getNumServicesListed();
   const now = DateAndTimeUtils.getCurrentTime();
-  let expectedOriginTime;
+  let expectedOriginTime = now;
   expect(numActualSearchResults, `Number of search results incorrect`).to.equal(numExpectedSearchResults);
   for (const expectedSearchResult of expectedSearchResults) {
     const expectedDate = DateAndTimeUtils.convertToDesiredDateAndFormat(expectedSearchResult.date, 'dd-MM-yyyy');
