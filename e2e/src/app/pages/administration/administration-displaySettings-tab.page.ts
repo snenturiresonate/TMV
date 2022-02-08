@@ -14,6 +14,8 @@ export class AdminPunctualityConfigTab {
   public deleteTimeBand: ElementArrayFinder;
   public fromTime: ElementArrayFinder;
   public toTime: ElementArrayFinder;
+  public incrementButtons: ElementArrayFinder;
+  public decrementButtons: ElementArrayFinder;
 
   public rowName: ElementArrayFinder;
   public classToggle: ElementArrayFinder;
@@ -32,7 +34,8 @@ export class AdminPunctualityConfigTab {
     this.toTime = element.all(by.css('[id*=toPunctuality]'));
     this.saveButton = element(by.css('#saveDisplayConfig'));
     this.resetButton = element(by.css('#resetDisplayConfig'));
-
+    this.incrementButtons = element.all(by.xpath('//*[@id=\'punctualityConfiguration\']//button[text()[contains(.,\'+\')]]'));
+    this.decrementButtons = element.all(by.xpath('//*[@id=\'punctualityConfiguration\']//button[text()[contains(.,\'-\')]]'));
     this.rowName = element.all(by.css('#indication-div-container .row .col-md-4.punctuality-name'));
     this.classToggle = element.all(by.css('#indication-div-container .toggle-switch'));
     this.colourText = element.all(by.css('#indication-div-container .row .punctuality-colour'));
@@ -109,6 +112,25 @@ export class AdminPunctualityConfigTab {
 
   public async addTimeBandsButtonIsVisible(): Promise<boolean> {
     return this.addTimeBand.isPresent();
+  }
+
+  public async arePunctualityAdjustmentsAvailable(): Promise<boolean> {
+    const numIncrementButtons = await this.incrementButtons.count();
+    const numDecrementButtons = await this.decrementButtons.count();
+    return ((numDecrementButtons > 0) && (numIncrementButtons > 0));
+  }
+
+  public async getPuncAdjustButton(bandNum: number, upperOrLower: string, incOrDec: string): Promise<ElementFinder> {
+    let operator = '+';
+    let buttonNum = 1;
+    if (incOrDec === 'decrease') {
+      operator = '-';
+    }
+    if (upperOrLower === 'upper') {
+      buttonNum = 2;
+    }
+    const xPathLocator = `(//*[@id=\'punctualityConfiguration\']//div[contains(@class,\'col-grid\')][${bandNum}]//button[text()[contains(.,\'${operator}\')]])[${buttonNum}]`;
+    return element(by.xpath(xPathLocator));
   }
 
   public async updateDisplayName(displayName: string): Promise<void> {

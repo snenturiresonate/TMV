@@ -1,7 +1,7 @@
 import { Then, When } from 'cucumber';
 import { expect } from 'chai';
 import { AdminPunctualityConfigTab } from '../../pages/administration/administration-displaySettings-tab.page';
-import { protractor} from 'protractor';
+import {browser, protractor} from 'protractor';
 
 const adminPunctuality: AdminPunctualityConfigTab = new AdminPunctualityConfigTab();
 
@@ -152,6 +152,46 @@ async function updateTrainIndicationToggle(index: number, update: string): Promi
     return;
   }
 }
+
+Then('the number controls for the punctuality bands are clear', async () => {
+  const punctualityAdjustmentsAvailable: boolean = await adminPunctuality.arePunctualityAdjustmentsAvailable();
+  expect(punctualityAdjustmentsAvailable, 'Number controls for punctuality bands are not available').to.equal(true);
+});
+
+When (/^I make a note of the (upper|lower) value for punctuality band (.*)$/, async (upperOrLower: string, bandNum: number) => {
+  if (upperOrLower === 'lower') {
+    browser.actualFromPunctualityTime = await adminPunctuality.getAdminPunctualityFromTime(bandNum - 1);
+  }
+  else {
+    browser.actualToPunctualityTime = await adminPunctuality.getAdminPunctualityToTime(bandNum - 1);
+  }
+});
+
+When (/^I (increase|decrease) the (upper|lower) value for punctuality band (.*) by (.*)$/,
+  async (incOrDec: string, upperOrLower: string, bandNum: number, adjustment: number) => {
+  const targetAdjustButton = await adminPunctuality.getPuncAdjustButton(bandNum, upperOrLower, incOrDec);
+  for (let i = 0; i < adjustment; i++) {
+    await targetAdjustButton.click();
+  }
+});
+
+Then (/^the (upper|lower) value shown for punctuality band (.*) is (.*) (more|less) than before$/,
+  async (upperOrLower: string, bandNum: number, expectedChange: string, adjustment: string) => {
+    let expectedChangeVal = parseInt(expectedChange, 10);
+    let actualChange;
+    if (upperOrLower === 'lower') {
+      const currentFromTime = await adminPunctuality.getAdminPunctualityFromTime(bandNum - 1);
+      actualChange = parseInt(currentFromTime, 10) - browser.actualFromPunctualityTime;
+    }
+    else {
+      const currentToTime = await adminPunctuality.getAdminPunctualityToTime(bandNum - 1);
+      actualChange = parseInt(currentToTime, 10) - browser.actualToPunctualityTime;
+    }
+    if (adjustment === 'less') {
+      expectedChangeVal = expectedChangeVal * -1;
+    }
+    expect(actualChange, `Change in ${upperOrLower} value for band ${bandNum} is not observed`).to.equal(expectedChangeVal);
+  });
 
 async function convertToggleToBoolean(toggleUpdate: string): Promise<boolean> {
   return (toggleUpdate === 'on' || toggleUpdate === 'On');
