@@ -1,7 +1,8 @@
-import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder, ExpectedConditions, protractor} from 'protractor';
 import {CucumberLog} from '../../logging/cucumber-log';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {InputBox} from '../common/ui-element-handlers/inputBox';
+import {TimetableTableRowPageObject} from '../sections/timetable.tablerow.page';
 
 export class EnquiriesPageObject {
   public mapSearchBox: ElementFinder;
@@ -79,6 +80,17 @@ export class EnquiriesPageObject {
     return schedules.indexOf(scheduleId);
   }
 
+  public async leftClickTrainListItemNum(position: number): Promise<void> {
+    const rows = this.trainsListItems;
+    const targetRow = rows.get(position - 1);
+    await browser.actions().click(targetRow, protractor.Button.LEFT).perform();
+  }
+
+  public async leftClickHeadcodeOnTrainListItem(scheduleString: string): Promise<void> {
+    const trainScheduleId: ElementFinder = element(by.css('[id=\'trains-list-row-entry-train-description-' + scheduleString + '\''));
+    await browser.actions().click(trainScheduleId, protractor.Button.LEFT).perform();
+  }
+
   public async rightClickTrainListItem(scheduleString: string): Promise<void> {
     const trainScheduleId: ElementFinder = element(by.css('[id=\'trains-list-row-' + scheduleString + '\''));
     browser.actions().click(trainScheduleId, protractor.Button.RIGHT).perform();
@@ -99,6 +111,26 @@ export class EnquiriesPageObject {
 
   public async getTrainsListContextMenuItem(rowIndex: number): Promise<string> {
     return this.trainsListContextMenuItems.get(rowIndex - 1).getText();
+  }
+
+  public async clickStopTypeCheckbox(stopType: string, station: string): Promise<void> {
+    const elementId = station + '-'  + stopType;
+    const stopTypeElement: ElementFinder = element.all(by.id(elementId)).first();
+    await browser.wait(() => stopTypeElement.isPresent(), browser.params.general_timeout);
+    await stopTypeElement.click();
+  }
+
+  public async isTrainVisible(serviceId: string, trainUId: string, timeToWaitForTrain = 500): Promise<boolean> {
+    try {
+      await CommonActions.waitForElementToBeVisible(element.all(by.css(`[id^='trains-list-row-']`)).first(), timeToWaitForTrain);
+      const trainScheduleId: ElementFinder =
+        element.all(
+          by.cssContainingText(`[id^=\'trains-list-row-entry-train-description-${trainUId}\'`, `${serviceId}`)).first();
+      await CommonActions.waitForElementToBePresent(trainScheduleId, timeToWaitForTrain, `The Schedule is not displayed in first ${timeToWaitForTrain} milliseconds`);
+    } catch (err) {
+      return false;
+    }
+    return true;
   }
 
   public async setStartTime(time: string): Promise<void> {
@@ -126,7 +158,14 @@ export class EnquiriesPageObject {
     return this.endDateInput.getAttribute('value');
   }
 
+  public async setEndTime(time: string): Promise<void> {
+    await InputBox.ctrlADeleteClear(this.endTimeInput);
+    await this.endTimeInput.sendKeys(time);
+    return this.endTimeInput.sendKeys(protractor.Key.TAB);
+  }
+
   public async getEndTime(): Promise<string> {
     return this.endTimeInput.getAttribute('value');
   }
+
 }

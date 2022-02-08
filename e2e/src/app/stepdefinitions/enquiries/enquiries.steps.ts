@@ -3,7 +3,7 @@ import {EnquiriesPageObject} from '../../pages/enquiries/enquiries.page';
 import {expect} from 'chai';
 import {browser} from 'protractor';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
-import {DateTimeFormatter, LocalDateTime, ZoneId} from "@js-joda/core";
+import {DateTimeFormatter, LocalDateTime, LocalTime, ZoneId} from '@js-joda/core';
 
 const enquiriesPage: EnquiriesPageObject = new EnquiriesPageObject();
 const ENQUIRIES_LOAD_DELAY = 2000;
@@ -45,8 +45,61 @@ When('I invoke the context menu for todays train {string} schedule uid {string} 
     }
   });
 
+When('I primary click for todays train {string} schedule uid {string} from the enquiries page',
+  async (trainDescription: string, scheduleId: string) => {
+    if (trainDescription.includes('generated')) {
+      trainDescription = browser.referenceTrainDescription;
+    }
+    if (scheduleId === 'UNPLANNED') {
+      const schedNum = await enquiriesPage.getRowForSchedule(trainDescription) + 1;
+      await enquiriesPage.leftClickTrainListItemNum(schedNum);
+    } else {
+      if (scheduleId === 'generatedTrainUId' || scheduleId === 'generated') {
+        scheduleId = browser.referenceTrainUid;
+      }
+      const todaysScheduleString = scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
+      await enquiriesPage.leftClickHeadcodeOnTrainListItem(todaysScheduleString);
+    }
+  });
+
 When('I wait for the enquiries page context menu to display', async () => {
   await enquiriesPage.waitForContextMenu();
+});
+
+When('I have set the start and end time to a period after the train finishes', async () => {
+  const now = DateAndTimeUtils.getCurrentTime();
+  await enquiriesPage.setStartTime(now.plusHours(3).format(DateTimeFormatter.ofPattern('HH:mm')));
+  await enquiriesPage.setEndTime(now.plusHours(5).format(DateTimeFormatter.ofPattern('HH:mm')));
+});
+
+When('I have set the start and end time to a period before the train begins', async () => {
+  const now = DateAndTimeUtils.getCurrentTime();
+  await enquiriesPage.setStartTime(now.minusHours(5).format(DateTimeFormatter.ofPattern('HH:mm')));
+  await enquiriesPage.setEndTime(now.minusHours(3).format(DateTimeFormatter.ofPattern('HH:mm')));
+});
+
+When('I have set the start time to {string}', async (startTime: string) => {
+  await enquiriesPage.setStartTime(startTime);
+});
+
+When('I have set the end time to {string}', async (endTime: string) => {
+  await enquiriesPage.setEndTime(endTime);
+});
+
+When('I uncheck the enquiries Originate checkbox for {string}', async (station: string) => {
+  await enquiriesPage.clickStopTypeCheckbox('ORIGINATE', station);
+});
+
+When('I uncheck the enquiries Terminate checkbox for {string}', async (station: string) => {
+  await enquiriesPage.clickStopTypeCheckbox('TERMINATE', station);
+});
+
+When('I uncheck the enquiries Stop checkbox for {string}', async (station: string) => {
+  await enquiriesPage.clickStopTypeCheckbox('STOP', station);
+});
+
+When('I uncheck the enquiries Pass checkbox for {string}', async (station: string) => {
+  await enquiriesPage.clickStopTypeCheckbox('PASS', station);
 });
 
 Then(/^the (Matched|Unmatched) version of the (Schedule-matching|Non-Schedule-matching) enquiries view context menu is displayed$/,
@@ -123,4 +176,11 @@ Then('the enquiries end time is in about {int} minutes',
 
     expect(shown, 'Incorrect end time').to.above(currentTime + minutes * 60 - 90);
     expect(shown, 'Incorrect end time').to.below(currentTime + minutes * 60 + 90);
+  });
+
+Then('train {string} with schedule id {string} for today is not visible on the enquiries page',
+  async (trainDescription: string, scheduleId: string) => {
+    const todaysScheduleString = scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
+    const isScheduleVisible: boolean = await enquiriesPage.isTrainVisible(trainDescription, todaysScheduleString, 500);
+    expect(isScheduleVisible, `Train ${trainDescription}:${scheduleId} was visible on the trains list`).to.equal(false);
   });
