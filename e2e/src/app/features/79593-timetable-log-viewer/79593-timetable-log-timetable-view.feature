@@ -29,7 +29,7 @@ Feature: 79593 - TMV Timetable Log Viewer - Timetable View
       | trainDescription   | planningUid   |
       | <trainDescription> | <planningUid> |
     And there is 1 row returned in the log results
-    And the first movement log timetable results are
+    And the first timetable log results are
       | trainId            | scheduleType | planningUid   |
       | <trainDescription> | LTP          | <planningUid> |
     When I primary click for the record for '<trainDescription>' schedule uid '<planningUid>' from the timetable results

@@ -5,6 +5,13 @@ Feature: 79143 - TMV Movement Log Viewer - View Additional Data (Punctuality Sta
   I want to view, filter and search the Movement Logs
   So that I can work with the data that is of interest to me within the Movement Logs
 
+  Background:
+    Given I clear the logged-berth-states Elastic Search index
+    And I clear the logged-signal-states Elastic Search index
+    And I clear the logged-latch-states Elastic Search index
+    And I clear the logged-s-class Elastic Search index
+    And I clear the logged-agreed-schedules Elastic Search index
+
   Scenario Outline: 80283-1 - Movement Log - View Additional Data (Punctuality Status late)
     # Given the user is authenticated to use TMV
     # And the user is viewing the Movement Logs

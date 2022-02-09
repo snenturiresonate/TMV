@@ -9,11 +9,11 @@ import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 const logsPage: LogsPage = new LogsPage();
 
-When(/^I navigate to the (Timetable|Movement|S-Class|Latch|Signal) log tab$/, async (tabId: string) => {
+When(/^I navigate to the (Timetable|Movement|Signalling) log tab$/, async (tabId: string) => {
   await logsPage.openTab(tabId);
 });
 
-When(/^I search for (Timetable|Berth|S-Class|Latch|Signal) logs for (trainDescription|planningUid|fromBerthId|toBerthId|trainDescriber|fromToBerthId|displayCode|latchSignalId) '(.*)'$/,
+When(/^I search for (Timetable|Berth|Signalling) logs for (trainDescription|planningUid|fromBerthId|toBerthId|trainDescriber|fromToBerthId|signallingId) '(.*)'$/,
   async (tab: string, field: string, val: string) => {
   if ((val === 'generated') && (field === 'trainDescription' || field === 'planningUid')) {
     if (field === 'trainDescription') {
@@ -26,7 +26,7 @@ When(/^I search for (Timetable|Berth|S-Class|Latch|Signal) logs for (trainDescri
   await logsPage.searchSingleField(tab, field, val);
 });
 
-When(/^I search for (Timetable|Berth|S-Class|Latch|Signal) logs with$/,
+When(/^I search for (Timetable|Berth|Signalling) logs with$/,
   async (tab: string, table: any) => {
     const criteria = table.hashes()[0];
     if (criteria.trainDescription === 'generated') {
@@ -49,18 +49,12 @@ Then('the log results table has columns in the following order', async (tabNameD
   }
 });
 
-Then(/^the first movement log (berth|timetable) results are$/, async (tab: string, table: any) => {
-  const expectedValueTable = table.hashes();
-  let i = 1;
-  for (const row of expectedValueTable) {
-    const actualValues = await logsPage.getMovementLogResultsValuesForRow(tab, i);
-    if (tab === 'berth') {
-      compareMovementLogBerthResultRow(actualValues, row);
-    } else if (tab === 'timetable') {
-      compareMovementLogTimetableResultRow(actualValues, row);
-    }
-    i++;
-  }
+Then(/^the first (berth|timetable|signalling) log results are$/, async (tab: string, table: any) => {
+  await compareLogResults(tab, 1, table);
+});
+
+Then(/^the (berth|timetable|signalling) log results from row (\d+) are$/, async (tab: string, start: number, table: any) => {
+  await compareLogResults(tab, start, table);
 });
 
 Then(/^the movement logs (berth|timetable) tab search error message is shown (.*)$/, async (tab: string, expected: string) => {
@@ -114,6 +108,22 @@ function compareLogResultField(actual: string, expected: string): void {
   expect(actual, `Expected ${expected} but was ${actual}`).to.equal(expected);
 }
 
+async function compareLogResults(tab: string, start: number, table: any): Promise<void> {
+  const expectedValueTable = table.hashes();
+  let i = start;
+  for (const row of expectedValueTable) {
+    const actualValues = await logsPage.getMovementLogResultsValuesForRow(tab, i);
+    if (tab === 'berth') {
+      compareMovementLogBerthResultRow(actualValues, row);
+    } else if (tab === 'timetable') {
+      compareMovementLogTimetableResultRow(actualValues, row);
+    } else if (tab === 'signalling') {
+      compareMovementLogSignallingResultRow(actualValues, row);
+    }
+    i++;
+  }
+}
+
 function compareMovementLogBerthResultRow(actual: string[], expected: any): void {
   compareMovementLogResultField(actual[0], expected, 'trainId');
   compareMovementLogResultField(actual[1], expected, 'fromBerth');
@@ -128,7 +138,16 @@ function compareMovementLogTimetableResultRow(actual: string[], expected: any): 
   compareMovementLogResultField(actual[2], expected, 'planningUid');
 }
 
-function compareMovementLogResultField(actual: any, expected: any, property: string): void {
+function compareMovementLogSignallingResultRow(actual: string[], expected: any): void {
+  compareMovementLogResultField(actual[0], expected, 'trainDescriber');
+  compareMovementLogResultField(actual[1], expected, 'signallingFunctionName');
+  compareMovementLogResultField(actual[2], expected, 'type');
+  compareMovementLogResultField(actual[3], expected, 'signallingId');
+  compareMovementLogResultField(actual[4], expected, 'state');
+  compareMovementLogResultField(actual[5], expected, 'dateTime');
+}
+
+function compareMovementLogResultField(actual: string, expected: any, property: string): void {
   if (expected.hasOwnProperty(property)) {
     let expectedValue = expected[property];
     if (expectedValue === 'generated') {
@@ -138,6 +157,10 @@ function compareMovementLogResultField(actual: any, expected: any, property: str
       if (property === 'planningUid') {
         expectedValue = browser.referenceTrainUid;
       }
+    }
+    if (property === 'dateTime') {
+      const today = DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy');
+      expectedValue = expectedValue.replace('today', today);
     }
     expect(actual, `Expected ${expectedValue} but was ${actual}`).to.equal(expectedValue);
   }

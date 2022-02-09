@@ -1,18 +1,13 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {InputBox} from '../common/ui-element-handlers/inputBox';
+import {CheckBox} from '../common/ui-element-handlers/checkBox';
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export class LogsPage {
   public logTabs: ElementArrayFinder;
 
   private static getDivIdStarter(tabName: string): string {
-    let divIdStarter = tabName.toLowerCase();
-    if (tabName === 'Signal') {
-      divIdStarter = 'latch';
-    }
-    else if (tabName === 'S-Class') {
-      divIdStarter = 's';
-    }
-    return divIdStarter;
+    return tabName.toLowerCase();
   }
 
   private static async setSearchField(divIdStarter: string, fieldName: string, searchVal: any): Promise<void> {
@@ -22,6 +17,12 @@ export class LogsPage {
       await InputBox.updateInputBox(inputTextElement, trimmedValue);
     }
   }
+
+  private static async setCheckBox(divIdStarter: string, fieldName: string, value: any): Promise<void> {
+    const checkBoxElement: ElementFinder = element(by.css(`div[id*=${divIdStarter}] input[id = ${fieldName}]`));
+    await CheckBox.updateCheckBox(checkBoxElement, value);
+  }
+
   constructor() {
     this.logTabs = element.all(by.css('.tmv-tabs-vertical li span'));
   }
@@ -38,9 +39,14 @@ export class LogsPage {
   }
 
   public async searchMultipleFields(tabName: string, criteria: any): Promise<void> {
+    await CommonActions.scrollToTopOfWindow();
     const divIdStarter = LogsPage.getDivIdStarter(tabName);
     for (const [field, value] of Object.entries(criteria)) {
-      await LogsPage.setSearchField(divIdStarter, field, value);
+      if (value === 'checked' || value === 'unchecked') {
+        await LogsPage.setCheckBox(divIdStarter, field, value);
+      } else {
+        await LogsPage.setSearchField(divIdStarter, field, value);
+      }
     }
     const searchButton: ElementFinder = element(by.css(`button[id^=${divIdStarter}][id$=submit]`));
     return searchButton.click();
@@ -52,6 +58,7 @@ export class LogsPage {
   }
 
   public async getMovementLogResultsValuesForRow(tab: string, row: number): Promise<string[]> {
+    await CommonActions.scrollToBottomOfWindow();
     const rowStr: string = row.toString();
     const values: ElementArrayFinder = element.all(by.css(`#${tab}-logs-table tbody :nth-child(${rowStr}) td`));
     return values.map((colValue: ElementFinder) => {

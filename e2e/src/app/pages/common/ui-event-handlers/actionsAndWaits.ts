@@ -80,4 +80,19 @@ export class CommonActions {
       .catch(reason => CucumberLog.addText(reason.message));
     return func(argument);
   }
+
+  /**
+   * Scroll to the bottom of the window
+   */
+  public static async scrollToBottomOfWindow(): Promise<void> {
+    await browser.executeScript('window.scrollTo(0,document.body.scrollHeight)');
+  }
+
+  /**
+   * Scroll to the top of the window
+   */
+  public static async scrollToTopOfWindow(): Promise<void> {
+    await browser.executeScript('window.scrollTo(0,0)');
+  }
+
 }

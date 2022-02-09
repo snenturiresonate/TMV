@@ -18,4 +18,19 @@ export class ElasticSearchClient {
     await CucumberLog.addText(await response.stringBody);
     return response.statusCode;
   }
+
+  public async clearIndex(indexName: string): Promise<number> {
+    const response: ResponsePromise = this.httpClient.post(
+      '/' + indexName + '/_delete_by_query',
+      `{
+        "query": {
+          "match_all":{}
+        }
+      }`,
+      {
+        'Content-Type': 'application/json'
+      });
+    await CucumberLog.addText(await response.stringBody);
+    return response.statusCode;
+  }
 }

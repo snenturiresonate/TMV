@@ -12,11 +12,17 @@ Feature: 79143 - TMV Movement Log Viewer - Partial Search
   #     Berth ID (min 4 characters, if provided)
   #  If a field has a value then the query performs an AND search
 
+  Background:
+    Given I clear the logged-berth-states Elastic Search index
+    And I clear the logged-signal-states Elastic Search index
+    And I clear the logged-latch-states Elastic Search index
+    And I clear the logged-s-class Elastic Search index
+    And I clear the logged-agreed-schedules Elastic Search index
+
   Scenario Outline: 81038-1 - Movement Log - Partial Search - Berth tab - valid train ID, berth and planningUid searches
     Given I generate a new trainUID
     And I remove all trains from the trains list
     And I remove today's train '<planningUid>' from the Redis trainlist
-    And I am on the log viewer page
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription1> | <planningUid>  |
@@ -39,65 +45,88 @@ Feature: 79143 - TMV Movement Log Viewer - Partial Search
     And the following live berth interpose message is sent from LINX (to indicate train is present)
       | toBerth  | trainDescriber   | trainDescription    |
       | <berth2> | <trainDescriber> | <trainDescription2> |
-    When I give the messages 2 seconds to get into elastic search
+    And I give the messages 2 seconds to get into elastic search
     And I refresh the Elastic Search indices
-    And I navigate to the Movement log tab
-    When I search for Berth logs with
+    When I am on the log viewer page
+    * I navigate to the Movement log tab
+    * I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       |                   |             |             |           |               |                 |
-    Then the first movement log berth results are
+    Then the first berth log results are
       | trainId             | fromBerth | toBerth | planningUid   |
-      | <trainDescription2> |           | D3C008  |               |
       | <trainDescription1> |           | D3C007  | <planningUid> |
-      | <trainDescription2> | D3C008    |         |               |
+      | <trainDescription2> |           | D3C008  |               |
       | <trainDescription1> | D3C007    |         | <planningUid> |
-    When I search for Berth logs with
+      | <trainDescription2> | D3C008    |         |               |
+      | <trainDescription1> |           | D3C007  | <planningUid> |
+      | <trainDescription2> |           | D3C008  |               |
+    When I am on the log viewer page
+    * I navigate to the Movement log tab
+    * I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       | 2d                |             |             |           |               |                 |
-    Then the first movement log berth results are
+    Then the first berth log results are
       | trainId             | fromBerth | toBerth | planningUid   |
       | <trainDescription1> |           | D3C007  | <planningUid> |
       | <trainDescription1> | D3C007    |         | <planningUid> |
-    When I search for Berth logs with
+      | <trainDescription1> |           | D3C007  | <planningUid> |
+    When I am on the log viewer page
+    * I navigate to the Movement log tab
+    * I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       | 4h                |             |             |           |               |                 |
-    Then the first movement log berth results are
+    Then the first berth log results are
       | trainId             | fromBerth | toBerth | planningUid   |
       | <trainDescription2> |           | D3C008  |               |
       | <trainDescription2> | D3C008    |         |               |
-    When I search for Berth logs with
+      | <trainDescription2> |           | D3C008  |               |
+    When I am on the log viewer page
+    * I navigate to the Movement log tab
+    * I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       | 2d                |             | c007        |           |               |                 |
-    Then the first movement log berth results are
+    Then the first berth log results are
       | trainId             | fromBerth | toBerth |
       | <trainDescription1> | D3C007    |         |
-    When I search for Berth logs with
+    When I am on the log viewer page
+    * I navigate to the Movement log tab
+    * I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       | 2d                |             |             | c007      |               |                 |
-    Then the first movement log berth results are
+    Then the first berth log results are
       | trainId             | fromBerth | toBerth |
       | <trainDescription1> |           | D3C007  |
-    When I search for Berth logs with
+      | <trainDescription1> |           | D3C007  |
+    When I am on the log viewer page
+    * I navigate to the Movement log tab
+    * I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       | 2d                |             |             |           | C007          |                 |
-    Then the first movement log berth results are
+    Then the first berth log results are
       | trainId             | fromBerth | toBerth |
       | <trainDescription1> |           | D3C007  |
       | <trainDescription1> | D3C007    |         |
-    When I search for Berth logs with
+      | <trainDescription1> |           | D3C007  |
+    When I am on the log viewer page
+    * I navigate to the Movement log tab
+    * I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       |                   | b1234       |             |           |               |                 |
-    Then the first movement log berth results are
+    Then the first berth log results are
       | trainId             | fromBerth | toBerth | planningUid   |
       | <trainDescription1> |           | D3C007  | <planningUid> |
       | <trainDescription1> | D3C007    |         | <planningUid> |
-    When I search for Berth logs with
+      | <trainDescription1> |           | D3C007  | <planningUid> |
+    When I am on the log viewer page
+    * I navigate to the Movement log tab
+    * I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       | 2d                | b1234       |             |           | c007          | d3              |
-    Then the first movement log berth results are
+    Then the first berth log results are
       | trainId             | fromBerth | toBerth | planningUid   |
       | <trainDescription1> |           | D3C007  | <planningUid> |
       | <trainDescription1> | D3C007    |         | <planningUid> |
+      | <trainDescription1> |           | D3C007  | <planningUid> |
 
     Examples:
       | berth1 | berth2 | trainDescriber | trainDescription1 | trainDescription2 | planningUid |
@@ -108,29 +137,39 @@ Feature: 79143 - TMV Movement Log Viewer - Partial Search
   #  A validation error to be displayed if the minimum characters are not met.
 
   Scenario: 81038-2 - Movement Log - Partial Search - Berth tab - invalid searches
-    Given I am on the log viewer page
-    And I navigate to the Movement log tab
-    When I search for Berth logs with
+    When I am on the log viewer page
+    * I navigate to the Movement log tab
+    * I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       | 1                 |             |             |           |               |                 |
     Then the movement logs berth tab search error message is shown * The Train ID must contain at least 2 characters
-    When I search for Berth logs with
+    When I am on the log viewer page
+    * I navigate to the Movement log tab
+    * I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       |                   | 1234        |             |           |               |                 |
     Then the movement logs berth tab search error message is shown * The Planning UID must contain at least 5 characters
-    When I search for Berth logs with
+    When I am on the log viewer page
+    * I navigate to the Movement log tab
+    * I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       |                   |             | 123        |           |               |                 |
     Then the movement logs berth tab search error message is shown * The Berth must contain at least 4 characters
-    When I search for Berth logs with
+    When I am on the log viewer page
+    * I navigate to the Movement log tab
+    * I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       |                   |             |             | 123      |               |                 |
     Then the movement logs berth tab search error message is shown * The Berth must contain at least 4 characters
-    When I search for Berth logs with
+    When I am on the log viewer page
+    * I navigate to the Movement log tab
+    * I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       |                   |             |             |           | 123          |                 |
     Then the movement logs berth tab search error message is shown * The Berth must contain at least 4 characters
-    When I search for Berth logs with
+    When I am on the log viewer page
+    * I navigate to the Movement log tab
+    * I search for Berth logs with
       | trainDescription  | planningUid | fromBerthId | toBerthId | fromToBerthId | trainDescriber  |
       |                   |             |             |           |               | 1               |
     Then the movement logs berth tab search error message is shown * The Train Describer must contain 2 characters
