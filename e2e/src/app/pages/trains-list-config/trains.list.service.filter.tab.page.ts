@@ -6,7 +6,7 @@ export class TrainsListServiceFilterTabPage {
 
   public addTrustIdBtn: ElementFinder;
   public clearAllBtn: ElementFinder;
-  public trustIdInput: ElementFinder;
+  public trainIdInput: ElementFinder;
   public trustIdHeader: ElementFinder;
   public selectedServicesTableElm: ElementFinder;
   public selectedServicesTableHeader: ElementFinder;
@@ -16,7 +16,7 @@ export class TrainsListServiceFilterTabPage {
   constructor() {
     this.addTrustIdBtn = element(by.id('addTrustId'));
     this.clearAllBtn = element(by.id('clearAllTrustIds'));
-    this.trustIdInput = element(by.id('trustIdInput'));
+    this.trainIdInput = element(by.id('trainIdInput'));
     this.trustIdHeader = element(by.css('#servicesFilterConfiguation .punctuality-header'));
     this.selectedServicesTableElm = element((by.css('table.services-filter-table')));
     this.selectedServicesTableHeader = element(by.css('table.services-filter-table th'));
@@ -36,7 +36,7 @@ export class TrainsListServiceFilterTabPage {
     return this.clearAllBtn.click();
   }
 
-  public async clickTrustIdsAdd(): Promise<void> {
+  public async clickNominatedServicesAdd(): Promise<void> {
     return this.addTrustIdBtn.click();
   }
 
@@ -47,12 +47,16 @@ export class TrainsListServiceFilterTabPage {
     return CommonActions.waitAndClick(this.saveTrustFiltersBtn);
   }
 
-  public async inputTrustId(trustId: string): Promise<void> {
-    await InputBox.updateInputBox(this.trustIdInput, trustId);
+  public async inputTrainId(trainId: string): Promise<void> {
+    await InputBox.updateInputBox(this.trainIdInput, trainId);
+  }
+
+  public async inputToBox(id: string, inputText: string): Promise<void> {
+    await InputBox.updateInputBox(element(by.id(id)), inputText);
   }
 
   public async canInputTrustId(): Promise<boolean> {
-    return this.trustIdInput.isEnabled();
+    return this.trainIdInput.isEnabled();
   }
 
   public async getSelectedTrustIds(): Promise<string> {

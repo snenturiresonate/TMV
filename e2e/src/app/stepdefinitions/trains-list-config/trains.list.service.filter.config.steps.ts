@@ -10,10 +10,14 @@ When('I wait for the trust ID data to be retrieved', async () => {
 });
 
 When('I input {string} in the TRUST input field', async (trustIdString: string) => {
-  await trainsListServiceFilterTabPage.inputTrustId(trustIdString);
+  await trainsListServiceFilterTabPage.inputTrainId(trustIdString);
 });
 
-Then(/^the trust ID input box (is|is not) disabled$/, async (negate: string) => {
+When('I input {string} in the {string} input box', async (inputString: string, inputBoxId) => {
+  await trainsListServiceFilterTabPage.inputToBox(inputBoxId, inputString);
+});
+
+Then(/^the train ID input box (is|is not) disabled$/, async (negate: string) => {
   const canInput: boolean = await trainsListServiceFilterTabPage.canInputTrustId();
   if (negate === 'is not') {
     expect(canInput, 'The trust ID input box was disabled').is.equal(true);
@@ -23,18 +27,18 @@ Then(/^the trust ID input box (is|is not) disabled$/, async (negate: string) => 
   }
 });
 
-When('I click the add button for TRUST Service Filter', async () => {
-  await trainsListServiceFilterTabPage.clickTrustIdsAdd();
+When('I click the add button for Nominated Services Filter', async () => {
+  await trainsListServiceFilterTabPage.clickNominatedServicesAdd();
 });
 
 When(/^I add (\d+) TRUST IDs to the filter list$/, async (numberOfTrustIds: number) => {
   for (let i = 0; i < numberOfTrustIds; i++) {
-    await trainsListServiceFilterTabPage.inputTrustId(i.toString());
-    await trainsListServiceFilterTabPage.clickTrustIdsAdd();
+    await trainsListServiceFilterTabPage.inputTrainId(i.toString());
+    await trainsListServiceFilterTabPage.clickNominatedServicesAdd();
   }
 });
 
-When('I click the clear all button for TRUST Service Filter', async () => {
+When('I click the clear all button for Nominated Services Filter', async () => {
   await trainsListServiceFilterTabPage.clickTrustIdsClearAll();
 });
 
@@ -43,11 +47,11 @@ When('I save the service filter changes', async () => {
   await browser.sleep(2000);
 });
 
-When('I save the service filter changes for Trust Id', async () => {
+When('I save the service filter changes for Nominated Services', async () => {
   await trainsListServiceFilterTabPage.clickTrustIdSaveBtn();
 });
 
-Then('The TRUST ID table contains the following results', async (trustIdDataTable: any) => {
+Then('The Nominated Services table contains the following results', async (trustIdDataTable: any) => {
 
   const expectedTrustIds: string[] = trustIdDataTable.hashes();
   const actualTrustIds: string = await trainsListServiceFilterTabPage.getSelectedTrustIds();
@@ -64,7 +68,7 @@ When(/^the TRUST ID table contains (\d+) IDs$/, async (expectedIDQuantity: numbe
     .to.equal(expectedIDQuantity);
 });
 
-Then('The TRUST ID table does not contain the following results', async (trustIdDataTable: any) => {
+Then('The Nominated Services table does not contain the following results', async (trustIdDataTable: any) => {
 
   const expectedTrustIds: string[] = trustIdDataTable.hashes();
   const actualTrustIds: string = await trainsListServiceFilterTabPage.getSelectedTrustIds();
@@ -86,11 +90,11 @@ Then('I should see the trustId table with header as {string}', async (expectedHe
     .to.equal(expectedHeader);
 });
 
-When('I remove the trust {string} from the selected trusts', async (itemName: string) => {
+When('I remove the service {string} from the selected nominated services', async (itemName: string) => {
   await trainsListServiceFilterTabPage.removeItem(itemName);
 });
 
-Then('I see the selected trusts table to not have any items', async () => {
+Then('the selected Nominated Services table is empty', async () => {
   const tableItemsDisplayed: boolean = await trainsListServiceFilterTabPage.tableDataIsPresent();
   expect(tableItemsDisplayed, 'TrustId table is not empty')
     .to.equal(false);

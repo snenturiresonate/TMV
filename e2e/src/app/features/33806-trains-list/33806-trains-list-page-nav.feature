@@ -57,5 +57,5 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config navi
       | Locations           |
       | Train Indication    |
       | Train Class & MISC  |
-      | TRUST IDs           |
+      | Nominated Services  |
       | Region/Route        |

@@ -11,7 +11,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     * I am on the trains list page 1
     * I have navigated to the 'Train Class & MISC' configuration tab
     * I set 'Include unmatched' to be 'off'
-    * I have navigated to the 'TRUST IDs' configuration tab
+    * I have navigated to the 'Nominated Services' configuration tab
 
   #33806 - 33 Trains List Config (TRUST IDs View)
     #Given the user is viewing the trains list config
@@ -19,8 +19,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #Then the user is presented with the TRUST IDs settings view
 
   Scenario: 33806 -33 Trust ID config header and table display
-    Then the trustId tab header is displayed as 'TRUST IDs'
-    And I should see the trustId table with header as 'Selected TRUST IDs'
+    Then the trustId tab header is displayed as 'Nominated Services Enabled'
+    And I should see the trustId table with header as 'Selected Nominated Services'
 
   #33806 -34 Trains List Config (Add TRUST IDs)
     #Given the user is viewing the trains list config
@@ -30,11 +30,11 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #Then the TRUST ID text is added to the TRUST IDs list
 
   Scenario: 33806 -34 Trains List Config (Add TRUST IDs)
-    When I input '1T99' in the TRUST input field
-    And I click the add button for TRUST Service Filter
-    Then The TRUST ID table contains the following results
-      | trustId |
-      | 1T99    |
+    When I input '1T99' in the 'trainIdInput' input box
+    And I click the add button for Nominated Services Filter
+    Then The Nominated Services table contains the following results
+      | trustId    |
+      | xx1T99xxxx |
 
   #33806 -35 Trains List Config (Remove TRUST IDs)
     #Given the user is viewing the trains list config
@@ -45,10 +45,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #Then the TRUST ID is removed from the TRUST IDs list
 
   Scenario: 33806 -35 Trains List Config (Remove TRUST IDs)
-    When I input '1T00' in the TRUST input field
-    And I click the add button for TRUST Service Filter
-    And I remove the trust '1T00' from the selected trusts
-    Then The TRUST ID table does not contain the following results
+    When I input '1T00' in the 'trainIdInput' input box
+    And I click the add button for Nominated Services Filter
+    And I remove the service 'xx1T00xxxx' from the selected nominated services
+    Then The Nominated Services table does not contain the following results
       | trustId |
       | 1T00    |
 
@@ -61,14 +61,16 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #Then all TRUST IDs are removed from the TRUST IDs list
 
   Scenario: 33806 -36 Trains List Config (Remove All TRUST IDs)
-    When I input '1T01' in the TRUST input field
-    And I click the add button for TRUST Service Filter
-    And I input '1T02' in the TRUST input field
-    And I click the add button for TRUST Service Filter
-    And I click the clear all button for TRUST Service Filter
-    Then I see the selected trusts table to not have any items
+    When I input '1T01' in the 'trainIdInput' input box
+    And I click the add button for Nominated Services Filter
+    And I input '1T02' in the 'trainIdInput' input box
+    And I click the add button for Nominated Services Filter
+    And I click the clear all button for Nominated Services Filter
+    Then the selected Nominated Services table is empty
 
 
+  @tdd @tdd:80195
+  @bug @bug:85122
   Scenario Outline: 33806 -37 Trains List Config (TRUST IDs Applied)
     #Given the user has made changes to the TRUST ID settings
     #When the user views the trains list
@@ -89,32 +91,36 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     And I save the trains list config
     Then train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
     When I navigate to train list configuration
-    And I have navigated to the 'TRUST IDs' configuration tab
-    When I input '<nonExistentTrustId>' in the TRUST input field
-    And I click the add button for TRUST Service Filter
-    Then The TRUST ID table contains the following results
+    And I have navigated to the 'Nominated Services' configuration tab
+    When I input '<nonExistentTrainId>' in the 'trainIdInput' input box
+    And I click the add button for Nominated Services Filter
+    Then The Nominated Services table contains the following results
       | trustId              |
-      | <nonExistentTrustId> |
-    And I save the service filter changes for Trust Id
+      | <nonExistentTrainId> |
+    And I save the service filter changes for Nominated Services
     Then train description '<trainDescription>' with schedule type 'LTP' disappears from the trains list
     When I navigate to train list configuration
-    And I have navigated to the 'TRUST IDs' configuration tab
-    When I input '<existentTrustId>' in the TRUST input field
-    And I click the add button for TRUST Service Filter
-    Then The TRUST ID table contains the following results
-      | trustId           |
-      | <existentTrustId> |
-    And I save the service filter changes for Trust Id
+    And I have navigated to the 'Nominated Services' configuration tab
+    When I input '<STANOX>' in the 'stanoxInput' input box
+    When I input '<trainDescription>' in the 'trainIdInput' input box
+    When I input '<scheduleType>' in the 'scheduleTypeInput' input box
+    When I input '<hour>' in the 'hourInput' input box
+    When I input '<dayOfMonth>' in the 'monthInput' input box
+    And I click the add button for Nominated Services Filter
+    Then The Nominated Services table contains the following results
+      | trustId                                                    |
+      | <STANOX><trainDescription><scheduleType><hour><dayOfMonth> |
+    And I save the service filter changes for Nominated Services
     Then train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
 
     Examples:
-      | trainUid | trainDescription | nonExistentTrustId | existentTrustId |
-      | H62991   | 5B62             | 5B62H62990         | 5B62H62991      |
+      | trainUid | trainDescription | nonExistentTrainId | STANOX | scheduleType | hour | dayOfMonth |
+      | H62991   | 5B62             | 5B63               |        | H            | 6    | 29         |
 
   Scenario: 33806 AC2 - Limit of 50 TRUST IDs - frontend and backend validation
     Given I am on the trains list page 1
-    And I have navigated to the 'TRUST IDs' configuration tab
-    Then the trust ID input box is not disabled
+    And I have navigated to the 'Nominated Services' configuration tab
+    Then the train ID input box is not disabled
     When I add 50 TRUST IDs to the filter list
     Then the TRUST ID table contains 50 IDs
-    And the trust ID input box is disabled
+    And the train ID input box is disabled
