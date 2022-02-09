@@ -17,6 +17,8 @@ export class TrainsListMiscConfigTab {
   public timeToAppearBeforeBox: ElementFinder;
   public trainsListConfigTabs: ElementArrayFinder;
   public tabSectionHeader: ElementFinder;
+  public saveButton: ElementFinder;
+  public resetButton: ElementFinder;
   constructor() {
     this.classHeader = element(by.css('#miscTabContent .punctuality-header'));
     this.classToggle = element.all(by.css('.misc-table .toggle-switch'));
@@ -31,6 +33,8 @@ export class TrainsListMiscConfigTab {
     this.timeToAppearBeforeBox = element(by.id('timeToAppearBefore'));
     this.trainsListConfigTabs = element.all(by.css('#v-pills-tab li'));
     this.tabSectionHeader = element(by.css('.column-header.section-name'));
+    this.saveButton = element(by.id('saveTLMiscConfig'));
+    this.resetButton = element(by.id('resetTLMiscConfig'));
   }
 
   public async getTrainMiscClassHeader(): Promise<string> {
@@ -156,6 +160,17 @@ export class TrainsListMiscConfigTab {
         break;
     }
     return routeLocator;
+  }
+
+  public async isSaveButtonDisplayed(): Promise<boolean> {
+    if (! await this.saveButton.isPresent()) {
+      return Promise.resolve(false);
+    }
+    return this.saveButton.isDisplayed();
+  }
+
+  public async clickResetButton(): Promise<void> {
+    await CommonActions.waitAndClick(this.resetButton);
   }
 
   private getToggleOfClass(className: string): ElementFinder {

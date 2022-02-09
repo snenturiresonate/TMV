@@ -148,7 +148,7 @@ When(/^I set the start date to now (\+|-) (.*) minutes?$/, async (operator: stri
 });
 
 Then(/^(a|no) validation error is displayed$/, async (affirmity: string) => {
-  browser.wait(async () => {
+  await browser.wait(async () => {
     if (affirmity === 'a') {
       return (await enquiriesPage.isValidationErrorDisplayed()) === true;
     }

@@ -113,6 +113,10 @@ When('I click on the Clear All button', async () => {
   await trainsListMisc.clearAllButton();
 });
 
+When('I click the reset button', async () => {
+  await trainsListMisc.clickResetButton();
+});
+
 When('I toggle on the Ignore PD cancels switch', async () => {
   await trainsListMisc.clickIgnoreToggle();
 });
@@ -152,4 +156,16 @@ When('the following class table updates are made', async (table: any) => {
     await trainsListMisc.updateToggleOfClassName(tableValues[i].classValue, tableValues[i].toggleValue);
   }
   return protractor.promise.all(results);
+});
+
+Then(/^the save button (is not|is) displayed$/, async (affirmation: string) => {
+  await browser.wait(async () => {
+    const isDisplayed: boolean = await trainsListMisc.isSaveButtonDisplayed();
+    if (affirmation === 'is not') {
+      return isDisplayed === false;
+    }
+    else {
+      return isDisplayed === true;
+    }
+  }, browser.params.quick_timeout, `The save button ${affirmation} expected to be displayed`);
 });
