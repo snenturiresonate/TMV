@@ -20,7 +20,7 @@ import {LocationBuilder} from '../utils/train-journey-modifications/location';
 import {LocationSubsidiaryIdentificationBuilder} from '../utils/train-journey-modifications/location-subsidiary-identification';
 import {TestData} from '../logging/test-data';
 import {AuthenticationModalDialoguePage} from '../pages/authentication-modal-dialogue.page';
-import {TrainActivationMessageBuilder} from '../utils/train-activation/train-activation-message';
+import {TrainActivationService} from '../services/train-activation.service';
 import {HomePageObject} from '../pages/home.page';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 import {DateTimeFormatter, LocalTime, ZonedDateTime, ZoneId} from '@js-joda/core';
@@ -87,6 +87,12 @@ Given(/^I navigate to (.*) page as (.*) user$/, async (pageName: string, user: s
       break;
     case 'TrainsList':
       await page.navigateTo('/tmv/trains-list/1', user);
+      break;
+    case 'TrainsList2':
+      await page.navigateTo('/tmv/trains-list/2', user);
+      break;
+    case 'TrainsList3':
+      await page.navigateTo('/tmv/trains-list/3', user);
       break;
     case 'LogViewer':
       await page.navigateTo('/tmv/log-viewer', user);
@@ -190,6 +196,11 @@ Given(/^I have not already authenticated$/, {timeout: 5 * 10000}, async () => {
   await logout();
 });
 
+
+Given(/^I logout$/, {timeout: 5 * 10000}, async () => {
+  await logout();
+});
+
 async function logout(): Promise<void> {
   await browser.waitForAngularEnabled(false);
   await browser.get(browser.baseUrl);
@@ -225,6 +236,14 @@ Given('I am authenticated to use TMV with {string} role', {timeout: 5 * 10000}, 
 
 Given(/^The admin setting defaults are as originally shipped$/, async () => {
   const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), 'admin/admin-defaults.json'));
+  const adminDefaults = rawData.toString();
+  await CucumberLog.addJson(adminDefaults);
+  expect(await adminRestClient.postAdminConfiguration(adminDefaults)).to.equal(200);
+  await adminRestClient.waitMaxTransmissionTime();
+});
+
+Given(/^The admin setting defaults are as in (.*)$/, async (settingsFile: string) => {
+  const rawData: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), `admin/${settingsFile}`));
   const adminDefaults = rawData.toString();
   await CucumberLog.addJson(adminDefaults);
   expect(await adminRestClient.postAdminConfiguration(adminDefaults)).to.equal(200);
@@ -442,64 +461,7 @@ When(/^the following train journey modification change of id messages? (?:is|are
 
 When(/^the following train activation? (?:message|messages)? (?:is|are) sent from LINX$/, async (trainActivationMessageTable: any) => {
   const trainActivationMessages = trainActivationMessageTable.hashes();
-  for (const activation of trainActivationMessages) {
-    if (activation.sendMessage === 'false') {
-      await CucumberLog.addText(`Train Activation message was not sent`);
-    }
-    else {
-      const trainActivationMessageBuilder: TrainActivationMessageBuilder = new TrainActivationMessageBuilder();
-      let trainUID = activation.trainUID;
-      if (trainUID === 'generatedTrainUId' || trainUID === 'generated') {
-        trainUID = browser.referenceTrainUid;
-      }
-      let trainNumber = activation.trainNumber;
-      if (trainNumber.includes('generated')) {
-        trainNumber = browser.referenceTrainDescription;
-      }
-      const schedDepString = (activation.scheduledDepartureTime).toLowerCase();
-      const scheduledDepartureTime = () => {
-        if (schedDepString === 'now') {
-          return DateAndTimeUtils.getCurrentTimeString();
-        } else if (schedDepString.includes('now + ')) {
-          const offset = parseInt(schedDepString.substr(6, schedDepString.length - 6), 10);
-          return DateAndTimeUtils.getCurrentTime().plusMinutes(offset).format(DateTimeFormatter.ofPattern('HH:mm:ss'));
-        } else if (schedDepString.includes('now - ')) {
-          const offset = parseInt(schedDepString.substr(6, schedDepString.length - 6), 10);
-          return DateAndTimeUtils.getCurrentTime().minusMinutes(offset).format(DateTimeFormatter.ofPattern('HH:mm:ss'));
-        } else {
-          return activation.scheduledDepartureTime;
-        }
-      };
-      const departureDate = () => {
-        if ((activation.departureDate).toLowerCase() === 'today' ||
-          (activation.departureDate).toLowerCase() === 'yesterday' ||
-          (activation.departureDate).toLowerCase() === 'tomorrow') {
-          return DateAndTimeUtils.convertToDesiredDateAndFormat((activation.departureDate).toLowerCase(), 'yyyy-MM-dd');
-        } else if (activation.departureDate === undefined) {
-          return DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
-        } else {
-          return activation.scheduledDepartureTime;
-        }
-      };
-      const actualDepartureHour = () => {
-        let aDH = activation.actualDepartureHour;
-        if (aDH === undefined) {
-          aDH = 'now';
-        }
-        if (aDH.toLowerCase() === 'now' || activation.departureDate === undefined) {
-          return DateAndTimeUtils.getCurrentTimeString('HH');
-        }
-        return activation.actualDepartureHour;
-      };
-      const locationPrimaryCode = activation.locationPrimaryCode;
-      const locationSubsidiaryCode = activation.locationSubsidiaryCode;
-      const asmVal = activation.asm ? activation.asm : 1;
-      const trainActMss = trainActivationMessageBuilder.buildMessage(locationPrimaryCode, locationSubsidiaryCode,
-        scheduledDepartureTime().toString(), trainNumber, trainUID, departureDate().toString(), actualDepartureHour().toString(), asmVal);
-      await linxRestClient.postTrainActivation(trainActMss.toString({prettyPrint: true}));
-      await CucumberLog.addText(`Train Activation message: ${trainActMss.toString({prettyPrint: true})}`);
-    }
-  }
+  await TrainActivationService.processTrainActivationMessagesAndSubmit(trainActivationMessages);
 });
 
 When('the activation message from location {string} is sent from LINX', async (xmlFilePath: string) => {

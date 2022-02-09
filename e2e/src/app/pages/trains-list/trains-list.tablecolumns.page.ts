@@ -34,25 +34,44 @@ export class TrainsListTableColumnsPage {
     this.toc = element.all(by.css('td.trains-list-row-entry-operator'));
   }
   public async waitForTableToLoad(): Promise<void> {
-    await CommonActions.waitForElementToBeVisible(element.all(by.css('app-train-list-table-results tr')).first());
+    await CommonActions.waitForElementToBeVisible(element.all(by.css('tr app-train-list-table-results')).first());
   }
-  public async valuesWithinRange(tableCol: ElementArrayFinder, max: number, min: number): Promise<ElementArrayFinder> {
-    await this.waitForTableToLoad();
+  public async valuesWithinRange(tableCol: ElementArrayFinder, min: number, max: number): Promise<ElementArrayFinder> {
+    const regex = /([+-][0-9]+)m/;
     return tableCol.filter((elm) => {
       return elm.getText().then(val => {
-        // tslint:disable-next-line:radix
-        return (parseInt(val) >= min && parseInt(val) <= max);
+        const found = val.match(regex);
+        if (found != null && found[1] != null) {
+          // retrieve the minutes value, getting rid of any +ve sign, but keeping any -ve sign
+          const foundPuncValueMins = parseInt(found[1].replace('+', ''), 10);
+          if (min < 0 && max < 0) {
+            return (foundPuncValueMins > min && foundPuncValueMins <= max);
+          }
+          else if (min > 0 && max > 0) {
+            return (foundPuncValueMins >= min && foundPuncValueMins < max);
+          }
+          else if (min < 0 && max > 0) {
+            return (foundPuncValueMins > min && foundPuncValueMins < max);
+          }
+          else if (min === 0 && max > 0) {
+            // not sure what should go here Bug84847
+          }
+          else if (min < 0 && max === 0) {
+            // not sure what should go here Bug84847
+          }
+        }
       });
     });
   }
   public async getBackgroundColourOfValuesWithinRange(tableCol: ElementArrayFinder, fromTime: number, toTime: number): Promise<string[]> {
     const colourOfEachElementArray: any[] = [];
-    await this.waitForTableToLoad();
     const valuesInRange = await this.valuesWithinRange(tableCol, fromTime, toTime);
-    valuesInRange.forEach((elm: ElementFinder) => {
-      const trainDescriptionCell = elm.element(by.xpath(`/..`)).element(by.css('td.trains-list-row-entry-train-description'));
-      colourOfEachElementArray.push(InputBox.getBackgroundColour(trainDescriptionCell));
-    });
+    for (const puncCell of valuesInRange) {
+      const trainRowElm = await puncCell.element(by.xpath('parent::app-train-list-table-results'));
+      const trainDescriptionElm = await trainRowElm.element(by.css('td.trains-list-row-entry-train-description'));
+      const puncColour = await InputBox.getBackgroundColour(trainDescriptionElm);
+      colourOfEachElementArray.push(puncColour);
+    }
     return colourOfEachElementArray;
   }
 

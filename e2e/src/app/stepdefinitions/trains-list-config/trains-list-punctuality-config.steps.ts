@@ -1,9 +1,10 @@
 import {Then, When} from 'cucumber';
 import { expect } from 'chai';
 import {TrainsListPunctualityConfigTab} from '../../pages/trains-list-config/trains.list.punctuality.config.tab';
-import {ElementArrayFinder, protractor} from 'protractor';
+import {by, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {TrainsListTableColumnsPage} from '../../pages/trains-list/trains-list.tablecolumns.page';
 import {CheckBox} from '../../pages/common/ui-element-handlers/checkBox';
+import {InputBox} from '../../pages/common/ui-element-handlers/inputBox';
 
 const trainsListPunctuality: TrainsListPunctualityConfigTab = new TrainsListPunctualityConfigTab();
 const trainsListTable: TrainsListTableColumnsPage = new TrainsListTableColumnsPage();
@@ -100,16 +101,20 @@ Then('I should see the colour picker is defaulted with the colour for the select
 Then('I should see the punctuality colour for the time-bands as', async (table: any) => {
   const tableValues = table.hashes();
   const results: any[] = [];
-  for (let i = 0; i < table.length; i++) {
+  let trainsTested = 0;
+  // tslint:disable-next-line:prefer-for-of
+  for (let i = 0; i < tableValues.length; i++) {
     const punctualityFromTime = (tableValues[i].fromTime !== '') ? tableValues[i].fromTime : -1000;
     const punctualityToTime = (tableValues[i].toTime !== '') ? tableValues[i].toTime : 1000;
     const punctualityColour = tableValues[i].punctualityColor;
     const punctualityColumn: ElementArrayFinder = trainsListTable.punctuality;
-    const backgroundColour = await
+    const backgroundColours = await
       trainsListTable.getBackgroundColourOfValuesWithinRange(punctualityColumn, punctualityFromTime, punctualityToTime);
-    backgroundColour.forEach((item: string) => {
+    backgroundColours.forEach((item: string) => {
       results.push(expect(item).to.contain(punctualityColour));
     });
+    trainsTested = trainsTested + backgroundColours.length;
   }
+  expect(trainsTested, `No trains tested`).greaterThan(0);
   return protractor.promise.all(results);
 });

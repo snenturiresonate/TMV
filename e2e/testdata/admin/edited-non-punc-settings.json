@@ -1,0 +1,190 @@
+{
+  "adminLineStatusSettings": {
+    "noteSettings": [
+      {
+        "colour": "#ea4b77",
+        "lineStatusSettingName": "Note applied edited",
+        "lineStyle": "Solid",
+        "lineWidth": 2
+      }
+    ],
+    "pathTypeSettings": [
+      {
+        "colour": "#332681",
+        "lineStatusSettingName": "Predicted Path edited",
+        "lineStyle": "Solid",
+        "lineWidth": 3
+      }
+    ],
+    "restrictionTypeSettings": [
+      {
+        "colour": "#dc7a90",
+        "lineStatusSettingName": "Blockage edited",
+        "lineStyle": "Solid",
+        "lineWidth": 2
+      },
+      {
+        "colour": "#f3ea6a",
+        "lineStatusSettingName": "TSR edited",
+        "lineStyle": "Dashed",
+        "lineWidth": 2
+      },
+      {
+        "colour": "#232069",
+        "lineStatusSettingName": "ESR edited",
+        "lineStyle": "Dashed",
+        "lineWidth": 2
+      },
+      {
+        "colour": "#74d192",
+        "lineStatusSettingName": "Possession edited",
+        "lineStyle": "Dashed",
+        "lineWidth": 2
+      },
+      {
+        "colour": "#547926",
+        "lineStatusSettingName": "Not in use edited",
+        "lineStyle": "Solid",
+        "lineWidth": 2
+      }
+    ],
+    "routeTypeSettings": [
+      {
+        "colour": "#513a1c",
+        "lineStatusSettingName": "Route Set edited",
+        "lineStyle": "Solid",
+        "lineWidth": 2
+      }
+    ]
+  },
+  "adminReplaySettings": {
+    "replayBackgroundColour": "#cc4790",
+    "replayDefaultProperties": {
+      "maxNumberOfEnquiriesViewInstances": 3,
+      "maxNumberofMapsPerReplaySession": 10,
+      "maxNumberofReplays": 2,
+      "maxNumberofSchematicMapDisplayInstances": 10,
+      "maxNumberofTimetableInstances": 10,
+      "maxNumberofTrainsListViewInstances": 10
+    }
+  },
+  "berthColourSettings": [
+    {
+      "colour": "#1b1f63",
+      "state": "Off Plan",
+      "visible": true
+    },
+    {
+      "colour": "#9f1e12",
+      "state": "Left Behind",
+      "visible": true
+    },
+    {
+      "colour": "#020107",
+      "state": "No Timetable",
+      "visible": true
+    },
+    {
+      "colour": "#cefc3f",
+      "state": "Last Berth",
+      "visible": true
+    },
+    {
+      "colour": "#b83d90",
+      "state": "Unknown Delay",
+      "visible": true
+    }
+  ],
+  "defaultPunctualityTimeBandColour": [
+    {
+      "colour": "#ffb4b4",
+      "defaultPunctualityTimeBandColourId": "1",
+      "fromPunctuality": null,
+      "name": "20 minutes or more early",
+      "toPunctuality": -1200
+    },
+    {
+      "colour": "#e5b4ff",
+      "defaultPunctualityTimeBandColourId": "2",
+      "fromPunctuality": -1200,
+      "name": "10 to 19 minutes early",
+      "toPunctuality": -600
+    },
+    {
+      "colour": "#78e7ff",
+      "defaultPunctualityTimeBandColourId": "3",
+      "fromPunctuality": -600,
+      "name": "5 to 9 minutes early",
+      "toPunctuality": -300
+    },
+    {
+      "colour": "#78ff78",
+      "defaultPunctualityTimeBandColourId": "4",
+      "fromPunctuality": -300,
+      "name": "1 to 4 minutes early",
+      "toPunctuality": -60
+    },
+    {
+      "colour": "#00ff00",
+      "defaultPunctualityTimeBandColourId": "5",
+      "fromPunctuality": -60,
+      "name": "On Time",
+      "toPunctuality": 60
+    },
+    {
+      "colour": "#ffff00",
+      "defaultPunctualityTimeBandColourId": "6",
+      "fromPunctuality": 60,
+      "name": "1 to 4 minutes late",
+      "toPunctuality": 300
+    },
+    {
+      "colour": "#ffa700",
+      "defaultPunctualityTimeBandColourId": "7",
+      "fromPunctuality": 300,
+      "name": "5 to 9 minutes late",
+      "toPunctuality": 600
+    },
+    {
+      "colour": "#ff0000",
+      "defaultPunctualityTimeBandColourId": "8",
+      "fromPunctuality": 600,
+      "name": "10 to 19 minutes late",
+      "toPunctuality": 1200
+    },
+    {
+      "colour": "#ff009c",
+      "defaultPunctualityTimeBandColourId": "9",
+      "fromPunctuality": 1200,
+      "name": "20 minutes or more late",
+      "toPunctuality": null
+    }
+  ],
+  "loginMessageSettings": {
+    "loginNoticeMessage": "Welcome to TMV edited",
+    "loginTermsOfUse": "TMV terms of use edited"
+  },
+  "trainsListDisplayConfiguration": {
+    "cancellationColour": "#03c0c2",
+    "cancellationDisplay": true,
+    "changeOfIdentityColour": "#3feb77",
+    "changeOfIdentityDisplay": true,
+    "changeOfOriginColour": "#d3e2bc",
+    "changeOfOriginDisplay": true,
+    "nextReportOverdueColour": "#b6f923",
+    "nextReportOverdueDisplay": false,
+    "nextReportOverdueMinutes": 15,
+    "offRouteColour": "#f84227",
+    "offRouteDisplay": true,
+    "originCalledColour": "#35553f",
+    "originCalledDisplay": true,
+    "originCalledMinutes": 15,
+    "originDeptOverdueColour": "#9111c5",
+    "originDeptOverdueDisplay": true,
+    "originDeptOverdueMinutes": 1,
+    "reinstatementColour": "#9e752b",
+    "reinstatementDisplay": true,
+    "unmatchedColour": "#506aea",
+    "unmatchedDisplay": true
+  }
+}

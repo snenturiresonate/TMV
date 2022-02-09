@@ -1,4 +1,5 @@
-Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
+@TMVPhase2 @P2.S2
+Feature: 80688 - TMV Punctuality Admin - Picker Arrows
 
   As a TMV Admin User
   I want the ability to update trains list punctuality

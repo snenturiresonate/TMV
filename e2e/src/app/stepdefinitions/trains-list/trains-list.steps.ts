@@ -4,6 +4,7 @@ import {expect} from 'chai';
 import {browser, protractor} from 'protractor';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
+import {BackEndChecksService} from '../../services/back-end-checks.service';
 import {AppPage} from '../../pages/app.po';
 import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
 import {RedisClient} from '../../api/redis/redis-client';
@@ -171,65 +172,14 @@ When(/^I wait until today's train '(.*)' has loaded$/, async (uid: string) => {
     uid = browser.referenceTrainUid;
   }
   const date: string = await DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd');
-  await waitForTrainUid(uid, date);
+  await BackEndChecksService.waitForTrainUid(uid, date);
 });
 
 When(/^I wait until today's or tomorrow's train '(.*)' has loaded$/, async (uid: string) => {
   const today: string = await DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd');
   const tomorrow: string = DateAndTimeUtils.convertToDesiredDateAndFormat('tomorrow', 'yyyy-MM-dd');
-  await waitForTrainUid(uid, today, tomorrow);
+  await BackEndChecksService.waitForTrainUid(uid, today, tomorrow);
 });
-
-async function waitForTrainUid(uid: string, firstDate: string, secondDate: string = ''): Promise<boolean> {
-  if (uid === 'generatedTrainUId' || uid === 'generated') {
-    uid = browser.referenceTrainUid;
-  }
-
-  return browser.wait(async () => {
-    return await waitForTrainUidInTrainslist(uid, firstDate, secondDate) && await waitForTrainUidInPathExtrap(uid, firstDate, secondDate);
-  }, browser.params.general_timeout, `${uid} for dates ${firstDate}/${secondDate} not found in Redis`);
-}
-
-async function waitForTrainUidInTrainslist(uid: string, firstDate: string, secondDate: string = ''): Promise<boolean> {
-  const client = new RedisClient();
-  const firstTrainIdentifier = getTrainUid(uid, firstDate);
-  const secondTrainIdentifier = getTrainUid(uid, secondDate, firstTrainIdentifier);
-
-  const firstHash = `trainlist:` + firstTrainIdentifier;
-  const secondHash = `trainlist:` + secondTrainIdentifier;
-
-  return browser.wait(async () => {
-    let trainListData = await client.hgetString(firstHash, 'scheduleId');
-    if (trainListData !== firstTrainIdentifier) {
-      trainListData = await client.hgetString(secondHash, 'scheduleId');
-    }
-
-    return (trainListData === firstTrainIdentifier || trainListData === secondTrainIdentifier);
-  }, browser.params.general_timeout, `${firstTrainIdentifier} not found in Redis trainlist`);
-}
-
-async function waitForTrainUidInPathExtrap(uid: string, firstDate: string, secondDate: string = ''): Promise<boolean> {
-  const client = new RedisClient();
-  const firstTrainIdentifier = getTrainUid(uid, firstDate);
-  const secondTrainIdentifier = getTrainUid(uid, secondDate, firstTrainIdentifier);
-
-  const pathExtrapScheduleHashPrefix = `path-extrap-enriched-schedules-`;
-  const firstPathExtrapHash = `${pathExtrapScheduleHashPrefix}${firstDate}`;
-  const secondPathExtrapHash = `${pathExtrapScheduleHashPrefix}${secondDate}`;
-
-  return browser.wait(async () => {
-    let pathExtrapData = await client.hgetString(firstPathExtrapHash, firstTrainIdentifier);
-    if (!pathExtrapData) {
-      pathExtrapData = await client.hgetString(secondPathExtrapHash, secondTrainIdentifier);
-    }
-
-    return pathExtrapData;
-  }, 35000, `${firstTrainIdentifier} not found in Redis Path Extrapolation enriched schedules hash`);
-}
-
-function getTrainUid(uid: string, date: string = '', defaultUid: string = ''): string {
-  return date === '' ? defaultUid : `${uid}:${date}`;
-}
 
 When(/^I wait until today's train '(.*)' has been removed$/, async (uid: string) => {
   if (uid === 'generatedTrainUId' || uid === 'generated') {

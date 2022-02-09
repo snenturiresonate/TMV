@@ -944,6 +944,17 @@ Then('the train headcode color for berth {string} is {word}',
     }, browser.params.general_timeout, `Berth colour was not ${expectedColor}, see info for more details`);
   });
 
+Then('the train headcode color for berth {string} has hex value {string}',
+  async (berthId: string, expectedColorHex: string) => {
+    if (expectedColorHex !== 'none') {
+      await browser.wait(async () => {
+        const actualBerthColour = await mapPageObject.getBerthColor(berthId);
+        await CucumberLog.addText(`Expecting ${actualBerthColour} to be ${expectedColorHex}`);
+        return (actualBerthColour === expectedColorHex);
+      }, browser.params.general_timeout, `Berth colour was not ${expectedColorHex}, see info for more details`);
+    }
+  });
+
 Then('the train headcode color for berth {string} is {word} or {word}',
   async (berthId: string, expectedColor1: string, expectedColor2: string) => {
     await browser.wait(async () => {
