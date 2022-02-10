@@ -64,6 +64,7 @@ Feature: 50561 - Unmatch a service - Trains List
     And I click the unmatch cancel option
     Then a matched service is visible
 
+  @bug @bug:85223
   Scenario: 80312 - Unmatch via Trains List dialogue
     #  Given the user is authenticated to use TMV
     #  And the user is viewing the trains list
@@ -90,5 +91,6 @@ Feature: 50561 - Unmatch a service - Trains List
     And I click on Unmatch in the context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching generated'
-    And I un-match the currently matched schedule
+    And I click unmatch
+    And I click the unmatch save option
     Then no matched service is visible

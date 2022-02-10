@@ -71,6 +71,7 @@ Feature: 79730 - Unmatch a service - Map
       | trainDescription | trainUid  |
       | generated        | generated |
 
+  @bug @bug:85223
   Scenario Outline: 80310 - Unmatch via Map Dialogue (Confirm)
 #    Given the user is authenticated to use TMV
 #    And the user is viewing a map
@@ -97,7 +98,8 @@ Feature: 79730 - Unmatch a service - Map
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching <trainDescription>'
-    And I un-match the currently matched schedule
+    And I click unmatch
+    And I click the unmatch save option
     Then no matched service is visible
     When the following live berth step message is sent from LINX (to move train)
       | fromBerth | toBerth | trainDescriber | trainDescription   |
