@@ -97,8 +97,7 @@ Feature: 79730 - Unmatch a service - Map
     And I open schedule matching screen from the map context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching <trainDescription>'
-    And I click unmatch
-    And I click the unmatch save option
+    And I un-match the currently matched schedule
     Then no matched service is visible
     When the following live berth step message is sent from LINX (to move train)
       | fromBerth | toBerth | trainDescriber | trainDescription   |

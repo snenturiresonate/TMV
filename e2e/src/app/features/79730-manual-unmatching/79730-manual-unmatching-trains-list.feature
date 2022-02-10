@@ -90,6 +90,5 @@ Feature: 50561 - Unmatch a service - Trains List
     And I click on Unmatch in the context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching generated'
-    And I click unmatch
-    And I click the unmatch save option
+    And I un-match the currently matched schedule
     Then no matched service is visible

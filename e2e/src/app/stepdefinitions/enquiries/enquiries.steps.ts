@@ -3,7 +3,7 @@ import {EnquiriesPageObject} from '../../pages/enquiries/enquiries.page';
 import {expect} from 'chai';
 import {browser} from 'protractor';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
-import {DateTimeFormatter, LocalDateTime, LocalTime, ZoneId} from '@js-joda/core';
+import {DateTimeFormatter, LocalDateTime, ZoneId} from '@js-joda/core';
 
 const enquiriesPage: EnquiriesPageObject = new EnquiriesPageObject();
 const ENQUIRIES_LOAD_DELAY = 2000;
@@ -132,9 +132,9 @@ Then(/^the (Matched|Unmatched) version of the (Schedule-matching|Non-Schedule-ma
     }
   });
 
-When(/^I set the start date to now (\+|-) (.*) minutes?$/, async (operator: string, minutes: number) => {
+When(/^I set the start date to now ([+-]) (.*) minutes?$/, async (operator: string, minutes: number) => {
   let now;
-  const timeFormat = 'HH:mm';
+  const timeFormat = 'HH:mm:ss';
   if (! Boolean(operator)) {
     now = DateAndTimeUtils.getCurrentTimePlusOrMinusMins(0, 0, timeFormat);
   }
@@ -160,9 +160,9 @@ Then(/^(a|no) validation error is displayed$/, async (affirmity: string) => {
 
 Then('the enquiries start time is about {int} minutes ago',
   async (minutes: number) => {
-    let shown : number = LocalDateTime.parse(await enquiriesPage.getStartDate() + ' ' + await enquiriesPage.getStartTime(),
+    const shown: number = LocalDateTime.parse(await enquiriesPage.getStartDate() + ' ' + await enquiriesPage.getStartTime(),
       DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm')).atZone(ZoneId.systemDefault()).toEpochSecond();
-    let currentTime : number = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
+    const currentTime: number = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
 
     expect(shown, 'Incorrect start time').to.above(currentTime - minutes * 60 - 90);
     expect(shown, 'Incorrect start time').to.below(currentTime - minutes * 60 + 90);
@@ -170,9 +170,9 @@ Then('the enquiries start time is about {int} minutes ago',
 
 Then('the enquiries end time is in about {int} minutes',
   async (minutes: number) => {
-    let shown : number = LocalDateTime.parse(await enquiriesPage.getEndDate() + ' ' + await enquiriesPage.getEndTime(),
+    const shown: number = LocalDateTime.parse(await enquiriesPage.getEndDate() + ' ' + await enquiriesPage.getEndTime(),
       DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm')).atZone(ZoneId.systemDefault()).toEpochSecond();
-    let currentTime : number = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
+    const currentTime: number = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
 
     expect(shown, 'Incorrect end time').to.above(currentTime + minutes * 60 - 90);
     expect(shown, 'Incorrect end time').to.below(currentTime + minutes * 60 + 90);

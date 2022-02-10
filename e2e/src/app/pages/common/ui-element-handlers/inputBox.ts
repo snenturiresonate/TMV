@@ -84,10 +84,14 @@ export class InputBox {
    * Input: Location of <input> tag
    */
   public static async ctrlADeleteClear(elm: ElementFinder): Promise<void> {
+    await elm.click();
     const platformControlKey = await this.getControlKeyForPlatform();
     await elm.sendKeys(protractor.Key.chord(platformControlKey, 'a'));
     await elm.sendKeys(protractor.Key.DELETE);
+    // the next line is a bit hacky, but it is needed to remove an unexpected symbol that is added by the above steps
+    await elm.sendKeys(protractor.Key.BACK_SPACE);
   }
+
   /**
    * Determine the control key for the platform
    */

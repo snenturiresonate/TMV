@@ -1,8 +1,7 @@
-import {browser, by, element, ElementArrayFinder, ElementFinder, ExpectedConditions, protractor} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {CucumberLog} from '../../logging/cucumber-log';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {InputBox} from '../common/ui-element-handlers/inputBox';
-import {TimetableTableRowPageObject} from '../sections/timetable.tablerow.page';
 
 export class EnquiriesPageObject {
   public mapSearchBox: ElementFinder;
@@ -134,6 +133,7 @@ export class EnquiriesPageObject {
   }
 
   public async setStartTime(time: string): Promise<void> {
+    await CommonActions.waitForElementInteraction(this.startTimeInput);
     await InputBox.ctrlADeleteClear(this.startTimeInput);
     await this.startTimeInput.sendKeys(time);
     return this.startTimeInput.sendKeys(protractor.Key.TAB);
@@ -159,6 +159,7 @@ export class EnquiriesPageObject {
   }
 
   public async setEndTime(time: string): Promise<void> {
+    await CommonActions.waitForElementInteraction(this.endTimeInput);
     await InputBox.ctrlADeleteClear(this.endTimeInput);
     await this.endTimeInput.sendKeys(time);
     return this.endTimeInput.sendKeys(protractor.Key.TAB);
