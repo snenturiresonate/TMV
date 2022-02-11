@@ -15,10 +15,10 @@ Feature: 80365 - TMV Enquiries - Date Picker Validation
   #    * The start date can be the current or previous date
   #    * Start date time must be before end date time
 
-  @bug @bug:85215
   Scenario: 81202-1 - Enquiries - Date Picker Validation - start date - current date is allowed
     Given I am on the enquiries page
-    When I set the start date to now + 0 minutes
+    And I give the system and enquiry times 2 seconds to synchronise
+    When I set the start date to now - 0 minutes
     Then no validation error is displayed
 
   Scenario: 81202-2 - Enquiries - Date Picker Validation - start date - previous date is allowed
