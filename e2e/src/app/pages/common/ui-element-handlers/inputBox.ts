@@ -50,8 +50,17 @@ export class InputBox {
   public static async updateColourPickerBox(elm: ElementFinder, text: string): Promise<void> {
     await CommonActions.waitForElementInteraction(elm);
     await GeneralUtils.scrollToElement(elm);
-    await elm.clear();
-    await elm.sendKeys(text);
+
+    // the following is to get around a bug in the latest version of chromedriver, whereby certain chars like '#' cannot sendKeys
+    // see: https://bugs.chromium.org/p/chromedriver/issues/detail?id=3999
+    // and: https://stackoverflow.com/questions/70967207/selenium-chromedriver-cannot-construct-keyevent-from-non-typeable-key
+    await elm.click();
+    await elm.sendKeys(protractor.Key.END);
+    while (await InputBox.waitAndGetTextOfInputBox(elm) !== '#') {
+      await elm.sendKeys(protractor.Key.BACK_SPACE);
+    }
+
+    await elm.sendKeys(text.replace('#', ''));
     await elm.sendKeys(protractor.Key.TAB);
     await elm.sendKeys(protractor.Key.ENTER);
   }

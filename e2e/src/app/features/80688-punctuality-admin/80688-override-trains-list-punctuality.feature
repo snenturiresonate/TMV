@@ -11,6 +11,9 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
     * I remove all trains from the trains list
     * I have not already authenticated
     * I am on the admin page
+    * I restore to default train list config '1'
+    * I restore to default train list config '2'
+    * I restore to default train list config '3'
     * The admin setting defaults are as originally shipped
     * I refresh the browser
 
@@ -87,13 +90,6 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
       | rgba(170, 119, 17, 1)  | 5        | 10     |
       | rgba(136, 34, 238, 1)  | 10       | 20     |
       | rgba(187, 187, 187, 1) | 20       |        |
-#    @bug @bug:84999
-#    And I am viewing the map HDGW02reading.v
-#    And the train headcode color for berth 'D11676' has hex value '<hex1_def>'
-#    And I am viewing the map HDGW01paddington.v
-#    And the train headcode color for berth 'D30037' has hex value '<hex2_def>'
-#    And the train headcode color for berth 'D30043' has hex value '<hex3_def>'
-#    And the train headcode color for berth 'D30045' has hex value '<hex4_def>'
     And I logout
     And I am on the admin page
     And The admin setting defaults are as in <settingsFile>
@@ -122,13 +118,6 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
       | #d0ff00              | 1        | 5      | 1 to 4 late      | on      |
       | #dbb109              | 5        | 10     | 5 to 9 late      | on      |
       | #9c3373              | 15       |        | 15 or more late  | on      |
-#    @bug @bug:84999
-#    And I am viewing the map HDGW02reading.v
-#    And the train headcode color for berth 'D11676' has hex value '<hex1_new>'
-#    And I am viewing the map HDGW01paddington.v
-#    And the train headcode color for berth 'D30037' has hex value '<hex2_new>'
-#    And the train headcode color for berth 'D30043' has hex value '<hex3_new>'
-#    And the train headcode color for berth 'D30045' has hex value '<hex4_new>'
 
     # clean up
     And I restore to default train list config '<trainslistNum>'
@@ -230,3 +219,69 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
       | settingsFile                  | roleType | lateness1 | lateness2 | lateness3 | lateness4 |
       | edited-non-punc-settings.json | standard | +4        | +18       | -12       | -1        |
 
+
+  #  Given the user is authenticated to use TMV
+  #  And the user the admin privilege
+  #  And is viewing the admin display settings view
+  #  When the user updates the punctuality setting
+  #  And saves the setting
+  #  Then for all TMV users the settings will update the punctuality displayed on the schematic maps
+  Scenario Outline: 81204-4 - Admin Punctuality Settings Update is reflected on the Map - <roleType> user
+    * I generate a new trainUID
+    * I generate a new train description
+    * I have not already authenticated
+
+    # Setup a service that is over 20 minutes early
+    Given I access the homepage as <roleType>
+    And the train in CIF file below is updated accordingly so time at the reference point is now + '25' minutes, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription>  | <planningUID>  |
+    And I wait until today's train '<planningUID>' has loaded
+    And I give the cif a further 2 seconds to fully process
+    And I am viewing the map HDGW01paddington.v
+    And the following live berth interpose messages are sent from LINX (to match the first part of the step)
+      | toBerth | trainDescriber | trainDescription   |
+      | A007    | D3             | <trainDescription> |
+    Then the train headcode color for berth 'D3A007' has hex value '<defaultPunctualityColour>'
+
+    # Change the punctuality colour in the admin settings
+    * I have not already authenticated
+    When I am on the admin page
+    And I have navigated to the 'Display Settings' admin tab
+    And I take a screenshot
+    And I update the admin punctuality settings as
+      | punctualityColorText | fromTime | toTime | entryValue               |
+      | <updatedColour>      |          | -20    | 20 minutes or more early |
+    And the following can be seen on the admin punctuality settings table
+      | punctualityColorText | fromTime | toTime | entryValue               |
+      | <updatedColour>      |          | -20    | 20 minutes or more early |
+      | #e5b4ff              | -20      | -10    | 10 to 19 minutes early   |
+      | #78e7ff              | -10      | -5     | 5 to 9 minutes early     |
+      | #78ff78              | -5       | -1     | 1 to 4 minutes early     |
+      | #00ff00              | -1       | 1      | On Time                  |
+      | #ffff00              | 1        | 5      | 1 to 4 minutes late      |
+      | #ffa700              | 5        | 10     | 5 to 9 minutes late      |
+      | #ff0000              | 10       | 20     | 10 to 19 minutes late    |
+      | #ff009c              | 20       |        | 20 minutes or more late  |
+    And I save the punctuality settings
+    And I take a screenshot
+    And I give the settings 2 seconds to be stored
+
+    # Check that the updated settings are reflected upon the map's punctuality
+    * I have not already authenticated
+    And I access the homepage as <roleType>
+    And I am viewing the map HDGW01paddington.v
+    Then the train headcode color for berth 'D3A007' has hex value '<updatedColour>'
+
+    # clean up
+    * I have not already authenticated
+    * I am on the admin page
+    * The admin setting defaults are as originally shipped
+    * I logout
+
+    Examples:
+      | roleType         | trainDescription | planningUID | defaultPunctualityColour | updatedColour |
+      | admin            | generated        | generated   | #ffb4b4                  | #ffffff       |
+      | standard         | generated        | generated   | #ffb4b4                  | #ffff00       |
+      | restriction      | generated        | generated   | #ffb4b4                  | #ffff66       |
+      | schedulematching | generated        | generated   | #ffb4b4                  | #ffff99       |

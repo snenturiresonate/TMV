@@ -832,3 +832,7 @@ Given(/^I log the berth & locations from the berth level schedule for '(.*)'$/, 
     }
   }
 });
+
+When(/^I take a screenshot$/, async () => {
+  await CucumberLog.addScreenshot();
+});
