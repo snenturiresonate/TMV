@@ -71,7 +71,6 @@ Feature: 79730 - Unmatch a service - Map
       | trainDescription | trainUid  |
       | generated        | generated |
 
-  @bug @bug:85223
   Scenario Outline: 80310 - Unmatch via Map Dialogue (Confirm)
 #    Given the user is authenticated to use TMV
 #    And the user is viewing a map
