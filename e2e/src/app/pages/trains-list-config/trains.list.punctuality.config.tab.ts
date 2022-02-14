@@ -125,7 +125,7 @@ export class TrainsListPunctualityConfigTab {
     if (change.type === 'edit') {
       const bandNumString: string = change.dataItem.replace('Band', '');
       const bandNum = parseInt(bandNumString, 10);
-      if ((change.dataItem === 'fromTime') || (change.dataItem === 'toTime')) {
+      if ((change.parameter === 'fromTime') || (change.parameter === 'toTime')) {
         const adjustmentString: string = change.newSetting;
         const operator = adjustmentString.substr(0, 1);
         const adjustment = parseInt(adjustmentString.substr(1), 10);
@@ -133,25 +133,22 @@ export class TrainsListPunctualityConfigTab {
         if (operator === '-') {
           incOrDec = 'decrease';
         }
-        let targetAdjustButton = await this.getPuncAdjustButton(bandNum, 'lower', incOrDec);
-        if (change.dataItem === 'toTime') {
-          targetAdjustButton = await this.getPuncAdjustButton(bandNum, 'upper', incOrDec);
-        }
+        const targetAdjustButton = await this.getPuncAdjustButton(bandNum, change.parameter, incOrDec);
         for (let i = 0; i < adjustment; i++) {
           await targetAdjustButton.click();
         }
       }
-      else if (change.dataItem === 'colour') {
+      else if (change.parameter === 'colour') {
         await this.updatePunctualityColor(bandNum, change.newSetting);
       }
-      else if (change.dataItem === 'name') {
+      else if (change.parameter === 'name') {
         await this.updatePunctualityText(bandNum, change.newSetting);
       }
-      else if (change.dataItem === 'toggle') {
+      else if (change.parameter === 'toggle') {
         await this.updatePunctualityToggle(bandNum, change.newSetting);
       }
       else {
-        throw new Error(`Please check the dataItem value in feature file`);
+        throw new Error(`Please check the parameter value in feature file`);
       }
     } else {
       throw new Error(`Please check the type value in feature file`);

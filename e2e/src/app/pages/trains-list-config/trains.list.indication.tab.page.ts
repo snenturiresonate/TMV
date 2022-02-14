@@ -34,12 +34,11 @@ public trainIndicationTabHeader: ElementFinder;
   }
 
   public async getValueAdjustButton(index: number, incOrDec: string): Promise<ElementFinder> {
-    const indexForSelector = index + 1;
     let operator = '+';
     if (incOrDec === 'decrease') {
       operator = '-';
     }
-    const xPathLocator = `\`.indication-div-container div:nth-child(${indexForSelector})//button[text()[contains(.,\'${operator}\')]])`;
+    const xPathLocator = `//div[contains(@class,'indication-div-container')] //div [${index}]//button[text()[contains(.,\'${operator}\')]]`;
     return element(by.xpath(xPathLocator));
   }
 

@@ -25,6 +25,7 @@ export class TrainsListPageObject {
   public paginationPrevious: ElementFinder;
   public paginationNext: ElementFinder;
   public hiddenFilter: ElementFinder;
+  public filterIcon: ElementFinder;
 
   private redisClient: RedisClient;
 
@@ -51,6 +52,7 @@ export class TrainsListPageObject {
     this.paginationNext = element(by.id('trains-list-pagination-next'));
     this.redisClient = new RedisClient();
     this.hiddenFilter = element(by.css('.hidden-filter'));
+    this.filterIcon = element(by.id('trains-list-filter-toggle-icon'));
   }
 
   public async getTrainsListEntryColValues(scheduleId: string): Promise<string[]> {
@@ -393,8 +395,15 @@ export class TrainsListPageObject {
   }
 
   public async isFilterPresent(): Promise<boolean> {
-    const fiterIsHidden = await this.hiddenFilter.isPresent();
-    return !fiterIsHidden;
+    const filterIsHidden = await this.hiddenFilter.isPresent();
+    return !filterIsHidden;
+  }
+
+  public async setFilterDisplay(requiredFilterState: string): Promise<void> {
+    const filterIsHidden = await this.hiddenFilter.isPresent();
+    if ((!filterIsHidden && (requiredFilterState === 'collapsed')) || (filterIsHidden && (requiredFilterState === 'expanded'))) {
+      await CommonActions.waitAndClick(this.filterIcon);
+    }
   }
 
   public async getMiscFilterItemValue(property: string): Promise<string> {

@@ -727,6 +727,10 @@ Then(/^the trains list filter (.*) visible$/, async (expectedPresentString: stri
   expect(actualFilterPresent, `Trains List Filter display ${expectedPresentString} hidden`).to.equal(expectedFilterPresent);
 });
 
+When(/^I set the trains list filter display to be (.*)$/, async (collapsedOrExpanded: string) => {
+  await trainsListPage.setFilterDisplay(collapsedOrExpanded);
+});
+
 Then(/^the trains list filter display contains$/, async (inputs: any) => {
   const filterItems: any = inputs.hashes();
   for (const filterItem of filterItems) {

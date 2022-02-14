@@ -116,8 +116,8 @@ public async moveToUnSelectedList(entry: string): Promise<void> {
 }
 
 public async getSelectedEntries(): Promise<string[]> {
-  const selectedEntries: ElementArrayFinder = element.all(by.xpath(`//div[contains(@class,'col-sm-9')]
-    //span[not(contains(@class,'material-icons'))]`));
+  const selectedEntries: ElementArrayFinder = element.all(
+  by.css('div.tmv-tab-content-active div.column-container-selected div.section-name span:not(.material-icons)'));
   return selectedEntries.map((itemValue: ElementFinder) => {
     return itemValue.getText();
 });
@@ -131,7 +131,7 @@ public async findEntryInSelectedList(entry: string): Promise<number> {
 public async makeChange(change: any): Promise<void> {
   const newPosString: string = change.newSetting;
   newPosString.replace('st', '').replace('nd', '').replace('rd', '').replace('th', '');
-  const newPos = newPosString.length > 0 ? parseInt(newPosString, 10) - 1 : 0;
+  const newPos = newPosString.length > 0 ? parseInt(newPosString, 10) - 1 : -1;
   switch (change.type) {
     case 'remove':
       if (change.dataItem === 'All') {

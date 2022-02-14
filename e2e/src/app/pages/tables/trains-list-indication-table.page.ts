@@ -29,7 +29,7 @@ export abstract class TrainsListIndicationTable {
   }
 
   public async updateTrainIndicationColourText(index: number, text: string): Promise<void> {
-    const elm: ElementFinder = this.colourText.get(index);
+    const elm: ElementFinder = this.colourText.get(index - 1);
     await this.scrollToElement(elm);
     await InputBox.updateColourPickerBox(elm, text);
   }
