@@ -11,7 +11,7 @@ Feature: 33768-3: TMV User Management
     #  And I have a valid TMV role of <roleType>
     #  When I enter a valid username and password combination
     #  Then I the following are not displayed 'Find your map', 'Recent Map', 'All Maps'
-    When I access the homepage as <roleType>
+    When I access the homepage as <roleType> user
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     * the map search box <adverb> displayed
@@ -30,7 +30,7 @@ Feature: 33768-3: TMV User Management
     #  And I have a valid TMV role of Standard
     #  When I enter a valid username and password combination
     #  Then I the search box is displayed
-    When I access the homepage as standard
+    When I access the homepage as standard user
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     * the train search box is visible
@@ -42,7 +42,7 @@ Feature: 33768-3: TMV User Management
     #  And I have a valid TMV role of <roleType>
     #  When I enter a valid username and password combination
     #  Then I the following are not displayed Trains List, Enquiries, Replay, Log viewer
-    When I access the homepage as <roleType>
+    When I access the homepage as <roleType> user
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     Then the app list does not contain the following apps
@@ -63,7 +63,7 @@ Feature: 33768-3: TMV User Management
     #  And I have a valid TMV role of <roleType>
     #  When I enter a valid username and password combination
     #  Then I the search box is not displayed
-    When I access the homepage as <roleType>
+    When I access the homepage as <roleType> user
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     * the train search box is not visible
@@ -90,7 +90,7 @@ Feature: 33768-3: TMV User Management
     And the following train activation message is sent from LINX
       | trainUID      | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <planningUid> | <trainDescription> | now                    | 99999               | PADTON                 | today         | now                 |
-    When I access the homepage as schedulematching
+    When I access the homepage as schedulematching user
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     And I restore to default train list config '1'
@@ -137,7 +137,7 @@ Feature: 33768-3: TMV User Management
     And the following train running information message is sent from LINX
       | trainUID       | trainNumber         | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           |
       | <planningUid2> | <trainDescription2> | today              | 74237               | RDNGSTN                | Departure from origin |
-    When I access the homepage as <roleType>
+    When I access the homepage as <roleType> user
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     And I restore to default train list config '1'
@@ -153,8 +153,9 @@ Feature: 33768-3: TMV User Management
       | matchType | roleType    | trainDescription1 | planningUid1 | trainDescriber | toBerth | trainDescription2 | planningUid2 |
       | Matched   | restriction | generated         | generated    | D1             | 1698    | generated         | generated    |
       | Matched   | standard    | generated         | generated    | D1             | 1698    | generated         | generated    |
-      | Unmatched | restriction | generated         | generated    | D1             | 1777    | 2V46              | E28495       |
-      | Unmatched | standard    | generated         | generated    | D1             | 1777    | 2V46              | E28495       |
+#@bug @bug85252
+#      | Unmatched | restriction | generated         | generated    | D1             | 1777    | 2V46              | E28495       |
+#      | Unmatched | standard    | generated         | generated    | D1             | 1777    | 2V46              | E28495       |
 
   Scenario Outline: 16b Displaying matching for user without Schedule Matching Role - map
     * I reset redis
@@ -168,7 +169,7 @@ Feature: 33768-3: TMV User Management
     And the following train activation message is sent from LINX
       | trainUID       | trainNumber         | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <planningUid1> | <trainDescription1> | now                    | 99999               | RDNGSTN                | today         | now                 |
-    When I access the homepage as <roleType>
+    When I access the homepage as <roleType> user
     And I am authenticated and see the welcome message
     And I dismiss the welcome message
     And I restore to default train list config '1'
@@ -208,7 +209,7 @@ Feature: 33768-3: TMV User Management
     And the following train running information message is sent from LINX
       | trainUID       | trainNumber         | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           |
       | <planningUid2> | <trainDescription2> | today              | 74237               | RDNGSTN                | Departure from origin |
-    When I access the homepage as <roleType>
+    When I access the homepage as <roleType> user
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     Given I am on the enquiries page

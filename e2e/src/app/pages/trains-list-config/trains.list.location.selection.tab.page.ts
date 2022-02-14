@@ -142,7 +142,7 @@ export class TrainsListLocationSelectionTab {
   }
   public async setStopTypeCheckedState(type: string, locationName: string, updatedState: string): Promise<void> {
     await CommonActions.waitForElementToBeVisible(this.locationTableRow.first());
-    const chkBox = this.getStopTypeOfLocation(type, locationName);
+    const chkBox = await this.getStopTypeOfLocation(type, locationName);
     if (await chkBox.isEnabled()) {
       return CheckBox.updateCheckBox(chkBox, updatedState);
     } else {
@@ -154,23 +154,58 @@ export class TrainsListLocationSelectionTab {
   }
 
   public getStopTypeOfLocation(type: string, locationName: string): ElementFinder {
-    const tableRow: ElementFinder = this.getRowByLocationName(locationName);
     let stopTypeElm: ElementFinder;
     switch (type) {
       case 'Originate':
-        stopTypeElm = tableRow.element(by.css('[id*=ORIGINATE]'));
+        stopTypeElm = element(by.id(`${locationName}-ORIGINATE`));
         break;
       case 'Stop':
-        stopTypeElm = tableRow.element(by.css('[id*=STOP]'));
+        stopTypeElm = element(by.id(`${locationName}-STOP`));
         break;
       case 'Pass':
-        stopTypeElm = tableRow.element(by.css('[id*=PASS]'));
+        stopTypeElm = element(by.id(`${locationName}-PASS`));
         break;
       case 'Terminate':
-        stopTypeElm = tableRow.element(by.css('[id*=TERMINATE]'));
+        stopTypeElm = element(by.id(`${locationName}-TERMINATE`));
         break;
     }
     return stopTypeElm;
+  }
+
+  public async makeChange(change: any): Promise<void> {
+    switch (change.type) {
+      case 'add':
+        await this.enterLocationSearchString(change.dataItem);
+        await this.clickLocationResult();
+        if ((change.parameter !== '' && change.newSetting !== '')) {
+          if (change.parameter === 'All') {
+            const stopTypes = ['Originate', 'Stop', 'Pass', 'Terminate'];
+            for (const stopType of stopTypes) {
+              await this.setStopTypeCheckedState(stopType, change.dataItem, change.newSetting);
+            }
+          }
+          else {
+             await this.setStopTypeCheckedState(change.parameter, change.dataItem, change.newSetting);
+          }
+        }
+        break;
+      case 'remove':
+        await this.removeLocation(change.dataItem);
+        break;
+      case 'edit':
+        if (change.parameter === 'All') {
+          const stopTypes = ['Originate', 'Stop', 'Pass', 'Terminate'];
+          for (const stopType of stopTypes) {
+            await this.setStopTypeCheckedState(stopType, change.dataItem, change.newSetting);
+          }
+        }
+        else {
+          await this.setStopTypeCheckedState(change.parameter, change.dataItem, change.newSetting);
+        }
+        break;
+      default:
+        throw new Error(`Please check the type value in feature file`);
+     }
   }
 }
 

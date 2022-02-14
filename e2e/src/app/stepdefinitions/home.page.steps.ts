@@ -250,6 +250,10 @@ When(/^I select the replay button from the home page$/, async () => {
   await homePage.replayButton.click();
 });
 
+When(/^I select the trains list (.*) button from the home page$/, async (listNum: number) => {
+  await homePage.clickTrainsListButton(listNum);
+});
+
 When(/^I dismiss the welcome message$/, async () => {
   await welcomeModal.dismissModal();
 });

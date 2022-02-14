@@ -176,4 +176,25 @@ export class TrainsListMiscConfigTab {
   private getToggleOfClass(className: string): ElementFinder {
     return element(by.xpath(`//td[contains(.,'${className}')]//..//td//label`));
   }
+
+  public async makeChange(change: any): Promise<void> {
+    if (change.type === 'edit') {
+      if (change.dataItem === 'class') {
+        await this.updateToggleOfClassName(change.parameter, change.newSetting);
+      }
+      else if (change.dataItem === 'other') {
+        if (change.newSetting === 'on' || change.newSetting === 'off') {
+          await this.updateTrainMiscSettingToggles(change.parameter, change.newSetting);
+        } else if (change.parameter === 'time to remain on list (mins)') {
+          await this.setTimeToRemain(change.newSetting);
+        } else {
+          throw new Error(`Please check the parameter value in feature file`);
+        }
+      } else {
+        throw new Error(`Please check the dataItem value in feature file`);
+      }
+    } else {
+      throw new Error(`Please check the type value in feature file`);
+    }
+  }
 }

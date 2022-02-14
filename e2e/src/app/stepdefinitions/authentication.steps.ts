@@ -33,7 +33,7 @@ Then(/^I am informed that the details entered are incorrect$/, async () => {
   await browser.waitForAngularEnabled(true);
 });
 
-When(/^I access the homepage as (.*)$/, {timeout: 5 * 10000}, async (role: string) => {
+When(/^I access the homepage as (.*) user$/, {timeout: 5 * 10000}, async (role: string) => {
   await appPage.authenticateOnlyWithoutReNavigation('', role);
 });
 

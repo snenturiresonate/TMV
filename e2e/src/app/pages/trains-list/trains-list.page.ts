@@ -24,6 +24,7 @@ export class TrainsListPageObject {
   public secondarySortCol: ElementFinder;
   public paginationPrevious: ElementFinder;
   public paginationNext: ElementFinder;
+  public hiddenFilter: ElementFinder;
 
   private redisClient: RedisClient;
 
@@ -49,6 +50,7 @@ export class TrainsListPageObject {
     this.paginationPrevious = element(by.id('trains-list-pagination-previous'));
     this.paginationNext = element(by.id('trains-list-pagination-next'));
     this.redisClient = new RedisClient();
+    this.hiddenFilter = element(by.css('.hidden-filter'));
   }
 
   public async getTrainsListEntryColValues(scheduleId: string): Promise<string[]> {
@@ -390,4 +392,19 @@ export class TrainsListPageObject {
     await browser.sleep(NFRConfig.E2E_TRANSMISSION_TIME_MS);
   }
 
+  public async isFilterPresent(): Promise<boolean> {
+    const fiterIsHidden = await this.hiddenFilter.isPresent();
+    return !fiterIsHidden;
+  }
+
+  public async getMiscFilterItemValue(property: string): Promise<string> {
+    const elm: ElementFinder = element(by.css(`#trains-list-filter-misc-${property}`));
+    return elm.getText();
+  }
+
+  public async getOtherFilterItemValue(property: string): Promise<string> {
+    const settingsBoxElement: ElementFinder = await element(by.cssContainingText('.selection-criteria-entry-box', property));
+    const settingsBoxContentsElements: ElementArrayFinder = await settingsBoxElement.element(by.css('.selection-criteria-entry-row'));
+    return settingsBoxContentsElements.getText();
+  }
 }

@@ -25,7 +25,7 @@ Feature: 33768-1: TMV User Management - Signing in
   #And I have a valid TMV role
   #When I enter a valid username and password combination
   #Then I am presented with the welcome message
-    When I access the homepage as <user>
+    When I access the homepage as <user> user
     Then I am authenticated and see the welcome message
     Examples:
       | user             |
@@ -39,7 +39,7 @@ Feature: 33768-1: TMV User Management - Signing in
   #And I have a valid TMV role
   #When I view the user profile menu from the homepage
   #Then I am presented with my name and a list of my assigned roles
-    When I access the homepage as admin
+    When I access the homepage as admin user
     And I open the user profile menu
     Then The user profile shows user roles as
       | roleName              | rowNum |
@@ -53,7 +53,7 @@ Feature: 33768-1: TMV User Management - Signing in
   #And I have a valid TMV role
   #When I view the user profile menu from the homepage
   #Then I am presented with my name and a list of my assigned roles
-    When I access the homepage as standard
+    When I access the homepage as standard user
     And I open the user profile menu
     Then The user profile shows user roles as
       | roleName     | rowNum |
@@ -64,7 +64,7 @@ Feature: 33768-1: TMV User Management - Signing in
   #And I have a valid TMV role
   #When I view the user profile menu from the homepage
   #Then I am presented with my name and a list of my assigned roles
-    When I access the homepage as restriction
+    When I access the homepage as restriction user
     And I open the user profile menu
     Then The user profile shows user roles as
       | roleName         | rowNum |
@@ -76,7 +76,7 @@ Feature: 33768-1: TMV User Management - Signing in
   #And I have a valid TMV role
   #When I view the user profile menu from the homepage
   #Then I am presented with my name and a list of my assigned roles
-    When I access the homepage as schedulematching
+    When I access the homepage as schedulematching user
     And I open the user profile menu
     Then The user profile shows user roles as
       | roleName              | rowNum |

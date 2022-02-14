@@ -31,6 +31,7 @@ export class HomePageObject {
 
   public replayButton: ElementFinder;
   public adminIcon: ElementFinder;
+  public trainsListButtons: ElementArrayFinder;
 
   constructor() {
     this.homePageContent = element(by.css('app-home #home-body'));
@@ -51,6 +52,7 @@ export class HomePageObject {
     this.adminIcon = element(by.css('.btn-box .app-button-link-text'));
     this.replayButton = element(by.id('icon-replay'));
 
+    this.trainsListButtons = element.all(by.css('.trains-list-btn'));
     this.homeIcon = element(by.css('img[alt="logo"]'));
     this.newTabIcon = element(by.xpath('//span[contains(text(),\'launch\')]'));
     this.userProfileIcon = element(by.id('user-profile-menu-button'));
@@ -198,6 +200,11 @@ export class HomePageObject {
 
   public async clickSearchButton(): Promise<void> {
     await this.searchButton.click();
+  }
+
+  public async clickTrainsListButton(listNum: number): Promise<void> {
+    const btn: ElementFinder = await this.trainsListButtons.get(listNum - 1);
+    await CommonActions.waitAndClick(btn);
   }
 
   public async enterReturnInSearchBox(): Promise<void> {

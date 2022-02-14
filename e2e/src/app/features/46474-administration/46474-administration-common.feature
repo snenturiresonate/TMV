@@ -11,7 +11,7 @@ Feature: 46474 - Administration Common - full end to end testing
 
   Background:
     Given I have not already authenticated
-    And I access the homepage as admin
+    And I access the homepage as admin user
 
   Scenario: Administration page tabs
     When I click the app 'admin'

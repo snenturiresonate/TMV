@@ -128,4 +128,24 @@ public async findEntryInSelectedList(entry: string): Promise<number> {
   return selectedEntries.indexOf(entry, 0);
 }
 
+public async makeChange(change: any): Promise<void> {
+  const newPosString: string = change.newSetting;
+  newPosString.replace('st', '').replace('nd', '').replace('rd', '').replace('th', '');
+  const newPos = newPosString.length > 0 ? parseInt(newPosString, 10) - 1 : 0;
+  switch (change.type) {
+    case 'remove':
+      if (change.dataItem === 'All') {
+        CommonActions.waitForElementToBePresent(this.trainListConfigSelectedSecondElements.get(0));
+        await this.trainListConfigSelectedSecondElements.click();
+      }
+      else {
+        await this.moveToUnSelectedList(change.dataItem);
+      }
+      break;
+    // default covers add or edit
+    default:
+      await this.moveToSelectedList(change.dataItem, newPos);
+      break;
+  }
+}
 }

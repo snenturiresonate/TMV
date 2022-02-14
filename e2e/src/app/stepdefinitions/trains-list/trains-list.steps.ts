@@ -721,6 +721,29 @@ When('I remove all trains from the trains list', async () => {
   await trainsListPage.removeAllTrainsFromTrainsList();
 });
 
+Then(/^the trains list filter (.*) visible$/, async (expectedPresentString: string) => {
+  const expectedFilterPresent: boolean = (expectedPresentString === 'is');
+  const actualFilterPresent: boolean = await trainsListPage.isFilterPresent();
+  expect(actualFilterPresent, `Trains List Filter display ${expectedPresentString} hidden`).to.equal(expectedFilterPresent);
+});
+
+Then(/^the trains list filter display contains$/, async (inputs: any) => {
+  const filterItems: any = inputs.hashes();
+  for (const filterItem of filterItems) {
+    if (filterItem.section === 'misc') {
+      const actualValue = await trainsListPage.getMiscFilterItemValue(filterItem.type);
+      expect(actualValue, ``).to.equal(filterItem.expectedValue);
+    }
+    else if (filterItem.section === 'selection') {
+      const actualValue = await trainsListPage.getOtherFilterItemValue(filterItem.type);
+      expect(actualValue, ``).to.contain(filterItem.expectedValue);
+    }
+    else {
+      throw new Error(`Please check the section value in feature file`);
+    }
+  }
+});
+
 function checkOrdering(thisString: string, nextString: string, colName: string, direction: string): void {
 
   let orderCheck = nextString.localeCompare(thisString);

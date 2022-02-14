@@ -73,7 +73,7 @@ Feature: 33768-1: TMV User Management - Direct URL permissions
       #| Standard |
     * I remove today's train 'C46096' from the Redis trainlist
     Given the access plan located in CIF file 'access-plan/1B69_PADTON_SWANSEA.cif' is amended so that all services start within the next hour and then received from LINX
-    When I access the homepage as <user>
+    When I access the homepage as <user> user
     And I wait until today's train 'C46096' has loaded
     And I navigate to the schedule matching page for the following train
       | trainUID | trainDesc | scheduleDate |
@@ -95,7 +95,7 @@ Feature: 33768-1: TMV User Management - Direct URL permissions
       #| Restrictions |
       #| Standard |
     Given the access plan located in CIF file 'access-plan/1B69_PADTON_SWANSEA.cif' is amended so that all services start within the next hour and then received from LINX
-    When I access the homepage as adminOnly
+    When I access the homepage as adminOnly user
     And I navigate to the schedule matching page for the following train
       | trainUID | trainDesc | scheduleDate |
       | C46096   | 1B69      | today        |
@@ -112,7 +112,7 @@ Feature: 33768-1: TMV User Management - Direct URL permissions
     #  | Admin|
     #  | Standard |
     #  | Schedule Matching|
-    When I access the homepage as <user>
+    When I access the homepage as <user> user
     And I navigate to the restrictions page for track id 'LSLS1S'
     Then I am re-directed to home page
     Examples:

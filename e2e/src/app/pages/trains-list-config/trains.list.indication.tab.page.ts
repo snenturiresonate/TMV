@@ -32,4 +32,49 @@ public trainIndicationTabHeader: ElementFinder;
   public async getTrainIndicationHeader(): Promise<string> {
     return CommonActions.waitAndGetText(this.trainIndicationTabHeader);
   }
+
+  public async getValueAdjustButton(index: number, incOrDec: string): Promise<ElementFinder> {
+    const indexForSelector = index + 1;
+    let operator = '+';
+    if (incOrDec === 'decrease') {
+      operator = '-';
+    }
+    const xPathLocator = `\`.indication-div-container div:nth-child(${indexForSelector})//button[text()[contains(.,\'${operator}\')]])`;
+    return element(by.xpath(xPathLocator));
+  }
+
+  public async makeChange(change: any): Promise<void> {
+    if (change.type === 'edit') {
+      const dataItemString: string = change.dataItem;
+      if (!dataItemString.includes('Indicator')) {
+        throw new Error(`Please check the dataItem value in feature file`);
+      }
+      const rowNumString: string = change.dataItem.replace('Indicator', '');
+      const rowNum = parseInt(rowNumString, 10);
+      if (change.parameter === 'colour') {
+        await this.updateTrainIndicationColourText(rowNum, change.newSetting);
+      }
+      else if (change.parameter === 'toggle') {
+        await this.updateTrainIndicationToggle(rowNum, change.newSetting);
+      }
+      else if (change.parameter === 'value') {
+        const adjustmentString = change.newSetting;
+        const operator = adjustmentString.substr(0, 1);
+        const adjustment = parseInt(adjustmentString.substr(1), 10);
+        let incOrDec = 'increase';
+        if (operator === '-') {
+          incOrDec = 'decrease';
+        }
+        const targetAdjustButton = await this.getValueAdjustButton(rowNum, incOrDec);
+        for (let i = 0; i < adjustment; i++) {
+          await targetAdjustButton.click();
+        }
+      } else {
+        throw new Error(`Please check the parameter value in feature file`);
+      }
+    }
+    else {
+      throw new Error(`Please check the type value in feature file`);
+    }
+  }
 }

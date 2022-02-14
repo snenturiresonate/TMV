@@ -120,4 +120,42 @@ export class TrainsListPunctualityConfigTab {
     return element(by.xpath(xPathLocator));
   }
 
+  public async makeChange(change: any): Promise<void> {
+    // expect change type to be edit - assert this
+    if (change.type === 'edit') {
+      const bandNumString: string = change.dataItem.replace('Band', '');
+      const bandNum = parseInt(bandNumString, 10);
+      if ((change.dataItem === 'fromTime') || (change.dataItem === 'toTime')) {
+        const adjustmentString: string = change.newSetting;
+        const operator = adjustmentString.substr(0, 1);
+        const adjustment = parseInt(adjustmentString.substr(1), 10);
+        let incOrDec = 'increase';
+        if (operator === '-') {
+          incOrDec = 'decrease';
+        }
+        let targetAdjustButton = await this.getPuncAdjustButton(bandNum, 'lower', incOrDec);
+        if (change.dataItem === 'toTime') {
+          targetAdjustButton = await this.getPuncAdjustButton(bandNum, 'upper', incOrDec);
+        }
+        for (let i = 0; i < adjustment; i++) {
+          await targetAdjustButton.click();
+        }
+      }
+      else if (change.dataItem === 'colour') {
+        await this.updatePunctualityColor(bandNum, change.newSetting);
+      }
+      else if (change.dataItem === 'name') {
+        await this.updatePunctualityText(bandNum, change.newSetting);
+      }
+      else if (change.dataItem === 'toggle') {
+        await this.updatePunctualityToggle(bandNum, change.newSetting);
+      }
+      else {
+        throw new Error(`Please check the dataItem value in feature file`);
+      }
+    } else {
+      throw new Error(`Please check the type value in feature file`);
+    }
+  }
+
 }

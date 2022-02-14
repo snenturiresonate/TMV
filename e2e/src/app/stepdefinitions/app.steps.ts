@@ -29,6 +29,7 @@ import {NavBarPageObject} from '../pages/nav-bar.page';
 import {RedisClient} from '../api/redis/redis-client';
 import {TrainUIDUtils} from '../pages/common/utilities/trainUIDUtils';
 import {MapPageObject} from '../pages/maps/map.page';
+import {TrainsListConfigCommonPage} from '../pages/trains-list-config/trains.list.config.common.page';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
@@ -36,6 +37,7 @@ const adminRestClient: AdminRestClient = new AdminRestClient();
 const authPage: AuthenticationModalDialoguePage = new AuthenticationModalDialoguePage();
 const homePage: HomePageObject = new HomePageObject();
 const navBar: NavBarPageObject = new NavBarPageObject();
+const configPage: TrainsListConfigCommonPage = new TrainsListConfigCommonPage();
 
 const userForRole = {
   matching: 'admin',
@@ -522,6 +524,13 @@ Given(/^I am on the replay page as existing user$/, {timeout: 2 * 20000}, async 
 
 Given('I am on the live timetable page with schedule id {string}', async (scheduleId: string) => {
   await page.navigateTo(`tmv/live-timetable/${scheduleId}`);
+});
+
+Then(/^I am on the trains list config (.*) page$/, async (listNum: string) => {
+  const expectedTitle = `Trains List ${listNum} Configuration`;
+  const configTitle = await configPage.getConfigTitle();
+  expect(configTitle, `Tab title is ${configTitle} not ${expectedTitle}`)
+    .to.equal(expectedTitle);
 });
 
 Then('the tab title is {string}', async (expectedTabTitle: string) => {

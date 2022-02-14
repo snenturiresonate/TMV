@@ -129,7 +129,7 @@ When('I click on the launch icon', async () => {
   await navBarPage.clickLaunch();
 });
 
-When('I click on the Resonate Home logo', async () => {
+When('I click on the Network Rail Home logo', async () => {
   await navBarPage.clickHome();
 });
 

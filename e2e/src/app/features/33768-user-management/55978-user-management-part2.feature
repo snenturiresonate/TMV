@@ -18,7 +18,7 @@ Feature: 33768-2: TMV User Management
     #      | Admin|
     #      | Restrictions |
     #      | Schedule Matching|
-    When I access the homepage as <role>
+    When I access the homepage as <role> user
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     * the home icon is displayed
@@ -41,7 +41,7 @@ Feature: 33768-2: TMV User Management
     #    And I have a valid TMV admin role
     #    When I enter a valid username and password combination
     #    Then I am presented with the apps section with the admin icon available
-    When I access the homepage as adminOnly
+    When I access the homepage as adminOnly user
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     Then the app list contains the following apps
@@ -61,7 +61,7 @@ Feature: 33768-2: TMV User Management
     #      | Standard|
     #      | Restrictions |
     #      | Schedule Matching|
-    When I access the homepage as <role>
+    When I access the homepage as <role> user
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     Then the app list does not contain the following apps
@@ -81,7 +81,7 @@ Feature: 33768-2: TMV User Management
     #    And I have a valid TMV role of Standard
     #    When I enter a valid username and password combination
     #    Then I the following are displayed 'Find your map', 'Recent Map', 'All Maps'
-    When I access the homepage as standard
+    When I access the homepage as standard user
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     * the map search box is displayed
@@ -95,7 +95,7 @@ Feature: 33768-2: TMV User Management
     #    And I have a valid TMV role of Standard
     #    When I enter a valid username and password combination
     #    Then I the following are  displayed Trains List, Enquiries, Replay, Log viewer
-    When I access the homepage as standard
+    When I access the homepage as standard user
     Then I am authenticated and see the welcome message
     When I dismiss the welcome message
     Then the app list contains the following apps
