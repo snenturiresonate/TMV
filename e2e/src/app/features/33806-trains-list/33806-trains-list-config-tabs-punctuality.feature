@@ -119,6 +119,9 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
     #When the user views the trains list
     #Then the view is updated to reflect the user's punctuality changes
   Scenario: 33806 -10 Verify if the trains list punctuality config update is reflected in trains list table
+    Given I reset redis
+    And I have cleared out all headcodes
+    And I remove all trains from the trains list
     When I update the trains list punctuality settings as
       | punctualityColorText | fromTime | toTime | entryValue                   | include |
       #End time-bands blanked out
@@ -132,20 +135,25 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
       | #c4d                 | 3        | 5      | 3 to 5 minutes late-edit     | on      |
       | #de7                 | 15       | 20     | 15 to 20 minutes late-edit   | on      |
       | #ff6                 | 21       |        | 21 minutes or more late-edit | on      |
+    And I set up a train that is -8 late at RDNGSTN using access-plan/2P77_RDNGSTN_PADTON.cif TD D1 interpose into 1698 step to 1676
+    And I set up a train that is +2 late at PADTON using access-plan/1B69_PADTON_SWANSEA.cif TD D3 interpose into C007 step to 0037
+    And I set up a train that is +4 late at PADTON using access-plan/1L24_PADTON_RDNGSTN.cif TD D3 interpose into C029 step to 0043
+    And I set up a train that is +10 late at PADTON using access-plan/2F35_PADTON_DIDCOTP.cif TD D3 interpose into C031 step to 0045
+    And I set up a train that is +18 late at SDON using access-plan/2M39_SDON_WSTBRYW.cif TD D7 interpose into A207 step to 1221
     And I save the trains list config
     Then I should see the punctuality colour for the time-bands as
-      | punctualityColor   | fromTime | toTime |
+      | punctualityColor       | fromTime | toTime |
       #End time-bands blanked out
-      | rgb(187, 187, 34)  |          | -21    |
-      | rgb(204, 204, 51)  | -20      | -11    |
-      | rgb(221, 221, 238) | -10      | -5     |
-      | rgb(255, 255, 119) | -4       | -1     |
-      | rgb(170, 170, 204) | 0        | 0      |
-      | rgb(187, 187, 204) | 1        | 5      |
-      #Time-band overlapping with previous
-      | rgb(0, 0, 0)       | 3        | 5      |
-      #Colour for Time-band gap
-      | rgb(0, 0, 0)       | 5        | 15     |
-      | rgb(221, 238, 119) | 15       | 20     |
-      | rgb(255, 255, 102) | 21       |        |
+      | rgba(187, 187, 34, 1)  |          | -21    |
+      | rgba(204, 204, 51, 1)  | -20      | -11    |
+      | rgba(221, 221, 238, 1) | -10      | -5     |
+      | rgba(255, 255, 119, 1) | -4       | -1     |
+      | rgba(170, 170, 204, 1) | 0        | 0      |
+      | rgba(187, 187, 204, 1) | 1        | 3      |
+      #Time-band overlapping with previous should be white
+      | rgba(255, 255, 255, 1) | 3        | 5      |
+      #Colour for Time-band gap should be white
+      | rgba(255, 255, 255, 1) | 5        | 15     |
+      | rgba(221, 238, 119, 1) | 15       | 20     |
+      | rgba(255, 255, 102, 1) | 21       |        |
     And I restore to default train list config '1'

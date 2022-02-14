@@ -64,8 +64,8 @@ When('I update the trains list punctuality settings as', {timeout: 8 * 5000}, as
   for (let i = 0; i < table.hashes().length; i++) {
     const updatePunctualityColors = await trainsListPunctuality.updatePunctualityColor(i, updateValues[i].punctualityColorText);
     const updatePunctualityEntries = await trainsListPunctuality.updatePunctualityText(i, updateValues[i].entryValue);
-    const updateFromPunctualityTime = await trainsListPunctuality.updatePunctualityFromTime(i, updateValues[i].fromTime);
-    const updateToPunctualityTime = await trainsListPunctuality.updatePunctualityToTime(i, updateValues[i].toTime);
+    const updateFromPunctualityTime = await trainsListPunctuality.updatePunctualityTime(i, updateValues[i].fromTime, 'fromTime');
+    const updateToPunctualityTime = await trainsListPunctuality.updatePunctualityTime(i, updateValues[i].toTime, 'toTime');
     const updateToPunctualityToggle = await trainsListPunctuality.updatePunctualityToggle(i, updateValues[i].include);
 
     results.push(updatePunctualityColors);

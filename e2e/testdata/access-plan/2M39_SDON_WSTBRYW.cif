@@ -1,0 +1,13 @@
+HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
+BSNL787291912152405101111111 POO2M39    125485001 DMUE   090      S            P
+BX         GWY                                                                  
+LOSDON    1733 17332         TB                                                 
+LIWTNBSTJ           1739H00000000                                               
+LICHIPNHM 1747H1748H     174817481        T                                     
+LITHNGLEJ           1751 00000000                                               
+LITHNGLYJ           1752 00000000                                               
+LIMELKSHM 1757 1758      17571758         T                                     
+LIBRDFDJN           1804 00000000                                               
+LITRWBRDG 1806H1807H     18071807         T           1                         
+LTWSTBRYW 1814 18152     TF                                                     
+ZZ                                                                              

@@ -65,6 +65,24 @@ export class TrainsListPunctualityConfigTab {
   public async updatePunctualityToTime(index: number, updateFrmTime: string): Promise<void> {
     return InputBox.updateNumberInputByCss(this.punctualityToTimeCssText(index), updateFrmTime);
   }
+  public async updatePunctualityTime(index: number, updateTime: string, fromOrTo: string): Promise<void> {
+    if (updateTime !== '') {
+      let currentTime = await this.getPunctualityFromTime(index);
+      if (fromOrTo === 'toTime') {
+        currentTime = await this.getPunctualityToTime(index);
+      }
+      const currentTimeVal = parseInt(currentTime, 10);
+      const newTimeVal = parseInt(updateTime, 10);
+      let targetAdjustButton = await this.getPuncAdjustButton(index + 1, fromOrTo, 'decrease');
+      const adjustment = Math.abs(newTimeVal - currentTimeVal);
+      if (newTimeVal > currentTimeVal) {
+        targetAdjustButton = await this.getPuncAdjustButton(index + 1, fromOrTo, 'increase');
+      }
+      for (let i = 0; i < adjustment; i++) {
+        await targetAdjustButton.click();
+      }
+    }
+  }
   public async setTrainDisplayNameText(id: string, displayText: string): Promise<void> {
       await InputBox.updateInputBox(element(by.id(id)), displayText);
   }
@@ -88,4 +106,18 @@ export class TrainsListPunctualityConfigTab {
   private punctualityToTimeCssText(index: number): string {
     return `#punctuality-to-time-${index}`;
   }
+
+  public async getPuncAdjustButton(bandNum: number, upperOrLower: string, incOrDec: string): Promise<ElementFinder> {
+    let operator = '+';
+    let buttonNum = 1;
+    if (incOrDec === 'decrease') {
+      operator = '-';
+    }
+    if (upperOrLower === 'toTime') {
+      buttonNum = 2;
+    }
+    const xPathLocator = `(//*[@id=\'punctualityConfiguation\']//div[contains(@class,\'col-grid\')][${bandNum}]//button[contains(.,\'${operator}\')])[${buttonNum}]`;
+    return element(by.xpath(xPathLocator));
+  }
+
 }

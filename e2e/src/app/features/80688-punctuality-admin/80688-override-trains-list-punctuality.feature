@@ -134,9 +134,10 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
     Given I have not already authenticated
     And I access the homepage as <roleType>
     And I restore to default train list config '1'
+    And I restore to default train list config '2'
     And I am on the trains list page 1
     And I set up a train that is <lateness1> late at RDNGSTN using access-plan/2P77_RDNGSTN_PADTON.cif TD D1 interpose into 1698 step to 1676
-    And I set up a train that is <lateness2> late at PADTON using access-plan/1B69_PADTON_SWANSEA.cif TD D3 interpose into C007 step to 0039
+    And I set up a train that is <lateness2> late at PADTON using access-plan/1B69_PADTON_SWANSEA.cif TD D3 interpose into C007 step to 0037
     And I set up a train that is <lateness3> late at PADTON using access-plan/1L24_PADTON_RDNGSTN.cif TD D3 interpose into C029 step to 0043
     And I set up a train that is <lateness4> late at PADTON using access-plan/2F35_PADTON_DIDCOTP.cif TD D3 interpose into C031 step to 0045
     And I have navigated to the 'Punctuality' configuration tab
@@ -211,6 +212,7 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
 
     # clean up
     And I restore to default train list config '1'
+    And I restore to default train list config '2'
     * I logout
     And I am on the admin page
     And The admin setting defaults are as originally shipped
