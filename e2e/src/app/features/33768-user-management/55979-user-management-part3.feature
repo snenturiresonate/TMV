@@ -153,9 +153,6 @@ Feature: 33768-3: TMV User Management
       | matchType | roleType    | trainDescription1 | planningUid1 | trainDescriber | toBerth | trainDescription2 | planningUid2 |
       | Matched   | restriction | generated         | generated    | D1             | 1698    | generated         | generated    |
       | Matched   | standard    | generated         | generated    | D1             | 1698    | generated         | generated    |
-#@bug @bug85252
-#      | Unmatched | restriction | generated         | generated    | D1             | 1777    | 2V46              | E28495       |
-#      | Unmatched | standard    | generated         | generated    | D1             | 1777    | 2V46              | E28495       |
 
   Scenario Outline: 16b Displaying matching for user without Schedule Matching Role - map
     * I reset redis
