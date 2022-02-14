@@ -57,7 +57,7 @@ Then(/^the (berth|timetable|signalling) log results from row (\d+) are$/, async 
   await compareLogResults(tab, start, table);
 });
 
-Then(/^the movement logs (berth|timetable) tab search error message is shown (.*)$/, async (tab: string, expected: string) => {
+Then(/^the movement logs (berth|timetable|signalling) tab search error message is shown (.*)$/, async (tab: string, expected: string) => {
   const actual = await logsPage.getSearchError(tab);
   expect(actual, `Expected ${expected} but was ${actual}`).to.equal(expected);
 

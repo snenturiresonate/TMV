@@ -23,6 +23,15 @@ export class LogsPage {
     await CheckBox.updateCheckBox(checkBoxElement, value);
   }
 
+  private static async setTimePicker(divIdStarter: string, fieldName: string, value: any): Promise<void> {
+    const timePicker: ElementFinder = element(by.css(`div[id*=${divIdStarter}] app-time-picker[formcontrolname=${fieldName}] input[id = timePicker]`));
+    const trimmedValue = value.trim();
+    if (!(!value || trimmedValue.length === 0)) {   // if not blank
+      await InputBox.ctrlADeleteClear(timePicker);
+      await InputBox.updateInputBoxAndTabOut(timePicker, trimmedValue);
+    }
+  }
+
   constructor() {
     this.logTabs = element.all(by.css('.tmv-tabs-vertical li span'));
   }
@@ -44,6 +53,8 @@ export class LogsPage {
     for (const [field, value] of Object.entries(criteria)) {
       if (value === 'checked' || value === 'unchecked') {
         await LogsPage.setCheckBox(divIdStarter, field, value);
+      } else if (field === 'startTime' || field === 'endTime') {
+        await LogsPage.setTimePicker(divIdStarter, field, value);
       } else {
         await LogsPage.setSearchField(divIdStarter, field, value);
       }

@@ -16,6 +16,15 @@ export class InputBox {
   }
 
   /**
+   * Updates an input box when the locator and update text are passed in and then sends tab character to tab out
+   * Input: Location of <input> tag, Text to input
+   */
+  public static async updateInputBoxAndTabOut(elm: ElementFinder, text: string): Promise<void> {
+    await InputBox.updateInputBox(elm, text);
+    await elm.sendKeys(protractor.Key.TAB);
+  }
+
+  /**
    * Updates an input box of type number (ones with increment and decrement arrows) when the 'id' and update text are passed in.
    * Input: Id attribute of <input> tag, Text to input
    */
