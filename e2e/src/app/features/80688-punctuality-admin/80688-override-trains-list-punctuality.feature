@@ -28,7 +28,7 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
 
     Given The admin setting defaults are as in <settingsFile>
     And I have not already authenticated
-    And I access the homepage as <roleType>
+    And I access the homepage as <roleType> user
     And I restore to default train list config '1'
     And I am on the trains list page 1
     And I have navigated to the 'Punctuality' configuration tab
@@ -58,7 +58,7 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
   Scenario Outline: 81204-2 - Update to Admin punctuality settings overwrites existing trains list settings - colour, text, boundary changes, different number of timebands
 
     Given I have not already authenticated
-    And I access the homepage as <roleType>
+    And I access the homepage as <roleType> user
     And I restore to default train list config '<trainslistNum>'
     And I am on the trains list page <trainslistNum>
     And I have navigated to the 'Punctuality' configuration tab
@@ -94,7 +94,7 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
     And I am on the admin page
     And The admin setting defaults are as in <settingsFile>
     And I logout
-    When I access the homepage as <roleType>
+    When I access the homepage as <roleType> user
     And I am on the trains list page <trainslistNum>
     Then I should see the punctuality colour for the time-bands as
       | punctualityColor       | fromTime | toTime |
@@ -124,15 +124,15 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
     * I logout
 
     Examples:
-      | settingsFile              | roleType         | trainslistNum | lateness1 | lateness2 | lateness3 | lateness4 | hex1_def | hex2_def | hex3_def | hex4_def | hex1_new | hex2_new | hex3_new | hex4_new |
-      | edited-punc-settings.json | standard         | 1             | +4        | +18       | -12       | -1        | #ffff00  | #ff0000  | #e5b4ff  | #78ff78  | #d0ff00  | #9c3373  | #6bbdcf  | #afeb67  |
-      | edited-punc-settings.json | restriction      | 2             | +0        | +2        | +28       | -7        | #00ff00  | #ffff00  | #ff009c  | #78e7ff  | #afeb67  | #d0ff00  | #9c3373  | #6bbdcf  |
-      | edited-punc-settings.json | schedulematching | 3             | -16       | -30       | +1        | +9        | #e5b4ff  | #ffb4b4  | #ffff00  | #ffa700  | #365f87  | #c253fc  | #d0ff00  | #dbb109  |
+      | settingsFile              | roleType         | trainslistNum | lateness1 | lateness2 | lateness3 | lateness4 |
+      | edited-punc-settings.json | standard         | 1             | +4        | +18       | -12       | -1        |
+      | edited-punc-settings.json | restriction      | 2             | +0        | +2        | +28       | -7        |
+      | edited-punc-settings.json | schedulematching | 3             | -16       | -30       | +1        | +9        |
 
   Scenario Outline: 81204-3 - Non-punctuality update to Admin punctuality settings leaves user trains list settings untouched
 
     Given I have not already authenticated
-    And I access the homepage as <roleType>
+    And I access the homepage as <roleType> user
     And I restore to default train list config '1'
     And I restore to default train list config '2'
     And I am on the trains list page 1
@@ -169,7 +169,7 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
     And I am on the admin page
     And The admin setting defaults are as in <settingsFile>
     And I logout
-    When I access the homepage as <roleType>
+    When I access the homepage as <roleType> user
     And I am on the trains list page 1
     Then I should see the punctuality colour for the time-bands as
       | punctualityColor       | fromTime | toTime |
@@ -234,7 +234,7 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
     * I have not already authenticated
 
     # Setup a service that is over 20 minutes early
-    Given I access the homepage as <roleType>
+    Given I access the homepage as <roleType> user
     And the train in CIF file below is updated accordingly so time at the reference point is now + '25' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription>  | <planningUID>  |
@@ -271,7 +271,7 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
 
     # Check that the updated settings are reflected upon the map's punctuality
     * I have not already authenticated
-    And I access the homepage as <roleType>
+    And I access the homepage as <roleType> user
     And I am viewing the map HDGW01paddington.v
     Then the train headcode color for berth 'D3A007' has hex value '<updatedColour>'
 
