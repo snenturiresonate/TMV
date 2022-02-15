@@ -1,10 +1,9 @@
 import {Then, When} from 'cucumber';
 import { expect } from 'chai';
 import {TrainsListPunctualityConfigTab} from '../../pages/trains-list-config/trains.list.punctuality.config.tab';
-import {by, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
+import {ElementArrayFinder, protractor} from 'protractor';
 import {TrainsListTableColumnsPage} from '../../pages/trains-list/trains-list.tablecolumns.page';
 import {CheckBox} from '../../pages/common/ui-element-handlers/checkBox';
-import {InputBox} from '../../pages/common/ui-element-handlers/inputBox';
 
 const trainsListPunctuality: TrainsListPunctualityConfigTab = new TrainsListPunctualityConfigTab();
 const trainsListTable: TrainsListTableColumnsPage = new TrainsListTableColumnsPage();
@@ -117,4 +116,9 @@ Then('I should see the punctuality colour for the time-bands as', async (table: 
   }
   expect(trainsTested, `No trains tested`).greaterThan(0);
   return protractor.promise.all(results);
+});
+
+Then(/^the trains list number controls for the punctuality bands are clear$/, async () => {
+  const punctualityAdjustmentsAvailable: boolean = await trainsListPunctuality.arePunctualityAdjustmentsAvailable();
+  expect(punctualityAdjustmentsAvailable, 'Number controls for trains list punctuality bands are not available').to.equal(true);
 });

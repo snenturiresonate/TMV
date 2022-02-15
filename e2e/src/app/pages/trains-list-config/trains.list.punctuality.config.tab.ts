@@ -2,7 +2,6 @@ import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {InputBox} from '../common/ui-element-handlers/inputBox';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {CheckBox} from '../common/ui-element-handlers/checkBox';
-import {of} from 'rxjs';
 
 export class TrainsListPunctualityConfigTab {
   public punctualityHeader: ElementFinder;
@@ -12,6 +11,8 @@ export class TrainsListPunctualityConfigTab {
   public toTime: ElementFinder;
   public punctualityColourPicker: ElementFinder;
   public punctualityToggle: ElementArrayFinder;
+  public incrementButtons: ElementArrayFinder;
+  public decrementButtons: ElementArrayFinder;
   constructor() {
     this.punctualityHeader = element(by.css('#punctualityConfiguation .punctuality-header'));
     this.punctualityColor = element.all(by.css('#punctualityConfiguation [class=punctuality-colour][style]'));
@@ -20,6 +21,8 @@ export class TrainsListPunctualityConfigTab {
     this.toTime = element.all(by.css('section-name')).get(2).element(by.css('input'));
     this.punctualityColourPicker = element(by.css('div.color-picker.open .hex-text input'));
     this.punctualityToggle = element.all(by.css('#punctualityConfiguation app-toggle-menu label'));
+    this.incrementButtons = element.all(by.css('.plus'));
+    this.decrementButtons = element.all(by.css('.minus'));
   }
   public async getTrainPunctualityHeader(): Promise<string> {
     return CommonActions.waitAndGetText(this.punctualityHeader);
@@ -155,4 +158,9 @@ export class TrainsListPunctualityConfigTab {
     }
   }
 
+  public async arePunctualityAdjustmentsAvailable(): Promise<boolean> {
+    const numIncrementButtons = await this.incrementButtons.count();
+    const numDecrementButtons = await this.decrementButtons.count();
+    return ((numDecrementButtons > 0) && (numIncrementButtons > 0));
+  }
 }
