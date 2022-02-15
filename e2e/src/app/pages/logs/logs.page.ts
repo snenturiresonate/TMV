@@ -63,6 +63,20 @@ export class LogsPage {
     return searchButton.click();
   }
 
+  public async exportMultipleFields(tabName: string, criteria: any): Promise<void> {
+    await CommonActions.scrollToTopOfWindow();
+    const divIdStarter = LogsPage.getDivIdStarter(tabName);
+    for (const [field, value] of Object.entries(criteria)) {
+      if (value === 'checked' || value === 'unchecked') {
+        await LogsPage.setCheckBox(divIdStarter, field, value);
+      } else {
+        await LogsPage.setSearchField(divIdStarter, field, value);
+      }
+    }
+    const submitButton: ElementFinder = element(by.xpath('//*[@id="signalling-logs-form-export"]'));
+    return submitButton.click();
+  }
+
   public async getLogResultsTableColumnName(pos: number): Promise<string> {
     const colNames: ElementArrayFinder =  element.all(by.css('.tmv-tab-content-active th'));
     return colNames.get(pos).getText();

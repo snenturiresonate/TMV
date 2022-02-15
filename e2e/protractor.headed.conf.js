@@ -5,6 +5,9 @@
 /**
  * @type { import("protractor").Config }
  */
+const path = require('path');
+const downloadsPath = path.resolve(__dirname, 'downloads');
+
 exports.config = {
   allScriptsTimeout: 11000,
   params: {
@@ -19,7 +22,8 @@ exports.config = {
     trainslist_redis_host: 'redis-trainslist',
     general_timeout: 60 * 1000,
     replay_timeout: 20 * 1000,
-    quick_timeout: 10 * 1000
+    quick_timeout: 10 * 1000,
+    downloads_path: downloadsPath
   },
   specs: [
     './src/**/features/**/*.feature'
@@ -27,7 +31,13 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      args: [ "--disable-gpu", "--window-size=1980,1080" ]
+      args: [ "--disable-gpu", "--window-size=1980,1080" ],
+      prefs: {
+        download: {
+          'prompt_for_download': false,
+          'default_directory': downloadsPath
+        }
+      }
     }
   },
   suites: {

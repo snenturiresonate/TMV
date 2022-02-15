@@ -6,6 +6,12 @@ import * as chaiDateTime from 'chai-datetime';
 import {expect} from 'chai';
 import {browser} from 'protractor';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
+import {GeneralUtils} from '../../pages/common/utilities/generalUtils';
+import * as fs from 'fs';
+import {TokenUtils} from '../../pages/common/utilities/TokenUtils';
+import extract = require('extract-zip');
+
+const readline = require('readline');
 
 const logsPage: LogsPage = new LogsPage();
 
@@ -15,16 +21,16 @@ When(/^I navigate to the (Timetable|Movement|Signalling) log tab$/, async (tabId
 
 When(/^I search for (Timetable|Berth|Signalling) logs for (trainDescription|planningUid|fromBerthId|toBerthId|trainDescriber|fromToBerthId|signallingId) '(.*)'$/,
   async (tab: string, field: string, val: string) => {
-  if ((val === 'generated') && (field === 'trainDescription' || field === 'planningUid')) {
-    if (field === 'trainDescription') {
-      val = browser.referenceTrainDescription;
+    if ((val === 'generated') && (field === 'trainDescription' || field === 'planningUid')) {
+      if (field === 'trainDescription') {
+        val = browser.referenceTrainDescription;
+      }
+      if (field === 'planningUid') {
+        val = browser.referenceTrainUid;
+      }
     }
-    if (field === 'planningUid') {
-      val = browser.referenceTrainUid;
-    }
-  }
-  await logsPage.searchSingleField(tab, field, val);
-});
+    await logsPage.searchSingleField(tab, field, val);
+  });
 
 When(/^I search for (Timetable|Berth|Signalling) logs with$/,
   async (tab: string, table: any) => {
@@ -36,6 +42,18 @@ When(/^I search for (Timetable|Berth|Signalling) logs with$/,
       criteria.planningUid = browser.referenceTrainUid;
     }
     await logsPage.searchMultipleFields(tab, criteria);
+  });
+
+When(/^I export for (Timetable|Berth|Signalling) logs with$/,
+  async (tab: string, table: any) => {
+    const criteria = table.hashes()[0];
+    if (criteria.trainDescription === 'generated') {
+      criteria.trainDescription = browser.referenceTrainDescription;
+    }
+    if (criteria.planningUid === 'generated') {
+      criteria.planningUid = browser.referenceTrainUid;
+    }
+    await logsPage.exportMultipleFields(tab, criteria);
   });
 
 Then('the log results table has columns in the following order', async (tabNameDataTable: any) => {
@@ -63,33 +81,82 @@ Then(/^the movement logs (berth|timetable|signalling) tab search error message i
 
 });
 
-Then(/^the log results for row '(\d+)' displays '(.*)' and punctuality '(.*)'$/,
-  async (row: number, trainNum: string, expectedPunctuality: string) => {
-  const actualValues = await logsPage.getMovementLogResultsValuesForRow('berth', row);
-  if (trainNum.includes('generated')) {
-    trainNum = browser.referenceTrainDescription;
-  }
-  compareLogResultField(actualValues[0], trainNum);
-  if (expectedPunctuality === 'null') {
-    compareLogResultField(actualValues[5], '');
+Then(/^the downloads folder is empty$/, async () => {
+  if (!fs.existsSync(browser.params.downloads_path)) {
+    fs.mkdirSync(browser.params.downloads_path, {recursive: true});
   }
 
-  if (expectedPunctuality === '0') {
-    const expectedTime: Date = await DateAndTimeUtils.formulateTime('00:00:00');
-    const actualTime = await DateAndTimeUtils.formulateTime(actualValues[5].replace('-', ''));
-    return expect(actualTime, `replay playback speed is not as expected`)
-      .to.be.closeToTime(expectedTime, 60);
-  }
-
-  if (expectedPunctuality === '+' || expectedPunctuality === '-'){
-    const colon = /:/gi;
-    const actualPunctuality = actualValues[5].replace('+', '')
-      .replace('-', '')
-      .replace(colon, '');
-    expect(actualValues[5], `Expected ${expectedPunctuality} but was ${actualValues[5]}`).to.contain(expectedPunctuality);
-    expect(parseInt(actualPunctuality, 10), `Expected ${expectedPunctuality} but was ${actualValues[5]}`).to.greaterThan(1);
+  for (const filePath of fs.readdirSync(browser.params.downloads_path)) {
+    fs.unlinkSync(browser.params.downloads_path + '/' + filePath);
   }
 });
+
+
+Then(/^allow (.*) milliseconds to pass$/, async (milliseconds: number) => {
+  await new Promise((resolve => {
+    setTimeout(resolve, milliseconds);
+  }));
+});
+
+Then(/^the zip, with the name of '(.*)' and a filename of '(.*)', contains the following csv logs$/,
+  async (rawZipFilename: string, rawCsvFileName: string, dataTable: any) => {
+    const zipFilename: string = TokenUtils.process(rawZipFilename);
+    const zipFilePAth = browser.params.downloads_path + '/' + zipFilename;
+
+    const csvFilename = TokenUtils.process(rawCsvFileName);
+    const csvFilePath = browser.params.downloads_path + '/' + csvFilename;
+
+    expect(fs.existsSync(zipFilePAth)).is.true;
+
+    await extract(zipFilePAth, {dir: browser.params.downloads_path});
+
+    const expectedCsvRows = [];
+    const actualCsvRows = [];
+
+    dataTable.rawTable.forEach(dataTableRow => {
+      expectedCsvRows.push(TokenUtils.process(dataTableRow.join(',')));
+    });
+
+    const readLines = readline.createInterface({
+      input: fs.createReadStream(csvFilePath),
+      crlfDelay: Infinity
+    });
+
+    for await (const line of readLines) {
+      actualCsvRows.push(line);
+    }
+
+    expect(actualCsvRows).to.have.length(expectedCsvRows.length);
+    expect(actualCsvRows).to.have.members(expectedCsvRows);
+  });
+
+Then(/^the log results for row '(\d+)' displays '(.*)' and punctuality '(.*)'$/,
+  async (row: number, trainNum: string, expectedPunctuality: string) => {
+    const actualValues = await logsPage.getMovementLogResultsValuesForRow('berth', row);
+    if (trainNum.includes('generated')) {
+      trainNum = browser.referenceTrainDescription;
+    }
+    compareLogResultField(actualValues[0], trainNum);
+    if (expectedPunctuality === 'null') {
+      compareLogResultField(actualValues[5], '');
+    }
+
+    if (expectedPunctuality === '0') {
+      const expectedTime: Date = await DateAndTimeUtils.formulateTime('00:00:00');
+      const actualTime = await DateAndTimeUtils.formulateTime(actualValues[5].replace('-', ''));
+      return expect(actualTime, `replay playback speed is not as expected`)
+        .to.be.closeToTime(expectedTime, 60);
+    }
+
+    if (expectedPunctuality === '+' || expectedPunctuality === '-') {
+      const colon = /:/gi;
+      const actualPunctuality = actualValues[5].replace('+', '')
+        .replace('-', '')
+        .replace(colon, '');
+      expect(actualValues[5], `Expected ${expectedPunctuality} but was ${actualValues[5]}`).to.contain(expectedPunctuality);
+      expect(parseInt(actualPunctuality, 10), `Expected ${expectedPunctuality} but was ${actualValues[5]}`).to.greaterThan(1);
+    }
+  });
 
 Then(/^there (?:is|are) (\d+) rows? returned in the log results$/, async (expectedRowCount: number) => {
   const numRows = await logsPage.getLogRowCount();

@@ -41,7 +41,8 @@
     "tslib": "2.0.0",
     "xml-js": "1.6.11",
     "xmlbuilder2": "2.4.0",
-    "zone.js": "0.10.3"
+    "zone.js": "0.10.3",
+    "extract-zip": "2.0.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.1102.5",

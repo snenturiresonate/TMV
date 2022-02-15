@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import {DateTimeFormatter, LocalDate, LocalDateTime, LocalTime, ZoneId} from '@js-joda/core';
+import {DateTimeFormatter, LocalDate, LocalDateTime, LocalTime, ZonedDateTime, ZoneId} from '@js-joda/core';
 
 export class DateAndTimeUtils {
 
