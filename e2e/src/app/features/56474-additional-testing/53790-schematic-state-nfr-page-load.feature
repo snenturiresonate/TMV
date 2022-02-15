@@ -11,6 +11,7 @@ Feature: 53790 - Schematic State - NFR Testing (Page load)
     * I reset the stopwatch
 
   Scenario Outline: 34081 - 34 Opening a map (response time)
+    #
     # Given a user is authorised
     # When a user selects to opens a new map
     # Then then the map is displayed within 1 second
