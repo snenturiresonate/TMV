@@ -64,19 +64,17 @@ Feature: 78852 - Trains Menu Consistency
       | planningUid | trainNum  |
       | generated   | 1A86      |
 
+  @bug @bug:86682
   Scenario Outline: 83105-2 - Trains Menu Consistency - No Timetable | Find Train | Match
-    Given I remove all trains from the trains list
-    And the following train running info message with time is sent from LINX
-      | trainUID | trainNumber | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           | timeInfo |
-      | L55292   | <trainNum>  | today              | 85621               | CBORRXO                | Departure from Origin | 20:55    |
-    And I am on the trains list page 1
-    And I save the trains list config
-    And The trains list table is visible
-    And train description '<trainNum>' is visible on the trains list with schedule type ''
-    When I invoke the context menu for todays train '<trainNum>' schedule uid 'UNPLANNED' from the trains list
-    And I wait for the trains list context menu to display
-    And the trains list context menu is displayed
-    Then the trains list context menu contains 'No Timetable' on line 2
+    * I generate a new train description
+    Given I am viewing the map HDGW04bristolparkway.v
+    And the following live berth interpose message is sent from LINX (which won't match anything)
+      | toBerth | trainDescriber | trainDescription   |
+      | 1168    | D7             | <trainDescription> |
+    And berth '1168' in train describer 'D7' contains '<trainDescription>' and is visible
+    And 'no' toggle is displayed in the title bar
+    When I invoke the context menu on the map for train <trainDescription>>
+    Then the map context menu contains 'No Timetable' on line 2
     * the trains list context menu on line 2 has text colour 'blue'
     * the trains list context menu on line 2 has text underline 'none'
     When I hover over the trains list context menu on line 2
@@ -96,7 +94,7 @@ Feature: 78852 - Trains Menu Consistency
     * the trains list context menu on line 4 has text underline 'underline'
 
     Examples:
-      | trainNum  |
-      | 1A86      |
+      | trainDescription |
+      | generated        |
 
 

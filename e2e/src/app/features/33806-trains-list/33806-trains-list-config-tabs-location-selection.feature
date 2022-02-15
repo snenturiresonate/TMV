@@ -56,7 +56,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
     And I click the first suggested location
     Then the following can be seen on the location order type table
       | locationNameValue | Originate | Stop       | Pass    | Terminate |
-      | Aberdare (ABDARE) | Checked   | un-Checked | checked | unchecked |
+      | ABDARE            | Checked   | un-Checked | checked | unchecked |
     And I should see the following stop types in the given order within each location
       | stopTypes |
       | Originate |
@@ -100,11 +100,11 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
     And I remove the location 'Oxford'
     Then the following can be seen on the location order type table
       | locationNameValue          | Originate  | Stop       | Pass       | Terminate  |
-      | Slough (SLOUGH)            | Checked    | un-Checked | checked    | unchecked  |
-      | London Paddington (PADTON) | Checked    | un-checked | un-checked | un-checked |
-      | Swindon (SDON)             | un-checked | Checked    | un-checked | un-checked |
-      | Reading Lane Jn (RDGLNJ)   | un-checked | checked    | checked    | un-checked |
-      | Peterborough (PBRO)        | un-checked | checked    | unchecked  | checked    |
+      | SLOUGH                     | Checked    | un-Checked | checked    | unchecked  |
+      | PADTON                     | Checked    | un-checked | un-checked | un-checked |
+      | SDON                       | un-checked | Checked    | un-checked | un-checked |
+      | RDGLNJ                     | un-checked | checked    | checked    | un-checked |
+      | PBRO                       | un-checked | checked    | unchecked  | checked    |
 
 #33806 -18 Trains List Config (Location Applied)
   #Given the user has made changes to the trains list Location selection
@@ -118,7 +118,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
     And I have navigated to the 'Locations' configuration tab
     Then the following can be seen on the location order type table
       | locationNameValue   | Originate | Stop       | Pass       | Terminate  |
-      | Paddington (PADTON) | Checked   | un-checked | un-checked | un-checked |
+      | PADTON              | Checked   | un-checked | un-checked | un-checked |
 
 
   Scenario Outline: 33806 -18 Trains list config for location types - <testType> test - Stop type '<stopType>'

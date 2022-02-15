@@ -51,7 +51,7 @@ public trainIndicationTabHeader: ElementFinder;
       const rowNumString: string = change.dataItem.replace('Indicator', '');
       const rowNum = parseInt(rowNumString, 10);
       if (change.parameter === 'colour') {
-        await this.updateTrainIndicationColourText(rowNum, change.newSetting);
+        await this.updateTrainIndicationColourText(rowNum - 1, change.newSetting);
       }
       else if (change.parameter === 'toggle') {
         await this.updateTrainIndicationToggle(rowNum, change.newSetting);
