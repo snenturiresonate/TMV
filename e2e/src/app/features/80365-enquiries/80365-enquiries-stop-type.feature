@@ -54,7 +54,6 @@ Feature: 80365 - TMV Enquiries
       | trainDescription          | planningUid       |
       | generatedTrainDescription | generatedTrainUId |
 
-  @Mat
   Scenario Outline: 81201-3 - TMV Enquiries Criteria Display - all stop types with start/end times *before* the Paddington train - no results expected
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '1' minute, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |

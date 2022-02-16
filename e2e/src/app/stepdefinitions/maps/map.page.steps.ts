@@ -848,6 +848,12 @@ When(/^I toggle path (?:on|off) from the map context menu$/, async () => {
 });
 
 Then('the map context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
+  if (expectedText === 'generatedTrainUId') {
+    expectedText = browser.referenceTrainUid;
+  }
+  if (expectedText.includes('generated')) {
+    expectedText = browser.referenceTrainDescription;
+  }
   const actualContextMenuItem: string = await CommonActions.waitAndGetText(mapPageObject.mapContextMenuItems.get(rowNum - 1));
   expect(actualContextMenuItem.toLowerCase(), `Map menu item not as expected`).to.contain(expectedText.toLowerCase());
 });
