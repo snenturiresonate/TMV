@@ -122,5 +122,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     And I have navigated to the 'Nominated Services' configuration tab
     Then the train ID input box is not disabled
     When I add 50 TRUST IDs to the filter list
+    And I give the list 1 second to stabilize
     Then the TRUST ID table contains 50 IDs
     And the train ID input box is disabled

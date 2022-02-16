@@ -17,6 +17,8 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Timetable Primary Cli
     * I generate a new trainUID
     * I generate a new train description
     * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I am on the home page
+    * I restore to default train list config '1'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -28,8 +30,6 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Timetable Primary Cli
       | fromBerth | toBerth | trainDescriber | trainDescription   |
       | 1668      | 1664    | D1             | <trainDescription> |
     And I am on the trains list page 1
-    And I restore to default train list config '1'
-    And I refresh the browser
     And I save the trains list config
     And The trains list table is visible
     And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list

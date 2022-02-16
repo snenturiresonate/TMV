@@ -14,8 +14,9 @@ Feature: 80183 - TMV Trains List Filtering - Config - Class Validation
   #    * Change the Class config so that the user must select at least one
 
   Background:
-    Given I am on the trains list page 1
+    Given I am on the home page
     And I restore to default train list config '1'
+    And I am on the trains list page 1
     And I have navigated to the 'Train Class & MISC' configuration tab
 
   Scenario: 80344-1 - warning message is produced if the user selects no classes
