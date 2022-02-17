@@ -122,3 +122,7 @@ Then(/^the trains list number controls for the punctuality bands are clear$/, as
   const punctualityAdjustmentsAvailable: boolean = await trainsListPunctuality.arePunctualityAdjustmentsAvailable();
   expect(punctualityAdjustmentsAvailable, 'Number controls for trains list punctuality bands are not available').to.equal(true);
 });
+
+When('I toggle the include or exclude all punctualities to {string}', async (toggleState: string) => {
+  await trainsListPunctuality.toggleIncludeExcludeAll(toggleState);
+});

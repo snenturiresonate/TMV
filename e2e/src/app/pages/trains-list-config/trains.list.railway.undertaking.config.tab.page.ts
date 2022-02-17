@@ -1,10 +1,11 @@
-import {by, element, ElementFinder} from 'protractor';
+import {browser, by, element, ElementFinder} from 'protractor';
 import {TrainsListConfigMultiSelectListPageObject} from './trains.list.config.multi.select.list.page';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 
 export class TrainsListRailwayUndertakingConfigTabPageObject extends TrainsListConfigMultiSelectListPageObject {
   public tocFocTabTitle: ElementFinder;
+  public tocFocClearAllButton: ElementFinder;
   constructor() {
     super(
       element.all(by.css('.tmv-tabs >ul>li')),
@@ -16,8 +17,13 @@ export class TrainsListRailwayUndertakingConfigTabPageObject extends TrainsListC
       element.all(by.css('#railwayUndertakingConfiguation >div >div:nth-child(4) div[class*=section-name]>span:nth-child(1)'))
     );
     this.tocFocTabTitle = element(by.css('#railwayUndertakingConfiguation .punctuality-header'));
+    this.tocFocClearAllButton = element(by.id('clearAllTLRailwayUndertakingConfig'));
   }
   public getTocFocTabTitle(): Promise<string> {
     return CommonActions.waitAndGetText(this.tocFocTabTitle);
+  }
+
+  public clickTocFocClearAllButton(): Promise<void> {
+    return CommonActions.waitAndClick(this.tocFocClearAllButton);
   }
 }

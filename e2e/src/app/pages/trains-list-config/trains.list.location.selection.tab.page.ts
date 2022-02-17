@@ -22,6 +22,7 @@ export class TrainsListLocationSelectionTab {
     public locationTableRow: ElementArrayFinder;
     public locationTableArrows: ElementArrayFinder;
     public locationRemoveIcon: ElementArrayFinder;
+    public clearAllButton: ElementFinder;
     constructor() {
         this.locationSearchBox = element(by.id('map-search-box'));
         this.locationSuggestSearchResultList = element(by.id('searchResults'));
@@ -40,6 +41,7 @@ export class TrainsListLocationSelectionTab {
         this.locationTableRow = element.all(by.css('#location-selection-table tr'));
         this.locationTableArrows = element.all(by.cssContainingText('#location-selection-table tr span.material-icons', 'keyboard_arrow'));
         this.locationRemoveIcon = element.all(by.cssContainingText('#location-selection-table span.material-icons', `cancel`));
+        this.clearAllButton = element(by.id('clearAllTLLocationConfig'));
     }
 
     public async getLocationSearchBoxText(): Promise<string> {
@@ -206,6 +208,10 @@ export class TrainsListLocationSelectionTab {
       default:
         throw new Error(`Please check the type value in feature file`);
      }
+  }
+
+  public async clickClearAllButton(): Promise<void> {
+      return CommonActions.waitAndClick(this.clearAllButton);
   }
 }
 

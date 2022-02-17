@@ -95,3 +95,12 @@ When('I set toc filters to be {string}', async (wantedColumns: string) => {
   }
   browser.userTLOperators = wantedColumns.split(',', 16).map(item => item.substr(item.length - 3, 2));
 });
+
+When('I click the Clear All selected railway undertakings button', async () => {
+  await trainsListRailwayUndertakingConfigPage.clickTocFocClearAllButton();
+});
+
+Then('the selected railway undertaking column should be empty', async () => {
+  const actualSelectedEntries = await trainsListRailwayUndertakingConfigPage.getSecondElementsInSelectedGrid();
+  expect(actualSelectedEntries.length).to.equal(0);
+});

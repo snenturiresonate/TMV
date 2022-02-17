@@ -173,3 +173,12 @@ When('I have only the following locations and stop types selected', {timeout: 2 
     await trainsListLocationSelectionConfig.setStopTypeCheckedState('Terminate', locationName, tableValues[i].Terminate);
   }
 });
+
+When('I click the Clear All selected locations button', async () => {
+  await trainsListLocationSelectionConfig.clickClearAllButton();
+});
+
+Then('the location filter table should be empty', async () => {
+  const actualNoOfLocations = await trainsListLocationSelectionConfig.getLocationCount();
+  expect(actualNoOfLocations, `Location filter isn't empty`).to.equal(0);
+});
