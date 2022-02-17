@@ -2,6 +2,7 @@ import {TrainsListServiceFilterTabPage} from '../../pages/trains-list-config/tra
 import {Then, When} from 'cucumber';
 import {expect} from 'chai';
 import {browser} from 'protractor';
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 const trainsListServiceFilterTabPage: TrainsListServiceFilterTabPage = new TrainsListServiceFilterTabPage();
 
@@ -14,6 +15,11 @@ When('I input {string} in the TRUST input field', async (trustIdString: string) 
 });
 
 When('I input {string} in the {string} input box', async (inputString: string, inputBoxId) => {
+  if (inputBoxId === 'monthInput') {
+    if (inputString === 'today') {
+      inputString = DateAndTimeUtils.getCurrentDateTimeString('dd');
+    }
+  }
   await trainsListServiceFilterTabPage.inputToBox(inputBoxId, inputString);
 });
 
@@ -57,8 +63,9 @@ Then('The Nominated Services table contains the following results', async (trust
   const actualTrustIds: string = await trainsListServiceFilterTabPage.getSelectedTrustIds();
 
   expectedTrustIds.forEach((expectedTrustId: any) => {
-    expect(actualTrustIds, `Trust ID ${actualTrustIds} does not match the expected ${expectedTrustId.trustId}`)
-      .to.contain(expectedTrustId.trustId);
+    const expandedExpectedTrustId = expectedTrustId.trustId.replace('today', DateAndTimeUtils.getCurrentDateTimeString('dd'));
+    expect(actualTrustIds, `Trust ID ${actualTrustIds} does not match the expected ${expandedExpectedTrustId}`)
+      .to.contain(expandedExpectedTrustId);
   });
 });
 

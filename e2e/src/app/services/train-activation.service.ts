@@ -2,7 +2,7 @@ import {CucumberLog} from '../logging/cucumber-log';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {browser} from 'protractor';
 import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
-import {DateTimeFormatter, LocalTime, ZonedDateTime, ZoneId} from '@js-joda/core';
+import {DateTimeFormatter} from '@js-joda/core';
 import '@js-joda/timezone';
 import {TrainActivationMessageBuilder} from '../utils/train-activation/train-activation-message';
 

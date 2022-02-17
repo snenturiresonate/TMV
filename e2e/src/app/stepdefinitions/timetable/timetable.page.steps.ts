@@ -187,7 +187,8 @@ Then('The values for the header properties are as follows',
     expect(actualHeaderTrustId, 'Trust ID is not as expected')
       .to.equal(expectedHeaderPropertyValues.trustId
       .replace('generatedTrainUId', browser.referenceTrainUid)
-      .replace('generatedTrainDescription', browser.referenceTrainDescription));
+      .replace('generatedTrainDescription', browser.referenceTrainDescription)
+      .replace('today', DateAndTimeUtils.getCurrentDateTimeString('dd')));
     expect(actualHeaderTJM, 'Last TJM is not as expected')
       .to.contain(expectedHeaderPropertyValues.lastTJM);
   });

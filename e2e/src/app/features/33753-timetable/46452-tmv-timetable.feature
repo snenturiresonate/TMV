@@ -125,8 +125,8 @@ Feature: 33753 - TMV Timetable
     #And the train is schedule matched
     #When the user is viewing the timetable
     #Then the train's schedule is displayed with any predicted and live running information and header information
-    * I remove today's train '<planningUid>' from the Redis trainlist
     * I generate a new trainUID
+    * I remove today's train '<planningUid>' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | SLOUGH      | WTT_arr       | <trainNum>          | <planningUid>  |
@@ -148,8 +148,8 @@ Feature: 33753 - TMV Timetable
     And I switch to the new tab
     And I wait for the last Signal to populate
     Then The values for the header properties are as follows
-      | schedType | lastSignal | lastReport | trainUid      | trustId                 | lastTJM | headCode   |
-      | LTP       | T519       |            | <planningUid> | <trainNum><planningUid> |         | <trainNum> |
+      | schedType | lastSignal | lastReport | trainUid      | trustId             | lastTJM | headCode   |
+      | LTP       | T519       |            | <planningUid> | 70<trainNum>MHtoday |         | <trainNum> |
     And the navbar punctuality indicator is displayed as 'green' or 'yellow'
     And the punctuality is displayed as one of On time,+0m 30s,-0m 30s,+1m,-1m,+1m 30s,-1m 30s
     And I give the timetable a settling time of 2 seconds to update
@@ -393,8 +393,8 @@ Feature: 33753 - TMV Timetable
     And the old headcode in the header row is '(<trainNum>)'
     And I wait for the last Signal to populate
     And The values for the header properties are as follows
-      | schedType | lastSignal | lastReport | trainUid      | trustId                 | lastTJM                     | headCode                 |
-      | LTP       | SN37       |            | <planningUid> | <trainNum><planningUid> | <description>, today <time> | <changeTrainDescription> |
+      | schedType | lastSignal | lastReport | trainUid      | trustId             | lastTJM                     | headCode                 |
+      | LTP       | SN37       |            | <planningUid> | 70<trainNum>MHtoday | <description>, today <time> | <changeTrainDescription> |
     And there is a record in the modifications table
       | description   | location | time         | type |
       | <description> |          | today <time> |      |

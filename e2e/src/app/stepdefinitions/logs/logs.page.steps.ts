@@ -105,7 +105,7 @@ Then(/^the zip, with the name of '(.*)' and a filename of '(.*)', contains the f
     const csvFilename = TokenUtils.process(rawCsvFileName);
     const csvFilePath = browser.params.downloads_path + '/' + csvFilename;
 
-    expect(fs.existsSync(zipFilePAth)).is.true;
+    expect(fs.existsSync(zipFilePAth), `File does not exist: ${zipFilePAth}`).to.equal(true);
 
     await extract(zipFilePAth, {dir: browser.params.downloads_path});
 

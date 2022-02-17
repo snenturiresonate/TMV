@@ -310,19 +310,20 @@ Feature: 34080 - Last Berth
     # Then the user is presented with the timetable in a new tab
 
     #setup
-    * I delete 'C56471:today' from hash 'schedule-modifications'
-    * I remove today's train 'C56471' from the Redis trainlist
+    * I generate a new trainUID
+    * I delete '<planningUID>:today' from hash 'schedule-modifications'
+    * I remove today's train '<planningUID>' from the Redis trainlist
 
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath  | refLocation  | refTimingType | newTrainDescription | newPlanningUid |
-      | <cifFile> | MDNHEAD      | WTT_dep       | 2B71                | C56471         |
-    * I wait until today's train 'C56471' has loaded
+      | <cifFile> | MDNHEAD      | WTT_dep       | 2B71                | <planningUID>  |
+    * I wait until today's train '<planningUID>' has loaded
     * the following train activation message is sent from LINX
-      | trainUID   | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
-      | C56471     | 2B71        | now                    | 99999               | MDNHEAD                | today         |
+      | trainUID      | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
+      | <planningUID> | 2B71        | now                    | 99999               | MDNHEAD                | today         |
 
     # Log the berth level schedule
-    * I log the berth & locations from the berth level schedule for 'C56471'
+    * I log the berth & locations from the berth level schedule for '<planningUID>'
 
     # Inject stepping
     When the following live berth interpose messages are sent from LINX (setting up matches)
@@ -335,7 +336,7 @@ Feature: 34080 - Last Berth
     # Check that trains have loaded
     And I am on the trains list page 1
     And I save the trains list config
-    * train '2B71' with schedule id 'C56471' for today is visible on the trains list
+    * train '2B71' with schedule id '<planningUID>' for today is visible on the trains list
 
     # Check the last berth
     And I am viewing the map <map>
@@ -352,12 +353,12 @@ Feature: 34080 - Last Berth
     Then the tab title is '2B71 TMV Timetable'
     When I wait for the last Signal to populate
     Then The values for the header properties are as follows
-      | schedType | lastSignal | lastReport | trainUid      | trustId    | lastTJM | headCode   |
-      | LTP       | TLMBE      |            | C56471        | 2B71C56471 |         | 2B71       |
+      | schedType | lastSignal | lastReport | trainUid      | trustId       | lastTJM | headCode   |
+      | LTP       | TLMBE      |            | <planningUID> | 702B71MHtoday |         | 2B71       |
 
     Examples:
-      | cifFile                                              | map          | lBTD | lB1  | lTD1 | TDandBerthId1 |
-      | access-plan/34080-schedules/2B51-MDNHEAD-BORNEND.cif | gw2aslough.v | D6   | LMBE | 2B71 | D6LMBE        |
+      | cifFile                                              | map          | lBTD | lB1  | lTD1 | TDandBerthId1 | planningUID |
+      | access-plan/34080-schedules/2B51-MDNHEAD-BORNEND.cif | gw2aslough.v | D6   | LMBE | 2B71 | D6LMBE        | generated   |
 
   Scenario: 34080-2b Last Berth (Select Timetable) - unmatched trains
     # Inject stepping
@@ -423,8 +424,8 @@ Feature: 34080 - Last Berth
     Then the tab title is '2B73 TMV Timetable'
     When I wait for the last Signal to populate
     Then The values for the header properties are as follows
-      | schedType | lastSignal | lastReport | trainUid      | trustId    | lastTJM | headCode   |
-      | LTP       | TLMBE      |            | C56473        | 2B73C56473 |         | 2B73       |
+      | schedType | lastSignal | lastReport | trainUid      | trustId       | lastTJM | headCode   |
+      | LTP       | TLMBE      |            | C56473        | 702B73MHtoday |         | 2B73       |
 
     Examples:
       | cifFile                                              | map          | lBTD | lB1  | lTD1 | TDandBerthId1 |
