@@ -30,6 +30,7 @@ import {RedisClient} from '../api/redis/redis-client';
 import {TrainUIDUtils} from '../pages/common/utilities/trainUIDUtils';
 import {MapPageObject} from '../pages/maps/map.page';
 import {TrainsListConfigCommonPage} from '../pages/trains-list-config/trains.list.config.common.page';
+import {DelayUtils} from '../utils/delayUtils';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
@@ -496,6 +497,7 @@ Then('the modal contains a {string} button', async (buttonName: string) => {
 
 Given(/^I am on the trains list page (.*)$/, {timeout: 4 * 10000}, async (configId: string) => {
   await page.navigateTo('/tmv/trains-list/' + configId);
+  await DelayUtils.waitForTabTitleToContain('TMV Trains List');
 });
 
 Given(/^I am on the log viewer page$/, async () => {

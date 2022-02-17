@@ -7,9 +7,9 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
 
   Background:
     * I remove all trains from the trains list
-    * I am on the trains list page 1
+    * I am on the home page
     * I restore to default train list config '1'
-    * I refresh the browser
+    * I am on the trains list page 1
     * I have navigated to the 'TOC/FOC' configuration tab
 
   #33806 -11 Trains List Config (TOC/FOC Selection)
@@ -254,10 +254,11 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
       | SLC OPERATIONS LIMITED (SO)         | keyboard_arrow_right |
       | GCNW (LN)                           | keyboard_arrow_right |
 
-  Scenario Outline: 33806 -13a Selecting required columns and verifying if they are reflected in the trains list - positive tests
+  Scenario Outline: 33806 -13a Selecting required columns and verifying if they are reflected in the trains list - positive tests - <valuesToExpectInTrainsList>
     #    Given the user has made changes to the trains list TOC/FOC selection
     #    When the user views the trains list
     #    Then the view is updated to reflect the user's TOC/FOC selection
+    * I generate a new trainUID
     * I delete '<trainUid>:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -276,9 +277,9 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
     * I restore to default train list config '1'
 
     Examples:
-      | columnToSelectInConfig        | valuesToExpectInTrainsList | trainUid | trainDescription | cif                                 | location |
-      | GREAT WESTERN RAILWAY (EF)    | EF                         | B33806   | 2P33             | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN  |
-      | WEST MIDLANDS TRAINS (EJ)     | EJ                         | B33807   | 2P34             | access-plan/1W06_EUSTON_BHAMNWS.cif | EUSTON   |
+      | columnToSelectInConfig        | valuesToExpectInTrainsList | trainUid  | trainDescription | cif                                 | location |
+      | GREAT WESTERN RAILWAY (EF)    | EF                         | generated | 2P33             | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN  |
+      | WEST MIDLANDS TRAINS (EJ)     | EJ                         | generated | 2P34             | access-plan/1W06_EUSTON_BHAMNWS.cif | EUSTON   |
 
   Scenario Outline: 33806 -13b Selecting required columns and verifying if they are reflected in the trains list - negative tests
     #    Given the user has made changes to the trains list TOC/FOC selection

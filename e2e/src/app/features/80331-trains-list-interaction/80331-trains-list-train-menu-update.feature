@@ -22,6 +22,8 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
     * I have cleared out all headcodes
     * I remove all trains from the trains list
     * I have not already authenticated
+    * I am on the home page
+    * I restore all train list configs for current user to the default
 
   Scenario Outline: 80335-1 - Train Menu Update (Trains List) - punctuality On time
 
@@ -39,6 +41,7 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
       | fromBerth | toBerth | trainDescriber | trainDescription   |
       | 1668      | 1664    | D1             | <trainDescription> |
     And I am on the trains list page 1
+    And I save the trains list config
     And The trains list table is visible
     And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
     When I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
@@ -79,6 +82,7 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
       | fromBerth | toBerth | trainDescriber | trainDescription   |
       | 1668      | 1664    | D1             | <trainDescription> |
     And I am on the trains list page 1
+    And I save the trains list config
     And The trains list table is visible
     And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
     When I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
@@ -107,6 +111,7 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
 
     Given I set up a train that is -4 late at RDNGSTN using access-plan/2P77_RDNGSTN_PADTON.cif TD D1 interpose into 1698 step to 1676
     And I am on the trains list page 1
+    And I save the trains list config
     And The trains list table is visible
     And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
     When I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
@@ -142,6 +147,7 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
       | <trainUid> | <trainDescription>  | today              | 73000               | PADTON                 | Departure from Origin |
     And I wait until today's train '<trainUid>' has loaded
     And I am on the trains list page 1
+    And I save the trains list config
     And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
     When I invoke the context menu for todays train '<trainDescription>' schedule uid '<trainUid>' from the trains list
     And I wait for the trains list context menu to display
