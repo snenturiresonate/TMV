@@ -5,6 +5,7 @@ Feature: 80071 - TMV Signalling Log Viewer - Signalling view export
   I want to view, filter and search the Signalling Logs
   So that I can analysis the signalling data for operational needs.
 
+# Indexes need to be cleared to prevent other tests contaminating results
   Background:
     Given I clear the logged-berth-states Elastic Search index
     And I clear the logged-signal-states Elastic Search index

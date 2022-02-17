@@ -23,7 +23,13 @@ exports.config = {
     general_timeout: 60 * 1000,
     replay_timeout: 20 * 1000,
     quick_timeout: 10 * 1000,
-    downloads_path: downloadsPath
+    downloads_path: downloadsPath,
+    elasticSearch: {
+      index_clear: {
+        max_attempts: 50,
+        retry_delay_ms: 100
+      }
+    }
   },
   specs: [
     './src/**/features/**/*.feature'

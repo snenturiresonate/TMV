@@ -6,10 +6,10 @@ import * as chaiDateTime from 'chai-datetime';
 import {expect} from 'chai';
 import {browser} from 'protractor';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
-import {GeneralUtils} from '../../pages/common/utilities/generalUtils';
 import * as fs from 'fs';
 import {TokenUtils} from '../../pages/common/utilities/TokenUtils';
 import extract = require('extract-zip');
+import {DelayUtils} from '../../utils/delayUtils';
 
 const readline = require('readline');
 
@@ -93,9 +93,8 @@ Then(/^the downloads folder is empty$/, async () => {
 
 
 Then(/^allow (.*) milliseconds to pass$/, async (milliseconds: number) => {
-  await new Promise((resolve => {
-    setTimeout(resolve, milliseconds);
-  }));
+  await DelayUtils.waitFor(milliseconds);
+
 });
 
 Then(/^the zip, with the name of '(.*)' and a filename of '(.*)', contains the following csv logs$/,
