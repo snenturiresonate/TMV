@@ -78,6 +78,7 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
     And I set up a train that is <lateness3> late at PADTON using access-plan/1L24_PADTON_RDNGSTN.cif TD D3 interpose into C029 step to 0043
     And I set up a train that is <lateness4> late at PADTON using access-plan/2F35_PADTON_DIDCOTP.cif TD D3 interpose into C031 step to 0045
     And I save the trains list config
+    And The trains list table is visible
     And I should see the punctuality colour for the time-bands as
       | punctualityColor       | fromTime | toTime |
       | rgba(119, 153, 136, 1) |          | -20    |
@@ -153,6 +154,7 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
       | #82e                 | 10       | 20     | 10 to 19 minutes late-edit    | on      |
       | #bbb                 | 20       |        | 20 minutes or more late-edit  | on      |
     And I save the trains list config
+    And The trains list table is visible
     And I should see the punctuality colour for the time-bands as
       | punctualityColor       | fromTime | toTime |
       | rgba(119, 153, 136, 1) |          | -20    |
