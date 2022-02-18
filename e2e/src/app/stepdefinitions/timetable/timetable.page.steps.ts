@@ -122,6 +122,19 @@ Then('the timetable tab is titled {string}', async (expectedTabName: string) => 
 
 });
 
+Then(/^the (.*) button (.*) present$/, async (buttonText: string, isPresent: string) => {
+  const isButtonPresent: boolean = await timetablePage.getPresenceOfButtonWithText(buttonText);
+  const expectedPresence: boolean = (isPresent === 'is');
+  expect(isButtonPresent, `There ${isPresent} expected to be a button for ${buttonText}`)
+    .to.equal(expectedPresence);
+
+});
+
+When(/^I click on the Unmatch\/Rematch button$/, async () => {
+  await CommonActions.waitAndClick(timetablePage.unmatchRematchButton);
+
+});
+
 When('I wait for the last Signal to populate', async () => {
   return browser.wait(async () => {
     try {

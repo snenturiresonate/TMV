@@ -1,5 +1,5 @@
 @TMVPhase2 @P2.S3
-Feature: 79730 - Unmatch a service - Map
+Feature: 79730 - TMV Manual Unmatching - Unmatch a service - Map
 
   Background:
     * I have not already authenticated

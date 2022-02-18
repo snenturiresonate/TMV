@@ -38,6 +38,13 @@ When('I switch to the second-newest tab', async () => {
   await browser.driver.switchTo().window(windowHandles[penultimateTab]);
 });
 
+When('I switch to the third-newest tab', async () => {
+  const windowHandles: string[] = await browser.getAllWindowHandles();
+  const finalTab: number = windowHandles.length - 2;
+  const previousTab: number = finalTab - 2;
+  await browser.driver.switchTo().window(windowHandles[previousTab]);
+});
+
 When('I close the last tab', async () => {
   await closeLastTab();
 });

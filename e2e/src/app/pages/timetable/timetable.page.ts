@@ -34,6 +34,7 @@ export class TimeTablePageObject {
   public insertedToggleState: ElementFinder;
   public timetableHeader: ElementFinder;
   public timetableHeaderThElements: ElementArrayFinder;
+  public unmatchRematchButton: ElementFinder;
   constructor() {
     this.headerLabels = element.all(by.css('.tmv-header-content [id$=Label]'));
     this.timetableTab = element(by.id('timetable-table-tab'));
@@ -59,6 +60,7 @@ export class TimeTablePageObject {
     this.insertedToggleState = element(by.css('#live-timetable-toggle-menu [class^=absolute]'));
     this.timetableHeader = element(by.css('.timetable-header'));
     this.timetableHeaderThElements = element.all(by.css('[id^=tmv-timetable-header-row] th'));
+    this.unmatchRematchButton = element(by.css('#timetable-confirm-manual-matching'));
   }
 
   public static async getRowAtIndex(index: number): Promise<ElementFinder> {
@@ -451,6 +453,11 @@ export class TimeTablePageObject {
 
   public async waitUntilPropertyValueIs(propertyName: string, expectedString: string): Promise<void> {
     await browser.wait(ExpectedConditions.textToBePresentInElement(element(by.id(propertyName)), expectedString));
+  }
+
+  public async getPresenceOfButtonWithText(buttonText: string): Promise<boolean> {
+    const expectedButton: ElementFinder = element(by.cssContainingText('button', buttonText));
+    return expectedButton.isPresent();
   }
 
   public async waitUntilLastReportLocNameHasLoaded(locName: string): Promise<void> {
