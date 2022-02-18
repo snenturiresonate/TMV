@@ -37,6 +37,7 @@ Feature: 46482 - TMV Key - display key
       | 3        | Last Berth               | #ffffff          | #000000 |
       | 4        | Unknown Delay            | #ffffff          | #000000 |
 
+  @TMVPhase2 @P2.S2
   Scenario: 34085-3 The TMV Key Symbol table is displayed when the Symbol tab is clicked
     When I click on the Help icon
     And I select the TMV Key option
@@ -54,12 +55,15 @@ Feature: 46482 - TMV Key - display key
       | 2        | WILD                 |
       | 3        | Block Section Marker |
     And the Line Status list contains the following data
-      | position | status     |
-      | 0        | Blockage   |
-      | 1        | TSR        |
-      | 2        | ESR        |
-      | 3        | Possession |
-      | 4        | Not in use |
+      | position | status                               |
+      | 0        | BLOK (Line Blockage)                 |
+      | 1        | OOU (Out Of Use)                     |
+      | 2        | POSS (Possession)                    |
+      | 3        | ESR (Emergency Speed Restriction)    |
+      | 4        | TSR (Temporary Speed Restriction)    |
+      | 5        | BTET (Blocked to Electric Traction)  |
+      | 6        | CAU (Cautioning of Trains)           |
+      | 7        | Multiple Restrictions Apply          |
 
   Scenario: 34085-4 The TMV Key train describer table is displayed when the Train Describer tab is clicked
     When I click on the Help icon
