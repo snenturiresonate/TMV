@@ -12,6 +12,7 @@ Feature: Feature: 80183 - TMV Trains List Filtering - Config - Clear All option
 #
 
   Background:
+    * I have not already authenticated
     Given I am on the home page
     And I restore to default train list config '1'
     And I am on the trains list page 1

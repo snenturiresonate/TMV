@@ -7,6 +7,7 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Timetable Primary Cli
 
   Background:
     * I remove all trains from the trains list
+    * I have not already authenticated
 
   Scenario Outline: 80333 - Trains List Timetable Primary Click - Matched
 #    Given a user is viewing a trains list

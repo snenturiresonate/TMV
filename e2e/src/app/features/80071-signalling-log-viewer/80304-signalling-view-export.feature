@@ -26,6 +26,8 @@ Feature: 80071 - TMV Signalling Log Viewer - Signalling view export
       | D1             | 31      | FF   | 18:46:00  |
       | D3             | 50      | 04   | 18:47:00  |
       | D3             | 50      | 00   | 18:48:00  |
+    And I give the data 2 seconds to be written to elastic
+    And I refresh the Elastic Search indices
     And I am on the log viewer page
     And I navigate to the Signalling log tab
     When I export for Signalling logs with
@@ -61,6 +63,8 @@ Feature: 80071 - TMV Signalling Log Viewer - Signalling view export
       | D1             | 31      | FF   | 18:46:00  |
       | D3             | 50      | 04   | 18:47:00  |
       | D3             | 50      | 00   | 18:48:00  |
+    And I give the data 2 seconds to be written to elastic
+    And I refresh the Elastic Search indices
     And I am on the log viewer page
     And I navigate to the Signalling log tab
     When I export for Signalling logs with
@@ -84,6 +88,8 @@ Feature: 80071 - TMV Signalling Log Viewer - Signalling view export
       | D1             | 31      | FF   | 18:46:00  |
       | D3             | 50      | 04   | 18:47:00  |
       | D3             | 50      | 00   | 18:48:00  |
+    And I give the data 2 seconds to be written to elastic
+    And I refresh the Elastic Search indices
     And I am on the log viewer page
     And I navigate to the Signalling log tab
     When I export for Signalling logs with
@@ -109,6 +115,8 @@ Feature: 80071 - TMV Signalling Log Viewer - Signalling view export
       | D1             | 31      | FF   | 18:46:00  |
       | D3             | 50      | 04   | 18:47:00  |
       | D3             | 50      | 00   | 18:48:00  |
+    And I give the data 2 seconds to be written to elastic
+    And I refresh the Elastic Search indices
     And I am on the log viewer page
     And I navigate to the Signalling log tab
     When I export for Signalling logs with
@@ -132,6 +140,8 @@ Feature: 80071 - TMV Signalling Log Viewer - Signalling view export
       | D1             | 31      | FF   | 18:46:00  |
       | D3             | 50      | 04   | 18:47:00  |
       | D3             | 50      | 00   | 18:48:00  |
+    And I give the data 2 seconds to be written to elastic
+    And I refresh the Elastic Search indices
     And I am on the log viewer page
     And I navigate to the Signalling log tab
     When I export for Signalling logs with
@@ -157,6 +167,8 @@ Feature: 80071 - TMV Signalling Log Viewer - Signalling view export
       | D1             | 31      | FF   | 18:46:00  |
       | D3             | 50      | 04   | 18:47:00  |
       | D3             | 50      | 00   | 18:48:00  |
+    And I give the data 2 seconds to be written to elastic
+    And I refresh the Elastic Search indices
     And I am on the log viewer page
     And I navigate to the Signalling log tab
     When I export for Signalling logs with
@@ -180,6 +192,8 @@ Feature: 80071 - TMV Signalling Log Viewer - Signalling view export
       | D1             | 31      | FF   | 18:46:00  |
       | D3             | 50      | 04   | 18:47:00  |
       | D3             | 50      | 00   | 18:48:00  |
+    And I give the data 2 seconds to be written to elastic
+    And I refresh the Elastic Search indices
     And I am on the log viewer page
     And I navigate to the Signalling log tab
     When I export for Signalling logs with
@@ -209,6 +223,8 @@ Feature: 80071 - TMV Signalling Log Viewer - Signalling view export
       | D1             | 31      | FF   | 18:46:00  |
       | D3             | 50      | 04   | 18:47:00  |
       | D3             | 50      | 00   | 18:48:00  |
+    And I give the data 2 seconds to be written to elastic
+    And I refresh the Elastic Search indices
     And I am on the log viewer page
     And I navigate to the Signalling log tab
     When I export for Signalling logs with
@@ -242,6 +258,8 @@ Feature: 80071 - TMV Signalling Log Viewer - Signalling view export
       | D1             | 31      | FF   | 18:46:00  |
       | D3             | 50      | 04   | 18:47:00  |
       | D3             | 50      | 00   | 18:48:00  |
+    And I give the data 2 seconds to be written to elastic
+    And I refresh the Elastic Search indices
     And I am on the log viewer page
     And I navigate to the Signalling log tab
     When I export for Signalling logs with
@@ -269,6 +287,8 @@ Feature: 80071 - TMV Signalling Log Viewer - Signalling view export
       | D1             | 31      | FF   | 18:46:00  |
       | D3             | 50      | 04   | 18:47:00  |
       | D3             | 50      | 00   | 18:48:00  |
+    And I give the data 2 seconds to be written to elastic
+    And I refresh the Elastic Search indices
     And I am on the log viewer page
     And I navigate to the Signalling log tab
     When I export for Signalling logs with

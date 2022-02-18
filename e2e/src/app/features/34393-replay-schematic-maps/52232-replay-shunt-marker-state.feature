@@ -15,6 +15,7 @@ Feature: 52232 - Replay page Schematic Object State Scenarios - Shunt Markers
       | trainDescriber | address | data |
       | MH             | 31      | 01   |
     * the shunt marker board 'MH1199' will display a Movement Authority given [white triangle with blue inner triangle]
+    * I give the replay data 2 seconds to be recorded
 
     # Replay Test
     Given I am on the replay page
@@ -35,6 +36,7 @@ Feature: 52232 - Replay page Schematic Object State Scenarios - Shunt Markers
       | trainDescriber | address | data |
       | MH             | 31      | FE   |
     * the shunt marker board 'MH1199' will display a Movement Authority not-given [red triangle with blue inner triangle]
+    * I give the replay data 2 seconds to be recorded
 
     # Replay Test
     Given I am on the replay page

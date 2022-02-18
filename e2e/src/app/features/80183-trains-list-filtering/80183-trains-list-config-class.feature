@@ -14,6 +14,7 @@ Feature: 80183 - TMV Trains List Filtering - Config - Class Validation
   #    * Change the Class config so that the user must select at least one
 
   Background:
+    * I have not already authenticated
     Given I am on the home page
     And I restore to default train list config '1'
     And I am on the trains list page 1
