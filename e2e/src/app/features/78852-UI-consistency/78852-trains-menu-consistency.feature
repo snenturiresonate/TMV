@@ -64,7 +64,6 @@ Feature: 78852 - Trains Menu Consistency
       | planningUid | trainNum  |
       | generated   | 1A86      |
 
-  @bug @bug:86682
   Scenario Outline: 83105-2 - Trains Menu Consistency - No Timetable | Find Train | Match
     * I generate a new train description
     Given I am viewing the map HDGW04bristolparkway.v
@@ -80,13 +79,13 @@ Feature: 78852 - Trains Menu Consistency
     When I hover over the trains list context menu on line 2
     * the trains list context menu on line 2 has text colour 'blue'
     * the trains list context menu on line 2 has text underline 'none'
-    Then the trains list context menu contains 'Find Train' on line 3
-    * the trains list context menu on line 3 has text colour 'black'
+    Then the trains list context menu contains 'Match' on line 3
+    * the trains list context menu on line 3 has text colour 'blue'
     * the trains list context menu on line 3 has text underline 'none'
     When I hover over the trains list context menu on line 3
-    * the trains list context menu on line 3 has text colour 'hoverBlack'
+    * the trains list context menu on line 3 has text colour 'blue'
     * the trains list context menu on line 3 has text underline 'underline'
-    Then the trains list context menu contains 'Match' on line 4
+    Then the trains list context menu contains 'Highlight' on line 4
     * the trains list context menu on line 4 has text colour 'blue'
     * the trains list context menu on line 4 has text underline 'none'
     When I hover over the trains list context menu on line 4
