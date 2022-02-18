@@ -1,13 +1,5 @@
 {
   "adminLineStatusSettings": {
-    "noteSettings": [
-      {
-        "colour": "#ea4b77",
-        "lineStatusSettingName": "Note applied edited",
-        "lineStyle": "Solid",
-        "lineWidth": 2
-      }
-    ],
     "pathTypeSettings": [
       {
         "colour": "#332681",
@@ -16,38 +8,65 @@
         "lineWidth": 3
       }
     ],
-    "restrictionTypeSettings": [
-      {
-        "colour": "#dc7a90",
-        "lineStatusSettingName": "Blockage edited",
-        "lineStyle": "Solid",
-        "lineWidth": 2
-      },
-      {
-        "colour": "#f3ea6a",
-        "lineStatusSettingName": "TSR edited",
-        "lineStyle": "Dashed",
-        "lineWidth": 2
-      },
-      {
-        "colour": "#232069",
-        "lineStatusSettingName": "ESR edited",
-        "lineStyle": "Dashed",
-        "lineWidth": 2
-      },
-      {
-        "colour": "#74d192",
-        "lineStatusSettingName": "Possession edited",
-        "lineStyle": "Dashed",
-        "lineWidth": 2
-      },
-      {
-        "colour": "#547926",
-        "lineStatusSettingName": "Not in use edited",
+    "restrictionSettings": {
+      "restrictionTypeSettings": [
+        {
+          "restrictionType": "LINE_BLOCKAGE",
+          "lineStatusSettingName": "BLOK (Line Blockage) edited",
+          "colour": "#dc7a90",
+          "lineStyle": "Solid",
+          "lineWidth": 2
+        },
+        {
+          "restrictionType": "OUT_OF_USE",
+          "lineStatusSettingName": "OOU (Out Of Use) edited",
+          "colour": "#f3ea6a",
+          "lineStyle": "Solid",
+          "lineWidth": 2
+        },
+        {
+          "restrictionType": "POSSESSION",
+          "lineStatusSettingName": "POSS (Possession) edited",
+          "colour": "#232069",
+          "lineStyle": "Long Dashed",
+          "lineWidth": 2
+        },
+        {
+          "restrictionType": "EMERGENCY_SPEED_RESTRICTION",
+          "lineStatusSettingName": "ESR (Emergency Speed Restriction) edited",
+          "colour": "#74d192",
+          "lineStyle": "Short Dashed",
+          "lineWidth": 2
+        },
+        {
+          "restrictionType": "TEMPORARY_SPEED_RESTRICTION",
+          "lineStatusSettingName": "TSR (Temporary Speed Restriction) edited",
+          "colour": "#86a2d4",
+          "lineStyle": "Short Dashed",
+          "lineWidth": 2
+        },
+        {
+          "restrictionType": "BLOCKED_TO_ELECTRIC_TRACTION",
+          "lineStatusSettingName": "BTET (Blocked to Electric Traction) edited",
+          "colour": "#9f02e4",
+          "lineStyle": "Short Dashed",
+          "lineWidth": 2
+        },
+        {
+          "restrictionType": "CAUTIONING_OF_TRAIN",
+          "lineStatusSettingName": "CAU (Cautioning of Trains) edited",
+          "colour": "#1d4e98",
+          "lineStyle": "Solid",
+          "lineWidth": 2
+        }
+      ],
+      "multipleRestrictionDetails": {
+        "lineStatusSettingName": "Multiple Restrictions Apply edited",
+        "colour": "#2547d1",
         "lineStyle": "Solid",
         "lineWidth": 2
       }
-    ],
+    },
     "routeTypeSettings": [
       {
         "colour": "#513a1c",

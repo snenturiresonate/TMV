@@ -67,7 +67,7 @@ export class AdministrationDefaultSettingsTab {
   }
 
   public async updateReplayBackgroundColour(text: string): Promise<void> {
-    await InputBox.updateInputBox(this.replayBackgroundColor, text);
+    await InputBox.updateColourPickerBox(this.replayBackgroundColor, text);
   }
 
   public async updateNoOfReplays(text: string): Promise<void> {

@@ -31,12 +31,10 @@ Then('the following can be seen on the Line Status route type settings table', a
   for (let i = 0; i < tableData.length; i++) {
     const actualRouteTypeName = await adminLineSettings.getRouteTypeName(i);
     const actualRouteTypeColour = await adminLineSettings.getRouteTypeColour(i);
-    const actualRouteTypeLineWidth = await adminLineSettings.getRouteTypeLineWidth(i);
     const actualRouteTypeLineStyle = await adminLineSettings.getRouteTypeLineStyle(i);
 
     results.push(expect(actualRouteTypeName).to.contain(tableData[i].name));
     results.push(expect(actualRouteTypeColour).to.contain(tableData[i].colour));
-    results.push(expect(actualRouteTypeLineWidth).to.contain(tableData[i].lineWidth));
     results.push(expect(actualRouteTypeLineStyle).to.contain(tableData[i].lineStyle));
   }
   return protractor.promise.all(results);
@@ -48,30 +46,11 @@ Then('the following can be seen on the Line Status path type settings table', as
   for (let i = 0; i < tableData.length; i++) {
     const actualPathTypeName = await adminLineSettings.getPathTypeName(i);
     const actualPathTypeColour = await adminLineSettings.getPathTypeColour(i);
-    const actualPathTypeLineWidth = await adminLineSettings.getPathTypeLineWidth(i);
     const actualPathTypeLineStyle = await adminLineSettings.getPathTypeLineStyle(i);
 
     results.push(expect(actualPathTypeName).to.contain(tableData[i].name));
     results.push(expect(actualPathTypeColour).to.contain(tableData[i].colour));
-    results.push(expect(actualPathTypeLineWidth).to.contain(tableData[i].lineWidth));
     results.push(expect(actualPathTypeLineStyle).to.contain(tableData[i].lineStyle));
-  }
-  return protractor.promise.all(results);
-});
-
-Then('the following can be seen on the Line Status note settings table', async (table: any) => {
-  const results: any[] = [];
-  const tableData: any = table.hashes();
-  for (let i = 0; i < tableData.length; i++) {
-    const actualNoteTypeName = await adminLineSettings.getNoteTypeName(i);
-    const actualNoteTypeColour = await adminLineSettings.getNoteTypeColour(i);
-    const actualNoteTypeLineWidth = await adminLineSettings.getNoteTypeLineWidth(i);
-    const actualNoteTypeLineStyle = await adminLineSettings.getNoteTypeLineStyle(i);
-
-    results.push(expect(actualNoteTypeName).to.contain(tableData[i].name));
-    results.push(expect(actualNoteTypeColour).to.contain(tableData[i].colour));
-    results.push(expect(actualNoteTypeLineWidth).to.contain(tableData[i].lineWidth));
-    results.push(expect(actualNoteTypeLineStyle).to.contain(tableData[i].lineStyle));
   }
   return protractor.promise.all(results);
 });
@@ -91,7 +70,6 @@ When('I update the Line Status path type settings table as', async (table: any) 
     const pathTypeLineStyle: ElementFinder = adminLineSettings.pathTypeLineStyle(i);
 
     await InputBox.updateColourPickerBox(pathTypeColour, tableData[i].colour);
-    await adminLineSettings.updatePathTypeLineWidth(i, tableData[i].lineWidth);
     await SelectBox.selectByVisibleText(pathTypeLineStyle, tableData[i].lineStyle);
   }
 });
@@ -103,7 +81,6 @@ When('I update the Line Status route type settings table as', async (table: any)
     const routeTypeLineStyle: ElementFinder = adminLineSettings.routeTypeLineStyle(i);
 
     await InputBox.updateColourPickerBox(routeTypeColour, tableData[i].colour);
-    await adminLineSettings.updateRouteTypeLineWidth(i, tableData[i].lineWidth);
     await SelectBox.selectByVisibleText(routeTypeLineStyle, tableData[i].lineStyle);
   }
 });
@@ -115,7 +92,6 @@ When('I update the Line Status note settings table as', async (table: any) => {
     const noteTypeLineStyle: ElementFinder = adminLineSettings.noteTypeLineStyle(i);
 
     await InputBox.updateColourPickerBox(noteTypeColour, tableData[i].colour);
-    await adminLineSettings.updateNoteTypeLineWidth(i, tableData[i].lineWidth);
     await SelectBox.selectByVisibleText(noteTypeLineStyle, tableData[i].lineStyle);
   }
 });
