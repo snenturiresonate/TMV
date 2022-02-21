@@ -24,7 +24,7 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
 #    And is viewing the admin display settings view
 #    When the user updates the punctuality setting
 #    And saves the setting
-#    Then for all TMV users the trains list punctuality is overrridden with the updated punctuality settings
+#    Then for all TMV users the trains list punctuality is overridden with the updated punctuality settings
 
     Given The admin setting defaults are as in <settingsFile>
     And I have not already authenticated

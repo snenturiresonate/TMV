@@ -77,7 +77,7 @@ export class AdminPunctualityConfigTab {
 
   public async updateAdminPunctualityText(index: number, text: string): Promise<void> {
     const elm: ElementFinder = this.punctualityText.get(index);
-    return InputBox.updateColourPickerBox(elm, text);
+    return InputBox.updateInputBox(elm, text);
   }
 
   public async getAdminPunctualityFromTime(index: number): Promise<string> {
