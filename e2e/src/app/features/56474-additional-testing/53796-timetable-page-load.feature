@@ -1,3 +1,4 @@
+@bug @bug:87160
 Feature: 33753 - Timetable - Additional Automated Testing - Timetable NFR Testing - Page Load
 
   Automated testing deferred from initial contract work

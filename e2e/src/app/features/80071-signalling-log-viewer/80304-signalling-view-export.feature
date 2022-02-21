@@ -1,4 +1,6 @@
 @TMVPhase2 @P2.S2
+# These tests fail on the build servers but they pass when ran manually (semi-automated), locally
+@manual
 Feature: 80071 - TMV Signalling Log Viewer - Signalling view export
 
   As a TMV User

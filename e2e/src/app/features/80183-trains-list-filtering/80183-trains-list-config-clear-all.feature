@@ -101,7 +101,7 @@ Feature: Feature: 80183 - TMV Trains List Filtering - Config - Clear All option
       | #ee77fff             | -10      | -5     | 5 to 9 minutes early     | off     |
       | #ffff778             | -5       | -1     | 1 to 4 minutes early     | off     |
       | #ffff000             | -1       | 1      | On Time                  | off     |
-      | #ff00                | 1        | 5      | 1 to 4 minutes late      | off     |
+      | #ffff000             | 1        | 5      | 1 to 4 minutes late      | off     |
       | #aa77000             | 5        | 10     | 5 to 9 minutes late      | off     |
       | #0000000             | 10       | 20     | 10 to 19 minutes late    | off     |
       | #000099c             | 20       |        | 20 minutes or more late  | off     |
