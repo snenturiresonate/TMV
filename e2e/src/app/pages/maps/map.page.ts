@@ -324,6 +324,11 @@ export class MapPageObject {
     await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
   }
 
+  public async rightClickTrack(trackId: string): Promise<void> {
+    const berthLink: ElementFinder = element(by.id('track-element-path-' + trackId));
+    await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
+  }
+
   public async clickSignal(signalId: string, signalType: string, clickType: string): Promise<void> {
     let signalLink: ElementFinder = element(by.id('signal-element-' + signalId));
     if (signalType === 'main') {

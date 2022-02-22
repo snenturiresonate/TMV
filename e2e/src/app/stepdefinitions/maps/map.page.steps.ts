@@ -843,6 +843,10 @@ When('I open schedule matching screen from the map context menu', async () => {
   await mapPageObject.mapContextMenuItems.get(2).click();
 });
 
+When('I open restrictions screen from the map context menu', async () => {
+  await mapPageObject.mapContextMenuItems.get(1).click();
+});
+
 When(/^I toggle path (?:on|off) from the map context menu$/, async () => {
   await mapPageObject.mapContextMenuItems.get(3).click();
 });
@@ -925,6 +929,10 @@ Then('the headcode displayed for {string} is {word}',
 
 When('I right click on berth with id {string}', async (berthId: string) => {
   await mapPageObject.rightClickBerth(berthId);
+});
+
+When('I right click on track with id {string}', async (trackId: string) => {
+  await mapPageObject.rightClickTrack(trackId);
 });
 
 When(/^I click on (Highlight|Unhighlight) link$/, async (highlightOption: string) => {
