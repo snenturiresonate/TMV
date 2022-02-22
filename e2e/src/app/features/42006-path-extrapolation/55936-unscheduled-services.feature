@@ -10,8 +10,6 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
     And I refresh the browser
     And I have navigated to the 'Columns' configuration tab
     And I click on all the unselected column entries
-    And I have navigated to the 'Train Class & MISC' configuration tab
-    And I set 'Include unmatched' to be 'on'
     And I save the trains list config
 
   # unmatched services from stepping is part of CCN1

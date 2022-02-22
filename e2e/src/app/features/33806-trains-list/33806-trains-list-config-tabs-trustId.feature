@@ -10,7 +10,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     * I restore to default train list config '1'
     * I am on the trains list page 1
     * I have navigated to the 'Train Class & MISC' configuration tab
-    * I set 'Include unmatched' to be 'off'
     * I have navigated to the 'Nominated Services' configuration tab
 
   #33806 - 33 Trains List Config (TRUST IDs View)
@@ -68,9 +67,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     And I click the clear all button for Nominated Services Filter
     Then the selected Nominated Services table is empty
 
-
-  @tdd @tdd:84774
-  @bug @bug:86971
   Scenario Outline: 33806 -37 Trains List Config (TRUST IDs Applied)
     #Given the user has made changes to the TRUST ID settings
     #When the user views the trains list

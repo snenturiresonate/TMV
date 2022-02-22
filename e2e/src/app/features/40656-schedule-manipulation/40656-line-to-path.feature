@@ -8,10 +8,6 @@ Feature: 40656 - Schedule Manipulation - Line To Path
     * I remove all trains from the trains list
     * I am on the home page
     * I restore to default train list config '1'
-    * I am on the trains list page 1
-    * I have navigated to the 'Train Class & MISC' configuration tab
-    * I set 'Include unmatched' to be 'off'
-    * I save the trains list config
 
   Scenario Outline: 40656-6 Schedule with locations matching line code to path code rules
     #K0056	OXFD   	OXFDNNJ

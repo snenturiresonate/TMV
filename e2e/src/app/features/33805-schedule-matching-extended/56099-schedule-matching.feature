@@ -18,8 +18,6 @@ Feature: 33805 TMV Schedule Matching
     * I am on the home page
     * I restore to default train list config '1'
     * I am on the trains list page 1
-    * I have navigated to the 'Train Class & MISC' configuration tab
-    * I set 'Include unmatched' to be 'on'
     * I save the trains list config
 
   Scenario Outline: 1. Interpose - Match old ID after Change of ID - <matchLevel> match

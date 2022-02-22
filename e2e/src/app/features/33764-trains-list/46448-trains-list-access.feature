@@ -1,4 +1,5 @@
 @newSession
+@bug @bug:87226
 Feature: 46448 - TMV Trains List - access
   (From Gherkin for Feature 33764)
 
@@ -10,6 +11,12 @@ Feature: 46448 - TMV Trains List - access
     * I am on the home page
     * I reset redis
     * I restore to default train list config '1'
+    * I delete 'B00701:today' from hash 'schedule-modifications'
+    * I delete 'B00702:today' from hash 'schedule-modifications'
+    * I delete 'B00703:today' from hash 'schedule-modifications'
+    * I delete 'B00704:today' from hash 'schedule-modifications'
+    * I delete 'B00705:today' from hash 'schedule-modifications'
+    * I delete 'B00706:today' from hash 'schedule-modifications'
     * the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1S42_PADTON_DIDCOTP.cif | PADTON      | WTT_dep       | 2P77                | B00701         |
@@ -73,7 +80,6 @@ Feature: 46448 - TMV Trains List - access
     And I have navigated to the 'Train Class & MISC' configuration tab
     And I set class filters to be '<classes>'
     And I set 'Ignore PD Cancels' to be '<ignorePDCancelsFlag>'
-    And I set 'Include unmatched' to be '<unmatchedFlag>'
     And I save the trains list config
     And I am on the home page
     And I click the app 'trains-list-1'
@@ -86,6 +92,6 @@ Feature: 46448 - TMV Trains List - access
     And '<filteredOutServices>' are not displayed
 
     Examples:
-      | columns                                                                                              | tocs                       | classes          | ignorePDCancelsFlag | unmatchedFlag | filteredServices | filteredOutServices          |
-      | Schedule Type, Last Reported Time, Service, Origin, Destination, Punctuality, Last Reported Location | GREAT WESTERN RAILWAY (EF) | Class 1, Class 2 | off                 | on            | 2P77, 2C45, 1M34 | 5G44, 1Z27, 3J41 |
+      | columns                                                                                              | tocs                       | classes          | ignorePDCancelsFlag | filteredServices | filteredOutServices          |
+      | Schedule Type, Last Reported Time, Service, Origin, Destination, Punctuality, Last Reported Location | GREAT WESTERN RAILWAY (EF) | Class 1, Class 2 | off                 | 2P77, 2C45, 1M34 | 5G44, 1Z27, 3J41 |
 
