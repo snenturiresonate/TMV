@@ -1,4 +1,4 @@
-@TMVPhase2 @P2.S2
+@TMVPhase2 @P2.S4 @bdd:83085
 Feature: 46474 - Administration Display Settings - full end to end testing - line status
 
   As a tester

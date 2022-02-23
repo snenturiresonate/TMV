@@ -37,7 +37,7 @@ Feature: 46482 - TMV Key - display key
       | 3        | Last Berth               | #ffffff          | #000000 |
       | 4        | Unknown Delay            | #ffffff          | #000000 |
 
-  @TMVPhase2 @P2.S2
+  @TMVPhase2 @P2.S4 @bdd:87141
   Scenario: 34085-3 The TMV Key Symbol table is displayed when the Symbol tab is clicked
     When I click on the Help icon
     And I select the TMV Key option
