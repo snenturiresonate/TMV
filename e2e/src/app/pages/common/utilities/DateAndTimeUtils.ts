@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import {DateTimeFormatter, LocalDate, LocalDateTime, LocalTime, ZonedDateTime, ZoneId} from '@js-joda/core';
+import {DateTimeFormatter, Instant, LocalDate, LocalDateTime, LocalTime, ZoneId} from '@js-joda/core';
 
 export class DateAndTimeUtils {
 
@@ -8,7 +8,12 @@ export class DateAndTimeUtils {
   }
 
   public static getCurrentDateTimeString(pattern): any {
-    return DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern(pattern));
+    if (pattern.includes('T') && pattern.includes('Z')) {
+      return DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ISO_INSTANT);
+    }
+    else {
+      return DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern(pattern));
+    }
   }
 
   public static getCurrentTime(): any {
@@ -219,7 +224,14 @@ export class DateAndTimeUtils {
   }
 
   public static async formulateDateTime(timeStamp: string, format = 'dd/MM/yyy HH:mm:ss'): Promise<Date> {
-    const dateTime = LocalDateTime.parse(timeStamp, DateTimeFormatter.ofPattern(format));
+    let dateTime;
+    if (format.includes('T') && format.includes('Z')) {
+      const instant = Instant.from(DateTimeFormatter.ISO_INSTANT.parse(timeStamp));
+      dateTime = LocalDateTime.ofInstant(instant);
+    }
+    else {
+      dateTime = LocalDateTime.parse(timeStamp, DateTimeFormatter.ofPattern(format));
+    }
     const parsedDateTime = new Date(
       dateTime.year(), dateTime.monthValue(), dateTime.dayOfMonth(), dateTime.hour(), dateTime.minute(), dateTime.second());
     return moment(parsedDateTime).toDate();
@@ -227,7 +239,7 @@ export class DateAndTimeUtils {
 
   public static async formulateTime(timeStamp: string, format = 'HH:mm:ss', secondaryFormat = 'HH:mm'): Promise<Date> {
     const now = LocalDateTime.now();
-    let dateTime = null;
+    let dateTime;
     try {
       dateTime = LocalTime.parse(timeStamp, DateTimeFormatter.ofPattern(format));
     } catch {
