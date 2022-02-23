@@ -1,4 +1,4 @@
-import {Then, When} from 'cucumber';
+import {Then, When, Given} from 'cucumber';
 import {browser} from 'protractor';
 import {expect} from 'chai';
 import {RestrictionsPageObject} from '../../pages/restrictions/restrictions-page';
@@ -10,6 +10,18 @@ const restrictionsPageObject: RestrictionsPageObject = new RestrictionsPageObjec
 
 When('I click to add a new restriction', async () => {
   await restrictionsPageObject.addRestriction();
+});
+
+When('I click on done on the open restriction', async () => {
+  await restrictionsPageObject.saveOpenRestriction();
+});
+
+When('I click apply changes', async () => {
+  await restrictionsPageObject.applyChanges();
+});
+
+When('I click reset', async () => {
+  await restrictionsPageObject.clearChanges();
 });
 
 Then('the restriction header contains the id {string}', async (trackDivisionId: string) => {
@@ -24,9 +36,14 @@ When('I make a note of the number of existing restrictions', async () => {
 Then('there is a new editable restriction in the list', async () => {
   const currentRestrictionsNum = await restrictionsPageObject.getRestrictionsCount();
   const newRestrictions = currentRestrictionsNum - browser.numRestrictions;
-  const editableRestrictionsNum = await restrictionsPageObject.getRestrictionsCount();
+  const editableRestrictionsNum = await restrictionsPageObject.getEditableRestrictionRowCount();
   expect(newRestrictions, 'Expecting 1 new row to have been added').to.equal(1);
   expect(editableRestrictionsNum, 'Expecting new row to be editable').to.equal(1);
+});
+
+Then('no new restriction has been added to the list', async () => {
+  const currentRestrictionsNum = await restrictionsPageObject.getRestrictionsCount();
+  expect(currentRestrictionsNum, 'Expecting no new row to have been added').to.equal(browser.numRestrictions);
 });
 
 Then('the restriction row contains the following editable fields and defaults', {timeout: 8 * 5000}, async (table: any) => {
@@ -84,4 +101,46 @@ Then(/^the selected restriction type is (.*)$/, async (expectedSelection: string
   const actualSelection = await restrictionsPageObject.getSelectedType();
   expect(actualSelection, `${expectedSelection} is not selected`).to.equal(expectedSelection);
 });
+
+Given('the following restriction values are entered', {timeout: 8 * 5000}, async (table: any) => {
+  const values = table.hashes();
+  for (const row of values) {
+    const field = (row.field).toLowerCase();
+    let value = '';
+    if (row.value === 'now') {
+      value = DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy HH:mm:ss');
+      value = value.substr(0, 17) + '00';
+    }
+    else if (row.value !== 'blank') {
+      value = row.value;
+    }
+    await restrictionsPageObject.setValue(field, value);
+  }
+});
+
+Then(/^the new restriction row contains the following fields$/, {timeout: 8 * 5000}, async (table: any) => {
+  const index = browser.numRestrictions;
+  await checkRestrictionValues(index, table);
+});
+
+Then(/^the restriction row index (\d+) contains the following fields$/, {timeout: 8 * 5000}, async (index: number, table: any) => {
+  await checkRestrictionValues(index, table);
+});
+
+async function checkRestrictionValues(index: number, table: any): Promise<void> {
+  const expectedValues = table.hashes();
+  for (const expectedValue of expectedValues) {
+    const expectedField = (expectedValue.field).toLowerCase();
+    let derivedExpectedValue = '';
+    if (expectedValue.value === 'now') {
+      derivedExpectedValue = DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy HH:mm:ss');
+      derivedExpectedValue = derivedExpectedValue.substr(0, 17) + '00';
+    } else if (expectedValue.value !== 'blank') {
+      derivedExpectedValue = expectedValue.value;
+    }
+    const actualValue: string = await restrictionsPageObject.getDisplayedValueInRow(index, expectedField);
+    expect(actualValue.trim(), `Actual for ${expectedField} should be ${derivedExpectedValue}`).to.equal(derivedExpectedValue);
+  }
+}
+
 

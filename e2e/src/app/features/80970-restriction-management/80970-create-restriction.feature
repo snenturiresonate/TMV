@@ -75,8 +75,7 @@ Feature: 80970 - TMV Restrictions - Create
       | ESR (Emergency Speed Restriction)   |
       | TSR (Temporary Speed Restriction)   |
       | BTET (Blocked to Electric Traction) |
-#  Bug87202
-#      | CAU (Cautioning of Trains)          |
+      | CAU (Cautioning of Trains)          |
 
     Examples:
       | map                | trackDivisionId |
