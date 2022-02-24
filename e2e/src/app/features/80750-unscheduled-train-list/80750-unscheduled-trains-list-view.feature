@@ -18,7 +18,6 @@ Feature: 80750 - Unscheduled Trains List - View
   #      * Current berth, signal and/or location.
   #      * Current Train describer
   #  * The list is ordered by entry time (latest first)
-
   Background:
     * I generate a new trainUID
     * I generate a new train description

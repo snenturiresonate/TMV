@@ -8,7 +8,7 @@ import * as chaiDateTime from 'chai-datetime';
 import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
 
 export class UnscheduledTrainsListPageObject {
-  public static UNSCHEDULED_TRAINS_LIST_TIME_FORMAT = 'yyyy-MM-ddTHH:mm:ssZ';
+  public static UNSCHEDULED_TRAINS_LIST_TIME_FORMAT = 'dd/MM/yyyy HH:mm:ss';
 
   private appPage: AppPage;
   private trainListElement: ElementFinder;
