@@ -1,30 +1,34 @@
 @TMVPhase2 @P2.S3
-Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Schematic Map
+Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Unscheduled Trains List
 
   As a TMV User
   I want to view unscheduled trains
   So that I can determine if the unscheduled requires schedule matching
 
   #  Given the user is authenticated to use TMV
-  #  And the user is viewing schematic map
-  #  And the has the schedule matching privilege
+  #  And the user is viewing the unscheduled trains list
+  #  And the user has the schedule matching privilege
   #  And has select a unmatched service to match
   #  And is viewing match confirmation dialogue
   #  When the user selects affirmative action
   #  Then the service is matched
   #  And remains matched for the remainder of its journey unless rematched/unmatched by a user
+  #
+  #  Comments:
+  #  * Re-use existing berth stepping
 
   Background:
-    * I have cleared out all headcodes
-    * I generate a new train description
     * I generate a new trainUID
+    * I generate a new train description
 
-  Scenario Outline: 83315-1 - Manual Matching - Schematic Map - Remains Matched Throughout Journey
-    Given I am viewing the map HDGW01paddington.v
+  Scenario Outline: 84045-1 Manual Matching - Unscheduled Trains List - Remains Matched Throughout Journey
+    Given I am on the unscheduled trains list
     And the following live berth step message is sent from LINX (to create an unmatched service)
       | fromBerth   | toBerth   | trainDescriber   | trainDescription   |
       | <fromBerth> | <toBerth> | <trainDescriber> | <trainDescription> |
-    And berth '<toBerth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
+    And the following unscheduled trains list entry can be seen
+      | trainId            | time | berth                     | signal | location           | trainDescriber   |
+      | <trainDescription> | now  | <trainDescriber><toBerth> | SN243  | Southall East Jn   | <trainDescriber> |
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1L24_PADTON_RDNGSTN.cif | STHALL      | WTT_arr       | <trainDescription>  | <trainUid>    |
@@ -32,8 +36,10 @@ Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Schematic Map
     And I log the berth & locations from the berth level schedule for '<trainUid>'
     And I give the train 2 seconds to reach Elastic
     And I refresh the Elastic Search indices
-    And I right click on berth with id '<trainDescriber><toBerth>'
-    And I open schedule matching screen from the map context menu
+    And I right click on the following unscheduled train
+      | trainId            | time | berth                     | signal | location           | trainDescriber   |
+      | <trainDescription> | now  | <trainDescriber><toBerth> | SN243  | Southall East Jn   | <trainDescriber> |
+    And I click match on the unscheduled trains list context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching <trainDescription>'
     And I select to match the result for todays service with planning Id '<trainUid>'
@@ -65,12 +71,14 @@ Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Schematic Map
       | fromBerth | toBerth | toBerth2 | trainDescriber | trainDescription | trainUid  | toPunctualityColour |
       | 0239      | 0243    | 0253     | D4             | generated        | generated | green               |
 
-  Scenario Outline: 83315-2 - Manual Matching - Schematic Map - Remains Matched Until Unmatched and Remains Unmatched
-    Given I am viewing the map HDGW01paddington.v
+  Scenario Outline: 84045-2 Manual Matching - Unscheduled Trains List - Remains Matched Until Unmatched and Remains Unmatched
+    Given I am on the unscheduled trains list
     And the following live berth step message is sent from LINX (to create an unmatched service)
       | fromBerth   | toBerth   | trainDescriber   | trainDescription   |
       | <fromBerth> | <toBerth> | <trainDescriber> | <trainDescription> |
-    And berth '<toBerth>' in train describer '<trainDescriber>' contains '<trainDescription>' and is visible
+    And the following unscheduled trains list entry can be seen
+      | trainId            | time | berth                     | signal | location           | trainDescriber   |
+      | <trainDescription> | now  | <trainDescriber><toBerth> | SN243  | Southall East Jn   | <trainDescriber> |
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1L24_PADTON_RDNGSTN.cif | STHALL      | WTT_arr       | <trainDescription>  | <trainUid>    |
@@ -78,8 +86,10 @@ Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Schematic Map
     And I log the berth & locations from the berth level schedule for '<trainUid>'
     And I give the train 2 seconds to reach Elastic
     And I refresh the Elastic Search indices
-    And I right click on berth with id '<trainDescriber><toBerth>'
-    And I open schedule matching screen from the map context menu
+    And I right click on the following unscheduled train
+      | trainId            | time | berth                     | signal | location           | trainDescriber   |
+      | <trainDescription> | now  | <trainDescriber><toBerth> | SN243  | Southall East Jn   | <trainDescriber> |
+    And I click match on the unscheduled trains list context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching <trainDescription>'
     And I select to match the result for todays service with planning Id '<trainUid>'

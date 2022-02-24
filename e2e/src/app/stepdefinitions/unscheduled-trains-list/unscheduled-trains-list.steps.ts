@@ -1,4 +1,4 @@
-import {Before, Given, Then} from 'cucumber';
+import {Before, Given, When, Then} from 'cucumber';
 import {UnscheduledTrainsListPageObject} from '../../pages/unscheduled-trains-list/unscheduled.trains.list.page';
 import {DelayUtils} from '../../utils/delayUtils';
 import {expect} from 'chai';
@@ -60,4 +60,14 @@ Then(/^the unscheduled trains list is ordered by entry time, most recent first$/
     `Expected the unscheduled trains list to be ordered by entry time but ${firstTrainTime} was not after ${secondTrainTime}`)
     .to.be.afterTime(
       await DateAndTimeUtils.formulateDateTime(secondTrainTime, UnscheduledTrainsListPageObject.UNSCHEDULED_TRAINS_LIST_TIME_FORMAT));
+});
+
+When(/^I right click on the following unscheduled train$/, async (unscheduledTrainsListEntry: any) => {
+  const unscheduledTrains: UnscheduledTrain[] = unscheduledTrainsListEntry.hashes();
+  const trainIndex = await unscheduledTrainsListPage.getIndexOfUnscheduledTrain(unscheduledTrains[0]);
+  await unscheduledTrainsListPage.rightClickOnTrainAtPosition(trainIndex);
+});
+
+When(/^I click match on the unscheduled trains list context menu$/, async () => {
+  await unscheduledTrainsListPage.clickMatch();
 });

@@ -1,11 +1,12 @@
 import {AppPage} from '../app.po';
-import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
+import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {UnscheduledTrain} from './unscheduled.train';
 import {CucumberLog} from '../../logging/cucumber-log';
 import {expect} from 'chai';
 // this import looks like its not used but is by expect().to.be.closeToTime()
 import * as chaiDateTime from 'chai-datetime';
 import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export class UnscheduledTrainsListPageObject {
   public static UNSCHEDULED_TRAINS_LIST_TIME_FORMAT = 'dd/MM/yyyy HH:mm:ss';
@@ -14,12 +15,16 @@ export class UnscheduledTrainsListPageObject {
   private trainListElement: ElementFinder;
   private columnSectionNames: ElementArrayFinder;
   private columnTableNames: ElementArrayFinder;
+  private trainRows: ElementArrayFinder;
+  private matchContextMenu: ElementFinder;
 
   constructor() {
     this.appPage = new AppPage();
     this.trainListElement = element(by.id('trainList'));
     this.columnSectionNames = element.all(by.css('.unscheduled-trains-list-section-header'));
     this.columnTableNames = element.all(by.css('[id^=tmv-train-table-header-config-] span'));
+    this.trainRows = element.all(by.css('[id^=trains-list-row]'));
+    this.matchContextMenu = element(by.id('match-unmatch-selection-item'));
   }
 
   public getTrainListElement(): ElementFinder {
@@ -102,4 +107,30 @@ export class UnscheduledTrainsListPageObject {
     return this.columnTableNames.map(columnName => columnName.getText());
   }
 
+  public async getIndexOfUnscheduledTrain(unscheduledTrain: UnscheduledTrain): Promise<number> {
+    if (unscheduledTrain.trainId.includes('generated')) {
+      unscheduledTrain.trainId = browser.referenceTrainDescription;
+    }
+    const actualUnscheduledTrains: UnscheduledTrain[] = await this.getUnscheduledTrainsListResults();
+
+    const trainIndex: number = actualUnscheduledTrains.findIndex((train) => {
+      return (
+        train.trainId === unscheduledTrain.trainId &&
+        train.berth === unscheduledTrain.berth &&
+        train.trainDescriber === unscheduledTrain.trainDescriber &&
+        train.signal === unscheduledTrain.signal &&
+        train.location === unscheduledTrain.location
+      );
+    });
+    return Promise.resolve(trainIndex);
+  }
+
+  public async rightClickOnTrainAtPosition(index: number): Promise<void> {
+    return browser.actions().click(this.trainRows.get(index), protractor.Button.RIGHT).perform();
+  }
+
+  public async clickMatch(): Promise<void> {
+    await CommonActions.waitForElementToBeVisible(this.matchContextMenu);
+    return this.matchContextMenu.click();
+  }
 }
