@@ -30,7 +30,7 @@ Feature: 80970 - TMV Restrictions - Create
     Given I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
-    When I switch to the new tab
+    When I switch to the new restriction tab
     Then the restriction header contains the id '<trackDivisionId>'
     When I make a note of the number of existing restrictions
     And I click to add a new restriction
@@ -65,7 +65,7 @@ Feature: 80970 - TMV Restrictions - Create
     Given I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
-    And I switch to the new tab
+    And I switch to the new restriction tab
     When I click to add a new restriction
     Then the editable type drop down contains the following options
       | type                                |
@@ -93,7 +93,7 @@ Feature: 80970 - TMV Restrictions - Create
     Given I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
-    And I switch to the new tab
+    And I switch to the new restriction tab
     When I click to add a new restriction
     Then the restriction fields have the following input limits
       | field                 | inputType | limit |

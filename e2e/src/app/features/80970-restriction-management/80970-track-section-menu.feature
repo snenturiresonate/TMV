@@ -45,7 +45,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
-    And I switch to the new tab
+    And I switch to the new restriction tab
     And I click to add a new restriction
     And the following restriction values are entered
       | field                 | value                             |
@@ -54,7 +54,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
       | Start-Distance-chains | 2                                 |
       | End-Distance-miles    | 3                                 |
       | End-Distance-chains   | 4                                 |
-      | Start-Date            | now                               |
+      | Start-Date            | today                             |
       | End-Date              | blank                             |
       | Max-Speed             | 20                                |
       | Delay-Penalty         | 10                                |
@@ -84,7 +84,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
-    And I switch to the new tab
+    And I switch to the new restriction tab
     And I click to add a new restriction
     And the following restriction values are entered
       | field   | value                             |

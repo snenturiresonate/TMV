@@ -16,6 +16,14 @@ Given(/^I remove all restrictions for track division (.*)$/, async (trackDivisio
   await adminRestClient.waitMaxTransmissionTime();
 });
 
+When('I switch to the new restriction tab', async () => {
+  const windowHandles: string[] = await browser.getAllWindowHandles();
+  const finalTab: number = windowHandles.length - 1;
+  await browser.driver.switchTo().window(windowHandles[finalTab]);
+  await restrictionsPageObject.waitForClock();
+  await restrictionsPageObject.waitForSpinner();
+});
+
 When('I click to add a new restriction', async () => {
   await restrictionsPageObject.addRestriction();
 });
@@ -24,8 +32,18 @@ When('I click on done on the open restriction', async () => {
   await restrictionsPageObject.saveOpenRestriction();
 });
 
+When('I click on edit on the restriction in the last row', async () => {
+  await restrictionsPageObject.editLastRestriction();
+});
+
 When('I click apply changes', async () => {
   await restrictionsPageObject.applyChanges();
+});
+
+When('I refresh the restrictions page', async () => {
+  await browser.driver.navigate().refresh();
+  await restrictionsPageObject.waitForClock();
+  await restrictionsPageObject.waitForSpinner();
 });
 
 When('I click reset', async () => {
@@ -82,17 +100,16 @@ Then('the restriction fields have the following input limits', {timeout: 8 * 500
     browser.testInputExcessive =
       await StringUtils.createTestInputStringOfTypeAndLength(expectedValue.inputType, parseInt(expectedValue.limit, 10) + 1);
 
-    await restrictionsPageObject.setValue(expectedField, browser.testInputMax);
+    await restrictionsPageObject.sendKeys(expectedField, browser.testInputMax);
     const displayedValue1: string = await restrictionsPageObject.getDisplayedValueInEditRecord(expectedField);
     expect(displayedValue1, `${expectedField} should show ${browser.testInputMax}`).to.equal(browser.testInputMax);
 
-    await restrictionsPageObject.setValue(expectedField, browser.testInputExcessive);
+    await restrictionsPageObject.sendKeys(expectedField, browser.testInputExcessive);
     const displayedValue2: string = await restrictionsPageObject.getDisplayedValueInEditRecord(expectedField);
     expect(displayedValue2, `${expectedField} should still show ${browser.testInputMax}
         after ${expectedValue.limit} limit is applied`).to.equal(browser.testInputMax);
   }
 });
-
 
 Then('the editable type drop down contains the following options', {timeout: 8 * 5000}, async (table: any) => {
   const expectedValues = table.hashes();
@@ -115,11 +132,9 @@ Given('the following restriction values are entered', {timeout: 8 * 5000}, async
   for (const row of values) {
     const field = (row.field).toLowerCase();
     let value = '';
-    if (row.value === 'now') {
-      value = DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy HH:mm:ss');
-      value = value.substr(0, 17) + '00';
-    }
-    else if (row.value !== 'blank') {
+    if (isValidDateTimeLabel(row.value)) {
+      value = getFormattedDateTime(row.value);
+    } else if (row.value !== 'blank') {
       value = row.value;
     }
     await restrictionsPageObject.setValue(field, value);
@@ -135,20 +150,49 @@ Then(/^the restriction row index (\d+) contains the following fields$/, {timeout
   await checkRestrictionValues(index, table);
 });
 
+Then('the done button is disabled on the open restriction', async () => {
+  const editButtonDisabled = await restrictionsPageObject.isEditableDoneButtonDisabled();
+  expect(editButtonDisabled, `Actual for editButtonDisabled should be ${true}`).to.equal(true);
+});
+
+
 async function checkRestrictionValues(index: number, table: any): Promise<void> {
   const expectedValues = table.hashes();
   for (const expectedValue of expectedValues) {
     const expectedField = (expectedValue.field).toLowerCase();
-    let derivedExpectedValue = '';
-    if (expectedValue.value === 'now') {
-      derivedExpectedValue = DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy HH:mm:ss');
-      derivedExpectedValue = derivedExpectedValue.substr(0, 17) + '00';
-    } else if (expectedValue.value !== 'blank') {
-      derivedExpectedValue = expectedValue.value;
+    if (expectedValue.value === 'blank') {
+      const isBlank = await restrictionsPageObject.isValueInRowBlank(index, expectedField);
+      expect(isBlank, `Actual for ${expectedField} should be ${true}`).to.equal(true);
+    } else {
+      let derivedExpectedValue = '';
+      if (isValidDateTimeLabel(expectedValue.value)) {
+        derivedExpectedValue = getAllocatedFormattedDateTime(expectedValue.value);
+      } else {
+        derivedExpectedValue = expectedValue.value;
+      }
+      const actualValue: string = await restrictionsPageObject.getDisplayedValueInRow(index, expectedField);
+      expect(actualValue.trim(), `Actual for ${expectedField} should be ${derivedExpectedValue}`).to.equal(derivedExpectedValue);
     }
-    const actualValue: string = await restrictionsPageObject.getDisplayedValueInRow(index, expectedField);
-    expect(actualValue.trim(), `Actual for ${expectedField} should be ${derivedExpectedValue}`).to.equal(derivedExpectedValue);
   }
 }
+
+function isValidDateTimeLabel(label: string): boolean {
+  return label === 'today' || label === 'tomorrow' || label === 'yesterday';
+}
+
+function getFormattedDateTime(dateTimeLabel: string): string {
+  const dateTime = DateAndTimeUtils.convertToDesiredDateAndFormat(dateTimeLabel, 'dd/MM/yyyy HH:mm:ss');
+  browser[dateTimeLabel] = dateTime;
+  return dateTime;
+}
+
+function getAllocatedFormattedDateTime(dateTimeLabel: string): string {
+  if (!!browser[dateTimeLabel]) {
+    return browser[dateTimeLabel];
+  } else {
+    return DateAndTimeUtils.convertToDesiredDateAndFormat(dateTimeLabel, 'dd/MM/yyyy HH:mm:ss');
+  }
+}
+
 
 

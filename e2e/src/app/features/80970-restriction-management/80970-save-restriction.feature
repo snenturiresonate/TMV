@@ -21,10 +21,11 @@ Feature: 80970 - TMV Restrictions - Save
 
 #   Comment: Restrictions can have no end date
 
-    Given I am viewing the map <map>
+    Given I remove all restrictions for track division <trackDivisionId>
+    And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
-    And I switch to the new tab
+    And I switch to the new restriction tab
     And I make a note of the number of existing restrictions
     And I click to add a new restriction
     And the following restriction values are entered
@@ -34,11 +35,11 @@ Feature: 80970 - TMV Restrictions - Save
       | Start-Distance-chains | 2                                 |
       | End-Distance-miles    | 3                                 |
       | End-Distance-chains   | 4                                 |
-      | Start-Date            | now                               |
+      | Start-Date            | today                             |
       | End-Date              | blank                             |
       | Max-Speed             | 20                                |
       | Delay-Penalty         | 10                                |
-      | Comment               | Leaves on the line                |
+      | Comment               | Snow on the line                  |
     And I click on done on the open restriction
     When I click apply changes
     Then the new restriction row contains the following fields
@@ -48,11 +49,11 @@ Feature: 80970 - TMV Restrictions - Save
       | Start-Distance-chains | 2 ch                              |
       | End-Distance-miles    | 3 m                               |
       | End-Distance-chains   | 4 ch                              |
-      | Start-Date            | now                               |
+      | Start-Date            | today                             |
       | End-Date              | blank                             |
       | Max-Speed             | 20 mph                            |
       | Delay-Penalty         | 10 mins                           |
-      | Comment               | Leaves on the line                |
+      | Comment               | Snow on the line                  |
 
     Examples:
       | map                | trackDivisionId |
@@ -63,10 +64,11 @@ Feature: 80970 - TMV Restrictions - Save
 
 #   Comment: The user may wish to not apply the changes made in this view and close the view without saving any changes
 
-    Given I am viewing the map <map>
+    Given I remove all restrictions for track division <trackDivisionId>
+    And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
-    And I switch to the new tab
+    And I switch to the new restriction tab
     And I make a note of the number of existing restrictions
     And I click to add a new restriction
     And the following restriction values are entered
@@ -76,7 +78,7 @@ Feature: 80970 - TMV Restrictions - Save
       | Start-Distance-chains | 2                                 |
       | End-Distance-miles    | 3                                 |
       | End-Distance-chains   | 4                                 |
-      | Start-Date            | now                               |
+      | Start-Date            | today                             |
       | End-Date              | blank                             |
       | Max-Speed             | 20                                |
       | Delay-Penalty         | 10                                |
