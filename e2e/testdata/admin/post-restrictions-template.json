@@ -1,0 +1,8 @@
+{
+  "restrictions": [
+    {
+      "restrictionId": "restrictionIdData",
+      "trackDivisionId": "trackDivisionIdData"
+    }
+  ]
+}

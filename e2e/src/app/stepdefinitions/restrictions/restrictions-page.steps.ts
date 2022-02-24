@@ -1,12 +1,20 @@
 import {Then, When, Given} from 'cucumber';
 import {browser} from 'protractor';
 import {expect} from 'chai';
+import {RestrictionsRestClient} from '../../api/restrictions/restrictions-rest-client';
+import {AdminRestClient} from '../../api/admin/admin-rest-client';
 import {RestrictionsPageObject} from '../../pages/restrictions/restrictions-page';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {StringUtils} from '../../pages/common/utilities/StringUtils';
 
 const restrictionsPageObject: RestrictionsPageObject = new RestrictionsPageObject();
+const adminRestClient: AdminRestClient = new AdminRestClient();
+const restrictionsRestClient: RestrictionsRestClient = new RestrictionsRestClient();
 
+Given(/^I remove all restrictions for track division (.*)$/, async (trackDivisionId: string) => {
+  await restrictionsRestClient.deleteRestrictionsForTrack(trackDivisionId);
+  await adminRestClient.waitMaxTransmissionTime();
+});
 
 When('I click to add a new restriction', async () => {
   await restrictionsPageObject.addRestriction();

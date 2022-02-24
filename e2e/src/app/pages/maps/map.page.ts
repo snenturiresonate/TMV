@@ -278,6 +278,11 @@ export class MapPageObject {
     return this.mapContextMenuItems.get(rowIndex - 1).getText();
   }
 
+  public async getMapContextMenuItemCount(): Promise<number> {
+    const menuItems = await this.mapContextMenuItems.getWebElements();
+    return menuItems.length;
+  }
+
   public async waitForMatchIndication(trainDescription: string, indication: string,
                                       berth: string, describer: string, row: number): Promise<boolean> {
     return browser.wait(async () => {
@@ -514,5 +519,13 @@ export class MapPageObject {
   public async isCurrentMap(mapId: string): Promise<boolean> {
     const currentURL = await browser.getCurrentUrl();
     return currentURL.includes(mapId);
+  }
+
+  public async getMapContextMenuItemColor(rowIndex: number): Promise<string> {
+    return this.mapContextMenuItems.get(rowIndex - 1).getCssValue('color');
+  }
+
+  public async getMapContextMenuItemTextDecorationLine(rowIndex: number): Promise<string> {
+    return this.mapContextMenuItems.get(rowIndex - 1).getCssValue('text-decoration-line');
   }
 }

@@ -50,6 +50,12 @@ const mapColourHex = {
   pink:       '#ff009c'
 };
 
+const menuTextColourHex = {
+  blue: '#007bff',
+  black: '#212529',
+  hoverBlack: '#16181b'
+};
+
 const mapLineWidth = {
   thin: '2px',
   solid: '3px',
@@ -1244,3 +1250,21 @@ Then(/^the train remains (matched|unmatched) throughout the following berth step
     }
   }
 });
+
+Then('the map context menu on line {int} has text colour {string}', async (rowNum: number, expectedColour: string) => {
+    const actualContextMenuItemColorRgb: string = await mapPageObject.getMapContextMenuItemColor(rowNum);
+    const actualContextMenuItemColorHex: string = CssColorConverterService.rgb2Hex(actualContextMenuItemColorRgb);
+    const expectedColourHex: string = menuTextColourHex[expectedColour];
+    expect(actualContextMenuItemColorHex, 'Map menu item text colour is not as expected').to.contain(expectedColourHex);
+});
+
+Then('the map context menu on line {int} has text underline {string}', async (rowNum: number, expectedUnderline: string) => {
+  const actualContextMenuItemTextDecorationLine: string = await mapPageObject.getMapContextMenuItemTextDecorationLine(rowNum);
+  expect(actualContextMenuItemTextDecorationLine, 'Map menu item text underline is not as expected').to.contain(expectedUnderline);
+});
+
+Then('the map context menu has {int} items', async (numItems: number) => {
+  const actualNumMenuItems = await mapPageObject.getMapContextMenuItemCount();
+  expect(actualNumMenuItems, 'Number of Map menu items is not as expected').to.equal(numItems);
+});
+
