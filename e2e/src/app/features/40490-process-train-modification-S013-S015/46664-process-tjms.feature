@@ -50,7 +50,6 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | Train Indication   | Indicator8 | edit | colour            | #ffffff    | Origin Departure Overdue |
       | Train Indication   | Indicator3 | edit | colour            | #eba1a1    | Cancellation             |
       | Train Indication   | Indicator4 | edit | colour            | #edaaed    | Reinstatement            |
-      | Train Class & MISC | other      | edit | Include Unmatched | off        |                          |
     * I generate a new trainUID
     * I generate a new train description
     * I remove today's train '<trainUid>' from the Redis trainlist
@@ -211,7 +210,6 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | Train Indication   | Indicator8 | edit | colour            | #ffffff    | Origin Departure Overdue |
       | Train Indication   | Indicator3 | edit | colour            | #eba1a1    | Cancellation             |
       | Train Indication   | Indicator4 | edit | colour            | #edaaed    | Reinstatement            |
-      | Train Class & MISC | other      | edit | Include Unmatched | off        |                          |
     * I remove today's train 'H41113' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -238,7 +236,6 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | Train Indication   | Indicator8 | edit | colour            | #ffffff    | Origin Departure Overdue |
       | Train Indication   | Indicator3 | edit | colour            | #eba1a1    | Cancellation             |
       | Train Indication   | Indicator4 | edit | colour            | #edaaed    | Reinstatement            |
-      | Train Class & MISC | other      | edit | Include Unmatched | off        |                          |
     * I remove today's train 'H41114' from the Redis trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |

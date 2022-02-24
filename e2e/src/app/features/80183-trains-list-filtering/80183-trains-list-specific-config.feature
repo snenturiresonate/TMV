@@ -50,12 +50,10 @@ Feature: 80183 - TMV Trains List Filtering - Trains List Specific Config
       | tab                | dataItem | type | parameter         | newSetting |
       | Train Class & MISC | class    | edit | Class 5           | off        |
       | Train Class & MISC | class    | edit | Class 3           | off        |
-      | Train Class & MISC | other    | edit | Include Unmatched | off        |
     And the trains list filter is visible
     And the trains list filter display contains
       | section | type      | expectedValue          |
       | misc    | classes   | 0, 1, 2, 4, 6, 7, 8, 9 |
-      | misc    | unmatched | Not Included           |
     When I click on the Network Rail Home logo
     And I select the trains list 2 button from the home page
     And I switch to the new tab

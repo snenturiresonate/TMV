@@ -36,7 +36,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     And the following toggle values can be seen on the right class table
       | classValue                         | toggleValue |
       | Ignore PD Cancels                  | on          |
-      | Include unmatched                  | on          |
       | Time to remain on list             | 5           |
     # clean up
     * I restore to default train list config '1'
@@ -132,12 +131,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     When I update the following misc options
       | classValue                         | toggleValue |
       | Ignore PD Cancels                  | on          |
-      | Include unmatched                  | on          |
       | Time to remain on list             | 5           |
     Then the following toggle values can be seen on the right class table
       | classValue                         | toggleValue |
       | Ignore PD Cancels                  | on          |
-      | Include unmatched                  | on          |
       | Time to remain on list             | 5           |
     # clean up
     * I restore to default train list config '1'
@@ -147,24 +144,30 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     #When the user views the trains list
     #Then the view is updated to reflect the user's train misc changes
   Scenario: 33806 -32a Trains List Config (Train Misc Settings Applied) - Misc Class settings
-    * I remove today's train 'B30001' from the Redis trainlist
-    * I remove today's train 'B30002' from the Redis trainlist
-    * I delete 'B30001:today' from hash 'schedule-modifications'
-    * I delete 'B30002:today' from hash 'schedule-modifications'
+    # first train
+    * I generate a new trainUID
+    * I remove today's train 'generated' from the Redis trainlist
+    * I delete 'generated:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 2B31                | B30001         |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 2B31                | generated      |
+    And I wait until today's train 'generated' has loaded
+    And the following train activation message is sent from LINX
+      | trainUID  | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | generated | 2B31        | now                    | 99999               | PADTON                 | today         | now                 |
+
+    # second train
+    * I generate a new trainUID
+    * I remove today's train 'generated' from the Redis trainlist
+    * I delete 'generated:today' from hash 'schedule-modifications'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 2B32                | B30002         |
-    And I wait until today's train 'B30001' has loaded
-    And I wait until today's train 'B30002' has loaded
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 2B32                | generated      |
+    And I wait until today's train 'generated' has loaded
     And the following train activation message is sent from LINX
-      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
-      | B30001   | 2B31        | now                    | 99999               | PADTON                 | today         | now                 |
-    And the following train activation message is sent from LINX
-      | trainUID | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
-      | B30002   | 2B32        | now                    | 99999               | PADTON                 | today         | now                 |
+      | trainUID  | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
+      | generated | 2B32        | now                    | 99999               | PADTON                 | today         | now                 |
+
     When the following class table updates are made
       | classValue | toggleValue |
       | Class 0    | off         |
@@ -197,7 +200,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     And I update the following misc options
       | classValue        | toggleValue |
       | Ignore PD Cancels | on          |
-      | Include unmatched | off         |
     And I save the service filter changes
     And I am on the trains list page 1
     Then train 2P77 with schedule id Y95686 for today is not visible on the trains list
@@ -221,7 +223,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     And I update the following misc options
       | classValue        | toggleValue |
       | Ignore PD Cancels | off         |
-      | Include unmatched | off         |
     And I save the service filter changes
     And I am on the trains list page 1
     Then train 2B33 with schedule id B30003 for today is visible on the trains list
@@ -229,7 +230,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     * I restore to default train list config '1'
 
   # unmatched services from stepping is part of CCN1
-  @tdd
+  @superseded
   Scenario: 33806 -32d Trains List Config (Train Misc Settings Applied) - Unmatched toggle on
     #Schedule is not available for the train IG65
     When the following live berth step message is sent from LINX (to move train)
@@ -247,6 +248,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     * I restore to default train list config '1'
 
 
+  @superseded
   Scenario: 33806 -32e Trains List Config (Train Misc Settings Applied) - Unmatched toggle off
     #Schedule is not available for the train IG65
     Given the following live berth step message is sent from LINX (to move train)
