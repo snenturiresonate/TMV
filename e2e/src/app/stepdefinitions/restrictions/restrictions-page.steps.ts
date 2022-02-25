@@ -36,6 +36,10 @@ When('I click on edit on the restriction in the last row', async () => {
   await restrictionsPageObject.editLastRestriction();
 });
 
+When('I click on delete on the restriction in the last row', async () => {
+  await restrictionsPageObject.deleteLastRestriction();
+});
+
 When('I click apply changes', async () => {
   await restrictionsPageObject.applyChanges();
 });
@@ -156,6 +160,17 @@ Then('the done button is disabled on the open restriction', async () => {
   const editButtonDisabled = await restrictionsPageObject.isEditableDoneButtonDisabled();
   expect(editButtonDisabled, `Actual for editButtonDisabled should be ${true}`).to.equal(true);
 });
+
+Then(/there (?:is|are) (\d+) restriction[s]? in the restrictions table/, async (expectedRestrictionCount: number) => {
+  const restrictionsCount = await restrictionsPageObject.getRestrictionsCount();
+  expect(restrictionsCount, `Could not find ${expectedRestrictionCount} in restrictions table`).to.equal(expectedRestrictionCount);
+});
+
+Then('the delete button is disabled on the last restriction', async () => {
+  const deleteButtonDisabled = await restrictionsPageObject.isLastRowDeleteButtonDisabled();
+  expect(deleteButtonDisabled, `Actual for deleteButtonDisabled should be ${true}`).to.equal(true);
+});
+
 
 
 async function checkRestrictionValues(index: number, table: any): Promise<void> {

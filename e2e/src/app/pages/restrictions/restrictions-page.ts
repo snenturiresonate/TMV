@@ -14,6 +14,8 @@ export class RestrictionsPageObject {
   public applyChangesButton: ElementFinder;
   public clearChangesButton: ElementFinder;
   public lastRowEditButton: ElementFinder;
+  public lastRowDeleteButton: ElementFinder;
+  public lastRowDeleteButtonDisabled: ElementFinder;
   public spinner: ElementFinder;
   public clock: ElementFinder;
 
@@ -28,9 +30,10 @@ export class RestrictionsPageObject {
     this.applyChangesButton = element(by.css('#track-restriction-apply-changes-button'));
     this.clearChangesButton = element(by.css('#track-restriction-clear-changes-button'));
     this.lastRowEditButton = element(by.css('#restrictions-table-body tr:last-child em.edit-button'));
+    this.lastRowDeleteButton = element(by.css('#restrictions-table-body tr:last-child em.delete-button'));
+    this.lastRowDeleteButtonDisabled = element(by.css('#restrictions-table-body tr:last-child em.delete-button.disabled-track-restriction-table-button'));
     this.spinner = element(by.css('#loading-spinner-icon'));
     this.clock = element(by.css('#nav-bar-current-time'));
-
   }
 
   public async addRestriction(): Promise<void> {
@@ -43,6 +46,10 @@ export class RestrictionsPageObject {
 
   public async editLastRestriction(): Promise<void> {
     return CommonActions.waitAndClick(this.lastRowEditButton);
+  }
+
+  public async deleteLastRestriction(): Promise<void> {
+    return CommonActions.waitAndClick(this.lastRowDeleteButton);
   }
 
   public async applyChanges(): Promise<void> {
@@ -199,6 +206,10 @@ export class RestrictionsPageObject {
 
   public async isEditableDoneButtonDisabled(): Promise<boolean> {
     return this.disabledEditableRowDoneButton.isPresent();
+  }
+
+  public async isLastRowDeleteButtonDisabled(): Promise<boolean> {
+    return this.lastRowDeleteButtonDisabled.isPresent();
   }
 
 }
