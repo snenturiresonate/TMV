@@ -52,6 +52,11 @@ export class RestrictionsPageObject {
     return CommonActions.waitAndClick(this.lastRowDeleteButton);
   }
 
+  public async amendRestriction(rowNum: number): Promise<void> {
+    const editButtonLocator = `#track-restriction-table-edit-button-${rowNum}`;
+    const editButton: ElementFinder = element(by.css(editButtonLocator));
+    return CommonActions.waitAndClick(editButton);
+  }
   public async applyChanges(): Promise<void> {
     await CommonActions.waitAndClick(this.applyChangesButton);
     await browser.wait(ExpectedConditions.invisibilityOf(this.spinner), 5000);
@@ -212,4 +217,16 @@ export class RestrictionsPageObject {
     return this.lastRowDeleteButtonDisabled.isPresent();
   }
 
+  public async getRowForRestrictionWithComment(targetComment: string): Promise<number> {
+    const numRestrictions = await this.getRestrictionsCount();
+    for (let i = 0; i < numRestrictions; i++) {
+      const commentLocator = `#track-restriction-table-comment-and-buttons-${i} div:first-child`;
+      const commentElement: ElementFinder = element(by.css(commentLocator));
+      const restrictionComment = await commentElement.getText();
+      if (restrictionComment.trim() === targetComment) {
+        return i;
+      }
+    }
+    return -1;
+  }
 }
