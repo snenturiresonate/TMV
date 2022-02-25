@@ -120,6 +120,7 @@ Feature: 33998 - TMV Train Service - full end to end testing
     # When the user selects to turn the path on
     # Then the train's predicted path is displayed in blue for the remainder of its journey
     # And the path off toggle is available (single train)
+    #
     * I generate a new train description
     * I generate a new trainUID
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX

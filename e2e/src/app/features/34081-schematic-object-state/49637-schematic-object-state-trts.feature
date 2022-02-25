@@ -5,11 +5,11 @@ Feature: 49637 - Schematic State - Track State, Dual Signals, Q berth, TRTS
   So that I have a live view of the railway
 
   Scenario:34081 - 28 Track State (Route Set)
-    #Given an S-Class message is received and processed
-    #And the S-Class message is a Route Expression Signalling function
-    #And the S-Class message is setting the track(s) to route set
-    #When a user is viewing a map that contains the track(s)
-    #Then the track(s) will be displayed in solid white
+    # Given an S-Class message is received and processed
+    # And the S-Class message is a Route Expression Signalling function
+    # And the S-Class message is setting the track(s) to route set
+    # When a user is viewing a map that contains the track(s)
+    # Then the track(s) will be displayed in solid white
     * this replay setup test has been moved to become part of the replay test: 34393-34 Track State (Route Set)
 
   @replaySetup

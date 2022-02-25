@@ -1,4 +1,4 @@
-Feature: 34393 - Replay page Schematic Object State Scenarios
+Feature: 34393 - Replay page Schematic Object State Scenarios - Subsidiary and Shunt
   (From Gherkin for Feature 40680 and functionality developed in US34081)
   As a TMV User
   I want the view schematic maps in replay mode
