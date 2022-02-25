@@ -134,6 +134,8 @@ Given('the following restriction values are entered', {timeout: 8 * 5000}, async
     let value = '';
     if (isValidDateTimeLabel(row.value)) {
       value = getFormattedDateTime(row.value);
+    } else if (row.value.includes('now')) {
+      value = getFormattedDateTimeByEquation(row.value);
     } else if (row.value !== 'blank') {
       value = row.value;
     }
@@ -165,7 +167,7 @@ async function checkRestrictionValues(index: number, table: any): Promise<void> 
       expect(isBlank, `Actual for ${expectedField} should be ${true}`).to.equal(true);
     } else {
       let derivedExpectedValue = '';
-      if (isValidDateTimeLabel(expectedValue.value)) {
+      if (isValidDateTimeLabel(expectedValue.value) || expectedValue.value.includes('now')) {
         derivedExpectedValue = getAllocatedFormattedDateTime(expectedValue.value);
       } else {
         derivedExpectedValue = expectedValue.value;
@@ -186,13 +188,18 @@ function getFormattedDateTime(dateTimeLabel: string): string {
   return dateTime;
 }
 
+function getFormattedDateTimeByEquation(dateTimeLabel: string): string {
+  const date = DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy');
+  const time = DateAndTimeUtils.parseTimeEquation(dateTimeLabel, 'HH:mm:ss');
+  const dateTime = `${date} ${time}`;
+  browser[dateTimeLabel] = dateTime;
+  return dateTime;
+}
+
 function getAllocatedFormattedDateTime(dateTimeLabel: string): string {
   if (!!browser[dateTimeLabel]) {
     return browser[dateTimeLabel];
   } else {
-    return DateAndTimeUtils.convertToDesiredDateAndFormat(dateTimeLabel, 'dd/MM/yyyy HH:mm:ss');
+    return 'label not found';
   }
 }
-
-
-

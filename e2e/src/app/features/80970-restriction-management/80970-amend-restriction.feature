@@ -66,7 +66,7 @@ Feature: 80970 - TMV Restrictions - Amend
       | Start-Distance-chains | 200                               |
       | End-Distance-miles    | 300                               |
       | End-Distance-chains   | 400                               |
-      | End-Date              | tomorrow                          |
+      | End-Date              | now+10                            |
       | Max-Speed             | 100                               |
       | Delay-Penalty         | 200                               |
       | Comment               | Cows on track                     |
@@ -80,7 +80,7 @@ Feature: 80970 - TMV Restrictions - Amend
       | Start-Distance-chains | 200 ch                            |
       | End-Distance-miles    | 300 m                             |
       | End-Distance-chains   | 400 ch                            |
-      | End-Date              | tomorrow                          |
+      | End-Date              | now+10                            |
       | Max-Speed             | 100 mph                           |
       | Delay-Penalty         | 200 mins                          |
       | Comment               | Cows on track                     |
