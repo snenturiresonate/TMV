@@ -33,7 +33,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
   Scenario: Line Status -Path type settings default color and entries
     Then the following can be seen on the Line Status path type settings table
       | name           | colour  | lineStyle |
-      | Predicted Path | #0000ff | Solid     |
+      | Predicted Path | #00d2ff | Solid     |
 
   Scenario: Line Status -Restriction type settings reset to default color and entries
     When I update the Line Status restriction type settings table as
@@ -66,7 +66,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
     And I confirm on browser popup
     Then the following can be seen on the Line Status path type settings table
       | name            | colour  | lineStyle |
-      | Predicted Path  | #0000ff | Solid     |
+      | Predicted Path  | #00d2ff | Solid     |
 
   Scenario: Update Line Status -Restriction type settings
     When I update the Line Status restriction type settings table as

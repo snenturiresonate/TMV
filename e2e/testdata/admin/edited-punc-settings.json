@@ -2,7 +2,7 @@
   "adminLineStatusSettings": {
     "pathTypeSettings": [
       {
-        "colour": "#0000ff",
+        "colour": "#00d2ff",
         "lineStatusSettingName": "Predicted Path",
         "lineStyle": "Solid",
         "lineWidth": 3
