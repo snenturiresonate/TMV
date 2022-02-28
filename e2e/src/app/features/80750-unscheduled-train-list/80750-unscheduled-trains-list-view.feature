@@ -23,16 +23,19 @@ Feature: 80750 - Unscheduled Trains List - View
     * I generate a new train description
 
   Scenario Outline: 81290-1 - unscheduled trains list displays a single unscheduled train
-    Given the following live berth interpose message is sent from LINX (to create an unmatched service)
+    Given I am on the unscheduled trains list
+    And the following live berth interpose message is sent from LINX (to create an unmatched service)
       | toBerth | trainDescriber | trainDescription   |
       | A007    | D3             | <trainDescription> |
+    And I give the train 2 seconds to dwell
+    * I take a screenshot
     And the following live berth step message is sent from LINX (to step the train into Royal Oak Junction)
       | fromBerth | toBerth | trainDescriber | trainDescription   |
       | A007      | 0039    | D3             | <trainDescription> |
-    When I am on the unscheduled trains list
+    * I take a screenshot
     Then the following unscheduled trains list entry can be seen
-      | trainId            | time | berth  | signal | location           | trainDescriber |
-      | <trainDescription> | now  | D30039 | SN39   | Royal Oak Junction | D3             |
+      | trainId            | entryTime | entryBerth | entrySignal | entryLocation     | currentBerth | currentSignal | currentLocation    | currentTrainDescriber |
+      | <trainDescription> | now       | D3A007     | SN7         | London Paddington | D30039       | SN39          | Royal Oak Junction | D3                    |
 
     Examples:
       | trainDescription  |
@@ -57,8 +60,8 @@ Feature: 80750 - Unscheduled Trains List - View
       | <planningUid> | <trainDescription> | today              | 73000               | PADTON                 | Departure from origin |
     When I am on the unscheduled trains list
     Then the following unscheduled trains list entry cannot be seen
-      | trainId            | time | berth  | signal | location           | trainDescriber |
-      | <trainDescription> | now  | D30039 | SN39   | Royal Oak Junction | D3             |
+      | trainId            | entryTime | entryBerth | entrySignal | entryLocation     | currentBerth | currentSignal | currentLocation    | currentTrainDescriber |
+      | <trainDescription> | now       | D3A007     | SN7         | London Paddington | D30039       | SN39          | Royal Oak Junction | D3                    |
 
     Examples:
       | trainDescription          | planningUid       |
@@ -77,19 +80,18 @@ Feature: 80750 - Unscheduled Trains List - View
       |                |
       | ENTRY          |
       | CURRENT        |
-#    @bug @bug:87321
-#    And the following table column names can be seen in the following order on the unscheduled trains list
-#      | tableColumnName  |
-#      | TRAIN ID         |
-#      | TIME             |
-#      | arrow_upward     |
-#      | BERTH            |
-#      | SIGNAL           |
-#      | LOCATION         |
-#      | BERTH            |
-#      | SIGNAL           |
-#      | LOCATION         |
-#      | TRAIN DESCRIBER  |
+    And the following table column names can be seen in the following order on the unscheduled trains list
+      | tableColumnName  |
+      | TRAIN ID         |
+      | TIME             |
+      | arrow_upward     |
+      | BERTH            |
+      | SIGNAL           |
+      | LOCATION         |
+      | BERTH            |
+      | SIGNAL           |
+      | LOCATION         |
+      | TRAIN DESCRIBER  |
 
     Examples:
       | trainDescription  |

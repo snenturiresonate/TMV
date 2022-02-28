@@ -21,8 +21,8 @@ Feature: 80750 - Unscheduled Trains List - Find Train Menu
       | A007    | D3             | <trainDescription> |
     And I am on the unscheduled trains list
     And the following unscheduled trains list entry can be seen
-      | trainId            | time | berth  | signal | location           | trainDescriber |
-      | <trainDescription> | now  | D3A007 | SN7    | London Paddington  | D3             |
+      | trainId            | entryTime | entryBerth | entrySignal | entryLocation     | currentBerth | currentSignal | currentLocation   | currentTrainDescriber |
+      | <trainDescription> | now       | D3A007     | SN7         | London Paddington | D3A007       | SN7           | London Paddington | D3                    |
     And I right click on the following unscheduled train
       | trainId            | time | berth  | signal | location           | trainDescriber   |
       | <trainDescription> | now  | D3A007 | SN7    | London Paddington  | D3               |

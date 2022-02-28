@@ -54,8 +54,8 @@ Then(/^the following table column names can be seen in the following order on th
 
 Then(/^the unscheduled trains list is ordered by entry time, most recent first$/, async () => {
   const actualUnscheduledTrains: UnscheduledTrain[] = await unscheduledTrainsListPage.getUnscheduledTrainsListResults();
-  const firstTrainTime: string = actualUnscheduledTrains[0].time;
-  const secondTrainTime: string = actualUnscheduledTrains[1].time;
+  const firstTrainTime: string = actualUnscheduledTrains[0].entryTime;
+  const secondTrainTime: string = actualUnscheduledTrains[1].entryTime;
   expect(await DateAndTimeUtils.formulateDateTime(firstTrainTime, UnscheduledTrainsListPageObject.UNSCHEDULED_TRAINS_LIST_TIME_FORMAT),
     `Expected the unscheduled trains list to be ordered by entry time but ${firstTrainTime} was not after ${secondTrainTime}`)
     .to.be.afterTime(

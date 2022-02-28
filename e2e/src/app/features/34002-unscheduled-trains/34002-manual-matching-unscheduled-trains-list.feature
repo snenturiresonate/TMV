@@ -1,4 +1,5 @@
 @TMVPhase2 @P2.S3
+@bug @bug:87447
 Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Unscheduled Trains List
 
   As a TMV User
@@ -23,12 +24,18 @@ Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Unscheduled Trains L
 
   Scenario Outline: 84045-1 Manual Matching - Unscheduled Trains List - Remains Matched Throughout Journey
     Given I am on the unscheduled trains list
-    And the following live berth step message is sent from LINX (to create an unmatched service)
+    And the following live berth interpose message is sent from LINX (to create an unmatched service)
+      | toBerth     | trainDescriber   | trainDescription   |
+      | <fromBerth> | <trainDescriber> | <trainDescription> |
+    * I take a screenshot
+    And I give the train 2 seconds to dwell
+    And the following live berth step message is sent from LINX (to move the train)
       | fromBerth   | toBerth   | trainDescriber   | trainDescription   |
       | <fromBerth> | <toBerth> | <trainDescriber> | <trainDescription> |
+    * I take a screenshot
     And the following unscheduled trains list entry can be seen
-      | trainId            | time | berth                     | signal | location           | trainDescriber   |
-      | <trainDescription> | now  | <trainDescriber><toBerth> | SN243  | Southall East Jn   | <trainDescriber> |
+      | trainId            | entryTime | entryBerth                  | entrySignal | entryLocation    | currentBerth              | currentSignal | currentLocation  | currentTrainDescriber |
+      | <trainDescription> | now       | <trainDescriber><fromBerth> | SN239       |                  | <trainDescriber><toBerth> | SN243         | Southall East Jn | <trainDescriber>      |
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1L24_PADTON_RDNGSTN.cif | STHALL      | WTT_arr       | <trainDescription>  | <trainUid>    |
@@ -37,8 +44,8 @@ Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Unscheduled Trains L
     And I give the train 2 seconds to reach Elastic
     And I refresh the Elastic Search indices
     And I right click on the following unscheduled train
-      | trainId            | time | berth                     | signal | location           | trainDescriber   |
-      | <trainDescription> | now  | <trainDescriber><toBerth> | SN243  | Southall East Jn   | <trainDescriber> |
+      | trainId            | entryTime | entryBerth                  | entrySignal | entryLocation    | currentBerth              | currentSignal | currentLocation  | currentTrainDescriber |
+      | <trainDescription> | now       | <trainDescriber><fromBerth> | SN239       |                  | <trainDescriber><toBerth> | SN243         | Southall East Jn | <trainDescriber>      |
     And I click match on the unscheduled trains list context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching <trainDescription>'
@@ -73,12 +80,18 @@ Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Unscheduled Trains L
 
   Scenario Outline: 84045-2 Manual Matching - Unscheduled Trains List - Remains Matched Until Unmatched and Remains Unmatched
     Given I am on the unscheduled trains list
+    And the following live berth interpose message is sent from LINX (to create an unmatched service)
+      | toBerth     | trainDescriber   | trainDescription   |
+      | <fromBerth> | <trainDescriber> | <trainDescription> |
+    * I take a screenshot
+    And I give the train 2 seconds to dwell
     And the following live berth step message is sent from LINX (to create an unmatched service)
       | fromBerth   | toBerth   | trainDescriber   | trainDescription   |
       | <fromBerth> | <toBerth> | <trainDescriber> | <trainDescription> |
+    * I take a screenshot
     And the following unscheduled trains list entry can be seen
-      | trainId            | time | berth                     | signal | location           | trainDescriber   |
-      | <trainDescription> | now  | <trainDescriber><toBerth> | SN243  | Southall East Jn   | <trainDescriber> |
+      | trainId            | entryTime | entryBerth                  | entrySignal | entryLocation    | currentBerth              | currentSignal | currentLocation  | currentTrainDescriber |
+      | <trainDescription> | now       | <trainDescriber><fromBerth> | SN239       |                  | <trainDescriber><toBerth> | SN243         | Southall East Jn | <trainDescriber>      |
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1L24_PADTON_RDNGSTN.cif | STHALL      | WTT_arr       | <trainDescription>  | <trainUid>    |
@@ -87,8 +100,8 @@ Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Unscheduled Trains L
     And I give the train 2 seconds to reach Elastic
     And I refresh the Elastic Search indices
     And I right click on the following unscheduled train
-      | trainId            | time | berth                     | signal | location           | trainDescriber   |
-      | <trainDescription> | now  | <trainDescriber><toBerth> | SN243  | Southall East Jn   | <trainDescriber> |
+      | trainId            | entryTime | entryBerth                  | entrySignal | entryLocation    | currentBerth              | currentSignal | currentLocation  | currentTrainDescriber |
+      | <trainDescription> | now       | <trainDescriber><fromBerth> | SN239       |                  | <trainDescriber><toBerth> | SN243         | Southall East Jn | <trainDescriber>      |
     And I click match on the unscheduled trains list context menu
     And I switch to the new tab
     And the tab title is 'TMV Schedule Matching <trainDescription>'
@@ -123,6 +136,12 @@ Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Unscheduled Trains L
       | HDGW02reading.v    | 1677      | 1687    | D1                 | D1               | <trainDescription> |
       | HDGW02reading.v    | 1687      | 1697    | D1                 | D1               | <trainDescription> |
       | HDGW02reading.v    | 1697      | 1696    | D1                 | D1               | <trainDescription> |
+    When I am on the unscheduled trains list
+    * I take a screenshot
+    Then the following unscheduled trains list entry can be seen
+      | trainId            | entryTime | entryBerth | entrySignal | entryLocation    | currentBerth | currentSignal | currentLocation | currentTrainDescriber |
+      | <trainDescription> | now       | D40239     | SN239       |                  | D11696       | T1696,T1696X  | Reading         | <trainDescriber>      |
+
 
     Examples:
       | fromBerth | toBerth | toBerth2 | trainDescriber | trainDescription | trainUid  | toPunctualityColour |

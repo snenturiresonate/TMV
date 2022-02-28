@@ -1,8 +1,11 @@
 export interface UnscheduledTrain {
   trainId: string;
-  time: string;
-  berth: string;
-  signal: string;
-  location: string;
-  trainDescriber: string;
+  entryTime: string;
+  entryBerth: string;
+  entrySignal: string;
+  entryLocation: string;
+  currentBerth: string;
+  currentSignal: string;
+  currentLocation: string;
+  currentTrainDescriber: string;
 }

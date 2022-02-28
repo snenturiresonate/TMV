@@ -41,8 +41,8 @@ export class UnscheduledTrainsListPageObject {
     if (unscheduledTrain.trainId.includes('generated')) {
       unscheduledTrain.trainId = browser.referenceTrainDescription;
     }
-    if (unscheduledTrain.time.includes('now')) {
-      unscheduledTrain.time = DateAndTimeUtils
+    if (unscheduledTrain.entryTime.includes('now')) {
+      unscheduledTrain.entryTime = DateAndTimeUtils
         .getCurrentDateTimeString(UnscheduledTrainsListPageObject.UNSCHEDULED_TRAINS_LIST_TIME_FORMAT);
     }
     await CucumberLog.addText(`Expected: ${JSON.stringify(unscheduledTrain)}`);
@@ -53,10 +53,13 @@ export class UnscheduledTrainsListPageObject {
     const actualFiltered: UnscheduledTrain[] = actualUnscheduledTrains.filter((actualTrain) => {
       return (
         actualTrain.trainId === unscheduledTrain.trainId &&
-        actualTrain.berth === unscheduledTrain.berth &&
-        actualTrain.trainDescriber === unscheduledTrain.trainDescriber &&
-        actualTrain.signal === unscheduledTrain.signal &&
-        actualTrain.location === unscheduledTrain.location
+        actualTrain.entryBerth === unscheduledTrain.entryBerth &&
+        actualTrain.entrySignal === unscheduledTrain.entrySignal &&
+        actualTrain.entryLocation === unscheduledTrain.entryLocation &&
+        actualTrain.currentBerth === unscheduledTrain.currentBerth &&
+        actualTrain.currentSignal === unscheduledTrain.currentSignal &&
+        actualTrain.currentLocation === unscheduledTrain.currentLocation &&
+        actualTrain.currentTrainDescriber === unscheduledTrain.currentTrainDescriber
       );
     });
     await CucumberLog.addText(`Filtered: ${JSON.stringify(actualFiltered)}`);
@@ -69,9 +72,9 @@ export class UnscheduledTrainsListPageObject {
 
     // Check that the times are within a close margin of each other
     const expectedTime = await DateAndTimeUtils
-      .formulateDateTime(unscheduledTrain.time, UnscheduledTrainsListPageObject.UNSCHEDULED_TRAINS_LIST_TIME_FORMAT);
+      .formulateDateTime(unscheduledTrain.entryTime, UnscheduledTrainsListPageObject.UNSCHEDULED_TRAINS_LIST_TIME_FORMAT);
     const actualTime = await DateAndTimeUtils
-      .formulateDateTime(actualFiltered[0].time, UnscheduledTrainsListPageObject.UNSCHEDULED_TRAINS_LIST_TIME_FORMAT);
+      .formulateDateTime(actualFiltered[0].entryTime, UnscheduledTrainsListPageObject.UNSCHEDULED_TRAINS_LIST_TIME_FORMAT);
     expect(actualTime, `${actualTime} was not close enough to ${expectedTime}: ${JSON.stringify(actualFiltered[0])}`)
       .to.be.closeToTime(expectedTime, 60);
 
@@ -83,19 +86,25 @@ export class UnscheduledTrainsListPageObject {
     const resultElements: ElementArrayFinder = element.all(by.css('[id^=trains-list-row]'));
     await resultElements.each(async (result) => {
       const actualTrainDescription = await result.element(by.css('.trains-list-row-entry-train-description')).getText();
-      const actualTime = await result.all(by.css('.trains-list-row-entry-schedule-type')).get(0).getText();
-      const actualBerth = await result.all(by.css('.trains-list-row-entry-schedule-type')).get(1).getText();
-      const actualSignal = await result.all(by.css('.trains-list-row-entry-schedule-type')).get(2).getText();
-      const actualLocation = await result.all(by.css('.trains-list-row-entry-schedule-type')).get(3).getText();
-      const actualTrainDescriber = await result.all(by.css('.trains-list-row-entry-schedule-type')).get(4).getText();
+      const actualEntryTime = await result.all(by.css('.trains-list-row-entry-schedule-type')).get(0).getText();
+      const actualEntryBerth = await result.all(by.css('.trains-list-row-entry-schedule-type')).get(1).getText();
+      const actualEntrySignal = await result.all(by.css('.trains-list-row-entry-schedule-type')).get(2).getText();
+      const actualEntryLocation = await result.all(by.css('.trains-list-row-entry-schedule-type')).get(3).getText();
+      const actualCurrentBerth = await result.all(by.css('.trains-list-row-entry-schedule-type')).get(4).getText();
+      const actualCurrentSignal = await result.all(by.css('.trains-list-row-entry-schedule-type')).get(5).getText();
+      const actualCurrentLocation = await result.all(by.css('.trains-list-row-entry-schedule-type')).get(6).getText();
+      const actualCurrentTrainDescriber = await result.all(by.css('.trains-list-row-entry-schedule-type')).get(7).getText();
       results.push(
         {
           trainId: actualTrainDescription,
-          time: actualTime,
-          berth: actualBerth,
-          signal: actualSignal,
-          location: actualLocation,
-          trainDescriber: actualTrainDescriber
+          entryTime: actualEntryTime,
+          entryBerth: actualEntryBerth,
+          entrySignal: actualEntrySignal,
+          entryLocation: actualEntryLocation,
+          currentBerth: actualCurrentBerth,
+          currentSignal: actualCurrentSignal,
+          currentLocation: actualCurrentLocation,
+          currentTrainDescriber: actualCurrentTrainDescriber
         });
     });
     return results;
@@ -118,10 +127,13 @@ export class UnscheduledTrainsListPageObject {
     const trainIndex: number = actualUnscheduledTrains.findIndex((train) => {
       return (
         train.trainId === unscheduledTrain.trainId &&
-        train.berth === unscheduledTrain.berth &&
-        train.trainDescriber === unscheduledTrain.trainDescriber &&
-        train.signal === unscheduledTrain.signal &&
-        train.location === unscheduledTrain.location
+        train.entryBerth === unscheduledTrain.entryBerth &&
+        train.entrySignal === unscheduledTrain.entrySignal &&
+        train.entryLocation === unscheduledTrain.entryLocation &&
+        train.currentBerth === unscheduledTrain.currentBerth &&
+        train.currentSignal === unscheduledTrain.currentSignal &&
+        train.currentLocation === unscheduledTrain.currentLocation &&
+        train.currentTrainDescriber === unscheduledTrain.currentTrainDescriber
       );
     });
     return Promise.resolve(trainIndex);
