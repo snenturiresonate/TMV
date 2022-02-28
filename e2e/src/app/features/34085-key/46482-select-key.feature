@@ -16,7 +16,6 @@ Feature: 46482 - TMV Key - select key
       | Train Describer |
     And the active tab is 'Colour'
 
-  @bug @bug:79091
   # Story 53035 specifies that the replay key should not contain the train describer tab
   Scenario: 34085-1b The TMV Key modal window is launched when a map is displayed in the replay view
     Given I am on the home page
