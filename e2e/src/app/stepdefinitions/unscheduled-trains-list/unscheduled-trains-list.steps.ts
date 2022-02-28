@@ -71,3 +71,12 @@ When(/^I right click on the following unscheduled train$/, async (unscheduledTra
 When(/^I click match on the unscheduled trains list context menu$/, async () => {
   await unscheduledTrainsListPage.clickMatch();
 });
+
+Then(/^the find train sub-menu displays the following maps$/, async (expectedMapsTable: any) => {
+  const expectedMapObjects: any[] = expectedMapsTable.hashes();
+  const expectedMaps: string[] = expectedMapObjects.map(object => object.map);
+  const actualMaps: string[] = await unscheduledTrainsListPage.getFindTrainMaps();
+  expectedMaps.forEach(expectedMap => {
+    expect(actualMaps, `${actualMaps} did not contain ${expectedMap}`).to.contain(expectedMap);
+  });
+});

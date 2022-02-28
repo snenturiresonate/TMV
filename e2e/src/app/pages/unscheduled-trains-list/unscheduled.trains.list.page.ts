@@ -17,6 +17,7 @@ export class UnscheduledTrainsListPageObject {
   private columnTableNames: ElementArrayFinder;
   private trainRows: ElementArrayFinder;
   private matchContextMenu: ElementFinder;
+  private findTrainSubMenuMaps: ElementArrayFinder;
 
   constructor() {
     this.appPage = new AppPage();
@@ -25,6 +26,7 @@ export class UnscheduledTrainsListPageObject {
     this.columnTableNames = element.all(by.css('[id^=tmv-train-table-header-config-] span'));
     this.trainRows = element.all(by.css('[id^=trains-list-row]'));
     this.matchContextMenu = element(by.id('match-unmatch-selection-item'));
+    this.findTrainSubMenuMaps = element.all(by.css('#find-map-list span'));
   }
 
   public getTrainListElement(): ElementFinder {
@@ -132,5 +134,9 @@ export class UnscheduledTrainsListPageObject {
   public async clickMatch(): Promise<void> {
     await CommonActions.waitForElementToBeVisible(this.matchContextMenu);
     return this.matchContextMenu.click();
+  }
+
+  public async getFindTrainMaps(): Promise<string[]> {
+    return this.findTrainSubMenuMaps.map(map => map.getText());
   }
 }
