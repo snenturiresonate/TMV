@@ -90,7 +90,7 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | PlanningUid   |
       | <planningUid> |
     And the search table is shown
-    And I open today's timetable with planning UID <planningUid> fron the search results
+    And I open today's timetable with planning UID <planningUid> from the search results
     And the number of tabs open is 2
     And I switch to the new tab
     And the tab title is '<trainDescription> TMV Replay Timetable'
@@ -131,7 +131,7 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | PlanningUid   |
       | <planningUid> |
     And the search table is shown
-    And I open today's timetable with planning UID <planningUid> fron the search results
+    And I open today's timetable with planning UID <planningUid> from the search results
     And the number of tabs open is 2
     And I switch to the new tab
     And the tab title is '<trainDescription> TMV Replay Timetable'
@@ -272,7 +272,7 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | PlanningUid   |
       | <planningUid> |
     And the search table is shown
-    And I open today's timetable with planning UID <planningUid> fron the search results
+    And I open today's timetable with planning UID <planningUid> from the search results
     And the number of tabs open is 2
     And I switch to the new tab
     And the tab title is '<trainDescription> TMV Replay Timetable'
@@ -360,7 +360,7 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | PlanningUid   |
       | <planningUid> |
     And the search table is shown
-    And I open today's timetable with planning UID <planningUid> fron the search results
+    And I open today's timetable with planning UID <planningUid> from the search results
     And the number of tabs open is 2
     And I switch to the new tab
     And the tab title is '<trainDescription> TMV Replay Timetable'

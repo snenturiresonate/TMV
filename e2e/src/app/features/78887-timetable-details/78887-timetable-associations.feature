@@ -20,7 +20,7 @@ Feature: 78887 - Timetable Details - Timetable Associations
       | PlanningUid |
       | <trainUid>  |
     And the search table is shown
-    And I open the timetable for the next train with UID <trainUid> fron the search results
+    And I open the timetable for the next train with UID <trainUid> from the search results
     And the number of tabs open is 2
     And I switch to the new tab
     When I switch to the timetable details tab

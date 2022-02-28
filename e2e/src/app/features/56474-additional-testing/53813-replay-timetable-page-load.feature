@@ -116,7 +116,7 @@ Feature: 33753 - Timetable - Additional Automated Testing - Replay Timetable NFR
       | <planningUid> |
     And the search table is shown
     When I start the stopwatch
-    And I open today's timetable with planning UID <planningUid> fron the search results
+    And I open today's timetable with planning UID <planningUid> from the search results
     And the number of tabs open is 2
     And I switch to the new tab
     And the tab title is '<trainDescription> TMV Replay Timetable'
@@ -152,7 +152,7 @@ Feature: 33753 - Timetable - Additional Automated Testing - Replay Timetable NFR
       | <planningUid> |
     And the search table is shown
     When I start the stopwatch
-    And I open today's timetable with planning UID <planningUid> fron the search results
+    And I open today's timetable with planning UID <planningUid> from the search results
     And the number of tabs open is 2
     And I switch to the new tab
     And the tab title is '<trainDescription> TMV Replay Timetable'

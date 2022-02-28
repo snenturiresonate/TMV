@@ -1,5 +1,4 @@
 @TMVPhase2 @P2.S3
-@tdd @tdd:79731
 Feature: 79730 - TMV Manual Unmatching - Unmatch a service - Timetable
 
   As a TMV User
@@ -90,6 +89,7 @@ Feature: 79730 - TMV Manual Unmatching - Unmatch a service - Timetable
     * I logout
 
 
+  @bug @bug_87441
   Scenario: 80305 - 3 - Unmatch via Timetable dialogue (option available even for unmatched timetable - result is blank)
 
 #  For an unmatched timetable if the user open the scheduled matching tab the list of schedules will be blank and no matched service
@@ -102,7 +102,7 @@ Feature: 79730 - TMV Manual Unmatching - Unmatch a service - Timetable
     And I wait until today's train 'generated' has loaded
     When I access the homepage as schedulematching user
     And I search Timetable for 'generated'
-    And I open the timetable for the next train with UID generated fron the search results
+    And I open the timetable for the next train with UID generated from the search results
     And I switch to the new tab
     Then the Unmatch/Rematch button is present
     When I click on the Unmatch/Rematch button
@@ -160,6 +160,7 @@ Feature: 79730 - TMV Manual Unmatching - Unmatch a service - Timetable
       | trainDescription | trainUid  |
       | generated        | generated |
 
+  @bug @bug_87441
   Scenario Outline: 80307 - Unmatch via Timetable Dialogue (Confirm)
 
 #    Given the user is authenticated to use TMV
