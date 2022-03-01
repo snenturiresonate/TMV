@@ -251,7 +251,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
     And I add the following restrictions starting now
       | type                 | comment                                                                                                                         | end-date  |
       | BLOK (Line Blockage) | BLOK - area-wide restriction                                                                                                    |           |
-      | BLOK (Line Blockage) | BLOK - Bridge strike debris? For further information call (01367) 672828. /##UPDATE Current estimate for clearance is 19:00 **/ | now + 120 |
+      | BLOK (Line Blockage) | BLOK - Bridge strike debris? For further information call (01367) 672828. /**UPDATE Current estimate for clearance is 19:00 **/ | now + 120 |
       | BLOK (Line Blockage) | BLOK - Tree on the line                                                                                                         | now + 60  |
     And I click apply changes
     And I switch to the second-newest tab
@@ -268,7 +268,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
     And I switch to the second-newest tab
     And I wait for the tracks to be displayed
     When I right click on track with id '<trackDivisionId>'
-    Then the map context menu contains 'BLOK - Bridge strike debris? For further information call (01367) 672828. /##UPDATE Current estimate for clearance is 19:00 **/' on line 3
+    Then the map context menu contains 'BLOK - Bridge strike debris? For further information call (01367) 672828. /**UPDATE Current estimate for clearance is 19:00 **/' on line 3
 
     Examples:
       | map                | trackDivisionId |
