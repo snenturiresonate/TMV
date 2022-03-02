@@ -330,7 +330,7 @@ export class MapPageObject {
   }
 
   public async rightClickTrack(trackId: string): Promise<void> {
-    const berthLink: ElementFinder = element(by.id('track-element-path-' + trackId));
+    const berthLink: ElementFinder = element.all(by.id('track-element-path-' + trackId)).first();
     await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
   }
 

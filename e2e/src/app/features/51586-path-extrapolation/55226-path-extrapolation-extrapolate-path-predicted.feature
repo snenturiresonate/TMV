@@ -14,6 +14,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     # And no TRI or berth stepping has been received for that schedule
     # When the user views the timetable
     # Then there are no predicted times or punctuality displayed for the locations in the schedule
+    #
     * I generate a new trainUID
     * I delete '<trainUid>:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX

@@ -235,6 +235,70 @@ Then('the delete button is disabled on the last restriction', async () => {
   expect(deleteButtonDisabled, `Actual for deleteButtonDisabled should be ${true}`).to.equal(true);
 });
 
+Then('only the following restrictions are shown in order', {timeout: 8 * 5000}, async (table: any) => {
+
+  /*  takes a data table that is dynamic,
+      column headers should match the relevant part of the edit input element ids for Restrictions table namely:
+
+      type                    id="track-restriction-table-edit-type-0"
+      start-distance-miles    id="track-restriction-table-edit-start-distance-miles-input-0"
+      start-distance-chains   id="track-restriction-table-edit-start-distance-chains-input-0"
+      end-distance-miles      id="track-restriction-table-edit-end-distance-miles-input-0"
+      end-distance-chains     id="track-restriction-table-edit-end-distance-chains-input-0"
+      start-date              id="track-restriction-table-edit-start-date-0"
+      end-date                id="track-restriction-table-edit-end-date-0"
+      delay-penalty           id="track-restriction-table-edit-delay-penalty-0"
+      comment                 id="track-restriction-table-edit-comment-and-buttons-0"
+
+      example below to add restriction with given type, end-date and comment
+      note end-date and start-date can include 'now' with optional offset in minutes e.g. 'now + 2' or 'now - 120'
+
+    Then the following restrictions are shown in order
+        | type              | comment       | start-date | end-date  |
+        | POSS (Possession) | POSS - Team 1 | now - 30   |           |
+        | POSS (Possession) | POSS - Team 2 | now - 60   | now + 60  |
+  */
+
+  const values = table.hashes();
+  const expectedNumRows = values.length;
+  const actualNumRows = await restrictionsPageObject.getRestrictionsCount();
+  expect(actualNumRows,
+    `Actual for number of restrictions should be ${expectedNumRows} but was ${actualNumRows}`)
+    .to.equal(expectedNumRows);
+  for (let index = 0; index < expectedNumRows; index++) {
+    for (const [key, value] of Object.entries(table.hashes()[index])) {
+      const val = String(value);
+      if (val === 'blank') {
+        const isBlank = await restrictionsPageObject.isValueInRowBlank(index, key);
+        expect(isBlank, `Actual for ${key} should be ${true}`).to.equal(true);
+      } else {
+        let derivedExpectedValue = '';
+        if (isValidDateTimeLabel(val) || val.includes('now')) {
+          derivedExpectedValue = getAllocatedFormattedDateTime(val);
+        } else {
+          derivedExpectedValue = val;
+        }
+        const actualValue: string = await restrictionsPageObject.getDisplayedValueInRow(index, key);
+        expect(actualValue.trim(), `Actual for ${key} should be ${derivedExpectedValue}`).to.equal(derivedExpectedValue);
+      }
+    }
+  }
+});
+
+Then('no add restriction button is present', async () => {
+  const addRestrictionButtonPresent = await restrictionsPageObject.isAddRestrictionButtonPresent();
+  expect(addRestrictionButtonPresent, 'Expecting no Add Restriction button to be present').to.equal(false);
+});
+
+Then('no edit restriction buttons are present', async () => {
+  const editButtonsPresent = await restrictionsPageObject.areEditButtonsPresent();
+  expect(editButtonsPresent, 'Expecting no Edit Restriction buttons to be present').to.equal(false);
+});
+
+Then('no delete restriction buttons are present', async () => {
+  const deleteButtonsPresent = await restrictionsPageObject.areDeleteButtonsPresent();
+  expect(deleteButtonsPresent, 'Expecting no Delete Restriction buttons to be present').to.equal(false);
+});
 
 
 async function checkRestrictionValues(index: number, table: any): Promise<void> {
@@ -268,9 +332,7 @@ function getFormattedDateTime(dateTimeLabel: string): string {
 }
 
 function getFormattedDateTimeByEquation(dateTimeLabel: string): string {
-  const date = DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy');
-  const time = DateAndTimeUtils.parseTimeEquation(dateTimeLabel, 'HH:mm:ss');
-  const dateTime = `${date} ${time}`;
+  const dateTime = DateAndTimeUtils.parseTimeEquation(dateTimeLabel, 'dd/MM/yyyy HH:mm:ss');
   browser[dateTimeLabel] = dateTime;
   return dateTime;
 }

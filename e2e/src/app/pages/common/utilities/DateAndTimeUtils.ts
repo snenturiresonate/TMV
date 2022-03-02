@@ -21,7 +21,7 @@ export class DateAndTimeUtils {
   }
 
   public static getCurrentTimePlusOrMinusMins(plusMins = 0, minusMins = 0, format = 'HH:mm:ss'): string {
-    return DateAndTimeUtils.getCurrentTime().plusMinutes(plusMins).minusMinutes(minusMins).format(DateTimeFormatter.ofPattern(format));
+    return DateAndTimeUtils.getCurrentDateTime().plusMinutes(plusMins).minusMinutes(minusMins).format(DateTimeFormatter.ofPattern(format));
   }
 
   public static parseTimeEquation(equation = 'now + 2', format = 'HH:mm:ss'): string {

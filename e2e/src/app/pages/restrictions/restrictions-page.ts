@@ -18,6 +18,8 @@ export class RestrictionsPageObject {
   public lastRowDeleteButtonDisabled: ElementFinder;
   public spinner: ElementFinder;
   public clock: ElementFinder;
+  public allEditButtons: ElementArrayFinder;
+  public allDeleteButtons: ElementArrayFinder;
 
   constructor() {
     this.addRestrictionButton = element(by.css('#add-track-restriction-button'));
@@ -34,10 +36,25 @@ export class RestrictionsPageObject {
     this.lastRowDeleteButtonDisabled = element(by.css('#restrictions-table-body tr:last-child em.delete-button.disabled-track-restriction-table-button'));
     this.spinner = element(by.css('#loading-spinner-icon'));
     this.clock = element(by.css('#nav-bar-current-time'));
+    this.allEditButtons = element.all(by.css('#restrictions-table-body tr em.edit-button'));
+    this.allDeleteButtons = element.all(by.css('#restrictions-table-body tr em.delete-button'));
+
   }
 
   public async addRestriction(): Promise<void> {
     return CommonActions.waitAndClick(this.addRestrictionButton);
+  }
+
+  public async isAddRestrictionButtonPresent(): Promise<boolean> {
+    return await this.addRestrictionButton.isPresent();
+  }
+
+  public async areEditButtonsPresent(): Promise<boolean> {
+    return await this.allEditButtons.isPresent();
+  }
+
+  public async areDeleteButtonsPresent(): Promise<boolean> {
+    return await this.allDeleteButtons.isPresent();
   }
 
   public async saveOpenRestriction(): Promise<void> {

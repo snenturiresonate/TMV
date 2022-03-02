@@ -16,8 +16,7 @@ export class AdminRestClient {
     const accessToken: string = await LocalStorage.getLocalStorageValueFromRegexKey('CognitoIdentityServiceProvider\..*\.accessToken');
     await CucumberLog.addText(`Using Access Token: ${accessToken}`);
     return this.httpClient.put('/user-preferences-service/admin/configuration', JSON.stringify(JSON.parse(body)),
-      {security: 'b66d6c7c-7072-11eb-9439-0242ac130002', 'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`}).statusCode;
+      {'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}`}).statusCode;
   }
 
   public async waitMaxTransmissionTime(): Promise<void> {
