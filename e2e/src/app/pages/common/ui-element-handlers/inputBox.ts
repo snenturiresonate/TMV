@@ -1,4 +1,4 @@
-import {browser, ElementFinder, protractor} from 'protractor';
+import {browser, by, element, ElementFinder, protractor} from 'protractor';
 import {CommonActions} from '../ui-event-handlers/actionsAndWaits';
 import {GeneralUtils} from '../utilities/generalUtils';
 
@@ -72,6 +72,48 @@ export class InputBox {
     await elm.sendKeys(text.replace('#', ''));
     await elm.sendKeys(protractor.Key.TAB);
     await elm.sendKeys(protractor.Key.ENTER);
+  }
+
+  /**
+   * Updates a colour input element via the hex-text input element within the color-picker - avoiding the auto-complete
+   * Javascript that triggers in the underlying form input elements.
+   * Input: Location of <input> tag, Text to input
+   */
+  public static async updateColourPickerBoxViaPicker(elm: ElementFinder, text: string): Promise<void> {
+    await CommonActions.waitForElementInteraction(elm);
+    await GeneralUtils.scrollToElement(elm);
+    // The following is to get around a bug in the latest version of chromedriver, whereby certain chars like '#' cannot sendKeys
+    // see: https://bugs.chromium.org/p/chromedriver/issues/detail?id=3999
+    // and: https://stackoverflow.com/questions/70967207/selenium-chromedriver-cannot-construct-keyevent-from-non-typeable-key
+    const colour = text.replace('#', '');
+    await elm.click();
+    const hexTextInputElm = element(by.css('div.color-picker.open div.hex-text input'));
+    await GeneralUtils.scrollToElement(hexTextInputElm);
+    await hexTextInputElm.clear();
+    await hexTextInputElm.sendKeys(InputBox.decode3CharacterColour(colour));
+    await elm.sendKeys(protractor.Key.TAB);
+    await elm.sendKeys(protractor.Key.ENTER);
+  }
+
+  /**
+   * Convert 3 character colour abbreviation to full 6 character colour
+   * @param text
+   * @private
+   */
+  private static decode3CharacterColour(text: string): string {
+    if (text.length === 3) {
+      const arr = text.split('');
+      const colour: string[] = [];
+      colour.push(arr[0]);
+      colour.push(arr[0]);
+      colour.push(arr[1]);
+      colour.push(arr[1]);
+      colour.push(arr[2]);
+      colour.push(arr[2]);
+      return colour.join('');
+    } else {
+      return text;
+    }
   }
 
   /**

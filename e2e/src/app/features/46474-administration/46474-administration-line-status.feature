@@ -5,6 +5,8 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
   I want to verify the administration page - Display Settings
   So, that I can identify if the build meet the end to end requirements
 
+  # Force re-run
+
   Background:
     Given I have not already authenticated
     And I am on the admin page

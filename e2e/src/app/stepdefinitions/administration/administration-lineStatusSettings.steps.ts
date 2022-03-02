@@ -59,7 +59,7 @@ When('I update the Line Status restriction type settings table as', async (table
   const tableData = table.hashes();
   for (let i = 0; i < tableData.length; i++) {
     const restrictionTypeColour: ElementFinder = adminLineSettings.restrictionTypeColour(i);
-    await InputBox.updateColourPickerBox(restrictionTypeColour, tableData[i].colour);
+    await InputBox.updateColourPickerBoxViaPicker(restrictionTypeColour, tableData[i].colour);
   }
 });
 
@@ -69,7 +69,7 @@ When('I update the Line Status path type settings table as', async (table: any) 
     const pathTypeColour: ElementFinder = adminLineSettings.pathTypeColour(i);
     const pathTypeLineStyle: ElementFinder = adminLineSettings.pathTypeLineStyle(i);
 
-    await InputBox.updateColourPickerBox(pathTypeColour, tableData[i].colour);
+    await InputBox.updateColourPickerBoxViaPicker(pathTypeColour, tableData[i].colour);
     await SelectBox.selectByVisibleText(pathTypeLineStyle, tableData[i].lineStyle);
   }
 });
@@ -80,7 +80,7 @@ When('I update the Line Status route type settings table as', async (table: any)
     const routeTypeColour: ElementFinder = adminLineSettings.routeTypeColour(i);
     const routeTypeLineStyle: ElementFinder = adminLineSettings.routeTypeLineStyle(i);
 
-    await InputBox.updateColourPickerBox(routeTypeColour, tableData[i].colour);
+    await InputBox.updateColourPickerBoxViaPicker(routeTypeColour, tableData[i].colour);
     await SelectBox.selectByVisibleText(routeTypeLineStyle, tableData[i].lineStyle);
   }
 });
@@ -91,7 +91,7 @@ When('I update the Line Status note settings table as', async (table: any) => {
     const noteTypeColour: ElementFinder = adminLineSettings.noteTypeColour(i);
     const noteTypeLineStyle: ElementFinder = adminLineSettings.noteTypeLineStyle(i);
 
-    await InputBox.updateColourPickerBox(noteTypeColour, tableData[i].colour);
+    await InputBox.updateColourPickerBoxViaPicker(noteTypeColour, tableData[i].colour);
     await SelectBox.selectByVisibleText(noteTypeLineStyle, tableData[i].lineStyle);
   }
 });
