@@ -23,8 +23,8 @@ Feature: 80750 - Unscheduled Trains List - Find Train Menu
       | trainId            | entryTime | entryBerth | entrySignal | entryLocation     | currentBerth | currentSignal | currentLocation   | currentTrainDescriber |
       | <trainDescription> | now       | D3A007     | SN7         | London Paddington | D3A007       | SN7           | London Paddington | D3                    |
     And I right click on the following unscheduled train
-      | trainId            | time | berth  | signal | location           | trainDescriber   |
-      | <trainDescription> | now  | D3A007 | SN7    | London Paddington  | D3               |
+      | trainId            | entryTime | entryBerth | entrySignal | entryLocation     | currentBerth | currentSignal | currentLocation   | currentTrainDescriber |
+      | <trainDescription> | now       | D3A007     | SN7         | London Paddington | D3A007       | SN7           | London Paddington | D3                    |
     When I hover over the trains list context menu on line 3
     Then the find train sub-menu displays the following maps
     | map    |
