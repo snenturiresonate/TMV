@@ -25,6 +25,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
 
 #   If there two restrictions of the same type then prioritise by:
 #     Operational start date & time (early first) and then operational end date & time (later first with blank highest)
+#
 
   Background:
     Given I have not already authenticated

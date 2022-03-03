@@ -15,6 +15,7 @@ Feature: 80970 - TMV Restrictions - View (Standard User)
     #  And the user is a standard user
     #  When the user opts to view the restrictions view
     #  Then the user is presented with a restriction view in a new tab
+    #
 
     # Comments:
     #     The restrictions are ordered with the soonest end date at the top (if no end date these are displayed at the top)

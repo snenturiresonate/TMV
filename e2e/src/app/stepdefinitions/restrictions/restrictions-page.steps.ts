@@ -153,42 +153,11 @@ When(/^I click to edit the restriction with comment (.*)$/, async (targetComment
 });
 
 When('I add the following restrictions', {timeout: 8 * 5000}, async (table: any) => {
+  await addRestrictions(table, false);
+});
 
-/*  takes a data table that is dynamic,
-    column headers should match the relevant part of the edit input element ids for Restrictions table namely:
-
-    type                    id="track-restriction-table-edit-type-0"
-    start-distance-miles    id="track-restriction-table-edit-start-distance-miles-input-0"
-    start-distance-chains   id="track-restriction-table-edit-start-distance-chains-input-0"
-    end-distance-miles      id="track-restriction-table-edit-end-distance-miles-input-0"
-    end-distance-chains     id="track-restriction-table-edit-end-distance-chains-input-0"
-    start-date              id="track-restriction-table-edit-start-date-0"
-    end-date                id="track-restriction-table-edit-end-date-0"
-    delay-penalty           id="track-restriction-table-edit-delay-penalty-0"
-    comment                 id="track-restriction-table-edit-comment-and-buttons-0"
-
-    example below to add restriction with given type, end-date and comment
-    note end-date and start-date can include 'now' with optional offset in minutes e.g. 'now + 2' or 'now - 120'
-
-  When I add the following restrictions
-      | type              | comment       | start-date | end-date  |
-      | POSS (Possession) | POSS - Team 1 | now - 30   |           |
-      | POSS (Possession) | POSS - Team 2 | now - 60   | now + 60  |
-*/
-
-  const values = table.hashes();
-  const numRows = values.length;
-  for (let i = 0; i < numRows; i++) {
-    await restrictionsPageObject.addRestriction();
-    for (const [key, value] of Object.entries(table.hashes()[i])) {
-      let val = String(value);
-      if (val.includes('now')) {
-        val = getFormattedDateTimeByEquation(val);
-      }
-      await restrictionsPageObject.setValue(key, val);
-    }
-    await restrictionsPageObject.saveOpenRestriction();
-  }
+When('I add the following restrictions whilst preserving allocated dates', {timeout: 8 * 5000}, async (table: any) => {
+  await addRestrictions(table, true);
 });
 
 When('I add the following restrictions starting now', {timeout: 8 * 5000}, async (table: any) => {
@@ -301,6 +270,45 @@ Then('no delete restriction buttons are present', async () => {
 });
 
 
+async function addRestrictions(table: any, preserveAllocatedDates: boolean ): Promise<void> {
+
+  /*  takes a data table that is dynamic,
+      column headers should match the relevant part of the edit input element ids for Restrictions table namely:
+
+      type                    id="track-restriction-table-edit-type-0"
+      start-distance-miles    id="track-restriction-table-edit-start-distance-miles-input-0"
+      start-distance-chains   id="track-restriction-table-edit-start-distance-chains-input-0"
+      end-distance-miles      id="track-restriction-table-edit-end-distance-miles-input-0"
+      end-distance-chains     id="track-restriction-table-edit-end-distance-chains-input-0"
+      start-date              id="track-restriction-table-edit-start-date-0"
+      end-date                id="track-restriction-table-edit-end-date-0"
+      delay-penalty           id="track-restriction-table-edit-delay-penalty-0"
+      comment                 id="track-restriction-table-edit-comment-and-buttons-0"
+
+      example below to add restriction with given type, end-date and comment
+      note end-date and start-date can include 'now' with optional offset in minutes e.g. 'now + 2' or 'now - 120'
+
+    When I add the following restrictions
+        | type              | comment       | start-date | end-date  |
+        | POSS (Possession) | POSS - Team 1 | now - 30   |           |
+        | POSS (Possession) | POSS - Team 2 | now - 60   | now + 60  |
+  */
+
+  const values = table.hashes();
+  const numRows = values.length;
+  for (let i = 0; i < numRows; i++) {
+    await restrictionsPageObject.addRestriction();
+    for (const [key, value] of Object.entries(table.hashes()[i])) {
+      let val = String(value);
+      if (val.includes('now')) {
+        val = getFormattedDateTimeByEquation(val, preserveAllocatedDates);
+      }
+      await restrictionsPageObject.setValue(key, val);
+    }
+    await restrictionsPageObject.saveOpenRestriction();
+  }
+}
+
 async function checkRestrictionValues(index: number, table: any): Promise<void> {
   const expectedValues = table.hashes();
   for (const expectedValue of expectedValues) {
@@ -331,16 +339,21 @@ function getFormattedDateTime(dateTimeLabel: string): string {
   return dateTime;
 }
 
-function getFormattedDateTimeByEquation(dateTimeLabel: string): string {
-  const dateTime = DateAndTimeUtils.parseTimeEquation(dateTimeLabel, 'dd/MM/yyyy HH:mm:ss');
-  browser[dateTimeLabel] = dateTime;
-  return dateTime;
+function getFormattedDateTimeByEquation(dateTimeLabel: string, preserveAlreadyAllocatedDates: boolean = false): string {
+  const alreadyAllocated = browser[dateTimeLabel];
+  if (preserveAlreadyAllocatedDates && !!alreadyAllocated) {
+    return alreadyAllocated;
+  } else {
+    const dateTime = DateAndTimeUtils.parseTimeEquation(dateTimeLabel, 'dd/MM/yyyy HH:mm:ss');
+    browser[dateTimeLabel] = dateTime;
+    return dateTime;
+  }
 }
 
 function getAllocatedFormattedDateTime(dateTimeLabel: string): string {
   if (!!browser[dateTimeLabel]) {
     return browser[dateTimeLabel];
   } else {
-    return 'label not found';
+    return 'label for allocated date time not found';
   }
 }
