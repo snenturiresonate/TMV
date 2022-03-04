@@ -89,7 +89,7 @@ Feature: 79015 - TMV National Search Additions - National Berth Search Highlight
     # And the berth is highlighted for 10 seconds flashing between green and purple
     Given I have not already authenticated
     And I have cleared out all headcodes
-    And I remove today's train 'L10006' from the Redis trainlist
+    And I remove today's train 'L10006' from the trainlist
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | SLOUGH      | WTT_arr       | 1A06                | L10006         |

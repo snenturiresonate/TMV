@@ -121,6 +121,9 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - lo
       | PADTON              | Checked   | un-checked | un-checked | un-checked |
 
 
+  @bug
+  @87596
+  # Negative examples are failing
   Scenario Outline: 33806 -18 Trains list config for location types - <testType> test - Stop type '<stopType>'
     #    Given the user has made changes to the trains list Location selection
     #    When the user views the trains list

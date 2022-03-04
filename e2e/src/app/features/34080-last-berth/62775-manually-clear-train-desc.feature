@@ -15,7 +15,7 @@ Feature: 34080 - Manually Clear Train Description
     # And the user selects Clear Berth
     # Then the train description is removed from the map
     #
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |

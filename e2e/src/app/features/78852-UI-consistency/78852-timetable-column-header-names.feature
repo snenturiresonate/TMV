@@ -14,7 +14,7 @@ Feature: 78852 - TMV UI Consistency
     * I generate a new trainUID
     * I generate a new train description
     * I remove all trains from the trains list
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | RDNGSTN     | WTT_arr       | <trainNum>          | <planningUid>  |

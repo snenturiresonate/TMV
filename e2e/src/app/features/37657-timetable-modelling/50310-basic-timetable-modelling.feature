@@ -73,7 +73,7 @@ Feature: 37657 - Basic Timetable Modelling
     # Then one timetable with the planning UID and schedule date is returned and the type is <DisplayType>
     Given I am on the home page
     And I generate a new trainUID
-    * I remove today's train 'generatedTrainUId' from the Redis trainlist
+    * I remove today's train 'generatedTrainUId' from the trainlist
     And the access plan located in CIF file '<fileName>' is received from LINX with the new uid
     And I wait until today's train 'generatedTrainUId' has loaded
     When I search Timetable for 'generatedTrainUId' and wait for result
@@ -112,7 +112,7 @@ Feature: 37657 - Basic Timetable Modelling
     # Then one timetable with the planning UID and schedule date is returned and the type is <DisplayType>
     Given I am on the home page
     And I generate a new trainUID
-    * I remove today's train 'generatedTrainUId' from the Redis trainlist
+    * I remove today's train 'generatedTrainUId' from the trainlist
     And the access plan located in CIF file '<fileName>' is received from LINX with the new uid
     * I wait until today's train 'generatedTrainUId' has loaded
     When I search Timetable for 'generatedTrainUId' and wait for result
@@ -131,7 +131,7 @@ Feature: 37657 - Basic Timetable Modelling
     # Then newest version of the timetable with the planning UID and schedule date is returned and the type is <DisplayType>
     Given I am on the home page
     And I generate a new trainUID
-    * I remove today's train 'generatedTrainUId' from the Redis trainlist
+    * I remove today's train 'generatedTrainUId' from the trainlist
     And the access plan located in CIF file '<fileName>' is received from LINX with the new uid
     * I wait until today's train 'generatedTrainUId' has loaded
     When I search Timetable for 'generatedTrainUId' and wait for result
@@ -167,7 +167,7 @@ Feature: 37657 - Basic Timetable Modelling
     # And the Train UID from the schedule
     # And the headcode from the schedule
     # And Details displayed match those provided in the CIF
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given the access plan located in CIF file '<fileName>' is received from LINX
     And I wait until today's train '<trainUid>' has loaded
     And I am on the timetable view for service '<trainUid>'
@@ -189,7 +189,7 @@ Feature: 37657 - Basic Timetable Modelling
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # When a user views that timetable with inserted locations turned off
     # Then the locations displayed match those provided in the CIF
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given the access plan located in CIF file '<fileName>' is received from LINX
     * I wait until today's train '<trainUid>' has loaded
     And I am on the timetable view for service '<trainUid>'
@@ -258,7 +258,7 @@ Feature: 37657 - Basic Timetable Modelling
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # When a user views that timetable
     # Then the change en route displayed match those provided in the CIF
-    * I remove today's train 'L77777' from the Redis trainlist
+    * I remove today's train 'L77777' from the trainlist
     Given the access plan located in CIF file 'access-plan/1D46_PADTON_OXFD.cif' is received from LINX
     And I wait until today's train 'L77777' has loaded
     And I am on the timetable view for service 'L77777'

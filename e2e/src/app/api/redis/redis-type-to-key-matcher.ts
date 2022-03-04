@@ -111,8 +111,6 @@ const TYPE_TO_KEY_PATTERN = [
   {pattern: new RegExp('manual-trust-berth-states'), type: RedisType.REPLAY},
   {pattern: new RegExp('train-describer-[A-Z0-9]{2}'), type: RedisType.REPLAY},
   {pattern: new RegExp('train-describer-state-[A-Z0-9]{2}'), type: RedisType.REPLAY},
-  {pattern: new RegExp('trainlist:[A-Z0-9]{6}:[0-9]{4}-[0-9]{2}-[0-9]{2}'), type: RedisType.TRAINSLIST},
-  {pattern: new RegExp('trainlist:null'), type: RedisType.TRAINSLIST},
   {pattern: new RegExp('trains-list-updates'), type: RedisType.OPERATIONS},
 ];
 

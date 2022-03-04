@@ -22,7 +22,7 @@ Feature: 79593 - TMV Timetable Log Viewer - Partial Search
   Scenario Outline: 80300 - Timetable Log - Partial Search - valid train ID and planningUid searches
     Given I generate a new trainUID
     And I remove all trains from the trains list
-    And I remove today's train '<planningUid>' from the Redis trainlist
+    And I remove today's train '<planningUid>' from the trainlist
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription1> | <planningUid>  |

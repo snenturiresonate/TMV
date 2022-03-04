@@ -17,7 +17,7 @@ Feature: 40656 - Schedule Manipulation - Line To Path
 #    And the path code is not populated for the matching to location
 #    When a user selects to see that schedule in the timetable view
 #    Then the path code displayed for the To Location is the same as the line code for the From Location
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -51,7 +51,7 @@ Feature: 40656 - Schedule Manipulation - Line To Path
 #    And the path code is populated for the matching to location
 #    When a user selects to see that schedule in the timetable view
 #    Then then the original path code is displayed for the From Location
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -79,7 +79,7 @@ Feature: 40656 - Schedule Manipulation - Line To Path
 
   Scenario Outline: 40656-7b From Locations line is not back filled from To Locations Path with matching rule
     #K0056	OXFD   	OXFDNNJ
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -112,7 +112,7 @@ Feature: 40656 - Schedule Manipulation - Line To Path
 #    And the path code is null for to location that doesn't match
 #    When a user selects to see that schedule in the timetable view
 #    Then then the path code is not displayed for the to location
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |

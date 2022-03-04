@@ -19,7 +19,7 @@ Feature: 33753 - TMV Timetable
     * I generate a new trainUID
     * I generate a new train description
     * I remove all trains from the trains list
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | RDNGSTN     | WTT_arr       | <trainNum>          | <planningUid>  |
@@ -126,7 +126,7 @@ Feature: 33753 - TMV Timetable
     #When the user is viewing the timetable
     #Then the train's schedule is displayed with any predicted and live running information and header information
     * I generate a new trainUID
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | SLOUGH      | WTT_arr       | <trainNum>          | <planningUid>  |
@@ -349,7 +349,7 @@ Feature: 33753 - TMV Timetable
 #    And the schedule is matched to live stepping
 #    When the user selects the details tab of the timetable
 #    Then the train's CIF information and header information with any TJM, Association and Change-en-route is displayed
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |
@@ -433,7 +433,7 @@ Feature: 33753 - TMV Timetable
     #And the train is not schedule matched
     #When the user selects the details tab of the timetable
     #Then the train's basic header information is displayed
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given the following live berth interpose message is sent from LINX (which won't match anything)
       | toBerth | trainDescriber | trainDescription |
       | 1693    | D1             | <trainNum>       |

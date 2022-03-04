@@ -13,7 +13,7 @@ Feature: 40656 - Schedule Manipulation - Apply Rules In Order
 #    And the line  code is populated for the from location
 #    When a user selects to see that schedule in the timetable view
 #    Then the path code displayed for inserted location is the same as the line code for the from location
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -52,7 +52,7 @@ Feature: 40656 - Schedule Manipulation - Apply Rules In Order
 #    When a user selects to see that schedule in the timetable view
 #    Then the line code displayed for from location is the same as the path code for the from location
 #    And the path code displayed for to location is the same as the line code for the from location
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -92,7 +92,7 @@ Scenario Outline: 40656-11 Schedule with locations updated by line to path to ma
 #    When a user selects to see that schedule in the timetable view
 #    Then the line code displayed for from location is the same as the path code for the from location
 #    And the path code displayed for to location is the same as the line code for the from location
-  * I remove today's train '<planningUid>' from the Redis trainlist
+  * I remove today's train '<planningUid>' from the trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |

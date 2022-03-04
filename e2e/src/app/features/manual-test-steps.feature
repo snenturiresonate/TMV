@@ -5,7 +5,7 @@ Feature: Manual test steps
   tag from the headed protractor conf file at runtime.
 
   Scenario Outline: Load a timetable
-    * I remove today's train '<trainUID>' from the Redis trainlist
+    * I remove today's train '<trainUID>' from the trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <file>   | <location>  | <timing>      | <trainNum>          | <trainUID>  |

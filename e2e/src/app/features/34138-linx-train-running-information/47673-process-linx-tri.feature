@@ -20,7 +20,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
   # | 04 -Departure from Station|
   # | 05- Passing Location| |
     #Given I am on the home page
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given there is a Schedule for '<trainDescription>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -64,7 +64,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       # | 03 -Arrival at Station| - note this was deemed to be not in scope: punctuality shown will be predicted departure in this particular case
       # | 04 -Departure from Station|
       # | 05- Passing Location| |
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given there is a Schedule for '<trainDescription>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -108,7 +108,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       # | 03 -Arrival at Station|
       # | 04 -Departure from Station|
       # | 05- Passing Location| |
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given there is a Schedule for '<trainDescription>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -154,7 +154,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       # | 03 -Arrival at Station|
       # | 04 -Departure from Station|
       # | 05- Passing Location| |
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given there is a Schedule for '<trainDescription>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -205,7 +205,7 @@ Feature: 34138 - TMV Process LINX Train Running Information
       # | 03 -Arrival at Station|
       # | 04 -Departure from Station|
       # | 05- Passing Location| |
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given there is a Schedule for '<trainDescription>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |

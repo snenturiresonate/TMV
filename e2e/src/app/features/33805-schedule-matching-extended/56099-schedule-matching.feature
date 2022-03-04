@@ -6,10 +6,10 @@ Feature: 33805 TMV Schedule Matching
   Background:
     * I have cleared out all headcodes
     * I reset redis
-    * I remove today's train 'B11111' from the Redis trainlist
-    * I remove today's train 'C11111' from the Redis trainlist
-    * I remove today's train 'B22222' from the Redis trainlist
-    * I remove today's train 'B33333' from the Redis trainlist
+    * I remove today's train 'B11111' from the trainlist
+    * I remove today's train 'C11111' from the trainlist
+    * I remove today's train 'B22222' from the trainlist
+    * I remove today's train 'B33333' from the trainlist
     * the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
     * I wait until today's train 'B11111' has loaded
     * I wait until today's train 'C11111' has loaded
@@ -348,7 +348,7 @@ Feature: 33805 TMV Schedule Matching
     #      | sub division |
     * I generate a new trainUID
     * I generate a new train description
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -399,7 +399,7 @@ Feature: 33805 TMV Schedule Matching
     #      | sub division |
     * I generate a new trainUID
     * I generate a new train description
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |

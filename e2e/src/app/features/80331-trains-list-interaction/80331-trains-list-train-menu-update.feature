@@ -107,6 +107,8 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
       | trainUid  | trainDescription |
       | generated | generated        |
 
+  @bug
+  @87596
   Scenario Outline: 80335-3 - Train Menu Update (Trains List) - punctuality early
 
     Given I set up a train that is -4 late at RDNGSTN using access-plan/2P77_RDNGSTN_PADTON.cif TD D1 interpose into 1698 step to 1676
@@ -137,6 +139,8 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
       | generated | generated        |
 
 
+  @bug
+  @87596
   Scenario Outline: 80335-4 - Train Menu Update (Trains List) - Punctuality Status unavailable
 
     * I generate a new trainUID

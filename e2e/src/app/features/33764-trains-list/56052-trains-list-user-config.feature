@@ -13,7 +13,7 @@ Feature: 56052 - TMV Trains List - User Configuration Applied (Service Called)
   # Origin Called - active trains that are due to depart their origin within x minutes (default 15 min) are displayed (results)
   # and coloured accordingly if toggled on, and when toggled off it is not displayed (results)
   Scenario Outline: 56052-AC2 - A train that has been Called <departsInMinutes> minutes before its origin departure time <visibility> visible if toggled <toggle>
-    * I remove today's train '<trainUID>' from the Redis trainlist
+    * I remove today's train '<trainUID>' from the trainlist
     * I delete '<trainUID>:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '<departsInMinutes>' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -44,7 +44,7 @@ Feature: 56052 - TMV Trains List - User Configuration Applied (Service Called)
   # The train will be displayed if it has received a train running information report as it is currently running
   # also used as setup for AC4
   Scenario Outline: 56052-AC2a - A train that has been Called <departsInMinutes> minutes before its origin departure time and received a TRI <visibility> visible if toggled <toggle>
-    * I remove today's train '<trainUID>' from the Redis trainlist
+    * I remove today's train '<trainUID>' from the trainlist
     * I delete '<trainUID>:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '<departsInMinutes>' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -80,7 +80,7 @@ Feature: 56052 - TMV Trains List - User Configuration Applied (Service Called)
   # are displayed and coloured when toggled on, and when toggled off it is not displayed (results)
   Scenario Outline: 56052-AC3 - A train that is overdue by <overdueMinutes> minutes <visibility> visible if origin departure overdue is toggled <toggle>
     * I delete '<trainUID>:today' from hash 'schedule-modifications'
-    * I remove today's train '<trainUID>' from the Redis trainlist
+    * I remove today's train '<trainUID>' from the trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now - '<overdueMinutes>' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription>  | <trainUID>     |

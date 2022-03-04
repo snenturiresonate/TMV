@@ -9,7 +9,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
     And I reset redis
 
   Scenario Outline: 51586 - 20 Current punctuality at origin (late)
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
     And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX
@@ -24,7 +24,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
 
   @bug @bug:81830
   Scenario Outline: 51586 - 20 Current punctuality at origin (on time/early)
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
     And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX
@@ -142,7 +142,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
 
   @bug @bug:83973
   Scenario Outline: 51586 - 25 Current punctuality after an earlier TRI update - <messageType>
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
     And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX

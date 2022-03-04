@@ -9,7 +9,7 @@ Feature: 37659 - Schedule Matching - Consistent Stepping has a time limit
     * I am viewing the map HDGW01paddington.v
     * I have cleared out all headcodes
     * The admin setting defaults are as originally shipped
-    * I remove today's train 'H39407' from the Redis trainlist
+    * I remove today's train 'H39407' from the trainlist
     * the access plan located in CIF file 'access-plan/37659-schedules/9F01.cif' is received from LINX
     * I wait until today's train 'H39407' has loaded
     * the following berth interpose messages is sent from LINX (to indicate train is present)

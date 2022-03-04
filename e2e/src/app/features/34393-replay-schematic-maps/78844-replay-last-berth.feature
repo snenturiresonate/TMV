@@ -25,7 +25,7 @@ Feature: 78855 - Replay Last Berth
 
     #setup
     * I delete 'C56471:today' from hash 'schedule-modifications'
-    * I remove today's train 'C56471' from the Redis trainlist
+    * I remove today's train 'C56471' from the trainlist
 
     * the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath  | refLocation  | refTimingType | newTrainDescription | newPlanningUid |

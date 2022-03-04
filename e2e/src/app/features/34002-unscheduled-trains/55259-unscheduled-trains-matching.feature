@@ -135,8 +135,8 @@ Feature: 34002 - Unscheduled Trains Matching
     # And the user is presented with at least one new schedule to match with (other than the currently matched schedule)
     # When the user selects an entry to match
     # Then the system will create a match
-    * I remove today's train '<planningUid1>' from the Redis trainlist
-    * I remove today's train '<planningUid2>' from the Redis trainlist
+    * I remove today's train '<planningUid1>' from the trainlist
+    * I remove today's train '<planningUid2>' from the trainlist
     * I generate a new train description
     And the following live berth interpose message is sent from LINX (to set up unmatched service on map)
       | toBerth | trainDescriber | trainDescription |
@@ -179,8 +179,8 @@ Feature: 34002 - Unscheduled Trains Matching
   Scenario Outline: 34002:6b Make Match - matching unmatched step to a matched service - and checking matching change shows on map
     * I generate a new train description
     * I generate a new trainUID
-    * I remove today's train '<planningUid1>' from the Redis trainlist
-    * I remove today's train '<planningUid2>' from the Redis trainlist
+    * I remove today's train '<planningUid1>' from the trainlist
+    * I remove today's train '<planningUid2>' from the trainlist
     And the following live berth interpose message is sent from LINX (to set up unmatched train on map at Uffington)
       | toBerth | trainDescriber | trainDescription |
       | 1115    | D7             | <trainNum>       |

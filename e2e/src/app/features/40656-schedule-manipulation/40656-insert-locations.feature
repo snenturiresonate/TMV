@@ -10,7 +10,7 @@ Feature: 40656 - Schedule Manipulation - Add locations
 #    When a user selects to see the inserted locations for that schedule in the timetable view
 #    Then no additional locations are displayed
 
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -42,7 +42,7 @@ Feature: 40656 - Schedule Manipulation - Add locations
 #    Then the additional locations are displayed in [] brackets
 #    And in the correct place in the schedule
 #    And the time passing time displayed is suitable for its position in the timetable
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |

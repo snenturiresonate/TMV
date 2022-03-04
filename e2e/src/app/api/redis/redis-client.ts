@@ -74,12 +74,6 @@ export class RedisClient {
       }
     }
   });
-  public static trainsListClient: RedisLibrary.Redis = new RedisLibrary(
-    {
-      port: browser.params.trainslist_redis_port,
-      host: RedisClient.redisHostIp,
-    }
-  );
 
   private readonly redisKeyMatcher = new RedisTypeToKeyMatcher();
   private stopWatch = new StopWatch();
@@ -115,9 +109,6 @@ export class RedisClient {
         console.error(error);
       });
       RedisClient.replayClient.on('error', error => {
-        console.error(error);
-      });
-      RedisClient.trainsListClient.on('error', error => {
         console.error(error);
       });
       RedisClient.constructed = true;
@@ -160,7 +151,6 @@ export class RedisClient {
       await RedisClient.operationsClient.del(key);
       await RedisClient.schedulesClient.del(key);
       await RedisClient.replayClient.del(key);
-      await RedisClient.trainsListClient.del(key);
     }
     return Promise.resolve();
   }
@@ -176,7 +166,6 @@ export class RedisClient {
         await RedisClient.operationsClient.del(key);
         await RedisClient.schedulesClient.del(key);
         await RedisClient.replayClient.del(key);
-        await RedisClient.trainsListClient.del(key);
       }
     }
     return Promise.resolve();
@@ -193,7 +182,6 @@ export class RedisClient {
         promisesToTrim.push(this.trimStream(key, RedisClient.operationsClient));
         promisesToTrim.push(this.trimStream(key, RedisClient.schedulesClient));
         promisesToTrim.push(this.trimStream(key, RedisClient.replayClient));
-        promisesToTrim.push(this.trimStream(key, RedisClient.trainsListClient));
       }
     }
     return Promise.all(promisesToTrim);
@@ -211,18 +199,13 @@ export class RedisClient {
       await this.listKeysByRedisType(fuzzyKey, RedisType.OPERATIONS),
       await this.listKeysByRedisType(fuzzyKey, RedisType.SCHEDULES),
       await this.listKeysByRedisType(fuzzyKey, RedisType.REPLAY),
-      await this.listKeysByRedisType(fuzzyKey, RedisType.TRAINSLIST)
     ]).then(resultArray => {
-      return Array.prototype.concat(resultArray[0], resultArray[1], resultArray[2], resultArray[3]);
+      return Array.prototype.concat(resultArray[0], resultArray[1], resultArray[2]);
     });
   }
 
   public async listKeysByRedisType(fuzzyKey: string, type: RedisType): Promise<string[]> {
     const client = this.getClient(type);
-
-    if (type === RedisType.TRAINSLIST) {
-      return client.keys(fuzzyKey);
-    }
 
     // Get keys of all the nodes
     const nodes = client.nodes();
@@ -296,8 +279,6 @@ export class RedisClient {
         return RedisClient.replayClient;
       case RedisType.SCHEDULES:
         return RedisClient.schedulesClient;
-      case RedisType.TRAINSLIST:
-        return RedisClient.trainsListClient;
       default:
         throw new Error('Unsupported Redis type');
     }

@@ -78,7 +78,7 @@ Feature: 33757 - TMV National Search
       #And the user enters at least two alphanumeric characters
       #And the user submits the search
       #Then the timetable search results list is displayed with zero or many results
-    * I remove today's train 'A12345' from the Redis trainlist
+    * I remove today's train 'A12345' from the trainlist
     Given I navigate to <pageName> page
     And the Train Search Box has the value 'Train Desc, Trust ID, Planning UID'
     And the access plan located in CIF file 'access-plan/1L24_PADTON_RDNGSTN.cif' is received from LINX
@@ -175,7 +175,7 @@ Feature: 33757 - TMV National Search
       | Admin            |
 
   Scenario Outline: 33757-2f Timetable search - all days - <pageName>
-    * I remove today's train 'F10001' from the Redis trainlist
+    * I remove today's train 'F10001' from the trainlist
     Given I navigate to <pageName> page
     #And there is a Schedule for '4F07'
     #And the schedule has schedule identifier characteristics
@@ -249,7 +249,7 @@ Feature: 33757 - TMV National Search
     #And the user is viewing the train search results pop-up
     #When the user selects a train from search result by using the secondary mouse click
     #Then the user is presented with a menu to either view the timetable or open a map(s) that contains the train
-    * I remove today's train 'A12345' from the Redis trainlist
+    * I remove today's train 'A12345' from the trainlist
     Given I navigate to <pageName> page
     And the access plan located in CIF file 'access-plan/1L24_PADTON_RDNGSTN.cif' is received from LINX
     And I wait until today's train 'A12345' has loaded

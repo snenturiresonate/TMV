@@ -11,7 +11,7 @@ Feature: 78852 - UI Consistency - Timetable Display 30 seconds
     # And there are train present with timetable
     # When the user selects a train to view the timetable
     # Then the planned, public and predicted arrival and departure times will not display zero seconds
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     * I generate a new train description
     * I generate a new trainUID
     Given the train in CIF file below is updated accordingly so time at the reference point is now + 2 minutes, and then received from LINX

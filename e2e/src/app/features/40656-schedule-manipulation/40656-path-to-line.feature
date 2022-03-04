@@ -12,7 +12,7 @@ Feature: 40656 - Schedule Manipulation - Path To Line
 #    And the line code for the matching location is null
 #    When a user selects to see that schedule in the timetable view
 #    Then the line code displayed for those locations is the same as the path code
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -44,7 +44,7 @@ Feature: 40656 - Schedule Manipulation - Path To Line
 #    And the line code is already populated with a different value to the path code
 #    When a user selects to see that schedule in the timetable view
 #    Then the original line code from the schedule is displayed for that location
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |
@@ -75,7 +75,7 @@ Feature: 40656 - Schedule Manipulation - Path To Line
 #    And the line code is not populated
 #    When a user selects to see that schedule in the timetable view
 #    Then no line code is displayed for that location
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     Given there is a Schedule for '<trainNum>'
     And it has Origin Details
       | tiploc | scheduledDeparture | line |

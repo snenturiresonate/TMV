@@ -79,11 +79,13 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
       | Origin Called            | #999955 | 60      | on          |
       | Origin Departure Overdue | #335566 | 10      | on          |
 
+  @bug
+  @87596
   Scenario: 33806 -24-a Trains indication table - Train Cancellation - Train cancelled before it has started
     #Given the user has made changes to the trains list train indication
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
-    * I remove today's train 'B21001' from the Redis trainlist
+    * I remove today's train 'B21001' from the trainlist
     * I delete 'B21001:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -114,11 +116,13 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     # cleanup
     * I restore to default train list config '1'
 
+  @bug
+  @87596
   Scenario: 33806 -24-b Trains indication table - Train Cancellation - Train terminates short of planned destination
     #Given the user has made changes to the trains list train indication
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
-    * I remove today's train 'B21002' from the Redis trainlist
+    * I remove today's train 'B21002' from the trainlist
     * I delete 'B21002:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -149,11 +153,13 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     # cleanup
     * I restore to default train list config '1'
 
+  @bug
+  @87596
   Scenario: 33806 -24-c Trains indication table - Train Reinstatement - Train terminates at a location not in the plan
     #Given the user has made changes to the trains list train indication
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
-    * I remove today's train 'B21003' from the Redis trainlist
+    * I remove today's train 'B21003' from the trainlist
     * I delete 'B21003:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -188,7 +194,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #Given the user has made changes to the trains list train indication
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
-    * I remove today's train 'B21004' from the Redis trainlist
+    * I remove today's train 'B21004' from the trainlist
     * I delete 'B21004:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -223,7 +229,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #Given the user has made changes to the trains list train indication
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
-    * I remove today's train 'B21005' from the Redis trainlist
+    * I remove today's train 'B21005' from the trainlist
     * I delete 'B21005:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -258,7 +264,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #Given the user has made changes to the trains list train indication
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
-    * I remove today's train 'B21006' from the Redis trainlist
+    * I remove today's train 'B21006' from the trainlist
     * I delete 'B21006:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -289,11 +295,13 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     # cleanup
     * I restore to default train list config '1'
 
+  @bug
+  @87596
   Scenario: 33806 -24-g Off route - Train has moved off route
     #Given the user has made changes to the trains list train indication
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
-    * I remove today's train 'B21007' from the Redis trainlist
+    * I remove today's train 'B21007' from the trainlist
     * I delete 'B21007:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -331,7 +339,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #Given the user has made changes to the trains list train indication
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
-    * I remove today's train 'B21008' from the Redis trainlist
+    * I remove today's train 'B21008' from the trainlist
     * I delete 'B21008:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |

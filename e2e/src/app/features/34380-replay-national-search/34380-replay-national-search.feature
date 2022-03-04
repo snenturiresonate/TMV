@@ -7,7 +7,7 @@ Feature: 34380 - TMV Replay National Search
 
   Background:
     * I have not already authenticated
-    * I remove today's train 'L10006' from the Redis trainlist
+    * I remove today's train 'L10006' from the trainlist
     * the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | SLOUGH      | WTT_arr       | 1A06                | L10006         |

@@ -67,8 +67,6 @@ export class TMVRedisUtils {
       .then(async output => this.redisClient.trimKeys(output.filter(key => !configKeys.includes(key)), RedisType.REPLAY)),
       await this.redisClient.listKeysByRedisType('*', RedisType.SCHEDULES)
         .then(async output => this.redisClient.trimKeys(output.filter(key => !configKeys.includes(key)), RedisType.SCHEDULES)),
-      await this.redisClient.listKeysByRedisType('*', RedisType.TRAINSLIST)
-        .then(async output => this.redisClient.trimKeys(output.filter(key => !configKeys.includes(key)), RedisType.TRAINSLIST))
     ]);
   }
 

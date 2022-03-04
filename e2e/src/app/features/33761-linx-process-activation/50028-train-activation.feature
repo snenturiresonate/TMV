@@ -10,7 +10,7 @@ Feature: 33761-2 Train activation for a valid service
 
   Scenario: 33761-2 Train Activation for a valid service
     * I delete 'L11001:today' from hash 'schedule-modifications'
-    * I remove today's train 'L11001' from the Redis trainlist
+    * I remove today's train 'L11001' from the trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 0A01                | L11001         |
@@ -43,7 +43,7 @@ Feature: 33761-2 Train activation for a valid service
     And I restore to default train list config '1'
 
   Scenario: 33761-4 Train Activation for an active service
-    * I remove today's train 'C10001' from the Redis trainlist
+    * I remove today's train 'C10001' from the trainlist
     Given I delete 'C10001:today' from hash 'schedule-modifications'
     When the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -65,7 +65,7 @@ Feature: 33761-2 Train activation for a valid service
     And I restore to default train list config '1'
 
   Scenario: 33761-5 Train Activation for a valid service with a different origin
-    * I remove today's train 'D10001' from the Redis trainlist
+    * I remove today's train 'D10001' from the trainlist
     Given I delete 'D10001:today' from hash 'schedule-modifications'
     When the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -85,7 +85,7 @@ Feature: 33761-2 Train activation for a valid service
 
   Scenario: 33761-6 & 7 Train Activation for a valid service with a change of origin
     # A TJM for Change of origin will be required to bring about a Change of Origin indication
-    * I remove today's train 'W15214' from the Redis trainlist
+    * I remove today's train 'W15214' from the trainlist
     Given I delete 'W15214:today' from hash 'schedule-modifications'
     And I am on the trains list page 1
     And I have navigated to the 'Train Indication' configuration tab
@@ -115,7 +115,7 @@ Feature: 33761-2 Train activation for a valid service
 
   Scenario: 33761-8 Train Activation for a valid service with a change of origin matching current origin
     # A TJM for Change of origin will be required to bring about a Change of Origin indication
-    * I remove today's train 'W15216' from the Redis trainlist
+    * I remove today's train 'W15216' from the trainlist
     Given I delete 'W15216:today' from hash 'schedule-modifications'
     And I am on the trains list page 1
     And I have navigated to the 'Train Indication' configuration tab

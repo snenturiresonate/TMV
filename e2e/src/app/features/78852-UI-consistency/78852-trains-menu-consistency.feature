@@ -25,7 +25,7 @@ Feature: 78852 - Trains Menu Consistency
 
   Scenario Outline: 83105-1 - Trains Menu Consistency - Open Timetable | Find Train | Unmatch/Rematch
     Given I remove all trains from the trains list
-    And I remove today's train '<planningUid>' from the Redis trainlist
+    And I remove today's train '<planningUid>' from the trainlist
     And I generate a new trainUID
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |

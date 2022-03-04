@@ -9,7 +9,7 @@ Feature: 51586 - Path Extrapolation - Off plan and unscheduled
 
   @bug @72055
   Scenario Outline: 51586 - 30 Display attention indicator for off plan train (TD)
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1W06_EUSTON_BHAMNWS.cif | EUSTON      | WTT_dep       | <trainDescription>  | <trainUid>     |

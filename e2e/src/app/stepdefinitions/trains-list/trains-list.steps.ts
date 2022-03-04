@@ -7,7 +7,7 @@ import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {BackEndChecksService} from '../../services/back-end-checks.service';
 import {AppPage} from '../../pages/app.po';
 import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
-import {RedisClient} from '../../api/redis/redis-client';
+import {PostgresClient} from '../../api/postgres/postgres-client';
 
 const page: AppPage = new AppPage();
 const trainsListPage: TrainsListPageObject = new TrainsListPageObject();
@@ -157,14 +157,13 @@ Then(/^train '?(\w+)'? with schedule id '?(\w+)'? for today (is|is not) visible 
     }
   });
 
-When(/^I remove today's train '(.*)' from the Redis trainlist$/, async (uid: string) => {
+When(/^I remove today's train '(.*)' from the trainlist$/, async (uid: string) => {
   if (uid === 'generatedTrainUId' || uid === 'generated') {
     uid = browser.referenceTrainUid;
   }
-  const client = new RedisClient();
+  const client = new PostgresClient();
   const trainIdentifier = `${uid}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`;
-  const hash = `trainlist:` + trainIdentifier;
-  await client.deleteKey(hash);
+  await client.removeTrain(trainIdentifier);
 });
 
 When(/^I wait until today's train '(.*)' has loaded$/, async (uid: string) => {
@@ -185,13 +184,12 @@ When(/^I wait until today's train '(.*)' has been removed$/, async (uid: string)
   if (uid === 'generatedTrainUId' || uid === 'generated') {
     uid = browser.referenceTrainUid;
   }
-  const client = new RedisClient();
+  const client = new PostgresClient();
   const trainIdentifier = `${uid}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`;
-  const hash = `trainlist:` + trainIdentifier;
   await browser.wait(async () => {
-    const data = await client.hgetString(hash, 'scheduleId');
+    const data = await client.findScheduledId(trainIdentifier);
     return (data !== trainIdentifier);
-  }, 35000, `${trainIdentifier} was not removed from Redis trainlist`);
+  }, 35000, `${trainIdentifier} was not removed from trainlist`);
 });
 
 Then('train description {string} disappears from the trains list', async (trainDescription: string) => {

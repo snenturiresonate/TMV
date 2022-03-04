@@ -13,7 +13,7 @@ Feature: 78887 - TMV Timetable Details - Launched Timetable Tab Name (Live and R
     # Replay Setup
     * I generate a new trainUID
     * I generate a new train description
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     * the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
     | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
     | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |
@@ -91,7 +91,7 @@ Scenario Outline: 78846-3 Live and Replay - Open Timetable (from Map secondary c
     # Replay Setup
     * I generate a new trainUID
     * I generate a new train description
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     * the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
     | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
     | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |

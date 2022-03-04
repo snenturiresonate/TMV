@@ -16,7 +16,7 @@ Feature: 79593 - TMV Timetable Log Viewer - Timetable View
     Given I generate a new trainUID
     And I generate a new train description
     And I remove all trains from the trains list
-    And I remove today's train '<planningUid>' from the Redis trainlist
+    And I remove today's train '<planningUid>' from the trainlist
     And I am on the log viewer page
     And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |

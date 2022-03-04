@@ -146,7 +146,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
   Scenario: 33806 -32a Trains List Config (Train Misc Settings Applied) - Misc Class settings
     # first train
     * I generate a new trainUID
-    * I remove today's train 'generated' from the Redis trainlist
+    * I remove today's train 'generated' from the trainlist
     * I delete 'generated:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -158,7 +158,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
 
     # second train
     * I generate a new trainUID
-    * I remove today's train 'generated' from the Redis trainlist
+    * I remove today's train 'generated' from the trainlist
     * I delete 'generated:today' from hash 'schedule-modifications'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -207,7 +207,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     * I restore to default train list config '1'
 
   Scenario: 33806 -32c Trains List Config (Train Misc Settings Applied) - Ignore PD cancel toggle off
-    * I remove today's train 'B30003' from the Redis trainlist
+    * I remove today's train 'B30003' from the trainlist
     * I delete 'B30003:today' from hash 'schedule-modifications'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |

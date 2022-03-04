@@ -10,7 +10,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     * I restore to default train list config '1'
 
   Scenario: 40490-1 Single Change of ID received
-    * I remove today's train 'H41101' from the Redis trainlist
+    * I remove today's train 'H41101' from the trainlist
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
       | H41101   | N            | 2020-01-01   | 2030-01-01 | 1111111 | 1X01             | PADTON | 12:00     | OLDOXRS     | 12:30   |
@@ -25,7 +25,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the last TJM is correct
 
   Scenario Outline: 40490-2a Single Cancellation at Origin or Cancellation at location received
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given the following basic schedules are received from LINX
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
       | <trainUid> | N            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> | PADTON | 12:00     | OLDOXRS     | 12:30   |
@@ -52,7 +52,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | Train Indication   | Indicator4 | edit | colour            | #edaaed    | Reinstatement            |
     * I generate a new trainUID
     * I generate a new train description
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -84,7 +84,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | generated | generated        | 92   | 19                 | OZ                |
 
   Scenario: 40490-2b Single Change of Origin at location received
-    * I remove today's train 'H41104' from the Redis trainlist
+    * I remove today's train 'H41104' from the trainlist
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
       | H41104   | N            | 2020-01-01   | 2030-01-01 | 1111111 | 1X04             | PADTON | 12:00     | OLDOXRS     | 12:30   |
@@ -98,7 +98,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the last TJM is correct
 
   Scenario Outline: 40490-3 Cancellation received followed by reinstatement at the same location
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given the following basic schedules are received from LINX
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
       | <trainUid> | N            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> | PADTON | 12:00     | OLDOXRS     | 12:30   |
@@ -119,7 +119,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
 
 
   Scenario: 40490-4 Multiple changes of Origin
-    * I remove today's train 'H41107' from the Redis trainlist
+    * I remove today's train 'H41107' from the trainlist
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
       | H41107   | N            | 2020-01-01   | 2030-01-01 | 1111111 | 1X07             | PADTON | 12:00     | OLDOXRS     | 12:30   |
@@ -135,7 +135,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
 
   Scenario: 40490-5 Multiple changes of ID
     #
-    * I remove today's train 'H41108' from the Redis trainlist
+    * I remove today's train 'H41108' from the trainlist
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
       | H41108   | N            | 2020-01-01   | 2030-01-01 | 1111111 | 1X01             | PADTON | 12:00     | OLDOXRS     | 12:30   |
@@ -152,7 +152,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the last TJM is correct
 
   Scenario: 40490-6 Multiple out of order changes of Origin
-    * I remove today's train 'H41109' from the Redis trainlist
+    * I remove today's train 'H41109' from the trainlist
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
       | H41109   | N            | 2020-01-01   | 2030-01-01 | 1111111 | 1X09             | PADTON | 12:00     | OLDOXRS     | 12:30   |
@@ -168,7 +168,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the last TJM is the TJM with the latest time
 
   Scenario: 40490-7 Multiple out of order changes of ID
-    * I remove today's train 'H41110' from the Redis trainlist
+    * I remove today's train 'H41110' from the trainlist
     Given the following basic schedules are received from LINX
       | trainUid | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription | origin | departure | termination | arrival |
       | H41110   | N            | 2020-01-01   | 2030-01-01 | 1111111 | 1X01             | PADTON | 12:00     | OLDOXRS     | 12:30   |
@@ -184,7 +184,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And the last TJM is the TJM with the latest time
 
   Scenario Outline: 40490-8 Out of order cancel/reinstate display in timetable
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given the following basic schedules are received from LINX
       | trainUid   | stpIndicator | dateRunsFrom | dateRunsTo | daysRun | trainDescription   | origin | departure | termination | arrival |
       | <trainUid> | N            | 2020-01-01   | 2030-01-01 | 1111111 | <trainDescription> | PADTON | 12:00     | OLDOXRS     | 12:30   |
@@ -210,7 +210,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | Train Indication   | Indicator8 | edit | colour            | #ffffff    | Origin Departure Overdue |
       | Train Indication   | Indicator3 | edit | colour            | #eba1a1    | Cancellation             |
       | Train Indication   | Indicator4 | edit | colour            | #edaaed    | Reinstatement            |
-    * I remove today's train 'H41113' from the Redis trainlist
+    * I remove today's train 'H41113' from the trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1X13                | H41113         |
@@ -236,7 +236,8 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
       | Train Indication   | Indicator8 | edit | colour            | #ffffff    | Origin Departure Overdue |
       | Train Indication   | Indicator3 | edit | colour            | #eba1a1    | Cancellation             |
       | Train Indication   | Indicator4 | edit | colour            | #edaaed    | Reinstatement            |
-    * I remove today's train 'H41114' from the Redis trainlist
+      | Train Class & MISC | other      | edit | Include Unmatched | off        |                          |
+    * I remove today's train 'H41114' from the trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1X14                | H41114         |

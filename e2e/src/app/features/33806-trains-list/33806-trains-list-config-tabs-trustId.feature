@@ -72,7 +72,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #When the user views the trains list
     #Then the view is updated to reflect the user's TRUST ID changes
     * I generate a new trainUID
-    * I remove today's train '<trainUid>' from the Redis trainlist
+    * I remove today's train '<trainUid>' from the trainlist
     Given I delete '<trainUid>:today' from hash 'schedule-modifications'
     When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |

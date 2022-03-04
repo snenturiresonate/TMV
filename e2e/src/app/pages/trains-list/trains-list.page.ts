@@ -1,9 +1,9 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {of} from 'rxjs';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
-import {RedisClient} from '../../api/redis/redis-client';
 import {NFRConfig} from '../../config/nfr-config';
 import {CucumberLog} from '../../logging/cucumber-log';
+import {PostgresClient} from '../../api/postgres/postgres-client';
 
 
 export class TrainsListPageObject {
@@ -27,7 +27,7 @@ export class TrainsListPageObject {
   public hiddenFilter: ElementFinder;
   public filterIcon: ElementFinder;
 
-  private redisClient: RedisClient;
+  private postgresClient: PostgresClient;
 
   // towards the end of the day, trains take a long time to appear on the trains list
   private trainsListDisplayTimeout = browser.params.general_timeout;
@@ -50,7 +50,7 @@ export class TrainsListPageObject {
     this.secondarySortCol = element(by.css('.secondary-sort-header'));
     this.paginationPrevious = element(by.id('trains-list-pagination-previous'));
     this.paginationNext = element(by.id('trains-list-pagination-next'));
-    this.redisClient = new RedisClient();
+    this.postgresClient = new PostgresClient();
     this.hiddenFilter = element(by.css('.hidden-filter'));
     this.filterIcon = element(by.id('trains-list-filter-toggle-icon'));
   }
@@ -205,10 +205,7 @@ export class TrainsListPageObject {
   }
 
   public async removeAllTrainsFromTrainsList(): Promise<void> {
-    const trainslistRowKeys: string[] = await this.redisClient.listKeys('trainlist*');
-    for (const rowKey of trainslistRowKeys) {
-      await this.redisClient.keyDelete(rowKey);
-    }
+    await this.postgresClient.clearAll();
   }
 
   public async trainDescriptionHasScheduleType(trainDescription: string, scheduleType: string): Promise<boolean> {

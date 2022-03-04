@@ -19,7 +19,7 @@ Feature: 34375 - TMV Replay Timetable - Open Timetable
     * I am on the admin page
     * I navigate to the 'System Defaults' admin tab
     * I make a note of the replay background colour
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     * the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |
@@ -58,7 +58,7 @@ Feature: 34375 - TMV Replay Timetable - Open Timetable
     # Replay Setup - 33753-2a -Open Timetable (from Map - Schedule Matched not activated)
     * I generate a new trainUID
     * I generate a new train description
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     * the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |
@@ -136,7 +136,7 @@ Feature: 34375 - TMV Replay Timetable - Open Timetable
     # Replay Setup - 33753-2c - Open Timetable (from Map - Activated and Schedule Matched)
     * I generate a new trainUID
     * I generate a new train description
-    * I remove today's train '<planningUid>' from the Redis trainlist
+    * I remove today's train '<planningUid>' from the trainlist
     * the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainNum>          | <planningUid>  |
