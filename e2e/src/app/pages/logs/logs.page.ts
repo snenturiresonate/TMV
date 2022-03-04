@@ -2,9 +2,16 @@ import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} fro
 import {InputBox} from '../common/ui-element-handlers/inputBox';
 import {CheckBox} from '../common/ui-element-handlers/checkBox';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
+import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
+import {DateTimeFormatter, LocalDate} from '@js-joda/core';
+import {DatePicker} from '../sections/datepicker';
+import {Locale} from '@js-joda/locale_en';
 
 export class LogsPage {
   public logTabs: ElementArrayFinder;
+  public visibleValidationError: ElementFinder;
+  public visibleOpenCalendarPickerButton: ElementFinder;
+  public datePickerSelectedElement: ElementFinder;
 
   private static getDivIdStarter(tabName: string): string {
     return tabName.toLowerCase();
@@ -34,15 +41,45 @@ export class LogsPage {
 
   constructor() {
     this.logTabs = element.all(by.css('.tmv-tabs-vertical li span'));
+    this.visibleValidationError = element(by.css('.tmv-tab-content-active .validation-error'));
+    this.visibleOpenCalendarPickerButton = element(by.css('.tmv-tab-content-active [aria-label="Open calendar"]'));
+    this.datePickerSelectedElement = element(by.css('.mat-datepicker-content td[aria-selected = "true"]'));
   }
 
   public async openTab(tabId: string): Promise<void> {
     return element(by.cssContainingText('.tmv-tabs-vertical li span', tabId)).click();
   }
 
+  public async getDisplayedValue(tabName: string, fieldName: string): Promise<string> {
+    const divIdStarter = LogsPage.getDivIdStarter(tabName);
+    const inputTextElement: ElementFinder = element(by.css(`div[id*=${divIdStarter}].tmv-tab-content-active input[formcontrolname = ${fieldName}]`));
+    return inputTextElement.getAttribute('value');
+  }
+
+  public async isFieldPresent(tabName: string, fieldName: string): Promise<boolean> {
+    const divIdStarter = LogsPage.getDivIdStarter(tabName);
+    const targetElement: ElementFinder = element(by.css(`div[id*=${divIdStarter}].tmv-tab-content-active input[formcontrolname = ${fieldName}]`));
+    const elementFound: boolean = await targetElement.isPresent();
+    return (elementFound);
+  }
+
+  public async setVisibleDateField(value: any): Promise<void> {
+    const visibleDatePicker: ElementFinder = element(by.css(`.tmv-tab-content-active input[formcontrolname=date]`));
+    const date = DateAndTimeUtils.convertToDesiredDateAndFormat(value, 'dd/MM/yyyy');
+    if (!(!date || date.length === 0)) {   // if not blank
+      await InputBox.ctrlADeleteClear(visibleDatePicker);
+      await InputBox.updateInputBoxAndTabOut(visibleDatePicker, date);
+    }
+  }
+
   public async searchSingleField(tabName: string, fieldName: string, searchVal: string): Promise<void> {
     const divIdStarter = LogsPage.getDivIdStarter(tabName);
-    await LogsPage.setSearchField(divIdStarter, fieldName, searchVal);
+    if (fieldName === 'date') {
+      await this.setVisibleDateField(searchVal);
+    }
+    else {
+      await LogsPage.setSearchField(divIdStarter, fieldName, searchVal);
+    }
     const searchButton: ElementFinder = element(by.css(`button[id^=${divIdStarter}][id$=submit]`));
     return searchButton.click();
   }
@@ -102,8 +139,42 @@ export class LogsPage {
     browser.actions().click(logRow, protractor.Button.LEFT).perform();
   }
 
+  public async leftClickDatePicker(): Promise<void> {
+    await browser.actions().click(this.visibleOpenCalendarPickerButton, protractor.Button.LEFT).perform();
+  }
+
+  public async setDateWithDropdown(date: any): Promise<boolean> {
+    date = DateAndTimeUtils.convertToDesiredDateAndFormat(date, 'dd/MM/yyyy');
+    const dateJoda = LocalDate.parse(date, DateTimeFormatter.ofPattern('dd/MM/yyyy'));
+    await this.visibleOpenCalendarPickerButton.click();
+    const datePicker = new DatePicker();
+    await datePicker.chooseThisMonthAndYearButton.click();
+    browser.sleep(1000);
+    try {
+      await datePicker.selectFieldByValue(dateJoda.format(DateTimeFormatter.ofPattern('yyyy')));
+      await datePicker.selectFieldByValue(dateJoda.format(DateTimeFormatter.ofPattern('MMM').withLocale(Locale.ENGLISH)).toUpperCase());
+      await datePicker.selectFieldByValue(dateJoda.format(DateTimeFormatter.ofPattern('d')));
+    }
+    catch (e) {
+      return false;
+    }
+    return true;
+  }
+
   public async getSearchError(tab: string): Promise<string> {
     const value: ElementFinder = element(by.css(`#${tab}-logs-form-submit + span`));
     return value.getText();
+  }
+
+  public async getVisibleValidationError(): Promise<string> {
+    return this.visibleValidationError.getText();
+  }
+
+  public async getDatePickerDateSelected(): Promise<string> {
+    return this.datePickerSelectedElement.getAttribute('aria-label');
+  }
+
+  public async isDatePickerPresent(): Promise<boolean> {
+    return this.datePickerSelectedElement.isPresent();
   }
 }

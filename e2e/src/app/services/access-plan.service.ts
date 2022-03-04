@@ -26,6 +26,10 @@ export class AccessPlanService {
     linxRestClient = new LinxRestClient();
     let refTrainUid;
     let refTrainDescription = newTrainProps.newTrainDescription;
+    let refRunDays = '1111111';
+    if (!!newTrainProps.newRunDays) {
+      refRunDays = newTrainProps.newRunDays;
+    }
     if (newTrainProps.newPlanningUid.includes('generated')) {
       refTrainUid = browser.referenceTrainUid;
     }
@@ -54,7 +58,7 @@ export class AccessPlanService {
     for (let j = 0; j < cifLines.length; j++) {
       const rowType = cifLines[j].substr(0, 2);
       if ((rowType === 'BS') || (rowType === 'CR')) {
-        cifLines[j] = this.adjustCIFTrainIds(cifLines[j], rowType, refTrainDescription, refTrainUid);
+        cifLines[j] = this.adjustCIFTrainIdsAndRunDays(cifLines[j], rowType, refTrainDescription, refTrainUid, refRunDays);
       }
       else {
         cifLines[j] = this.adjustCIFTimes(cifLines[j], rowType, browser.timeAdjustMs);
@@ -193,12 +197,15 @@ export class AccessPlanService {
       inputTime.get(ChronoField.MINUTE_OF_HOUR).toString().padStart(2, '0') + secString;
   }
 
-  private static adjustCIFTrainIds(cifLine: string, rowType: string, trainDesc: string, planningUid: number): string {
+  private static adjustCIFTrainIdsAndRunDays(cifLine: string, rowType: string,
+                                             trainDesc: string, planningUid: number, runDays: string): string {
     const padToEighty = ' '.repeat(80 - cifLine.length);
     if (rowType === 'BS') {
       return cifLine.substr(0, 3)
         + planningUid
-        + cifLine.substr(9, 23)
+        + cifLine.substr(9, 12)
+        + runDays
+        + cifLine.substr(28, 4)
         + trainDesc
         + cifLine.substr(36, 46)
         + padToEighty + '\r\n';

@@ -46,6 +46,10 @@ export class DateAndTimeUtils {
     return DateAndTimeUtils.getCurrentDateTime().dayOfWeek().name();
   }
 
+  public static dayOfWeekOrdinal(): number {
+    return DateAndTimeUtils.getCurrentDateTime().dayOfWeek().ordinal();
+  }
+
   /**
    * Returns a day from current day with no days incremented.
    * Input: plusDays, a number indicating days to increment
@@ -60,9 +64,19 @@ export class DateAndTimeUtils {
    * Input: dateFormat, string of format to return the date in eg dd/MM/yyyy, yyyy-MM-dd etc
    */
   public static convertToDesiredDateAndFormat(date: string, dateFormat: string): string {
-    switch (date.toLowerCase()) {
+    let dateString = date;
+    let adjValue = 0;
+    if (dateString.includes('today') && (dateString.includes('+') || dateString.includes('-'))) {
+      adjValue = parseInt(dateString.substr(7), 10);
+      dateString = dateString.substr(0, 7);
+    }
+    switch (dateString.toLowerCase()) {
       case 'today':
         return DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern(dateFormat));
+      case 'today +':
+        return DateAndTimeUtils.getCurrentDateTime().plusDays(adjValue).format(DateTimeFormatter.ofPattern(dateFormat));
+      case 'today -':
+        return DateAndTimeUtils.getCurrentDateTime().minusDays(adjValue).format(DateTimeFormatter.ofPattern(dateFormat));
       case 'tomorrow':
         return DateAndTimeUtils.getCurrentDateTime().plusDays(1).format(DateTimeFormatter.ofPattern(dateFormat));
       case 'yesterday':

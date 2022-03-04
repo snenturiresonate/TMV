@@ -19,7 +19,7 @@ When(/^I navigate to the (Timetable|Movement|Signalling) log tab$/, async (tabId
   await logsPage.openTab(tabId);
 });
 
-When(/^I search for (Timetable|Berth|Signalling) logs for (trainDescription|planningUid|fromBerthId|toBerthId|trainDescriber|fromToBerthId|signallingId) '(.*)'$/,
+When(/^I search for (Timetable|Berth|Signalling) logs for (trainDescription|date|planningUid|fromBerthId|toBerthId|trainDescriber|fromToBerthId|signallingId) '(.*)'$/,
   async (tab: string, field: string, val: string) => {
     if ((val === 'generated') && (field === 'trainDescription' || field === 'planningUid')) {
       if (field === 'trainDescription') {
@@ -169,6 +169,64 @@ When('I primary click for the record for {string} schedule uid {string} from the
     }
     await logsPage.leftClickLogResultItem(scheduleId);
   });
+
+When(/^I open the date picker for (Timetable|Berth|Signalling) logs$/, async (tab: string) => {
+    await logsPage.leftClickDatePicker();
+  });
+
+Then(/^the (.*) field for (Timetable|Berth|Signalling) is displayed$/, async (field: string, tab: string) => {
+  const isDisplayed = await logsPage.isFieldPresent(tab, field);
+  expect(isDisplayed, `${field} field was not displayed`).to.equal(true);
+});
+
+Then(/^the date picker for (Timetable|Berth|Signalling) is displayed$/, async (tab: string) => {
+  const isDisplayed = await logsPage.isDatePickerPresent();
+  expect(isDisplayed, `Date picker was not displayed`).to.equal(true);
+});
+
+Then(/^the value of the (.*) field for (Timetable|Berth|Signalling) is (.*)$/, async (field: string, tab: string, val: string) => {
+  const displayedValue = await logsPage.getDisplayedValue(tab, field);
+  let expectedValue = val;
+  if (val === 'today') {
+    expectedValue = DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy');
+  }
+  else if (val.includes('now')) {
+    expectedValue = DateAndTimeUtils.parseTimeEquation(val, 'HH:mm:ss');
+  }
+  expect(displayedValue, `Expected ${expectedValue} but was ${displayedValue}`).to.equal(expectedValue);
+});
+
+Then(/^the value of the date picker for (Timetable|Berth|Signalling) is (.*)$/, async (tab: string, val: string) => {
+  const displayedValue = await logsPage.getDatePickerDateSelected();
+  const displayedDate = Date.parse(displayedValue);
+  const expectedValue = DateAndTimeUtils.convertToDesiredDateAndFormat(val, 'yyyy-MM-dd');
+  const expectedDate = Date.parse(expectedValue);
+  const dateDiff = expectedDate - displayedDate;
+  expect(dateDiff, `Expected ${displayedValue} to be ${expectedValue}`).to.equal(0);
+});
+
+Then(/^it (is|isn't) possible to set the (Timetable|Berth|Signalling) date field to (.*) with the picker$/,
+  async (option: string, tab: string, value: string) => {
+    const canSetDate = await logsPage.setDateWithDropdown(value);
+    if (option === 'is') {
+      expect(canSetDate, `Could not set date when it should have been possible`).to.equal(true);
+    } else {
+      expect(canSetDate, `Could set date when it should not have been possible`).to.equal(false);
+    }
+  }
+);
+
+Then(/^it (is|isn't) possible to set the (Timetable|Berth|Signalling) date field to (.*) with the keyboard$/,
+  async (option: string, tab: string, value: string) => {
+    await logsPage.setVisibleDateField(value);
+    const errorText = await logsPage.getVisibleValidationError();
+    if (option === 'is') {
+      expect(errorText, `Validation error was not displayed`).to.equal('');
+    } else {
+      expect(errorText, `Validation error was not displayed`).to.equal('* Date must be within 90 days of today');
+    }
+  }
+);
 
 function compareLogResultField(actual: string, expected: string): void {
   expect(actual, `Expected ${expected} but was ${actual}`).to.equal(expected);

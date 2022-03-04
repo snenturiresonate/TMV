@@ -91,10 +91,31 @@ When (/^the train in CIF file below is updated accordingly so time at the refere
     }
   });
 
+
+When (/^I load a CIF file leaving (.*) now using (.*) which (.*) running today$/,
+  async (refLoc: string, templateTrain: string, isRunningToday: string) => {
+    let runDays = '1111111';
+    if (isRunningToday !== 'is') {
+      const dayPos = DateAndTimeUtils.dayOfWeekOrdinal();
+      runDays =  runDays.substring(0, dayPos) + '0' + runDays.substring(dayPos + 1);
+    }
+    const inputs = {
+      filePath: templateTrain,
+      refLocation: refLoc,
+      refTimingType: 'WTT_dep',
+      newTrainDescription: 'generated',
+      newPlanningUid: 'generated',
+      newRunDays: runDays
+    };
+    browser.referenceTrainDescription = await TrainUIDUtils.generateTrainDescription();
+    browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
+    await AccessPlanService.processCifInputsAndSubmit(inputs);
+  });
+
 Given (/^I set up a train that is (.*) late at (.*) using (.*) TD (.*) interpose into (.*) step to (.*)$/,
-  async (lateness, refLoc, tempateTrain, td, fromBerth, toBerth) => {
+  async (lateness, refLoc, templateTrain, td, fromBerth, toBerth) => {
   const inputs = {
-    filePath: tempateTrain,
+    filePath: templateTrain,
     refLocation: refLoc,
     refTimingType: 'WTT_dep',
     newTrainDescription: 'generated',
