@@ -16,7 +16,7 @@ Feature: 80750 - Unscheduled Trains List - Match Train Menu
   Background:
     * I generate a new train description
 
-  Scenario Outline: 81299-1 - unscheduled trains list - the matching view is opened in a new browser tab
+  Scenario Outline: 81294-1 - unscheduled trains list - the matching view is opened in a new browser tab
     Given I am on the unscheduled trains list
     And the following live berth interpose message is sent from LINX (to create an unmatched service)
       | toBerth | trainDescriber | trainDescription   |
