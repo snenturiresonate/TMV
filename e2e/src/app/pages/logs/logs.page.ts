@@ -177,4 +177,9 @@ export class LogsPage {
   public async isDatePickerPresent(): Promise<boolean> {
     return this.datePickerSelectedElement.isPresent();
   }
+
+  public async isLogViewVisible(title: string): Promise<boolean> {
+    const viewHeader: ElementFinder = element(by.cssContainingText('.view-header', title));
+    return viewHeader.isDisplayed();
+  }
 }

@@ -56,6 +56,11 @@ When(/^I export for (Timetable|Berth|Signalling) logs with$/,
     await logsPage.exportMultipleFields(tab, criteria);
   });
 
+Then(/the (Timetable|Movement|Signalling) view is visible/, async (tab: string) => {
+  const isLogViewVisible = await logsPage.isLogViewVisible(tab);
+  expect(isLogViewVisible, `Expected ${tab} view to be visible but was ${isLogViewVisible}`).to.equal(true);
+});
+
 Then('the log results table has columns in the following order', async (tabNameDataTable: any) => {
   const expectedColumnNames: any[] = tabNameDataTable.hashes();
   let actualColumnName: string;
