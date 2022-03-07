@@ -182,4 +182,9 @@ export class LogsPage {
     const viewHeader: ElementFinder = element(by.cssContainingText('.view-header', title));
     return viewHeader.isDisplayed();
   }
+
+  public async isLogTabHighlighted(title: string): Promise<boolean> {
+    const viewHeader: ElementFinder = element(by.cssContainingText('.tmv-tab-vertical-active span', title));
+    return viewHeader.isDisplayed();
+  }
 }

@@ -56,6 +56,11 @@ When(/^I export for (Timetable|Berth|Signalling) logs with$/,
     await logsPage.exportMultipleFields(tab, criteria);
   });
 
+Then(/the (Timetable|Movement|Signalling) tab is highlighted/, async (tab: string) => {
+  const isLogTabHighlighted = await logsPage.isLogTabHighlighted(tab);
+  expect(isLogTabHighlighted, `Expected ${tab} tab to be highlighted but was ${isLogTabHighlighted}`).to.equal(true);
+});
+
 Then(/the (Timetable|Movement|Signalling) view is visible/, async (tab: string) => {
   const isLogViewVisible = await logsPage.isLogViewVisible(tab);
   expect(isLogViewVisible, `Expected ${tab} view to be visible but was ${isLogViewVisible}`).to.equal(true);
