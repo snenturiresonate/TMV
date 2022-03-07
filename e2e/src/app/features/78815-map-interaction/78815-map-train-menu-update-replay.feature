@@ -13,6 +13,7 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Replay)
 
   Scenario: 78843-a Map (Train Menu - matched train)
     # Replay setup
+
     * I reset redis
     * the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
