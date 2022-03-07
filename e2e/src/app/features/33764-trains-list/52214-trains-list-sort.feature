@@ -61,9 +61,6 @@ Feature: 52214 - TMV Trains List - sort
     * the access plan located in CIF file 'access-plan/trains_list_sort_cancelled.cif' is received from LINX
 
   
-  @bug
-  @87596
-  # Schedule column is sorting is failing
   Scenario Outline: 33764-4b Trains List Column (Ascending/Descending Sorting - sorting of list updates to reflect selections made)
     # Given the user is viewing the trains list
     # And the default columns have a sort (primary and secondary)
