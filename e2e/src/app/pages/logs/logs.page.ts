@@ -6,6 +6,7 @@ import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
 import {DateTimeFormatter, LocalDate} from '@js-joda/core';
 import {DatePicker} from '../sections/datepicker';
 import {Locale} from '@js-joda/locale_en';
+import {TimePicker} from '../sections/timepicker';
 
 export class LogsPage {
   public logTabs: ElementArrayFinder;
@@ -52,13 +53,24 @@ export class LogsPage {
 
   public async getDisplayedValue(tabName: string, fieldName: string): Promise<string> {
     const divIdStarter = LogsPage.getDivIdStarter(tabName);
-    const inputTextElement: ElementFinder = element(by.css(`div[id*=${divIdStarter}].tmv-tab-content-active input[formcontrolname = ${fieldName}]`));
+    let mainElement = 'input';
+    let childElement = '';
+    if (fieldName.includes('Time')) {
+      mainElement = 'app-time-picker';
+      childElement = ' input.time-picker';
+    }
+    const inputTextElement: ElementFinder =
+      element(by.css(`div[id*=${divIdStarter}].tmv-tab-content-active ${mainElement}[formcontrolname = ${fieldName}]${childElement}`));
     return inputTextElement.getAttribute('value');
   }
 
   public async isFieldPresent(tabName: string, fieldName: string): Promise<boolean> {
     const divIdStarter = LogsPage.getDivIdStarter(tabName);
-    const targetElement: ElementFinder = element(by.css(`div[id*=${divIdStarter}].tmv-tab-content-active input[formcontrolname = ${fieldName}]`));
+    let inputType = 'input';
+    if (fieldName.includes('Time')) {
+      inputType = 'app-time-picker';
+    }
+    const targetElement: ElementFinder = element(by.css(`div[id*=${divIdStarter}].tmv-tab-content-active ${inputType}[formcontrolname = ${fieldName}]`));
     const elementFound: boolean = await targetElement.isPresent();
     return (elementFound);
   }
@@ -70,6 +82,18 @@ export class LogsPage {
       await InputBox.ctrlADeleteClear(visibleDatePicker);
       await InputBox.updateInputBoxAndTabOut(visibleDatePicker, date);
     }
+  }
+
+  public async setVisibleTimeField(tabName: string, field: string, value: any): Promise<void> {
+    const divIdStarter = LogsPage.getDivIdStarter(tabName);
+    return LogsPage.setTimePicker(divIdStarter, field, value);
+  }
+
+  public async setTimeWithSpinners(field: string, time: any): Promise<void> {
+    await this.clickTimePickerButton(field);
+    const timePicker = new TimePicker();
+    await timePicker.setTime(time);
+    await timePicker.closeButton.click();
   }
 
   public async searchSingleField(tabName: string, fieldName: string, searchVal: string): Promise<void> {
@@ -86,12 +110,18 @@ export class LogsPage {
 
   public async searchMultipleFields(tabName: string, criteria: any): Promise<void> {
     await CommonActions.scrollToTopOfWindow();
+    const now = DateAndTimeUtils.getCurrentDateTime();
     const divIdStarter = LogsPage.getDivIdStarter(tabName);
     for (const [field, value] of Object.entries(criteria)) {
       if (value === 'checked' || value === 'unchecked') {
         await LogsPage.setCheckBox(divIdStarter, field, value);
       } else if (field === 'startTime' || field === 'endTime') {
-        await LogsPage.setTimePicker(divIdStarter, field, value);
+        await this.setTimeCheckbox(tabName, 'checked');
+        let valueString: string = value as string;
+        if (valueString.includes('now')) {
+          valueString = await DateAndTimeUtils.getTimeStringWithEstablishedNow(valueString, now, 'HH:mm:ss');
+        }
+        await LogsPage.setTimePicker(divIdStarter, field, valueString);
       } else {
         await LogsPage.setSearchField(divIdStarter, field, value);
       }
@@ -131,6 +161,12 @@ export class LogsPage {
   public async getLogRowCount(): Promise<number> {
     const rows: ElementArrayFinder = element.all(by.css(`[id*=logs-table] tbody tr`));
     return rows.count();
+  }
+
+  public async setTimeCheckbox(tabName: string, value: any): Promise<void> {
+    const divIdStarter = LogsPage.getDivIdStarter(tabName);
+    const field = divIdStarter + '-logs-timeframe';
+    await LogsPage.setCheckBox(divIdStarter, field, value);
   }
 
   public async leftClickLogResultItem(dataItem: string): Promise<void> {
@@ -186,5 +222,10 @@ export class LogsPage {
   public async isLogTabHighlighted(title: string): Promise<boolean> {
     const viewHeader: ElementFinder = element(by.cssContainingText('.tmv-tab-vertical-active span', title));
     return viewHeader.isDisplayed();
+  }
+
+  public async clickTimePickerButton(field: string): Promise<void> {
+    const visibleTimeButton: ElementFinder = element(by.css(`.tmv-tab-content-active app-time-picker[formcontrolname=${field}] em[class*=time-button]`));
+    return CommonActions.waitAndClick(visibleTimeButton);
   }
 }

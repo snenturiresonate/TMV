@@ -44,6 +44,10 @@ When(/^I search for (Timetable|Berth|Signalling) logs with$/,
     await logsPage.searchMultipleFields(tab, criteria);
   });
 
+When(/^I set the Timeframe checkbox for (Timetable|Berth|Signalling) as (checked|unchecked)$/, async (tab: string, value: string) => {
+  await logsPage.setTimeCheckbox(tab, value);
+});
+
 When(/^I export for (Timetable|Berth|Signalling) logs with$/,
   async (tab: string, table: any) => {
     const criteria = table.hashes()[0];
@@ -203,7 +207,15 @@ Then(/^the value of the (.*) field for (Timetable|Berth|Signalling) is (.*)$/, a
   else if (val.includes('now')) {
     expectedValue = DateAndTimeUtils.parseTimeEquation(val, 'HH:mm:ss');
   }
-  expect(displayedValue, `Expected ${expectedValue} but was ${displayedValue}`).to.equal(expectedValue);
+  if (field.includes('Time')) {
+    const expectedTime = await DateAndTimeUtils.formulateTime(expectedValue);
+    const actualTime = await DateAndTimeUtils.formulateTime(displayedValue);
+    expect(actualTime, `${displayedValue} was not close enough to ${val}`)
+      .to.be.closeToTime(expectedTime, 60);
+  }
+  else {
+    expect(displayedValue, `Expected ${expectedValue} but was ${displayedValue}`).to.equal(expectedValue);
+  }
 });
 
 Then(/^the value of the date picker for (Timetable|Berth|Signalling) is (.*)$/, async (tab: string, val: string) => {
@@ -234,6 +246,30 @@ Then(/^it (is|isn't) possible to set the (Timetable|Berth|Signalling) date field
       expect(errorText, `Validation error was not displayed`).to.equal('');
     } else {
       expect(errorText, `Validation error was not displayed`).to.equal('* Date must be within 90 days of today');
+    }
+  }
+);
+
+Then(/^it (is|isn't) possible to set the (Timetable|Berth|Signalling) startTime to (.*) and endTime to (.*) with the (keyboard|spinners)$/,
+  async (option: string, tab: string, startValue: string, endValue: string, inputMethod) => {
+    const now = DateAndTimeUtils.getCurrentDateTime();
+    const startTime = await DateAndTimeUtils.getTimeStringWithEstablishedNow(startValue, now, 'HH:mm:ss');
+    const endTime = await DateAndTimeUtils.getTimeStringWithEstablishedNow(endValue, now, 'HH:mm:ss');
+    if (inputMethod === 'keyboard') {
+      await logsPage.setVisibleTimeField(tab, 'startTime', startTime);
+      await logsPage.setVisibleTimeField(tab, 'endTime', endTime);
+    }
+    else {
+      await logsPage.setTimeWithSpinners('startTime', startTime);
+      await logsPage.setTimeWithSpinners('endTime', endTime);
+    }
+    const errorText = await logsPage.getVisibleValidationError();
+    if (option === 'is') {
+      expect(errorText, `Validation error was displayed for start ${startTime} end ${endTime}`)
+        .to.equal('');
+    } else {
+      expect(errorText, `Validation error was not displayed for start ${startTime} end ${endTime}`)
+        .to.equal('* Start date time must be before end date time');
     }
   }
 );

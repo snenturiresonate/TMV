@@ -122,7 +122,7 @@ export class DateAndTimeUtils {
    */
   public static async getTimeComponent(dateTime: string): Promise<string> {
     const inputDateTime = new Date(dateTime);
-    const options = { timeZone: 'Europe/London', timeStyle: 'medium' };
+    const options = { timeZone: 'Europe/London', timeStyle: 'medium', hour12: false };
     return inputDateTime.toLocaleTimeString('en-GB', options);
   }
 
@@ -237,7 +237,47 @@ export class DateAndTimeUtils {
     return adjustedTime;
   }
 
-  public static async formulateDateTime(timeStamp: string, format = 'dd/MM/yyy HH:mm:ss'): Promise<Date> {
+  /**
+   * adjustNowTimeWithSuppliedNow
+   * @param operator: either '+' or '-'
+   * @param minutesToAdjust: the number of minutes to add or subtract to the current time
+   * @param suppliedNow: the supplied version of the current time to start from
+   */
+  public static async adjustNowTimeWithSuppliedNow(operator: string, minutesToAdjust: number, suppliedNow: LocalDateTime): Promise<string> {
+    let adjustedTime = DateAndTimeUtils.getCurrentTime();
+    if (operator === '-') {
+        adjustedTime = await DateAndTimeUtils.subtractMinsToDateTime(
+          suppliedNow.format(DateTimeFormatter.ofPattern('MM-dd-yyyy HH:mm:ss')), minutesToAdjust);
+        adjustedTime = await DateAndTimeUtils.getTimeComponent(adjustedTime);
+    }
+    else if (operator === '+') {
+      adjustedTime = await DateAndTimeUtils.addMinsToDateTime(
+        suppliedNow.format(DateTimeFormatter.ofPattern('MM-dd-yyyy HH:mm:ss')), minutesToAdjust);
+      adjustedTime = await DateAndTimeUtils.getTimeComponent(adjustedTime);
+    }
+    return adjustedTime;
+  }
+
+  /**
+   * getTimeStringWithEstablishedNow
+   * @param timeString: interesting strings include 'now' and optionally '+' or '-' e.g 'now + 6' where number indicates minutes
+   * @param establishedNow: supplied LocalDateTime
+   * @param pattern: formatting pattern to use
+   */
+  public static async getTimeStringWithEstablishedNow(timeString: string, establishedNow: LocalDateTime, pattern: string): Promise<string> {
+    if (timeString.includes('now')) {
+      if (timeString === 'now') {
+        return establishedNow.format(DateTimeFormatter.ofPattern(pattern));
+      } else {
+        return DateAndTimeUtils.adjustNowTimeWithSuppliedNow(timeString.substr(4, 1), parseInt(timeString.substr(6), 10), establishedNow);
+      }
+    }
+    else {
+      return timeString;
+    }
+  }
+
+public static async formulateDateTime(timeStamp: string, format = 'dd/MM/yyyy HH:mm:ss'): Promise<Date> {
     let dateTime;
     if (format.includes('T') && format.includes('Z')) {
       const instant = Instant.from(DateTimeFormatter.ISO_INSTANT.parse(timeStamp));

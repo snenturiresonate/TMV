@@ -14,16 +14,16 @@ export class TimePicker {
   public closeButton: ElementFinder;
 
   constructor() {
-    this.hourIncrement = element(by.css('.hour-spinner .increment-time'));
-    this.hourValue = element(by.css('.hour-spinner input'));
-    this.hourDecrement = element(by.css('.hour-spinner .decrement-time'));
-    this.minuteIncrement = element(by.css('.minute-spinner .increment-time'));
-    this.minuteValue = element(by.css('.minute-spinner input'));
-    this.minuteDecrement = element(by.css('.minute-spinner .decrement-time'));
-    this.secondIncrement = element(by.css('.second-spinner .increment-time'));
-    this.secondValue = element(by.css('.second-spinner input'));
-    this.secondDecrement = element(by.css('.second-spinner .decrement-time'));
-    this.closeButton = element(by.css('.close-button'));
+    this.hourIncrement = element(by.css('.show .hour-spinner .increment-time'));
+    this.hourValue = element(by.css('.show .hour-spinner input'));
+    this.hourDecrement = element(by.css('.show .hour-spinner .decrement-time'));
+    this.minuteIncrement = element(by.css('.show .minute-spinner .increment-time'));
+    this.minuteValue = element(by.css('.show .minute-spinner input'));
+    this.minuteDecrement = element(by.css('.show .minute-spinner .decrement-time'));
+    this.secondIncrement = element(by.css('.show .second-spinner .increment-time'));
+    this.secondValue = element(by.css('.show .second-spinner input'));
+    this.secondDecrement = element(by.css('.show .second-spinner .decrement-time'));
+    this.closeButton = element(by.css('.show .close-button'));
   }
 
   public async setTime(time: any): Promise<void> {
