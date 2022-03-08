@@ -295,8 +295,8 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     # cleanup
     * I restore to default train list config '1'
 
-  @bug
-  @87596
+  @superseded
+    # Trains list doesn't consume stepping anymore
   Scenario: 33806 -24-g Off route - Train has moved off route
     #Given the user has made changes to the trains list train indication
     #When the user views the trains list

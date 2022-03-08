@@ -22,6 +22,7 @@ Feature: 80750 - Unscheduled Trains List - Match Train View
     * I generate a new train description
     * I generate a new trainUID
 
+    @newSession
   Scenario Outline: 81295-1 - unscheduled trains list - populated list of possible services to match to
     Given I am on the unscheduled trains list
     And the following live berth interpose message is sent from LINX (to create an unmatched service)
@@ -51,6 +52,7 @@ Feature: 80750 - Unscheduled Trains List - Match Train View
       | berth | trainDescriber | trainDescription | planningUid |
       | 0239  | D4             | generated        | generated   |
 
+  @newSession
   Scenario Outline: 81295-2 - unscheduled trains list - blank list of possible services to match to
     Given I am on the unscheduled trains list
     And the following live berth interpose message is sent from LINX (to create an unmatched service)
@@ -73,6 +75,7 @@ Feature: 80750 - Unscheduled Trains List - Match Train View
       | berth | trainDescriber | trainDescription |
       | 0239  | D4             | generated        |
 
+  @newSession
   Scenario Outline: 81295-3 - unscheduled trains list - does not contain service with different train description
     Given I am on the unscheduled trains list
     And the following live berth interpose message is sent from LINX (to create an unmatched service)
@@ -99,6 +102,7 @@ Feature: 80750 - Unscheduled Trains List - Match Train View
       | berth | trainDescriber | trainDescription | planningUid | differentTrainDescription |
       | 0239  | D4             | generated        | generated   | 1X13                      |
 
+  @newSession
   Scenario Outline: 81295-4 - unscheduled trains list - can match to a cancelled service
     Given I am on the unscheduled trains list
     And the following live berth interpose message is sent from LINX (to create an unmatched service)

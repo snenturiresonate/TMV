@@ -1,3 +1,6 @@
+@superseded
+  # The trains list doesn't display unscheduled trains anymore
+  # and all these tests verify that they appear on the train list
 Feature: 42006 - Path Extrapolation - Unscheduled services
 
   As a TMV user
@@ -14,6 +17,7 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
 
   # unmatched services from stepping is part of CCN1
   @tdd
+  @superseded
   Scenario Outline: 42006-13a Unscheduled service is displayed when an unmatched interpose is received
 #    Given no valid schedule exists
 #    When a berth stepping message of the <Type> is received
@@ -38,6 +42,7 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
 
   # unmatched services from stepping is part of CCN1
   @tdd
+  @superseded
   Scenario Outline: 42006-13b Unscheduled service is displayed when an unmatched step is received
     When the following live berth step messages is sent from LINX (creating an unmatched service)
       | fromBerth | toBerth | trainDescriber | trainDescription |
@@ -57,6 +62,7 @@ Feature: 42006 - Path Extrapolation - Unscheduled services
       | case           | trainDesc |
       | unmatched step | 2P02      |
 
+    @superseded
     Scenario Outline: 42006-14  Unscheduled service is displayed when an unmatched TRI is received - <triType>
     # Given no valid schedule exists
     # And a TRI timing has been received for a location with the <TRI type>

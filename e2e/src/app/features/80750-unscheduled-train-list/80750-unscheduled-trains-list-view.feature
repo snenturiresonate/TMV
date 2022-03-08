@@ -22,6 +22,7 @@ Feature: 80750 - Unscheduled Trains List - View
     * I generate a new trainUID
     * I generate a new train description
 
+  @newSession
   Scenario Outline: 81290-1 - unscheduled trains list displays a single unscheduled train
     Given I am on the unscheduled trains list
     And the following live berth interpose message is sent from LINX (to create an unmatched service)
@@ -41,6 +42,7 @@ Feature: 80750 - Unscheduled Trains List - View
       | trainDescription  |
       | generated         |
 
+  @newSession
   Scenario Outline: 81290-2 - unscheduled trains list does not display a scheduled train
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '1' minute, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -67,6 +69,7 @@ Feature: 80750 - Unscheduled Trains List - View
       | trainDescription          | planningUid       |
       | generatedTrainDescription | generatedTrainUId |
 
+  @newSession
   Scenario Outline: 81290-3 - unscheduled trains list displays the correct columns
     Given the following live berth interpose message is sent from LINX (to create an unmatched service)
       | toBerth | trainDescriber | trainDescription   |
@@ -97,6 +100,7 @@ Feature: 80750 - Unscheduled Trains List - View
       | trainDescription  |
       | generated         |
 
+  @newSession
   Scenario Outline: 81290-4 - unscheduled trains list displays the trains ordered by entry time
     Given the following live berth interpose message is sent from LINX (to create the first unmatched service)
       | toBerth | trainDescriber | trainDescription   |

@@ -13,6 +13,7 @@ Feature: 80750 - Unscheduled Trains List - Homepage
   #  Comments:
   #  * (To be developed in a later story 80749) - The user can only have one unscheduled trains list open at any time
   #
+  @newSession
   Scenario: 81289-1 - Selecting the unscheduled trains list icon from the homepage
     Given I am on the home page
     When I click the app 'unsched-trains'
@@ -20,7 +21,7 @@ Feature: 80750 - Unscheduled Trains List - Homepage
     When I switch to the new tab
     Then the tab title contains 'TMV Unscheduled Trains List'
 
-  @tdd @tdd:80749
+  @newSession
   Scenario: 81289-2 - It is only possible to have one unscheduled trains list open
     Given I am on the home page
     When I click the app 'unsched-trains'

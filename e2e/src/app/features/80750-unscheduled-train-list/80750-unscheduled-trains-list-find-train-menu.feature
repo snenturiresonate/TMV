@@ -14,6 +14,7 @@ Feature: 80750 - Unscheduled Trains List - Find Train Menu
   Background:
     * I generate a new train description
 
+  @newSession
   Scenario Outline: 81292-1 - TMV Unscheduled Trains List - Find Train Menu
     Given the following live berth interpose message is sent from LINX (to create an unmatched service)
       | toBerth | trainDescriber | trainDescription   |
