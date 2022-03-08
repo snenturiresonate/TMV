@@ -52,3 +52,6 @@ tmp
 
 e2e/debug.log
 __pycache__
+e2e/protractor.local.headed.conf.js
+
+e2e/downloads
