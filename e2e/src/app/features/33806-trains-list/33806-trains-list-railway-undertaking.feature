@@ -281,6 +281,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
       | GREAT WESTERN RAILWAY (EF)    | EF                         | generated | 2P33             | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN  |
       | WEST MIDLANDS TRAINS (EJ)     | EJ                         | generated | 2P34             | access-plan/1W06_EUSTON_BHAMNWS.cif | EUSTON   |
 
+
   Scenario Outline: 33806 -13b Selecting required columns and verifying if they are reflected in the trains list - negative tests
     #    Given the user has made changes to the trains list TOC/FOC selection
     #    When the user views the trains list
