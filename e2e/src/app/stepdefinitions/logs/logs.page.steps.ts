@@ -269,7 +269,7 @@ Then(/^it (is|isn't) possible to set the (Timetable|Berth|Signalling) startTime 
         .to.equal('');
     } else {
       expect(errorText, `Validation error was not displayed for start ${startTime} end ${endTime}`)
-        .to.equal('* Start date time must be before end date time');
+        .to.equal('* Start Time must be before End Time');
     }
   }
 );
