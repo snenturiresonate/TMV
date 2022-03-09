@@ -29,6 +29,14 @@ export class RestrictionsRestClient {
       {'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}`}).jsonBody;
   }
 
+  public async publishRestrictions(): Promise<ResponsePromise> {
+    const accessToken: string = await LocalStorage.getLocalStorageValueFromRegexKey('CognitoIdentityServiceProvider\..*\.accessToken');
+    await CucumberLog.addText(`Using Access Token: ${accessToken}`);
+    return this.httpClient.post('/infrastructure-restrictions-service/restrictions/publish', {},
+      {'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}`}).jsonBody;
+  }
+
+
   public async deleteRestrictionsForTrack(trackDivisionId: string): Promise<void>{
     const restrictionsRetrieved = await this.getRestrictions(trackDivisionId);
     const dataTemplate: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), 'admin/post-restrictions-template.json'));

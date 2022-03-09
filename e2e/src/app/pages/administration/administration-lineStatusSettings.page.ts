@@ -31,6 +31,10 @@ export class AdministrationLineSettingsTab {
     return this.lineStatusHeader.getText();
   }
 
+  public async getNumberOfRestrictionTypes(): Promise<number> {
+    return this.restrictionTypeSettings.count();
+  }
+
   public async getRestrictionTypeName(index: number): Promise<string> {
     await this.componentLoad();
     return this.restrictionTypeName(index).getText();
@@ -39,9 +43,7 @@ export class AdministrationLineSettingsTab {
   public restrictionTypeName(index: number): ElementFinder {
     // Xpath is used to overcome a multiple elements found warning when using chained locators
     const indexForXpath = index + 1;
-    const elm: ElementFinder =
-      element.all(by.xpath(`//*[@id='restrictiontypesettings'][${indexForXpath}]//*[contains(@class,'punctuality-name')]`)).first();
-    return elm;
+    return element.all(by.xpath(`//*[@id='restrictiontypesettings'][${indexForXpath}]//*[contains(@class,'punctuality-name')]`)).first();
   }
 
   public async getRestrictionTypeColour(index: number): Promise<string> {
@@ -50,8 +52,20 @@ export class AdministrationLineSettingsTab {
   }
 
   public restrictionTypeColour(index: number): ElementFinder {
-    const elm: ElementFinder = this.restrictionTypeSettings.get(index).element(by.css('.punctuality-colour'));
-    return elm;
+    return this.restrictionTypeSettings.get(index).element(by.css('.punctuality-colour'));
+  }
+
+  public async getRestrictionTypeLineStyle(index: number): Promise<string> {
+    await this.componentLoad();
+    return browser.executeScript(`return arguments[0].value`, this.selectedRestrictionTypeLineStyle(index));
+  }
+
+  public restrictionTypeLineStyle(index: number): ElementFinder {
+    return this.restrictionTypeSettings.get(index).element(by.css('.linestyledropdown'));
+  }
+
+  public selectedRestrictionTypeLineStyle(index: number): ElementFinder {
+    return this.restrictionTypeSettings.get(index).element(by.css('.linestyledropdown option:checked'));
   }
 
   public async getRouteTypeName(index: number): Promise<string> {
@@ -61,8 +75,7 @@ export class AdministrationLineSettingsTab {
   }
 
   public routeTypeName(index: number): ElementFinder {
-    const elm: ElementFinder = this.routeTypeSettings.get(index).element(by.css('.punctuality-name'));
-    return elm;
+    return this.routeTypeSettings.get(index).element(by.css('.punctuality-name'));
   }
 
   public async getRouteTypeColour(index: number): Promise<string> {
@@ -71,8 +84,7 @@ export class AdministrationLineSettingsTab {
   }
 
   public routeTypeColour(index: number): ElementFinder {
-    const elm: ElementFinder = this.routeTypeSettings.get(index).element(by.css('[class=punctuality-colour][style^=background-color]'));
-    return elm;
+    return this.routeTypeSettings.get(index).element(by.css('[class=punctuality-colour][style^=background-color]'));
   }
 
   public async getRouteTypeLineWidth(index: number): Promise<string> {
@@ -81,8 +93,7 @@ export class AdministrationLineSettingsTab {
   }
 
   public routeTypeLineWidth(index: number): ElementFinder {
-    const elm: ElementFinder = this.routeTypeSettings.get(index).element(by.css('[class^=punctuality-colour][type=number]'));
-    return elm;
+    return this.routeTypeSettings.get(index).element(by.css('[class^=punctuality-colour][type=number]'));
   }
 
   public async updateRouteTypeLineWidth(index: number, text: string): Promise<any> {
@@ -95,8 +106,7 @@ export class AdministrationLineSettingsTab {
   }
 
   public routeTypeLineStyle(index: number): ElementFinder {
-    const elm: ElementFinder = this.routeTypeSettings.get(index).element(by.css('.linestyledropdown select'));
-    return elm;
+    return this.routeTypeSettings.get(index).element(by.css('.linestyledropdown select'));
   }
 
   public async getPathTypeName(index: number): Promise<string> {
@@ -105,8 +115,7 @@ export class AdministrationLineSettingsTab {
   }
 
   public pathTypeName(index: number): ElementFinder {
-    const elm: ElementFinder = this.pathTypeSettings.get(index).element(by.css('.punctuality-name'));
-    return elm;
+    return this.pathTypeSettings.get(index).element(by.css('.punctuality-name'));
   }
 
   public async getPathTypeColour(index: number): Promise<string> {
@@ -115,8 +124,7 @@ export class AdministrationLineSettingsTab {
   }
 
   public pathTypeColour(index: number): ElementFinder {
-    const elm: ElementFinder = this.pathTypeSettings.get(index).element(by.css('[class=punctuality-colour][style^=background-color]'));
-    return elm;
+    return this.pathTypeSettings.get(index).element(by.css('[class=punctuality-colour][style^=background-color]'));
   }
 
   public async getPathTypeLineWidth(index: number): Promise<string> {
@@ -125,8 +133,7 @@ export class AdministrationLineSettingsTab {
   }
 
   public pathTypeLineWidth(index: number): ElementFinder {
-    const elm: ElementFinder = this.pathTypeSettings.get(index).element(by.css('[class^=punctuality-colour][type=number]'));
-    return elm;
+    return this.pathTypeSettings.get(index).element(by.css('[class^=punctuality-colour][type=number]'));
   }
 
   public async updatePathTypeLineWidth(index: number, text: string): Promise<any> {
@@ -139,8 +146,7 @@ export class AdministrationLineSettingsTab {
   }
 
   public pathTypeLineStyle(index: number): ElementFinder {
-    const elm: ElementFinder = this.pathTypeSettings.get(index).element(by.css('.linestyledropdown select'));
-    return elm;
+    return this.pathTypeSettings.get(index).element(by.css('.linestyledropdown select'));
   }
 
   public async getNoteTypeName(index: number): Promise<string> {
@@ -149,8 +155,7 @@ export class AdministrationLineSettingsTab {
   }
 
   public noteTypeName(index: number): ElementFinder {
-    const elm: ElementFinder = this.noteSettings.get(index).element(by.css('.punctuality-name'));
-    return elm;
+    return this.noteSettings.get(index).element(by.css('.punctuality-name'));
   }
 
   public async getNoteTypeColour(index: number): Promise<string> {
@@ -159,8 +164,7 @@ export class AdministrationLineSettingsTab {
   }
 
   public noteTypeColour(index: number): ElementFinder {
-    const elm: ElementFinder = this.noteSettings.get(index).element(by.css('[class=punctuality-colour][style^=background-color]'));
-    return elm;
+    return this.noteSettings.get(index).element(by.css('[class=punctuality-colour][style^=background-color]'));
   }
 
   public async getNoteTypeLineWidth(index: number): Promise<string> {
@@ -169,8 +173,7 @@ export class AdministrationLineSettingsTab {
   }
 
   public noteTypeLineWidth(index: number): ElementFinder {
-    const elm: ElementFinder = this.noteSettings.get(index).element(by.css('[class^=punctuality-colour][type=number]'));
-    return elm;
+    return this.noteSettings.get(index).element(by.css('[class^=punctuality-colour][type=number]'));
   }
 
   public async updateNoteTypeLineWidth(index: number, text: string): Promise<any> {
@@ -183,7 +186,6 @@ export class AdministrationLineSettingsTab {
   }
 
   public noteTypeLineStyle(index: number): ElementFinder {
-    const elm: ElementFinder = this.noteSettings.get(index).element(by.css('.linestyledropdown select'));
-    return elm;
+    return this.noteSettings.get(index).element(by.css('.linestyledropdown select'));
   }
 }

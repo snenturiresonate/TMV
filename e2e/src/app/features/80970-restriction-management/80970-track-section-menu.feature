@@ -16,7 +16,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
 
 #    If more than one restriction is applied then display the highest priority based on the following Restriction Type prioritisation:
 #     BLOK (Line Blockage)
-#     OOU (Out Of Use)
+#     OOU (Out of Use)
 #     POSS (Possession)
 #     ESR (Emergency Speed Restriction)
 #     TSR (Temporary Speed Restriction)
@@ -120,7 +120,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
 
 #    If more than one restriction is applied then display the highest priority based on the following Restriction Type prioritisation:
 #     BLOK (Line Blockage)
-#     OOU (Out Of Use)
+#     OOU (Out of Use)
 #     POSS (Possession)
 #     ESR (Emergency Speed Restriction)
 #     TSR (Temporary Speed Restriction)

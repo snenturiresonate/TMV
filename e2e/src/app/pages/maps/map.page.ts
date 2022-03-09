@@ -73,6 +73,19 @@ export class MapPageObject {
     );
   }
 
+  private static mapLineStyle(dashArray: string): string {
+    if (!!dashArray) {
+      if (dashArray === '7px') {
+        return 'Long Dashed';
+      } else if (dashArray === '4px') {
+        return 'Short Dashed';
+      } else if (dashArray === 'none') {
+        return 'Solid';
+      }
+    }
+    return `Unknown dash array value ${dashArray} cannot be mapped.`;
+  }
+
   public async isPlatformLayerPresent(): Promise<boolean> {
     return browser.isElementPresent(this.platformLayer);
   }
@@ -434,6 +447,12 @@ export class MapPageObject {
     const track: ElementFinder = element.all(by.name('track-element-path-' + trackId)).first();
     const trackColourRgb: string = await track.getCssValue('stroke');
     return CssColorConverterService.rgb2Hex(trackColourRgb);
+  }
+
+  public async getTrackLineStyle(trackId: string): Promise<string> {
+    const track: ElementFinder = element.all(by.name('track-element-path-' + trackId)).first();
+    const dashArray = await track.getCssValue('stroke-dasharray');
+    return MapPageObject.mapLineStyle(dashArray);
   }
 
   public async getLvlCrossingBarrierState(lvlCrossingId: string): Promise<string> {

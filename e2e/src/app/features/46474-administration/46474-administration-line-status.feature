@@ -5,8 +5,6 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
   I want to verify the administration page - Display Settings
   So, that I can identify if the build meet the end to end requirements
 
-  # Force re-run
-
   Background:
     Given I have not already authenticated
     And I am on the admin page
@@ -15,17 +13,17 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
   Scenario: Line Status settings header
     Then the line settings header is displayed as 'Line Status'
 
-  Scenario: Line Status -Restriction type settings default color and entries
+   Scenario: Line Status -Restriction type settings default color and entries
     Then the following can be seen on the Line Status restriction type settings table
-      | name                                | colour  |
-      | BLOK (Line Blockage)                | #ff0000 |
-      | OOU (Out Of Use)                    | #ffa700 |
-      | POSS (Possession)                   | #ff0000 |
-      | ESR (Emergency Speed Restriction)   | #ffff00 |
-      | TSR (Temporary Speed Restriction)   | #ffa700 |
-      | BTET (Blocked to Electric Traction) | #ffc0cb |
-      | CAU (Cautioning of Trains)          | #ffff00 |
-      | Multiple Restrictions Apply         | #800080 |
+      | name                                | colour  | lineStyle    |
+      | BLOK (Line Blockage)                | #ff0000 | Solid        |
+      | OOU (Out of Use)                    | #ffa700 | Solid        |
+      | POSS (Possession)                   | #ff0000 | Long Dashed  |
+      | ESR (Emergency Speed Restriction)   | #ffff00 | Short Dashed |
+      | TSR (Temporary Speed Restriction)   | #ffa700 | Short Dashed |
+      | BTET (Blocked to Electric Traction) | #ffc0cb | Short Dashed |
+      | CAU (Cautioning of Trains)          | #ffff00 | Solid        |
+      | Multiple Restrictions Apply         | #800080 | Solid        |
 
   Scenario: Line Status -Route type settings default color and entries
     Then the following can be seen on the Line Status route type settings table
@@ -39,26 +37,26 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
 
   Scenario: Line Status -Restriction type settings reset to default color and entries
     When I update the Line Status restriction type settings table as
-      | name                                | colour  |
-      | BLOK (Line Blockage)                | #bb2    |
-      | OOU (Out Of Use)                    | #bb2    |
-      | POSS (Possession)                   | #bb2    |
-      | ESR (Emergency Speed Restriction)   | #bb2    |
-      | TSR (Temporary Speed Restriction)   | #bb2    |
-      | BTET (Blocked to Electric Traction) | #bb2    |
-      | CAU (Cautioning of Trains)          | #bb2    |
-      | Multiple Restrictions Apply         | #bb2    |
+      | name                                | colour  | lineStyle    |
+      | BLOK (Line Blockage)                | #bb2    | Long Dashed  |
+      | OOU (Out of Use)                    | #bb2    | Short Dashed |
+      | POSS (Possession)                   | #bb2    | Solid        |
+      | ESR (Emergency Speed Restriction)   | #bb2    | Long Dashed  |
+      | TSR (Temporary Speed Restriction)   | #bb2    | Short Dashed |
+      | BTET (Blocked to Electric Traction) | #bb2    | Solid        |
+      | CAU (Cautioning of Trains)          | #bb2    | Long Dashed  |
+      | Multiple Restrictions Apply         | #bb2    | Short Dashed |
     Then I reset the punctuality settings
     Then the following can be seen on the Line Status restriction type settings table
-      | name                                | colour  |
-      | BLOK (Line Blockage)                | #ff0000 |
-      | OOU (Out Of Use)                    | #ffa700 |
-      | POSS (Possession)                   | #ff0000 |
-      | ESR (Emergency Speed Restriction)   | #ffff00 |
-      | TSR (Temporary Speed Restriction)   | #ffa700 |
-      | BTET (Blocked to Electric Traction) | #ffc0cb |
-      | CAU (Cautioning of Trains)          | #ffff00 |
-      | Multiple Restrictions Apply         | #800080 |
+      | name                                | colour  | lineStyle    |
+      | BLOK (Line Blockage)                | #ff0000 | Solid        |
+      | OOU (Out of Use)                    | #ffa700 | Solid        |
+      | POSS (Possession)                   | #ff0000 | Long Dashed  |
+      | ESR (Emergency Speed Restriction)   | #ffff00 | Short Dashed |
+      | TSR (Temporary Speed Restriction)   | #ffa700 | Short Dashed |
+      | BTET (Blocked to Electric Traction) | #ffc0cb | Short Dashed |
+      | CAU (Cautioning of Trains)          | #ffff00 | Solid        |
+      | Multiple Restrictions Apply         | #800080 | Solid        |
 
   Scenario: User should see the unsaved dialogue when refreshing the page without saving the changes
     When I update the Line Status path type settings table as
@@ -72,21 +70,21 @@ Feature: 46474 - Administration Display Settings - full end to end testing - lin
 
   Scenario: Update Line Status -Restriction type settings
     When I update the Line Status restriction type settings table as
-      | name                  | colour  |
-      | BLOK (Line Blockage)  | #bb2    |
+      | name                  | colour  | lineStyle   |
+      | BLOK (Line Blockage)  | #bb2    | Long Dashed |
     And I save the punctuality settings
     And I navigate to the 'Login Message' admin tab
     And I navigate to the 'Display Settings' admin tab
     Then the following can be seen on the Line Status restriction type settings table
-      | name                                | colour  |
-      | BLOK (Line Blockage)                | #bbbb22 |
-      | OOU (Out Of Use)                    | #ffa700 |
-      | POSS (Possession)                   | #ff0000 |
-      | ESR (Emergency Speed Restriction)   | #ffff00 |
-      | TSR (Temporary Speed Restriction)   | #ffa700 |
-      | BTET (Blocked to Electric Traction) | #ffc0cb |
-      | CAU (Cautioning of Trains)          | #ffff00 |
-      | Multiple Restrictions Apply         | #800080 |
+      | name                                | colour  | lineStyle    |
+      | BLOK (Line Blockage)                | #bbbb22 | Long Dashed  |
+      | OOU (Out of Use)                    | #ffa700 | Solid        |
+      | POSS (Possession)                   | #ff0000 | Long Dashed  |
+      | ESR (Emergency Speed Restriction)   | #ffff00 | Short Dashed |
+      | TSR (Temporary Speed Restriction)   | #ffa700 | Short Dashed |
+      | BTET (Blocked to Electric Traction) | #ffc0cb | Short Dashed |
+      | CAU (Cautioning of Trains)          | #ffff00 | Solid        |
+      | Multiple Restrictions Apply         | #800080 | Solid        |
 
   Scenario: Update Line Status -Route type settings
     When I update the Line Status route type settings table as

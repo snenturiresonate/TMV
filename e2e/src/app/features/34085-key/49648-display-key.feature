@@ -57,7 +57,7 @@ Feature: 46482 - TMV Key - display key
     And the Line Status list contains the following data
       | position | status                               |
       | 0        | BLOK (Line Blockage)                 |
-      | 1        | OOU (Out Of Use)                     |
+      | 1        | OOU (Out of Use)                     |
       | 2        | POSS (Possession)                    |
       | 3        | ESR (Emergency Speed Restriction)    |
       | 4        | TSR (Temporary Speed Restriction)    |

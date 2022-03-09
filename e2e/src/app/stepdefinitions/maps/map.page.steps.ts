@@ -14,7 +14,6 @@ import {AppPage} from '../../pages/app.po';
 import {TMVRedisUtils} from '../../utils/tmv-redis-utils';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {CucumberLog} from '../../logging/cucumber-log';
-import {BerthStep} from '../../../../../src/app/api/linx/models/berth-step';
 import {BerthCancel} from '../../../../../src/app/api/linx/models/berth-cancel';
 
 let page: MapPageObject;
@@ -899,6 +898,39 @@ Then('the track colour for track {string} is {word}',
       .to.equal(expectedSignalStatusHex);
   });
 
+Then('the track hex colour for track {string} is {word}',
+  async (trackId: string, expectedValue: string) => {
+    await browser.wait(async () => {
+        const actualSignalStatus: string = await mapPageObject.getTrackColour(trackId);
+        return actualSignalStatus === expectedValue;
+    }, browser.params.general_timeout, 'The hex colour of the track division should have been updated');
+  });
+
+Then('the track line style for track {string} is {string}',
+  async (trackId: string, expectedValue: string) => {
+    const actualSignalStatus: string = await mapPageObject.getTrackLineStyle(trackId);
+    expect(actualSignalStatus, `Track line style for ${trackId} is not as expected`)
+      .to.equal(expectedValue);
+  });
+
+Then('the track colour for track {string} matches the colour for restriction type {string}',
+  async (trackId: string, restrictionType: string) => {
+    const expectedColourHex = browser.restrictionTypeSettings[restrictionType].colour;
+    await browser.wait(async () => {
+      const actual =  await mapPageObject.getTrackColour(trackId);
+      return actual === expectedColourHex;
+    }, browser.params.general_timeout, 'The colour of the track division should have been updated');
+  });
+
+Then('the track line style for track {string} matches the line style for restriction type {string}',
+  async (trackId: string, restrictionType: string) => {
+    const expected = browser.restrictionTypeSettings[restrictionType].lineStyle;
+    await browser.wait(async () => {
+      const actual =  await mapPageObject.getTrackLineStyle(trackId);
+      return actual === expected;
+    }, browser.params.general_timeout, 'The line style of the track division should have been updated');
+  });
+
 Then('the tracks {string} are displayed in {word} {word}',
   async (trackIds: string, expectedWidth: string, expectedColour: string) => {
     const expectedTrackIds = trackIds.split(',').map(item => item.trim());
@@ -1190,13 +1222,13 @@ Given(/^I have cleared out all headcodes$/, async () => {
   await new TMVRedisUtils().clearBerths(false);
 });
 
-Given(/^headcode '(.*)' is present in manual\-trust berth '(.*)'$/, async (headcode: string, berthID: string) => {
+Given(/^headcode '(.*)' is present in manual-trust berth '(.*)'$/, async (headcode: string, berthID: string) => {
   await browser.wait(async () => {
     return (await mapPageObject.getHeadcodesAtManualTrustBerth(berthID)).includes(headcode);
   }, browser.params.general_timeout, `headcode ${headcode} not in manual trust berth stack ${berthID} when should be`);
 });
 
-Given(/^headcode '(.*)' is not present in manual\-trust berth '(.*)'$/, async (headcode: string, berthID: string) => {
+Given(/^headcode '(.*)' is not present in manual-trust berth '(.*)'$/, async (headcode: string, berthID: string) => {
   await browser.wait(async () => {
     return !(await mapPageObject.getHeadcodesAtManualTrustBerth(berthID)).includes(headcode);
   }, 30000, `headcode ${headcode} in manual trust berth stack ${berthID} when shouldn't be`);

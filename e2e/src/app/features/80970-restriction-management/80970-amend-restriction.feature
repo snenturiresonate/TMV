@@ -22,7 +22,7 @@ Feature: 80970 - TMV Restrictions - Amend
 #  The following fields can be amended:
 #   Type of restriction selectable from the following options (mandatory)
 #       BLOK (Line Blockage)
-#       OOU (Out Of Use) POSS (Possession)
+#       OOU (Out of Use) POSS (Possession)
 #       ESR (Emergency Speed Restriction)
 #       TSR (Temporary Speed Restriction)
 #       BTET (Blocked to Electric Traction)

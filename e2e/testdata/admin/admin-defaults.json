@@ -19,7 +19,7 @@
         },
         {
           "restrictionType": "OUT_OF_USE",
-          "lineStatusSettingName": "OOU (Out Of Use)",
+          "lineStatusSettingName": "OOU (Out of Use)",
           "colour": "#ffa700",
           "lineStyle": "Solid",
           "lineWidth": 2

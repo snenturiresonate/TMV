@@ -19,7 +19,7 @@
         },
         {
           "restrictionType": "OUT_OF_USE",
-          "lineStatusSettingName": "OOU (Out Of Use) edited",
+          "lineStatusSettingName": "OOU (Out of Use) edited",
           "colour": "#f3ea6a",
           "lineStyle": "Solid",
           "lineWidth": 2

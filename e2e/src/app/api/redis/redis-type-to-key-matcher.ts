@@ -112,6 +112,8 @@ const TYPE_TO_KEY_PATTERN = [
   {pattern: new RegExp('train-describer-[A-Z0-9]{2}'), type: RedisType.REPLAY},
   {pattern: new RegExp('train-describer-state-[A-Z0-9]{2}'), type: RedisType.REPLAY},
   {pattern: new RegExp('trains-list-updates'), type: RedisType.OPERATIONS},
+  {pattern: new RegExp('restriction-events-[a-zA-Z0-9-]+'), type: RedisType.OPERATIONS},
+  {pattern: new RegExp('restriction-snapshots-[a-zA-Z0-9-]+'), type: RedisType.OPERATIONS}
 ];
 
 export class RedisTypeToKeyMatcher {

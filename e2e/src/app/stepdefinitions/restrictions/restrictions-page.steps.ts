@@ -16,6 +16,11 @@ Given(/^I remove all restrictions for track division (.*)$/, async (trackDivisio
   await adminRestClient.waitMaxTransmissionTime();
 });
 
+Given(/^I publish all restriction changes$/, async () => {
+  await restrictionsRestClient.publishRestrictions();
+  await adminRestClient.waitMaxTransmissionTime();
+});
+
 When('I switch to the new restriction tab', async () => {
   const windowHandles: string[] = await browser.getAllWindowHandles();
   const finalTab: number = windowHandles.length - 1;
@@ -119,9 +124,9 @@ Then('the editable type drop down contains the following options', {timeout: 8 *
   const expectedValues = table.hashes();
   let i = 0;
   for (const expectedValue of expectedValues) {
-    const expectedTypeName = (expectedValue.type).toLowerCase();
+    const expectedTypeName = (expectedValue.type);
     const actualTypeName: string = await restrictionsPageObject.getEditableRestrictionType(i);
-    expect(actualTypeName.toLowerCase(), `Could not find ${expectedTypeName} in expected position`).to.equal(expectedTypeName);
+    expect(actualTypeName, `Could not find ${expectedTypeName} in expected position`).to.equal(expectedTypeName);
     i = i + 1;
   }
 });

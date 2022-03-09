@@ -1,7 +1,7 @@
 import {AdministrationLineSettingsTab} from '../../pages/administration/administration-lineStatusSettings.page';
 import { expect } from 'chai';
 import {Then, When} from 'cucumber';
-import {ElementFinder, protractor} from 'protractor';
+import {browser, ElementFinder, protractor} from 'protractor';
 import {InputBox} from '../../pages/common/ui-element-handlers/inputBox';
 import {SelectBox} from '../../pages/common/ui-element-handlers/selectBox';
 
@@ -18,11 +18,29 @@ Then('the following can be seen on the Line Status restriction type settings tab
   for (let i = 0; i < tableData.length; i++) {
     const actualSettingName = await adminLineSettings.getRestrictionTypeName(i);
     const actualSettingColour = await adminLineSettings.getRestrictionTypeColour(i);
+    const actualSettingLineStyle = await adminLineSettings.getRestrictionTypeLineStyle(i);
 
     results.push(expect(actualSettingName).to.contain(tableData[i].name));
     results.push(expect(actualSettingColour).to.contain(tableData[i].colour));
+    results.push(expect(actualSettingLineStyle).to.contain(tableData[i].lineStyle));
   }
   return protractor.promise.all(results);
+});
+
+Then('I make a note of the restriction type settings', async () => {
+  const restrictionTypeSettings: any = {};
+  const numberOfRestrictionTypes = await adminLineSettings.getNumberOfRestrictionTypes();
+  for (let i = 0; i < numberOfRestrictionTypes; i++) {
+    const name = await adminLineSettings.getRestrictionTypeName(i);
+    const restrictionTypeColour = await adminLineSettings.getRestrictionTypeColour(i);
+    const restrictionTypeLineStyle = await adminLineSettings.getRestrictionTypeLineStyle(i);
+    restrictionTypeSettings[name] = {
+        type: name,
+        colour: restrictionTypeColour,
+        lineStyle: restrictionTypeLineStyle
+      };
+  }
+  browser.restrictionTypeSettings = restrictionTypeSettings;
 });
 
 Then('the following can be seen on the Line Status route type settings table', async (table: any) => {
@@ -59,7 +77,9 @@ When('I update the Line Status restriction type settings table as', async (table
   const tableData = table.hashes();
   for (let i = 0; i < tableData.length; i++) {
     const restrictionTypeColour: ElementFinder = adminLineSettings.restrictionTypeColour(i);
+    const restrictionTypeLineStyle: ElementFinder = adminLineSettings.restrictionTypeLineStyle(i);
     await InputBox.updateColourPickerBoxViaPicker(restrictionTypeColour, tableData[i].colour);
+    await SelectBox.selectByVisibleText(restrictionTypeLineStyle, tableData[i].lineStyle);
   }
 });
 

@@ -16,7 +16,7 @@ Feature: 80970 - TMV Restrictions - View Ordering
 #       If the end date is in the past then these are placed at the bottom of the list
 #       If all dates are equal order by type of restriction (currently excluded from BDD because of bug: 87579)
 #           BLOK (Line Blockage)
-#           OOU (Out Of Use)
+#           OOU (Out of Use)
 #           POSS (Possession)
 #           ESR (Emergency Speed Restriction)
 #           TSR (Temporary Speed Restriction)

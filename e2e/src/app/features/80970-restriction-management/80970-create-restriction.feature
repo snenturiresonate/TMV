@@ -56,7 +56,7 @@ Feature: 80970 - TMV Restrictions - Create
 
 #  Type of restriction selectable from the following options (mandatory)
 #  BLOK (Line Blockage)
-#  OOU (Out Of Use) POSS (Possession)
+#  OOU (Out of Use) POSS (Possession)
 #  ESR (Emergency Speed Restriction)
 #  TSR (Temporary Speed Restriction)
 #  BTET (Blocked to Electric Traction)
@@ -70,7 +70,7 @@ Feature: 80970 - TMV Restrictions - Create
     Then the editable type drop down contains the following options
       | type                                |
       | BLOK (Line Blockage)                |
-      | OOU (Out Of Use)                    |
+      | OOU (Out of Use)                    |
       | POSS (Possession)                   |
       | ESR (Emergency Speed Restriction)   |
       | TSR (Temporary Speed Restriction)   |
