@@ -41,6 +41,8 @@ Feature: 34002 - Unscheduled Trains Menu
       | trainNum |
       | 2B02     |
 
+    @superseded
+      # These will not show up on the new trains list
   Scenario Outline:34002-3c Select Service for Matching (Trains List - unmatched TRI)
     And I restore to default train list config '1'
     And the following train running information message is sent from LINX
