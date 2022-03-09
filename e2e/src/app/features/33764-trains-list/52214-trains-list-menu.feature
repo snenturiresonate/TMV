@@ -38,8 +38,8 @@ Feature: 52214 - TMV Trains List - menu
     Then the trains list context menu contains 'SERVICE : ' on line 1
     And the trains list context menu contains 'Open Timetable' on line 2
     And the trains list context menu contains 'Find Train' on line 3
-    And the trains list context menu contains 'Departs' on line 7
-    And the trains list context menu contains 'Arrives' on line 8
+    And the trains list context menu contains 'Departs' on line 8
+    And the trains list context menu contains 'Arrives' on line 9
     And I can click away to clear the menu
 
     Examples:
@@ -73,8 +73,8 @@ Feature: 52214 - TMV Trains List - menu
     And I wait for the trains list context menu to display
     Then the trains list context menu contains '<trainDescription>' on line 1
     And the Matched version of the Schedule-matching trains list context menu is displayed
-    And the trains list context menu contains 'RDNGSTN' on line 6
-    And the trains list context menu contains 'PADTON' on line 6
+    And the trains list context menu contains 'RDNGSTN' on line 7
+    And the trains list context menu contains 'PADTON' on line 7
 
     Examples:
     | trainUid  | trainDescription |

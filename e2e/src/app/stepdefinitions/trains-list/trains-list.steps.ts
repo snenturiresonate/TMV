@@ -316,10 +316,12 @@ Then(/^the (Matched|Unmatched) version of the (Schedule-matching|Non-Schedule-ma
   let expected1;
   let expected2;
   let expected3;
+  let expected4;
   if (matchType === 'Matched') {
     expected1 = 'Open Timetable';
     expected2 = 'Find Train';
-    expected3 = 'Unmatch/Rematch';
+    expected3 = 'Hide Train';
+    expected4 = 'Unmatch/Rematch';
   } else {
     expected1 = 'No Timetable';
     expected2 = 'Find Train';
@@ -328,16 +330,16 @@ Then(/^the (Matched|Unmatched) version of the (Schedule-matching|Non-Schedule-ma
   const contextMenuItem1: string = await trainsListPage.getTrainsListContextMenuItem(2);
   const contextMenuItem2: string = await trainsListPage.getTrainsListContextMenuItem(3);
   const contextMenuItem3: string = await trainsListPage.getTrainsListContextMenuItem(4);
+  const contextMenuItem4: string = await trainsListPage.getTrainsListContextMenuItem(5);
   expect(contextMenuItem1.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected1}`)
     .to.contain(expected1.toLowerCase());
   expect(contextMenuItem2.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
     .to.contain(expected2.toLowerCase());
-  if (userType === 'Schedule-matching') {
-    expect(contextMenuItem3.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
-      .to.contain(expected3.toLowerCase());
-  } else  {
-    expect(contextMenuItem3.toLowerCase(), `Context menu does not imply ${userType} state - does not contain ${expected2}`)
-      .to.not.contain(expected3.toLowerCase());
+  expect(contextMenuItem3.toLowerCase(), `Context menu does not imply correct state - does not contain ${expected3}`)
+    .to.contain(expected3.toLowerCase());
+  if (matchType === 'Matched') {
+    expect(contextMenuItem4.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected4}`)
+      .to.contain(expected4.toLowerCase());
   }
 });
 

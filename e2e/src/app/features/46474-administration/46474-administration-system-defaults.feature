@@ -12,10 +12,10 @@ Feature: 46474 - Administration System Defaults - full end to end testing
 
   Scenario: Replay system settings
     Then the following can be seen on the system default settings
-      | replayEntry                                       |
-      | Replay Background Colour                          |
-      | Maximum Number of Replays                         |
-      | Maximum Number of Schematic Map Display Instances |
+      | replayEntry                                            |
+      | Replay Background Colour                               |
+      | Maximum Number of Replays                              |
+      | Maximum Number of Live Schematic Map Display Instances |
 
   Scenario: Replay system setting values display
     Then I should see the system default settings as
