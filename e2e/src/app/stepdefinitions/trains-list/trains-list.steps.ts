@@ -192,7 +192,7 @@ When(/^I wait until today's train '(.*)' has been removed$/, async (uid: string)
   }, 35000, `${trainIdentifier} was not removed from trainlist`);
 });
 
-Then('train description {string} disappears from the trains list', async (trainDescription: string) => {
+Then(/^the train description (.*) disappears from the trains list$/, async (trainDescription: string) => {
   const hasDisappeared: boolean = await trainsListPage.trainDescriptionHasDisappeared(trainDescription);
   expect(hasDisappeared).to.equal(true);
 });
