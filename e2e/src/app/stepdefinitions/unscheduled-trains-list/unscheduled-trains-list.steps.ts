@@ -80,3 +80,7 @@ Then(/^the find train sub-menu displays the following maps$/, async (expectedMap
     expect(actualMaps, `${actualMaps} did not contain ${expectedMap}`).to.contain(expectedMap);
   });
 });
+
+When(/^I click on Print view button of unscheduledTrains page$/, async () => {
+  await unscheduledTrainsListPage.clickPrintLink();
+});

@@ -13,6 +13,7 @@ export class UnscheduledTrainsListPageObject {
 
   private appPage: AppPage;
   private trainListElement: ElementFinder;
+  private trainListPrintIcon: ElementFinder;
   private columnSectionNames: ElementArrayFinder;
   private columnTableNames: ElementArrayFinder;
   private trainRows: ElementArrayFinder;
@@ -27,6 +28,7 @@ export class UnscheduledTrainsListPageObject {
     this.trainRows = element.all(by.css('[id^=trains-list-row]'));
     this.matchContextMenu = element(by.id('match-unmatch-selection-item'));
     this.findTrainSubMenuMaps = element.all(by.css('#find-map-list span'));
+    this.trainListPrintIcon = element(by.id('trains-list-icon-print'));
   }
 
   public getTrainListElement(): ElementFinder {
@@ -35,6 +37,10 @@ export class UnscheduledTrainsListPageObject {
 
   public async navigateTo(): Promise<void> {
     await this.appPage.navigateTo(`/tmv/unscheduled`);
+  }
+
+  public async clickPrintLink(): Promise<void> {
+    return this.trainListPrintIcon.click();
   }
 
   public async isDisplayed(unscheduledTrain: UnscheduledTrain): Promise<boolean> {
