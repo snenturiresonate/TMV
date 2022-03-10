@@ -11,6 +11,7 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Replay)
     * The admin setting defaults are as originally shipped
     * I have cleared out all headcodes
 
+  @bug @bug:91369
   Scenario: 78843-a Map (Train Menu - matched train)
     # Replay setup
 

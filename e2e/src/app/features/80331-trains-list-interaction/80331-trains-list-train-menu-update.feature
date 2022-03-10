@@ -50,14 +50,15 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
     And the map context menu contains 'SERVICE : ' on line 1
     And the map context menu contains 'Open Timetable' on line 2
     And the map context menu contains 'Find Train' on line 3
-    And the map context menu contains 'Unmatch/Rematch' on line 4
-    And the map context menu contains '<trainDescription>' on line 5
+    And the map context menu contains 'Hide Train' on line 4
+    And the map context menu contains 'Unmatch/Rematch' on line 5
+    And the map context menu contains '<trainDescription>' on line 6
     And the map context menu punctuality is one of On time,+0m 30s,+1m,+1m 30s
-    And the map context menu contains 'T1664' on line 6
-    And the map context menu contains 'D11664' on line 7
-    And the map context menu contains 'RDNGSTN - PADTON' on line 8
-    And the map context menu contains 'Departs' on line 9
-    And the map context menu contains 'Arrives' on line 10
+    And the map context menu contains 'T1664' on line 7
+    And the map context menu contains 'D11664' on line 8
+    And the map context menu contains 'RDNGSTN - PADTON' on line 9
+    And the map context menu contains 'Departs' on line 10
+    And the map context menu contains 'Arrives' on line 11
     And I open timetable from the context menu
     And I switch to the new tab
     Then the tab title is '<trainDescription> TMV Timetable'
@@ -91,14 +92,15 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
     And the map context menu contains 'SERVICE : ' on line 1
     And the map context menu contains 'Open Timetable' on line 2
     And the map context menu contains 'Find Train' on line 3
-    And the map context menu contains 'Unmatch/Rematch' on line 4
-    And the map context menu contains '<trainDescription>' on line 5
+    And the map context menu contains 'Hide Train' on line 4
+    And the map context menu contains 'Unmatch/Rematch' on line 5
+    And the map context menu contains '<trainDescription>' on line 6
     And the map context menu punctuality is one of +5m,+5m 30s,+6m
-    And the map context menu contains 'T1664' on line 6
-    And the map context menu contains 'D11664' on line 7
-    And the map context menu contains 'RDNGSTN - PADTON' on line 8
-    And the map context menu contains 'Departs' on line 9
-    And the map context menu contains 'Arrives' on line 10
+    And the map context menu contains 'T1664' on line 7
+    And the map context menu contains 'D11664' on line 8
+    And the map context menu contains 'RDNGSTN - PADTON' on line 9
+    And the map context menu contains 'Departs' on line 10
+    And the map context menu contains 'Arrives' on line 11
     And I open timetable from the context menu
     And I switch to the new tab
     Then the tab title is '<trainDescription> TMV Timetable'

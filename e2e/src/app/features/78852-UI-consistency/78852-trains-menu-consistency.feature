@@ -53,12 +53,18 @@ Feature: 78852 - Trains Menu Consistency
     When I hover over the trains list context menu on line 3
     * the trains list context menu on line 3 has text colour 'hoverBlack'
     * the trains list context menu on line 3 has text underline 'underline'
-    Then the trains list context menu contains 'Unmatch/Rematch' on line 4
-    * the trains list context menu on line 4 has text colour 'blue'
+    Then the trains list context menu contains 'Hide Train' on line 4
+    * the trains list context menu on line 4 has text colour 'black'
     * the trains list context menu on line 4 has text underline 'none'
     When I hover over the trains list context menu on line 4
-    * the trains list context menu on line 4 has text colour 'blue'
+    * the trains list context menu on line 4 has text colour 'hoverBlack'
     * the trains list context menu on line 4 has text underline 'underline'
+    Then the trains list context menu contains 'Unmatch/Rematch' on line 5
+    * the trains list context menu on line 5 has text colour 'blue'
+    * the trains list context menu on line 5 has text underline 'none'
+    When I hover over the trains list context menu on line 5
+    * the trains list context menu on line 5 has text colour 'blue'
+    * the trains list context menu on line 5 has text underline 'underline'
 
     Examples:
       | planningUid | trainNum  |

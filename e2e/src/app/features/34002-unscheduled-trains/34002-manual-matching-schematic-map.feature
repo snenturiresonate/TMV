@@ -29,7 +29,6 @@ Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Schematic Map
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1L24_PADTON_RDNGSTN.cif | STHALL      | WTT_arr       | <trainDescription>  | <trainUid>    |
     And I wait until today's train '<trainUid>' has loaded
-    And I log the berth & locations from the berth level schedule for '<trainUid>'
     And I give the train 2 seconds to reach Elastic
     And I refresh the Elastic Search indices
     And I right click on berth with id '<trainDescriber><toBerth>'
@@ -75,7 +74,6 @@ Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Schematic Map
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1L24_PADTON_RDNGSTN.cif | STHALL      | WTT_arr       | <trainDescription>  | <trainUid>    |
     And I wait until today's train '<trainUid>' has loaded
-    And I log the berth & locations from the berth level schedule for '<trainUid>'
     And I give the train 2 seconds to reach Elastic
     And I refresh the Elastic Search indices
     And I right click on berth with id '<trainDescriber><toBerth>'

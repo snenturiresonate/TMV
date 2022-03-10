@@ -130,7 +130,8 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Live)
     And the map context menu contains 'Highlight' on line 4
     And the map context menu contains '1F38' on line 5
     And the map context menu punctuality is one of Unavailable
-    And the map context menu contains 'D71168' on line 6
+    And the map context menu contains 'SW1168' on line 6
+    And the map context menu contains 'D71168' on line 7
     When I click on Match in the context menu
     And I switch to the new tab
     Then the tab title is 'TMV Schedule Matching 1F38'
@@ -158,7 +159,8 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Live)
     And the map context menu contains 'Highlight' on line 4
     And the map context menu contains '1F40' on line 5
     And the map context menu punctuality is one of Unavailable
-    And the map context menu contains 'D52368' on line 6
+    And the map context menu contains 'od2368, od2368x' on line 6
+    And the map context menu contains 'D52368' on line 7
     When I click on Match in the context menu
     And I switch to the new tab
     Then the tab title is 'TMV Schedule Matching 1F40'
@@ -178,7 +180,8 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Live)
     And the map context menu contains 'Highlight' on line 4
     And the map context menu contains '1F38' on line 5
     And the map context menu punctuality is one of Unavailable
-    And the map context menu contains 'D71168' on line 6
+    And the map context menu contains 'sw1168' on line 6
+    And the map context menu contains 'D71168' on line 7
     When I click on Match in the context menu
     And I switch to the new tab
     Then the tab title is 'TMV Schedule Matching 1F38'
