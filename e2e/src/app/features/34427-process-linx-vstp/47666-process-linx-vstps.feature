@@ -108,7 +108,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
     # Then one timetable with the planning UID and schedule date is returned and the type is <DisplayType>
     Given I generate a new trainUID
     * I remove today's train 'generatedTrainUId' from the trainlist
-    * I delete 'generatedTrainUId:today' from hash 'schedule-modifications'
+    * I delete 'generatedTrainUId:today' from hash 'schedule-modifications-today'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath        | refLocation    | refTimingType | newTrainDescription    | newPlanningUid |
       | <prevCIFLoaded> | <refLocation>  | WTT_dep       | <origTrainDescription> | generated      |

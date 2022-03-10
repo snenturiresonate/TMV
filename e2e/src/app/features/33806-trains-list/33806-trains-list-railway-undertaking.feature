@@ -259,7 +259,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
     #    When the user views the trains list
     #    Then the view is updated to reflect the user's TOC/FOC selection
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>    | <location>  | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -286,7 +286,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - ra
     #    Given the user has made changes to the trains list TOC/FOC selection
     #    When the user views the trains list
     #    Then the view is updated to reflect the user's TOC/FOC selection
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>    | <location>  | WTT_dep       | <trainDescription>  | <trainUid>     |

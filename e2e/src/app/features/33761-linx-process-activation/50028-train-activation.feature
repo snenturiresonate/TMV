@@ -9,7 +9,7 @@ Feature: 33761-2 Train activation for a valid service
     * I remove all trains from the trains list
 
   Scenario: 33761-2 Train Activation for a valid service
-    * I delete 'L11001:today' from hash 'schedule-modifications'
+    * I delete 'L11001:today' from hash 'schedule-modifications-today'
     * I remove today's train 'L11001' from the trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -30,7 +30,7 @@ Feature: 33761-2 Train activation for a valid service
   Scenario: 33761-3 Train Activation for a cancelled service
       # A cancelled service that has been planned to be cancelled will not appear even when activated.
       # Only services that are cancelled via a TJM are displayed with the cancelled indication
-    Given I delete 'L11001:today' from hash 'schedule-modifications'
+    Given I delete 'L11001:today' from hash 'schedule-modifications-today'
     When the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/schedules_BS_type_C.cif | PADTON      | WTT_dep       | 0B00                | B10001         |
@@ -44,7 +44,7 @@ Feature: 33761-2 Train activation for a valid service
 
   Scenario: 33761-4 Train Activation for an active service
     * I remove today's train 'C10001' from the trainlist
-    Given I delete 'C10001:today' from hash 'schedule-modifications'
+    Given I delete 'C10001:today' from hash 'schedule-modifications-today'
     When the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1C01                | C10001         |
@@ -66,7 +66,7 @@ Feature: 33761-2 Train activation for a valid service
 
   Scenario: 33761-5 Train Activation for a valid service with a different origin
     * I remove today's train 'D10001' from the trainlist
-    Given I delete 'D10001:today' from hash 'schedule-modifications'
+    Given I delete 'D10001:today' from hash 'schedule-modifications-today'
     When the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1D01                | D10001         |
@@ -86,7 +86,7 @@ Feature: 33761-2 Train activation for a valid service
   Scenario: 33761-6 & 7 Train Activation for a valid service with a change of origin
     # A TJM for Change of origin will be required to bring about a Change of Origin indication
     * I remove today's train 'W15214' from the trainlist
-    Given I delete 'W15214:today' from hash 'schedule-modifications'
+    Given I delete 'W15214:today' from hash 'schedule-modifications-today'
     And I am on the trains list page 1
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as
@@ -116,7 +116,7 @@ Feature: 33761-2 Train activation for a valid service
   Scenario: 33761-8 Train Activation for a valid service with a change of origin matching current origin
     # A TJM for Change of origin will be required to bring about a Change of Origin indication
     * I remove today's train 'W15216' from the trainlist
-    Given I delete 'W15216:today' from hash 'schedule-modifications'
+    Given I delete 'W15216:today' from hash 'schedule-modifications-today'
     And I am on the trains list page 1
     And I have navigated to the 'Train Indication' configuration tab
     And I update only the below train list indication config settings as

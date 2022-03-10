@@ -17,7 +17,7 @@ Feature: 50561 - Unmatch a service - Trains List
     #  Then the unmatch confirmation dialogue is displayed
     * I generate a new trainUID
     * I generate a new train description
-    * I delete 'generatedTrainUId:today' from hash 'schedule-modifications'
+    * I delete 'generatedTrainUId:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | generated           | generated      |
@@ -45,7 +45,7 @@ Feature: 50561 - Unmatch a service - Trains List
     #  Then the service remains matched
     * I generate a new trainUID
     * I generate a new train description
-    * I delete 'generatedTrainUId:today' from hash 'schedule-modifications'
+    * I delete 'generatedTrainUId:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | generated           | generated      |
@@ -75,7 +75,7 @@ Feature: 50561 - Unmatch a service - Trains List
     #  And remains unmatch for the remainder of its journey unless rematched by a user
     * I generate a new trainUID
     * I generate a new train description
-    * I delete 'generatedTrainUId:today' from hash 'schedule-modifications'
+    * I delete 'generatedTrainUId:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | generated           | generated      |

@@ -21,10 +21,10 @@ Feature: 34080 - Last Berth
   #    Then the user is presented with a list of the last services that have finished at this berth
 
     # setup
-    * I delete 'C56451:today' from hash 'schedule-modifications'
-    * I delete 'C56453:today' from hash 'schedule-modifications'
-    * I delete 'C56455:today' from hash 'schedule-modifications'
-    * I delete 'C56457:today' from hash 'schedule-modifications'
+    * I delete 'C56451:today' from hash 'schedule-modifications-today'
+    * I delete 'C56453:today' from hash 'schedule-modifications-today'
+    * I delete 'C56455:today' from hash 'schedule-modifications-today'
+    * I delete 'C56457:today' from hash 'schedule-modifications-today'
     * I remove today's train 'C56457' from the trainlist
 
     # Inject CIFs and activations
@@ -115,17 +115,17 @@ Feature: 34080 - Last Berth
 
   Scenario Outline: 34080-1b Last Berth (Secondary Click) - more than 10
     # setup
-    * I delete 'C56458:today' from hash 'schedule-modifications'
-    * I delete 'C56459:today' from hash 'schedule-modifications'
-    * I delete 'C56460:today' from hash 'schedule-modifications'
-    * I delete 'C56461:today' from hash 'schedule-modifications'
-    * I delete 'C56462:today' from hash 'schedule-modifications'
-    * I delete 'C56463:today' from hash 'schedule-modifications'
-    * I delete 'C56464:today' from hash 'schedule-modifications'
-    * I delete 'C56465:today' from hash 'schedule-modifications'
-    * I delete 'C56466:today' from hash 'schedule-modifications'
-    * I delete 'C56467:today' from hash 'schedule-modifications'
-    * I delete 'C56468:today' from hash 'schedule-modifications'
+    * I delete 'C56458:today' from hash 'schedule-modifications-today'
+    * I delete 'C56459:today' from hash 'schedule-modifications-today'
+    * I delete 'C56460:today' from hash 'schedule-modifications-today'
+    * I delete 'C56461:today' from hash 'schedule-modifications-today'
+    * I delete 'C56462:today' from hash 'schedule-modifications-today'
+    * I delete 'C56463:today' from hash 'schedule-modifications-today'
+    * I delete 'C56464:today' from hash 'schedule-modifications-today'
+    * I delete 'C56465:today' from hash 'schedule-modifications-today'
+    * I delete 'C56466:today' from hash 'schedule-modifications-today'
+    * I delete 'C56467:today' from hash 'schedule-modifications-today'
+    * I delete 'C56468:today' from hash 'schedule-modifications-today'
     * I remove today's train 'C56468' from the trainlist
 
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
@@ -311,7 +311,7 @@ Feature: 34080 - Last Berth
 
     #setup
     * I generate a new trainUID
-    * I delete '<planningUID>:today' from hash 'schedule-modifications'
+    * I delete '<planningUID>:today' from hash 'schedule-modifications-today'
     * I remove today's train '<planningUID>' from the trainlist
 
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
@@ -378,7 +378,7 @@ Feature: 34080 - Last Berth
       Then the tab title contains 'TMV Map GW2A'
 
   Scenario Outline: 34080-3 and 34080-4 Last Berth - response times for secondary click and select timetable
-    * I delete 'C56473:today' from hash 'schedule-modifications'
+    * I delete 'C56473:today' from hash 'schedule-modifications-today'
     * I remove today's train 'C56473' from the trainlist
 
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX

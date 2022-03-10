@@ -7,7 +7,7 @@ Feature: 53790 - Schematic State - NFR Testing (Page load)
     * I am on the home page
     * I generate a new trainUID
     * I generate a new train description
-    * I delete 'generated:today' from hash 'schedule-modifications'
+    * I delete 'generated:today' from hash 'schedule-modifications-today'
     * I reset the stopwatch
 
   Scenario Outline: 34081 - 34 Opening a map (response time)

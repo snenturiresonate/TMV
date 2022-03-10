@@ -17,7 +17,7 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Timetable Primary Cli
 #    Then the train's timetable is opened in a new tab
     * I generate a new trainUID
     * I generate a new train description
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     * I am on the home page
     * I restore to default train list config '1'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX

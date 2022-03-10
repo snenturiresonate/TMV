@@ -7,7 +7,7 @@ Feature: 33753 - Timetable - Additional Automated Testing - Replay Timetable NFR
     * I reset the stopwatch
     * I generate a new trainUID
     * I generate a new train description
-    * I delete 'generated:today' from hash 'schedule-modifications'
+    * I delete 'generated:today' from hash 'schedule-modifications-today'
 
   #  34375-9-1 Open Timetable (Map) response time - secondary click
   #    Given the user is authenticated to use TMV replay

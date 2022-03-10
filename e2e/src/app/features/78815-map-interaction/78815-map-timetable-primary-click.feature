@@ -22,7 +22,7 @@ Feature: 78815 - TMV Map Interaction - Map Timetable Primary Click
 
   Scenario Outline: 78844 - Last Berth (Select Timetable, left click) - matched trains
     #setup
-    * I delete 'C56471:today' from hash 'schedule-modifications'
+    * I delete 'C56471:today' from hash 'schedule-modifications-today'
     * I remove today's train 'C56471' from the trainlist
     * I am on the trains list page 1
     * I restore to default train list config '1'

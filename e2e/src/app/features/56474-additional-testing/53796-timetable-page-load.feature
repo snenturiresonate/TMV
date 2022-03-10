@@ -8,7 +8,7 @@ Feature: 33753 - Timetable - Additional Automated Testing - Timetable NFR Testin
     * I remove all trains from the trains list
     * I generate a new trainUID
     * I generate a new train description
-    * I delete 'generated:today' from hash 'schedule-modifications'
+    * I delete 'generated:today' from hash 'schedule-modifications-today'
     * I am on the home page
     * I restore to default train list config '1'
 

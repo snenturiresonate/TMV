@@ -86,7 +86,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
     * I remove today's train 'B21001' from the trainlist
-    * I delete 'B21001:today' from hash 'schedule-modifications'
+    * I delete 'B21001:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B21                | B21001         |
@@ -123,7 +123,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
     * I remove today's train 'B21002' from the trainlist
-    * I delete 'B21002:today' from hash 'schedule-modifications'
+    * I delete 'B21002:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B22                | B21002         |
@@ -160,7 +160,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
     * I remove today's train 'B21003' from the trainlist
-    * I delete 'B21003:today' from hash 'schedule-modifications'
+    * I delete 'B21003:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B23                | B21003         |
@@ -195,7 +195,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
     * I remove today's train 'B21004' from the trainlist
-    * I delete 'B21004:today' from hash 'schedule-modifications'
+    * I delete 'B21004:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B24                | B21004         |
@@ -230,7 +230,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
     * I remove today's train 'B21005' from the trainlist
-    * I delete 'B21005:today' from hash 'schedule-modifications'
+    * I delete 'B21005:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B25                | B21005         |
@@ -265,7 +265,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
     * I remove today's train 'B21006' from the trainlist
-    * I delete 'B21006:today' from hash 'schedule-modifications'
+    * I delete 'B21006:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B26                | B21006         |
@@ -302,7 +302,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
     * I remove today's train 'B21007' from the trainlist
-    * I delete 'B21007:today' from hash 'schedule-modifications'
+    * I delete 'B21007:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B27                | B21007         |
@@ -340,7 +340,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - tr
     #When the user views the trains list
     #Then the view is updated to reflect the user's train indication changes
     * I remove today's train 'B21008' from the trainlist
-    * I delete 'B21008:today' from hash 'schedule-modifications'
+    * I delete 'B21008:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 1B28                | B21008         |

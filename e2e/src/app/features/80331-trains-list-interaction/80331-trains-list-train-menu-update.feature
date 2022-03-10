@@ -29,7 +29,7 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
 
     * I generate a new trainUID
     * I generate a new train description
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -71,7 +71,7 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
 
     * I generate a new trainUID
     * I generate a new train description
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now - '5' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -147,7 +147,7 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
 
     * I generate a new trainUID
     * I generate a new train description
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the following train running information message is sent from LINX
       | trainUID   | trainNumber         | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           |
       | <trainUid> | <trainDescription>  | today              | 73000               | PADTON                 | Departure from Origin |

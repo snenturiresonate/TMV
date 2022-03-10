@@ -147,7 +147,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     # first train
     * I generate a new trainUID
     * I remove today's train 'generated' from the trainlist
-    * I delete 'generated:today' from hash 'schedule-modifications'
+    * I delete 'generated:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 2B31                | generated      |
@@ -159,7 +159,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
     # second train
     * I generate a new trainUID
     * I remove today's train 'generated' from the trainlist
-    * I delete 'generated:today' from hash 'schedule-modifications'
+    * I delete 'generated:today' from hash 'schedule-modifications-today'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 2B32                | generated      |
@@ -208,7 +208,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - mi
 
   Scenario: 33806 -32c Trains List Config (Train Misc Settings Applied) - Ignore PD cancel toggle off
     * I remove today's train 'B30003' from the trainlist
-    * I delete 'B30003:today' from hash 'schedule-modifications'
+    * I delete 'B30003:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | 2B33                | B30003         |

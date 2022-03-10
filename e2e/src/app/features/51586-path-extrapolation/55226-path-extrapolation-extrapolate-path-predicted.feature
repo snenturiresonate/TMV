@@ -16,7 +16,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     # Then there are no predicted times or punctuality displayed for the locations in the schedule
     #
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -34,7 +34,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     # When the user views the timetable
     # Then predicted times and punctuality is displayed for all locations in the schedule
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -56,7 +56,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     # When the user views the timetable
     # Then predicted times and punctuality is displayed for all locations in the schedule after the TRI location
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -79,7 +79,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     # Then predicted times and punctuality is displayed for all locations in the schedule
     * I generate a new trainUID
     * I generate a new train description
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -104,7 +104,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     # Then predicted times and punctuality is displayed from the new origin
     # And there are no predicted times for the locations prior to the new origin
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -130,7 +130,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     # When the user views the timetable
     # Then no predicted times and punctuality are displayed for any location
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -158,7 +158,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     # And cancelled location only has a predicted arrival time
     # And there are no predicted times for all locations after the new destination
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -188,7 +188,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
      # | 91|
      # | 92|
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -221,7 +221,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     # | Future | Planned origin departure |
     # | Past   | current time             |
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now <operator> '<minutes>' minutes, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -250,7 +250,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       # | Stopping|
       # | Destination |
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -283,7 +283,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       # | Stopping |
 
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -317,7 +317,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       # | Origin|
       # | Passing |
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -349,7 +349,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       # | is Predicted to arrive|
       # | has Actually arrived |
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now <operator> '<minutes>' minutes, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -380,7 +380,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       # | is Predicted to arrive|
       # | has Actually arrived |
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now <operator> '<minutes>' minutes, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -410,7 +410,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       # | Stopping|
       # | Destination |
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -443,7 +443,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     # Then predicted timing is displayed is current punctuality+ planned location departure time
     # And predicted punctuality is displayed
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -479,7 +479,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       # | actual arrival time + minimum dwell time is less than the  planned departure time  |  On time    | planned departure time |
       # | actual arrival time + minimum dwell time is more than the planned departure time  | Late        | arrival time + minimum dwell time |
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -508,7 +508,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     # When the user views the timetable
     # Then predicted times and punctuality from the last actual
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -546,7 +546,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       # | 91|
       # | 92|
     * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |

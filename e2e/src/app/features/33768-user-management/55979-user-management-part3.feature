@@ -80,7 +80,7 @@ Feature: 33768-3: TMV User Management
     #  And I'm viewing the trains list
     #  When I view the context menu for a <matchType> train
     #  Then I the <matchMenuOption> is displayed
-    * I delete '<planningUid>:today' from hash 'schedule-modifications'
+    * I delete '<planningUid>:today' from hash 'schedule-modifications-today'
     Given I remove all trains from the trains list
     And the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
     And I wait until today's train 'B11111' has loaded
@@ -122,7 +122,7 @@ Feature: 33768-3: TMV User Management
     * I reset redis
     * I generate a new trainUID
     * I generate a new train description
-    * I delete 'generated:today' from hash 'schedule-modifications'
+    * I delete 'generated:today' from hash 'schedule-modifications-today'
     * I remove all trains from the trains list
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -158,7 +158,7 @@ Feature: 33768-3: TMV User Management
     * I reset redis
     * I generate a new trainUID
     * I generate a new train description
-    * I delete 'generated:today' from hash 'schedule-modifications'
+    * I delete 'generated:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | <trainDescription1> | <planningUid1> |
@@ -191,8 +191,8 @@ Feature: 33768-3: TMV User Management
     * I reset redis
     * I generate a new trainUID
     * I generate a new train description
-    * I delete 'generated:today' from hash 'schedule-modifications'
-    * I remove all trains from the trains list
+    * I delete 'generated:today' from hash 'schedule-modifications-today'
+#    * I remove all trains from the trains list
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | <trainDescription1>  | <planningUid1>  |

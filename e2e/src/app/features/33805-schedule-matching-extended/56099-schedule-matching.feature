@@ -349,7 +349,7 @@ Feature: 33805 TMV Schedule Matching
     * I generate a new trainUID
     * I generate a new train description
     * I remove today's train '<trainUid>' from the trainlist
-    Given I delete '<trainUid>:today' from hash 'schedule-modifications'
+    Given I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |
@@ -400,7 +400,7 @@ Feature: 33805 TMV Schedule Matching
     * I generate a new trainUID
     * I generate a new train description
     * I remove today's train '<trainUid>' from the trainlist
-    Given I delete '<trainUid>:today' from hash 'schedule-modifications'
+    Given I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     And the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <origTrainDesc>     | <trainUid>     |

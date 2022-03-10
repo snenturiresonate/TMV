@@ -16,7 +16,7 @@ Feature: Manual test steps
       | access-plan/schedules_to_penzance_temp.cif | 1B01     | L11001   | PARR     | WTT_arr  |
 
   Scenario Outline: Activate a train
-    * I delete '<trainUID>:today' from hash 'schedule-modifications'
+    * I delete '<trainUID>:today' from hash 'schedule-modifications-today'
     When the following train activation message is sent from LINX
       | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <trainUID> | <trainDescription> | now                    | 99999               | PADTON                 | today         | now                 |

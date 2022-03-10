@@ -106,7 +106,7 @@ const TYPE_TO_KEY_PATTERN = [
   {pattern: new RegExp('last-processed-access-plan'), type: RedisType.SCHEDULES},
   {pattern: new RegExp('path-extrap-enriched-schedules'), type: RedisType.SCHEDULES},
   {pattern: new RegExp('schedule'), type: RedisType.SCHEDULES},
-  {pattern: new RegExp('schedule-modifications'), type: RedisType.OPERATIONS},
+  {pattern: new RegExp('schedule-modifications-\\d{4}-\\d{2}-\\d{2}'), type: RedisType.OPERATIONS},
   {pattern: new RegExp('schedules-hash-\d{4}-\d{2}-\d{2}'), type: RedisType.SCHEDULES},
   {pattern: new RegExp('manual-trust-berth-states'), type: RedisType.REPLAY},
   {pattern: new RegExp('train-describer-[A-Z0-9]{2}'), type: RedisType.REPLAY},

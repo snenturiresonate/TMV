@@ -11,12 +11,12 @@ Feature: 46448 - TMV Trains List - access
     * I am on the home page
     * I reset redis
     * I restore to default train list config '1'
-    * I delete 'B00701:today' from hash 'schedule-modifications'
-    * I delete 'B00702:today' from hash 'schedule-modifications'
-    * I delete 'B00703:today' from hash 'schedule-modifications'
-    * I delete 'B00704:today' from hash 'schedule-modifications'
-    * I delete 'B00705:today' from hash 'schedule-modifications'
-    * I delete 'B00706:today' from hash 'schedule-modifications'
+    * I delete 'B00701:today' from hash 'schedule-modifications-today'
+    * I delete 'B00702:today' from hash 'schedule-modifications-today'
+    * I delete 'B00703:today' from hash 'schedule-modifications-today'
+    * I delete 'B00704:today' from hash 'schedule-modifications-today'
+    * I delete 'B00705:today' from hash 'schedule-modifications-today'
+    * I delete 'B00706:today' from hash 'schedule-modifications-today'
     * the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1S42_PADTON_DIDCOTP.cif | PADTON      | WTT_dep       | 2P77                | B00701         |

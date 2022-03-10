@@ -17,7 +17,7 @@ Feature: 52214 - TMV Trains List - menu
     #    And there are train entries present
     #    When the user performs a secondary click using their mouse
     #    Then the train's menu is opened
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | <trainDescription>  | <trainUid>     |
@@ -52,7 +52,7 @@ Feature: 52214 - TMV Trains List - menu
     #    And there are train entries present
     #    When the user performs a secondary click using their mouse
     #    Then the train's menu is opened
-    * I delete '<trainUid>:today' from hash 'schedule-modifications'
+    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | <trainDescription>  | <trainUid>     |
