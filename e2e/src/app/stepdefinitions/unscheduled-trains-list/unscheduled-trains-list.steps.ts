@@ -84,3 +84,7 @@ Then(/^the find train sub-menu displays the following maps$/, async (expectedMap
 When(/^I click on Print view button of unscheduledTrains page$/, async () => {
   await unscheduledTrainsListPage.clickPrintLink();
 });
+
+Then(/^I click the first map on the sub-menu$/, async () => {
+  await unscheduledTrainsListPage.leftClickOnMapAtPosition(0);
+});

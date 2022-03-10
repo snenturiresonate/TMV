@@ -17,6 +17,7 @@ export class UnscheduledTrainsListPageObject {
   private columnSectionNames: ElementArrayFinder;
   private columnTableNames: ElementArrayFinder;
   private trainRows: ElementArrayFinder;
+  private mapRows: ElementArrayFinder;
   private matchContextMenu: ElementFinder;
   private findTrainSubMenuMaps: ElementArrayFinder;
 
@@ -26,6 +27,7 @@ export class UnscheduledTrainsListPageObject {
     this.columnSectionNames = element.all(by.css('.unscheduled-trains-list-section-header'));
     this.columnTableNames = element.all(by.css('[id^=tmv-train-table-header-config-] span'));
     this.trainRows = element.all(by.css('[id^=trains-list-row]'));
+    this.mapRows = element.all(by.css('[id^=find-map-list]'));
     this.matchContextMenu = element(by.id('match-unmatch-selection-item'));
     this.findTrainSubMenuMaps = element.all(by.css('#find-map-list span'));
     this.trainListPrintIcon = element(by.id('trains-list-icon-print'));
@@ -147,6 +149,10 @@ export class UnscheduledTrainsListPageObject {
 
   public async rightClickOnTrainAtPosition(index: number): Promise<void> {
     return browser.actions().click(this.trainRows.get(index), protractor.Button.RIGHT).perform();
+  }
+
+  public async leftClickOnMapAtPosition(index: number): Promise<void> {
+    return browser.actions().click(this.mapRows.get(index), protractor.Button.LEFT).perform();
   }
 
   public async clickMatch(): Promise<void> {
