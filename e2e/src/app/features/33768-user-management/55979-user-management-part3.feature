@@ -113,11 +113,11 @@ Feature: 33768-3: TMV User Management
       | Matched   | 1B13             | B33333      | (creating a match) | STP          |
 
   Scenario Outline: 16a Displaying matching for user without Schedule Matching Role - trains list
-#    Given I have signed in
-#    And I have a valid TMV role of <roleType>
-#    And I'm viewing the trains list
-#    When I view the context menu for a <matchType> train
-#    Then I the <Match Menu Option> is not displayed
+    #    Given I have signed in
+    #    And I have a valid TMV role of <roleType>
+    #    And I'm viewing the trains list
+    #    When I view the context menu for a <matchType> train
+    #    Then I the <Match Menu Option> is not displayed
 
     * I reset redis
     * I generate a new trainUID

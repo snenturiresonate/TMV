@@ -335,11 +335,16 @@ Then(/^the (Matched|Unmatched) version of the (Schedule-matching|Non-Schedule-ma
     .to.contain(expected1.toLowerCase());
   expect(contextMenuItem2.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
     .to.contain(expected2.toLowerCase());
-  expect(contextMenuItem3.toLowerCase(), `Context menu does not imply correct state - does not contain ${expected3}`)
+  expect(contextMenuItem3.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected2}`)
     .to.contain(expected3.toLowerCase());
   if (matchType === 'Matched') {
-    expect(contextMenuItem4.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected4}`)
-      .to.contain(expected4.toLowerCase());
+    if (userType === 'Schedule-matching') {
+      expect(contextMenuItem4.toLowerCase(), `Context menu does not imply ${matchType} state - does not contain ${expected4}`)
+        .to.contain(expected4.toLowerCase());
+    } else {
+      expect(contextMenuItem4.toLowerCase(), `Context menu does not imply ${userType} state - as it does contain ${expected4}`)
+        .to.not.contain(expected4.toLowerCase());
+    }
   }
 });
 

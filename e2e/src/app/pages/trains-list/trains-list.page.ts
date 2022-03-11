@@ -294,6 +294,7 @@ export class TrainsListPageObject {
 
   public async getTrainsListRowFillForSchedule(scheduleId: string): Promise<string> {
     const trainDescriptionEntry: ElementFinder = element(by.css(`[id^='trains-list-row-${scheduleId}']`));
+    await CommonActions.waitForElementToBeVisible(trainDescriptionEntry);
     const backgroundColour: string = await trainDescriptionEntry.getCssValue('background-color');
     const oddRowDefaultBackgroundColour = 'rgba(44, 44, 44, 1)';
     const evenRowDefaultBackgroundColour = 'rgba(0, 0, 0, 0)';
