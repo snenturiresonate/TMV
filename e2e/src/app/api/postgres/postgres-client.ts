@@ -23,16 +23,21 @@ export class PostgresClient {
   }
 
   public async clearAll(): Promise<void> {
+    let released = false;
+
     return this.trainsClient.connect()
-    .then(client => client.query('TRUNCATE TABLE train')
-      .then(() => {
-        client.query('TRUNCATE TABLE location');
-        client.release();
-      })
-      .catch(err => {
-        CucumberLog.addText(`Error clearing all from trains list ${err}`);
-        client.release();
-      }));
+      .then(client => client.query('TRUNCATE TABLE train')
+        .then(() => {
+          client.query('TRUNCATE TABLE location');
+          client.release();
+          released = true;
+        })
+        .catch(err => {
+          CucumberLog.addText(`Error clearing all from trains list ${err}`);
+          if (!released) {
+            client.release();
+          }
+        }));
   }
 
   public async findScheduledId(scheduleId: string): Promise<string> {
@@ -42,16 +47,21 @@ export class PostgresClient {
       rowMode: 'array',
     };
 
+    let released = false;
+
     return this.trainsClient.connect()
       .then(client => client.query(query)
         .then(res => {
           client.release();
+          released = true;
           return res?.rows[0][0] ?? {};
         })
         .catch(err => {
-            CucumberLog.addText(`Error finding train ${scheduleId} in the trains list ${err}`);
+          CucumberLog.addText(`Error finding train ${scheduleId} in the trains list ${err}`);
+          if (!released) {
             client.release();
-          }));
+          }
+        }));
   }
 
   public async removeTrain(scheduleId: string): Promise<void> {
@@ -66,13 +76,20 @@ export class PostgresClient {
       rowMode: 'array',
     };
 
+    let released = false;
+
     return this.trainsClient.connect()
       .then(client => client.query(train)
         .then(() => client.query(location))
-        .then(() => client.release())
+        .then(() => {
+          client.release();
+          released = true;
+        })
         .catch(err => {
           CucumberLog.addText(`Error removing train ${scheduleId} from trains list ${err}`);
-          client.release();
+          if (!released) {
+            client.release();
+          }
         }));
   }
 }
