@@ -62,9 +62,9 @@ exports.config = {
     // Tell CucumberJS to save the JSON report
     format: [require.resolve('cucumber-pretty'), 'json:.tmp/results.json'],
     // To run specific Scenarios marked with the tag @test (for example), uncomment the next line
-    //tags: ['@test']
+    tags: ['@Shane']
     // To run all scenarios not marked @bug or @tdd, uncomment the next line
-    tags: ['not (@bug or @tdd or @manual or @superseded)']
+    // tags: ['not (@bug or @tdd or @manual or @superseded)']
   },
   ignoreUncaughtExceptions: true,
   async onPrepare() {

@@ -334,6 +334,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 0041        | 1B13          | B33333   | PADTON   | 401         | location     |
       | D3             | 0107  | 0125        | 1B13          | B33333   | PRTOBJP  | 401         | sub-division |
 
+    @Shane
   Scenario Outline: 6. Interpose - activated schedules take precedence - <matchLevel> match
     #    Given there two valid schedule
     #    And a Train Activation message has been received for 1 schedule
