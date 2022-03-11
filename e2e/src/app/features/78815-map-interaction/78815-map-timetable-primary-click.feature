@@ -47,11 +47,6 @@ Feature: 78815 - TMV Map Interaction - Map Timetable Primary Click
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 0581      | LMBE    | D6             | <lTD1>           |
 
-    # Check that trains have loaded
-    And I am on the trains list page 1
-    And I save the trains list config
-    * train <lTD1> with schedule id 'C56471' for today is visible on the trains list
-
     # Check the last berth
     And I am viewing the map <map>
     Then berth '<lB1>' in train describer '<lBTD>' contains '<lTD1>' and is visible
