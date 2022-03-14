@@ -640,3 +640,18 @@ Then('the following berth status is displayed',
   const actualStatus = await navBarPage.getBerthHighlightStatus(trainDescription, berthId);
   expect(actualStatus).to.equal(status);
   });
+
+Then(/^there is (a|no) message about having too many (.*) tabs open$/,  async (isMessageExpected: string, tabType: string) => {
+    const tab = tabType.toLowerCase();
+    const isWarningMessagePresent = await navBarPage.isTooManyTabsMessagePresent();
+    if (isMessageExpected === 'no') {
+      expect(isWarningMessagePresent).to.equal(false);
+    }
+    else {
+      expect(isWarningMessagePresent).to.equal(true);
+      const warningMessage = await navBarPage.getTooManyTabsMessage();
+      expect(warningMessage, `To many tabs warning message is not displayed`)
+        .to.equal(`Maximum number of open ${tab} tabs have been reached. Please reduce the number of open tabs and try again.`);
+    }
+  }
+);

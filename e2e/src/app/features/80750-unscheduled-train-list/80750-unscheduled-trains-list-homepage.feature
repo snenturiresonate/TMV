@@ -21,13 +21,15 @@ Feature: 80750 - Unscheduled Trains List - Homepage
     When I switch to the new tab
     Then the tab title contains 'TMV Unscheduled Trains List'
 
-  @newSession
+@newSession
   Scenario: 81289-2 - It is only possible to have one unscheduled trains list open
     Given I am on the home page
     When I click the app 'unsched-trains'
     Then the number of tabs open is 2
     When I switch to the new tab
     Then the tab title contains 'TMV Unscheduled Trains List'
+    And there is no message about having too many Unscheduled Trains List tabs open
     When I switch to the second-newest tab
     When I click the app 'unsched-trains'
-    Then the number of tabs open is 2
+    And I switch to the new tab
+    Then there is a message about having too many Unscheduled Trains List tabs open

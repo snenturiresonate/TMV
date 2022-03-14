@@ -75,6 +75,7 @@ export class NavBarPageObject {
   public mapItemSearchContext: ElementFinder;
   public signOutIcon: ElementFinder;
   public berthSearchResults: ElementArrayFinder;
+  public tooManyTabsMessage: ElementFinder;
   constructor() {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
@@ -147,6 +148,7 @@ export class NavBarPageObject {
     this.mapItemSearchContext = element(by.css('div.map-link'));
     this.signOutIcon = element(by.id('logout1'));
     this.berthSearchResults = element.all(by.css('#berthSearchResults tr'));
+    this.tooManyTabsMessage = element(by.css('h1'));
   }
 
   public async navBarIsDisplayed(): Promise<boolean> {
@@ -180,6 +182,14 @@ export class NavBarPageObject {
   public async getToggleState(toggleName: string): Promise<boolean> {
     const elm = await this.getToggle(toggleName);
     return CheckBox.getToggleCurrentState(elm);
+  }
+
+  public async isTooManyTabsMessagePresent(): Promise<boolean> {
+    return browser.isElementPresent(this.tooManyTabsMessage);
+  }
+
+  public async getTooManyTabsMessage(): Promise<string> {
+    return this.tooManyTabsMessage.getText();
   }
 
   private async getToggle(toggleName): Promise<ElementFinder> {
