@@ -9,7 +9,6 @@ Feature: 33998 - TMV Train Service - Calculate Punctuality at Each Berth
   #  And there are service matched to schedules
   #  When the services step from one berth to another
   #  Then the current punctuality is re-calculated
-
   Background:
     * I am on the home page
     * The admin setting defaults are as originally shipped

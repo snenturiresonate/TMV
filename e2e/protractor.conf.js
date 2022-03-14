@@ -40,7 +40,7 @@ exports.config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      args: [ "--headless", "--disable-gpu", "--window-size=1980,1080" ],
+      args: [ "--headless", "--disable-gpu", "--window-size=1980,1080", "--shm-size=2gb" ],
       prefs: {
         download: {
           'prompt_for_download': false,

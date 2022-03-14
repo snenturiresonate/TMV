@@ -44,11 +44,18 @@ export class AppPage {
           await browser.get(URL);
         } catch (reason) {
           await CucumberLog.addText('navigateTo() Step 3:' + reason.message);
-          if ((reason.message).includes('unexpected alert open') === false) {
-            throw new Error('Unable to signin: ' + reason);
+          if ((reason.message).includes('unexpected alert open')) {
+            const alert = await browser.switchTo().alert();
+            await alert.accept();
           }
-          const alert = await browser.switchTo().alert();
-          await alert.accept();
+          else if ((reason.message).includes('invalid session id')) {
+            await CucumberLog.addText('Restarting the browser due to invalid session ID');
+            await browser.restart();
+            throw new Error('Unable to sign in, but have restarted the browser: ' + reason);
+          }
+          else {
+            throw new Error('Unable to sign in: ' + reason);
+          }
         }
       }
     }
