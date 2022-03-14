@@ -50,6 +50,11 @@ Given(/^I reset redis$/, async () => {
   await new TMVRedisUtils().reset();
 });
 
+Given('I clear all restrictions events and snapshots for map {word}', async (map: string) => {
+  await redisClient.keyDelete(`restriction-events-${map.toLowerCase()}`);
+  await redisClient.keyDelete(`restriction-snapshots-${map.toLowerCase()}`);
+});
+
 Given('I clear all restrictions events for map {word}', async (map: string) => {
   await redisClient.keyDelete(`restriction-events-${map.toLowerCase()}`);
 });

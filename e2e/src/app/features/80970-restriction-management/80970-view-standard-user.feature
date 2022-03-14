@@ -15,7 +15,6 @@ Feature: 80970 - TMV Restrictions - View (Standard User)
     #  And the user is a standard user
     #  When the user opts to view the restrictions view
     #  Then the user is presented with a restriction view in a new tab
-    #
 
     # Comments:
     #     The restrictions are ordered with the soonest end date at the top (if no end date these are displayed at the top)
@@ -23,6 +22,7 @@ Feature: 80970 - TMV Restrictions - View (Standard User)
     #     Restrictions that have ended remain on the list up to to 12 hours
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
@@ -62,6 +62,7 @@ Feature: 80970 - TMV Restrictions - View (Standard User)
     #  And the user cannot create, edit or delete a restriction
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu

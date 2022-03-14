@@ -30,8 +30,7 @@ Feature: 80970 - TMV Restrictions - Operational
   Scenario Outline: 81573 - 1 - No restrictions on track division
 
     Given I remove all restrictions for track division <trackDivisionId>
-    And I clear all restrictions events for map <map>
-    And I clear all restrictions snapshots for map <map>
+    And I clear all restrictions events and snapshots for map <map>
     And I publish all restriction changes
     When I am viewing the map <map>
     Then the track colour for track '<trackDivisionId>' is palegrey
@@ -46,8 +45,7 @@ Feature: 80970 - TMV Restrictions - Operational
   Scenario Outline: 81573 - 2 - Styling of a single operational restriction on a track division
 
     Given I remove all restrictions for track division <trackDivisionId>
-    And I clear all restrictions events for map <map>
-    And I clear all restrictions snapshots for map <map>
+    And I clear all restrictions events and snapshots for map <map>
     And I am on the admin page
     And I make a note of the restriction type settings
     And I am viewing the map <map>
@@ -77,8 +75,7 @@ Feature: 80970 - TMV Restrictions - Operational
   Scenario Outline: 81573 - 3 - Updating type of operational restriction results in update of style of track division on map
 
     Given I remove all restrictions for track division <trackDivisionId>
-    And I clear all restrictions events for map <map>
-    And I clear all restrictions snapshots for map <map>
+    And I clear all restrictions events and snapshots for map <map>
     And I am on the admin page
     And I make a note of the restriction type settings
     And I am viewing the map <map>
@@ -156,8 +153,7 @@ Feature: 80970 - TMV Restrictions - Operational
 #         Multiple Restriction Apply
 
     Given I remove all restrictions for track division <trackDivisionId>
-    And I clear all restrictions events for map <map>
-    And I clear all restrictions snapshots for map <map>
+    And I clear all restrictions events and snapshots for map <map>
     And I am on the admin page
     And I make a note of the restriction type settings
     And I am viewing the map <map>
@@ -189,8 +185,7 @@ Feature: 80970 - TMV Restrictions - Operational
 #         Operational start date & time (early first) and then operational end date & time (later first with blank highest)
 
     Given I remove all restrictions for track division <trackDivisionId>
-    And I clear all restrictions events for map <map>
-    And I clear all restrictions snapshots for map <map>
+    And I clear all restrictions events and snapshots for map <map>
     And I am on the admin page
     And I make a note of the restriction type settings
     And I am viewing the map <map>
@@ -222,8 +217,7 @@ Feature: 80970 - TMV Restrictions - Operational
 #         Operational start date & time (early first) and then operational end date & time (later first with blank highest)
 
     Given I remove all restrictions for track division <trackDivisionId>
-    And I clear all restrictions events for map <map>
-    And I clear all restrictions snapshots for map <map>
+    And I clear all restrictions events and snapshots for map <map>
     And I am on the admin page
     And I make a note of the restriction type settings
     And I am viewing the map <map>
@@ -255,8 +249,7 @@ Feature: 80970 - TMV Restrictions - Operational
 #         Operational start date & time (early first) and then operational end date & time (later first with blank highest)
 
     Given I remove all restrictions for track division <trackDivisionId>
-    And I clear all restrictions events for map <map>
-    And I clear all restrictions snapshots for map <map>
+    And I clear all restrictions events and snapshots for map <map>
     And I am on the admin page
     And I make a note of the restriction type settings
     And I am viewing the map <map>
@@ -285,8 +278,7 @@ Feature: 80970 - TMV Restrictions - Operational
 #  If there are multiple restrictions that includes BTET or CAU then the colour style is: Multiple Restrictions Apply
 
     Given I remove all restrictions for track division <trackDivisionId>
-    And I clear all restrictions events for map <map>
-    And I clear all restrictions snapshots for map <map>
+    And I clear all restrictions events and snapshots for map <map>
     And I am on the admin page
     And I make a note of the restriction type settings
     And I am viewing the map <map>
@@ -314,8 +306,7 @@ Feature: 80970 - TMV Restrictions - Operational
 #  If there are multiple restrictions that includes BTET or CAU then the colour style is: Multiple Restrictions Apply
 
     Given I remove all restrictions for track division <trackDivisionId>
-    And I clear all restrictions events for map <map>
-    And I clear all restrictions snapshots for map <map>
+    And I clear all restrictions events and snapshots for map <map>
     And I am on the admin page
     And I make a note of the restriction type settings
     And I am viewing the map <map>
@@ -343,8 +334,7 @@ Feature: 80970 - TMV Restrictions - Operational
 #  If there are multiple restrictions that includes BTET or CAU then the colour style is: Multiple Restrictions Apply
 
     Given I remove all restrictions for track division <trackDivisionId>
-    And I clear all restrictions events for map <map>
-    And I clear all restrictions snapshots for map <map>
+    And I clear all restrictions events and snapshots for map <map>
     And I am on the admin page
     And I make a note of the restriction type settings
     And I am viewing the map <map>
@@ -385,8 +375,7 @@ Feature: 80970 - TMV Restrictions - Operational
 #  Admin setting changes do not take effect until after a refresh
 
     Given I remove all restrictions for track division <trackDivisionId>
-    And I clear all restrictions events for map <map>
-    And I clear all restrictions snapshots for map <map>
+    And I clear all restrictions events and snapshots for map <map>
     And I am on the admin page
     And I make a note of the restriction type settings
     And I am viewing the map <map>

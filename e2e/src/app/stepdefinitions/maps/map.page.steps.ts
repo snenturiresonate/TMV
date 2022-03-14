@@ -971,6 +971,7 @@ When('I right click on berth with id {string}', async (berthId: string) => {
 
 When('I right click on track with id {string}', async (trackId: string) => {
   await mapPageObject.rightClickTrack(trackId);
+  await mapPageObject.waitForContextMenu();
 });
 
 When(/^I click on (Highlight|Unhighlight) link$/, async (highlightOption: string) => {
@@ -1236,6 +1237,10 @@ Given(/^headcode '(.*)' is not present in manual-trust berth '(.*)'$/, async (he
 
 Given(/^I wait for the tracks to be displayed$/, {timeout: 40000}, async () => {
   await MapPageObject.waitForTracksToBeDisplayed();
+});
+
+Given('I wait for track {word} to be displayed', {timeout: 40000}, async (trackId: string) => {
+  await MapPageObject.waitForTrackToBeDisplayed(trackId);
 });
 
 Then(/^the train remains (matched|unmatched) throughout the following berth steps$/,

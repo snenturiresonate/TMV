@@ -36,6 +36,7 @@ export class MapPageObject {
   public mapSearch: ElementFinder;
   public aesBoundaryElements: ElementFinder;
   public headcodeOnMap: ElementArrayFinder;
+  public contextMenu: ElementFinder;
 
 
   constructor() {
@@ -60,6 +61,7 @@ export class MapPageObject {
     this.aesBoundaryElements = element(by.css('#aes-boundaries-elements'));
 
     this.headcodeOnMap = element.all(by.css('text[data-train-description]:not([data-train-description=""])'));
+    this.contextMenu = element(by.css('#trackContextMenu'));
     linxRestClient = new LinxRestClient();
   }
 
@@ -70,6 +72,16 @@ export class MapPageObject {
       tracks.first().isDisplayed(),
       30000,
       'Tracks were not displayed'
+    );
+  }
+
+  public static async waitForTrackToBeDisplayed(trackId: string): Promise<void> {
+    const tracks = element.all(by.id('track-element-path-' + trackId));
+    await CommonActions.waitForElementToBePresent(tracks.first());
+    await browser.wait(
+      tracks.first().isDisplayed(),
+      30000,
+      `Track ${trackId} was not displayed`
     );
   }
 
@@ -144,6 +156,13 @@ export class MapPageObject {
   public async isBerthPresent(berthId: string, trainDescriber: string): Promise<boolean> {
     const berth: ElementFinder = await this.getBerthElementFinder(berthId, trainDescriber);
     return berth.isPresent();
+  }
+
+  public async isContextMenuPresent(): Promise<boolean> {
+    if (await this.contextMenu.isPresent()) {
+      return this.contextMenu.isDisplayed();
+    }
+    return false;
   }
 
   public async isSClassBerthElementPresent(berthId: string): Promise<boolean> {
@@ -248,11 +267,10 @@ export class MapPageObject {
   }
 
   public async waitForContextMenu(): Promise<boolean> {
-    await browser.wait(async () => {
-      return this.mapContextMenuItems.isPresent();
-    }, browser.params.general_timeout, 'The context menu should be displayed');
-    return this.mapContextMenuItems.isPresent();
-  }
+      await CommonActions.waitForElementToBePresent(this.contextMenu);
+      await CommonActions.waitForElementToBeVisible(this.contextMenu);
+      return this.mapContextMenuItems.isDisplayed();
+   }
 
   public async clickScheduleForTrainDescription(trainDescription: string, type: string): Promise<void> {
     if (trainDescription.includes('generated')) {
@@ -343,8 +361,8 @@ export class MapPageObject {
   }
 
   public async rightClickTrack(trackId: string): Promise<void> {
-    const berthLink: ElementFinder = element.all(by.id('track-element-path-' + trackId)).first();
-    await browser.actions().click(berthLink, protractor.Button.RIGHT).perform();
+    const track: ElementFinder = element.all(by.id('track-element-path-' + trackId)).first();
+    await browser.actions().click(track, protractor.Button.RIGHT).perform();
   }
 
   public async clickSignal(signalId: string, signalType: string, clickType: string): Promise<void> {

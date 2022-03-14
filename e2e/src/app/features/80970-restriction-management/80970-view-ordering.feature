@@ -11,6 +11,7 @@ Feature: 80970 - TMV Restrictions - View Ordering
 #  And there are restrictions
 #  Then the user is presented with a list of restriction that are ordered in logical way
 #  The ordering of the restrictions are as follows:
+#
 
 #       Order by operational start date & time (early first) and then operational end date & time (later first, but with blank highest)
 #       If the end date is in the past then these are placed at the bottom of the list
@@ -37,6 +38,7 @@ Feature: 80970 - TMV Restrictions - View Ordering
   Scenario Outline: 87348 - View Ordering
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu

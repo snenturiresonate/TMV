@@ -25,7 +25,6 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
 
 #   If there two restrictions of the same type then prioritise by:
 #     Operational start date & time (early first) and then operational end date & time (later first with blank highest)
-#
 
   Background:
     Given I have not already authenticated
@@ -36,6 +35,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
 #    Cover where no restriction is displayed and if comment is blank
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     Then the map context menu contains 'Track Division: <trackDivisionId>' on line 1
@@ -48,10 +48,10 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
       | map                | trackDivisionId |
       | HDGW01paddington.v | PNSH6M          |
 
-
   Scenario Outline:81559 - 2 Track Section Menu - 1 restriction present with comment
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
@@ -85,12 +85,12 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
       | map                | trackDivisionId | comment            |
       | HDGW01paddington.v | PNSH6M          | Leaves on the line |
 
-
   Scenario Outline:81559 - 3 Track Section Menu - 1 restriction present with no comment
 
 #    Cover where no restriction is displayed and if comment is blank
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
@@ -128,6 +128,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
 #     CAU (Cautioning of Trains)
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
@@ -207,6 +208,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
 #     Operational start date & time (early first) and then operational end date & time (later first with blank highest)
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
@@ -245,6 +247,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
 #     Operational start date & time (early first) and then operational end date & time (later first with blank highest)
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu

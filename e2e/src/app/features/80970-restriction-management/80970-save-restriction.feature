@@ -22,6 +22,7 @@ Feature: 80970 - TMV Restrictions - Save
 #   Comment: Restrictions can have no end date
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
@@ -65,6 +66,7 @@ Feature: 80970 - TMV Restrictions - Save
 #   Comment: The user may wish to not apply the changes made in this view and close the view without saving any changes
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu

@@ -38,6 +38,7 @@ Feature: 80970 - TMV Restrictions - Amend
 #   The max limits and defaults for the number of characters for text and number fields are tested in 80970-create-restriction.feature
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
@@ -99,6 +100,7 @@ Feature: 80970 - TMV Restrictions - Amend
 #   Comment - 150 characters limit (default blank) (optional)
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
@@ -156,6 +158,7 @@ Feature: 80970 - TMV Restrictions - Amend
 #   Start time and date (cannot be amended into the future once operational)
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu

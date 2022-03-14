@@ -20,6 +20,7 @@ Feature: 80970 - TMV Restrictions - Delete
 #    And is verified that the restriction has been deleted on subsequent access
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
@@ -56,6 +57,7 @@ Feature: 80970 - TMV Restrictions - Delete
 #    And the restriction is not operational (date/time in the future)) or has been not been operational
 
     Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
