@@ -1,5 +1,4 @@
 @TMVPhase2 @P2.S3
-@bug @bug:87447
 Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Unscheduled Trains List
 
   As a TMV User
@@ -136,11 +135,11 @@ Feature: 34002 - TMV Unscheduled Trains - Manual Matching - Unscheduled Trains L
       | HDGW02reading.v    | 1677      | 1687    | D1                 | D1               | <trainDescription> |
       | HDGW02reading.v    | 1687      | 1697    | D1                 | D1               | <trainDescription> |
       | HDGW02reading.v    | 1697      | 1696    | D1                 | D1               | <trainDescription> |
-    When I am on the unscheduled trains list
+    When I switch to the third-newest tab
     * I take a screenshot
     Then the following unscheduled trains list entry can be seen
       | trainId            | entryTime | entryBerth | entrySignal | entryLocation    | currentBerth | currentSignal | currentLocation | currentTrainDescriber |
-      | <trainDescription> | now       | D40239     | SN239       |                  | D11696       | T1696,T1696X  | Reading         | <trainDescriber>      |
+      | <trainDescription> | now       | D40239     | SN239       |                  | D11696       | T1696,T1696X  | Reading         | D1                    |
 
 
     Examples:

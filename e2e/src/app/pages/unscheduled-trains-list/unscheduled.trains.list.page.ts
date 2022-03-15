@@ -84,7 +84,7 @@ export class UnscheduledTrainsListPageObject {
     const actualTime = await DateAndTimeUtils
       .formulateDateTime(actualFiltered[0].entryTime, UnscheduledTrainsListPageObject.UNSCHEDULED_TRAINS_LIST_TIME_FORMAT);
     expect(actualTime, `${actualTime} was not close enough to ${expectedTime}: ${JSON.stringify(actualFiltered[0])}`)
-      .to.be.closeToTime(expectedTime, 60);
+      .to.be.closeToTime(expectedTime, 90);
 
     return Promise.resolve(true);
   }
