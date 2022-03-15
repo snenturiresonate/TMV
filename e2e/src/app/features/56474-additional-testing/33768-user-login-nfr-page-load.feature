@@ -20,7 +20,7 @@ Feature: 33768 - TMV User Management - User Login NFR Testing (Page Load)
     And I start the stopwatch
     And I access the homepage as <roleType> user
     When I stop the stopwatch
-    Then the stopwatch reads less than '1000' milliseconds, within a tolerance of '100' milliseconds
+    Then the stopwatch reads less than '1000' milliseconds, within a tolerance of '1000' milliseconds
 
     Examples:
       | roleType         |
