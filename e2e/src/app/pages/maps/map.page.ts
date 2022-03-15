@@ -267,10 +267,16 @@ export class MapPageObject {
   }
 
   public async waitForContextMenu(): Promise<boolean> {
-      await CommonActions.waitForElementToBePresent(this.contextMenu);
-      await CommonActions.waitForElementToBeVisible(this.contextMenu);
-      return this.mapContextMenuItems.isDisplayed();
-   }
+    await CommonActions.waitForElementToBePresent(this.mapContextMenuItems.first());
+    await CommonActions.waitForElementToBeVisible(this.mapContextMenuItems.first());
+    return this.mapContextMenuItems.isDisplayed();
+  }
+
+  public async waitForTrackContextMenu(): Promise<boolean> {
+    await CommonActions.waitForElementToBePresent(this.contextMenu);
+    await CommonActions.waitForElementToBeVisible(this.contextMenu);
+    return this.contextMenu.isDisplayed();
+  }
 
   public async clickScheduleForTrainDescription(trainDescription: string, type: string): Promise<void> {
     if (trainDescription.includes('generated')) {

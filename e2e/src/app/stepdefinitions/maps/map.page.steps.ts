@@ -971,7 +971,7 @@ When('I right click on berth with id {string}', async (berthId: string) => {
 
 When('I right click on track with id {string}', async (trackId: string) => {
   await mapPageObject.rightClickTrack(trackId);
-  await mapPageObject.waitForContextMenu();
+  await mapPageObject.waitForTrackContextMenu();
 });
 
 When(/^I click on (Highlight|Unhighlight) link$/, async (highlightOption: string) => {
