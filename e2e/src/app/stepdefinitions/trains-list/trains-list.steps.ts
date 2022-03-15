@@ -1,4 +1,4 @@
-import {Then, When} from 'cucumber';
+import {Given, When, Then} from 'cucumber';
 import {TrainsListPageObject} from '../../pages/trains-list/trains-list.page';
 import {expect} from 'chai';
 import {browser, protractor} from 'protractor';
@@ -287,6 +287,25 @@ Then('the trains list context menu on line {int} has text underline {string}', a
 
 When('I hover over the trains list context menu on line {int}', async (rowNum: number) => {
   await trainsListPage.hoverOverContextMenuRow(rowNum);
+});
+
+Then(/the Hide Once item on the trains list context menu is greyed out/, async () => {
+  expect(trainsListPage.isHideOnceGreyedOut(), `the Hide Once menu item was not greyed out`).to.equal(true);
+});
+
+When(/I click Hide Once from the trains list context menu/, async () => {
+  await trainsListPage.clickHideOnce();
+  await browser.sleep(500);
+});
+
+When(/I click Hide Always from the trains list context menu/, async () => {
+  await trainsListPage.clickHideAlways();
+  await browser.sleep(500);
+});
+
+When(/I click Unhide Train from the trains list context menu/, async () => {
+  await trainsListPage.clickUnhideTrain();
+  await browser.sleep(500);
 });
 
 Then('the trains list context menu contains the {word} {string} of train {int} on line {int}',
@@ -751,6 +770,18 @@ Then(/^the trains list filter display contains$/, async (inputs: any) => {
       throw new Error(`Please check the section value in feature file`);
     }
   }
+});
+
+When(/I click the trains list menu button/, async () => {
+  await trainsListPage.clickTrainsListMenuButton();
+});
+
+When(/I click the display all hidden trains slider/, async () => {
+  await trainsListPage.clickDisplayAllHiddenTrainsSlider();
+});
+
+Given(/there are (.*) trains displayed on the trains list/, {timeout: 400 * 1000}, async (numberOfTrains: number) => {
+  await trainsListPage.generateTrains(numberOfTrains);
 });
 
 function checkOrdering(thisString: string, nextString: string, colName: string, direction: string): void {

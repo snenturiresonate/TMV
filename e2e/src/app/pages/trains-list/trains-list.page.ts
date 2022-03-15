@@ -4,6 +4,11 @@ import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 import {NFRConfig} from '../../config/nfr-config';
 import {CucumberLog} from '../../logging/cucumber-log';
 import {PostgresClient} from '../../api/postgres/postgres-client';
+import {AccessPlanService} from '../../services/access-plan.service';
+import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
+import {BackEndChecksService} from '../../services/back-end-checks.service';
+import {TrainActivationService} from '../../services/train-activation.service';
+import {TrainUIDUtils} from '../common/utilities/trainUIDUtils';
 
 
 export class TrainsListPageObject {
@@ -26,6 +31,12 @@ export class TrainsListPageObject {
   public paginationNext: ElementFinder;
   public hiddenFilter: ElementFinder;
   public filterIcon: ElementFinder;
+  private hideOnce: ElementFinder;
+  private hideAlways: ElementFinder;
+  private unhideTrain: ElementFinder;
+  private trainsListMenuButton: ElementFinder;
+  private displayAllHiddenTrainsSlider: ElementFinder;
+  private hideOnceGreyedOut: ElementFinder;
 
   private postgresClient: PostgresClient;
 
@@ -53,6 +64,12 @@ export class TrainsListPageObject {
     this.postgresClient = new PostgresClient();
     this.hiddenFilter = element(by.css('.hidden-filter'));
     this.filterIcon = element(by.id('trains-list-filter-toggle-icon'));
+    this.hideOnce = element(by.cssContainingText('#hide-once-selection-item', 'Hide Once'));
+    this.hideAlways = element(by.cssContainingText('#hide-always-selection-item', 'Hide Always'));
+    this.unhideTrain = element(by.id('unhide-selection-item'));
+    this.trainsListMenuButton = element(by.cssContainingText('#trains-list-menu-button', 'layers'));
+    this.displayAllHiddenTrainsSlider = element(by.css('#hiddentoggle .toggle-switch'));
+    this.hideOnceGreyedOut = element(by.cssContainingText('.disabled', 'Hide Once'));
   }
 
   public async getTrainsListEntryColValues(scheduleId: string): Promise<string[]> {
@@ -117,10 +134,9 @@ export class TrainsListPageObject {
     return element(by.id('train-tbody')).isPresent();
   }
   public async waitForContextMenu(): Promise<boolean> {
-    await browser.wait(async () => {
-      return this.trainsListContextMenu.isPresent();
-    }, browser.params.general_timeout, 'The trains list context menu should be displayed');
-    return this.trainsListContextMenu.isPresent();
+    await CommonActions.waitForElementToBePresent(this.trainsListContextMenu);
+    await CommonActions.waitForElementToBeVisible(this.trainsListContextMenu);
+    return this.trainsListContextMenu.isDisplayed();
   }
   public async rightClickTrainListItemNum(position: number): Promise<void> {
     const rows = this.trainsListItems;
@@ -159,6 +175,22 @@ export class TrainsListPageObject {
   public async hoverOverContextMenuRow(rowIndex: number): Promise<void> {
     await CommonActions.waitForElementInteraction(this.trainsListContextMenuItems.get(rowIndex - 1));
     await browser.actions().mouseMove(this.trainsListContextMenuItems.get(rowIndex - 1)).perform();
+  }
+
+  public async isHideOnceGreyedOut(): Promise<boolean> {
+    return this.hideOnceGreyedOut.isDisplayed();
+  }
+
+  public async clickHideOnce(): Promise<void> {
+    await this.hideOnce.click();
+  }
+
+  public async clickHideAlways(): Promise<void> {
+    await this.hideAlways.click();
+  }
+
+  public async clickUnhideTrain(): Promise<void> {
+    await this.unhideTrain.click();
   }
 
   public async getCountOfPredictedTimesForRow(row: number): Promise<number> {
@@ -413,5 +445,61 @@ export class TrainsListPageObject {
     const settingsBoxElement: ElementFinder = await element(by.cssContainingText('.selection-criteria-entry-box', property));
     const settingsBoxContentsElements: ElementArrayFinder = await settingsBoxElement.element(by.css('.selection-criteria-entry-row'));
     return settingsBoxContentsElements.getText();
+  }
+
+  public async clickTrainsListMenuButton(): Promise<void> {
+    return this.trainsListMenuButton.click();
+  }
+
+  public async clickDisplayAllHiddenTrainsSlider(): Promise<void> {
+    await CommonActions.waitForElementInteraction(this.displayAllHiddenTrainsSlider);
+    return this.displayAllHiddenTrainsSlider.click();
+  }
+
+  public async generateTrains(numberOfTrains: number): Promise<void> {
+    for (let i = 0; i < numberOfTrains; i++) {
+      // generate train details and store for later
+      browser.referenceTrainDescription = await TrainUIDUtils.generateTrainDescription();
+      browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
+      console.log(`Generating train: ${browser.referenceTrainDescription}, ${browser.referenceTrainUid}`);
+
+      // send CIF
+      const cifInputs =
+        JSON.parse(
+          `
+        {
+          "filePath": "access-plan/1D46_PADTON_OXFD.cif",
+          "refLocation": "PADTON",
+          "refTimingType": "WTT_dep",
+          "newTrainDescription": "generated",
+          "newPlanningUid": "generated"
+        }
+      `
+        );
+      await AccessPlanService.processCifInputsAndSubmit(cifInputs, i);
+
+      // wait for CIF to load
+      const date: string = await DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd');
+      await BackEndChecksService.waitForTrainUid('generated', date);
+
+      // send activation
+      const trainActivationMessages =
+        JSON.parse(
+          `
+            [
+              {
+                "trainUID": "generated",
+                "trainNumber": "generated",
+                "actualDepartureHour": "now",
+                "scheduledDepartureTime": "now",
+                "locationPrimaryCode": "99999",
+                "locationSubsidiaryCode": "PADTON",
+                "departureDate": "today"
+              }
+            ]
+          `
+        );
+      await TrainActivationService.processTrainActivationMessagesAndSubmit(trainActivationMessages);
+    }
   }
 }
