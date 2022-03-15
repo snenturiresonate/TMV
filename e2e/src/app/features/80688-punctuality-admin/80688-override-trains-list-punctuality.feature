@@ -73,10 +73,10 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
       | #a71                 | 5        | 10     | 5 to 9 minutes late-edit      | on      |
       | #82e                 | 10       | 20     | 10 to 19 minutes late-edit    | on      |
       | #bbb                 | 20       |        | 20 minutes or more late-edit  | on      |
-    And I set up a train that is <lateness1> late at RDNGSTN using access-plan/2P77_RDNGSTN_PADTON.cif TD D1 interpose into 1698 step to 1676
-    And I set up a train that is <lateness2> late at PADTON using access-plan/1B69_PADTON_SWANSEA.cif TD D3 interpose into C007 step to 0037
-    And I set up a train that is <lateness3> late at PADTON using access-plan/1L24_PADTON_RDNGSTN.cif TD D3 interpose into C029 step to 0043
-    And I set up a train that is <lateness4> late at PADTON using access-plan/2F35_PADTON_DIDCOTP.cif TD D3 interpose into C031 step to 0045
+    And I set up a train with TRI that reports <lateness1> late originating from RDNGSTN code 74237 using access-plan/2P77_RDNGSTN_PADTON.cif
+    And I set up a train with TRI that reports <lateness2> late originating from PADTON code 73000 using access-plan/1B69_PADTON_SWANSEA.cif
+    And I set up a train with TRI that reports <lateness3> late originating from PADTON code 73000 using access-plan/1L24_PADTON_RDNGSTN.cif
+    And I set up a train with TRI that reports <lateness4> late originating from PADTON code 73000 using access-plan/2F35_PADTON_DIDCOTP.cif
     And I save the trains list config
     And I should see the punctuality colour for the time-bands as
       | punctualityColor       | fromTime | toTime |
@@ -136,10 +136,10 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
     And I restore to default train list config '1'
     And I restore to default train list config '2'
     And I am on the trains list page 1
-    And I set up a train that is <lateness1> late at RDNGSTN using access-plan/2P77_RDNGSTN_PADTON.cif TD D1 interpose into 1698 step to 1676
-    And I set up a train that is <lateness2> late at PADTON using access-plan/1B69_PADTON_SWANSEA.cif TD D3 interpose into C007 step to 0037
-    And I set up a train that is <lateness3> late at PADTON using access-plan/1L24_PADTON_RDNGSTN.cif TD D3 interpose into C029 step to 0043
-    And I set up a train that is <lateness4> late at PADTON using access-plan/2F35_PADTON_DIDCOTP.cif TD D3 interpose into C031 step to 0045
+    And I set up a train with TRI that reports <lateness1> late originating from RDNGSTN code 74237 using access-plan/2P77_RDNGSTN_PADTON.cif
+    And I set up a train with TRI that reports <lateness2> late originating from PADTON code 73000 using access-plan/1B69_PADTON_SWANSEA.cif
+    And I set up a train with TRI that reports <lateness3> late originating from PADTON code 73000 using access-plan/1L24_PADTON_RDNGSTN.cif
+    And I set up a train with TRI that reports <lateness4> late originating from PADTON code 73000 using access-plan/2F35_PADTON_DIDCOTP.cif
     And I have navigated to the 'Punctuality' configuration tab
     And I update the trains list punctuality settings as
       | punctualityColorText | fromTime | toTime | entryValue                    | include |

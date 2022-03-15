@@ -14,6 +14,8 @@ import {TrainUIDUtils} from '../pages/common/utilities/trainUIDUtils';
 import {BerthStep} from '../../../../src/app/api/linx/models/berth-step';
 import {BerthInterpose} from '../../../../src/app/api/linx/models/berth-interpose';
 import {BackEndChecksService} from '../services/back-end-checks.service';
+import {TrainRunningInformationMessageBuilder} from '../utils/train-running-information/train-running-information-message';
+import {TrainActivationService} from '../services/train-activation.service';
 
 let page: AppPage;
 let linxRestClient: LinxRestClient;
@@ -110,6 +112,56 @@ When (/^I load a CIF file leaving (.*) now using (.*) which (.*) running today$/
     browser.referenceTrainDescription = await TrainUIDUtils.generateTrainDescription();
     browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
     await AccessPlanService.processCifInputsAndSubmit(inputs);
+  });
+
+Given (/^I set up a train with TRI that reports (.*) late originating from (.*) code (.*) using (.*)$/,
+  async (lateness, refLoc, refLocCode, templateTrain) => {
+    const cifInputs = {
+      filePath: templateTrain,
+      refLocation: refLoc,
+      refTimingType: 'WTT_dep',
+      newTrainDescription: 'generated',
+      newPlanningUid: 'generated'
+    };
+    browser.referenceTrainDescription = await TrainUIDUtils.generateTrainDescription();
+    browser.referenceTrainUid = await TrainUIDUtils.generateUniqueTrainUid();
+    const msg = `Generated train description: ${browser.referenceTrainDescription} ${browser.referenceTrainUid}`;
+    console.log(msg);
+    await CucumberLog.addText(msg);
+    const operator = lateness.substr(0, 1);
+    const mins = lateness.substr(1);
+    // if we want late ( i.e. data table operator is +), we need to time the train back the number of mins and v.v.
+    if (operator === '+') {
+      await AccessPlanService.processCifInputsAndSubmit(cifInputs, 0, parseInt(mins, 10));
+    }
+    else {
+      await AccessPlanService.processCifInputsAndSubmit(cifInputs, parseInt(mins, 10));
+    }
+    const date: string = await DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd');
+    await BackEndChecksService.waitForTrainUid(browser.referenceTrainUid, date);
+    // build the Activation message
+    const activationInputs = {
+      scheduledDepartureTime: 'now',
+      locationPrimaryCode: refLocCode,
+      locationSubsidiaryCode: refLoc,
+      departureDate: 'today',
+      actualDepartureHour: 'now',
+      trainNumber: 'generated',
+      trainUID: 'generated'
+    };
+    await TrainActivationService.processTrainActivationMessageAndSubmit(activationInputs);
+    // build the TRI message
+    const trainRunningInformationMessageBuilder: TrainRunningInformationMessageBuilder = new TrainRunningInformationMessageBuilder();
+    const TRIdelay = operator + new Date(mins * 60 * 1000).toISOString().substr(11, 5);
+    const TRIhourDepartFromOrigin = DateAndTimeUtils.getCurrentTime().format(DateTimeFormatter.ofPattern('HH'));
+    TRIhourDepartFromOrigin.replace(/^0+/, '');
+    const trainRunningInfo = trainRunningInformationMessageBuilder.buildMessageWithDelayAgainstBookedTime(
+      refLocCode, refLoc, browser.referenceTrainDescription, browser.referenceTrainUid,
+      'today', 'Departure from Origin', TRIdelay, TRIhourDepartFromOrigin);
+    const triMessage: string = trainRunningInfo.toString({prettyPrint: true});
+    await CucumberLog.addText(`"${triMessage}"`);
+    await linxRestClient.postTrainRunningInformation(triMessage);
+    await linxRestClient.waitMaxTransmissionTime();
   });
 
 Given (/^I set up a train that is (.*) late at (.*) using (.*) TD (.*) interpose into (.*) step to (.*)$/,
