@@ -13,7 +13,6 @@ Feature: 33768 - TMV User Management - User Login NFR Testing (Page Load)
   Background:
     * I reset the stopwatch
 
-  @nn
   Scenario Outline: 33768 - 23 - Authenticated user accesses TMV Homepage (Response Time)
     Given I have not already authenticated
     And I access the home page without being signed in
