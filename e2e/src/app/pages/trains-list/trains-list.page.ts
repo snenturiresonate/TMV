@@ -10,7 +10,6 @@ import {BackEndChecksService} from '../../services/back-end-checks.service';
 import {TrainActivationService} from '../../services/train-activation.service';
 import {TrainUIDUtils} from '../common/utilities/trainUIDUtils';
 
-
 export class TrainsListPageObject {
   public trainsListItems: ElementArrayFinder;
   public trainsListContextMenu: ElementFinder;
@@ -31,6 +30,11 @@ export class TrainsListPageObject {
   public paginationNext: ElementFinder;
   public hiddenFilter: ElementFinder;
   public filterIcon: ElementFinder;
+  public toggleMenu: ElementFinder;
+  public trainsListToggleMenu: ElementFinder;
+  public hiddenToggleOn: ElementFinder;
+  public hiddenToggleOff: ElementFinder;
+  public unhideAllTrainsMenuItem: ElementFinder;
   private hideOnce: ElementFinder;
   private hideAlways: ElementFinder;
   private unhideTrain: ElementFinder;
@@ -64,6 +68,11 @@ export class TrainsListPageObject {
     this.postgresClient = new PostgresClient();
     this.hiddenFilter = element(by.css('.hidden-filter'));
     this.filterIcon = element(by.id('trains-list-filter-toggle-icon'));
+    this.toggleMenu = element(by.id('trains-list-menu-button'));
+    this.trainsListToggleMenu = element(by.css('.trains-list-toggle-div'));
+    this.hiddenToggleOn = element(by.css('#hiddentoggle .toggle-switch .absolute-off'));
+    this.hiddenToggleOff = element(by.css('#hiddentoggle .toggle-switch .absolute-on'));
+    this.unhideAllTrainsMenuItem = element(by.id('unhide-all'));
     this.hideOnce = element(by.cssContainingText('#hide-once-selection-item', 'Hide Once'));
     this.hideAlways = element(by.cssContainingText('#hide-always-selection-item', 'Hide Always'));
     this.unhideTrain = element(by.id('unhide-selection-item'));
@@ -447,6 +456,63 @@ export class TrainsListPageObject {
     return settingsBoxContentsElements.getText();
   }
 
+  public async clickToggleMenu(): Promise<void> {
+    await this.toggleMenu.click();
+  }
+
+  public async isToggleMenuVisible(): Promise<boolean> {
+    return this.trainsListToggleMenu.isPresent();
+  }
+
+  public async hiddenToggleState(): Promise<boolean> {
+    return this.hiddenToggleOn.isPresent();
+  }
+  public async toggleHiddenOn(): Promise<void> {
+    await this.hiddenToggleOn.click();
+  }
+
+  public async toggleHiddenOff(): Promise<void> {
+    await this.hiddenToggleOff.click();
+  }
+
+  public async clickHideOnceSubmenuItem(): Promise<void> {
+    await this.hideOnce.click();
+  }
+
+  public async clickHideAlwaysSubmenuItem(): Promise<void> {
+    await this.hideAlways.click();
+  }
+
+  public async clickUnhideMenuItem(): Promise<void> {
+    await this.unhideTrain.click();
+  }
+
+  public async isHideOnceSubmenuItemDisabled(): Promise<boolean> {
+    return !this.hideOnce.isEnabled();
+  }
+
+  public async clickUnhideAllTrains(): Promise<void> {
+    await this.unhideAllTrainsMenuItem.click();
+  }
+
+  public async isUnhideAllTrainsMenuItemVisible(): Promise<boolean> {
+    return this.unhideAllTrainsMenuItem.isPresent();
+  }
+
+  public async getTrainsListHiddenIcon(scheduleId: string): Promise<string> {
+    if (scheduleId === 'generatedTrainUId' || scheduleId === 'generated') {
+      scheduleId = browser.referenceTrainUid;
+    }
+    const todaysScheduleString = scheduleId + '\\:' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
+    const trainDescriptionEntry: ElementFinder =
+      element(by.css('#trains-list-row-entry-train-description-' + todaysScheduleString + ' #hidden-icon'));
+    const isPresent: boolean = await trainDescriptionEntry.isPresent();
+    if (!isPresent) {
+      return '';
+    }
+    return trainDescriptionEntry.getAttribute('src');
+  }
+
   public async clickTrainsListMenuButton(): Promise<void> {
     return this.trainsListMenuButton.click();
   }
@@ -501,5 +567,6 @@ export class TrainsListPageObject {
         );
       await TrainActivationService.processTrainActivationMessagesAndSubmit(trainActivationMessages);
     }
+
   }
 }
