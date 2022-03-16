@@ -35,6 +35,7 @@ export class TrainsListPageObject {
   public hiddenToggleOn: ElementFinder;
   public hiddenToggleOff: ElementFinder;
   public unhideAllTrainsMenuItem: ElementFinder;
+  public findTrainSearchContext: ElementFinder;
   private hideOnce: ElementFinder;
   private hideAlways: ElementFinder;
   private unhideTrain: ElementFinder;
@@ -73,6 +74,7 @@ export class TrainsListPageObject {
     this.hiddenToggleOn = element(by.css('#hiddentoggle .toggle-switch .absolute-off'));
     this.hiddenToggleOff = element(by.css('#hiddentoggle .toggle-switch .absolute-on'));
     this.unhideAllTrainsMenuItem = element(by.id('unhide-all'));
+    this.findTrainSearchContext = element(by.cssContainingText('span', 'Find Train'));
     this.hideOnce = element(by.cssContainingText('#hide-once-selection-item', 'Hide Once'));
     this.hideAlways = element(by.cssContainingText('#hide-always-selection-item', 'Hide Always'));
     this.unhideTrain = element(by.id('unhide-selection-item'));
@@ -163,7 +165,7 @@ export class TrainsListPageObject {
   }
   public async leftClickHeadcodeOnTrainListItem(scheduleString: string): Promise<void> {
     const trainScheduleId: ElementFinder = element(by.css('[id=\'trains-list-row-entry-train-description-' + scheduleString + '\''));
-    browser.actions().click(trainScheduleId, protractor.Button.LEFT).perform();
+    await browser.actions().click(trainScheduleId, protractor.Button.LEFT).perform();
   }
   public async isTrainsListContextMenuDisplayed(): Promise<boolean> {
     return this.trainsListContextMenu.isPresent();
@@ -513,6 +515,18 @@ export class TrainsListPageObject {
     return trainDescriptionEntry.getAttribute('src');
   }
 
+  public async hoverOverContextMenuMapsLink(): Promise<void> {
+    await CommonActions.waitForElementInteraction(this.findTrainSearchContext);
+    await browser.actions().mouseMove(this.findTrainSearchContext).perform();
+  }
+
+  public async openMap(mapName: string): Promise<void> {
+    await this.hoverOverContextMenuMapsLink();
+    const mapLink = element(by.xpath(`//li//span[text() = '${mapName}']`));
+    await CommonActions.waitAndClick(mapLink);
+  }
+
+
   public async clickTrainsListMenuButton(): Promise<void> {
     return this.trainsListMenuButton.click();
   }
@@ -567,6 +581,5 @@ export class TrainsListPageObject {
         );
       await TrainActivationService.processTrainActivationMessagesAndSubmit(trainActivationMessages);
     }
-
   }
 }

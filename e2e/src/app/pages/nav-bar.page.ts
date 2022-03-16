@@ -75,7 +75,9 @@ export class NavBarPageObject {
   public mapItemSearchContext: ElementFinder;
   public signOutIcon: ElementFinder;
   public berthSearchResults: ElementArrayFinder;
-  public tooManyTabsMessage: ElementFinder;
+  public warningMessage: ElementFinder;
+  public headerElements: ElementArrayFinder;
+  public enquiriesNavBarButton: ElementFinder;
   constructor() {
     this.navBarIcons = element.all(by.css('.navbar .material-icons'));
     this.mapLayerToggles = element.all(by.css('.map-toggle-div .toggle-text'));
@@ -148,7 +150,9 @@ export class NavBarPageObject {
     this.mapItemSearchContext = element(by.css('div.map-link'));
     this.signOutIcon = element(by.id('logout1'));
     this.berthSearchResults = element.all(by.css('#berthSearchResults tr'));
-    this.tooManyTabsMessage = element(by.css('h1'));
+    this.warningMessage = element(by.css('.div-warning-msg'));
+    this.headerElements = element.all(by.css('h1'));
+    this.enquiriesNavBarButton = element(by.css('#enquiries-nav-bar-button'));
   }
 
   public async navBarIsDisplayed(): Promise<boolean> {
@@ -169,6 +173,11 @@ export class NavBarPageObject {
     await this.signOutIcon.click();
   }
 
+  public async clickEnquiriesButton(): Promise<void> {
+    await CommonActions.waitForElementToBeVisible(this.enquiriesNavBarButton);
+    await this.enquiriesNavBarButton.click();
+  }
+
   public async openLayersMenu(): Promise<void> {
     const LayersMenu: ElementFinder = element(by.id('layers-menu-button'));
     await CommonActions.waitForElementInteraction(LayersMenu);
@@ -182,14 +191,6 @@ export class NavBarPageObject {
   public async getToggleState(toggleName: string): Promise<boolean> {
     const elm = await this.getToggle(toggleName);
     return CheckBox.getToggleCurrentState(elm);
-  }
-
-  public async isTooManyTabsMessagePresent(): Promise<boolean> {
-    return browser.isElementPresent(this.tooManyTabsMessage);
-  }
-
-  public async getTooManyTabsMessage(): Promise<string> {
-    return this.tooManyTabsMessage.getText();
   }
 
   private async getToggle(toggleName): Promise<ElementFinder> {
@@ -373,6 +374,25 @@ export class NavBarPageObject {
     return browser.isElementPresent(this.invalidCharactersWarningMsg);
   }
 
+  public async getWarningMessage(): Promise<string> {
+    return this.warningMessage.getText();
+  }
+
+  public async isTooManyTabsMessagePresent(): Promise<boolean> {
+    const islastHeaderElement: boolean = await browser.isElementPresent(this.headerElements.last());
+    if (islastHeaderElement) {
+      const headerText = await this.headerElements.last().getText();
+      return headerText.includes('Maximum number');
+    }
+    else {
+      return false;
+    }
+  }
+
+  public async getTooManyTabsMessage(): Promise<string> {
+    return this.headerElements.last().getText();
+  }
+
   public async isNoResultsFoundMessagePresent(): Promise<boolean> {
     return browser.isElementPresent(this.noResultsFoundMessage);
   }
@@ -450,37 +470,33 @@ export class NavBarPageObject {
   }
 
   public async waitForTimetableContext(): Promise<boolean> {
-    await browser.wait(async () => {
-      return this.timeTableContextMenu.isPresent();
-    }, browser.params.general_timeout, 'The timetable context menu should be displayed');
-    return this.timeTableContextMenu.isPresent();
+    await CommonActions.waitForElementToBePresent(this.timeTableContextMenu);
+    await CommonActions.waitForElementToBeVisible(this.timeTableContextMenu);
+    return this.timeTableContextMenu.isDisplayed();
   }
+
   public async waitForSignalContext(): Promise<boolean> {
-    await browser.wait(async () => {
-      return this.signalContext.isPresent();
-    }, browser.params.general_timeout, 'The signal context menu should be displayed');
-    return this.signalContext.isPresent();
+    await CommonActions.waitForElementToBePresent(this.signalContext);
+    await CommonActions.waitForElementToBeVisible(this.signalContext);
+    return this.signalContext.isDisplayed();
   }
 
   public async waitForBerthContext(): Promise<boolean> {
-    await browser.wait(async () => {
-      return this.berthContext.isPresent();
-    }, browser.params.general_timeout, 'The berth context menu should be displayed');
-    return this.berthContext.isPresent();
+    await CommonActions.waitForElementToBePresent(this.berthContext);
+    await CommonActions.waitForElementToBeVisible(this.berthContext);
+    return this.berthContext.isDisplayed();
   }
 
   public async waitForUnscheduledContext(): Promise<boolean> {
-    await browser.wait(async () => {
-      return this.unscheduledContext.isPresent();
-    }, browser.params.general_timeout, 'The unscheduled context menu should be displayed');
-    return this.unscheduledContext.isPresent();
+    await CommonActions.waitForElementToBePresent(this.unscheduledContext);
+    await CommonActions.waitForElementToBeVisible(this.unscheduledContext);
+    return this.unscheduledContext.isDisplayed();
   }
 
   public async waitForContextMap(): Promise<boolean> {
-    await browser.wait(async () => {
-      return this.contextMapLink.isPresent();
-    }, browser.params.general_timeout, 'The trains list context menu map should be displayed');
-    return this.contextMapLink.isPresent();
+    await CommonActions.waitForElementToBePresent(this.contextMapLink);
+    await CommonActions.waitForElementToBeVisible(this.contextMapLink);
+    return this.contextMapLink.isDisplayed();
   }
 
   public async rightClickTrainSearchList(position: number): Promise<void> {
@@ -502,17 +518,15 @@ export class NavBarPageObject {
   }
 
   public async waitForTrainContext(): Promise<boolean> {
-    await browser.wait(async () => {
-      return this.trainContextMenu.isPresent();
-    }, browser.params.general_timeout, 'The trains list context menu should be displayed');
-    return this.trainContextMenu.isPresent();
+    await CommonActions.waitForElementToBePresent(this.trainContextMenu);
+    await CommonActions.waitForElementToBeVisible(this.trainContextMenu);
+    return this.trainContextMenu.isDisplayed();
   }
 
   public async waitForSearchContext(): Promise<boolean> {
-    await browser.wait(async () => {
-      return this.searchContextMenu.isPresent();
-    }, browser.params.general_timeout, 'The search context menu should be displayed');
-    return this.searchContextMenu.isPresent();
+    await CommonActions.waitForElementToBePresent(this.searchContextMenu);
+    await CommonActions.waitForElementToBeVisible(this.searchContextMenu);
+    return this.searchContextMenu.isDisplayed();
   }
 
   public async getTimetableEntryValues(): Promise<string[]> {
@@ -538,6 +552,15 @@ export class NavBarPageObject {
   }
 
   public async openTodayTimetableForTrainUid(trainUid: string): Promise<void> {
+    const today: string = DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy');
+    const rowLocator = element(by.xpath(`//*[child::*[text()='${trainUid}'][following-sibling::*[text()='${today}']]]`));
+    await CommonActions.waitForElementInteraction(rowLocator);
+    await browser.actions().click(rowLocator, protractor.Button.RIGHT).perform();
+    await this.waitForSearchContext();
+    await this.timeTableLink.click();
+  }
+
+  public async openMenuForTodayTrainUid(trainUid: string): Promise<void> {
     const today: string = DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy');
     const rowLocator = element(by.xpath(`//*[child::*[text()='${trainUid}'][following-sibling::*[text()='${today}']]]`));
     await CommonActions.waitForElementInteraction(rowLocator);

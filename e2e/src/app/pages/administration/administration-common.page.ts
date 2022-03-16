@@ -3,9 +3,11 @@ import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export class AdminPageCommon {
   public administrationTabs: ElementArrayFinder;
+  public unsavedIndicators: ElementArrayFinder;
 
   constructor() {
     this.administrationTabs = element.all(by.css('.tmv-tabs-vertical li'));
+    this.unsavedIndicators = element.all(by.css('.unsaved'));
   }
 
   public async getAdministrationTab(): Promise<string> {
@@ -14,5 +16,9 @@ export class AdminPageCommon {
   }
   public async openTab(tabId: string): Promise<void> {
     return element(by.id(tabId)).click();
+  }
+
+  public async isUnsaved(): Promise<boolean> {
+    return (await this.unsavedIndicators.count() > 0);
   }
 }

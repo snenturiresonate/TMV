@@ -4,20 +4,32 @@ import {CucumberLog} from '../../logging/cucumber-log';
 
 export class PostgresClient {
   private static databaseHost: string = browser.params.test_harness_ci_ip.replace('http://', '').replace('https://', '');
-  private static databasePort: string = browser.params.trainslist_database_port;
-  private static databaseName: string = browser.params.trainslist_database_name;
+  private static databasePortTrains: string = browser.params.trainslist_database_port;
+  private static databasePortUnscheduled: string = browser.params.unscheduledtrainslist_database_port;
+  private static databaseNameTrains: string = browser.params.trainslist_database_name;
+  private static databaseNameUnscheduled: string = browser.params.unscheduledtrainslist_database_name;
   private static databaseUser: string = browser.params.trainslist_database_user;
   private static databasePassword: string = browser.params.trainslist_database_password;
   private static maxPoolSize: string = browser.params.trainslist_max_pool_size;
   private trainsClient: Pool;
+  private unscheduledTrainsClient: Pool;
 
   constructor() {
     this.trainsClient = new Pool({
       user: PostgresClient.databaseUser,
       host: PostgresClient.databaseHost,
-      database: PostgresClient.databaseName,
+      database: PostgresClient.databaseNameTrains,
       password: PostgresClient.databasePassword,
-      port: PostgresClient.databasePort,
+      port: PostgresClient.databasePortTrains,
+      max: PostgresClient.maxPoolSize
+    });
+
+    this.unscheduledTrainsClient = new Pool({
+      user: PostgresClient.databaseUser,
+      host: PostgresClient.databaseHost,
+      database: PostgresClient.databaseNameUnscheduled,
+      password: PostgresClient.databasePassword,
+      port: PostgresClient.databasePortUnscheduled,
       max: PostgresClient.maxPoolSize
     });
   }
@@ -34,6 +46,23 @@ export class PostgresClient {
         })
         .catch(err => {
           CucumberLog.addText(`Error clearing all from trains list ${err}`);
+          if (!released) {
+            client.release();
+          }
+        }));
+  }
+
+  public async clearAllUnscheduled(): Promise<void> {
+    let released = false;
+
+    return this.unscheduledTrainsClient.connect()
+      .then(client => client.query('DELETE FROM unscheduled_train')
+        .then(() => {
+          client.release();
+          released = true;
+        })
+        .catch(err => {
+          CucumberLog.addText(`Error clearing all from unscheduled trains list ${err}`);
           if (!released) {
             client.release();
           }

@@ -258,6 +258,11 @@ Then('I open timetable from the context menu', async () => {
   await browser.sleep(2000);
 });
 
+Then('I open map {word} from the context menu', async (mapName: string) => {
+  await trainsListPage.openMap(mapName);
+  await browser.sleep(2000);
+});
+
 When('I open timetable from the context menu, without delay', async () => {
   await trainsListPage.timeTableLink.click();
 });

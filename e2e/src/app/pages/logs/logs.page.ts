@@ -172,7 +172,7 @@ export class LogsPage {
   public async leftClickLogResultItem(dataItem: string): Promise<void> {
     const logRowLocator: string = '//td[text()=\'' + dataItem + '\']//parent::tr';
     const logRow: ElementFinder = element(by.xpath(logRowLocator));
-    browser.actions().click(logRow, protractor.Button.LEFT).perform();
+    await browser.actions().click(logRow, protractor.Button.LEFT).perform();
   }
 
   public async leftClickDatePicker(): Promise<void> {

@@ -52,6 +52,13 @@ When('I select to match the result for todays service with planning Id {string}'
   await trainsListManualMatchPage.clickSaveMessage();
 });
 
+When(/^I open today's timetable with planning UID (.*) from the match table$/, async (trainUid: string) => {
+  if (trainUid.includes('generated')) {
+    trainUid = browser.referenceTrainUid;
+  }
+  await trainsListManualMatchPage.openTodayTimetableForTrainUid(trainUid);
+});
+
 Then('a matched service is visible', async () =>  {
   const matchedService = await trainsListManualMatchPage.isMatchedServiceVisible();
   expect(matchedService, `Matched service is not visible`)

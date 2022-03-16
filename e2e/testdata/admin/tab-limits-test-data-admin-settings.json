@@ -1,0 +1,213 @@
+{
+  "adminLineStatusSettings": {
+    "pathTypeSettings": [
+      {
+        "colour": "#00d2ff",
+        "lineStatusSettingName": "Predicted Path",
+        "lineStyle": "Solid",
+        "lineWidth": 3
+      }
+    ],
+    "restrictionSettings": {
+      "restrictionTypeSettings": [
+        {
+          "restrictionType": "LINE_BLOCKAGE",
+          "lineStatusSettingName": "BLOK (Line Blockage)",
+          "colour": "#ff0000",
+          "lineStyle": "Solid",
+          "lineWidth": 2
+        },
+        {
+          "restrictionType": "OUT_OF_USE",
+          "lineStatusSettingName": "OOU (Out of Use)",
+          "colour": "#ffa700",
+          "lineStyle": "Solid",
+          "lineWidth": 2
+        },
+        {
+          "restrictionType": "POSSESSION",
+          "lineStatusSettingName": "POSS (Possession)",
+          "colour": "#ff0000",
+          "lineStyle": "Long Dashed",
+          "lineWidth": 2
+        },
+        {
+          "restrictionType": "EMERGENCY_SPEED_RESTRICTION",
+          "lineStatusSettingName": "ESR (Emergency Speed Restriction)",
+          "colour": "#ffff00",
+          "lineStyle": "Short Dashed",
+          "lineWidth": 2
+        },
+        {
+          "restrictionType": "TEMPORARY_SPEED_RESTRICTION",
+          "lineStatusSettingName": "TSR (Temporary Speed Restriction)",
+          "colour": "#ffa700",
+          "lineStyle": "Short Dashed",
+          "lineWidth": 2
+        },
+        {
+          "restrictionType": "BLOCKED_TO_ELECTRIC_TRACTION",
+          "lineStatusSettingName": "BTET (Blocked to Electric Traction)",
+          "colour": "#ffc0cb",
+          "lineStyle": "Short Dashed",
+          "lineWidth": 2
+        },
+        {
+          "restrictionType": "CAUTIONING_OF_TRAIN",
+          "lineStatusSettingName": "CAU (Cautioning of Trains)",
+          "colour": "#ffff00",
+          "lineStyle": "Solid",
+          "lineWidth": 2
+        }
+      ],
+      "multipleRestrictionDetails": {
+        "lineStatusSettingName": "Multiple Restrictions Apply",
+        "colour": "#800080",
+        "lineStyle": "Solid",
+        "lineWidth": 2
+      }
+    },
+    "routeTypeSettings": [
+      {
+        "colour": "#ffffff",
+        "lineStatusSettingName": "Route Set",
+        "lineStyle": "Solid",
+        "lineWidth": 3
+      }
+    ]
+  },
+  "adminReplaySettings": {
+    "replayBackgroundColour": "#20373e",
+    "replayDefaultProperties": {
+      "maxNumberOfEnquiriesViewInstances": 2,
+      "maxNumberofMapsPerReplaySession": 2,
+      "maxNumberofReplays": 2,
+      "maxNumberofSchematicMapDisplayInstances": 2,
+      "maxNumberOfLiveTimetableInstances": 2,
+      "maxNumberOfReplayTimetableInstances": 2,
+      "maxNumberofTrainsListViewInstances": 2,
+      "maxNumberOfUnscheduledTrainsListViewInstances": 2,
+      "maxNumberOfLogViewerInstances": 2,
+      "maxNumberOfAdminInstances": 2
+    }
+  },
+  "berthColourSettings": [
+    {
+      "colour": "#0000ff",
+      "state": "Off Plan",
+      "visible": true
+    },
+    {
+      "colour": "#969696",
+      "state": "Left Behind",
+      "visible": true
+    },
+    {
+      "colour": "#e1e1e1",
+      "state": "No Timetable",
+      "visible": true
+    },
+    {
+      "colour": "#ffffff",
+      "state": "Last Berth",
+      "visible": true
+    },
+    {
+      "colour": "#ffffff",
+      "state": "Unknown Delay",
+      "visible": true
+    }
+  ],
+  "defaultPunctualityTimeBandColour": [
+    {
+      "colour": "#ffb4b4",
+      "defaultPunctualityTimeBandColourId": "1",
+      "fromPunctuality": null,
+      "name": "20 minutes or more early",
+      "toPunctuality": -1200
+    },
+    {
+      "colour": "#e5b4ff",
+      "defaultPunctualityTimeBandColourId": "2",
+      "fromPunctuality": -1200,
+      "name": "10 to 19 minutes early",
+      "toPunctuality": -600
+    },
+    {
+      "colour": "#78e7ff",
+      "defaultPunctualityTimeBandColourId": "3",
+      "fromPunctuality": -600,
+      "name": "5 to 9 minutes early",
+      "toPunctuality": -300
+    },
+    {
+      "colour": "#78ff78",
+      "defaultPunctualityTimeBandColourId": "4",
+      "fromPunctuality": -300,
+      "name": "1 to 4 minutes early",
+      "toPunctuality": -60
+    },
+    {
+      "colour": "#00ff00",
+      "defaultPunctualityTimeBandColourId": "5",
+      "fromPunctuality": -60,
+      "name": "On Time",
+      "toPunctuality": 60
+    },
+    {
+      "colour": "#ffff00",
+      "defaultPunctualityTimeBandColourId": "6",
+      "fromPunctuality": 60,
+      "name": "1 to 4 minutes late",
+      "toPunctuality": 300
+    },
+    {
+      "colour": "#ffa700",
+      "defaultPunctualityTimeBandColourId": "7",
+      "fromPunctuality": 300,
+      "name": "5 to 9 minutes late",
+      "toPunctuality": 600
+    },
+    {
+      "colour": "#ff0000",
+      "defaultPunctualityTimeBandColourId": "8",
+      "fromPunctuality": 600,
+      "name": "10 to 19 minutes late",
+      "toPunctuality": 1200
+    },
+    {
+      "colour": "#ff009c",
+      "defaultPunctualityTimeBandColourId": "9",
+      "fromPunctuality": 1200,
+      "name": "20 minutes or more late",
+      "toPunctuality": null
+    }
+  ],
+  "loginMessageSettings": {
+    "loginNoticeMessage": "Welcome to TMV",
+    "loginTermsOfUse": "TMV terms of use"
+  },
+  "trainsListDisplayConfiguration": {
+    "cancellationColour": "#ffffff",
+    "cancellationDisplay": true,
+    "changeOfIdentityColour": "#ffffff",
+    "changeOfIdentityDisplay": true,
+    "changeOfOriginColour": "#ffffff",
+    "changeOfOriginDisplay": true,
+    "nextReportOverdueColour": "#0000ff",
+    "nextReportOverdueDisplay": false,
+    "nextReportOverdueMinutes": 15,
+    "offRouteColour": "#ffffff",
+    "offRouteDisplay": true,
+    "originCalledColour": "#ffb578",
+    "originCalledDisplay": true,
+    "originCalledMinutes": 15,
+    "originDeptOverdueColour": "#ffffff",
+    "originDeptOverdueDisplay": true,
+    "originDeptOverdueMinutes": 1,
+    "reinstatementColour": "#ffffff",
+    "reinstatementDisplay": true,
+    "unmatchedColour": "#140e2b",
+    "unmatchedDisplay": true
+  }
+}

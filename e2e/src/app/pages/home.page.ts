@@ -168,8 +168,13 @@ export class HomePageObject {
     await this.recentHistoryPreviousPageButton.click();
   }
 
-  public async checkRecentHistoryMapNameIsPresent(mapId: number): Promise<boolean> {
-    return browser.isElementPresent(element(by.id('recent-history-item-map-name-' + String(mapId))));
+  public async clickRecentHistoryMapName(mapId: string): Promise<void> {
+    const recentHistoryItemEntry: ElementFinder = element(by.id('recent-history-item-map-name-' + mapId));
+    return CommonActions.waitAndClick(recentHistoryItemEntry);
+  }
+
+  public async checkRecentHistoryMapNameIsPresent(mapId: string): Promise<boolean> {
+    return browser.isElementPresent(element(by.id('recent-history-item-map-name-' + mapId)));
   }
 
   public async getAppNames(): Promise<string> {

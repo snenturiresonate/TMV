@@ -132,10 +132,14 @@ Then('the recent history map with index {int} is listed with {string}', async (r
     .to.contain(location);
 });
 
-Then('the recent history map with id {int} is not listed', async (id: number) => {
+Then('the recent history map with id {word} is not listed', async (id: string) => {
   const isPresent: boolean = await homePage.checkRecentHistoryMapNameIsPresent(id);
   expect(isPresent, `Recent map with ${id} is listed when it shouldn't be`)
     .to.equal(false);
+});
+
+Then('I select the recent map {word}', async (mapName: string) => {
+  await homePage.clickRecentHistoryMapName(mapName);
 });
 
 When('I type {string} into the map search box', async (text: string) => {

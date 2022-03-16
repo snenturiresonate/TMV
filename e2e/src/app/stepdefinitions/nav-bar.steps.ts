@@ -249,6 +249,10 @@ When('I click on the Signal option', async () => {
   await navBarPage.selectSignalOption();
 });
 
+When('I click on the Enquiries button', async () => {
+  await navBarPage.clickEnquiriesButton();
+});
+
 When('I click on the Timetable option', async () => {
   await navBarPage.selectTimetableOption();
 });
@@ -292,6 +296,37 @@ Then('a warning message is displayed for invalid characters', async () => {
   expect(invalidCharactersWarningIsDisplayed, `Invalid characters warning message is not displayed`)
     .to.equal(true);
 });
+
+Then(/^a warning message is displayed alerting the user that the maximum number of (.*) sessions has been reached$/,
+    async (tabType: string) => {
+      const tab = tabType.toLowerCase();
+      const warningMessage = await navBarPage.getWarningMessage();
+      expect(warningMessage, `Too many tabs warning message is not displayed`)
+        .to.equal(`Maximum number of ${tab} sessions reached.`);
+    }
+);
+
+Then(/^there is (a|no) message about having too many (.*) (tabs|sessions) open$/,
+  async (isMessageExpected: string, tabType: string, sessionsOrTabs: string) => {
+    const tab = tabType.toLowerCase();
+    const isWarningMessagePresent = await navBarPage.isTooManyTabsMessagePresent();
+    if (isMessageExpected === 'no') {
+      expect(isWarningMessagePresent).to.equal(false);
+    }
+    else {
+      expect(isWarningMessagePresent).to.equal(true);
+      const warningMessage = await navBarPage.getTooManyTabsMessage();
+      if (sessionsOrTabs === 'tabs') {
+        expect(warningMessage, `Too many tabs warning message is not displayed`)
+          .to.equal(`Maximum number of open ${tab} ${sessionsOrTabs} have been reached. Please reduce the number of open ${sessionsOrTabs} and try again.`);
+      }
+      else {
+        expect(warningMessage, `Too many tabs warning message is not displayed`)
+          .to.equal(`Maximum number of open ${tab} ${sessionsOrTabs} have been reached. Please reduce the number of open ${tab} ${sessionsOrTabs} and try again.`);
+      }
+    }
+  }
+);
 
 Then('a message is displayed stating that no results were found', async () => {
   const noResultsFoundMessageIsPresent = await navBarPage.isNoResultsFoundMessagePresent();
@@ -641,17 +676,3 @@ Then('the following berth status is displayed',
   expect(actualStatus).to.equal(status);
   });
 
-Then(/^there is (a|no) message about having too many (.*) tabs open$/,  async (isMessageExpected: string, tabType: string) => {
-    const tab = tabType.toLowerCase();
-    const isWarningMessagePresent = await navBarPage.isTooManyTabsMessagePresent();
-    if (isMessageExpected === 'no') {
-      expect(isWarningMessagePresent).to.equal(false);
-    }
-    else {
-      expect(isWarningMessagePresent).to.equal(true);
-      const warningMessage = await navBarPage.getTooManyTabsMessage();
-      expect(warningMessage, `To many tabs warning message is not displayed`)
-        .to.equal(`Maximum number of open ${tab} tabs have been reached. Please reduce the number of open tabs and try again.`);
-    }
-  }
-);

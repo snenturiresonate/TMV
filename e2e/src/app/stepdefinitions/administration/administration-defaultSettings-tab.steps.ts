@@ -12,13 +12,27 @@ Then('the default settings header is displayed as {string}', async (expectedText
     .to.equal(expectedText);
 });
 
-Then('the following can be seen on the system default settings', async (replayEntryDataTable: any) => {
-  const expectedReplayTableEntries = replayEntryDataTable.hashes();
-  const actualValue = await adminSystemDefaults.getReplayColumn();
-  expectedReplayTableEntries.forEach((expectedReplayTableEntry: any) => {
-    expect(actualValue, `${expectedReplayTableEntry.replayEntry}, is not present in default settings`)
-      .to.contain(expectedReplayTableEntry.replayEntry);
+Then('the following can be seen on the system default settings', async (systemDefaultsDataTable: any) => {
+  const expectedDefaultsTableEntries = systemDefaultsDataTable.hashes();
+  const actualValue = await adminSystemDefaults.getColumns();
+  expectedDefaultsTableEntries.forEach((expectedDefaultsTableEntry: any) => {
+    expect(actualValue, `${expectedDefaultsTableEntry.setting}, is not present in default settings`)
+      .to.contain(expectedDefaultsTableEntry.setting);
   });
+});
+
+Then('the system default settings display as follows', async (systemDefaultsDataTable: any) => {
+  const expectedSystemDefaultsTableEntries = systemDefaultsDataTable.hashes();
+  const actualCols = await adminSystemDefaults.getColumns();
+  const actualNumCols = await adminSystemDefaults.getSettingCount();
+  const expectedNumCols = expectedSystemDefaultsTableEntries.length;
+  expect(actualNumCols, `Number of settings not as expected`).to.equal(expectedNumCols);
+  for (let i = 0; i < expectedNumCols; i++) {
+    const setting = expectedSystemDefaultsTableEntries[i].setting;
+    expect(actualCols, `${setting}, is not present in default settings`).to.contain(setting);
+    const actualValue = await adminSystemDefaults.getSettingValue(setting);
+    expect(actualValue, `Default value for ${setting} not as expected`).to.equal(expectedSystemDefaultsTableEntries[i].value);
+  }
 });
 
 Then('I should see the system default settings as', async (table: any) => {
@@ -52,6 +66,14 @@ When('I update the system default settings as', async (table: any) => {
   await adminSystemDefaults.updateMaxNoOfMapsPerReplay(tableValues.MaxNoOfMapsPerReplay);
 });
 
+When('I update the following system default settings', async (table: any) =>  {
+  const newSettings = table.hashes();
+  newSettings.forEach((newSetting: any) => {
+    const newValue: number = parseInt(newSetting.value, 10);
+    adminSystemDefaults.setValue(newSetting.setting, newValue);
+  });
+});
+
 When('I save the system default settings', async () => {
   await adminSystemDefaults.clickSaveButton();
 });
@@ -65,3 +87,28 @@ Then('I should not be able to edit {string}', async (fieldName: string) => {
  expect(isFieldEditable, `${fieldName} is editable when it shouldn't be`)
    .to.equal(false);
 });
+
+When (/^I make a note of the value for setting (.*)$/, async (setting: string) => {
+  browser.maxTabValue = await adminSystemDefaults.getSettingValue(setting);
+});
+
+When (/^I (increase|decrease) the value for setting (.*) by (.*)$/,
+  async (incOrDec: string, setting: string, adjustment: number) => {
+    const targetAdjustButton = await adminSystemDefaults.getValueAdjustButton(setting, incOrDec);
+    for (let i = 0; i < adjustment; i++) {
+      await targetAdjustButton.click();
+    }
+  });
+
+Then (/^the value shown for setting (.*) is (.*) (more|less) than before$/,
+  async (setting: string, expectedChange: string, adjustment: string) => {
+    let expectedChangeVal = parseInt(expectedChange, 10);
+    let actualChange;
+    const currentValue = await adminSystemDefaults.getSettingValue(setting);
+    actualChange = parseInt(currentValue, 10) - browser.maxTabValue;
+    if (adjustment === 'less') {
+      expectedChangeVal = expectedChangeVal * -1;
+    }
+    expect(actualChange, `Change in value for setting ${setting} is not observed`).to.equal(expectedChangeVal);
+  });
+

@@ -1,5 +1,6 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
 import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
+import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export class TrainsListManualMatchPageObject {
   public trainService: ElementArrayFinder;
@@ -22,6 +23,8 @@ export class TrainsListManualMatchPageObject {
   public matchButton: ElementFinder;
   public unMatchButton: ElementFinder;
   public confirmMessage: ElementFinder;
+  public matchTableContextMenu: ElementFinder;
+  public openTimetableLink: ElementFinder;
 
   constructor() {
     this.trainService = element.all(by.css('#trainSearchResults-tbody >tr >span >td:nth-child(1)'));
@@ -44,6 +47,8 @@ export class TrainsListManualMatchPageObject {
     this.matchButton = element(by.css('.confirm-btn-container #confirmManualMatching'));
     this.unMatchButton = element(by.css('.unmatch-btn-container #unmatchManualMatching'));
     this.confirmMessage = element(by.css('.confirm-text-area:nth-child(2)'));
+    this.matchTableContextMenu = element(by.id('unscheduledContextMenu'));
+    this.openTimetableLink = element(by.id('un-schedule-context-menu-timetable'));
   }
   public async componentLoad(): Promise<void> {
     const EC = protractor.ExpectedConditions;
@@ -102,6 +107,30 @@ export class TrainsListManualMatchPageObject {
     }
     const requiredRowEntry: ElementFinder = element(by.css ('#trainSearchResults-tbody >tr:nth-child(' + i.toString() + ')'));
     return requiredRowEntry.click();
+  }
+
+  public async waitForContext(): Promise<boolean> {
+    await CommonActions.waitForElementToBePresent(this.matchTableContextMenu);
+    await CommonActions.waitForElementToBeVisible(this.matchTableContextMenu);
+    return this.matchTableContextMenu.isDisplayed();
+  }
+
+  public async openTodayTimetableForTrainUid(planningUID: string): Promise<void> {
+    await this.componentLoad();
+    const numServices = await this.getNumServicesListed();
+    let i = 0;
+    for (i; i < numServices; i++) {
+      if ((await this.getPlanUid(i) === planningUID) &&
+        (await this.getScheduleDate(i) === DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy'))) {
+        i++;
+        break;
+      }
+    }
+    const requiredRowEntry: ElementFinder = element(by.css ('#trainSearchResults-tbody >tr:nth-child(' + i.toString() + ')'));
+    await CommonActions.waitForElementInteraction(requiredRowEntry);
+    await browser.actions().click(requiredRowEntry, protractor.Button.RIGHT).perform();
+    await this.waitForContext();
+    await this.openTimetableLink.click();
   }
 
   public async getService(index: number): Promise<string> {

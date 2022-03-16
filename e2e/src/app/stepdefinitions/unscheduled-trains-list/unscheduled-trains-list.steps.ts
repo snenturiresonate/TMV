@@ -65,11 +65,16 @@ Then(/^the unscheduled trains list is ordered by entry time, most recent first$/
 When(/^I right click on the following unscheduled train$/, async (unscheduledTrainsListEntry: any) => {
   const unscheduledTrains: UnscheduledTrain[] = unscheduledTrainsListEntry.hashes();
   const trainIndex = await unscheduledTrainsListPage.getIndexOfUnscheduledTrain(unscheduledTrains[0]);
+  expect(trainIndex, `Cannot find unscheduled train`).to.be.greaterThan(-1);
   await unscheduledTrainsListPage.rightClickOnTrainAtPosition(trainIndex);
 });
 
 When(/^I click match on the unscheduled trains list context menu$/, async () => {
   await unscheduledTrainsListPage.clickMatch();
+});
+
+When('I remove all trains from the unscheduled trains list', async () => {
+  await unscheduledTrainsListPage.removeAllTrainsFromUnscheduledTrainsList();
 });
 
 Then(/^the find train sub-menu displays the following maps$/, async (expectedMapsTable: any) => {

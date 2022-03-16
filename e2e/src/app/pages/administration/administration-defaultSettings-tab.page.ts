@@ -4,7 +4,7 @@ import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
 export class AdministrationDefaultSettingsTab {
   public userSettingsTab: ElementFinder;
-  public defaultReplayCol: ElementArrayFinder;
+  public defaultCols: ElementArrayFinder;
   public replayBackgroundColor: ElementFinder;
   public noOfReplays: ElementFinder;
   public schematicMapInstance: ElementFinder;
@@ -14,7 +14,7 @@ export class AdministrationDefaultSettingsTab {
   public resetBtn: ElementFinder;
   constructor() {
     this.userSettingsTab = element(by.css('#Users'));
-    this.defaultReplayCol = element.all(by.css('#linestatus-div-container .noteapplied'));
+    this.defaultCols = element.all(by.css('#linestatus-div-container .noteapplied'));
     this.replayBackgroundColor = element(by.css('#replayBackgroundColour .punctuality-colour'));
     this.noOfReplays = element(by.css('#maxNumberofReplays input'));
     this.schematicMapInstance = element(by.css('#maxNumberofSchematicMapDisplayInstances input'));
@@ -24,11 +24,15 @@ export class AdministrationDefaultSettingsTab {
     this.resetBtn = element(by.css('#resetDefaultsConfig'));
   }
 
-  public async getReplayColumn(): Promise<string> {
-    return this.defaultReplayCol.getText();
+  public async getColumns(): Promise<string> {
+    return this.defaultCols.getText();
   }
   public async getUserTabValue(): Promise<string> {
     return this.userSettingsTab.getText();
+  }
+
+  public async getSettingCount(): Promise<number> {
+    return this.defaultCols.count();
   }
 
   public async getReplayValue(replayType: string): Promise<string> {
@@ -90,6 +94,16 @@ export class AdministrationDefaultSettingsTab {
     await browser.executeScript(`document.querySelector('#maxNumberofMapsPerReplaySession input').value = '${text}'`);
   }
 
+  public async updateSetting(setting: string, value: string): Promise<void> {
+    const settingInputElement: ElementFinder = element(by.xpath(`//div[text()='${setting}']/following-sibling::div/input`));
+    await InputBox.updateInputBoxAndTabOut(settingInputElement, value);
+  }
+
+  public async getSettingValue(setting: string): Promise<string> {
+    const settingInputElement: ElementFinder = element(by.xpath(`//div[text()='${setting}']/following-sibling::div/input`));
+    return InputBox.waitAndGetTextOfInputBox(settingInputElement);
+  }
+
   public async clickSaveButton(): Promise<void> {
     return CommonActions.waitAndClick(this.saveBtn);
   }
@@ -119,4 +133,27 @@ export class AdministrationDefaultSettingsTab {
     }
     return returnValue;
   }
+
+  public async getValueAdjustButton(setting: string, incOrDec: string): Promise<ElementFinder> {
+    let operator = '+';
+    if (incOrDec === 'decrease') {
+      operator = '-';
+    }
+    const xPathLocator = `//div[text()='${setting}']/following-sibling::div/button[text()[contains(.,'${operator}')]]`;
+    return element(by.xpath(xPathLocator));
+  }
+
+  public async setValue(setting: string, newValue: number): Promise<void> {
+    const currentValueString = await this.getSettingValue(setting);
+    const currentValue = parseInt(currentValueString, 10);
+    let adjustButton = await this.getValueAdjustButton(setting, 'increase');
+    if (currentValue > newValue) {
+      adjustButton = await this.getValueAdjustButton(setting, 'decrease');
+    }
+    const numAdjustments = Math.abs(currentValue - newValue);
+    for (let i = 0; i < numAdjustments; i++) {
+      await adjustButton.click();
+    }
+  }
+
 }

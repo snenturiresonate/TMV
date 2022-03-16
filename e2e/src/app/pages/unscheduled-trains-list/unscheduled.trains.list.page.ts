@@ -7,6 +7,7 @@ import {expect} from 'chai';
 import * as chaiDateTime from 'chai-datetime';
 import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
+import {PostgresClient} from '../../api/postgres/postgres-client';
 
 export class UnscheduledTrainsListPageObject {
   public static UNSCHEDULED_TRAINS_LIST_TIME_FORMAT = 'dd/MM/yyyy HH:mm:ss';
@@ -21,6 +22,8 @@ export class UnscheduledTrainsListPageObject {
   private matchContextMenu: ElementFinder;
   private findTrainSubMenuMaps: ElementArrayFinder;
 
+  private postgresClient: PostgresClient;
+
   constructor() {
     this.appPage = new AppPage();
     this.trainListElement = element(by.id('trainList'));
@@ -31,6 +34,7 @@ export class UnscheduledTrainsListPageObject {
     this.matchContextMenu = element(by.id('match-unmatch-selection-item'));
     this.findTrainSubMenuMaps = element.all(by.css('#find-map-list span'));
     this.trainListPrintIcon = element(by.id('trains-list-icon-print'));
+    this.postgresClient = new PostgresClient();
   }
 
   public getTrainListElement(): ElementFinder {
@@ -145,6 +149,10 @@ export class UnscheduledTrainsListPageObject {
       );
     });
     return Promise.resolve(trainIndex);
+  }
+
+  public async removeAllTrainsFromUnscheduledTrainsList(): Promise<void> {
+    await this.postgresClient.clearAllUnscheduled();
   }
 
   public async rightClickOnTrainAtPosition(index: number): Promise<void> {

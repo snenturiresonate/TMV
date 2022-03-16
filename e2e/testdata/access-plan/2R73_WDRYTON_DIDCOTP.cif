@@ -1,0 +1,15 @@
+HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
+BSNY777851912152305101111111 POO2R73    125507005 EMU    110D     S            P
+BX         GWY                                                                  
+LOWDRYTON 2129 21293  RL     TB                                                 
+LISLOUGH  2132 2134      213221344  RL    T                                     
+LIMDNHEAD           2140 00000000   RL                                          
+LITWYFORD           2144H00000000   RL                  1                       
+LIRDNGKBJ           2147H00000000   DRL               1 1H                      
+LIRDNGSTN 2148H2150H     2148215012 RL    T                                     
+LIREDGWJN           2152H00000000   RL                                          
+LIGORASTR           2157 00000000   RL                                          
+LICHOLSEY 2159 2200H     21592200   RL    T           1                         
+LIDIDCTEJ           2204 00000000   URL                                         
+LTDIDCOTP 2205 22054     TF                                                     
+ZZ                                                                              

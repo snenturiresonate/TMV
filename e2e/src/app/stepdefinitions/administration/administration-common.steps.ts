@@ -16,3 +16,7 @@ Then('the following tabs can be seen on the administration', async (adminTabName
       .to.contain(expectedAdminTabName.tabName);
   });
 });
+
+Then('there is an unsaved indicator on the Admin Settings', async () => {
+  expect(await adminCommonPage.isUnsaved()).to.equal(true);
+});
