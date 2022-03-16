@@ -21,7 +21,7 @@ Feature: 78815 - TMV Map Interaction - Map Signal Primary Click
 
     Examples:
       | mapId           | signalType               | signalId | signalPlatedName |
-      | hdgw02reading.v | active_main_vertical     | T3570   | T3570           |
+      | hdgw02reading.v | active_main_vertical     | T3570    | T3570            |
       | gw04didcot.v    | active_shunt_horizontal  | OD6980   | OD6980           |
       | gw11bristol.v   | active_yellow_shunt      | BL6618   | BL6618           |
       | gw15cambrian.v  | active_markerboard       | MH1242   | MH1242           |

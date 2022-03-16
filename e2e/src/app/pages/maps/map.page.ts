@@ -269,7 +269,7 @@ export class MapPageObject {
   public async waitForContextMenu(): Promise<boolean> {
     await CommonActions.waitForElementToBePresent(this.mapContextMenuItems.first());
     await CommonActions.waitForElementToBeVisible(this.mapContextMenuItems.first());
-    return this.mapContextMenuItems.isDisplayed();
+    return this.mapContextMenuItems.first().isDisplayed();
   }
 
   public async waitForTrackContextMenu(): Promise<boolean> {
