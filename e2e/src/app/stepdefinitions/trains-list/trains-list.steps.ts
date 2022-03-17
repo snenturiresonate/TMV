@@ -80,15 +80,12 @@ enum DefaultTrainsListIndicationColours {
   boringSetUpColourWhite = '#ffffff'
 }
 
-const NEXT_CLICK_DELAY = 1000;
-
 When('I invoke the context menu from train {int} on the trains list', async (itemNum: number) => {
   await trainsListPage.rightClickTrainListItemNum(itemNum);
 });
 
 When('I invoke the context menu for todays train {string} schedule uid {string} from the trains list',
   async (serviceId: string, scheduleId: string) => {
-    await browser.sleep(NEXT_CLICK_DELAY);
     if (scheduleId === 'UNPLANNED') {
       const schedNum = await trainsListPage.getRowForSchedule(serviceId) + 1;
       await trainsListPage.rightClickTrainListItemNum(schedNum);
@@ -277,7 +274,6 @@ Then('the trains list context menu is displayed', async () => {
 });
 
 Then('the trains list context menu contains {string} on line {int}', async (expectedText: string, rowNum: number) => {
-  await browser.sleep(NEXT_CLICK_DELAY);
   const actualContextMenuItem: string = await trainsListPage.getTrainsListContextMenuItem(rowNum);
   expect(actualContextMenuItem.toLowerCase(), 'Trains list menu item is not as expected').to.contain(expectedText.toLowerCase());
 });
@@ -781,24 +777,12 @@ Then(/^the trains list filter display contains$/, async (inputs: any) => {
   }
 });
 
-When('I click the Hide Once menu item', async () => {
-  await trainsListPage.clickHideOnceSubmenuItem();
-});
-
-When('I click the Hide Always menu item', async () => {
-  await trainsListPage.clickHideAlwaysSubmenuItem();
-});
-
 When('I toggle the hidden trains to on', async () => {
   await trainsListPage.toggleHiddenOn();
 });
 
 When('I toggle the hidden trains to off', async () => {
   await trainsListPage.toggleHiddenOff();
-});
-
-When('I click the Unhide menu item', async () => {
-  await trainsListPage.clickUnhideMenuItem();
 });
 
 When('I click Unhide All Trains', async () => {
@@ -813,10 +797,6 @@ When('the Unhide All Trains menu item is not displayed', async () => {
 When('the Unhide All Trains menu item is displayed', async () => {
   const isUnhideAllTrainsMenuItemVisible: boolean = await trainsListPage.isUnhideAllTrainsMenuItemVisible();
   expect(isUnhideAllTrainsMenuItemVisible).to.equal(true);
-});
-
-Then('I click on the trains list toggle menu', async () => {
-  await trainsListPage.clickToggleMenu();
 });
 
 Then('the trains list toggle menu is displayed', async () => {

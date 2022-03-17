@@ -30,7 +30,6 @@ export class TrainsListPageObject {
   public paginationNext: ElementFinder;
   public hiddenFilter: ElementFinder;
   public filterIcon: ElementFinder;
-  public toggleMenu: ElementFinder;
   public trainsListToggleMenu: ElementFinder;
   public hiddenToggleOn: ElementFinder;
   public hiddenToggleOff: ElementFinder;
@@ -69,7 +68,6 @@ export class TrainsListPageObject {
     this.postgresClient = new PostgresClient();
     this.hiddenFilter = element(by.css('.hidden-filter'));
     this.filterIcon = element(by.id('trains-list-filter-toggle-icon'));
-    this.toggleMenu = element(by.id('trains-list-menu-button'));
     this.trainsListToggleMenu = element(by.css('.trains-list-toggle-div'));
     this.hiddenToggleOn = element(by.css('#hiddentoggle .toggle-switch .absolute-off'));
     this.hiddenToggleOff = element(by.css('#hiddentoggle .toggle-switch .absolute-on'));
@@ -456,10 +454,6 @@ export class TrainsListPageObject {
     const settingsBoxElement: ElementFinder = await element(by.cssContainingText('.selection-criteria-entry-box', property));
     const settingsBoxContentsElements: ElementArrayFinder = await settingsBoxElement.element(by.css('.selection-criteria-entry-row'));
     return settingsBoxContentsElements.getText();
-  }
-
-  public async clickToggleMenu(): Promise<void> {
-    await this.toggleMenu.click();
   }
 
   public async isToggleMenuVisible(): Promise<boolean> {

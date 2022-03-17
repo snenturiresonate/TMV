@@ -35,10 +35,10 @@ Feature: 80675 - TMV Trains List - Hide Train
     And I wait for the trains list context menu to display
     Then the trains list context menu contains 'Hide Train' on line 4
     When I hover over the trains list context menu on line 4
-    And I click the Hide Once menu item
+    And I click Hide Once from the trains list context menu
     Then The trains list table is visible
     And train '<trainDescription>' with schedule id '<planningUid>' for today is not visible on the trains list
-    And I click on the trains list toggle menu
+    And I click the trains list menu button
     And the trains list toggle menu is displayed
     And I click Unhide All Trains
     Then The trains list table is visible
@@ -73,7 +73,7 @@ Feature: 80675 - TMV Trains List - Hide Train
     And I am on the trains list page <configId>
     And I save the trains list config
     And The trains list table is visible
-    When I click on the trains list toggle menu
+    When I click the trains list menu button
     And the trains list toggle menu is displayed
     And the hidden trains toggle is off
     Then I toggle the hidden trains to on
@@ -81,7 +81,7 @@ Feature: 80675 - TMV Trains List - Hide Train
     And I wait for the trains list context menu to display
     Then the trains list context menu contains 'Hide Train' on line 4
     When I hover over the trains list context menu on line 4
-    And I click the Hide Once menu item
+    And I click Hide Once from the trains list context menu
     Then The trains list table is visible
     And train '<trainDescription>' with schedule id '<planningUid>' for today is visible on the trains list
     And the hidden icons are displayed
@@ -90,12 +90,17 @@ Feature: 80675 - TMV Trains List - Hide Train
     When I invoke the context menu for todays train '<trainDescription>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu contains 'Unhide Train' on line 4
-    When I click the Unhide menu item
+    When I click Unhide Train from the trains list context menu
     Then The trains list table is visible
     And train '<trainDescription>' with schedule id '<planningUid>' for today is visible on the trains list
     And the hidden icons are displayed
       | scheduleId         | icon |
       | <planningUid>      |      |
+    When I click the trains list menu button
+    And the trains list toggle menu is displayed
+    And the hidden trains toggle is on
+    Then I toggle the hidden trains to off
+    And train '<trainDescription>' with schedule id '<planningUid>' for today is visible on the trains list
 
     Examples:
       | planningUid  | trainDescription | configId |
