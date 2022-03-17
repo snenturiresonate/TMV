@@ -1,5 +1,6 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, ExpectedConditions} from 'protractor';
 import {LastBerthServiceListTableRowPageObject} from './lastberth.servicelist.tablerow.page';
+import {By} from '@angular/platform-browser';
 
 export class LastberthServicelistPageObject {
   public lastBerthServiceList: ElementFinder;
@@ -19,13 +20,11 @@ export class LastberthServicelistPageObject {
   }
 
   public async getServiceListRows(): Promise<LastBerthServiceListTableRowPageObject[]> {
-    const rowLocator = by.css('li.last-berth-list-item.dropdown-item .row');
-    // li.last-berth-list-item.dropdown-item .row
-    // li.last-berth-list-item.dropdown-item:nth-child(2) .row
-    await browser.wait(ExpectedConditions.visibilityOf(element(rowLocator)), 15000, 'Service list is not shown');
+    const rowLocator: By = by.css('li.last-berth-list-item.dropdown-item .row');
+    await browser.wait(ExpectedConditions.visibilityOf(element.all(rowLocator).first()), 15000, 'Service list is not shown');
     const array = new Array<LastBerthServiceListTableRowPageObject>();
     await element.all(rowLocator)
-      .each((row, index) => {array.push(
+      .each(row => {array.push(
         new LastBerthServiceListTableRowPageObject(row));
       });
     return array;

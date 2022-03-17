@@ -49,7 +49,8 @@ export class CommonActions {
    * Waits for the element to be present.
    * Input: ElementFinder of the UI element to be present
    */
-  public static async waitForElementToBePresent(elm: ElementFinder, timeout?: number, message?: string): Promise<void> {
+  public static async waitForElementToBePresent(
+    elm: ElementFinder, timeout = browser.params.quick_timeout, message?: string): Promise<void> {
     await browser.wait(ExpectedConditions.presenceOf(elm), timeout, message);
   }
 

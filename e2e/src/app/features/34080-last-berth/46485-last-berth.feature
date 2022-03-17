@@ -86,14 +86,6 @@ Feature: 34080 - Last Berth
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 0581      | MDES    | D6             | 2B57             |
 
-    # Check that trains have loaded
-    And I am on the trains list page 1
-    And I save the trains list config
-    * train '2B51' with schedule id 'C56451' for today is visible on the trains list
-    * train '2B53' with schedule id 'C56453' for today is visible on the trains list
-    * train '2B55' with schedule id 'C56455' for today is visible on the trains list
-    * train '2B57' with schedule id 'C56457' for today is visible on the trains list
-
     # Check the last berth
     And I am viewing the map <map>
     Then berth '<lB1>' in train describer '<lBTD>' contains '<lTD1>' and is visible
@@ -263,21 +255,6 @@ Feature: 34080 - Last Berth
     * the following live berth step messages are sent from LINX (moving through last berth)
       | fromBerth | toBerth | trainDescriber | trainDescription |
       | 0581      | LMBE    | D6             | 2B68             |
-
-    # Check that trains have loaded
-    And I am on the trains list page 1
-    And I save the trains list config
-    * train '2B68' with schedule id 'C56468' for today is visible on the trains list
-    * train '2B67' with schedule id 'C56467' for today is visible on the trains list
-    * train '2B66' with schedule id 'C56466' for today is visible on the trains list
-    * train '2B65' with schedule id 'C56465' for today is visible on the trains list
-    * train '2B64' with schedule id 'C56464' for today is visible on the trains list
-    * train '2B63' with schedule id 'C56463' for today is visible on the trains list
-    * train '2B62' with schedule id 'C56462' for today is visible on the trains list
-    * train '2B61' with schedule id 'C56461' for today is visible on the trains list
-    * train '2B60' with schedule id 'C56460' for today is visible on the trains list
-    * train '2B59' with schedule id 'C56459' for today is visible on the trains list
-    * train '2B58' with schedule id 'C56458' for today is visible on the trains list
 
     # Check the last berth
     And I am viewing the map <map>

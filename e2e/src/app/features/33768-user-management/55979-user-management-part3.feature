@@ -80,37 +80,36 @@ Feature: 33768-3: TMV User Management
     #  And I'm viewing the trains list
     #  When I view the context menu for a <matchType> train
     #  Then I the <matchMenuOption> is displayed
+    * I generate a new trainUID
+    * I generate a new train description
     * I delete '<planningUid>:today' from hash 'schedule-modifications-today'
-    Given I remove all trains from the trains list
-    And the access plan located in CIF file 'access-plan/33805-schedules/schedule-matching.cif' is received from LINX
-    And I wait until today's train 'B11111' has loaded
-    And I wait until today's train 'C11111' has loaded
-    And I wait until today's train 'B22222' has loaded
-    And I wait until today's train 'B33333' has loaded
+    * I remove all trains from the trains list
+    Given I access the homepage as schedulematching user
+    And I am authenticated and see the welcome message
+    And I dismiss the welcome message
+    And I restore to default train list config '1'
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription>  | <planningUid>  |
+    And I wait until today's train '<planningUid>' has loaded
     And the following train activation message is sent from LINX
       | trainUID      | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | <planningUid> | <trainDescription> | now                    | 99999               | PADTON                 | today         | now                 |
-    When I access the homepage as schedulematching user
-    Then I am authenticated and see the welcome message
-    When I dismiss the welcome message
-    And I restore to default train list config '1'
-    And I am viewing the map HDGW01paddington.v
-    And I have cleared out all headcodes
     And I am on the trains list page 1
     And I save the trains list config
     And the following live berth interpose message is sent from LINX <description>
       | toBerth | trainDescriber | trainDescription   |
       | A001    | D3             | <trainDescription> |
-    And train description '<trainDescription>' is visible on the trains list with schedule type '<scheduleType>'
-    And I invoke the context menu for todays train '<trainDescription>' schedule uid '<planningUid>' from the trains list
+    And train '<trainDescription>' with schedule id '<planningUid>' for today is visible on the trains list
+    When I invoke the context menu for todays train '<trainDescription>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     Then the <matchType> version of the Schedule-matching trains list context menu is displayed
     # clean up
     * I have not already authenticated
 
     Examples:
-      | matchType | trainDescription | planningUid | description        | scheduleType |
-      | Matched   | 1B13             | B33333      | (creating a match) | STP          |
+      | matchType | trainDescription | planningUid | description        |
+      | Matched   | generated        | generated   | (creating a match) |
 
   Scenario Outline: 16a Displaying matching for user without Schedule Matching Role - trains list
     #    Given I have signed in

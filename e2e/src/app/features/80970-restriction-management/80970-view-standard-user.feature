@@ -1,4 +1,5 @@
 @TMVPhase2 @P2.S4
+@newSession
 Feature: 80970 - TMV Restrictions - View (Standard User)
 
   As a TMV User (with restrictions role)
