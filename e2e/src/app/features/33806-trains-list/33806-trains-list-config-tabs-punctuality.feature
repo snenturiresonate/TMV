@@ -135,11 +135,11 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - pu
       | #c4d                 | 3        | 5      | 3 to 5 minutes late-edit     | on      |
       | #de7                 | 15       | 20     | 15 to 20 minutes late-edit   | on      |
       | #ff6                 | 21       |        | 21 minutes or more late-edit | on      |
-    And I set up a train that is -8 late at RDNGSTN using access-plan/2P77_RDNGSTN_PADTON.cif TD D1 interpose into 1698 step to 1676
-    And I set up a train that is +2 late at PADTON using access-plan/1B69_PADTON_SWANSEA.cif TD D3 interpose into C007 step to 0037
-    And I set up a train that is +4 late at PADTON using access-plan/1L24_PADTON_RDNGSTN.cif TD D3 interpose into C029 step to 0043
-    And I set up a train that is +10 late at PADTON using access-plan/2F35_PADTON_DIDCOTP.cif TD D3 interpose into C031 step to 0045
-    And I set up a train that is +18 late at SDON using access-plan/2M39_SDON_WSTBRYW.cif TD D7 interpose into A207 step to 1221
+    And I set up a train with TRI that reports -8 late originating from RDNGSTN code 74237 using access-plan/2P77_RDNGSTN_PADTON.cif
+    And I set up a train with TRI that reports +2 late originating from PADTON code 73000 using access-plan/1B69_PADTON_SWANSEA.cif
+    And I set up a train with TRI that reports +4 late originating from PADTON code 73000 using access-plan/1L24_PADTON_RDNGSTN.cif
+    And I set up a train with TRI that reports +10 late originating from PADTON code 73000 using access-plan/2F35_PADTON_DIDCOTP.cif
+    And I set up a train with TRI that reports +18 late originating from SDON code 75012 using access-plan/2M39_SDON_WSTBRYW.cif
     And I save the trains list config
     Then I should see the punctuality colour for the time-bands as
       | punctualityColor       | fromTime | toTime |
