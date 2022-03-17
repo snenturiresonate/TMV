@@ -5,8 +5,9 @@ import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 export class TrainRunningInformationMessageHeader {
   public static runDateTime = DateAndTimeUtils.getCurrentDateTime();
 
-  static calculateSenderReference(trainNumber: string, trainUid: string, hourDepartFromOrigin: number): string {
-    return (trainNumber + SenderReferenceCalculator.encodeToSenderReference(trainUid, hourDepartFromOrigin));
+  static calculateSenderReference(
+    trainNumber: string, trainUid: string, hourDepartFromOrigin: number, scheduledStartDate: string = 'today'): string {
+    return (trainNumber + SenderReferenceCalculator.encodeToSenderReference(trainUid, hourDepartFromOrigin, scheduledStartDate));
   }
 
   static calculateSenderReferenceTime(trainNumber: string, trainUid: string, hourDepartFromOrigin: any): string {
@@ -23,8 +24,10 @@ export class TrainRunningInformationMessageHeader {
     return messageReferenceObj.end({prettyPrint: true});
 
   }
-  public static messageHeader = (trainNumber: string, trainUid: string, hourDepartFromOrigin: number) => {
-    const senderReference = TrainRunningInformationMessageHeader.calculateSenderReference(trainNumber, trainUid, hourDepartFromOrigin);
+  public static messageHeader = (
+    trainNumber: string, trainUid: string, hourDepartFromOrigin: number, scheduledStartDate: string = 'today') => {
+    const senderReference = TrainRunningInformationMessageHeader
+      .calculateSenderReference(trainNumber, trainUid, hourDepartFromOrigin, scheduledStartDate);
     const messageHeaderObj = fragment().ele('MessageHeader')
       .ele('SenderReference').txt(senderReference).up()
       .ele('Sender', {'ns0:CI_InstanceNumber': '01'}).txt('0070').up()

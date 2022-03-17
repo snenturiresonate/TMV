@@ -13,7 +13,8 @@ export class TrainRunningInformationMessageBuilder {
       .att('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance')
       .att('xmlns:ns0', 'http://www.era.europa.eu/schemes/TAFTSI/5.3')
       .att('xsi:schemaLocation', 'http://www.era.europa.eu/schemes/TAFTSI/5.3 taf_cat_complete.xsd')
-      .ele(TrainRunningInformationMessageHeader.messageHeader(operationalTrainNumber, trainUID, Number(hourDepartFromOrigin))).root()
+      .ele(TrainRunningInformationMessageHeader.messageHeader(
+        operationalTrainNumber, trainUID, Number(hourDepartFromOrigin), scheduledStartDate)).root()
       .ele(this.messageStatus()).root()
       .ele(TRIOperationalTrainNumberIdentifier.operationalTrainNumberIdentifier(operationalTrainNumber)).root()
       .ele(TRITrainOperationalIdentification.trainOperationalIdentification(trainUID, operationalTrainNumber, scheduledStartDate)).root()

@@ -41,6 +41,7 @@ export class TrainsListPageObject {
   private trainsListMenuButton: ElementFinder;
   private displayAllHiddenTrainsSlider: ElementFinder;
   private hideOnceGreyedOut: ElementFinder;
+  private hideAlwaysGreyedOut: ElementFinder;
 
   private postgresClient: PostgresClient;
 
@@ -79,6 +80,7 @@ export class TrainsListPageObject {
     this.trainsListMenuButton = element(by.cssContainingText('#trains-list-menu-button', 'layers'));
     this.displayAllHiddenTrainsSlider = element(by.css('#hiddentoggle .toggle-switch'));
     this.hideOnceGreyedOut = element(by.cssContainingText('.disabled', 'Hide Once'));
+    this.hideAlwaysGreyedOut = element(by.cssContainingText('.disabled', 'Hide Always'));
   }
 
   public async getTrainsListEntryColValues(scheduleId: string): Promise<string[]> {
@@ -188,6 +190,10 @@ export class TrainsListPageObject {
 
   public async isHideOnceGreyedOut(): Promise<boolean> {
     return this.hideOnceGreyedOut.isDisplayed();
+  }
+
+  public async isHideAlwaysGreyedOut(): Promise<boolean> {
+    return this.hideAlwaysGreyedOut.isDisplayed();
   }
 
   public async clickHideOnce(): Promise<void> {
@@ -575,5 +581,17 @@ export class TrainsListPageObject {
         );
       await TrainActivationService.processTrainActivationMessagesAndSubmit(trainActivationMessages);
     }
+  }
+
+  public async updateCurrentPlanScheduleID(fromPlanningUID, fromDate, toPlanningUID, toDate): Promise<void> {
+    if (fromPlanningUID.includes('generated')) {
+      fromPlanningUID = browser.referenceTrainUid;
+    }
+    if (toPlanningUID.includes('generated')) {
+      toPlanningUID = browser.referenceTrainUid;
+    }
+    fromDate = DateAndTimeUtils.convertToDesiredDateAndFormat(fromDate, 'yyyy-MM-dd');
+    toDate = DateAndTimeUtils.convertToDesiredDateAndFormat(toDate, 'yyyy-MM-dd');
+    await this.postgresClient.updateCurrentPlanScheduleID(fromPlanningUID, fromDate, toPlanningUID, toDate);
   }
 }

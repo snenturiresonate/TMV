@@ -84,18 +84,19 @@ When('I invoke the context menu from train {int} on the trains list', async (ite
   await trainsListPage.rightClickTrainListItemNum(itemNum);
 });
 
-When('I invoke the context menu for todays train {string} schedule uid {string} from the trains list',
-  async (serviceId: string, scheduleId: string) => {
-    if (scheduleId === 'UNPLANNED') {
-      const schedNum = await trainsListPage.getRowForSchedule(serviceId) + 1;
+When(/I invoke the context menu for (.*) train '(.*)' schedule uid '(.*)' from the trains list/,
+  async (day: string, trainDescription: string, planningUID: string) => {
+    if (planningUID === 'UNPLANNED') {
+      const schedNum = await trainsListPage.getRowForSchedule(trainDescription) + 1;
       await trainsListPage.rightClickTrainListItemNum(schedNum);
     }
     else {
-      if (scheduleId === 'generatedTrainUId' || scheduleId === 'generated') {
-        scheduleId = browser.referenceTrainUid;
+      if (planningUID === 'generatedTrainUId' || planningUID === 'generated') {
+        planningUID = browser.referenceTrainUid;
       }
-      const todaysScheduleString = scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
-      await trainsListPage.rightClickTrainListItem(todaysScheduleString);
+      const dayScheduleString = planningUID + ':' +
+        DateAndTimeUtils.convertToDesiredDateAndFormat(day.replace('\'', '').replace('s', ''), 'yyyy-MM-dd');
+      await trainsListPage.rightClickTrainListItem(dayScheduleString);
     }
 });
 
@@ -134,25 +135,25 @@ Then('train description {string} is visible on the trains list with schedule typ
     expect(scheduleFound, `${scheduleType} train ${trainDescription} does not appear on the trains list`).to.equal(true);
   });
 
-Then(/^train '?(\w+)'? with schedule id '?(\w+)'? for today (is|is not) visible on the trains list$/,
-  async (trainDescription: string, scheduleId: string, negate: string) => {
+Then(/^train '?(\w+)'? with schedule id '?(\w+)'? for (.*) (is|is not) visible on the trains list$/,
+  async (trainDescription: string, scheduleId: string, day: string, negate: string) => {
     if (scheduleId === 'generatedTrainUId' || scheduleId === 'generated') {
       scheduleId = browser.referenceTrainUid;
     }
     if (trainDescription.includes('generated')) {
       trainDescription = browser.referenceTrainDescription;
     }
-    const todaysScheduleString = scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'yyyy-MM-dd');
+    const dayScheduleString = scheduleId + ':' + DateAndTimeUtils.convertToDesiredDateAndFormat(day, 'yyyy-MM-dd');
     if (negate === 'is') {
       while (
-        !await trainsListPage.isTrainVisible(trainDescription, todaysScheduleString) && await trainsListPage.paginationNext.isEnabled()) {
+        !await trainsListPage.isTrainVisible(trainDescription, dayScheduleString) && await trainsListPage.paginationNext.isEnabled()) {
         await trainsListPage.paginationNext.click();
       }
-      const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(trainDescription, todaysScheduleString);
+      const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(trainDescription, dayScheduleString);
       expect(isScheduleVisible, `Train ${trainDescription}:${scheduleId} was not visible on the trains list`).to.equal(true);
     }
     else {
-      const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(trainDescription, todaysScheduleString, 500);
+      const isScheduleVisible: boolean = await trainsListPage.isTrainVisible(trainDescription, dayScheduleString, 500);
       expect(isScheduleVisible, `Train ${trainDescription}:${scheduleId} was visible on the trains list`).to.equal(false);
     }
   });
@@ -166,11 +167,13 @@ When(/^I remove today's train '(.*)' from the trainlist$/, async (uid: string) =
   await client.removeTrain(trainIdentifier);
 });
 
-When(/^I wait until today's train '(.*)' has loaded$/, async (uid: string) => {
+When(/^I wait until (.*) train '(.*)' has loaded$/, async (day: string, uid: string) => {
   if (uid.includes('generated')) {
     uid = browser.referenceTrainUid;
   }
-  const date: string = await DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd');
+  const date = DateAndTimeUtils.convertToDesiredDateAndFormat(day
+      .replace('\'', '')
+      .replace('s', ''), 'yyyy-MM-dd');
   await BackEndChecksService.waitForTrainUid(uid, date);
 });
 
@@ -296,6 +299,10 @@ When('I hover over the trains list context menu on line {int}', async (rowNum: n
 
 Then(/the Hide Once item on the trains list context menu is greyed out/, async () => {
   expect(trainsListPage.isHideOnceGreyedOut(), `the Hide Once menu item was not greyed out`).to.equal(true);
+});
+
+Then(/the Hide Always item on the trains list context menu is greyed out/, async () => {
+  expect(trainsListPage.isHideAlwaysGreyedOut(), `the Hide Once menu item was not greyed out`).to.equal(true);
 });
 
 When(/I click Hide Once from the trains list context menu/, async () => {
@@ -832,6 +839,12 @@ When(/I click the display all hidden trains slider/, async () => {
 
 Given(/there are (.*) trains displayed on the trains list/, {timeout: 400 * 1000}, async (numberOfTrains: number) => {
   await trainsListPage.generateTrains(numberOfTrains);
+});
+
+// '<planningUid>:today' to be '<planningUid>:yesterday
+When(/I update the trains list schedule ID for '(.*):(.*)' to be '(.*):(.*)'/,
+  async (fromPlanningUID: string, fromDate: string, toPlanningUID: string, toDate) => {
+  await trainsListPage.updateCurrentPlanScheduleID(fromPlanningUID, fromDate, toPlanningUID, toDate);
 });
 
 function checkOrdering(thisString: string, nextString: string, colName: string, direction: string): void {

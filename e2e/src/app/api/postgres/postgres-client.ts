@@ -121,4 +121,30 @@ export class PostgresClient {
           }
         }));
   }
+
+  public async updateCurrentPlanScheduleID(fromPlanningUID, fromDate, toPlanningUID, toDate): Promise<void> {
+    const updateQuery = {
+      text: `
+                UPDATE public.train
+                SET current_plan_schedule_id = '${toPlanningUID}:${toDate}'
+                WHERE current_plan_schedule_id = '${fromPlanningUID}:${fromDate}'
+            `,
+      rowMode: 'array'
+    };
+
+    let released = false;
+
+    return this.trainsClient.connect()
+      .then(client => client.query(updateQuery)
+      .then(() => {
+        client.release();
+        released = true;
+      })
+      .catch(err => {
+        CucumberLog.addText(`Error updating schedule id ${fromPlanningUID}:${fromDate} on the trains list ${err}`);
+        if (!released) {
+          client.release();
+        }
+      }));
+  }
 }

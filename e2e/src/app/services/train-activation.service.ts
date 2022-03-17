@@ -10,8 +10,9 @@ import {TrainActivationMessageBuilder} from '../utils/train-activation/train-act
 export class TrainActivationService {
   public static async processTrainActivationMessagesAndSubmit(trainActivationMessages): Promise<any> {
     for (const activation of trainActivationMessages) {
-      this.processTrainActivationMessageAndSubmit(activation);
+      await this.processTrainActivationMessageAndSubmit(activation);
     }
+    return Promise.resolve();
   }
 
   public static async processTrainActivationMessageAndSubmit(activation): Promise<any> {
