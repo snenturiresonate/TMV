@@ -80,13 +80,13 @@
     "replayBackgroundColour": "#cc4790",
     "replayDefaultProperties": {
       "maxNumberOfEnquiriesViewInstances": 3,
-      "maxNumberofMapsPerReplaySession": 16,
+      "maxNumberofMapsPerReplaySession": 10,
       "maxNumberofReplays": 2,
-      "maxNumberofSchematicMapDisplayInstances": 16,
-      "maxNumberOfLiveTimetableInstances": 16,
-      "maxNumberOfReplayTimetableInstances": 16,
-      "maxNumberofTrainsListViewInstances": 16,
+      "maxNumberofSchematicMapDisplayInstances": 10,
+      "maxNumberofTrainsListViewInstances": 3,
       "maxNumberOfUnscheduledTrainsListViewInstances": 1,
+      "maxNumberOfLiveTimetableInstances": 10,
+      "maxNumberOfReplayTimetableInstances": 10,
       "maxNumberOfLogViewerInstances": 3,
       "maxNumberOfAdminInstances": 1
     }

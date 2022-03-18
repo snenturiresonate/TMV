@@ -52,7 +52,7 @@ export class TrainsListPunctualityConfigTab {
     return CheckBox.getToggleCurrentState(elm);
   }
   public async updatePunctualityColor(index: number, text: string): Promise<void> {
-    return InputBox.updateColourPickerBox(this.punctualityColor.get(index), text);
+    return InputBox.updateColourPickerBoxViaPicker(this.punctualityColor.get(index), text);
   }
   public async updatePunctualityText(index: number, text: string): Promise<void> {
     await CommonActions.waitAndClick(this.punctualityText.get(index));

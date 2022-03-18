@@ -30,6 +30,6 @@ export class AdministrationBerthSettingsTab {
   public async updatePunctualityColour(index: number, text: string): Promise<void> {
     const elm: ElementFinder = this.berthSettingsRow.get(index).element(by.css('.punctuality-colour'));
     await this.berthSettingsAppLoad();
-    return InputBox.updateColourPickerBox(elm, text);
+    return InputBox.updateColourPickerBoxViaPicker(elm, text);
   }
 }

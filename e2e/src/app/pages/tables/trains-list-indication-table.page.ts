@@ -31,13 +31,13 @@ export abstract class TrainsListIndicationTable {
   public async updateTrainIndicationColourText(index: number, text: string): Promise<void> {
     const elm: ElementFinder = this.colourText.get(index);
     await this.scrollToElement(elm);
-    await InputBox.updateColourPickerBox(elm, text);
+    await InputBox.updateColourPickerBoxViaPicker(elm, text);
   }
 
   public async updateTrainIndicationColourTextOfSetting(name: string, text: string): Promise<void> {
     const elm: ElementFinder = this.getSettingRow(name).element(by.css('.punctuality-colour'));
     await this.scrollToElement(elm);
-    await InputBox.updateColourPickerBox(elm, text);
+    await InputBox.updateColourPickerBoxViaPicker(elm, text);
   }
 
   public getSettingRow(name: string): ElementFinder {

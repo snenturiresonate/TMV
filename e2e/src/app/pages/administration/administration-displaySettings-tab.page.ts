@@ -68,7 +68,7 @@ export class AdminPunctualityConfigTab {
     const xpathForElm: ElementFinder =
       element(by.xpath(`//*[@id='punctualityConfiguration']//*[@class = 'row col-grid']
           [${indexForXpath}]//*[@class='punctuality-colour']`));
-    return InputBox.updateColourPickerBox(xpathForElm, text);
+    return InputBox.updateColourPickerBoxViaPicker(xpathForElm, text);
   }
 
   public async getAdminPunctualityText(index: number): Promise<string> {
@@ -168,7 +168,7 @@ export class AdminPunctualityConfigTab {
   public async updateTrainIndicationColourText(index: number, text: string): Promise<void> {
     const elm: ElementFinder = this.colourText.get(index);
     await this.scrollToElement(elm);
-    await InputBox.updateColourPickerBox(elm, text);
+    await InputBox.updateColourPickerBoxViaPicker(elm, text);
   }
 
   public async updateTrainIndicationColourMinutes(index: number, text: string): Promise<void> {
