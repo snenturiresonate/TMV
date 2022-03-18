@@ -69,4 +69,5 @@ Feature: 78815 - TMV Map Interaction - Map Train Menu Update (Replay)
     Then the map context menu contains 'No Timetable' on line 2
     And the map context menu contains '1F38' on line 3
     And the map context menu punctuality is one of Unavailable
-    And the map context menu contains 'D71168' on line 4
+    And the map context menu contains 'SW1168' on line 4
+    And the map context menu contains 'D71168' on line 5

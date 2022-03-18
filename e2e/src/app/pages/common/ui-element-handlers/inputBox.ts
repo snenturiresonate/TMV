@@ -11,7 +11,7 @@ export class InputBox {
   public static async updateInputBox(elm: ElementFinder, text: string): Promise<void> {
     await CommonActions.waitForElementInteraction(elm);
     await GeneralUtils.scrollToElement(elm);
-    await elm.clear();
+    await this.ctrlADeleteClear(elm);
     await elm.sendKeys(text);
   }
 

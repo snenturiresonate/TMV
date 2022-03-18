@@ -167,7 +167,7 @@ When(/^I remove today's train '(.*)' from the trainlist$/, async (uid: string) =
   await client.removeTrain(trainIdentifier);
 });
 
-When(/^I wait until (.*) train '(.*)' has loaded$/, async (day: string, uid: string) => {
+When(/^I wait until (today's|tomorrow's) train '(.*)' has loaded$/, async (day: string, uid: string) => {
   if (uid.includes('generated')) {
     uid = browser.referenceTrainUid;
   }

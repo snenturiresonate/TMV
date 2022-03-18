@@ -1,9 +1,11 @@
+@newSession
 Feature: 46451 - Trains List - NFR testing (Page load)
   As a TMV dev team member
   I want performance tests for trains list page load
   So that I can have early sight of any performance issues
 
   Background:
+    * I have not already authenticated
     * I am on the home page
     * The admin setting defaults are as originally shipped
     * I reset the stopwatch
