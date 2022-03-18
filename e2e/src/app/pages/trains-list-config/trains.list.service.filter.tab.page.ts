@@ -13,6 +13,8 @@ export class TrainsListServiceFilterTabPage {
   public selectedServicesTableItems: ElementArrayFinder;
   public saveServiceFiltersBtn: ElementFinder;
   public saveTrustFiltersBtn: ElementFinder;
+  public nominatedServicesToggle: ElementFinder;
+
   constructor() {
     this.addTrustIdBtn = element(by.id('addTrustId'));
     this.clearAllBtn = element(by.id('clearAllTrustIds'));
@@ -23,6 +25,7 @@ export class TrainsListServiceFilterTabPage {
     this.selectedServicesTableItems = element.all(by.css('table.services-filter-table td.services-filter-table-trust-id'));
     this.saveServiceFiltersBtn = element(by.css('#saveTLMiscConfig'));
     this.saveTrustFiltersBtn = element(by.css('#saveTLServiceFilterConfig'));
+    this.nominatedServicesToggle = element(by.id('nominated-service-toggle-menu-input'));
   }
 
   public async waitForTrustIds(): Promise<boolean> {
@@ -89,4 +92,19 @@ export class TrainsListServiceFilterTabPage {
     }).first();
     return tableElm.element(by.xpath('..'));
   }
+
+  public async nominatedServicesToggleState(): Promise<boolean> {
+    return this.nominatedServicesToggle.isPresent() && this.nominatedServicesToggle.isSelected();
+  }
+
+  public async toggleEvens(): Promise<void> {
+    const inputElement: ElementFinder = element(by.id('evens-service-filter'));
+    inputElement.click();
+  }
+
+  public async toggleOdds(): Promise<void> {
+    const inputElement: ElementFinder = element(by.id('odds-service-filter'));
+    inputElement.click();
+  }
+
 }

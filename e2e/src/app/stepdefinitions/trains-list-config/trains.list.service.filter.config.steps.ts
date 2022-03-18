@@ -106,3 +106,16 @@ Then('the selected Nominated Services table is empty', async () => {
   expect(tableItemsDisplayed, 'TrustId table is not empty')
     .to.equal(false);
 });
+
+When('the Nominated Services toggle is enabled', async () => {
+  const nomindatedServicesToggleState: boolean = await trainsListServiceFilterTabPage.nominatedServicesToggleState();
+  expect(nomindatedServicesToggleState).to.equal(true);
+});
+
+When('I toggle the evens button', async () => {
+  await trainsListServiceFilterTabPage.toggleEvens();
+});
+
+When('I toggle the odds button', async () => {
+  await trainsListServiceFilterTabPage.toggleOdds();
+});
