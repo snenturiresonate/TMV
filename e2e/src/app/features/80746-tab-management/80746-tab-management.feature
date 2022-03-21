@@ -30,7 +30,7 @@ Feature: 80746 - TMV Tab Management
     Given I navigate to the 'System Defaults' admin tab
     Then the system default settings display as follows
       | setting                                                       | value   |
-      | Replay Background Colour                                      | #20373e |
+      | Replay Background Colour                                      | #016e01 |
       | Maximum Number of Replays                                     | 2       |
       | Maximum Number of Maps Per Replay Session                     | 16      |
       | Maximum Number of Timetables Per Replay Session               | 16      |

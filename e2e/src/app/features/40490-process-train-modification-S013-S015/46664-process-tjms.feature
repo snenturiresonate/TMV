@@ -77,7 +77,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And The trains list table is visible
     Then the service is displayed in the trains list with the following row colour
       | rowType       | trainUID   | rowColour              | meaning   |
-      | Origin called | <trainUid> | rgba(238, 187, 170, 1) | cancelled |
+      | Origin called | <trainUid> | rgba(235, 161, 161, 1) | cancelled |
 
     Examples:
       | trainUid  | trainDescription | type | modificationReason | nationalDelayCode |
@@ -227,7 +227,7 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And The trains list table is visible
     Then the service is displayed in the trains list with the following row colour
       | rowType       | trainUID | rowColour              | meaning    |
-      | Origin called | H41113   | rgba(238, 221, 170, 1) | reinstated |
+      | Origin called | H41113   | rgba(237, 170, 237, 1) | reinstated |
 
   Scenario: 40490-10 Invalid reinstate followed by cancellation display in trains list
     * I am on the trains list page 1
@@ -252,4 +252,4 @@ Feature: TMV Process LINX Train Modification (S013 & S015)
     And The trains list table is visible
     Then the service is displayed in the trains list with the following row colour
       | rowType       | trainUID | rowColour              | meaning   |
-      | Origin called | H41114   | rgba(238, 187, 170, 1) | cancelled |
+      | Origin called | H41114   | rgba(235, 161, 161, 1) | cancelled |
