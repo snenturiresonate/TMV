@@ -45,16 +45,16 @@ Feature: 80970 - TMV Restrictions - View Ordering
     And I switch to the new restriction tab
     And I add the following restrictions whilst preserving allocated dates
       | type              | start-date | end-date  | comment             |
-      | POSS (Possession) | now - 30   |           | Operational - 1     |
-      | POSS (Possession) | now - 60   | now + 60  | Operational - 2     |
-      | POSS (Possession) | now - 60   | now + 65  | Operational - 3     |
-      | POSS (Possession) | now - 60   | now + 70  | Operational - 4     |
-      | POSS (Possession) | now - 60   |           | Operational - 5     |
-      | POSS (Possession) | now - 100  | now + 120 | Operational - 6     |
-      | POSS (Possession) | now - 120  | now - 20  | Past                |
-      | POSS (Possession) | now + 30   | now + 60  | Non-operational - 1 |
-      | POSS (Possession) | now + 30   |           | Non-operational - 2 |
-      | POSS (Possession) | now - 840  | now - 720 | Expired             |
+      | OOU (Out of Use)  | now - 30   |           | Operational - 1     |
+      | OOU (Out of Use)  | now - 60   | now + 60  | Operational - 2     |
+      | OOU (Out of Use)  | now - 60   | now + 65  | Operational - 3     |
+      | OOU (Out of Use)  | now - 60   | now + 70  | Operational - 4     |
+      | OOU (Out of Use)  | now - 60   |           | Operational - 5     |
+      | OOU (Out of Use)  | now - 100  | now + 120 | Operational - 6     |
+      | OOU (Out of Use)  | now - 120  | now - 20  | Past                |
+      | OOU (Out of Use)  | now + 30   | now + 60  | Non-operational - 1 |
+      | OOU (Out of Use)  | now + 30   |           | Non-operational - 2 |
+      | OOU (Out of Use)  | now - 840  | now - 720 | Expired             |
     And I click apply changes
     And I logout
     And I access the homepage as standard user
@@ -64,15 +64,15 @@ Feature: 80970 - TMV Restrictions - View Ordering
     When I switch to the new restriction tab
     Then only the following restrictions are shown in order
       | type              | start-date | end-date  | comment             |
-      | POSS (Possession) | now - 100  | now + 120 | Operational - 6     |
-      | POSS (Possession) | now - 60   |           | Operational - 5     |
-      | POSS (Possession) | now - 60   | now + 70  | Operational - 4     |
-      | POSS (Possession) | now - 60   | now + 65  | Operational - 3     |
-      | POSS (Possession) | now - 60   | now + 60  | Operational - 2     |
-      | POSS (Possession) | now - 30   |           | Operational - 1     |
-      | POSS (Possession) | now + 30   |           | Non-operational - 2 |
-      | POSS (Possession) | now + 30   | now + 60  | Non-operational - 1 |
-      | POSS (Possession) | now - 120  | now - 20  | Past                |
+      | OOU (Out of Use)  | now - 100  | now + 120 | Operational - 6     |
+      | OOU (Out of Use)  | now - 60   |           | Operational - 5     |
+      | OOU (Out of Use)  | now - 60   | now + 70  | Operational - 4     |
+      | OOU (Out of Use)  | now - 60   | now + 65  | Operational - 3     |
+      | OOU (Out of Use)  | now - 60   | now + 60  | Operational - 2     |
+      | OOU (Out of Use)  | now - 30   |           | Operational - 1     |
+      | OOU (Out of Use)  | now + 30   |           | Non-operational - 2 |
+      | OOU (Out of Use)  | now + 30   | now + 60  | Non-operational - 1 |
+      | OOU (Out of Use)  | now - 120  | now - 20  | Past                |
 
     Examples:
       | map                | trackDivisionId |
