@@ -39,10 +39,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config navi
       | PUNCT.           |
       | ORIGIN           |
       | PLANNED          |
-      | ACTUAL / PREDICT |
+      | ACTUAL |
       | DEST.            |
       | PLANNED          |
-      | ACTUAL / PREDICT |
+      | ACTUAL |
       | NEXT LOC.        |
       | OPERATOR         |
 

@@ -24,8 +24,8 @@ Feature: 78852 - Column Header Name - Enquiries
     | PUNCT. |
     | PLANNED ARR |
     | PLANNED DEP |
-    | ACTUAL / PREDICT ARR |
-    | ACTUAL / PREDICT DEP |
+    | ACTUAL ARR |
+    | ACTUAL DEP |
     | LINE |
     | PLATFORM |
     | OPERATOR |

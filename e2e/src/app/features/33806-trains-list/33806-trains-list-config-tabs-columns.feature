@@ -152,7 +152,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
       | PUNCT.           |
       | ORIGIN           |
       | PLANNED          |
-      | ACTUAL / PREDICT |
+      | ACTUAL |
     And I restore to default train list config '1'
 
   Scenario: 33806 -4c Selecting the 'Destination' column includes the columns 'Dest.', 'Planned' & 'Actual/Predict' columns in trains list
@@ -168,7 +168,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
       | PUNCT.           |
       | DEST.            |
       | PLANNED          |
-      | ACTUAL / PREDICT |
+      | ACTUAL |
     And I restore to default train list config '1'
 
   Scenario: 33806 -4d Changing the order of the selected column items and verifying the changes are reflected in trains list
@@ -187,10 +187,10 @@ Feature: 33806 - TMV User Preferences - full end to end testing - TL config - co
       | PUNCT.           |
       | ORIGIN           |
       | PLANNED          |
-      | ACTUAL / PREDICT |
+      | ACTUAL |
       | DEST.            |
       | PLANNED          |
-      | ACTUAL / PREDICT |
+      | ACTUAL |
       | NEXT LOC.        |
       | OPERATOR         |
     And I restore to default train list config '1'

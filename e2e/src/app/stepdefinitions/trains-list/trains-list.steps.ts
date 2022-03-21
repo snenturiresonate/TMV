@@ -19,7 +19,7 @@ const defaultOperators = ['RE', 'EH', 'EK', 'HF', 'RZ', 'HT', 'RQ', 'RB', 'HO', 
 const defaultScheduleTypes = ['LTP', 'STP', 'VSTP', 'VAR', 'CAN', 'VSTP VAR', 'VSTP CAN', ''];
 const defaultScheduleTypesNoCancelled = ['LTP', 'STP', 'VSTP', 'VSTP VAR', ''];
 const defaultColumns = ['SCHED.', 'SERVICE', 'TIME', 'REPORT', 'PUNCT.', 'ORIGIN',
-  'PLANNED', 'ACTUAL / PREDICT', 'DEST.', 'PLANNED', 'ACTUAL / PREDICT', 'NEXT LOC.', 'OPERATOR'];
+  'PLANNED', 'ACTUAL', 'DEST.', 'PLANNED', 'ACTUAL', 'NEXT LOC.', 'OPERATOR'];
 
 // tests also assuming the following - but not actively used at the moment
 // const defaultShowCancelled = 'on';
@@ -42,10 +42,10 @@ const mapTLColIds = new Map([
   ['PUNCT.', ['punctuality', '6']],
   ['ORIGIN', ['origin-location-id', '8']],
   ['ORIGIN>PLANNED', ['origin-current-time', '9']],
-  ['ORIGIN>ACTUAL / PREDICT', ['origin-actual-predicted-time', '10']],
+  ['ORIGIN>ACTUAL', ['origin-actual-predicted-time', '10']],
   ['DEST.', ['destination-location-id', '12']],
   ['DEST.>PLANNED', ['destination-current-time', '13']],
-  ['DEST.>ACTUAL / PREDICT', ['destination-actual-predicted-time', '14']],
+  ['DEST.>ACTUAL', ['destination-actual-predicted-time', '14']],
   ['NEXT LOC.', ['next-location', '16']],
   ['OPERATOR', ['operator', '17']],
   ['REPORT (TPL)', ['report-tiploc', '5']],
@@ -470,9 +470,9 @@ When('I see all the available trains list columns with defaults first', {timeout
     'PUNCT.',
     'ORIGIN',
     'PLANNED',
-    'ACTUAL / PREDICT',
+    'ACTUAL',
     'DEST.', 'PLANNED',
-    'ACTUAL / PREDICT',
+    'ACTUAL',
     'NEXT LOC.',
     'OPERATOR',
     'REPORT (TPL)',
