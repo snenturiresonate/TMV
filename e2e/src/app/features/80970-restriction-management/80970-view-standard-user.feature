@@ -30,11 +30,11 @@ Feature: 80970 - TMV Restrictions - View (Standard User)
     And I switch to the new restriction tab
     And I add the following restrictions
       | type              | comment       | start-date | end-date  |
-      | POSS (Possession) | POSS - Team 1 | now - 30   |           |
-      | POSS (Possession) | POSS - Team 2 | now - 60   | now + 60  |
-      | POSS (Possession) | POSS - Team 3 | now - 100  | now + 120 |
-      | POSS (Possession) | POSS - Team 4 | now - 120  | now - 20  |
-      | POSS (Possession) | POSS - Team 5 | now - 840  | now - 720 |
+      | OOU (Out of Use)  | OOU - Team 1  | now - 30   |           |
+      | OOU (Out of Use)  | OOU - Team 2  | now - 60   | now + 60  |
+      | OOU (Out of Use)  | OOU - Team 3  | now - 100  | now + 120 |
+      | OOU (Out of Use)  | OOU - Team 4  | now - 120  | now - 20  |
+      | OOU (Out of Use)  | OOU - Team 5  | now - 840  | now - 720 |
     And I click apply changes
     And I logout
     And I access the homepage as standard user
@@ -44,15 +44,15 @@ Feature: 80970 - TMV Restrictions - View (Standard User)
     And the map context menu contains 'Restrictions' on line 2
     And the map context menu on line 2 has text colour 'blue'
     And the map context menu on line 2 has text underline 'underline'
-    And the map context menu contains 'POSS - Team 3' on line 3
+    And the map context menu contains 'OOU - Team 3' on line 3
     And I open restrictions screen from the map context menu
     When I switch to the new restriction tab
     Then only the following restrictions are shown in order
       | type              | comment       | start-date | end-date  |
-      | POSS (Possession) | POSS - Team 3 | now - 100  | now + 120 |
-      | POSS (Possession) | POSS - Team 2 | now - 60   | now + 60  |
-      | POSS (Possession) | POSS - Team 1 | now - 30   |           |
-      | POSS (Possession) | POSS - Team 4 | now - 120  | now - 20  |
+      | OOU (Out of Use)  | OOU - Team 3  | now - 100  | now + 120 |
+      | OOU (Out of Use)  | OOU - Team 2  | now - 60   | now + 60  |
+      | OOU (Out of Use)  | OOU - Team 1  | now - 30   |           |
+      | OOU (Out of Use)  | OOU - Team 4  | now - 120  | now - 20  |
 
     Examples:
       | map                | trackDivisionId |
@@ -70,10 +70,10 @@ Feature: 80970 - TMV Restrictions - View (Standard User)
     And I switch to the new restriction tab
     And I add the following restrictions
       | type              | comment       | start-date | end-date  |
-      | POSS (Possession) | POSS - Team 1 | now - 30   |           |
-      | POSS (Possession) | POSS - Team 2 | now - 60   | now + 60  |
-      | POSS (Possession) | POSS - Team 3 | now - 100  | now + 120 |
-      | POSS (Possession) | POSS - Team 4 | now - 120  | now - 20  |
+      | OOU (Out of Use)  | OOU - Team 1  | now - 30   |           |
+      | OOU (Out of Use)  | OOU - Team 2  | now - 60   | now + 60  |
+      | OOU (Out of Use)  | OOU - Team 3  | now - 100  | now + 120 |
+      | OOU (Out of Use)  | OOU - Team 4  | now - 120  | now - 20  |
     And I click apply changes
     And I logout
     And I access the homepage as standard user
