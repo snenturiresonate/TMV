@@ -178,6 +178,10 @@ When('I click the Clear All selected locations button', async () => {
   await trainsListLocationSelectionConfig.clickClearAllButton();
 });
 
+When('I click the Reset locations button', async () => {
+  await trainsListLocationSelectionConfig.clickResetButton();
+});
+
 Then('the location filter table should be empty', async () => {
   const actualNoOfLocations = await trainsListLocationSelectionConfig.getLocationCount();
   expect(actualNoOfLocations, `Location filter isn't empty`).to.equal(0);

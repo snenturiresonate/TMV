@@ -100,6 +100,10 @@ When('I click the Clear All selected railway undertakings button', async () => {
   await trainsListRailwayUndertakingConfigPage.clickTocFocClearAllButton();
 });
 
+When('I click the Reset railway undertakings button', async () => {
+  await trainsListRailwayUndertakingConfigPage.clickTocFocResetButton();
+});
+
 Then('the selected railway undertaking column should be empty', async () => {
   const actualSelectedEntries = await trainsListRailwayUndertakingConfigPage.getSecondElementsInSelectedGrid();
   expect(actualSelectedEntries.length).to.equal(0);

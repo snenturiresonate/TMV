@@ -14,6 +14,7 @@ export class TrainsListPunctualityConfigTab {
   public incrementButtons: ElementArrayFinder;
   public decrementButtons: ElementArrayFinder;
   public includeExcludeToggle: ElementFinder;
+  public resetButton: ElementFinder;
   constructor() {
     this.punctualityHeader = element(by.css('#punctualityConfiguation .punctuality-header'));
     this.punctualityColor = element.all(by.css('#punctualityConfiguation [class=punctuality-colour][style]'));
@@ -25,6 +26,7 @@ export class TrainsListPunctualityConfigTab {
     this.incrementButtons = element.all(by.css('.plus'));
     this.decrementButtons = element.all(by.css('.minus'));
     this.includeExcludeToggle = element(by.css('#punctuality-global-toggle-menu label'));
+    this.resetButton = element(by.css('#resetTLPunctualityConfig'));
   }
   public async getTrainPunctualityHeader(): Promise<string> {
     return CommonActions.waitAndGetText(this.punctualityHeader);
@@ -168,5 +170,9 @@ export class TrainsListPunctualityConfigTab {
 
   public async toggleIncludeExcludeAll(state: string): Promise<void> {
     await CheckBox.updateToggle(this.includeExcludeToggle, state);
+  }
+
+  public async clickResetButton(): Promise<void> {
+    await this.resetButton.click();
   }
 }

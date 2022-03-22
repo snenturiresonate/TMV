@@ -27,6 +27,8 @@ Feature: Feature: 80183 - TMV Trains List Filtering - Config - Clear All option
       | Swanage Railway (SG)                |
     When I click the Clear All selected railway undertakings button
     Then the selected railway undertaking column should be empty
+    # the following was added as a result of @bug @bug:91938
+    * I click the Reset railway undertakings button
 
   Scenario: 80343-2 - User can clear all Location parameters
     Given I have navigated to the 'Locations' configuration tab
@@ -41,6 +43,8 @@ Feature: Feature: 80183 - TMV Trains List Filtering - Config - Clear All option
       | SLOUGH            | Checked    | un-Checked | checked    | unchecked  |
     When I click the Clear All selected locations button
     Then the location filter table should be empty
+    # the following was added as a result of @bug @bug:91938
+    * I click the Reset locations button
 
   Scenario: 80343-3 - User can include and exclude all Punctualities
     Given I have navigated to the 'Punctuality' configuration tab
@@ -79,29 +83,31 @@ Feature: Feature: 80183 - TMV Trains List Filtering - Config - Clear All option
       | #ffa700              | 5        | 10     | 5 to 9 minutes late      | on      |
       | #ff0000              | 10       | 20     | 10 to 19 minutes late    | on      |
       | #ff009c              | 20       |        | 20 minutes or more late  | on      |
+    * I click the Reset punctualities button
 
   Scenario: 80343-4 - Include or exclude Punctuality toggle should override existing user settings
     Given I have navigated to the 'Punctuality' configuration tab
     When I update the trains list punctuality settings as
       | punctualityColorText | fromTime | toTime | entryValue               | include |
-      | #b4b4                |          | -20    | 20 minutes or more early | on      |
-      | #b4ff                | -20      | -10    | 10 to 19 minutes early   | off     |
-      | #e7ff                | -10      | -5     | 5 to 9 minutes early     | on      |
-      | #ff78                | -5       | -1     | 1 to 4 minutes early     | on      |
-      | #ff00                | -1       | 1      | On Time                  | off     |
-      | #ff00                | 1        | 5      | 1 to 4 minutes late      | on      |
-      | #a700                | 5        | 10     | 5 to 9 minutes late      | on      |
-      | #0000                | 10       | 20     | 10 to 19 minutes late    | on      |
-      | #009c                | 20       |        | 20 minutes or more late  | off     |
+      | #bb44bb              |          | -20    | 20 minutes or more early | on      |
+      | #bb44ff              | -20      | -10    | 10 to 19 minutes early   | off     |
+      | #ee77ff              | -10      | -5     | 5 to 9 minutes early     | on      |
+      | #ffff77              | -5       | -1     | 1 to 4 minutes early     | on      |
+      | #ffff00              | -1       | 1      | On Time                  | off     |
+      | #ffff00              | 1        | 5      | 1 to 4 minutes late      | on      |
+      | #aa7700              | 5        | 10     | 5 to 9 minutes late      | on      |
+      | #000000              | 10       | 20     | 10 to 19 minutes late    | on      |
+      | #000099              | 20       |        | 20 minutes or more late  | off     |
     And I toggle the include or exclude all punctualities to 'off'
     Then the following can be seen on the punctuality table
       | punctualityColorText | fromTime | toTime | entryValue               | include |
-      | #bb44bb4             |          | -20    | 20 minutes or more early | off     |
-      | #bb44fff             | -20      | -10    | 10 to 19 minutes early   | off     |
-      | #ee77fff             | -10      | -5     | 5 to 9 minutes early     | off     |
-      | #ffff778             | -5       | -1     | 1 to 4 minutes early     | off     |
-      | #ffff000             | -1       | 1      | On Time                  | off     |
-      | #ffff000             | 1        | 5      | 1 to 4 minutes late      | off     |
-      | #aa77000             | 5        | 10     | 5 to 9 minutes late      | off     |
-      | #0000000             | 10       | 20     | 10 to 19 minutes late    | off     |
-      | #000099c             | 20       |        | 20 minutes or more late  | off     |
+      | #bb44bb              |          | -20    | 20 minutes or more early | off     |
+      | #bb44ff              | -20      | -10    | 10 to 19 minutes early   | off     |
+      | #ee77ff              | -10      | -5     | 5 to 9 minutes early     | off     |
+      | #ffff77              | -5       | -1     | 1 to 4 minutes early     | off     |
+      | #ffff00              | -1       | 1      | On Time                  | off     |
+      | #ffff00              | 1        | 5      | 1 to 4 minutes late      | off     |
+      | #aa7700              | 5        | 10     | 5 to 9 minutes late      | off     |
+      | #000000              | 10       | 20     | 10 to 19 minutes late    | off     |
+      | #000099              | 20       |        | 20 minutes or more late  | off     |
+    * I click the Reset punctualities button

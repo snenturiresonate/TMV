@@ -78,7 +78,6 @@ When('I update the trains list punctuality settings as', {timeout: 8 * 5000}, as
 
 Then('I should see the colour picker when any punctuality colour box is clicked', {timeout: 4 * 5000}, async () => {
   const punctualityColourTextBoxes = await trainsListPunctuality.punctualityColor.count();
-  const results: any[] = [];
   for (let i = 0; i < punctualityColourTextBoxes; i++) {
     await trainsListPunctuality.clickPunctualityColourElement(i);
     const colourPickerIsDisplayed: boolean = await trainsListPunctuality.punctualityColourPickerIsDisplayed();
@@ -88,7 +87,6 @@ Then('I should see the colour picker when any punctuality colour box is clicked'
 
 Then('I should see the colour picker is defaulted with the colour for the selected time-band', {timeout: 6 * 5000}, async () => {
   const punctualityColourTextBoxes = await trainsListPunctuality.punctualityColor.count();
-  const results: any[] = [];
   for (let i = 0; i < punctualityColourTextBoxes; i++) {
     const defaultColour: string = await trainsListPunctuality.getTrainPunctualityColor(i);
     await trainsListPunctuality.clickPunctualityColourElement(i);
@@ -125,4 +123,8 @@ Then(/^the trains list number controls for the punctuality bands are clear$/, as
 
 When('I toggle the include or exclude all punctualities to {string}', async (toggleState: string) => {
   await trainsListPunctuality.toggleIncludeExcludeAll(toggleState);
+});
+
+When('I click the Reset punctualities button', async () => {
+  await trainsListPunctuality.clickResetButton();
 });

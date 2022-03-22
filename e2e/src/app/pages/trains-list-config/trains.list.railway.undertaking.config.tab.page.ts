@@ -1,4 +1,4 @@
-import {browser, by, element, ElementFinder} from 'protractor';
+import {by, element, ElementFinder} from 'protractor';
 import {TrainsListConfigMultiSelectListPageObject} from './trains.list.config.multi.select.list.page';
 import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 
@@ -6,6 +6,7 @@ import {CommonActions} from '../common/ui-event-handlers/actionsAndWaits';
 export class TrainsListRailwayUndertakingConfigTabPageObject extends TrainsListConfigMultiSelectListPageObject {
   public tocFocTabTitle: ElementFinder;
   public tocFocClearAllButton: ElementFinder;
+  public tocFocResetButton: ElementFinder;
   constructor() {
     super(
       element.all(by.css('.tmv-tabs >ul>li')),
@@ -18,6 +19,7 @@ export class TrainsListRailwayUndertakingConfigTabPageObject extends TrainsListC
     );
     this.tocFocTabTitle = element(by.css('#railwayUndertakingConfiguation .punctuality-header'));
     this.tocFocClearAllButton = element(by.id('clearAllTLRailwayUndertakingConfig'));
+    this.tocFocResetButton = element(by.id('resetTLRailwayUndertakingConfig'));
   }
   public getTocFocTabTitle(): Promise<string> {
     return CommonActions.waitAndGetText(this.tocFocTabTitle);
@@ -25,5 +27,9 @@ export class TrainsListRailwayUndertakingConfigTabPageObject extends TrainsListC
 
   public clickTocFocClearAllButton(): Promise<void> {
     return CommonActions.waitAndClick(this.tocFocClearAllButton);
+  }
+
+  public clickTocFocResetButton(): Promise<void> {
+    return CommonActions.waitAndClick(this.tocFocResetButton);
   }
 }

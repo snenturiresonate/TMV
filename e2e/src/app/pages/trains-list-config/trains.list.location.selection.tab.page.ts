@@ -23,6 +23,7 @@ export class TrainsListLocationSelectionTab {
     public locationTableArrows: ElementArrayFinder;
     public locationRemoveIcon: ElementArrayFinder;
     public clearAllButton: ElementFinder;
+    public resetButton: ElementFinder;
     constructor() {
         this.locationSearchBox = element(by.id('map-search-box'));
         this.locationSuggestSearchResultList = element(by.id('searchResults'));
@@ -42,6 +43,7 @@ export class TrainsListLocationSelectionTab {
         this.locationTableArrows = element.all(by.cssContainingText('#location-selection-table tr span.material-icons', 'keyboard_arrow'));
         this.locationRemoveIcon = element.all(by.cssContainingText('#location-selection-table span.material-icons', `cancel`));
         this.clearAllButton = element(by.id('clearAllTLLocationConfig'));
+        this.resetButton = element(by.id('resetTLLocationConfig'));
     }
 
     public async getLocationSearchBoxText(): Promise<string> {
@@ -211,7 +213,11 @@ export class TrainsListLocationSelectionTab {
   }
 
   public async clickClearAllButton(): Promise<void> {
-      return CommonActions.waitAndClick(this.clearAllButton);
+    return CommonActions.waitAndClick(this.clearAllButton);
+  }
+
+  public async clickResetButton(): Promise<void> {
+    return CommonActions.waitAndClick(this.resetButton);
   }
 }
 
