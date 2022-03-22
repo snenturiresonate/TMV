@@ -457,9 +457,14 @@ export class TrainsListPageObject {
   }
 
   public async getOtherFilterItemValue(property: string): Promise<string> {
-    const settingsBoxElement: ElementFinder = await element(by.cssContainingText('.selection-criteria-entry-box', property));
-    const settingsBoxContentsElements: ElementArrayFinder = await settingsBoxElement.element(by.css('.selection-criteria-entry-row'));
-    return settingsBoxContentsElements.getText();
+    const settingsBoxElement: ElementFinder = element(by.cssContainingText('.selection-criteria-entry-box', property));
+    const settingsBoxContentsElements: ElementArrayFinder = settingsBoxElement.all(by.css('.selection-criteria-entry-row'));
+    let filterValues = '';
+    const numFilterValues = await settingsBoxContentsElements.count();
+    for (let i = 0; i < numFilterValues; i++) {
+      filterValues = filterValues + await settingsBoxContentsElements.get(i).getText();
+    }
+    return filterValues;
   }
 
   public async isToggleMenuVisible(): Promise<boolean> {

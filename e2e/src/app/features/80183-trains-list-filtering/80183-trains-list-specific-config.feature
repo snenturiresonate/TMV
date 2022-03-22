@@ -202,7 +202,7 @@ Feature: 80183 - TMV Trains List Filtering - Trains List Specific Config
     And I switch to the new tab
     Then I am on the trains list config 3 page
 
-    #    close down
+    #  Close down
     * I restore all train list configs for current user to the default
     * I have not already authenticated
     * I access the homepage as restriction user
