@@ -58,7 +58,6 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | trainDescription          | planningUid       |
       | generatedTrainDescription | generatedTrainUId |
 
-  @bug @bug:83816
   Scenario Outline: 34375-4b Replay - View Timetable (Schedule Matched - becoming unmatched)
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '1' minute, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -91,12 +90,12 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | <planningUid> |
     And the search table is shown
     And I open today's timetable with planning UID <planningUid> from the search results
-    And the number of tabs open is 2
+    And the number of tabs open is 3
     And I switch to the new tab
     And the tab title is '<trainDescription> TMV Replay Timetable'
     Then The values for the header properties are as follows
       | schedType | lastSignal | lastReport                       | trainUid      | trustId                         | lastTJM | headCode           |
-      | LTP       |            |                                  | <planningUid> |                                 |         | <trainDescription> |
+      | LTP       | SN7        |                                  | <planningUid> |                                 |         | <trainDescription> |
     And the actual/predicted Departure time for location "London Paddington" instance 1 is correctly calculated based on Internal timing "now"
     And the actual/predicted Departure time for location "Royal Oak Junction" instance 1 is correctly calculated based on Internal timing "now + 1"
     And the actual/predicted Arrival time for location "Slough" instance 1 is correctly calculated based on Internal timing "now + 14"
