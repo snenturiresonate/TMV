@@ -196,7 +196,7 @@ Feature: 80675 - TMV Trains List Hide Train - Hide Train Once
       | 5A22             | generated   |
 
 
-  @bug @bug:91582 @bug:91584
+  @bug @bug:91582
   # this is a slow test and needs manual intervention
   @manual
   Scenario Outline: 81282-7 - Hide Train Once - once the max hide limit is reached, the option to hide is disabled

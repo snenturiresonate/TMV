@@ -561,7 +561,7 @@ export class TrainsListPageObject {
         }
       `
         );
-      await AccessPlanService.processCifInputsAndSubmit(cifInputs, i);
+      await AccessPlanService.processCifInputsAndSubmit(cifInputs, 2);
 
       // wait for CIF to load
       const date: string = await DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd');

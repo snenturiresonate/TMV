@@ -109,11 +109,9 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
       | trainUid  | trainDescription |
       | generated | generated        |
 
-  @bug
-  @87596
   Scenario Outline: 80335-3 - Train Menu Update (Trains List) - punctuality early
 
-    Given I set up a train that is -4 late at RDNGSTN using access-plan/2P77_RDNGSTN_PADTON.cif TD D1 interpose into 1698 step to 1676
+    Given I set up a train with TRI that reports -4 late originating from RDNGSTN code 74237 using access-plan/2P77_RDNGSTN_PADTON.cif
     And I am on the trains list page 1
     And I save the trains list config
     And The trains list table is visible
@@ -124,14 +122,13 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
     And the map context menu contains 'SERVICE : ' on line 1
     And the map context menu contains 'Open Timetable' on line 2
     And the map context menu contains 'Find Train' on line 3
-    And the map context menu contains 'Unmatch/Rematch' on line 4
-    And the map context menu contains '<trainDescription>' on line 5
+    And the map context menu contains 'Hide Train' on line 4
+    And the map context menu contains 'Unmatch/Rematch' on line 5
+    And the map context menu contains '<trainDescription>' on line 6
     And the map context menu punctuality is one of -3m,-3m 30s,-4m
-    And the map context menu contains 'T1698' on line 6
-    And the map context menu contains 'D11698' on line 7
-    And the map context menu contains 'RDNGSTN - PADTON' on line 8
-    And the map context menu contains 'Departs' on line 9
-    And the map context menu contains 'Arrives' on line 10
+    And the map context menu contains 'RDNGSTN - PADTON' on line 7
+    And the map context menu contains 'Departs' on line 8
+    And the map context menu contains 'Arrives' on line 9
     And I open timetable from the context menu
     And I switch to the new tab
     Then the tab title is '<trainDescription> TMV Timetable'
@@ -141,17 +138,25 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
       | generated | generated        |
 
 
-  @bug
-  @87596
+  @bug @bug:91966
   Scenario Outline: 80335-4 - Train Menu Update (Trains List) - Punctuality Status unavailable
 
     * I generate a new trainUID
     * I generate a new train description
     * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
-    Given the following train running information message is sent from LINX
+    Given the train in CIF file below is updated accordingly so time at the reference point is now + '1' minute, and then received from LINX
+      | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription>  | <trainUid>     |
+    And I wait until today's train '<trainUid>' has loaded
+    And the following train running information message is sent from LINX
       | trainUID   | trainNumber         | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           |
       | <trainUid> | <trainDescription>  | today              | 73000               | PADTON                 | Departure from Origin |
-    And I wait until today's train '<trainUid>' has loaded
+    And the following live berth step message is sent from LINX (to match the train)
+      | fromBerth   | toBerth   | trainDescriber | trainDescription   |
+      | 0115        | 0117      | D3             | <trainDescription> |
+    And the following live berth step message is sent from LINX (to move train off-route)
+      | fromBerth   | toBerth   | trainDescriber | trainDescription   |
+      | 0117        | 0129      | D3             | <trainDescription> |
     And I am on the trains list page 1
     And I save the trains list config
     And train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
@@ -161,11 +166,12 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
     And the map context menu contains 'SERVICE : ' on line 1
     And the map context menu contains 'Open Timetable' on line 2
     And the map context menu contains 'Find Train' on line 3
-    And the map context menu contains 'Unmatch/Rematch' on line 4
+    And the map context menu contains 'Hide Train' on line 4
+    And the map context menu contains 'Unmatch/Rematch' on line 5
     And the map context menu punctuality is one of Unavailable
-    And the map context menu contains '-' on line 6
-    And the map context menu contains 'Departs' on line 7
-    And the map context menu contains 'Arrives' on line 8
+    And the map context menu contains '-' on line 7
+    And the map context menu contains 'Departs' on line 8
+    And the map context menu contains 'Arrives' on line 9
 
     Examples:
       | trainUid  | trainDescription |
