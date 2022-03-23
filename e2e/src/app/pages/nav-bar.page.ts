@@ -381,7 +381,9 @@ export class NavBarPageObject {
   public async isTooManyTabsMessagePresent(): Promise<boolean> {
     const islastHeaderElement: boolean = await browser.isElementPresent(this.headerElements.last());
     if (islastHeaderElement) {
+      await browser.waitForAngularEnabled(false);
       const headerText = await this.headerElements.last().getText();
+      await browser.waitForAngularEnabled(true);
       return headerText.includes('Maximum number');
     }
     else {
