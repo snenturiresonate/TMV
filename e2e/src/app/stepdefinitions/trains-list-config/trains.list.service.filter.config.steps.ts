@@ -15,6 +15,9 @@ When('I input {string} in the TRUST input field', async (trustIdString: string) 
 });
 
 When('I input {string} in the {string} input box', async (inputString: string, inputBoxId) => {
+  if (inputString === 'generatedTrainDescription' || inputString === 'generated') {
+    inputString = browser.referenceTrainDescription;
+  }
   if (inputBoxId === 'monthInput') {
     if (inputString === 'today') {
       inputString = DateAndTimeUtils.getCurrentDateTimeString('dd');

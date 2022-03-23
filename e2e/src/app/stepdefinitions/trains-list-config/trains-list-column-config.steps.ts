@@ -185,6 +185,10 @@ When('I select the right arrow position {int}', async (position: number) => {
   await trainsListColumnConfigPage.clickArrowRight(position);
 });
 
+When('I set region filters to be {string}', async (region: string) => {
+  await trainsListColumnConfigPage.selectRegion(region);
+});
+
 When('I set trains list columns to include {string}', {timeout: 15 * 1000}, async (wantedColumns: string) => {
   const colsToAdd = wantedColumns.split(',', 16).map(item => item.trim());
   for (const item of colsToAdd) {

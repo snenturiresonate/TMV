@@ -643,6 +643,11 @@ Then('there are train entries present on the trains list', async () => {
   expect(actualTrainsListRows.length).greaterThan(0);
 });
 
+Then('there are no train entries present on the trains list', async () => {
+  const actualTrainsListRows = await trainsListPage.trainsListItems;
+  expect(actualTrainsListRows.length).to.equal(0);
+});
+
 Then('A selection of services are shown which match the {word} filters and settings', async (filterType: string) => {
   // get what actual data is being displayed on page 1
   const actualTLScheduleTypeValues: string[] = await trainsListPage.getTrainsListValuesForColumn('schedule-type');

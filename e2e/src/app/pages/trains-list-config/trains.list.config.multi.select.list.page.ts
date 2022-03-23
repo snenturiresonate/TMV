@@ -70,6 +70,11 @@ public async clickArrow(arrowDir: string, itemName: string): Promise<void> {
   await CommonActions.waitAndClick(elm);
 }
 
+  public async selectRegion(regionName: string): Promise<void> {
+    const region: ElementFinder = element(by.cssContainingText('span', regionName));
+    await CommonActions.waitAndClick(region);
+  }
+
   public async clickArrowRight(position: number): Promise<void> {
     const arrows = this.configUnSelectedArrow;
     await arrows.get(position - 1).click();

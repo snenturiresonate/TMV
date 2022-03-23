@@ -1,5 +1,5 @@
 import {TrainsListConfigCommonPage} from '../../pages/trains-list-config/trains.list.config.common.page';
-import {When, Then} from 'cucumber';
+import {When, Then, Given} from 'cucumber';
 import { expect } from 'chai';
 import {browser} from 'protractor';
 import {TrainsListPunctualityConfigTab} from '../../pages/trains-list-config/trains.list.punctuality.config.tab';
@@ -71,3 +71,11 @@ When('I save the following config changes', async (inputs: any) => {
   await browser.sleep(TRAINS_LIST_CONFIG_SAVED_DELAY);
 });
 
+Given(/^I switch on only on-time punctuality$/,  async () => {
+  await trainsListPunctuality.toggleIncludeExcludeAll('off');
+  await trainsListPunctuality.updatePunctualityToggle(5, 'on');
+});
+
+Given(/^I switch off all punctualities$/,  async () => {
+  await trainsListPunctuality.toggleIncludeExcludeAll('off');
+});
