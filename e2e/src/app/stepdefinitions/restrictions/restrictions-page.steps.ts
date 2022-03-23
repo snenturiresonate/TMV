@@ -89,8 +89,7 @@ Then('the restriction row contains the following editable fields and defaults', 
     expect(isPresent, `No field for ${expectedField}`).to.equal(true);
     let expectedDefaultValue = '';
     if (expectedValue.default === 'now') {
-      expectedDefaultValue = DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy HH:mm:ss');
-      expectedDefaultValue = expectedDefaultValue.substr(0, 17) + '00';
+      expectedDefaultValue = DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy HH:mm');
     }
     else if (expectedValue.default !== 'blank') {
       expectedDefaultValue = expectedValue.default;
