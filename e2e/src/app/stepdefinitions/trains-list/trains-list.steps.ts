@@ -682,7 +682,13 @@ Then('A selection of services are shown which match the {word} filters and setti
 });
 
 Then('{string} are {word} displayed', async (expectedTrainDescriptions: string, isDisplayed: string) => {
-  const expectedTLServiceValues = expectedTrainDescriptions.split(',', 10).map(item => item.trim());
+  const expectedTLServiceValues = expectedTrainDescriptions.split(',', 10)
+    .map(item => item.trim())
+    .map(item => {
+      if (item === 'generated') {
+        return browser.referenceTrainDescription;
+      }
+    });
   let actualTLServiceValues: string[] = [];
 
   await browser.wait(async () => {
