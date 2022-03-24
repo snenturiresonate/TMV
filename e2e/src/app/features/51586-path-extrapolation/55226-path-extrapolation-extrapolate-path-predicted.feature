@@ -260,9 +260,9 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       | <trainUid> | <trainDescription> | now                    | 42140               | CREWE                  | today         |
     And I am on the timetable view for service '<trainUid>'
     Then the Arrival time for location "Stafford" instance 1 is "now + 18"
-    And the Arrival punctuality for location "Stafford" instance 1 is "+0m or +1m"
+    And the Arrival punctuality for location "Stafford" instance 1 is "-0m or +0m or +1m"
     And the Arrival time for location "London Euston" instance 1 is "now + 139"
-    And the Arrival punctuality for location "London Euston" instance 1 is "+0m or +1m"
+    And the Arrival punctuality for location "London Euston" instance 1 is "-0m or +0m or +1m"
 
     Examples:
       | cif                                      | trainUid  | trainDescription |
@@ -297,9 +297,9 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     Then the actual/predicted Departure time for location "<location>" instance 1 is correctly calculated based on Internal timing "<timestamp>"
     And the actual/predicted Departure time for location "<location2>" instance 1 is correctly calculated based on Internal timing "<timestamp2>"
     And the actual/predicted Departure time for location "<location3>" instance 1 is correctly calculated based on Internal timing "<timestamp3>"
-    And the Departure punctuality for location "<location>" instance 1 is "+0m or +1m or +2m"
-    And the Departure punctuality for location "<location2>" instance 1 is "+0m or +1m or +2m"
-    And the Departure punctuality for location "<location3>" instance 1 is "+0m or +1m or +2m"
+    And the Departure punctuality for location "<location>" instance 1 is "-0m or +0m or +1m or +2m"
+    And the Departure punctuality for location "<location2>" instance 1 is "-0m or +0m or +1m or +2m"
+    And the Departure punctuality for location "<location3>" instance 1 is "-0m or +0m or +1m or +2m"
 
     Examples:
       | cif                                      | trainUid  | trainDescription | location      | location2 | location3            | timestamp | timestamp2 | timestamp3 |

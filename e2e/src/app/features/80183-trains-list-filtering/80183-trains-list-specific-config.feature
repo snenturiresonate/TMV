@@ -1,4 +1,5 @@
 @TMVPhase2 @P2.S3
+@newSession
 Feature: 80183 - TMV Trains List Filtering - Trains List Specific Config
 
   As a TMV User

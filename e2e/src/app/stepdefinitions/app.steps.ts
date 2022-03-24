@@ -512,11 +512,7 @@ Given(/^I am on the enquiries page$/, async () => {
 });
 
 Given(/^I am on the admin page$/, {timeout: 5 * 10000}, async () => {
-  try {
-    await page.navigateTo('/tmv/administration');
-  } catch (UnexpectedAlertOpenError) {
-    await handleUnexpectedAlertAndNavigateTo('/tmv/administration');
-  }
+  await page.navigateTo('/tmv/administration');
 });
 
 Given(/^I am on the replay page$/, {timeout: browser.params.general_timeout}, async () => {

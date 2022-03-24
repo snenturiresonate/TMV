@@ -386,7 +386,7 @@ Feature: 34080 - Last Berth
     And I use the secondary mouse on last berth <TDandBerthId1>
     Then the user is presented with a list of the last '1' services that have 'finished at' this berth
       | serviceDescription | operatorCode | punct                    | eventDateTime |
-      | 2B73               | (EF)         | -2m or -1m or +0m or +1m | now + 0       |
+      | 2B73               | (EF)         | -2m or -1m or -0m or +0m or +1m | now + 0       |
     When I stop the stopwatch
     Then the stopwatch reads less than '1000' milliseconds, within a tolerance of '500' milliseconds
 
