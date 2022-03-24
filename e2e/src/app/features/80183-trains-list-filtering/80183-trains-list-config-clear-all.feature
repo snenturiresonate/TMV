@@ -27,8 +27,6 @@ Feature: Feature: 80183 - TMV Trains List Filtering - Config - Clear All option
       | Swanage Railway (SG)                |
     When I click the Clear All selected railway undertakings button
     Then the selected railway undertaking column should be empty
-    # the following was added as a result of @bug @bug:91938
-    * I click the Reset railway undertakings button
 
   Scenario: 80343-2 - User can clear all Location parameters
     Given I have navigated to the 'Locations' configuration tab
