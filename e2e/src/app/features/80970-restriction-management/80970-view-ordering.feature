@@ -15,7 +15,7 @@ Feature: 80970 - TMV Restrictions - View Ordering
 
 #       Order by operational start date & time (early first) and then operational end date & time (later first, but with blank highest)
 #       If the end date is in the past then these are placed at the bottom of the list
-#       If all dates are equal order by type of restriction (currently excluded from BDD because of bug: 87579)
+#       If all dates are equal order by type of restriction
 #           BLOK (Line Blockage)
 #           OOU (Out of Use)
 #           POSS (Possession)
@@ -77,4 +77,42 @@ Feature: 80970 - TMV Restrictions - View Ordering
     Examples:
       | map                | trackDivisionId |
       | HDGW01paddington.v | PNPNDM          |
+
+  Scenario Outline: 87348 - View Ordering (same time)
+
+    Given I remove all restrictions for track division <trackDivisionId>
+    And I clear all restrictions events and snapshots for map <map>
+    And I am viewing the map <map>
+    And I right click on track with id '<trackDivisionId>'
+    And I open restrictions screen from the map context menu
+    And I switch to the new restriction tab
+    And I add the following restrictions whilst preserving allocated dates
+      | type                                 | start-date | end-date  | comment             |
+      | BLOK (Line Blockage)                 | now        |           | Operational - 1     |
+      | OOU (Out of Use)                     | now        |           | Operational - 2     |
+      | POSS (Possession)                    | now        |           | Operational - 3     |
+      | ESR (Emergency Speed Restriction)    | now        |           | Operational - 4     |
+      | TSR (Temporary Speed Restriction)    | now        |           | Operational - 5     |
+      | BTET (Blocked to Electric Traction)  | now        |           | Operational - 6     |
+      | CAU (Cautioning of Trains)           | now        |           | Operational - 7     |
+    And I click apply changes
+    And I logout
+    And I access the homepage as standard user
+    And I am viewing the map <map>
+    And I right click on track with id '<trackDivisionId>'
+    And I open restrictions screen from the map context menu
+    When I switch to the new restriction tab
+    Then only the following restrictions are shown in order
+      | type                                 | start-date | end-date  | comment             |
+      | BLOK (Line Blockage)                 | now        |           | Operational - 1     |
+      | OOU (Out of Use)                     | now        |           | Operational - 2     |
+      | POSS (Possession)                    | now        |           | Operational - 3     |
+      | ESR (Emergency Speed Restriction)    | now        |           | Operational - 4     |
+      | TSR (Temporary Speed Restriction)    | now        |           | Operational - 5     |
+      | BTET (Blocked to Electric Traction)  | now        |           | Operational - 6     |
+      | CAU (Cautioning of Trains)           | now        |           | Operational - 7     |
+
+    Examples:
+      | map                | trackDivisionId |
+      | HDGW01paddington.v | PNPN72          |
 
