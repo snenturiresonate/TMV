@@ -132,7 +132,7 @@ Then(/^the (Matched|Unmatched) version of the (Schedule-matching|Non-Schedule-ma
     }
   });
 
-When(/^I set the start date to now ([+-]) (.*) minutes?$/, async (operator: string, minutes: number) => {
+When(/^I set the (start|end) time to now ([+-]) (.*) minutes?$/, async (startEnd: string, operator: string, minutes: number) => {
   let now;
   const timeFormat = 'HH:mm:ss';
   if (! Boolean(operator)) {
@@ -144,7 +144,22 @@ When(/^I set the start date to now ([+-]) (.*) minutes?$/, async (operator: stri
   if (operator === '-') {
     now = DateAndTimeUtils.getCurrentTimePlusOrMinusMins(0, minutes, timeFormat);
   }
-  await enquiriesPage.setStartTime(now);
+  if (startEnd === 'start') {
+    await enquiriesPage.setStartTime(now);
+  }
+  else {
+    await enquiriesPage.setEndTime(now);
+  }
+});
+
+When(/I set the (start|end) date to (yesterday|tomorrow)/, async (inputBox: string, day: string) => {
+  const date = DateAndTimeUtils.convertToDesiredDateAndFormat(day, 'dd/MM/yyyy');
+  if (inputBox === 'start') {
+    await enquiriesPage.setStartDate(date);
+  }
+  else {
+    await enquiriesPage.setEndDate(date);
+  }
 });
 
 Then(/^(a|no) validation error is displayed$/, async (affirmity: string) => {

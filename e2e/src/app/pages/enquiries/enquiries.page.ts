@@ -165,6 +165,20 @@ export class EnquiriesPageObject {
     return this.endTimeInput.sendKeys(protractor.Key.TAB);
   }
 
+  public async setStartDate(date: string): Promise<void> {
+    await CommonActions.waitForElementInteraction(this.startDateInput);
+    await InputBox.ctrlADeleteClear(this.startDateInput);
+    await this.startDateInput.sendKeys(date);
+    return this.startDateInput.sendKeys(protractor.Key.TAB);
+  }
+
+  public async setEndDate(date: string): Promise<void> {
+    await CommonActions.waitForElementInteraction(this.endDateInput);
+    await InputBox.ctrlADeleteClear(this.endDateInput);
+    await this.endDateInput.sendKeys(date);
+    return this.endDateInput.sendKeys(protractor.Key.TAB);
+  }
+
   public async getEndTime(): Promise<string> {
     return this.endTimeInput.getAttribute('value');
   }
