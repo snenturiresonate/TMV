@@ -374,6 +374,12 @@ Then(/^there are no records in the modifications table$/, async () => {
   expect(modificationEntries, 'Modification entries found when expected there to be none').to.equal(false);
 });
 
+Then(/^there are no records in the associations table$/, async () => {
+  const actualTimetableAssociationsColValues: string[][] = await timetablePage.getAssociationEntries();
+  expect(actualTimetableAssociationsColValues.length, 'Association entries found when expected there to be none')
+    .to.equal(0);
+});
+
 Then(/^the last TJM is correct$/, async () => {
   const tjmsSent = TestData.getTJMs();
   await assertLastTJM(tjmsSent[tjmsSent.length - 1]);
