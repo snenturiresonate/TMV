@@ -12,7 +12,7 @@ Feature: 80675 - TMV Trains List - Hide Train - Toggle
     * I generate a new train description
     * I generate a new trainUID
 
-  Scenario Outline: 81281-1 - TMV Trains List - Display Hidden Trains - toggle with Hide Once
+  Scenario Outline: 81281-1 - TMV Trains List - Display Hidden Trains - toggle with Hide Once - trains list <configId>
     # Given the user is authenticated to use TMV
     # And the user is viewing the trains list
     # And the trains list has entries which have been hidden by the user (always or once)
@@ -59,7 +59,7 @@ Feature: 80675 - TMV Trains List - Hide Train - Toggle
       | generated    | generated        | 2        |
       | generated    | generated        | 3        |
 
-  Scenario Outline: 81281-2 - TMV Trains List - Display Hidden Trains - toggle with Hide Always
+  Scenario Outline: 81281-2 - TMV Trains List - Display Hidden Trains - toggle with Hide Always - trains list <configId>
     # Given the user is authenticated to use TMV
     # And the user is viewing the trains list
     # And the trains list has entries which have been hidden by the user (always or once)
