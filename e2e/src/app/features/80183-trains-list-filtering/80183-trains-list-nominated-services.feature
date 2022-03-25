@@ -230,7 +230,6 @@ Feature: 80183 - TMV Trains List Filtering - Config - Nominated Services
       | trainDescription          | planningUid       |
       | generatedTrainDescription | generatedTrainUId |
 
-  @bug @bug:91971
   Scenario Outline: 80345-7 - Nominated config should override Ignore PD Cancel config
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '1' minute, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -246,7 +245,7 @@ Feature: 80183 - TMV Trains List Filtering - Config - Nominated Services
     When the following TJM is received
         #tjmType-Cancel at origin
       | trainUid      | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | <planningUid> | <trainDescription> | 12            | create | 91        | 91              | 99999       | PADTON         | 12:00:00 | 19                 | PD                |
+      | <planningUid> | <trainDescription> | 12            | create | 91        | 91              | 99999       | PADTON         | 12:00:00 | 91                 | PD                |
     And I am authenticated to use TMV
     And I restore to default train list config '1'
     And I am on the trains list page 1
