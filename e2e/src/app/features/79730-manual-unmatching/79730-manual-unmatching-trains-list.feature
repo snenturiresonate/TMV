@@ -1,5 +1,5 @@
 @TMVPhase2 @P2.S3
-Feature: 50561 - Unmatch a service - Trains List
+Feature: 50561 - TMV Unmatch a service - Trains List
 
   Background:
     * I remove all trains from the trains list
@@ -8,7 +8,7 @@ Feature: 50561 - Unmatch a service - Trains List
     * I refresh the browser
     * I have navigated to the 'TOC/FOC' configuration tab
 
-  Scenario: 80312 - Unmatch via Trains List dialogue
+  Scenario: 80312 - Unmatch via Trains List dialogue - unmatch confirmation dialogue is displayed
     #  Given the user is authenticated to use TMV
     #  And the user is viewing the trains list
     #  And the has the schedule matching privilege
@@ -35,7 +35,7 @@ Feature: 50561 - Unmatch a service - Trains List
     When I un-match the currently matched schedule
     Then the Unmatch confirmation dialogue is displayed
 
-  Scenario: 80312 - Unmatch via Trains List dialogue
+  Scenario: 80312 - Unmatch via Trains List dialogue - cancel the action
     #  Given the user is authenticated to use TMV
     #  And the user is viewing the trains list
     #  And the has the schedule matching privilege
@@ -64,7 +64,7 @@ Feature: 50561 - Unmatch a service - Trains List
     And I click the unmatch cancel option
     Then a matched service is visible
 
-  Scenario: 80312 - Unmatch via Trains List dialogue
+  Scenario: 80312 - Unmatch via Trains List dialogue - unmatch save option
     #  Given the user is authenticated to use TMV
     #  And the user is viewing the trains list
     #  And the has the schedule matching privilege

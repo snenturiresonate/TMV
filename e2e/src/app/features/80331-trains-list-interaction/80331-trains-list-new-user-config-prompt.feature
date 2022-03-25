@@ -10,7 +10,7 @@ Feature: 80331 - TMV Trains List Interaction - New User Config Prompt
     * I access the homepage as standard user
     * I restore all train list configs for current user to the default
 
-  Scenario Outline: 80338 - 1 Trains List Interaction - New User Config Prompt
+  Scenario Outline: 80338 - 1 Trains List Interaction - New User Config Prompt - Trains List Config <listNum>
 
 #    Given the user is authenticated to use TMV
 #    When the user opts to access a named trains list for the first time

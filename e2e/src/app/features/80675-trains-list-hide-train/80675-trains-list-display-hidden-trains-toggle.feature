@@ -1,5 +1,5 @@
 @TMVPhase2 @P2.S3
-Feature: 80675 - TMV Trains List - Hide Train
+Feature: 80675 - TMV Trains List - Hide Train - Toggle
 
   As a TMV User
   I want the ability to hide/unhide trains on the trains list

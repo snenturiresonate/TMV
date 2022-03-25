@@ -1,5 +1,5 @@
 @TMVPhase2 @P2.S3
-Feature: 80675 - TMV Trains List - Hide Train
+Feature: 80675 - TMV Trains List - Hide Train - Unhide
 
   As a TMV User
   I want the ability to hide/unhide trains on the trains list
@@ -12,7 +12,7 @@ Feature: 80675 - TMV Trains List - Hide Train
     * I generate a new train description
     * I generate a new trainUID
 
-  Scenario Outline: 81287-1 - TMV Trains List - Display Hidden Trains - Unhide All Trains
+  Scenario Outline: 81287-1 - TMV Trains List - Display Hidden Trains - Unhide All Trains - Trains List Config <configId>
     # Given the user is authenticated to use TMV
     # And the user is viewing the trains list
     # And the user opted to display hidden trains
@@ -53,7 +53,7 @@ Feature: 80675 - TMV Trains List - Hide Train
       | generated    | generated        | 2        |
       | generated    | generated        | 3        |
 
-  Scenario Outline: 81286-1 - TMV Trains List - TMV Trains List Hide Train - Unhide Individual Train (context menu)
+  Scenario Outline: 81286-1 - TMV Trains List - TMV Trains List Hide Train - Unhide Individual Train (context menu) - Trains List Config <configId>
     # Given the user is authenticated to use TMV
     # And the user is viewing the trains list
     # And the user opted to display hidden trains

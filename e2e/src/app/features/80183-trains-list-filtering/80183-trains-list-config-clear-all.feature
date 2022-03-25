@@ -1,5 +1,5 @@
 @TMVPhase2 @P2.S3
-Feature: Feature: 80183 - TMV Trains List Filtering - Config - Clear All option
+Feature: 80183 - TMV Trains List Filtering - Config - Clear All option
 
   As a TMV user
   I want the ability option to clear trains list configuration

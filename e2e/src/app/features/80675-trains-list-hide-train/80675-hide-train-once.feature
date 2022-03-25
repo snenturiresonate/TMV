@@ -267,7 +267,7 @@ Feature: 80675 - TMV Trains List Hide Train - Hide Train Once
       | generated        | generated   |
 
 
-  Scenario Outline: 81283-9 - Hide Train Once - when a train is always hidden then it remains hidden the following day - Activations and TRI
+  Scenario Outline: 81282-9 - Hide Train Once - when a train is always hidden then it remains hidden the following day - Activations and TRI
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '2' minutes, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1D46_PADTON_OXFD.cif | PADTON      | WTT_dep       | <trainDescription>  | <planningUid>  |

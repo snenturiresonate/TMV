@@ -12,7 +12,7 @@ Feature: 79730 - TMV Manual Unmatching - Unmatch a service - Timetable
     * I have cleared out all headcodes
     * I logout
 
-  Scenario Outline: 80305 - 1 - Unmatch via Timetable dialogue (option available from timetable screen for schedule matching user)
+  Scenario Outline: 80305 - 1 - Unmatch via Timetable dialogue (option available from timetable screen for schedule matching user) - <roleType>
 #    Given the user is authenticated to use TMV
 #    And the user is viewing a timetable
 #    And the user has the schedule matching privilege
