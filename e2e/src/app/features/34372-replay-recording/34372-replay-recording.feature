@@ -54,9 +54,31 @@ Feature: 33753 - Replay Recording
     And there is a record in the modifications table
       | description        | location          | time | reason         |
       | Change Of Identity | London Paddington | now  | Change to 1B99 |
-    # Skip backwards to clear event
+    # Skip backwards to clear events
     When I click Skip back button
     Then there are no records in the modifications table
+    # Add extra event
+    When the following change of ID TJM is received
+      | trainUid      | newTrainNumber  | oldTrainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | modificationTime | subsidiaryCode | modificationReason |
+      | <planningUid> | 1C12            | 1B99               | now           | create | 07        | 07              | 99999       | now              | PADTON         | Change to 1C12     |
+    And I switch to the second-newest tab
+    And I primary click the replay time
+    And I set the date and time for replay to
+      | date  | time     | duration |
+      | today | now - 5  | 5        |
+    And I select Next
+    And I wait for the buffer to fill
+    And I click Skip forward button '5' times
+    And I switch to the new tab
+    And the tab title is '1C12 TMV Replay Timetable'
+    And I switch to the timetable details tab
+    Then The timetable details tab is visible
+    And there is a record in the modifications table
+      | description        | location          | time | reason         |
+      | Change Of Identity | London Paddington | now  | Change to 1B99 |
+    And there is a record in the modifications table
+      | description        | location          | time | reason         |
+      | Change Of Identity | London Paddington | now  | Change to 1C12 |
 
     Examples:
       | trainDescription          | planningUid       |
