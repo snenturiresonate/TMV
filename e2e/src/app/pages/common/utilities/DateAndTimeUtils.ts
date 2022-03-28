@@ -1,10 +1,11 @@
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 import {DateTimeFormatter, Instant, LocalDate, LocalDateTime, LocalTime, ZoneId} from '@js-joda/core';
 
 export class DateAndTimeUtils {
+  public static ZONE_ID = 'Europe/London';
 
   public static getCurrentDateTime(): any {
-    return LocalDateTime.now().atZone(ZoneId.of('Europe/London'));
+    return LocalDateTime.now(ZoneId.of(DateAndTimeUtils.ZONE_ID)).atZone(ZoneId.of(DateAndTimeUtils.ZONE_ID));
   }
 
   public static getCurrentDateTimeString(pattern): any {
@@ -17,7 +18,7 @@ export class DateAndTimeUtils {
   }
 
   public static getCurrentTime(): any {
-    return LocalTime.now(ZoneId.of('Europe/London'));
+    return LocalTime.now(ZoneId.of(DateAndTimeUtils.ZONE_ID));
   }
 
   public static getCurrentTimePlusOrMinusMins(plusMins = 0, minusMins = 0, format = 'HH:mm:ss'): string {
@@ -122,7 +123,7 @@ export class DateAndTimeUtils {
    */
   public static async getTimeComponent(dateTime: string): Promise<string> {
     const inputDateTime = new Date(dateTime);
-    const options = { timeZone: 'Europe/London', timeStyle: 'medium', hour12: false };
+    const options = { timeZone: DateAndTimeUtils.ZONE_ID, timeStyle: 'medium', hour12: false };
     return inputDateTime.toLocaleTimeString('en-GB', options);
   }
 
@@ -288,11 +289,11 @@ public static async formulateDateTime(timeStamp: string, format = 'dd/MM/yyyy HH
     }
     const parsedDateTime = new Date(
       dateTime.year(), dateTime.monthValue(), dateTime.dayOfMonth(), dateTime.hour(), dateTime.minute(), dateTime.second());
-    return moment(parsedDateTime).toDate();
+    return moment(parsedDateTime).tz(DateAndTimeUtils.ZONE_ID).toDate();
   }
 
   public static async formulateTime(timeStamp: string, format = 'HH:mm:ss', secondaryFormat = 'HH:mm'): Promise<Date> {
-    const now = LocalDateTime.now();
+    const now = LocalDateTime.now(ZoneId.of(DateAndTimeUtils.ZONE_ID));
     let dateTime;
     try {
       dateTime = LocalTime.parse(timeStamp, DateTimeFormatter.ofPattern(format));
@@ -301,7 +302,7 @@ public static async formulateDateTime(timeStamp: string, format = 'dd/MM/yyyy HH
     }
     const parsedDateTime = new Date(
       now.year(), now.monthValue(), now.dayOfMonth(), dateTime.hour(), dateTime.minute(), dateTime.second());
-    return moment(parsedDateTime).toDate();
+    return moment(parsedDateTime).tz(DateAndTimeUtils.ZONE_ID).toDate();
   }
 
 }

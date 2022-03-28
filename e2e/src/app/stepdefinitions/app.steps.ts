@@ -757,7 +757,7 @@ When(/^I step through the Berth Level Schedule for '(.*)'$/, async (uid: string)
     if (pathEntry.berths.length > 0) {
       const berth = pathEntry.berths[0];
       const plannedStepTime = ZonedDateTime.parse(berth.plannedStepTime)
-        .withZoneSameInstant(ZoneId.of('Europe/London'))
+        .withZoneSameInstant(ZoneId.of(DateAndTimeUtils.ZONE_ID))
         .format(DateTimeFormatter.ofPattern('HH:mm:ss'));
       if (currentBerth === '') {
         await linxRestClient.postBerthInterpose(new BerthInterpose(

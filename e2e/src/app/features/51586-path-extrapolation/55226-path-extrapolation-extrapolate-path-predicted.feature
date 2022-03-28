@@ -95,7 +95,6 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       | cif                                     | trainUid  | trainDescription |
       | access-plan/55226-schedules/55226-4.cif | generated | generated        |
 
-  @bug @bug:80955
   Scenario Outline: 51586 -5  Start predicting from new origin
     # Given a valid schedule exists
     # And a train activation has been received for that schedule

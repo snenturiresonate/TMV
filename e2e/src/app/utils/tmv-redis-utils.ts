@@ -4,6 +4,7 @@ import {BerthCancel} from '../../../../src/app/api/linx/models/berth-cancel';
 import {LinxRestClient} from '../api/linx/linx-rest-client';
 import {DateTimeFormatter, ZonedDateTime, ZoneId} from '@js-joda/core';
 import {CucumberLog} from '../logging/cucumber-log';
+import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
 
 export class TMVRedisUtils {
 
@@ -79,8 +80,8 @@ export class TMVRedisUtils {
         if (key.includes(`${trainDescriber}:BERTH:`)) {
           const val = JSON.parse(value.toString());
           if (val.trainDescription) {
-            const time = ZonedDateTime.parse(val.stateTime).withZoneSameInstant(ZoneId.of('Europe/London'));
-            const futureHeadcode = time.isAfter(ZonedDateTime.now(ZoneId.of('Europe/London')));
+            const time = ZonedDateTime.parse(val.stateTime).withZoneSameInstant(ZoneId.of(DateAndTimeUtils.ZONE_ID));
+            const futureHeadcode = time.isAfter(ZonedDateTime.now(ZoneId.of(DateAndTimeUtils.ZONE_ID)));
             if (!futureHeadcode || clearFutureTimestamps) {
               const berthCancel: BerthCancel = new BerthCancel(
                 val.berthName,

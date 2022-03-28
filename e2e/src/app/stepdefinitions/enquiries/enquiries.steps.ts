@@ -176,8 +176,8 @@ Then(/^(a|no) validation error is displayed$/, async (affirmity: string) => {
 Then('the enquiries start time is about {int} minutes ago',
   async (minutes: number) => {
     const shown: number = LocalDateTime.parse(await enquiriesPage.getStartDate() + ' ' + await enquiriesPage.getStartTime(),
-      DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm')).atZone(ZoneId.of('Europe/London')).toEpochSecond();
-    const currentTime: number = LocalDateTime.now().atZone(ZoneId.of('Europe/London')).toEpochSecond();
+      DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm')).atZone(ZoneId.of(DateAndTimeUtils.ZONE_ID)).toEpochSecond();
+    const currentTime: number = LocalDateTime.now().atZone(ZoneId.of(DateAndTimeUtils.ZONE_ID)).toEpochSecond();
 
     expect(shown, 'Incorrect start time').to.above(currentTime - minutes * 60 - 90);
     expect(shown, 'Incorrect start time').to.below(currentTime - minutes * 60 + 90);
@@ -186,8 +186,8 @@ Then('the enquiries start time is about {int} minutes ago',
 Then('the enquiries end time is in about {int} minutes',
   async (minutes: number) => {
     const shown: number = LocalDateTime.parse(await enquiriesPage.getEndDate() + ' ' + await enquiriesPage.getEndTime(),
-      DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm')).atZone(ZoneId.of('Europe/London')).toEpochSecond();
-    const currentTime: number = LocalDateTime.now().atZone(ZoneId.of('Europe/London')).toEpochSecond();
+      DateTimeFormatter.ofPattern('dd/MM/yyyy HH:mm')).atZone(ZoneId.of(DateAndTimeUtils.ZONE_ID)).toEpochSecond();
+    const currentTime: number = LocalDateTime.now().atZone(ZoneId.of(DateAndTimeUtils.ZONE_ID)).toEpochSecond();
 
     expect(shown, 'Incorrect end time').to.above(currentTime + minutes * 60 - 90);
     expect(shown, 'Incorrect end time').to.below(currentTime + minutes * 60 + 90);
