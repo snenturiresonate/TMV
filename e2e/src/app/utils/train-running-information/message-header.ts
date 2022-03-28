@@ -3,7 +3,6 @@ import {SenderReferenceCalculator} from '../sender-reference-calculator';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 
 export class TrainRunningInformationMessageHeader {
-  public static runDateTime = DateAndTimeUtils.getCurrentDateTime();
 
   static calculateSenderReference(
     trainNumber: string, trainUid: string, hourDepartFromOrigin: number, scheduledStartDate: string = 'today'): string {
@@ -14,7 +13,7 @@ export class TrainRunningInformationMessageHeader {
     return (trainNumber + SenderReferenceCalculator.encodeToSenderReference(trainUid, hourDepartFromOrigin));
   }
 
-  public static messageReference = (messageDateTime: any = TrainRunningInformationMessageHeader.runDateTime) => {
+  public static messageReference = (messageDateTime: any = DateAndTimeUtils.getCurrentDateTime()) => {
     const messageReferenceObj = fragment().ele('MessageReference')
       .ele('MessageType').txt('4005').up()
       .ele('MessageTypeVersion').txt('5.3.1.GB').up()

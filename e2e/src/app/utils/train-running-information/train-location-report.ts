@@ -5,7 +5,7 @@ import {TRITrainDelay} from './train-delay';
 import {ChronoUnit, DateTimeFormatter, LocalTime, OffsetDateTime} from '@js-joda/core';
 
 export class TRITrainLocationReport {
-  public static locationDateTime = DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+  public static locationDateTime;
 
   private static delayedLocationDateTime(delayMins: number): string {
     TRITrainLocationReport.locationDateTime =

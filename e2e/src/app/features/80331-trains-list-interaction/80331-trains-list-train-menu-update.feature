@@ -138,8 +138,7 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
       | generated | generated        |
 
 
-  @bug @bug:91966
-  Scenario Outline: 80335-4 - Train Menu Update (Trains List) - Punctuality Status unavailable
+  Scenario Outline: 80335-4 - Train Menu Update (Trains List) - Punctuality Status 'OFF ROUTE'
 
     * I generate a new trainUID
     * I generate a new train description
@@ -168,12 +167,13 @@ Feature: 80331 - TMV Trains List Interaction - Trains List Train Menu Update
     And the map context menu contains 'Find Train' on line 3
     And the map context menu contains 'Hide Train' on line 4
     And the map context menu contains 'Unmatch/Rematch' on line 5
-    And the map context menu punctuality is one of Unavailable
-    And the map context menu contains '-' on line 7
-    And the map context menu contains 'Departs' on line 8
-    And the map context menu contains 'Arrives' on line 9
+    And the map context menu punctuality is one of OFF ROUTE
+    And the map context menu contains 'SN129' on line 7
+    And the map context menu contains 'D30129' on line 8
+    And the map context menu contains 'Departs' on line 10
+    And the map context menu contains 'Arrives' on line 11
 
     Examples:
       | trainUid  | trainDescription |
-      | generated | generated    |
+      | generated | generated        |
 

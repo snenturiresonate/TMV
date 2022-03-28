@@ -4,7 +4,7 @@ import {DateTimeFormatter, Instant, LocalDate, LocalDateTime, LocalTime, ZoneId}
 export class DateAndTimeUtils {
 
   public static getCurrentDateTime(): any {
-    return LocalDateTime.now().atZone(ZoneId.systemDefault());
+    return LocalDateTime.now().atZone(ZoneId.of('Europe/London'));
   }
 
   public static getCurrentDateTimeString(pattern): any {
@@ -17,7 +17,7 @@ export class DateAndTimeUtils {
   }
 
   public static getCurrentTime(): any {
-    return LocalTime.now(ZoneId.systemDefault());
+    return LocalTime.now(ZoneId.of('Europe/London'));
   }
 
   public static getCurrentTimePlusOrMinusMins(plusMins = 0, minusMins = 0, format = 'HH:mm:ss'): string {
