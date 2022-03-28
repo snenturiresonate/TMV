@@ -31,10 +31,11 @@ Feature: 80365 - TMV Enquiries - Date Picker Validation - Start Date
     When I set the start date to yesterday
     Then no validation error is displayed
 
-  Scenario: 81202-3a - Enquiries - Date Picker Validation - start date - future time is not allowed
+  @bug @bug:92283
+  Scenario: 81202-3a - Enquiries - Date Picker Validation - start date - future time is allowed
     Given I am on the enquiries page
     When I set the start time to now + 60 minutes
-    Then a validation error is displayed
+    Then no validation error is displayed
 
   Scenario: 81202-3b - Enquiries - Date Picker Validation - start date - future date is not allowed
     Given I am on the enquiries page
