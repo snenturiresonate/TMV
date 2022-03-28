@@ -52,12 +52,12 @@ Feature: 34372 - TMV Replay Recording of Events
   Scenario Outline: 34372-4 Replay - Play replay map Train describer data (old data)
     # Replay Setup
     * I add map grouping configuration to the old replay data, modified to be 32 days old
-    * I add the following berth interpose to the old replay snapshot data, modified to be 32 days old
-      | trainDescriber | trainDescription   | berthName | signalName |
-      | D3             | <trainDescription> | 0099      | SN99       |
-    * I add the following berth interpose to the old replay object state data, modified to be 32 days old
-      | trainDescriber | trainDescription   | berthName | signalName |
-      | D3             | <trainDescription> | 0099      | SN99       |
+    * I add the following berth interpose to the old replay snapshot data, modified to be 32 days old plus 0 minutes
+      | trainDescriber | trainDescription   | berthName | signalName | punctuality   |
+      | D3             | <trainDescription> | 0099      | SN99       | 60            |
+    * I add the following berth interpose to the old replay object state data, modified to be 32 days old plus 0 minutes
+      | trainDescriber | trainDescription   | berthName | signalName | punctuality   |
+      | D3             | <trainDescription> | 0099      | SN99       | 60            |
 
     # Replay Test
     Given I am on the replay page

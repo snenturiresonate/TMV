@@ -11,17 +11,20 @@ export class ReplayDataService {
 
   public async injectBerthStateIntoOldSnapshot(
     daysOld: number,
+    plusMinutesOffset: number,
     trainDescriber: string,
     berth: string,
     headcode: string,
-    signalName: string): Promise<void> {
+    signalName: string,
+    punctuality: string): Promise<void> {
 
     if (headcode.includes('generated')) {
       headcode = browser.referenceTrainDescription;
     }
-    const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime();
-    const sortKey = `${now.minusDays(daysOld).toEpochSecond() * 1000}-0`;
-    const oldDate: string = now.minusDays(daysOld).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
+    const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().plusMinutes(plusMinutesOffset);
+    const sortKey = `${now.minusDays(daysOld).plusMinutes(plusMinutesOffset).toEpochSecond() * 1000}-0`;
+    const oldDate: string = now.minusDays(daysOld).plusMinutes(plusMinutesOffset).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
+    const punctualityNum = (!!punctuality ? parseInt(punctuality, 10) : 0);
 
     const tdState = {
       trainDescriberCode: trainDescriber,
@@ -31,8 +34,12 @@ export class ReplayDataService {
           berthName: berth,
           trainDescription: headcode,
           trainDescriberCode: trainDescriber,
-          unmatchedServiceId: `7a8e285e-2e32-4d5b-ac8d-343960ad78e1:${oldDate}`,
-          currentSignals: signalName
+          scheduleId: {
+            planningUid: 'V33732',
+            scheduledOriginDepartureDate: `${oldDate}`
+          },
+          currentSignals: signalName,
+          punctuality: punctualityNum
         }
       ]
     };
@@ -48,29 +55,36 @@ export class ReplayDataService {
 
   public async injectBerthStateIntoOldObjectState(
     daysOld: number,
+    plusMinutesOffset: number,
     trainDescriber: string,
     berth: string,
     headcode: string,
-    signalName: string): Promise<void> {
+    signalName: string,
+    punctuality: string): Promise<void> {
 
     if (headcode.includes('generated')) {
       headcode = browser.referenceTrainDescription;
     }
-    const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime();
+    const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().plusMinutes(plusMinutesOffset);
     const sortKey = `${now.minusDays(daysOld).toEpochSecond() * 1000}-0`;
     const oldDate: string = now.minusDays(daysOld).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
     const nowTime: string = now.format(DateTimeFormatter.ofPattern('hh:mm:ss'));
+    const punctualityNum = (!!punctuality ? parseInt(punctuality, 10) : 0);
 
     const tdState = {
       berthState: {
         berthStateDateTime: `${oldDate}T${nowTime}Z`,
         berthTrainDescription: headcode,
-        unmatchedServiceId: `7a8e285e-2e32-4d5b-ac8d-343960ad78e1:${oldDate}`,
+        scheduleId: {
+          planningUid: 'V33732',
+          scheduledOriginDepartureDate: `${oldDate}`
+        },
         currentSignals: signalName,
         berthId: {
           trainDescriberCode: trainDescriber,
           berthName: berth
-        }
+        },
+        punctuality: punctualityNum
       },
       signalState: {
         signalId: '',
