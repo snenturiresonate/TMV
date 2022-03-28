@@ -32,6 +32,14 @@ When('I expand the replay group of maps with name {string}', async (mapName: str
   await replaySelectMapPage.expandMapGroupingForName(mapName);
 });
 
+Then(/the following replay maps are listed/, async (mapNameDataTable: any) => {
+  const expectedMapNames: any[] = mapNameDataTable.hashes();
+  const actualMapNames: string = await replaySelectMapPage.getMapsListed();
+  expectedMapNames.forEach(expectedName => {
+    expect(actualMapNames, `${actualMapNames} did not contain ${expectedName}`).to.contain(expectedName.mapName);
+  });
+});
+
 Then('the replay session header is correctly formatted', async () => {
   const replayWindowTitle = await replayPage.getReplayWindowTitle();
   const expectedTitleFormat: RegExp = new RegExp('Replay Session: . \\(Start Date: ..\\/..\\/.. Start Time: ..:..\\)');

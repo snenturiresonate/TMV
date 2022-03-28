@@ -1,0 +1,5337 @@
+[
+  {
+    "mapId": "MD01euston.v",
+    "mapName": "London Euston",
+    "mapAbbreviation": "MD01",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD01_Euston.xml",
+    "trainDescriberList": [
+      {
+        "code": "WY",
+        "name": "Wembley Mainline PSB"
+      },
+      {
+        "code": "AW",
+        "name": "Acton Wells"
+      },
+      {
+        "code": "WS",
+        "name": "Willesden Suburban"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "MD02wembley.v",
+    "mapName": "Wembley WCML",
+    "mapAbbreviation": "MD02",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD02_Wembley.xml",
+    "trainDescriberList": [
+      {
+        "code": "WY",
+        "name": "Wembley Mainline PSB"
+      },
+      {
+        "code": "WJ",
+        "name": "Wembley Mainline (Watford) WestCAD"
+      },
+      {
+        "code": "WC",
+        "name": "Wembley C Sidings"
+      },
+      {
+        "code": "WS",
+        "name": "Willesden Suburban"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "MD2Awembleyyard.v",
+    "mapName": "Wembley Yard",
+    "mapAbbreviation": "MD2A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD2A_Wembley_Yard.xml",
+    "trainDescriberList": [
+      {
+        "code": "WY",
+        "name": "Wembley Mainline PSB"
+      },
+      {
+        "code": "WJ",
+        "name": "Wembley Mainline (Watford) WestCAD"
+      },
+      {
+        "code": "WC",
+        "name": "Wembley C Sidings"
+      }
+    ]
+  },
+  {
+    "mapId": "MD03watford.v",
+    "mapName": "Watford Bletchley",
+    "mapAbbreviation": "MD03",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD03_Watford.xml",
+    "trainDescriberList": [
+      {
+        "code": "RT",
+        "name": "Marston Vale MCS"
+      },
+      {
+        "code": "WJ",
+        "name": "Wembley Mainline (Watford) WestCAD"
+      },
+      {
+        "code": "WS",
+        "name": "Willesden Suburban"
+      },
+      {
+        "code": "R1",
+        "name": "Rugby SCC (Watford - Bletchley ITD)"
+      }
+    ]
+  },
+  {
+    "mapId": "MD04northampton.v",
+    "mapName": "Milton Keynes Rugby",
+    "mapAbbreviation": "MD04",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD04_Northampton.xml",
+    "trainDescriberList": [
+      {
+        "code": "R2",
+        "name": "Rugby SCC (Northampton - Rugby ITD)"
+      },
+      {
+        "code": "CY",
+        "name": "WMSC Coventry WestCAD"
+      },
+      {
+        "code": "R1",
+        "name": "Rugby SCC (Watford - Bletchley ITD)"
+      }
+    ]
+  },
+  {
+    "mapId": "MD4Anuneaton.v",
+    "mapName": "Nuneaton",
+    "mapAbbreviation": "MD4A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD4A_Nuneaton.xml",
+    "trainDescriberList": [
+      {
+        "code": "R2",
+        "name": "Rugby SCC (Northampton - Rugby ITD)"
+      },
+      {
+        "code": "CY",
+        "name": "WMSC Coventry WestCAD"
+      },
+      {
+        "code": "WN",
+        "name": "WMSC Water Orton WestCAD"
+      },
+      {
+        "code": "KG",
+        "name": "EMCC Kettering Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "MD08stourvalley.v",
+    "mapName": "Birmingham Stour Val",
+    "mapAbbreviation": "MD08",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD08_Stour_Valley.xml",
+    "trainDescriberList": [
+      {
+        "code": "R2",
+        "name": "Rugby SCC (Northampton - Rugby ITD)"
+      },
+      {
+        "code": "SV",
+        "name": "WMSC Stour Valley WestCAD"
+      },
+      {
+        "code": "CV",
+        "name": "WMSC Cherwell Valley WestCAD"
+      },
+      {
+        "code": "KN",
+        "name": "WMSC Kings Norton WestCAD"
+      },
+      {
+        "code": "CY",
+        "name": "WMSC Coventry WestCAD"
+      },
+      {
+        "code": "WN",
+        "name": "WMSC Water Orton WestCAD"
+      },
+      {
+        "code": "SJ",
+        "name": "WMSC Stourbridge WestCAD"
+      },
+      {
+        "code": "WO",
+        "name": "WMSC Wolverhampton WestCAD"
+      },
+      {
+        "code": "PJ",
+        "name": "WMSC Proof House Jn WestCAD"
+      },
+      {
+        "code": "BN",
+        "name": "Birmingham New Street PSB"
+      }
+    ]
+  },
+  {
+    "mapId": "MD09crosscity.v",
+    "mapName": "Birmingham Cross City",
+    "mapAbbreviation": "MD09",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD09_Cross_City.xml",
+    "trainDescriberList": [
+      {
+        "code": "AS",
+        "name": "Aston SCC TD"
+      },
+      {
+        "code": "KN",
+        "name": "WMSC Kings Norton WestCAD"
+      },
+      {
+        "code": "SV",
+        "name": "WMSC Stour Valley WestCAD"
+      },
+      {
+        "code": "BU",
+        "name": "EMCC Burton Area WestCAD"
+      },
+      {
+        "code": "BG",
+        "name": "WMSC Bromsgrove Corridor WestCAD"
+      },
+      {
+        "code": "WN",
+        "name": "WMSC Water Orton WestCAD"
+      },
+      {
+        "code": "PJ",
+        "name": "WMSC Proof House Jn WestCAD"
+      },
+      {
+        "code": "BN",
+        "name": "Birmingham New Street PSB"
+      }
+    ]
+  },
+  {
+    "mapId": "MD9Abromsgrove.v",
+    "mapName": "Barnt Green Ashchurch",
+    "mapAbbreviation": "MD9A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD9A_Bromsgrove.xml",
+    "trainDescriberList": [
+      {
+        "code": "KN",
+        "name": "WMSC Kings Norton WestCAD"
+      },
+      {
+        "code": "BG",
+        "name": "WMSC Bromsgrove Corridor WestCAD"
+      },
+      {
+        "code": "GL",
+        "name": "Gloucester ITD"
+      },
+      {
+        "code": "SJ",
+        "name": "WMSC Stourbridge WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "MD10grandlines.v",
+    "mapName": "Aston Bescot Rugeley",
+    "mapAbbreviation": "MD10",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD10_Grandlines.xml",
+    "trainDescriberList": [
+      {
+        "code": "AS",
+        "name": "Aston SCC TD"
+      },
+      {
+        "code": "SV",
+        "name": "WMSC Stour Valley WestCAD"
+      },
+      {
+        "code": "WL",
+        "name": "WMSC Walsall WestCAD"
+      },
+      {
+        "code": "WO",
+        "name": "WMSC Wolverhampton WestCAD"
+      },
+      {
+        "code": "SK",
+        "name": "Stoke On Trent"
+      },
+      {
+        "code": "PJ",
+        "name": "WMSC Proof House Jn WestCAD"
+      },
+      {
+        "code": "BN",
+        "name": "Birmingham New Street PSB"
+      }
+    ]
+  },
+  {
+    "mapId": "MD11waterorton.v",
+    "mapName": "Water Orton",
+    "mapAbbreviation": "MD11",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD11_Water_Orton.xml",
+    "trainDescriberList": [
+      {
+        "code": "R2",
+        "name": "Rugby SCC (Northampton - Rugby ITD)"
+      },
+      {
+        "code": "BU",
+        "name": "EMCC Burton Area WestCAD"
+      },
+      {
+        "code": "KN",
+        "name": "WMSC Kings Norton WestCAD"
+      },
+      {
+        "code": "WL",
+        "name": "WMSC Walsall WestCAD"
+      },
+      {
+        "code": "WN",
+        "name": "WMSC Water Orton WestCAD"
+      },
+      {
+        "code": "LC",
+        "name": "WMSC Leamington Corridor"
+      },
+      {
+        "code": "PJ",
+        "name": "WMSC Proof House Jn WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "MD12birminghamsnowhill.v",
+    "mapName": "Birmingham Snow Hill",
+    "mapAbbreviation": "MD12",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD12_Birmingham_Snow_Hill.xml",
+    "trainDescriberList": [
+      {
+        "code": "SV",
+        "name": "WMSC Stour Valley WestCAD"
+      },
+      {
+        "code": "BG",
+        "name": "WMSC Bromsgrove Corridor WestCAD"
+      },
+      {
+        "code": "LC",
+        "name": "WMSC Leamington Corridor"
+      },
+      {
+        "code": "SJ",
+        "name": "WMSC Stourbridge WestCAD"
+      },
+      {
+        "code": "WN",
+        "name": "WMSC Water Orton WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "MD13chilternlines.v",
+    "mapName": "London Marylebone",
+    "mapAbbreviation": "MD13",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD13_Chilternlines.xml",
+    "trainDescriberList": [
+      {
+        "code": "ME",
+        "name": "Marylebone Chilterns IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "MD14trentvalley.v",
+    "mapName": "Stafford Trent Valley",
+    "mapAbbreviation": "MD14",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD14_Trent_Valley.xml",
+    "trainDescriberList": [
+      {
+        "code": "R2",
+        "name": "Rugby SCC (Northampton - Rugby ITD)"
+      },
+      {
+        "code": "R3",
+        "name": "RYROC Stafford Area WestCAD"
+      },
+      {
+        "code": "BU",
+        "name": "EMCC Burton Area WestCAD"
+      },
+      {
+        "code": "WL",
+        "name": "WMSC Walsall WestCAD"
+      },
+      {
+        "code": "SK",
+        "name": "Stoke On Trent"
+      },
+      {
+        "code": "WO",
+        "name": "WMSC Wolverhampton WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "MD15stoke.v",
+    "mapName": "Stoke on Trent",
+    "mapAbbreviation": "MD15",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD15_Stoke.xml",
+    "trainDescriberList": [
+      {
+        "code": "R3",
+        "name": "RYROC Stafford Area WestCAD"
+      },
+      {
+        "code": "CE",
+        "name": "Crewe PSB"
+      },
+      {
+        "code": "SK",
+        "name": "Stoke On Trent"
+      },
+      {
+        "code": "XB",
+        "name": "Macclesfield"
+      }
+    ]
+  },
+  {
+    "mapId": "MD19marstonvale.v",
+    "mapName": "Bedford to Bletchley",
+    "mapAbbreviation": "MD19",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD19_Marstonvale.xml",
+    "trainDescriberList": [
+      {
+        "code": "WH",
+        "name": "West Hampstead PSB"
+      },
+      {
+        "code": "RT",
+        "name": "Marston Vale MCS"
+      },
+      {
+        "code": "R1",
+        "name": "Rugby SCC (Watford - Bletchley ITD)"
+      }
+    ]
+  },
+  {
+    "mapId": "MD20madeleysalop.v",
+    "mapName": "Wolverhampton Salop",
+    "mapAbbreviation": "MD20",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD20_Madeley_Salop.xml",
+    "trainDescriberList": [
+      {
+        "code": "TD",
+        "name": "WMSC Telford"
+      },
+      {
+        "code": "WL",
+        "name": "WMSC Walsall WestCAD"
+      },
+      {
+        "code": "WO",
+        "name": "WMSC Wolverhampton WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "MD21cherwellvalley.v",
+    "mapName": "Banbury Cherwell Val",
+    "mapAbbreviation": "MD21",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD21_Cherwell_Valley.xml",
+    "trainDescriberList": [
+      {
+        "code": "CV",
+        "name": "WMSC Cherwell Valley WestCAD"
+      },
+      {
+        "code": "CY",
+        "name": "WMSC Coventry WestCAD"
+      },
+      {
+        "code": "LC",
+        "name": "WMSC Leamington Corridor"
+      },
+      {
+        "code": "ME",
+        "name": "Marylebone Chilterns IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "MD24eastwest.v",
+    "mapName": "Bicester East West",
+    "mapAbbreviation": "MD24",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD24_East_West.xml",
+    "trainDescriberList": [
+      {
+        "code": "D5",
+        "name": "TVSC Didcot IECC"
+      },
+      {
+        "code": "CV",
+        "name": "WMSC Cherwell Valley WestCAD"
+      },
+      {
+        "code": "ME",
+        "name": "Marylebone Chilterns IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "MD30westmidlandsfreighthd.v",
+    "mapName": "West Midlands HD",
+    "mapAbbreviation": "MD30",
+    "mapType": "HD",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "MD30_Westmidlands_Freight_HD.xml",
+    "trainDescriberList": [
+      {
+        "code": "KN",
+        "name": "WMSC Kings Norton WestCAD"
+      },
+      {
+        "code": "BG",
+        "name": "WMSC Bromsgrove Corridor WestCAD"
+      },
+      {
+        "code": "WN",
+        "name": "WMSC Water Orton WestCAD"
+      },
+      {
+        "code": "LC",
+        "name": "WMSC Leamington Corridor"
+      },
+      {
+        "code": "PJ",
+        "name": "WMSC Proof House Jn WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NW01manchesterpiccadilly.v",
+    "mapName": "Manchester Piccadilly",
+    "mapAbbreviation": "NW01",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW01_Manchester_Piccadilly.xml",
+    "trainDescriberList": [
+      {
+        "code": "MP",
+        "name": "Manchester Piccadilly PSB TD"
+      },
+      {
+        "code": "HN",
+        "name": "Heaton Norris"
+      },
+      {
+        "code": "M3",
+        "name": "MRROC Manchester Central WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NW02manchesteroxfordroad.v",
+    "mapName": "Salford Crescent",
+    "mapAbbreviation": "NW02",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW02_Manchester_Oxford_Road.xml",
+    "trainDescriberList": [
+      {
+        "code": "MP",
+        "name": "Manchester Piccadilly PSB TD"
+      },
+      {
+        "code": "M3",
+        "name": "MRROC Manchester Central WestCAD"
+      },
+      {
+        "code": "PX",
+        "name": "Preston PSB TD"
+      },
+      {
+        "code": "WA",
+        "name": "Warrington PSB"
+      },
+      {
+        "code": "XE",
+        "name": "Warrington Central"
+      }
+    ]
+  },
+  {
+    "mapId": "NW03prestonwcml.v",
+    "mapName": "Preston WCML",
+    "mapAbbreviation": "NW03",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW03_Preston_WCML.xml",
+    "trainDescriberList": [
+      {
+        "code": "MP",
+        "name": "Manchester Piccadilly PSB TD"
+      },
+      {
+        "code": "PX",
+        "name": "Preston PSB TD"
+      },
+      {
+        "code": "WA",
+        "name": "Warrington PSB"
+      }
+    ]
+  },
+  {
+    "mapId": "NW04prestoneala.v",
+    "mapName": "Blackburn East Lancs",
+    "mapAbbreviation": "NW04",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW04_Prestoneala.xml",
+    "trainDescriberList": [
+      {
+        "code": "RW",
+        "name": "Rochdale West"
+      },
+      {
+        "code": "PX",
+        "name": "Preston PSB TD"
+      },
+      {
+        "code": "Y7",
+        "name": "YKROC Halifax WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NW05sandhillsnl.v",
+    "mapName": "Sandhills Northern",
+    "mapAbbreviation": "NW05",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW05_Sandhills_nl.xml",
+    "trainDescriberList": [
+      {
+        "code": "SS",
+        "name": "Merseyrail IECC"
+      },
+      {
+        "code": "XL",
+        "name": "Hunts Cross"
+      },
+      {
+        "code": "M1",
+        "name": "MRROC Liverpool Area WestCAD"
+      },
+      {
+        "code": "M5",
+        "name": "MRROC Wavertree (West) WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NW06sandhillswl.v",
+    "mapName": "Sandhills Wirral",
+    "mapAbbreviation": "NW06",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW06_Sandhills_wl.xml",
+    "trainDescriberList": [
+      {
+        "code": "SS",
+        "name": "Merseyrail IECC"
+      },
+      {
+        "code": "CS",
+        "name": "Chester PSB"
+      }
+    ]
+  },
+  {
+    "mapId": "NW07manchesternorth.v",
+    "mapName": "Manchester Victoria",
+    "mapAbbreviation": "NW07",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW07_Manchester_North.xml",
+    "trainDescriberList": [
+      {
+        "code": "MP",
+        "name": "Manchester Piccadilly PSB TD"
+      },
+      {
+        "code": "M2",
+        "name": "MRROC Manchester North WestCAD"
+      },
+      {
+        "code": "RW",
+        "name": "Rochdale West"
+      },
+      {
+        "code": "M3",
+        "name": "MRROC Manchester Central WestCAD"
+      },
+      {
+        "code": "PX",
+        "name": "Preston PSB TD"
+      },
+      {
+        "code": "MZ",
+        "name": "Manchester East WestCAD"
+      },
+      {
+        "code": "Y6",
+        "name": "YKROC Huddersfield WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NW08crewe.v",
+    "mapName": "Crewe",
+    "mapAbbreviation": "NW08",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW08_Crewe.xml",
+    "trainDescriberList": [
+      {
+        "code": "CE",
+        "name": "Crewe PSB"
+      },
+      {
+        "code": "MS",
+        "name": "Manchester South"
+      },
+      {
+        "code": "M4",
+        "name": "MRROC Wavertree (East) WestCAD"
+      },
+      {
+        "code": "SK",
+        "name": "Stoke On Trent"
+      },
+      {
+        "code": "WA",
+        "name": "Warrington PSB"
+      },
+      {
+        "code": "WD",
+        "name": "Winsford PSB"
+      }
+    ]
+  },
+  {
+    "mapId": "NW9Alpoolchatmoss.v",
+    "mapName": "Liverpool-Chat Moss",
+    "mapAbbreviation": "NW9A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW9A_Lpool_Chat_Moss.xml",
+    "trainDescriberList": [
+      {
+        "code": "M0",
+        "name": "MRROC Lime Street WestCAD"
+      },
+      {
+        "code": "M1",
+        "name": "MRROC Liverpool Area WestCAD"
+      },
+      {
+        "code": "M5",
+        "name": "MRROC Wavertree (West) WestCAD"
+      },
+      {
+        "code": "WA",
+        "name": "Warrington PSB"
+      }
+    ]
+  },
+  {
+    "mapId": "NW9Blpoolruncorn.v",
+    "mapName": "Liverpool-Runcorn",
+    "mapAbbreviation": "NW9B",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW9B_Lpool_Runcorn.xml",
+    "trainDescriberList": [
+      {
+        "code": "M0",
+        "name": "MRROC Lime Street WestCAD"
+      },
+      {
+        "code": "XL",
+        "name": "Hunts Cross"
+      },
+      {
+        "code": "M1",
+        "name": "MRROC Liverpool Area WestCAD"
+      },
+      {
+        "code": "M3",
+        "name": "MRROC Manchester Central WestCAD"
+      },
+      {
+        "code": "M4",
+        "name": "MRROC Wavertree (East) WestCAD"
+      },
+      {
+        "code": "M5",
+        "name": "MRROC Wavertree (West) WestCAD"
+      },
+      {
+        "code": "DN"
+      },
+      {
+        "code": "XE",
+        "name": "Warrington Central"
+      },
+      {
+        "code": "WD",
+        "name": "Winsford PSB"
+      }
+    ]
+  },
+  {
+    "mapId": "NW10warringtonpsb.v",
+    "mapName": "Warrington Bank Quay",
+    "mapAbbreviation": "NW10",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW10_Warrington_psb.xml",
+    "trainDescriberList": [
+      {
+        "code": "MP",
+        "name": "Manchester Piccadilly PSB TD"
+      },
+      {
+        "code": "M1",
+        "name": "MRROC Liverpool Area WestCAD"
+      },
+      {
+        "code": "WA",
+        "name": "Warrington PSB"
+      },
+      {
+        "code": "WD",
+        "name": "Winsford PSB"
+      }
+    ]
+  },
+  {
+    "mapId": "NW11carlislenth.v",
+    "mapName": "Carlisle",
+    "mapAbbreviation": "NW11",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW11_Carlisle_nth.xml",
+    "trainDescriberList": [
+      {
+        "code": "CL",
+        "name": "Carlisle PSB TD"
+      },
+      {
+        "code": "G4",
+        "name": "WSSC Motherwell/Carstairs Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NW12carlislesth.v",
+    "mapName": "Oxenholme",
+    "mapAbbreviation": "NW12",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW12_Carlisle_sth.xml",
+    "trainDescriberList": [
+      {
+        "code": "PX",
+        "name": "Preston PSB TD"
+      },
+      {
+        "code": "CL",
+        "name": "Carlisle PSB TD"
+      }
+    ]
+  },
+  {
+    "mapId": "NW13msscc.v",
+    "mapName": "Stockport",
+    "mapAbbreviation": "NW13",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW13_msscc.xml",
+    "trainDescriberList": [
+      {
+        "code": "MP",
+        "name": "Manchester Piccadilly PSB TD"
+      },
+      {
+        "code": "HN",
+        "name": "Heaton Norris"
+      },
+      {
+        "code": "MS",
+        "name": "Manchester South"
+      },
+      {
+        "code": "SK",
+        "name": "Stoke On Trent"
+      },
+      {
+        "code": "XB",
+        "name": "Macclesfield"
+      },
+      {
+        "code": "E1",
+        "name": "Edgeley No 1"
+      },
+      {
+        "code": "MZ",
+        "name": "Manchester East WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NW14eastmanchester.v",
+    "mapName": "Manchester East",
+    "mapAbbreviation": "NW14",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW14_East_Manchester.xml",
+    "trainDescriberList": [
+      {
+        "code": "MP",
+        "name": "Manchester Piccadilly PSB TD"
+      },
+      {
+        "code": "Y4",
+        "name": "YKROC Sheffield WestCAD"
+      },
+      {
+        "code": "E1",
+        "name": "Edgeley No 1"
+      },
+      {
+        "code": "MZ",
+        "name": "Manchester East WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NW15chester.v",
+    "mapName": "Chester",
+    "mapAbbreviation": "NW15",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW15_Chester.xml",
+    "trainDescriberList": [
+      {
+        "code": "CS",
+        "name": "Chester PSB"
+      },
+      {
+        "code": "CE",
+        "name": "Crewe PSB"
+      },
+      {
+        "code": "C5",
+        "name": "WROC North Wales Coast WestCAD"
+      },
+      {
+        "code": "M4",
+        "name": "MRROC Wavertree (East) WestCAD"
+      },
+      {
+        "code": "WA",
+        "name": "Warrington PSB"
+      }
+    ]
+  },
+  {
+    "mapId": "NW16stafford.v",
+    "mapName": "Norton Bridge",
+    "mapAbbreviation": "NW16",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW16_Stafford.xml",
+    "trainDescriberList": [
+      {
+        "code": "R3",
+        "name": "RYROC Stafford Area WestCAD"
+      },
+      {
+        "code": "CE",
+        "name": "Crewe PSB"
+      },
+      {
+        "code": "WO",
+        "name": "WMSC Wolverhampton WestCAD"
+      },
+      {
+        "code": "SK",
+        "name": "Stoke On Trent"
+      }
+    ]
+  },
+  {
+    "mapId": "NW17blackpool.v",
+    "mapName": "Blackpool",
+    "mapAbbreviation": "NW17",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW17_Blackpool.xml",
+    "trainDescriberList": [
+      {
+        "code": "PX",
+        "name": "Preston PSB TD"
+      },
+      {
+        "code": "M9",
+        "name": "MRROC Blackpool Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NW18cumbriancoast.v",
+    "mapName": "Cumbrian Coast",
+    "mapAbbreviation": "NW18",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW18_Cumbrian_Coast.xml",
+    "trainDescriberList": [
+      {
+        "code": "PX",
+        "name": "Preston PSB TD"
+      },
+      {
+        "code": "CL",
+        "name": "Carlisle PSB TD"
+      }
+    ]
+  },
+  {
+    "mapId": "NW19carlislesettle.v",
+    "mapName": "Settle Carlisle",
+    "mapAbbreviation": "NW19",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW19_Carlisle_Settle.xml",
+    "trainDescriberList": [
+      {
+        "code": "CL",
+        "name": "Carlisle PSB TD"
+      }
+    ]
+  },
+  {
+    "mapId": "NW22mpsccsig.v",
+    "mapName": "MP SCC Signaller",
+    "mapAbbreviation": "NW22",
+    "mapType": "Standard",
+    "primaryMapGrouping": "North West and Central",
+    "filename": "NW22_MP_SCC_Sig.xml",
+    "trainDescriberList": [
+      {
+        "code": "MP",
+        "name": "Manchester Piccadilly PSB TD"
+      },
+      {
+        "code": "M3",
+        "name": "MRROC Manchester Central WestCAD"
+      },
+      {
+        "code": "WA",
+        "name": "Warrington PSB"
+      }
+    ]
+  },
+  {
+    "mapId": "SC01cowlairs.v",
+    "mapName": "Cowlairs",
+    "mapAbbreviation": "SC01",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC01_Cowlairs.xml",
+    "trainDescriberList": [
+      {
+        "code": "YO",
+        "name": "Yoker SCC MCS"
+      },
+      {
+        "code": "G3",
+        "name": "WSSC Newton/Whifflet Area WestCAD"
+      },
+      {
+        "code": "EC",
+        "name": "Edinburgh IECC C"
+      },
+      {
+        "code": "ED",
+        "name": "Edinburgh IECC D"
+      }
+    ]
+  },
+  {
+    "mapId": "SC02fifecircle.v",
+    "mapName": "Fife Circle",
+    "mapAbbreviation": "SC02",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC02_Fife_Circle.xml",
+    "trainDescriberList": [
+      {
+        "code": "EA",
+        "name": "Edinburgh IECC A"
+      },
+      {
+        "code": "EB",
+        "name": "Edinburgh IECC B"
+      },
+      {
+        "code": "EC",
+        "name": "Edinburgh IECC C"
+      },
+      {
+        "code": "ED",
+        "name": "Edinburgh IECC D"
+      }
+    ]
+  },
+  {
+    "mapId": "SC03edinburghwaverley.v",
+    "mapName": "Edinburgh Waverley",
+    "mapAbbreviation": "SC03",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC03_Edinburgh_Waverley.xml",
+    "trainDescriberList": [
+      {
+        "code": "EA",
+        "name": "Edinburgh IECC A"
+      },
+      {
+        "code": "EB",
+        "name": "Edinburgh IECC B"
+      },
+      {
+        "code": "EC",
+        "name": "Edinburgh IECC C"
+      }
+    ]
+  },
+  {
+    "mapId": "SC04edinburghecml.v",
+    "mapName": "Edinburgh ECML",
+    "mapAbbreviation": "SC04",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC04_Edinburgh_ECML.xml",
+    "trainDescriberList": [
+      {
+        "code": "TW",
+        "name": "Tweedmouth SB TD"
+      },
+      {
+        "code": "EA",
+        "name": "Edinburgh IECC A"
+      }
+    ]
+  },
+  {
+    "mapId": "SC05yoker.v",
+    "mapName": "Yoker",
+    "mapAbbreviation": "SC05",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC05_Yoker.xml",
+    "trainDescriberList": [
+      {
+        "code": "YO",
+        "name": "Yoker SCC MCS"
+      },
+      {
+        "code": "G1",
+        "name": "WSSC Glasgow Area WestCAD"
+      },
+      {
+        "code": "ED",
+        "name": "Edinburgh IECC D"
+      }
+    ]
+  },
+  {
+    "mapId": "SC06mossend.v",
+    "mapName": "Mossend",
+    "mapAbbreviation": "SC06",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC06_Mossend.xml",
+    "trainDescriberList": [
+      {
+        "code": "YO",
+        "name": "Yoker SCC MCS"
+      },
+      {
+        "code": "G1",
+        "name": "WSSC Glasgow Area WestCAD"
+      },
+      {
+        "code": "G3",
+        "name": "WSSC Newton/Whifflet Area WestCAD"
+      },
+      {
+        "code": "EB",
+        "name": "Edinburgh IECC B"
+      },
+      {
+        "code": "G4",
+        "name": "WSSC Motherwell/Carstairs Area WestCAD"
+      },
+      {
+        "code": "ED",
+        "name": "Edinburgh IECC D"
+      }
+    ]
+  },
+  {
+    "mapId": "SC07motherwellwcml.v",
+    "mapName": "Carstairs WCML",
+    "mapAbbreviation": "SC07",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC07_Motherwell_WCML.xml",
+    "trainDescriberList": [
+      {
+        "code": "CL",
+        "name": "Carlisle PSB TD"
+      },
+      {
+        "code": "G4",
+        "name": "WSSC Motherwell/Carstairs Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "SC08motherwell.v",
+    "mapName": "Motherwell",
+    "mapAbbreviation": "SC08",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC08_Motherwell.xml",
+    "trainDescriberList": [
+      {
+        "code": "YO",
+        "name": "Yoker SCC MCS"
+      },
+      {
+        "code": "G1",
+        "name": "WSSC Glasgow Area WestCAD"
+      },
+      {
+        "code": "G3",
+        "name": "WSSC Newton/Whifflet Area WestCAD"
+      },
+      {
+        "code": "G4",
+        "name": "WSSC Motherwell/Carstairs Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "SC09glasgowcentral.v",
+    "mapName": "Glasgow Central",
+    "mapAbbreviation": "SC09",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC09_Glasgow_Central.xml",
+    "trainDescriberList": [
+      {
+        "code": "YO",
+        "name": "Yoker SCC MCS"
+      },
+      {
+        "code": "G1",
+        "name": "WSSC Glasgow Area WestCAD"
+      },
+      {
+        "code": "G3",
+        "name": "WSSC Newton/Whifflet Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "SC10paisley.v",
+    "mapName": "Paisley",
+    "mapAbbreviation": "SC10",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC10_Paisley.xml",
+    "trainDescriberList": [
+      {
+        "code": "YO",
+        "name": "Yoker SCC MCS"
+      },
+      {
+        "code": "G1",
+        "name": "WSSC Glasgow Area WestCAD"
+      },
+      {
+        "code": "G2",
+        "name": "WSSC Paisley ITD"
+      }
+    ]
+  },
+  {
+    "mapId": "SC11ayr.v",
+    "mapName": "Ayr",
+    "mapAbbreviation": "SC11",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC11_Ayr.xml",
+    "trainDescriberList": [
+      {
+        "code": "G2",
+        "name": "WSSC Paisley ITD"
+      }
+    ]
+  },
+  {
+    "mapId": "SC12stirlingalloa.v",
+    "mapName": "Stirling Alloa",
+    "mapAbbreviation": "SC12",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC12_Stirling_Alloa.xml",
+    "trainDescriberList": [
+      {
+        "code": "SM",
+        "name": "Stirling Middle"
+      },
+      {
+        "code": "EA",
+        "name": "Edinburgh IECC A"
+      },
+      {
+        "code": "EC",
+        "name": "Edinburgh IECC C"
+      },
+      {
+        "code": "ED",
+        "name": "Edinburgh IECC D"
+      },
+      {
+        "code": "D3",
+        "name": "TVSC Paddington IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "SC13airdriebathgate.v",
+    "mapName": "Airdrie Bathgate",
+    "mapAbbreviation": "SC13",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC13_Airdrie_Bathgate.xml",
+    "trainDescriberList": [
+      {
+        "code": "YO",
+        "name": "Yoker SCC MCS"
+      },
+      {
+        "code": "EC",
+        "name": "Edinburgh IECC C"
+      }
+    ]
+  },
+  {
+    "mapId": "SC14cathcartcircle.v",
+    "mapName": "Cathcart Circle",
+    "mapAbbreviation": "SC14",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC14_Cathcart_Circle.xml",
+    "trainDescriberList": [
+      {
+        "code": "G1",
+        "name": "WSSC Glasgow Area WestCAD"
+      },
+      {
+        "code": "G3",
+        "name": "WSSC Newton/Whifflet Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "SC15kilmarnock.v",
+    "mapName": "Kilmarnock",
+    "mapAbbreviation": "SC15",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC15_Kilmarnock.xml",
+    "trainDescriberList": [
+      {
+        "code": "CL",
+        "name": "Carlisle PSB TD"
+      },
+      {
+        "code": "G1",
+        "name": "WSSC Glasgow Area WestCAD"
+      },
+      {
+        "code": "G4",
+        "name": "WSSC Motherwell/Carstairs Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "SC16aberdeen.v",
+    "mapName": "Aberdeen",
+    "mapAbbreviation": "SC16",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC16_Aberdeen.xml",
+    "trainDescriberList": [
+      {
+        "code": "EA",
+        "name": "Edinburgh IECC A"
+      }
+    ]
+  },
+  {
+    "mapId": "SC17inverness.v",
+    "mapName": "Inverness",
+    "mapAbbreviation": "SC17",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC17_Inverness.xml",
+    "trainDescriberList": [
+      {
+        "code": "IH",
+        "name": "Inverness Highlands WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "SC18borders.v",
+    "mapName": "Borders",
+    "mapAbbreviation": "SC18",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC18_Borders.xml",
+    "trainDescriberList": [
+      {
+        "code": "EA",
+        "name": "Edinburgh IECC A"
+      }
+    ]
+  },
+  {
+    "mapId": "SC19invernessaberdeen.v",
+    "mapName": "Inverness Aberdeen",
+    "mapAbbreviation": "SC19",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC19_Inverness_Aberdeen.xml",
+    "trainDescriberList": [
+      {
+        "code": "IH",
+        "name": "Inverness Highlands WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "SC20northscotland.v",
+    "mapName": "Far North Line",
+    "mapAbbreviation": "SC20",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC20_North_Scotland.xml",
+    "trainDescriberList": []
+  },
+  {
+    "mapId": "SC21westernscotland.v",
+    "mapName": "West Highland",
+    "mapAbbreviation": "SC21",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "SC21_Western_Scotland.xml",
+    "trainDescriberList": [
+      {
+        "code": "YO",
+        "name": "Yoker SCC MCS"
+      }
+    ]
+  },
+  {
+    "mapId": "HDSC01edinburgh.v",
+    "mapName": "Edinburgh",
+    "mapAbbreviation": "HDSC01",
+    "mapType": "HD",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "HDSC01_Edinburgh.xml",
+    "trainDescriberList": [
+      {
+        "code": "TW",
+        "name": "Tweedmouth SB TD"
+      },
+      {
+        "code": "EA",
+        "name": "Edinburgh IECC A"
+      },
+      {
+        "code": "EB",
+        "name": "Edinburgh IECC B"
+      }
+    ]
+  },
+  {
+    "mapId": "HDSC02glasgowqueenst.v",
+    "mapName": "Glasgow Queen St",
+    "mapAbbreviation": "HDSC02",
+    "mapType": "HD",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "HDSC02_Glasgow_Queen_St.xml",
+    "trainDescriberList": [
+      {
+        "code": "YO",
+        "name": "Yoker SCC MCS"
+      },
+      {
+        "code": "EA",
+        "name": "Edinburgh IECC A"
+      },
+      {
+        "code": "G3",
+        "name": "WSSC Newton/Whifflet Area WestCAD"
+      },
+      {
+        "code": "EB",
+        "name": "Edinburgh IECC B"
+      },
+      {
+        "code": "G4",
+        "name": "WSSC Motherwell/Carstairs Area WestCAD"
+      },
+      {
+        "code": "EC",
+        "name": "Edinburgh IECC C"
+      },
+      {
+        "code": "ED",
+        "name": "Edinburgh IECC D"
+      }
+    ]
+  },
+  {
+    "mapId": "HDSC03glasgowcentral.v",
+    "mapName": "Glasgow Central",
+    "mapAbbreviation": "HDSC03",
+    "mapType": "HD",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "HDSC03_Glasgow_Central.xml",
+    "trainDescriberList": [
+      {
+        "code": "YO",
+        "name": "Yoker SCC MCS"
+      },
+      {
+        "code": "G1",
+        "name": "WSSC Glasgow Area WestCAD"
+      },
+      {
+        "code": "G3",
+        "name": "WSSC Newton/Whifflet Area WestCAD"
+      },
+      {
+        "code": "G4",
+        "name": "WSSC Motherwell/Carstairs Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "HDSC04carstairs.v",
+    "mapName": "Carstairs",
+    "mapAbbreviation": "HDSC04",
+    "mapType": "HD",
+    "primaryMapGrouping": "Scotland's Railway",
+    "filename": "HDSC04_Carstairs.xml",
+    "trainDescriberList": [
+      {
+        "code": "CL",
+        "name": "Carlisle PSB TD"
+      },
+      {
+        "code": "G3",
+        "name": "WSSC Newton/Whifflet Area WestCAD"
+      },
+      {
+        "code": "G4",
+        "name": "WSSC Motherwell/Carstairs Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "HDGW01paddington.v",
+    "mapName": "Paddington",
+    "mapAbbreviation": "HDGW01",
+    "mapType": "HD",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "HDGW01_Paddington.xml",
+    "trainDescriberList": [
+      {
+        "code": "D4",
+        "name": "TVSC Hayes IECC"
+      },
+      {
+        "code": "D6",
+        "name": "TVSC Maidenhead IECC"
+      },
+      {
+        "code": "D3",
+        "name": "TVSC Paddington IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "HDGW02reading.v",
+    "mapName": "Reading",
+    "mapAbbreviation": "HDGW02",
+    "mapType": "HD",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "HDGW02_Reading.xml",
+    "trainDescriberList": [
+      {
+        "code": "D4",
+        "name": "TVSC Hayes IECC"
+      },
+      {
+        "code": "D6",
+        "name": "TVSC Maidenhead IECC"
+      },
+      {
+        "code": "BE",
+        "name": "Basingstoke"
+      },
+      {
+        "code": "D1",
+        "name": "TVSC Reading IECC A"
+      },
+      {
+        "code": "D2",
+        "name": "TVSC Reading IECC B"
+      }
+    ]
+  },
+  {
+    "mapId": "HDGW03oxford.v",
+    "mapName": "Didcot Oxford",
+    "mapAbbreviation": "HDGW03",
+    "mapType": "HD",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "HDGW03_Oxford.xml",
+    "trainDescriberList": [
+      {
+        "code": "D5",
+        "name": "TVSC Didcot IECC"
+      },
+      {
+        "code": "D7",
+        "name": "TVSC Swindon IECC"
+      },
+      {
+        "code": "CV",
+        "name": "WMSC Cherwell Valley WestCAD"
+      },
+      {
+        "code": "ME",
+        "name": "Marylebone Chilterns IECC"
+      },
+      {
+        "code": "D1",
+        "name": "TVSC Reading IECC A"
+      }
+    ]
+  },
+  {
+    "mapId": "HDGW04bristolparkway.v",
+    "mapName": "Bristol Parkway",
+    "mapAbbreviation": "HDGW04",
+    "mapType": "HD",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "HDGW04_Bristol_Parkway.xml",
+    "trainDescriberList": [
+      {
+        "code": "D7",
+        "name": "TVSC Swindon IECC"
+      },
+      {
+        "code": "D9",
+        "name": "TVSC Stoke Gifford IECC"
+      },
+      {
+        "code": "D0",
+        "name": "TVSC Temple Meads IECC"
+      },
+      {
+        "code": "C1",
+        "name": "SWCC Newport Corridor WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "HDGW05bristoltm.v",
+    "mapName": "Bristol Temple Meads",
+    "mapAbbreviation": "HDGW05",
+    "mapType": "HD",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "HDGW05_Bristol_Tm.xml",
+    "trainDescriberList": [
+      {
+        "code": "WW",
+        "name": "Westbury"
+      },
+      {
+        "code": "WI",
+        "name": "Wimbledon NCP"
+      },
+      {
+        "code": "D7",
+        "name": "TVSC Swindon IECC"
+      },
+      {
+        "code": "EX",
+        "name": "Exeter"
+      },
+      {
+        "code": "D9",
+        "name": "TVSC Stoke Gifford IECC"
+      },
+      {
+        "code": "BL",
+        "name": "Bristol PSB ITD"
+      },
+      {
+        "code": "D0",
+        "name": "TVSC Temple Meads IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "HDGW06gloucester.v",
+    "mapName": "Gloucester",
+    "mapAbbreviation": "HDGW06",
+    "mapType": "HD",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "HDGW06_Gloucester.xml",
+    "trainDescriberList": [
+      {
+        "code": "D7",
+        "name": "TVSC Swindon IECC"
+      },
+      {
+        "code": "GL",
+        "name": "Gloucester ITD"
+      },
+      {
+        "code": "D9",
+        "name": "TVSC Stoke Gifford IECC"
+      },
+      {
+        "code": "BG",
+        "name": "WMSC Bromsgrove Corridor WestCAD"
+      },
+      {
+        "code": "D0",
+        "name": "TVSC Temple Meads IECC"
+      },
+      {
+        "code": "C1",
+        "name": "SWCC Newport Corridor WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "HDGW6Aworcester.v",
+    "mapName": "Worcester",
+    "mapAbbreviation": "HDGW6A",
+    "mapType": "HD",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "HDGW6A_Worcester.xml",
+    "trainDescriberList": [
+      {
+        "code": "D7",
+        "name": "TVSC Swindon IECC"
+      },
+      {
+        "code": "GL",
+        "name": "Gloucester ITD"
+      },
+      {
+        "code": "BG",
+        "name": "WMSC Bromsgrove Corridor WestCAD"
+      },
+      {
+        "code": "C1",
+        "name": "SWCC Newport Corridor WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "HDGW07newbury.v",
+    "mapName": "Westbury",
+    "mapAbbreviation": "HDGW07",
+    "mapType": "HD",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "HDGW07_Newbury.xml",
+    "trainDescriberList": [
+      {
+        "code": "WW",
+        "name": "Westbury"
+      },
+      {
+        "code": "BS",
+        "name": "Barnes"
+      },
+      {
+        "code": "WI",
+        "name": "Wimbledon NCP"
+      },
+      {
+        "code": "EX",
+        "name": "Exeter"
+      },
+      {
+        "code": "BE",
+        "name": "Basingstoke"
+      },
+      {
+        "code": "D7",
+        "name": "TVSC Swindon IECC"
+      },
+      {
+        "code": "BL",
+        "name": "Bristol PSB ITD"
+      },
+      {
+        "code": "D0",
+        "name": "TVSC Temple Meads IECC"
+      },
+      {
+        "code": "D1",
+        "name": "TVSC Reading IECC A"
+      },
+      {
+        "code": "D2",
+        "name": "TVSC Reading IECC B"
+      },
+      {
+        "code": "ZY",
+        "name": "Yeovil TDC"
+      }
+    ]
+  },
+  {
+    "mapId": "HDGW08plymouth.v",
+    "mapName": "Plymouth",
+    "mapAbbreviation": "HDGW08",
+    "mapType": "HD",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "HDGW08_Plymouth.xml",
+    "trainDescriberList": [
+      {
+        "code": "WW",
+        "name": "Westbury"
+      },
+      {
+        "code": "EX",
+        "name": "Exeter"
+      },
+      {
+        "code": "EH",
+        "name": "Eastleigh"
+      },
+      {
+        "code": "BX",
+        "name": "Basingstoke (WoE)"
+      },
+      {
+        "code": "PH",
+        "name": "Plymouth"
+      },
+      {
+        "code": "BL",
+        "name": "Bristol PSB ITD"
+      },
+      {
+        "code": "ZY",
+        "name": "Yeovil TDC"
+      }
+    ]
+  },
+  {
+    "mapId": "HDGW09penzance.v",
+    "mapName": "Penzance",
+    "mapAbbreviation": "HDGW09",
+    "mapType": "HD",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "HDGW09_Penzance.xml",
+    "trainDescriberList": [
+      {
+        "code": "PH",
+        "name": "Plymouth"
+      }
+    ]
+  },
+  {
+    "mapId": "GW01paddington.v",
+    "mapName": "London Paddington",
+    "mapAbbreviation": "GW01",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW01_Paddington.xml",
+    "trainDescriberList": [
+      {
+        "code": "D3",
+        "name": "TVSC Paddington IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "GW02heathrow.v",
+    "mapName": "Heathrow",
+    "mapAbbreviation": "GW02",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW02_Heathrow.xml",
+    "trainDescriberList": [
+      {
+        "code": "D4",
+        "name": "TVSC Hayes IECC"
+      },
+      {
+        "code": "D3",
+        "name": "TVSC Paddington IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "GW2Aslough.v",
+    "mapName": "Slough",
+    "mapAbbreviation": "GW2A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW2A_Slough.xml",
+    "trainDescriberList": [
+      {
+        "code": "D4",
+        "name": "TVSC Hayes IECC"
+      },
+      {
+        "code": "D6",
+        "name": "TVSC Maidenhead IECC"
+      },
+      {
+        "code": "D1",
+        "name": "TVSC Reading IECC A"
+      }
+    ]
+  },
+  {
+    "mapId": "GW03reading.v",
+    "mapName": "Reading",
+    "mapAbbreviation": "GW03",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW03_Reading.xml",
+    "trainDescriberList": [
+      {
+        "code": "D5",
+        "name": "TVSC Didcot IECC"
+      },
+      {
+        "code": "BE",
+        "name": "Basingstoke"
+      },
+      {
+        "code": "D1",
+        "name": "TVSC Reading IECC A"
+      },
+      {
+        "code": "D2",
+        "name": "TVSC Reading IECC B"
+      }
+    ]
+  },
+  {
+    "mapId": "GW04didcot.v",
+    "mapName": "Didcot",
+    "mapAbbreviation": "GW04",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW04_Didcot.xml",
+    "trainDescriberList": [
+      {
+        "code": "D5",
+        "name": "TVSC Didcot IECC"
+      },
+      {
+        "code": "D7",
+        "name": "TVSC Swindon IECC"
+      },
+      {
+        "code": "D1",
+        "name": "TVSC Reading IECC A"
+      }
+    ]
+  },
+  {
+    "mapId": "GW4Aoxford.v",
+    "mapName": "Oxford",
+    "mapAbbreviation": "GW4A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW4A_Oxford.xml",
+    "trainDescriberList": [
+      {
+        "code": "D5",
+        "name": "TVSC Didcot IECC"
+      },
+      {
+        "code": "CV",
+        "name": "WMSC Cherwell Valley WestCAD"
+      },
+      {
+        "code": "ME",
+        "name": "Marylebone Chilterns IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "GW05swindon.v",
+    "mapName": "Swindon",
+    "mapAbbreviation": "GW05",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW05_Swindon.xml",
+    "trainDescriberList": [
+      {
+        "code": "WW",
+        "name": "Westbury"
+      },
+      {
+        "code": "WI",
+        "name": "Wimbledon NCP"
+      },
+      {
+        "code": "D7",
+        "name": "TVSC Swindon IECC"
+      },
+      {
+        "code": "D9",
+        "name": "TVSC Stoke Gifford IECC"
+      },
+      {
+        "code": "D0",
+        "name": "TVSC Temple Meads IECC"
+      },
+      {
+        "code": "C1",
+        "name": "SWCC Newport Corridor WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "GW5Abristolparkway.v",
+    "mapName": "Bristol Parkway",
+    "mapAbbreviation": "GW5A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW5A_Bristol_Parkway.xml",
+    "trainDescriberList": [
+      {
+        "code": "D9",
+        "name": "TVSC Stoke Gifford IECC"
+      },
+      {
+        "code": "D0",
+        "name": "TVSC Temple Meads IECC"
+      },
+      {
+        "code": "C1",
+        "name": "SWCC Newport Corridor WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "GW06gloucester.v",
+    "mapName": "Gloucester",
+    "mapAbbreviation": "GW06",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW06_Gloucester.xml",
+    "trainDescriberList": [
+      {
+        "code": "D7",
+        "name": "TVSC Swindon IECC"
+      },
+      {
+        "code": "GL",
+        "name": "Gloucester ITD"
+      },
+      {
+        "code": "BG",
+        "name": "WMSC Bromsgrove Corridor WestCAD"
+      },
+      {
+        "code": "D9",
+        "name": "TVSC Stoke Gifford IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "GW07newport.v",
+    "mapName": "Newport",
+    "mapAbbreviation": "GW07",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW07_Newport.xml",
+    "trainDescriberList": [
+      {
+        "code": "GL",
+        "name": "Gloucester ITD"
+      },
+      {
+        "code": "C1",
+        "name": "SWCC Newport Corridor WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "GW08cardiffswml.v",
+    "mapName": "Cardiff SWML",
+    "mapAbbreviation": "GW08",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW08_Cardiff_SWML.xml",
+    "trainDescriberList": [
+      {
+        "code": "PT",
+        "name": "Port Talbot"
+      },
+      {
+        "code": "C1",
+        "name": "SWCC Newport Corridor WestCAD"
+      },
+      {
+        "code": "C2",
+        "name": "SWCC Cardiff Area MCS"
+      }
+    ]
+  },
+  {
+    "mapId": "GW8Acardiffvalleyssth.v",
+    "mapName": "Cardiff Valleys Sth",
+    "mapAbbreviation": "GW8A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW8A_Cardiff_Valleys_Sth.xml",
+    "trainDescriberList": [
+      {
+        "code": "PT",
+        "name": "Port Talbot"
+      },
+      {
+        "code": "RA",
+        "name": "Radyr"
+      },
+      {
+        "code": "C2",
+        "name": "SWCC Cardiff Area MCS"
+      }
+    ]
+  },
+  {
+    "mapId": "GW8Bcardiffvalleysnth.v",
+    "mapName": "Cardiff Valleys Nth",
+    "mapAbbreviation": "GW8B",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW8B_Cardiff_Valleys_Nth.xml",
+    "trainDescriberList": [
+      {
+        "code": "RA",
+        "name": "Radyr"
+      },
+      {
+        "code": "C2",
+        "name": "SWCC Cardiff Area MCS"
+      }
+    ]
+  },
+  {
+    "mapId": "GW8Ccardiffvalleyshd.v",
+    "mapName": "Cardiff Valleys HD",
+    "mapAbbreviation": "GW8C",
+    "mapType": "HD",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW8C_Cardiff_Valleys_HD.xml",
+    "trainDescriberList": [
+      {
+        "code": "PT",
+        "name": "Port Talbot"
+      },
+      {
+        "code": "RA",
+        "name": "Radyr"
+      },
+      {
+        "code": "C2",
+        "name": "SWCC Cardiff Area MCS"
+      }
+    ]
+  },
+  {
+    "mapId": "GW09swansea.v",
+    "mapName": "Swansea",
+    "mapAbbreviation": "GW09",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW09_Swansea.xml",
+    "trainDescriberList": [
+      {
+        "code": "C6",
+        "name": "SWCC Swansea Area WestCAD"
+      },
+      {
+        "code": "PT",
+        "name": "Port Talbot"
+      },
+      {
+        "code": "C2",
+        "name": "SWCC Cardiff Area MCS"
+      }
+    ]
+  },
+  {
+    "mapId": "GW10llanelli.v",
+    "mapName": "Llanelli Carmarthen",
+    "mapAbbreviation": "GW10",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW10_Llanelli.xml",
+    "trainDescriberList": [
+      {
+        "code": "PT",
+        "name": "Port Talbot"
+      }
+    ]
+  },
+  {
+    "mapId": "GW11bristol.v",
+    "mapName": "Bristol Temple Meads",
+    "mapAbbreviation": "GW11",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW11_Bristol.xml",
+    "trainDescriberList": [
+      {
+        "code": "EX",
+        "name": "Exeter"
+      },
+      {
+        "code": "D9",
+        "name": "TVSC Stoke Gifford IECC"
+      },
+      {
+        "code": "BL",
+        "name": "Bristol PSB ITD"
+      },
+      {
+        "code": "D0",
+        "name": "TVSC Temple Meads IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "GW12newbury.v",
+    "mapName": "Westbury",
+    "mapAbbreviation": "GW12",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW12_newbury.xml",
+    "trainDescriberList": [
+      {
+        "code": "WW",
+        "name": "Westbury"
+      },
+      {
+        "code": "BS",
+        "name": "Barnes"
+      },
+      {
+        "code": "WI",
+        "name": "Wimbledon NCP"
+      },
+      {
+        "code": "D7",
+        "name": "TVSC Swindon IECC"
+      },
+      {
+        "code": "D0",
+        "name": "TVSC Temple Meads IECC"
+      },
+      {
+        "code": "D2",
+        "name": "TVSC Reading IECC B"
+      },
+      {
+        "code": "ZY",
+        "name": "Yeovil TDC"
+      }
+    ]
+  },
+  {
+    "mapId": "GW13exeter.v",
+    "mapName": "Exeter",
+    "mapAbbreviation": "GW13",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW13_Exeter.xml",
+    "trainDescriberList": [
+      {
+        "code": "WW",
+        "name": "Westbury"
+      },
+      {
+        "code": "WI",
+        "name": "Wimbledon NCP"
+      },
+      {
+        "code": "EX",
+        "name": "Exeter"
+      },
+      {
+        "code": "EH",
+        "name": "Eastleigh"
+      },
+      {
+        "code": "BX",
+        "name": "Basingstoke (WoE)"
+      },
+      {
+        "code": "BL",
+        "name": "Bristol PSB ITD"
+      },
+      {
+        "code": "ZY",
+        "name": "Yeovil TDC"
+      }
+    ]
+  },
+  {
+    "mapId": "GW14plymouth.v",
+    "mapName": "Plymouth",
+    "mapAbbreviation": "GW14",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW14_Plymouth.xml",
+    "trainDescriberList": [
+      {
+        "code": "EX",
+        "name": "Exeter"
+      },
+      {
+        "code": "PH",
+        "name": "Plymouth"
+      }
+    ]
+  },
+  {
+    "mapId": "GW15cambrian.v",
+    "mapName": "Cambrian",
+    "mapAbbreviation": "GW15",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW15_Cambrian.xml",
+    "trainDescriberList": [
+      {
+        "code": "MH",
+        "name": "Machynlleth"
+      }
+    ]
+  },
+  {
+    "mapId": "GW16shrewsbury.v",
+    "mapName": "Shrewsbury",
+    "mapAbbreviation": "GW16",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW16_Shrewsbury.xml",
+    "trainDescriberList": [
+      {
+        "code": "C3",
+        "name": "SWCC Shrewsbury North WestCAD"
+      },
+      {
+        "code": "CS",
+        "name": "Chester PSB"
+      },
+      {
+        "code": "MH",
+        "name": "Machynlleth"
+      }
+    ]
+  },
+  {
+    "mapId": "GW17cotswolds.v",
+    "mapName": "Cotswolds",
+    "mapAbbreviation": "GW17",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW17_Cotswolds.xml",
+    "trainDescriberList": [
+      {
+        "code": "D5",
+        "name": "TVSC Didcot IECC"
+      },
+      {
+        "code": "BG",
+        "name": "WMSC Bromsgrove Corridor WestCAD"
+      },
+      {
+        "code": "ME",
+        "name": "Marylebone Chilterns IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "GW18newquay.v",
+    "mapName": "Newquay",
+    "mapAbbreviation": "GW18",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW18_Newquay.xml",
+    "trainDescriberList": [
+      {
+        "code": "PH",
+        "name": "Plymouth"
+      }
+    ]
+  },
+  {
+    "mapId": "GW19penzance.v",
+    "mapName": "Penzance",
+    "mapAbbreviation": "GW19",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW19_Penzance.xml",
+    "trainDescriberList": []
+  },
+  {
+    "mapId": "GW20northwales.v",
+    "mapName": "North Wales Coast",
+    "mapAbbreviation": "GW20",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW20_North_Wales.xml",
+    "trainDescriberList": [
+      {
+        "code": "CS",
+        "name": "Chester PSB"
+      },
+      {
+        "code": "C5",
+        "name": "WROC North Wales Coast WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "GW21hereford.v",
+    "mapName": "Hereford",
+    "mapAbbreviation": "GW21",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW21_Hereford.xml",
+    "trainDescriberList": [
+      {
+        "code": "C1",
+        "name": "SWCC Newport Corridor WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "GW22heartofwales.v",
+    "mapName": "Heart Of Wales",
+    "mapAbbreviation": "GW22",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Wales & Western",
+    "filename": "GW22_Heart_Of_Wales.xml",
+    "trainDescriberList": [
+      {
+        "code": "PT",
+        "name": "Port Talbot"
+      }
+    ]
+  },
+  {
+    "mapId": "EA01liverpoolst.v",
+    "mapName": "Liverpool Street",
+    "mapAbbreviation": "EA01",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA01_Liverpool_St.xml",
+    "trainDescriberList": [
+      {
+        "code": "Q1",
+        "name": "ROROC Stratford IECC"
+      },
+      {
+        "code": "LS",
+        "name": "Liverpool St IECC A"
+      },
+      {
+        "code": "UR",
+        "name": "Upminster IECC 1"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "EA1Ailford.v",
+    "mapName": "Ilford",
+    "mapAbbreviation": "EA1A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA1A_Ilford.xml",
+    "trainDescriberList": [
+      {
+        "code": "Q1",
+        "name": "ROROC Stratford IECC"
+      },
+      {
+        "code": "R2",
+        "name": "Rugby SCC (Northampton - Rugby ITD)"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "EA02shenfield.v",
+    "mapName": "Shenfield",
+    "mapAbbreviation": "EA02",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA02_Shenfield.xml",
+    "trainDescriberList": [
+      {
+        "code": "Q1",
+        "name": "ROROC Stratford IECC"
+      },
+      {
+        "code": "Q2",
+        "name": "ROROC Shenfield IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "EA2Asouthend.v",
+    "mapName": "Southend",
+    "mapAbbreviation": "EA2A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA2A_Southend.xml",
+    "trainDescriberList": [
+      {
+        "code": "Q2",
+        "name": "ROROC Shenfield IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "EA03colchester.v",
+    "mapName": "Colchester",
+    "mapAbbreviation": "EA03",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA03_Colchester.xml",
+    "trainDescriberList": [
+      {
+        "code": "CC",
+        "name": "Colchester"
+      },
+      {
+        "code": "Q2",
+        "name": "ROROC Shenfield IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "EA3Aclacton.v",
+    "mapName": "Clacton",
+    "mapAbbreviation": "EA3A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA3A_Clacton.xml",
+    "trainDescriberList": [
+      {
+        "code": "CC",
+        "name": "Colchester"
+      }
+    ]
+  },
+  {
+    "mapId": "EA04norwich.v",
+    "mapName": "Norwich",
+    "mapAbbreviation": "EA04",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA04_Norwich.xml",
+    "trainDescriberList": [
+      {
+        "code": "CC",
+        "name": "Colchester"
+      },
+      {
+        "code": "SX",
+        "name": "Saxmundham (East Suffolk) MCS"
+      },
+      {
+        "code": "EN",
+        "name": "Cambridge IECC (Ely - Norwich)"
+      }
+    ]
+  },
+  {
+    "mapId": "EA05chingford.v",
+    "mapName": "Chingford",
+    "mapAbbreviation": "EA05",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA05_Chingford.xml",
+    "trainDescriberList": [
+      {
+        "code": "Q1",
+        "name": "ROROC Stratford IECC"
+      },
+      {
+        "code": "Q3",
+        "name": "ROROC West Anglia Area IECC"
+      },
+      {
+        "code": "LS",
+        "name": "Liverpool St IECC A"
+      },
+      {
+        "code": "SO",
+        "name": "South Tottenham"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "EA06stansted.v",
+    "mapName": "Stansted",
+    "mapAbbreviation": "EA06",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA06_Stansted.xml",
+    "trainDescriberList": [
+      {
+        "code": "Q3",
+        "name": "ROROC West Anglia Area IECC"
+      },
+      {
+        "code": "CA",
+        "name": "Cambridge ITD"
+      }
+    ]
+  },
+  {
+    "mapId": "EA07cambridge.v",
+    "mapName": "Cambridge",
+    "mapAbbreviation": "EA07",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA07_Cambridge.xml",
+    "trainDescriberList": [
+      {
+        "code": "CA",
+        "name": "Cambridge ITD"
+      },
+      {
+        "code": "Y8",
+        "name": "YKROC Kings Cross North WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "EA08ely.v",
+    "mapName": "Ely",
+    "mapAbbreviation": "EA08",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA08_Ely.xml",
+    "trainDescriberList": [
+      {
+        "code": "CC",
+        "name": "Colchester"
+      },
+      {
+        "code": "PB",
+        "name": "Peterborough"
+      },
+      {
+        "code": "EN",
+        "name": "Cambridge IECC (Ely - Norwich)"
+      },
+      {
+        "code": "CA",
+        "name": "Cambridge ITD"
+      }
+    ]
+  },
+  {
+    "mapId": "EA09stratford.v",
+    "mapName": "Stratford",
+    "mapAbbreviation": "EA09",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA09_Stratford.xml",
+    "trainDescriberList": [
+      {
+        "code": "Q1",
+        "name": "ROROC Stratford IECC"
+      },
+      {
+        "code": "R2",
+        "name": "Rugby SCC (Northampton - Rugby ITD)"
+      },
+      {
+        "code": "Q3",
+        "name": "ROROC West Anglia Area IECC"
+      },
+      {
+        "code": "LS",
+        "name": "Liverpool St IECC A"
+      },
+      {
+        "code": "SO",
+        "name": "South Tottenham"
+      },
+      {
+        "code": "UR",
+        "name": "Upminster IECC 1"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "EA9Acamdenrd.v",
+    "mapName": "Camden Road",
+    "mapAbbreviation": "EA9A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA9A_Camden_Rd.xml",
+    "trainDescriberList": [
+      {
+        "code": "Q1",
+        "name": "ROROC Stratford IECC"
+      },
+      {
+        "code": "R2",
+        "name": "Rugby SCC (Northampton - Rugby ITD)"
+      },
+      {
+        "code": "CT",
+        "name": "Channel Tunnel"
+      },
+      {
+        "code": "WY",
+        "name": "Wembley Mainline PSB"
+      },
+      {
+        "code": "LS",
+        "name": "Liverpool St IECC A"
+      },
+      {
+        "code": "NX",
+        "name": "East London Line"
+      },
+      {
+        "code": "WS",
+        "name": "Willesden Suburban"
+      },
+      {
+        "code": "KX",
+        "name": "Kings Cross"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "EA9Bsthtottenham.v",
+    "mapName": "South Tottenham",
+    "mapAbbreviation": "EA9B",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA9B_Sth_Tottenham.xml",
+    "trainDescriberList": [
+      {
+        "code": "Q1",
+        "name": "ROROC Stratford IECC"
+      },
+      {
+        "code": "WH",
+        "name": "West Hampstead PSB"
+      },
+      {
+        "code": "Q3",
+        "name": "ROROC West Anglia Area IECC"
+      },
+      {
+        "code": "SO",
+        "name": "South Tottenham"
+      },
+      {
+        "code": "UR",
+        "name": "Upminster IECC 1"
+      },
+      {
+        "code": "KX",
+        "name": "Kings Cross"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      },
+      {
+        "code": "CA",
+        "name": "Cambridge ITD"
+      }
+    ]
+  },
+  {
+    "mapId": "EA9Ceastlondon.v",
+    "mapName": "East London",
+    "mapAbbreviation": "EA9C",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA9C_East_London.xml",
+    "trainDescriberList": [
+      {
+        "code": "X1",
+        "name": "TBROC London Bridge Central WestCAD"
+      },
+      {
+        "code": "NX",
+        "name": "East London Line"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "EA9Dcroydon.v",
+    "mapName": "Croydon",
+    "mapAbbreviation": "EA9D",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA9D_Croydon.xml",
+    "trainDescriberList": [
+      {
+        "code": "X1",
+        "name": "TBROC London Bridge Central WestCAD"
+      },
+      {
+        "code": "NX",
+        "name": "East London Line"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      },
+      {
+        "code": "T1",
+        "name": "Tyneside 1 IECC"
+      },
+      {
+        "code": "TB",
+        "name": "Three Bridges ASC ITD"
+      },
+      {
+        "code": "T2",
+        "name": "Tyneside 2 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "EA10richmond.v",
+    "mapName": "Richmond",
+    "mapAbbreviation": "EA10",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA10_Richmond.xml",
+    "trainDescriberList": [
+      {
+        "code": "WY",
+        "name": "Wembley Mainline PSB"
+      },
+      {
+        "code": "AW",
+        "name": "Acton Wells"
+      },
+      {
+        "code": "WS",
+        "name": "Willesden Suburban"
+      },
+      {
+        "code": "NJ",
+        "name": "Neasden Jn TD"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      },
+      {
+        "code": "D3",
+        "name": "TVSC Paddington IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "EA11actonwells.v",
+    "mapName": "Acton Wells",
+    "mapAbbreviation": "EA11",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA11_Acton_Wells.xml",
+    "trainDescriberList": [
+      {
+        "code": "WH",
+        "name": "West Hampstead PSB"
+      },
+      {
+        "code": "WY",
+        "name": "Wembley Mainline PSB"
+      },
+      {
+        "code": "FH",
+        "name": "Feltham ASC TD"
+      },
+      {
+        "code": "AW",
+        "name": "Acton Wells"
+      },
+      {
+        "code": "ME",
+        "name": "Marylebone Chilterns IECC"
+      },
+      {
+        "code": "NJ",
+        "name": "Neasden Jn TD"
+      },
+      {
+        "code": "WS",
+        "name": "Willesden Suburban"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      },
+      {
+        "code": "D3",
+        "name": "TVSC Paddington IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "EA12anglia.v",
+    "mapName": "Anglia Lowestoft",
+    "mapAbbreviation": "EA12",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA12_Anglia.xml",
+    "trainDescriberList": [
+      {
+        "code": "CC",
+        "name": "Colchester"
+      },
+      {
+        "code": "SX",
+        "name": "Saxmundham (East Suffolk) MCS"
+      },
+      {
+        "code": "NL",
+        "name": "Colchester NYL Area MCS"
+      }
+    ]
+  },
+  {
+    "mapId": "EA13fenchurchst.v",
+    "mapName": "Fenchurch Street",
+    "mapAbbreviation": "EA13",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA13_Fenchurch_St.xml",
+    "trainDescriberList": [
+      {
+        "code": "Q1",
+        "name": "ROROC Stratford IECC"
+      },
+      {
+        "code": "UR",
+        "name": "Upminster IECC 1"
+      },
+      {
+        "code": "U2",
+        "name": "Upminster IECC 2"
+      }
+    ]
+  },
+  {
+    "mapId": "EA14shoeburyness.v",
+    "mapName": "Shoeburyness",
+    "mapAbbreviation": "EA14",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA14_Shoeburyness.xml",
+    "trainDescriberList": [
+      {
+        "code": "UR",
+        "name": "Upminster IECC 1"
+      },
+      {
+        "code": "U2",
+        "name": "Upminster IECC 2"
+      }
+    ]
+  },
+  {
+    "mapId": "EA15tilbury.v",
+    "mapName": "Tilbury",
+    "mapAbbreviation": "EA15",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "EA15_Tilbury.xml",
+    "trainDescriberList": [
+      {
+        "code": "CT",
+        "name": "Channel Tunnel"
+      },
+      {
+        "code": "UR",
+        "name": "Upminster IECC 1"
+      },
+      {
+        "code": "U2",
+        "name": "Upminster IECC 2"
+      }
+    ]
+  },
+  {
+    "mapId": "MD05stpancras.v",
+    "mapName": "London St Pancras",
+    "mapAbbreviation": "MD05",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "MD05_St_Pancras.xml",
+    "trainDescriberList": [
+      {
+        "code": "WH",
+        "name": "West Hampstead PSB"
+      },
+      {
+        "code": "X0",
+        "name": "TBROC Thameslink Core WestCAD"
+      },
+      {
+        "code": "NJ",
+        "name": "Neasden Jn TD"
+      }
+    ]
+  },
+  {
+    "mapId": "MD06luton.v",
+    "mapName": "Luton Bedford",
+    "mapAbbreviation": "MD06",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "MD06_Luton.xml",
+    "trainDescriberList": [
+      {
+        "code": "WH",
+        "name": "West Hampstead PSB"
+      },
+      {
+        "code": "RT",
+        "name": "Marston Vale MCS"
+      },
+      {
+        "code": "KG",
+        "name": "EMCC Kettering Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "MD07leicester.v",
+    "mapName": "Leicester",
+    "mapAbbreviation": "MD07",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "MD07_Leicester.xml",
+    "trainDescriberList": [
+      {
+        "code": "LR",
+        "name": "EMCC Leicester Area WestCAD"
+      },
+      {
+        "code": "NE",
+        "name": "EMCC North Erewash Area WestCAD"
+      },
+      {
+        "code": "KG",
+        "name": "EMCC Kettering Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "MD7Astherewash.v",
+    "mapName": "Toton South Erewash",
+    "mapAbbreviation": "MD7A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "MD7A_Stherewash.xml",
+    "trainDescriberList": [
+      {
+        "code": "BU",
+        "name": "EMCC Burton Area WestCAD"
+      },
+      {
+        "code": "DY",
+        "name": "EMCC Derby Area WestCAD"
+      },
+      {
+        "code": "NE",
+        "name": "EMCC North Erewash Area WestCAD"
+      },
+      {
+        "code": "MD",
+        "name": "EMCC Mansfield"
+      },
+      {
+        "code": "NM",
+        "name": "EMCC Nottingham WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "MD16erewashvalley.v",
+    "mapName": "Chesterfield Erewash",
+    "mapAbbreviation": "MD16",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "MD16_Erewash_Valley.xml",
+    "trainDescriberList": [
+      {
+        "code": "DY",
+        "name": "EMCC Derby Area WestCAD"
+      },
+      {
+        "code": "NE",
+        "name": "EMCC North Erewash Area WestCAD"
+      },
+      {
+        "code": "TN",
+        "name": "EMCC Chesterfield Area WestCAD"
+      },
+      {
+        "code": "Y4",
+        "name": "YKROC Sheffield WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "MD17nottingham.v",
+    "mapName": "Nottingham",
+    "mapAbbreviation": "MD17",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "MD17_Nottingham.xml",
+    "trainDescriberList": [
+      {
+        "code": "BU",
+        "name": "EMCC Burton Area WestCAD"
+      },
+      {
+        "code": "DY",
+        "name": "EMCC Derby Area WestCAD"
+      },
+      {
+        "code": "NE",
+        "name": "EMCC North Erewash Area WestCAD"
+      },
+      {
+        "code": "NM",
+        "name": "EMCC Nottingham WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "MD18derby.v",
+    "mapName": "Derby",
+    "mapAbbreviation": "MD18",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "MD18_Derby.xml",
+    "trainDescriberList": [
+      {
+        "code": "R2",
+        "name": "Rugby SCC (Northampton - Rugby ITD)"
+      },
+      {
+        "code": "AS",
+        "name": "Aston SCC TD"
+      },
+      {
+        "code": "BU",
+        "name": "EMCC Burton Area WestCAD"
+      },
+      {
+        "code": "DY",
+        "name": "EMCC Derby Area WestCAD"
+      },
+      {
+        "code": "WN",
+        "name": "WMSC Water Orton WestCAD"
+      },
+      {
+        "code": "NE",
+        "name": "EMCC North Erewash Area WestCAD"
+      },
+      {
+        "code": "SK",
+        "name": "Stoke On Trent"
+      }
+    ]
+  },
+  {
+    "mapId": "MD22hinckleymanton.v",
+    "mapName": "Hinckley Manton",
+    "mapAbbreviation": "MD22",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "MD22_Hinckley_Manton.xml",
+    "trainDescriberList": [
+      {
+        "code": "R2",
+        "name": "Rugby SCC (Northampton - Rugby ITD)"
+      },
+      {
+        "code": "PB",
+        "name": "Peterborough"
+      },
+      {
+        "code": "LR",
+        "name": "EMCC Leicester Area WestCAD"
+      },
+      {
+        "code": "WN",
+        "name": "WMSC Water Orton WestCAD"
+      },
+      {
+        "code": "KG",
+        "name": "EMCC Kettering Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "MD23mansfield.v",
+    "mapName": "Mansfield Woodhouse",
+    "mapAbbreviation": "MD23",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "MD23_Mansfield.xml",
+    "trainDescriberList": [
+      {
+        "code": "MD",
+        "name": "EMCC Mansfield"
+      },
+      {
+        "code": "NE",
+        "name": "EMCC North Erewash Area WestCAD"
+      },
+      {
+        "code": "WE",
+        "name": "Worksop"
+      },
+      {
+        "code": "NM",
+        "name": "EMCC Nottingham WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "MD25nottinghameast.v",
+    "mapName": "Netherfield East Notts",
+    "mapAbbreviation": "MD25",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "MD25_Nottingham_East.xml",
+    "trainDescriberList": [
+      {
+        "code": "AN",
+        "name": "Allington Junction"
+      },
+      {
+        "code": "DR",
+        "name": "Doncaster PSB TD"
+      },
+      {
+        "code": "NM",
+        "name": "EMCC Nottingham WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE01kingscross.v",
+    "mapName": "London Kings Cross",
+    "mapAbbreviation": "NE01",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE01_Kings_Cross.xml",
+    "trainDescriberList": [
+      {
+        "code": "X0",
+        "name": "TBROC Thameslink Core WestCAD"
+      },
+      {
+        "code": "KX",
+        "name": "Kings Cross"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      },
+      {
+        "code": "Y8",
+        "name": "YKROC Kings Cross North WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE02welwyn.v",
+    "mapName": "Welwyn Garden City",
+    "mapAbbreviation": "NE02",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE02_Welwyn.xml",
+    "trainDescriberList": [
+      {
+        "code": "KX",
+        "name": "Kings Cross"
+      },
+      {
+        "code": "Y8",
+        "name": "YKROC Kings Cross North WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE03hitchin.v",
+    "mapName": "Hitchin",
+    "mapAbbreviation": "NE03",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE03_Hitchin.xml",
+    "trainDescriberList": [
+      {
+        "code": "PB",
+        "name": "Peterborough"
+      },
+      {
+        "code": "Y8",
+        "name": "YKROC Kings Cross North WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE04peterborough.v",
+    "mapName": "Peterborough",
+    "mapAbbreviation": "NE04",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE04_Peterborough.xml",
+    "trainDescriberList": [
+      {
+        "code": "PB",
+        "name": "Peterborough"
+      },
+      {
+        "code": "L2",
+        "name": "Lincoln East"
+      },
+      {
+        "code": "AN",
+        "name": "Allington Junction"
+      },
+      {
+        "code": "DR",
+        "name": "Doncaster PSB TD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE05retford.v",
+    "mapName": "Retford ECML",
+    "mapAbbreviation": "NE05",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE05_Retford.xml",
+    "trainDescriberList": [
+      {
+        "code": "LN",
+        "name": "Lincoln"
+      },
+      {
+        "code": "TH",
+        "name": "Thrumpton"
+      },
+      {
+        "code": "DR",
+        "name": "Doncaster PSB TD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE06doncaster.v",
+    "mapName": "Doncaster",
+    "mapAbbreviation": "NE06",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE06_Doncaster.xml",
+    "trainDescriberList": [
+      {
+        "code": "Y1",
+        "name": "YKROC York Area IECC"
+      },
+      {
+        "code": "Y3",
+        "name": "YKROC Leeds North West Area IECC"
+      },
+      {
+        "code": "Y4",
+        "name": "YKROC Sheffield WestCAD"
+      },
+      {
+        "code": "DR",
+        "name": "Doncaster PSB TD"
+      },
+      {
+        "code": "FE",
+        "name": "Ferrybridge"
+      }
+    ]
+  },
+  {
+    "mapId": "NE07york.v",
+    "mapName": "York",
+    "mapAbbreviation": "NE07",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE07_York.xml",
+    "trainDescriberList": [
+      {
+        "code": "Y1",
+        "name": "YKROC York Area IECC"
+      },
+      {
+        "code": "Y2",
+        "name": "YKROC Leeds City Area IECC"
+      },
+      {
+        "code": "DR",
+        "name": "Doncaster PSB TD"
+      },
+      {
+        "code": "FE",
+        "name": "Ferrybridge"
+      }
+    ]
+  },
+  {
+    "mapId": "NE08darlington.v",
+    "mapName": "Darlington",
+    "mapAbbreviation": "NE08",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE08_Darlington.xml",
+    "trainDescriberList": [
+      {
+        "code": "Y1",
+        "name": "YKROC York Area IECC"
+      },
+      {
+        "code": "YA",
+        "name": "YKROC Bowesfield & Hartlepool WestCAD"
+      },
+      {
+        "code": "T2",
+        "name": "Tyneside 2 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "NE09newcastle.v",
+    "mapName": "Newcastle",
+    "mapAbbreviation": "NE09",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE09_Newcastle.xml",
+    "trainDescriberList": [
+      {
+        "code": "T1",
+        "name": "Tyneside 1 IECC"
+      },
+      {
+        "code": "T2",
+        "name": "Tyneside 2 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "NE10morpeth.v",
+    "mapName": "Morpeth",
+    "mapAbbreviation": "NE10",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE10_Morpeth.xml",
+    "trainDescriberList": [
+      {
+        "code": "MO",
+        "name": "Morpeth SB TD"
+      },
+      {
+        "code": "T1",
+        "name": "Tyneside 1 IECC"
+      },
+      {
+        "code": "T2",
+        "name": "Tyneside 2 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "NE11berwick.v",
+    "mapName": "Berwick",
+    "mapAbbreviation": "NE11",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE11_Berwick.xml",
+    "trainDescriberList": [
+      {
+        "code": "MO",
+        "name": "Morpeth SB TD"
+      },
+      {
+        "code": "TW",
+        "name": "Tweedmouth SB TD"
+      },
+      {
+        "code": "AL",
+        "name": "Alnmouth SB TD"
+      },
+      {
+        "code": "EA",
+        "name": "Edinburgh IECC A"
+      }
+    ]
+  },
+  {
+    "mapId": "NE12rotherham.v",
+    "mapName": "Rotherham",
+    "mapAbbreviation": "NE12",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE12_Rotherham.xml",
+    "trainDescriberList": [
+      {
+        "code": "Y3",
+        "name": "YKROC Leeds North West Area IECC"
+      },
+      {
+        "code": "Y4",
+        "name": "YKROC Sheffield WestCAD"
+      },
+      {
+        "code": "BA",
+        "name": "Barnsley"
+      }
+    ]
+  },
+  {
+    "mapId": "NE13sheffield.v",
+    "mapName": "Sheffield",
+    "mapAbbreviation": "NE13",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE13_Sheffield.xml",
+    "trainDescriberList": [
+      {
+        "code": "NE",
+        "name": "EMCC North Erewash Area WestCAD"
+      },
+      {
+        "code": "TN",
+        "name": "EMCC Chesterfield Area WestCAD"
+      },
+      {
+        "code": "Y4",
+        "name": "YKROC Sheffield WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE14wakefield.v",
+    "mapName": "Wakefield",
+    "mapAbbreviation": "NE14",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE14_Wakefield.xml",
+    "trainDescriberList": [
+      {
+        "code": "WK",
+        "name": "Wakefield Kirkgate"
+      },
+      {
+        "code": "Y2",
+        "name": "YKROC Leeds City Area IECC"
+      },
+      {
+        "code": "Y3",
+        "name": "YKROC Leeds North West Area IECC"
+      },
+      {
+        "code": "Y7",
+        "name": "YKROC Halifax WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE15shipley.v",
+    "mapName": "Shipley",
+    "mapAbbreviation": "NE15",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE15_Shipley.xml",
+    "trainDescriberList": [
+      {
+        "code": "Y1",
+        "name": "YKROC York Area IECC"
+      },
+      {
+        "code": "Y2",
+        "name": "YKROC Leeds City Area IECC"
+      },
+      {
+        "code": "Y3",
+        "name": "YKROC Leeds North West Area IECC"
+      },
+      {
+        "code": "HG",
+        "name": "Harrogate IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "NE16leeds.v",
+    "mapName": "Leeds",
+    "mapAbbreviation": "NE16",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE16_Leeds.xml",
+    "trainDescriberList": [
+      {
+        "code": "CD",
+        "name": "Castleford"
+      },
+      {
+        "code": "Y1",
+        "name": "YKROC York Area IECC"
+      },
+      {
+        "code": "Y2",
+        "name": "YKROC Leeds City Area IECC"
+      },
+      {
+        "code": "FE",
+        "name": "Ferrybridge"
+      }
+    ]
+  },
+  {
+    "mapId": "NE17northnotts.v",
+    "mapName": "North Notts",
+    "mapAbbreviation": "NE17",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE17_North_Notts.xml",
+    "trainDescriberList": [
+      {
+        "code": "TH",
+        "name": "Thrumpton"
+      },
+      {
+        "code": "Y4",
+        "name": "YKROC Sheffield WestCAD"
+      },
+      {
+        "code": "WE",
+        "name": "Worksop"
+      },
+      {
+        "code": "DR",
+        "name": "Doncaster PSB TD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE18gainsborough.v",
+    "mapName": "Gainsborough",
+    "mapAbbreviation": "NE18",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE18_Gainsborough.xml",
+    "trainDescriberList": [
+      {
+        "code": "LN",
+        "name": "Lincoln"
+      },
+      {
+        "code": "TH",
+        "name": "Thrumpton"
+      },
+      {
+        "code": "WE",
+        "name": "Worksop"
+      },
+      {
+        "code": "DR",
+        "name": "Doncaster PSB TD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE19bradford.v",
+    "mapName": "Bradford Interchange",
+    "mapAbbreviation": "NE19",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE19_Bradford.xml",
+    "trainDescriberList": [
+      {
+        "code": "Y2",
+        "name": "YKROC Leeds City Area IECC"
+      },
+      {
+        "code": "Y6",
+        "name": "YKROC Huddersfield WestCAD"
+      },
+      {
+        "code": "Y7",
+        "name": "YKROC Halifax WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE20huddersfield.v",
+    "mapName": "Huddersfield",
+    "mapAbbreviation": "NE20",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE20_Huddersfield.xml",
+    "trainDescriberList": [
+      {
+        "code": "Y2",
+        "name": "YKROC Leeds City Area IECC"
+      },
+      {
+        "code": "Y6",
+        "name": "YKROC Huddersfield WestCAD"
+      },
+      {
+        "code": "Y7",
+        "name": "YKROC Halifax WestCAD"
+      },
+      {
+        "code": "BA",
+        "name": "Barnsley"
+      }
+    ]
+  },
+  {
+    "mapId": "NE21knottingley.v",
+    "mapName": "Knottingley",
+    "mapAbbreviation": "NE21",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE21_Knottingley.xml",
+    "trainDescriberList": [
+      {
+        "code": "CD",
+        "name": "Castleford"
+      },
+      {
+        "code": "WK",
+        "name": "Wakefield Kirkgate"
+      },
+      {
+        "code": "Y3",
+        "name": "YKROC Leeds North West Area IECC"
+      },
+      {
+        "code": "DR",
+        "name": "Doncaster PSB TD"
+      },
+      {
+        "code": "FE",
+        "name": "Ferrybridge"
+      }
+    ]
+  },
+  {
+    "mapId": "NE22wakefieldkirkgate.v",
+    "mapName": "Wakefield Kirkgate",
+    "mapAbbreviation": "NE22",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE22_Wakefield_Kirkgate.xml",
+    "trainDescriberList": [
+      {
+        "code": "CD",
+        "name": "Castleford"
+      },
+      {
+        "code": "WK",
+        "name": "Wakefield Kirkgate"
+      },
+      {
+        "code": "Y3",
+        "name": "YKROC Leeds North West Area IECC"
+      },
+      {
+        "code": "Y6",
+        "name": "YKROC Huddersfield WestCAD"
+      },
+      {
+        "code": "BA",
+        "name": "Barnsley"
+      }
+    ]
+  },
+  {
+    "mapId": "NE23hull.v",
+    "mapName": "Hull",
+    "mapAbbreviation": "NE23",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE23_Hull.xml",
+    "trainDescriberList": [
+      {
+        "code": "Y5",
+        "name": "YKROC Brough WestCAD"
+      },
+      {
+        "code": "FE",
+        "name": "Ferrybridge"
+      }
+    ]
+  },
+  {
+    "mapId": "NE24spalding.v",
+    "mapName": "Spalding",
+    "mapAbbreviation": "NE24",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE24_Spalding.xml",
+    "trainDescriberList": [
+      {
+        "code": "PB",
+        "name": "Peterborough"
+      },
+      {
+        "code": "L2",
+        "name": "Lincoln East"
+      }
+    ]
+  },
+  {
+    "mapId": "NE25boston.v",
+    "mapName": "Boston",
+    "mapAbbreviation": "NE25",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE25_Boston.xml",
+    "trainDescriberList": [
+      {
+        "code": "L2",
+        "name": "Lincoln East"
+      },
+      {
+        "code": "AN",
+        "name": "Allington Junction"
+      },
+      {
+        "code": "DR",
+        "name": "Doncaster PSB TD"
+      },
+      {
+        "code": "NM",
+        "name": "EMCC Nottingham WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE26lincoln.v",
+    "mapName": "Lincoln",
+    "mapAbbreviation": "NE26",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE26_Lincoln.xml",
+    "trainDescriberList": [
+      {
+        "code": "LN",
+        "name": "Lincoln"
+      },
+      {
+        "code": "L2",
+        "name": "Lincoln East"
+      },
+      {
+        "code": "DR",
+        "name": "Doncaster PSB TD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE27scunthorpe.v",
+    "mapName": "Scunthorpe",
+    "mapAbbreviation": "NE27",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE27_Scunthorpe.xml",
+    "trainDescriberList": [
+      {
+        "code": "SC",
+        "name": "Scunthorpe"
+      },
+      {
+        "code": "TH",
+        "name": "Thrumpton"
+      },
+      {
+        "code": "Y0",
+        "name": "YKROC North Lincs WestCAD"
+      },
+      {
+        "code": "DR",
+        "name": "Doncaster PSB TD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE28humberside.v",
+    "mapName": "Nth Lincolnshire",
+    "mapAbbreviation": "NE28",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE28_Humberside.xml",
+    "trainDescriberList": [
+      {
+        "code": "Y0",
+        "name": "YKROC North Lincs WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE29sunderland.v",
+    "mapName": "Sunderland",
+    "mapAbbreviation": "NE29",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE29_Sunderland.xml",
+    "trainDescriberList": [
+      {
+        "code": "TY",
+        "name": "Tees Yard (Ryhope)"
+      },
+      {
+        "code": "T2",
+        "name": "Tyneside 2 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "NE30durhamcoast.v",
+    "mapName": "Durham Coast",
+    "mapAbbreviation": "NE30",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE30_Durham_Coast.xml",
+    "trainDescriberList": [
+      {
+        "code": "YA",
+        "name": "YKROC Bowesfield & Hartlepool WestCAD"
+      },
+      {
+        "code": "T2",
+        "name": "Tyneside 2 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "NE31teesside.v",
+    "mapName": "Teesside",
+    "mapAbbreviation": "NE31",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE31_Teesside.xml",
+    "trainDescriberList": [
+      {
+        "code": "YA",
+        "name": "YKROC Bowesfield & Hartlepool WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "NE32scarborough.v",
+    "mapName": "Scarborough",
+    "mapAbbreviation": "NE32",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Eastern",
+    "filename": "NE32_Scarborough.xml",
+    "trainDescriberList": [
+      {
+        "code": "Y1",
+        "name": "YKROC York Area IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO01charingcross.v",
+    "mapName": "London Charing Cross",
+    "mapAbbreviation": "SO01",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO01_Charing_Cross.xml",
+    "trainDescriberList": [
+      {
+        "code": "X0",
+        "name": "TBROC Thameslink Core WestCAD"
+      },
+      {
+        "code": "X1",
+        "name": "TBROC London Bridge Central WestCAD"
+      },
+      {
+        "code": "X2",
+        "name": "TBROC Charing Cross WestCAD"
+      },
+      {
+        "code": "X3",
+        "name": "TBROC Cannon Street WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "SO1Alondonbridgese.v",
+    "mapName": "London Bridge SE",
+    "mapAbbreviation": "SO1A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO1A_London_Bridge_SE.xml",
+    "trainDescriberList": [
+      {
+        "code": "X0",
+        "name": "TBROC Thameslink Core WestCAD"
+      },
+      {
+        "code": "X1",
+        "name": "TBROC London Bridge Central WestCAD"
+      },
+      {
+        "code": "X2",
+        "name": "TBROC Charing Cross WestCAD"
+      },
+      {
+        "code": "X3",
+        "name": "TBROC Cannon Street WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "SO1Blewisham.v",
+    "mapName": "Lewisham",
+    "mapAbbreviation": "SO1B",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO1B_Lewisham.xml",
+    "trainDescriberList": [
+      {
+        "code": "LB",
+        "name": "London Bridge"
+      },
+      {
+        "code": "X2",
+        "name": "TBROC Charing Cross WestCAD"
+      },
+      {
+        "code": "X3",
+        "name": "TBROC Cannon Street WestCAD"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      }
+    ]
+  },
+  {
+    "mapId": "SO02northkentlines.v",
+    "mapName": "Dartford North Kent",
+    "mapAbbreviation": "SO02",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO02_North_Kent_Lines.xml",
+    "trainDescriberList": [
+      {
+        "code": "LB",
+        "name": "London Bridge"
+      },
+      {
+        "code": "X3",
+        "name": "TBROC Cannon Street WestCAD"
+      },
+      {
+        "code": "NK",
+        "name": "Ashford North Kent MCS"
+      }
+    ]
+  },
+  {
+    "mapId": "SO2Astrood.v",
+    "mapName": "Strood",
+    "mapAbbreviation": "SO2A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO2A_Strood.xml",
+    "trainDescriberList": [
+      {
+        "code": "CT",
+        "name": "Channel Tunnel"
+      },
+      {
+        "code": "EK",
+        "name": "East Kent MCS ITD"
+      },
+      {
+        "code": "ZR",
+        "name": "Rainham TDC"
+      },
+      {
+        "code": "NK",
+        "name": "Ashford North Kent MCS"
+      }
+    ]
+  },
+  {
+    "mapId": "SO03grovepark.v",
+    "mapName": "Grove Park",
+    "mapAbbreviation": "SO03",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO03_Grove_Park.xml",
+    "trainDescriberList": [
+      {
+        "code": "AD",
+        "name": "Ashford IECC A"
+      },
+      {
+        "code": "LB",
+        "name": "London Bridge"
+      },
+      {
+        "code": "X2",
+        "name": "TBROC Charing Cross WestCAD"
+      },
+      {
+        "code": "X3",
+        "name": "TBROC Cannon Street WestCAD"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      }
+    ]
+  },
+  {
+    "mapId": "SO04sevenoaks.v",
+    "mapName": "Sevenoaks",
+    "mapAbbreviation": "SO04",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO04_Sevenoaks.xml",
+    "trainDescriberList": [
+      {
+        "code": "TE",
+        "name": "Tonbridge"
+      },
+      {
+        "code": "AD",
+        "name": "Ashford IECC A"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      }
+    ]
+  },
+  {
+    "mapId": "SO05victoriase.v",
+    "mapName": "London Victoria SE",
+    "mapAbbreviation": "SO05",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO05_Victoria_SE.xml",
+    "trainDescriberList": [
+      {
+        "code": "WI",
+        "name": "Wimbledon NCP"
+      },
+      {
+        "code": "X1",
+        "name": "TBROC London Bridge Central WestCAD"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      }
+    ]
+  },
+  {
+    "mapId": "SO5Awestlondonline.v",
+    "mapName": "West London",
+    "mapAbbreviation": "SO5A",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO5A_West_London_Line.xml",
+    "trainDescriberList": [
+      {
+        "code": "WI",
+        "name": "Wimbledon NCP"
+      },
+      {
+        "code": "WY",
+        "name": "Wembley Mainline PSB"
+      },
+      {
+        "code": "WJ",
+        "name": "Wembley Mainline (Watford) WestCAD"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO06swanley.v",
+    "mapName": "Swanley",
+    "mapAbbreviation": "SO06",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO06_Swanley.xml",
+    "trainDescriberList": [
+      {
+        "code": "CT",
+        "name": "Channel Tunnel"
+      },
+      {
+        "code": "AD",
+        "name": "Ashford IECC A"
+      },
+      {
+        "code": "MA",
+        "name": "Maidstone East"
+      },
+      {
+        "code": "EK",
+        "name": "East Kent MCS ITD"
+      },
+      {
+        "code": "X2",
+        "name": "TBROC Charing Cross WestCAD"
+      },
+      {
+        "code": "X3",
+        "name": "TBROC Cannon Street WestCAD"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      }
+    ]
+  },
+  {
+    "mapId": "SO07blackfriars.v",
+    "mapName": "London Blackfriars",
+    "mapAbbreviation": "SO07",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO07_Blackfriars.xml",
+    "trainDescriberList": [
+      {
+        "code": "WI",
+        "name": "Wimbledon NCP"
+      },
+      {
+        "code": "X0",
+        "name": "TBROC Thameslink Core WestCAD"
+      },
+      {
+        "code": "X1",
+        "name": "TBROC London Bridge Central WestCAD"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      },
+      {
+        "code": "X5",
+        "name": "TBROC Sutton Area WestCAD"
+      },
+      {
+        "code": "X6",
+        "name": "TBROC Streatham Area WestCAD"
+      },
+      {
+        "code": "TB",
+        "name": "Three Bridges ASC ITD"
+      }
+    ]
+  },
+  {
+    "mapId": "SO09ashford.v",
+    "mapName": "Ashford Kent",
+    "mapAbbreviation": "SO09",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO09_Ashford.xml",
+    "trainDescriberList": [
+      {
+        "code": "A2",
+        "name": "Ashford IECC B"
+      },
+      {
+        "code": "CT",
+        "name": "Channel Tunnel"
+      },
+      {
+        "code": "AD",
+        "name": "Ashford IECC A"
+      },
+      {
+        "code": "MA",
+        "name": "Maidstone East"
+      },
+      {
+        "code": "ZA",
+        "name": "Ashford TDC"
+      },
+      {
+        "code": "ZR",
+        "name": "Rainham TDC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO10dollandsmoor.v",
+    "mapName": "Dollands Moor",
+    "mapAbbreviation": "SO10",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO10_Dollands_Moor.xml",
+    "trainDescriberList": [
+      {
+        "code": "CT",
+        "name": "Channel Tunnel"
+      },
+      {
+        "code": "A2",
+        "name": "Ashford IECC B"
+      },
+      {
+        "code": "AD",
+        "name": "Ashford IECC A"
+      },
+      {
+        "code": "ZA",
+        "name": "Ashford TDC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO11gillingham.v",
+    "mapName": "Gillingham Kent",
+    "mapAbbreviation": "SO11",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO11_Gillingham.xml",
+    "trainDescriberList": [
+      {
+        "code": "CT",
+        "name": "Channel Tunnel"
+      },
+      {
+        "code": "EK",
+        "name": "East Kent MCS ITD"
+      },
+      {
+        "code": "NK",
+        "name": "Ashford North Kent MCS"
+      }
+    ]
+  },
+  {
+    "mapId": "SO12ramsgate.v",
+    "mapName": "Ramsgate",
+    "mapAbbreviation": "SO12",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO12_Ramsgate.xml",
+    "trainDescriberList": [
+      {
+        "code": "A2",
+        "name": "Ashford IECC B"
+      },
+      {
+        "code": "EK",
+        "name": "East Kent MCS ITD"
+      },
+      {
+        "code": "ZA",
+        "name": "Ashford TDC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO13hastings.v",
+    "mapName": "Hastings",
+    "mapAbbreviation": "SO13",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO13_Hastings.xml",
+    "trainDescriberList": [
+      {
+        "code": "A2",
+        "name": "Ashford IECC B"
+      },
+      {
+        "code": "TE",
+        "name": "Tonbridge"
+      },
+      {
+        "code": "A3",
+        "name": "Ashford Front-End TD"
+      },
+      {
+        "code": "AD",
+        "name": "Ashford IECC A"
+      },
+      {
+        "code": "EK",
+        "name": "East Kent MCS ITD"
+      },
+      {
+        "code": "ZA",
+        "name": "Ashford TDC"
+      },
+      {
+        "code": "X7",
+        "name": "TBROC East Sussex MCS"
+      }
+    ]
+  },
+  {
+    "mapId": "SO14victoriasc.v",
+    "mapName": "London Victoria",
+    "mapAbbreviation": "SO14",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO14_Victoria_SC.xml",
+    "trainDescriberList": [
+      {
+        "code": "WI",
+        "name": "Wimbledon NCP"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      },
+      {
+        "code": "X6",
+        "name": "TBROC Streatham Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "SO15eastcroydon.v",
+    "mapName": "East Croydon",
+    "mapAbbreviation": "SO15",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO15_East_Croydon.xml",
+    "trainDescriberList": [
+      {
+        "code": "X1",
+        "name": "TBROC London Bridge Central WestCAD"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      },
+      {
+        "code": "T1",
+        "name": "Tyneside 1 IECC"
+      },
+      {
+        "code": "TB",
+        "name": "Three Bridges ASC ITD"
+      },
+      {
+        "code": "X6",
+        "name": "TBROC Streatham Area WestCAD"
+      },
+      {
+        "code": "T2",
+        "name": "Tyneside 2 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO17londonbridgesc.v",
+    "mapName": "London Bridge SC",
+    "mapAbbreviation": "SO17",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO17_London_Bridge_SC.xml",
+    "trainDescriberList": [
+      {
+        "code": "X0",
+        "name": "TBROC Thameslink Core WestCAD"
+      },
+      {
+        "code": "X1",
+        "name": "TBROC London Bridge Central WestCAD"
+      },
+      {
+        "code": "NX",
+        "name": "East London Line"
+      },
+      {
+        "code": "X2",
+        "name": "TBROC Charing Cross WestCAD"
+      },
+      {
+        "code": "X3",
+        "name": "TBROC Cannon Street WestCAD"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      },
+      {
+        "code": "T1",
+        "name": "Tyneside 1 IECC"
+      },
+      {
+        "code": "TB",
+        "name": "Three Bridges ASC ITD"
+      },
+      {
+        "code": "T2",
+        "name": "Tyneside 2 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO19purley.v",
+    "mapName": "Purley",
+    "mapAbbreviation": "SO19",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO19_Purley.xml",
+    "trainDescriberList": [
+      {
+        "code": "AD",
+        "name": "Ashford IECC A"
+      },
+      {
+        "code": "T1",
+        "name": "Tyneside 1 IECC"
+      },
+      {
+        "code": "TB",
+        "name": "Three Bridges ASC ITD"
+      },
+      {
+        "code": "ZH",
+        "name": "Horsham TDC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO20gatwickairport.v",
+    "mapName": "Gatwick",
+    "mapAbbreviation": "SO20",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO20_Gatwick_Airport.xml",
+    "trainDescriberList": [
+      {
+        "code": "T1",
+        "name": "Tyneside 1 IECC"
+      },
+      {
+        "code": "TB",
+        "name": "Three Bridges ASC ITD"
+      },
+      {
+        "code": "ZH",
+        "name": "Horsham TDC"
+      },
+      {
+        "code": "T2",
+        "name": "Tyneside 2 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO21brighton.v",
+    "mapName": "Brighton",
+    "mapAbbreviation": "SO21",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO21_Brighton.xml",
+    "trainDescriberList": [
+      {
+        "code": "LA",
+        "name": "Lancing"
+      },
+      {
+        "code": "T1",
+        "name": "Tyneside 1 IECC"
+      },
+      {
+        "code": "TB",
+        "name": "Three Bridges ASC ITD"
+      },
+      {
+        "code": "T2",
+        "name": "Tyneside 2 IECC"
+      },
+      {
+        "code": "X7",
+        "name": "TBROC East Sussex MCS"
+      }
+    ]
+  },
+  {
+    "mapId": "SO22arunvalleycoastway.v",
+    "mapName": "Worthing Arun Valley",
+    "mapAbbreviation": "SO22",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO22_Arun_Valley_Coastway.xml",
+    "trainDescriberList": [
+      {
+        "code": "LA",
+        "name": "Lancing"
+      },
+      {
+        "code": "CH",
+        "name": "Chichester"
+      },
+      {
+        "code": "BM",
+        "name": "Barnham DTD"
+      },
+      {
+        "code": "HT",
+        "name": "Havant"
+      },
+      {
+        "code": "TB",
+        "name": "Three Bridges ASC ITD"
+      },
+      {
+        "code": "T2",
+        "name": "Tyneside 2 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO23oxtedlines.v",
+    "mapName": "Oxted Lines",
+    "mapAbbreviation": "SO23",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO23_Oxted_Lines.xml",
+    "trainDescriberList": [
+      {
+        "code": "TB",
+        "name": "Three Bridges ASC ITD"
+      }
+    ]
+  },
+  {
+    "mapId": "SO25waterloo.v",
+    "mapName": "London Waterloo",
+    "mapAbbreviation": "SO25",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO25_Waterloo.xml",
+    "trainDescriberList": [
+      {
+        "code": "WI",
+        "name": "Wimbledon NCP"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      }
+    ]
+  },
+  {
+    "mapId": "SO26wimbledon.v",
+    "mapName": "Wimbledon",
+    "mapAbbreviation": "SO26",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO26_Wimbledon.xml",
+    "trainDescriberList": [
+      {
+        "code": "WI",
+        "name": "Wimbledon NCP"
+      },
+      {
+        "code": "SU",
+        "name": "Surbiton (Woking)"
+      },
+      {
+        "code": "FH",
+        "name": "Feltham ASC TD"
+      },
+      {
+        "code": "X5",
+        "name": "TBROC Sutton Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "SO28guildford.v",
+    "mapName": "Guildford",
+    "mapAbbreviation": "SO28",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO28_Guildford.xml",
+    "trainDescriberList": [
+      {
+        "code": "WI",
+        "name": "Wimbledon NCP"
+      },
+      {
+        "code": "SU",
+        "name": "Surbiton (Woking)"
+      },
+      {
+        "code": "GD",
+        "name": "Guildford"
+      },
+      {
+        "code": "X5",
+        "name": "TBROC Sutton Area WestCAD"
+      },
+      {
+        "code": "ZG",
+        "name": "Guildford TDC"
+      },
+      {
+        "code": "ZH",
+        "name": "Horsham TDC"
+      },
+      {
+        "code": "TB",
+        "name": "Three Bridges ASC ITD"
+      }
+    ]
+  },
+  {
+    "mapId": "SO29feltham.v",
+    "mapName": "Feltham",
+    "mapAbbreviation": "SO29",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO29_Feltham.xml",
+    "trainDescriberList": [
+      {
+        "code": "BS",
+        "name": "Barnes"
+      },
+      {
+        "code": "FH",
+        "name": "Feltham ASC TD"
+      },
+      {
+        "code": "WI",
+        "name": "Wimbledon NCP"
+      },
+      {
+        "code": "AW",
+        "name": "Acton Wells"
+      },
+      {
+        "code": "F2",
+        "name": "Feltham (Shepperton Branch) IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO30ascot.v",
+    "mapName": "Ascot",
+    "mapAbbreviation": "SO30",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO30_Ascot.xml",
+    "trainDescriberList": [
+      {
+        "code": "FH",
+        "name": "Feltham ASC TD"
+      },
+      {
+        "code": "SU",
+        "name": "Surbiton (Woking)"
+      },
+      {
+        "code": "W2",
+        "name": "Woking (Farnham)"
+      },
+      {
+        "code": "D1",
+        "name": "TVSC Reading IECC A"
+      },
+      {
+        "code": "GD",
+        "name": "Guildford"
+      },
+      {
+        "code": "ZG",
+        "name": "Guildford TDC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO31basingstoke.v",
+    "mapName": "Basingstoke",
+    "mapAbbreviation": "SO31",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO31_Basingstoke.xml",
+    "trainDescriberList": [
+      {
+        "code": "SU",
+        "name": "Surbiton (Woking)"
+      },
+      {
+        "code": "BE",
+        "name": "Basingstoke"
+      },
+      {
+        "code": "EH",
+        "name": "Eastleigh"
+      },
+      {
+        "code": "D1",
+        "name": "TVSC Reading IECC A"
+      },
+      {
+        "code": "GD",
+        "name": "Guildford"
+      }
+    ]
+  },
+  {
+    "mapId": "SO32southampton.v",
+    "mapName": "Southampton",
+    "mapAbbreviation": "SO32",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO32_Southampton.xml",
+    "trainDescriberList": [
+      {
+        "code": "EH",
+        "name": "Eastleigh"
+      }
+    ]
+  },
+  {
+    "mapId": "SO34portsmouth.v",
+    "mapName": "Portsmouth",
+    "mapAbbreviation": "SO34",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO34_Portsmouth.xml",
+    "trainDescriberList": [
+      {
+        "code": "EH",
+        "name": "Eastleigh"
+      },
+      {
+        "code": "HT",
+        "name": "Havant"
+      },
+      {
+        "code": "ZG",
+        "name": "Guildford TDC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO37bournemouth.v",
+    "mapName": "Bournemouth",
+    "mapAbbreviation": "SO37",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO37_Bournemouth.xml",
+    "trainDescriberList": [
+      {
+        "code": "EH",
+        "name": "Eastleigh"
+      },
+      {
+        "code": "ZB",
+        "name": "Bournemouth TDC"
+      },
+      {
+        "code": "BP",
+        "name": "Basingstoke (Poole - Wool)"
+      }
+    ]
+  },
+  {
+    "mapId": "SO38salisbury.v",
+    "mapName": "Salisbury",
+    "mapAbbreviation": "SO38",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO38_Salisbury.xml",
+    "trainDescriberList": [
+      {
+        "code": "BE",
+        "name": "Basingstoke"
+      },
+      {
+        "code": "EH",
+        "name": "Eastleigh"
+      },
+      {
+        "code": "EX",
+        "name": "Exeter"
+      },
+      {
+        "code": "BX",
+        "name": "Basingstoke (WoE)"
+      },
+      {
+        "code": "Y4",
+        "name": "YKROC Sheffield WestCAD"
+      },
+      {
+        "code": "ZY",
+        "name": "Yeovil TDC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO39thameslinkinner.v",
+    "mapName": "Thameslink Inner",
+    "mapAbbreviation": "SO39",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO39_Thameslink_Inner.xml",
+    "trainDescriberList": [
+      {
+        "code": "X0",
+        "name": "TBROC Thameslink Core WestCAD"
+      },
+      {
+        "code": "X1",
+        "name": "TBROC London Bridge Central WestCAD"
+      },
+      {
+        "code": "X2",
+        "name": "TBROC Charing Cross WestCAD"
+      },
+      {
+        "code": "X3",
+        "name": "TBROC Cannon Street WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "SO40eastlondon.v",
+    "mapName": "East London",
+    "mapAbbreviation": "SO40",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO40_East_London.xml",
+    "trainDescriberList": [
+      {
+        "code": "X1",
+        "name": "TBROC London Bridge Central WestCAD"
+      },
+      {
+        "code": "NX",
+        "name": "East London Line"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO41croydon.v",
+    "mapName": "Croydon",
+    "mapAbbreviation": "SO41",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO41_Croydon.xml",
+    "trainDescriberList": [
+      {
+        "code": "X1",
+        "name": "TBROC London Bridge Central WestCAD"
+      },
+      {
+        "code": "NX",
+        "name": "East London Line"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      },
+      {
+        "code": "T1",
+        "name": "Tyneside 1 IECC"
+      },
+      {
+        "code": "TB",
+        "name": "Three Bridges ASC ITD"
+      },
+      {
+        "code": "T2",
+        "name": "Tyneside 2 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "SO42thameslinkdiversion.v",
+    "mapName": "Thameslink Diversion",
+    "mapAbbreviation": "SO42",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO42_Thameslink_Diversion.xml",
+    "trainDescriberList": [
+      {
+        "code": "X0",
+        "name": "TBROC Thameslink Core WestCAD"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      },
+      {
+        "code": "X6",
+        "name": "TBROC Streatham Area WestCAD"
+      }
+    ]
+  },
+  {
+    "mapId": "SO43streatham.v",
+    "mapName": "Streatham Sutton",
+    "mapAbbreviation": "SO43",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "SO43_Streatham.xml",
+    "trainDescriberList": [
+      {
+        "code": "WI",
+        "name": "Wimbledon NCP"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      },
+      {
+        "code": "X5",
+        "name": "TBROC Sutton Area WestCAD"
+      },
+      {
+        "code": "X6",
+        "name": "TBROC Streatham Area WestCAD"
+      },
+      {
+        "code": "TB",
+        "name": "Three Bridges ASC ITD"
+      }
+    ]
+  },
+  {
+    "mapId": "HS1Ahdoverviewa.v",
+    "mapName": "HS1 HD Overview A",
+    "mapAbbreviation": "HS1A",
+    "mapType": "HD",
+    "primaryMapGrouping": "Southern",
+    "filename": "HS1A_HD_Overview_A.xml",
+    "trainDescriberList": [
+      {
+        "code": "CT",
+        "name": "Channel Tunnel"
+      },
+      {
+        "code": "X0",
+        "name": "TBROC Thameslink Core WestCAD"
+      },
+      {
+        "code": "KX",
+        "name": "Kings Cross"
+      },
+      {
+        "code": "NK",
+        "name": "Ashford North Kent MCS"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "HS1Bhdoverviewb.v",
+    "mapName": "HS1 HD Overview B",
+    "mapAbbreviation": "HS1B",
+    "mapType": "HD",
+    "primaryMapGrouping": "Southern",
+    "filename": "HS1B_HD_Overview_B.xml",
+    "trainDescriberList": [
+      {
+        "code": "CT",
+        "name": "Channel Tunnel"
+      },
+      {
+        "code": "A2",
+        "name": "Ashford IECC B"
+      }
+    ]
+  },
+  {
+    "mapId": "HS1Chdoverviewc.v",
+    "mapName": "HS1 HD Overview C",
+    "mapAbbreviation": "HS1C",
+    "mapType": "HD",
+    "primaryMapGrouping": "Southern",
+    "filename": "HS1C_HD_Overview_C.xml",
+    "trainDescriberList": [
+      {
+        "code": "CT",
+        "name": "Channel Tunnel"
+      },
+      {
+        "code": "A2",
+        "name": "Ashford IECC B"
+      },
+      {
+        "code": "U2",
+        "name": "Upminster IECC 2"
+      }
+    ]
+  },
+  {
+    "mapId": "HS1Dtemplemills.v",
+    "mapName": "Temple Mills Depot",
+    "mapAbbreviation": "HS1D",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "HS1D_Temple_Mills.xml",
+    "trainDescriberList": [
+      {
+        "code": "CT",
+        "name": "Channel Tunnel"
+      }
+    ]
+  },
+  {
+    "mapId": "HS1Nhighspeed1north.v",
+    "mapName": "High Speed 1 North",
+    "mapAbbreviation": "HS1N",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "HS1N_High_Speed_1_North.xml",
+    "trainDescriberList": [
+      {
+        "code": "CT",
+        "name": "Channel Tunnel"
+      },
+      {
+        "code": "X0",
+        "name": "TBROC Thameslink Core WestCAD"
+      },
+      {
+        "code": "KX",
+        "name": "Kings Cross"
+      },
+      {
+        "code": "U2",
+        "name": "Upminster IECC 2"
+      },
+      {
+        "code": "NK",
+        "name": "Ashford North Kent MCS"
+      },
+      {
+        "code": "U3",
+        "name": "Upminster 3 IECC"
+      }
+    ]
+  },
+  {
+    "mapId": "HS1Shighspeed1south.v",
+    "mapName": "High speed 1 South",
+    "mapAbbreviation": "HS1S",
+    "mapType": "Standard",
+    "primaryMapGrouping": "Southern",
+    "filename": "HS1S_High_speed_1_South.xml",
+    "trainDescriberList": [
+      {
+        "code": "CT",
+        "name": "Channel Tunnel"
+      },
+      {
+        "code": "A2",
+        "name": "Ashford IECC B"
+      },
+      {
+        "code": "VC",
+        "name": "London Victoria"
+      }
+    ]
+  }
+]

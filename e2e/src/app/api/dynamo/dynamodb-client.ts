@@ -1,5 +1,5 @@
 import {browser} from 'protractor';
-import {DynamoDBClient, ListTablesCommand, CreateTableCommand, DeleteTableCommand} from '@aws-sdk/client-dynamodb';
+import {DynamoDBClient, ListTablesCommand, CreateTableCommand, DeleteTableCommand, PutItemCommand} from '@aws-sdk/client-dynamodb';
 
 export class DynamodbClient {
 
@@ -37,6 +37,20 @@ export class DynamodbClient {
         AttributeDefinitions: [{AttributeName: `partitionKey`, AttributeType: `S`}],
         ProvisionedThroughput: {WriteCapacityUnits: 3, ReadCapacityUnits: 3}
       });
+    await client.send(command)
+      .then()
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
+  public async putItem(item: any, tableName: string): Promise<void> {
+    const client: DynamoDBClient = this.getClient();
+    const params = {
+      Item: item,
+      TableName: tableName
+    };
+    const command = new PutItemCommand(params);
     await client.send(command)
       .then()
       .catch(err => {

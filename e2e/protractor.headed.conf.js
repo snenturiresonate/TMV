@@ -25,6 +25,7 @@ exports.config = {
     trainslist_database_user: 'postgres',
     trainslist_database_password: 'password',
     trainslist_max_pool_size: '3',
+    dynamo_suffix: 'tmv-national-develop-suffix',
     general_timeout: 60 * 1000,
     replay_timeout: 20 * 1000,
     quick_timeout: 10 * 1000,
