@@ -5,10 +5,10 @@ Feature: 80365 - TMV Enquiries - Default Times
   When I open the enquiries page
   The dates and times in the select criteria view will contain appropriate defaults
 
-#  Given the user is authenticated to use TMV
-#  When the user selects an enquiry
-#  And is viewing the selection criteria view
-#  Then the date and times will contain default values
+  #  Given the user is authenticated to use TMV
+  #  When the user selects an enquiry
+  #  And is viewing the selection criteria view
+  #  Then the date and times will contain default values
 
   Background:
     Given I am authenticated to use TMV
