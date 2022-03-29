@@ -41,8 +41,6 @@ Feature: 80183 - TMV Trains List Filtering - Config - Clear All option
       | SLOUGH            | Checked    | un-Checked | checked    | unchecked  |
     When I click the Clear All selected locations button
     Then the location filter table should be empty
-    # the following was added as a result of @bug @bug:91938
-    * I click the Reset locations button
 
   Scenario: 80343-3 - User can include and exclude all Punctualities
     Given I have navigated to the 'Punctuality' configuration tab
