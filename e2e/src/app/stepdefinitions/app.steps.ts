@@ -846,3 +846,11 @@ Given(/^I log the berth & locations from the berth level schedule for '(.*)'$/, 
 When(/^I take a screenshot$/, async () => {
   await CucumberLog.addScreenshot();
 });
+
+When('I navigate to the replay timetable page for planningUid {string} to be {int} days old', async (
+  planningUid: string, daysOld: number) => {
+  const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime();
+  const oldDate: string = now.minusDays(daysOld).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
+  await page.navigateTo('/tmv/replay/replay-session-1/timetable/' + planningUid + ':' + oldDate);
+});
+

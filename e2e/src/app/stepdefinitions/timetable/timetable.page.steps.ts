@@ -548,6 +548,7 @@ Then('The timetable entries contains the following data',
   async (timetableEntryDataTable: any) => {
     const expectedTimetableEntryColValues: any[] = timetableEntryDataTable.hashes();
     const actualTimetableEntries = await timetablePage.getTableEntries();
+    expect(expectedTimetableEntryColValues.length, 'Number of entries is not correct').to.equal(actualTimetableEntries.length);
     for (const expectedTimetableEntryCol of expectedTimetableEntryColValues) {
       expect(actualTimetableEntries[expectedTimetableEntryCol.rowNum - 1][0], 'Timetable entry Location is not correct')
         .to.equal(expectedTimetableEntryCol.location);

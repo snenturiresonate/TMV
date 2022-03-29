@@ -1,12 +1,12 @@
 import {browser} from 'protractor';
 import {DateTimeFormatter, ZonedDateTime} from '@js-joda/core';
-import {DateAndTimeUtils} from '../pages/common/utilities/DateAndTimeUtils';
-import {DynamodbClient} from '../api/dynamo/dynamodb-client';
+import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
+import {DynamodbClient} from '../../api/dynamo/dynamodb-client';
 import * as fs from 'fs';
 import * as path from 'path';
-import {ProjectDirectoryUtil} from '../utils/project-directory.util';
+import {ProjectDirectoryUtil} from '../../utils/project-directory.util';
 
-export class ReplayDataService {
+export class ReplayMapDataService {
   private dynamoClient: DynamodbClient = new DynamodbClient();
 
   public async injectBerthStateIntoOldSnapshot(
@@ -22,8 +22,8 @@ export class ReplayDataService {
       headcode = browser.referenceTrainDescription;
     }
     const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().plusMinutes(plusMinutesOffset);
-    const sortKey = `${now.minusDays(daysOld).plusMinutes(plusMinutesOffset).toEpochSecond() * 1000}-0`;
-    const oldDate: string = now.minusDays(daysOld).plusMinutes(plusMinutesOffset).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
+    const sortKey = `${now.minusDays(daysOld).toEpochSecond() * 1000}-0`;
+    const oldDate: string = now.minusDays(daysOld).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
     const punctualityNum = (!!punctuality ? parseInt(punctuality, 10) : 0);
 
     const tdState = {
@@ -68,7 +68,7 @@ export class ReplayDataService {
     const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().plusMinutes(plusMinutesOffset);
     const sortKey = `${now.minusDays(daysOld).toEpochSecond() * 1000}-0`;
     const oldDate: string = now.minusDays(daysOld).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
-    const nowTime: string = now.format(DateTimeFormatter.ofPattern('hh:mm:ss'));
+    const nowTime: string = now.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
     const punctualityNum = (!!punctuality ? parseInt(punctuality, 10) : 0);
 
     const tdState = {
@@ -106,7 +106,7 @@ export class ReplayDataService {
 
   public async injectMapGroupingConfigurationIntoOldData(daysOld: number): Promise<void> {
     const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime();
-    const epoch = now.minusDays(daysOld).toEpochSecond() * 1000;
+    const epoch = now.minusDays(daysOld + 1).toEpochSecond() * 1000;
 
     const mapGroupingConfigBuffer: Buffer = fs.readFileSync(path.join(ProjectDirectoryUtil.testDataFolderPath(), 'map/map-groupings-config.json'));
     const mapGroupingsConfig = JSON.parse(mapGroupingConfigBuffer.toString());
