@@ -88,7 +88,6 @@ Feature: 79730 - TMV Manual Unmatching - Unmatch a service - Timetable
     * I logout
 
 
-  @bug @bug_87441
   Scenario: 80305 - 3 - Unmatch via Timetable dialogue (option available even for unmatched timetable - result is blank)
 
 #  For an unmatched timetable if the user open the scheduled matching tab the list of schedules will be blank and no matched service
@@ -159,7 +158,6 @@ Feature: 79730 - TMV Manual Unmatching - Unmatch a service - Timetable
       | trainDescription | trainUid  |
       | generated        | generated |
 
-  @bug @bug_87441
   Scenario Outline: 80307 - Unmatch via Timetable Dialogue (Confirm)
 
 #    Given the user is authenticated to use TMV
