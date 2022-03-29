@@ -45,3 +45,10 @@ Given(/I add the following planned schedule to the replay schedule data, modifie
     await replayTimetableDataService.injectIntoPlanned(
       daysOld, plusMinutesOffset, snapshot.trainDescription, snapshot.planningUid, snapshot.numberOfEntries);
   });
+
+Given(/I add the following associations to the replay schedule data, modified to be (.*) days old plus (.*) minutes/,
+  async (daysOld: number, plusMinutesOffset: number, dataTable: any) => {
+    const snapshot = dataTable.hashes();
+    await replayTimetableDataService.injectIntoAssociations(
+      daysOld, plusMinutesOffset, snapshot);
+  });

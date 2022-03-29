@@ -507,6 +507,7 @@ Then('The timetable associations table contains the following entries',
     const numActualAssocs = actualTimetableAssociationsColValues.length;
     let i = 0;
 
+    expect(expectedTimetableAssociationsColValues.length).to.equal(numActualAssocs);
     for (const expectedTimetableAssociation of expectedTimetableAssociationsColValues) {
       i = 0;
       while (i < numActualAssocs && !found) {

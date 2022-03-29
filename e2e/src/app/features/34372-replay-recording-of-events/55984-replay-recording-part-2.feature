@@ -13,7 +13,7 @@ Feature: 34372 - TMV Replay Recording of Events
 #    And are viewing a map with trains present
 #    When they open and timetable
 #    Then the agreed plan is displayed for the day corresponding to the date of the replay
-  Scenario Outline: 34372-7a Replay - View Agreed Plan in the timetable
+  Scenario Outline: 34372-7 Replay - View Agreed Plan in the timetable
         # Replay Setup
     * I add map grouping configuration to the old replay data, modified to be 32 days old
     * I add the following active service to the replay schedule data, modified to be 32 days old plus 0 minutes

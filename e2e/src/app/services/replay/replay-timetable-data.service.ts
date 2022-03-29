@@ -80,6 +80,33 @@ export class ReplayTimetableDataService {
     return this.dynamoClient.putItem(item, `ArchiveScheduleDetails-${browser.params.dynamo_suffix}`);
   }
 
+  public async injectIntoAssociations(
+    daysOld: number,
+    plusMinutesOffset: number,
+    snapshot: any[]
+  ): Promise<void> {
+    const entries = [];
+    const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().plusMinutes(plusMinutesOffset);
+    const timestamp = now.minusDays(daysOld).toEpochSecond() * 1000;
+    const oldDate: string = now.minusDays(daysOld).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
+    const planningUid = snapshot[0].planningUid;
+    const partitionKey: string = planningUid + ':' + oldDate + '-associations';
+
+    for (const snapshotEntry of snapshot) {
+
+      const entry = this.getAssociationEntry(snapshotEntry.headcode, snapshotEntry.type, snapshotEntry.location);
+      entries.push(entry);
+    }
+
+    const item = {
+      partitionKey: {S: partitionKey},
+      timestamp: {N: timestamp},
+      associationDetails: {M: this.getAssociations(entries)}
+    };
+
+    return this.dynamoClient.putItem(item, `ArchiveScheduleDetails-${browser.params.dynamo_suffix}`);
+  }
+
   public async injectIntoPlanned(
     daysOld: number,
     plusMinutesOffset: number,
@@ -160,6 +187,30 @@ export class ReplayTimetableDataService {
     };
 
     return this.dynamoClient.putItem(item, `ArchiveScheduleDetails-${browser.params.dynamo_suffix}`);
+  }
+
+  private getAssociations(entries: any): any {
+    return {
+      associations: {
+        L: entries
+      }
+    };
+  }
+
+  private getAssociationEntry(headcode: string, type: string, location: string): any {
+    return {
+      M: {
+        trainDescription: {
+          S: headcode
+        },
+        locationId: {
+          S: location
+        },
+        associationType: {
+          S: type
+        }
+      }
+    };
   }
 
   private getPlannedEntries(numberOfEntries: number): any {

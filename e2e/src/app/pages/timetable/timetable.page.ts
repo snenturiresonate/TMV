@@ -364,7 +364,7 @@ export class TimeTablePageObject {
     });
   }
 
-  async getAssociationEntries(): Promise<string[][]> {
+  public async getAssociationEntries(): Promise<string[][]> {
     await browser.wait(ExpectedConditions.visibilityOf(this.associationEntries.first()), 4000, 'wait for details to load');
     const associationEntryValues = await this.associationEntries.map(entry => entry.getText());
     const tableEntryMatrix = [];
