@@ -134,7 +134,7 @@ Then(/^the (Matched|Unmatched) version of the (Schedule-matching|Non-Schedule-ma
 
 When(/^I set the (start|end) time to now ([+-]) (.*) minutes?$/, async (startEnd: string, operator: string, minutes: number) => {
   let now;
-  const timeFormat = 'HH:mm:ss';
+  const timeFormat = 'HH:mm';
   if (! Boolean(operator)) {
     now = DateAndTimeUtils.getCurrentTimePlusOrMinusMins(0, 0, timeFormat);
   }
