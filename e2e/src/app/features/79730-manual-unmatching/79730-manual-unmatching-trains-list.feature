@@ -25,6 +25,9 @@ Feature: 50561 - TMV Unmatch a service - Trains List
     When the following train activation message is sent from LINX
       | trainUID  | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | generated | generated   | now                    | 99999               | PADTON                 | today         | now                 |
+    When the following live berth interpose message is sent from LINX (creating a train)
+      | toBerth | trainDescriber | trainDescription |
+      | A007    | D3             | generated        |
     And I save the trains list config
     And The trains list table is visible
     When I invoke the context menu for todays train 'generated' schedule uid 'generated' from the trains list
@@ -53,6 +56,9 @@ Feature: 50561 - TMV Unmatch a service - Trains List
     When the following train activation message is sent from LINX
       | trainUID  | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | generated | generated   | now                    | 99999               | PADTON                 | today         | now                 |
+    When the following live berth interpose message is sent from LINX (creating a train)
+      | toBerth | trainDescriber | trainDescription |
+      | A007    | D3             | generated        |
     And I save the trains list config
     And The trains list table is visible
     When I invoke the context menu for todays train 'generated' schedule uid 'generated' from the trains list
@@ -83,6 +89,9 @@ Feature: 50561 - TMV Unmatch a service - Trains List
     When the following train activation message is sent from LINX
       | trainUID  | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
       | generated | generated   | now                    | 99999               | PADTON                 | today         | now                 |
+    When the following live berth interpose message is sent from LINX (creating a train)
+      | toBerth | trainDescriber | trainDescription |
+      | A007    | D3             | generated        |
     And I save the trains list config
     And The trains list table is visible
     When I invoke the context menu for todays train 'generated' schedule uid 'generated' from the trains list
