@@ -272,6 +272,14 @@ Then(/^the old headcode in the header row is '(.*)'$/, async (header: string) =>
     .to.equal(header.replace('generatedTrainDescription', browser.referenceTrainDescription));
 });
 
+Then(/^the replay start date is '(.*)'$/, async (startDate: string) => {
+  const expectedReplayStartDate = DateAndTimeUtils.convertToDesiredDateAndFormat(startDate, 'dd/MM/yy');
+  const actualStartDate = await timetablePage.getReplayStartDate();
+  expect(actualStartDate,
+    `The actual Replay Start Date (${actualStartDate}) is not as expected (${expectedReplayStartDate}).`)
+    .to.equal(expectedReplayStartDate);
+});
+
 Then(/^there is a record in the modifications table$/, async (table: any) => {
   const modificationsTable = await timetablePage.getModificationsTableRows();
   const expectedRecords = table.hashes();
@@ -748,8 +756,7 @@ Then('the punctuality for {string} location {string} is displayed as {string}',
 
 Then('The timetable details table contains the following data in each row', async (detailsDataTable: any) => {
   const expectedDetailsRowValues: any = detailsDataTable.hashes()[0];
-  const dateString = expectedDetailsRowValues.daysRun.replace
-  ('today', DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy'));
+  const dateString = convertDaysRunIfNecessary(expectedDetailsRowValues.daysRun);
   const daysString = convertDaysStringIfNecessary(expectedDetailsRowValues.runs);
   expect(await timetablePage.getTimetableDetailsRowValueDaysRun(), 'Timetable Details entry Days Run is not correct')
     .to.equal(dateString);
@@ -1535,4 +1542,16 @@ function isTimeFormatValid(gridEntry: string, timeType: string): boolean {
 function isTimeBlank(time: string): boolean {
   const regex = /^(\s*)$/;
   return regex.test(time);
+}
+
+function convertDaysRunIfNecessary(dateRange: string): string {
+  const values = dateRange.split(' to ');
+  if (values.length === 2) {
+    const from = DateAndTimeUtils.convertToDesiredDateAndFormat(values[0], 'dd/MM/yyyy');
+    const to = DateAndTimeUtils.convertToDesiredDateAndFormat(values[1], 'dd/MM/yyyy');
+    return `${from} to ${to}`;
+  } else {
+    return dateRange.replace('today',
+      DateAndTimeUtils.convertToDesiredDateAndFormat('today', 'dd/MM/yyyy'));
+  }
 }

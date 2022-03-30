@@ -35,6 +35,7 @@ export class TimeTablePageObject {
   public timetableHeader: ElementFinder;
   public timetableHeaderThElements: ElementArrayFinder;
   public unmatchRematchButton: ElementFinder;
+  public replayWindowTitle: ElementFinder;
   constructor() {
     this.headerLabels = element.all(by.css('.tmv-header-content [id$=Label]'));
     this.timetableTab = element(by.id('timetable-table-tab'));
@@ -61,6 +62,7 @@ export class TimeTablePageObject {
     this.timetableHeader = element(by.css('.timetable-header'));
     this.timetableHeaderThElements = element.all(by.css('[id^=tmv-timetable-header-row] th'));
     this.unmatchRematchButton = element(by.css('#timetable-confirm-manual-matching'));
+    this.replayWindowTitle = element(by.css('h1[data-id="replay-window-title"]'));
   }
 
   public static async getRowAtIndex(index: number): Promise<ElementFinder> {
@@ -99,6 +101,14 @@ export class TimeTablePageObject {
   async getHeaderColour(): Promise<string> {
     return this.timetableHeader.getCssValue('background-color');
   }
+
+  async getReplayStartDate(): Promise<string> {
+    const replayHeaderTitle = await this.replayWindowTitle.getText();
+    const regexp = /Start Date: (.*) Start Time/g;
+    const matches = (replayHeaderTitle.match(regexp) || []).map(e => e.replace(regexp, '$1'));
+    return matches[0];
+  }
+
   async toggleInserted(status: string): Promise<void> {
     const state = await this.insertedToggleState.getText();
     if (status.toLowerCase() !== state) {

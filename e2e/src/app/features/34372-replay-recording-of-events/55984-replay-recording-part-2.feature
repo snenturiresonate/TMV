@@ -34,8 +34,8 @@ Feature: 34372 - TMV Replay Recording of Events
     And I refresh the Elastic Search indices
     When I am on the replay page
     When I set the date and time for replay to
-      | date       | time    | duration |
-      | today - 32 | now - 4 | 5        |
+      | date                      | time    | duration |
+      | today - <replayAgeInDays> | now - 4 | 5        |
     And I select Next
     And I expand the replay group of maps with name 'Wales & Western'
     And I select the map 'HDGW01paddington.v'
@@ -43,11 +43,12 @@ Feature: 34372 - TMV Replay Recording of Events
     And I open the context menu for the continuation button 'GW02'
     And I open the next map in a new tab from the continuation button context menu
     And I switch to the new tab
-    And I navigate to the replay timetable page for planningUid 'T02201' to be 32 days old
+    And I navigate to the replay timetable page for planningUid 'T02201' to be <replayAgeInDays> days old
     And I switch to the new tab
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
-    Then The timetable entries contains the following data
+    Then the replay start date is 'today - <replayAgeInDays>'
+    And The timetable entries contains the following data
       | rowNum | location               | locInstance | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
       | 1      | London Paddington      | 1           |                    | 14:09           |                   | 14:09          | 4                 |                  | 1                |            | TB         |                 |              |           |          |          |             |
     When I click Skip forward button '1' times
@@ -55,7 +56,13 @@ Feature: 34372 - TMV Replay Recording of Events
       | rowNum | location               | locInstance | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
       | 1      | London Paddington      | 1           |                    | 14:09           |                   | 14:09          | 4                 |                  | 1                |            | TB         |                 |              |           |          |          |             |
       | 2      | Royal Oak Junction     | 1           |                    | 14:10           |                   |                |                   | 1                | 1                |            |            |                 |              |           |          |          |             |
+    And I switch to the timetable details tab
+    And The timetable details tab is visible
+    And I give the timetable a settling time of 2 seconds to update
+    And The timetable details table contains the following data in each row
+      | daysRun                                                | runs | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
+      | today - <replayAgeInDays> to today - <replayAgeInDays> |      |             |         | EF       | 25507005         |                 | XX            |           |              | 7     |              |              |            |           | mph   |           | m           |                              |                 |
 
     Examples:
-      | trainDescription |
-      | generated        |
+      | trainDescription | replayAgeInDays |
+      | generated        | 32              |
