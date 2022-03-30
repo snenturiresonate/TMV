@@ -193,7 +193,7 @@ export class TrainsListManualMatchPageObject {
     return this.closeButton.click();
   }
   public async clickUnMatch(): Promise<void> {
-    return this.unMatchButton.click();
+    return CommonActions.waitAndClick(this.unMatchButton);
   }
   public async isConfirmationDialogueDisplayed(): Promise<boolean> {
     return this.confirmMessage.isPresent();
