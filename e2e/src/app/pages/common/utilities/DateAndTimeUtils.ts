@@ -122,9 +122,8 @@ export class DateAndTimeUtils {
    * Input: DateTime of type string
    */
   public static async getTimeComponent(dateTime: string): Promise<string> {
-    const inputDateTime = new Date(dateTime);
-    const options = { timeZone: DateAndTimeUtils.ZONE_ID, timeStyle: 'medium', hour12: false };
-    return inputDateTime.toLocaleTimeString('en-GB', options);
+    const inputDateTime: Date = new Date(dateTime);
+    return moment(inputDateTime).format('HH:mm:ss');
   }
 
   /**

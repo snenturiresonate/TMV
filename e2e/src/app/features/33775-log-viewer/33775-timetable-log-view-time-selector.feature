@@ -20,6 +20,7 @@ Feature: 33775 - TMV Log Viewer - Timetable Log View - Time Selector
     Given I have not already authenticated
     And I am on the home page
 
+  @bug @bug:92441
   Scenario: 81035 - 1 Timetable Log View - Time Selector - defaults
 
 #  Then the start and end time are displayed
@@ -34,7 +35,7 @@ Feature: 33775 - TMV Log Viewer - Timetable Log View - Time Selector
     And the value of the endTime field for Timetable is now
 
 
-  Scenario Outline: 81035 - 2 Timetable Log View - Time Selector - validation through keyboard entry
+  Scenario Outline: 81035 - 2 Timetable Log View - Time Selector - validation through keyboard entry - <startTime> - <endTime>
 
 #  And the start time must be before the end time
 
@@ -51,7 +52,7 @@ Feature: 33775 - TMV Log Viewer - Timetable Log View - Time Selector
       | isn't      | 23:00:00  | 01:00:00 |
 
 
-  Scenario Outline: 81035 - 3 Timetable Log View - Time Selector - validation through time spinners
+  Scenario Outline: 81035 - 3 Timetable Log View - Time Selector - validation through time spinners - <startTime> - <endTime>
 
 #  And the start time must be before the end time
 
@@ -67,10 +68,9 @@ Feature: 33775 - TMV Log Viewer - Timetable Log View - Time Selector
       | is         | 01:00:00  | 23:00:00 |
       | isn't      | 23:00:00  | 01:00:00 |
 
+  Scenario Outline: 81035 - 4 Timetable Log View - Time Selector - results only show timetables running during the time range chosen - <startTime> - <endTime>
 
-  Scenario Outline: 81035 - 4 Timetable Log View - Time Selector - results only show timetables running during the time range chosen
-
-#  And the results reflects the time range
+    #  And the results reflects the time range
 
     Given I clear the logged-agreed-schedules Elastic Search index
     And I load a CIF file leaving RDNGSTN now using access-plan/2P77_RDNGSTN_PADTON.cif which is running today
