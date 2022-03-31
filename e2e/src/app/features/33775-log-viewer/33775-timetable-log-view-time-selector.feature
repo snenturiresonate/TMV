@@ -20,7 +20,6 @@ Feature: 33775 - TMV Log Viewer - Timetable Log View - Time Selector
     Given I have not already authenticated
     And I am on the home page
 
-  @bug @bug:92441
   Scenario: 81035 - 1 Timetable Log View - Time Selector - defaults
 
 #  Then the start and end time are displayed
@@ -73,9 +72,20 @@ Feature: 33775 - TMV Log Viewer - Timetable Log View - Time Selector
     #  And the results reflects the time range
 
     Given I clear the logged-agreed-schedules Elastic Search index
-    And I load a CIF file leaving RDNGSTN now using access-plan/2P77_RDNGSTN_PADTON.cif which is running today
-    And I load a CIF file leaving PADTON now using access-plan/1B69_PADTON_SWANSEA.cif which is running today
-    And I give the trains 3 seconds to load and get into elastic search
+    * I generate a new train description
+    * I generate a new trainUID
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | generated           | generated      |
+    And I wait until today's train 'generated' has loaded
+    * I generate a new train description
+    * I generate a new trainUID
+    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
+      | access-plan/1B69_PADTON_SWANSEA.cif | PADTON      | WTT_dep       | generated           | generated      |
+    And I wait until today's train 'generated' has loaded
+    And I give the trains 2 seconds to load and get into elastic search
+    And I refresh the Elastic Search indices
     When I am on the log viewer page
     And I navigate to the Timetable log tab
     And I search for Timetable logs with
