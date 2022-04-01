@@ -74,3 +74,37 @@ Feature: 34372 - TMV Replay Recording of Events
     Examples:
       | trainDescription |
       | generated        |
+
+
+  #  Given a user has selected to start a replay
+  #  And entered the time period in recent time window
+  #  And selected the maps containing manual trust berths
+  #  When they press play
+  #  Then the manual trust berth updates are displayed on the map
+  Scenario Outline: 34372 -5 Replay - Play replay map Manual TRUST berth data (recent data)
+    # Replay Setup
+    Given I clear all MTBs
+    And I remove today's train '<trainUID>' from the trainlist
+    And the access plan located in CIF file '<cif>' is received from LINX
+    And I wait until today's train '<trainUID>' has loaded
+    And I am viewing the map nw05sandhillsnl.v
+    And the following train running info message with time is sent from LINX
+      | trainUID   | trainNumber   | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | timestamp |
+      | <trainUID> | <trainNumber> | today              | 85621               | RUFDORD                | Departure from Station | now       |
+    And headcode '<trainNumber>' is present in manual-trust berth '30155U'
+    And I give the replay data 2 seconds to load
+
+    # Replay Test
+    When I am on the replay page
+    * I select Next
+    * I expand the replay group of maps with name 'North West and Central'
+    * I select the map 'NW05sandhillsnl.v'
+    * I wait for the buffer to fill
+    * I click Skip forward button '4' times
+    * I increase the replay speed at position 15
+    * I click Play button
+    Then headcode '<trainNumber>' is present in manual-trust berth '30155U'
+
+    Examples:
+      | cif                                     | trainUID | trainNumber |
+      | access-plan/34082-schedules/60651-1.cif | C33605   | 2N02        |
