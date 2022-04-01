@@ -51,7 +51,7 @@ Feature: 80183 - TMV Trains List Filtering - Nominated Services - Odds
     Then train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
     When I navigate to train list configuration
     And I have navigated to the 'Nominated Services' configuration tab
-    And the Nominated Services toggle is enabled
+    And the Nominated Services toggle is toggled on
     When I input '<trainDescriptionPart>' in the 'trainIdInput' input box
     And I toggle the evens button
     And I click the add button for Nominated Services Filter

@@ -56,6 +56,7 @@ Feature: 80183 - TMV Trains List Filtering - Config - Nominated Services
     Then train '<trainDescription>' with schedule id '<planningUid>' for today is visible on the trains list
     And I navigate to train list configuration
     And I have navigated to the 'Nominated Services' configuration tab
+    And the Nominated Services toggle is toggled on
     And I input '<trainDescription>' in the 'trainIdInput' input box
     And I click the add button for Nominated Services Filter
     When I save the trains list config
@@ -84,6 +85,7 @@ Feature: 80183 - TMV Trains List Filtering - Config - Nominated Services
     Then there are no train entries present on the trains list
     And I navigate to train list configuration
     And I have navigated to the 'Nominated Services' configuration tab
+    And the Nominated Services toggle is toggled on
     And I input '<trainDescription>' in the 'trainIdInput' input box
     And I click the add button for Nominated Services Filter
     When I save the trains list config
@@ -116,6 +118,7 @@ Feature: 80183 - TMV Trains List Filtering - Config - Nominated Services
     And I have navigated to the 'Nominated Services' configuration tab
     And I input '<trainDescription>' in the 'trainIdInput' input box
     And I click the add button for Nominated Services Filter
+    And the Nominated Services toggle is toggled on
     When I save the trains list config
     Then train '<trainDescription>' with schedule id '<planningUid>' for today is visible on the trains list
     Examples:
@@ -155,6 +158,7 @@ Feature: 80183 - TMV Trains List Filtering - Config - Nominated Services
     And I have navigated to the 'Nominated Services' configuration tab
     And I input '<trainDescription>' in the 'trainIdInput' input box
     And I click the add button for Nominated Services Filter
+    And the Nominated Services toggle is toggled on
     When I save the trains list config
     Then train '<trainDescription>' with schedule id '<planningUid>' for today is visible on the trains list
     And the service is displayed in the trains list with the following row colour
@@ -196,12 +200,12 @@ Feature: 80183 - TMV Trains List Filtering - Config - Nominated Services
     And I have navigated to the 'Nominated Services' configuration tab
     And I input '<trainDescription>' in the 'trainIdInput' input box
     And I click the add button for Nominated Services Filter
+    And the Nominated Services toggle is toggled on
     When I save the trains list config
     Then train '<trainDescription>' with schedule id '<planningUid>' for today is visible on the trains list
     Examples:
       | trainDescription          | planningUid       |
       | generatedTrainDescription | generatedTrainUId |
-
 
   Scenario Outline: 80345-6 - Nominated config should override Regions/Routes config
     Given the train in CIF file below is updated accordingly so time at the reference point is now + '1' minute, and then received from LINX
@@ -224,6 +228,7 @@ Feature: 80183 - TMV Trains List Filtering - Config - Nominated Services
     And I have navigated to the 'Nominated Services' configuration tab
     And I input '<trainDescription>' in the 'trainIdInput' input box
     And I click the add button for Nominated Services Filter
+    And the Nominated Services toggle is toggled on
     When I save the trains list config
     Then train '<trainDescription>' with schedule id '<planningUid>' for today is visible on the trains list
     Examples:
@@ -260,6 +265,7 @@ Feature: 80183 - TMV Trains List Filtering - Config - Nominated Services
     And I have navigated to the 'Nominated Services' configuration tab
     And I input '<trainDescription>' in the 'trainIdInput' input box
     And I click the add button for Nominated Services Filter
+    And the Nominated Services toggle is toggled on
     When I save the trains list config
     Then train '<trainDescription>' with schedule id '<planningUid>' for today is visible on the trains list
     Examples:

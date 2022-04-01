@@ -115,6 +115,10 @@ When('the Nominated Services toggle is enabled', async () => {
   expect(nomindatedServicesToggleState).to.equal(true);
 });
 
+When('the Nominated Services toggle is toggled on', async () => {
+  await trainsListServiceFilterTabPage.nominatedServicesToggleOn();
+});
+
 When('I toggle the evens button', async () => {
   await trainsListServiceFilterTabPage.toggleEvens();
 });

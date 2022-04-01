@@ -14,6 +14,7 @@ export class TrainsListServiceFilterTabPage {
   public saveServiceFiltersBtn: ElementFinder;
   public saveTrustFiltersBtn: ElementFinder;
   public nominatedServicesToggle: ElementFinder;
+  public nominatedServicesSlider: ElementFinder;
 
   constructor() {
     this.addTrustIdBtn = element(by.id('addTrustId'));
@@ -26,6 +27,7 @@ export class TrainsListServiceFilterTabPage {
     this.saveServiceFiltersBtn = element(by.css('#saveTLMiscConfig'));
     this.saveTrustFiltersBtn = element(by.css('#saveTLServiceFilterConfig'));
     this.nominatedServicesToggle = element(by.id('nominated-service-toggle-menu-input'));
+    this.nominatedServicesSlider = element(by.css('div.mat-slide-toggle-thumb'));
   }
 
   public async waitForTrustIds(): Promise<boolean> {
@@ -95,6 +97,14 @@ export class TrainsListServiceFilterTabPage {
 
   public async nominatedServicesToggleState(): Promise<boolean> {
     return this.nominatedServicesToggle.isPresent() && this.nominatedServicesToggle.isSelected();
+  }
+
+  public async nominatedServicesToggleOn(): Promise<void> {
+    return this.nominatedServicesToggleState().then(result => {
+      if (!result) {
+        return this.nominatedServicesSlider.click();
+      }
+    });
   }
 
   public async toggleEvens(): Promise<void> {
