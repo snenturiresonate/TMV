@@ -69,6 +69,60 @@ Feature: 34372 - TMV Replay Recording of Events
 #    Given has started a replay session
 #    And are viewing a map with trains present
 #    When they open and timetable
+#    Then the Actual/Predicted are displayed for the day corresponding to the date and time of the replay
+  Scenario Outline: 34372-10 Replay - View Actual/Predicted in the timetable
+        # Replay Setup
+    * I add map grouping configuration to the old replay data, modified to be 32 days old
+    * I add the following active service to the replay schedule data with planningUid <planningUid> and headcode <trainDescription>, modified to be 32 days old plus 0 minutes
+      | type               | location   | dateTime               | reason          |
+    * I add the following punctuality to the replay schedule data, modified to be 32 days old plus 0 minutes
+      | planningUid     | punctuality |
+      | <planningUid>   | 60          |
+    * I add the following planned schedule to the replay schedule data, modified to be 32 days old plus 0 minutes
+      | trainDescription   | planningUid    | numberOfEntries |
+      | <trainDescription> | <planningUid>  | 2               |
+    * I add the following predicted schedule to the replay schedule data, modified to be 32 days old plus 1 minutes
+      | trainDescription   | planningUid    |
+      | <trainDescription> | <planningUid>  |
+    * I add the following actual schedule to the replay schedule data, modified to be 32 days old plus 2 minutes
+      | trainDescription   | planningUid    |
+      | <trainDescription> | <planningUid>  |
+
+    # Start a replay
+    And I give the replay data a further 2 seconds to be recorded
+    And I refresh the Elastic Search indices
+    When I am on the replay page
+    When I set the date and time for replay to
+      | date       | time    | duration |
+      | today - 32 | now - 1 | 5        |
+    And I select Next
+    And I expand the replay group of maps with name 'Wales & Western'
+    And I select the map 'HDGW01paddington.v'
+    And I wait for the buffer to fill
+    And I open the context menu for the continuation button 'GW02'
+    And I open the next map in a new tab from the continuation button context menu
+    And I switch to the new tab
+    And I navigate to the replay timetable page for planningUid '<planningUid>' to be 32 days old
+    And I switch to the new tab
+    And I wait for the buffer to fill
+    And I click Skip forward button '2' times
+    Then The timetable entries contains the following predicted and actual data
+      | rowNum | location               | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
+      | 1      | London Paddington      |                 | (14:11)      | 5         |          | 2        | (+3m)       |
+    When I click Skip forward button '1' times
+    Then The timetable entries contains the following predicted and actual data
+      | rowNum | location               | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
+      | 2      | Royal Oak Junction     |                 | 14:12        | 5         |          | 2        | +2m         |
+
+
+    Examples:
+      | trainDescription | planningUid |
+      | generated        | T02205      |
+
+
+#    Given has started a replay session
+#    And are viewing a map with trains present
+#    When they open and timetable
 #    Then the current punctuality is displayed for the day corresponding to the date and time of the replay
   Scenario Outline: 34372-11 Replay - Current Punctuality in the timetable
         # Replay Setup

@@ -191,6 +191,58 @@ export class ReplayTimetableDataService {
     return this.dynamoClient.putItem(item, `ArchiveScheduleDetails-${browser.params.dynamo_suffix}`);
   }
 
+  public async injectIntoPredicted(
+    daysOld: number,
+    plusMinutesOffset: number,
+    trainDescription: string,
+    planningUidStr: string
+  ): Promise<void> {
+    const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().plusMinutes(plusMinutesOffset);
+    const timestamp = now.minusDays(daysOld).toEpochSecond() * 1000;
+    const oldDate: string = now.minusDays(daysOld).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
+    const partitionKey: string = planningUidStr + ':' + oldDate + '-predicted';
+
+    const entry = {
+      predictedPathEntryList: {
+        L: this.getPredictedEntries()
+      }
+    };
+
+    const item = {
+      partitionKey: {S: partitionKey},
+      timestamp: {N: timestamp},
+      predictedPathEntries: {M: entry}
+    };
+
+    return this.dynamoClient.putItem(item, `ArchiveScheduleDetails-${browser.params.dynamo_suffix}`);
+  }
+
+  public async injectIntoActuals(
+    daysOld: number,
+    plusMinutesOffset: number,
+    trainDescription: string,
+    planningUidStr: string
+  ): Promise<void> {
+    const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().plusMinutes(plusMinutesOffset);
+    const timestamp = now.minusDays(daysOld).toEpochSecond() * 1000;
+    const oldDate: string = now.minusDays(daysOld).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
+    const partitionKey: string = planningUidStr + ':' + oldDate + '-actuals';
+
+    const entry = {
+      actualPathEntryList: {
+        L: this.getActualEntries()
+      }
+    };
+
+    const item = {
+      partitionKey: {S: partitionKey},
+      timestamp: {N: timestamp},
+      actualPathEntries: {M: entry}
+    };
+
+    return this.dynamoClient.putItem(item, `ArchiveScheduleDetails-${browser.params.dynamo_suffix}`);
+  }
+
   private getAssociations(entries: any): any {
     return {
       associations: {
@@ -365,5 +417,95 @@ export class ReplayTimetableDataService {
     }
 
     return plannedEntries;
+  }
+
+  private getPredictedEntries(): any[] {
+    return [
+      {
+        M: {
+          predictedPathEntryId: {
+            S: 'pre0301a-3a44-41b9-b410-dcb94ee47757'
+          },
+          sequenceNumber: {
+            N: 0
+          },
+          predictedArrivalTime: {
+            NULL: true
+          },
+          predictedDeptTime: {
+            S: '14:11:00'
+          },
+          predictedAssetCode: {
+            S: 5
+          },
+          predictedPathCode: {
+            S: ''
+          },
+          predictedLineCode: {
+            S: '2'
+          },
+          predictedArrivalPunctuality: {
+            N: 120
+          },
+          predictedDeparturePunctuality: {
+            N: 180
+          },
+          locationCode: {
+            S: '2'
+          }
+        }
+      }
+    ];
+  }
+
+  private getActualEntries(): any[] {
+    return [
+      {
+        M: {
+          actualPathEntryId: {
+            S: 'act0301a-3a44-41b9-b410-dcb94ee47757'
+          },
+          sequenceNumber: {
+            N: 1
+          },
+          actualArrivalDateTime: {
+            NULL: true
+          },
+          actualDeptDateTime: {
+            S: '14:12:00'
+          },
+          calculatedArrivalTime: {
+            NULL: true
+          },
+          calculatedDepartureTime: {
+            S: '14:12:00'
+          },
+          trustArrivalTime: {
+            NULL: true
+          },
+          trustDepartureTime: {
+            S: '14:12:00'
+          },
+          actualAsset: {
+            S: 5
+          },
+          actualPathCode: {
+            S: ''
+          },
+          actualLineCode: {
+            S: '2'
+          },
+          actualPunctuality: {
+            N: 120
+          },
+          locationCode: {
+            S: '2'
+          },
+          source: {
+            S: 'INTERNAL'
+          }
+        }
+      }
+    ];
   }
 }

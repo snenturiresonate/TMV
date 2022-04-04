@@ -47,14 +47,14 @@ Feature: 34372 - TMV Replay Recording of Events
     And I wait for the buffer to fill
     And I click Skip forward button '4' times
     Then the replay start date is 'today - <replayAgeInDays>'
-    And The timetable entries contains the following data
-      | rowNum | location               | locInstance | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
-      | 1      | London Paddington      | 1           |                    | 14:09           |                   | 14:09          | 4                 |                  | 1                |            | TB         |                 |              |           |          |          |             |
+    And The timetable entries contains the following planned data
+      | rowNum | location               | locInstance | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities |
+      | 1      | London Paddington      | 1           |                    | 14:09           |                   | 14:09          | 4                 |                  | 1                |            | TB         |
     When I click Skip forward button '1' times
-    Then The timetable entries contains the following data
-      | rowNum | location               | locInstance | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities | arrivalDateTime | deptDateTime | assetCode | pathCode | lineCode | punctuality |
-      | 1      | London Paddington      | 1           |                    | 14:09           |                   | 14:09          | 4                 |                  | 1                |            | TB         |                 |              |           |          |          |             |
-      | 2      | Royal Oak Junction     | 1           |                    | 14:10           |                   |                |                   | 1                | 1                |            |            |                 |              |           |          |          |             |
+    Then The timetable entries contains the following planned data
+      | rowNum | location               | locInstance | workingArrivalTime | workingDeptTime | publicArrivalTime | publicDeptTime | originalAssetCode | originalPathCode | originalLineCode | allowances | activities |
+      | 1      | London Paddington      | 1           |                    | 14:09           |                   | 14:09          | 4                 |                  | 1                |            | TB         |
+      | 2      | Royal Oak Junction     | 1           |                    | 14:10           |                   |                |                   | 1                | 1                |            |            |
     And I switch to the timetable details tab
     And The timetable details tab is visible
     And I give the timetable a settling time of 2 seconds to update

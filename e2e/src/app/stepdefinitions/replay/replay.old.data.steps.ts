@@ -46,6 +46,20 @@ Given(/I add the following planned schedule to the replay schedule data, modifie
       daysOld, plusMinutesOffset, snapshot.trainDescription, snapshot.planningUid, snapshot.numberOfEntries);
   });
 
+Given(/I add the following predicted schedule to the replay schedule data, modified to be (.*) days old plus (.*) minutes/,
+  async (daysOld: number, plusMinutesOffset: number, dataTable: any) => {
+    const snapshot = dataTable.hashes()[0];
+    await replayTimetableDataService.injectIntoPredicted(
+      daysOld, plusMinutesOffset, snapshot.trainDescription, snapshot.planningUid);
+  });
+
+Given(/I add the following actual schedule to the replay schedule data, modified to be (.*) days old plus (.*) minutes/,
+  async (daysOld: number, plusMinutesOffset: number, dataTable: any) => {
+    const snapshot = dataTable.hashes()[0];
+    await replayTimetableDataService.injectIntoActuals(
+      daysOld, plusMinutesOffset, snapshot.trainDescription, snapshot.planningUid);
+  });
+
 Given(/I add the following associations to the replay schedule data with planningUid (.*), modified to be (.*) days old plus (.*) minutes/,
   async (planningUid: string, daysOld: number, plusMinutesOffset: number, dataTable: any) => {
     const snapshot = dataTable.hashes();
