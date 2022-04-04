@@ -299,7 +299,8 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | generatedTrainDescription | generatedTrainUId |
 
   # This test passes locally but fails when ran on the build server
-  @manual
+#  @manual
+  @blp
   Scenario Outline: 34375-8 Replay - View Timetable Detail (Replay Control - covering play and stop)
     # Given the user is authenticated to use TMV replay
     # And the user has opened a timetable within Replay
@@ -362,13 +363,13 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
     And I open today's timetable with planning UID <planningUid> from the search results
     And the number of tabs open is 2
     And I switch to the new tab
-    And the tab title is '<trainDescription> TMV Replay Timetable'
+    And the tab title is '1B99 TMV Replay Timetable'
     And I switch to the timetable details tab
     And I click Play button
 #    @bug @bug:83954
-#    Then The values for 'berthId' are the following as time passes
-#      | values                 |
-#      | D3A007, D30039, D30059 |
+    Then The values for 'berthId' are the following as time passes
+      | values                 |
+      | D3A007, D30039, D30059 |
 
     Examples:
       | trainDescription          | planningUid       |
