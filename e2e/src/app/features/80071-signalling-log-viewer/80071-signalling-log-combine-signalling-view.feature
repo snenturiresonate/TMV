@@ -13,10 +13,10 @@ Feature: 80071 - TMV Signalling Log Viewer - Combine Signalling View
     And I clear the logged-agreed-schedules Elastic Search index
 
   Scenario: 80302 - Combine Signalling View
-    #    Given the user is authenticated to use TMV
-    #    When the user opts to access the Signalling Log View
-    #    Then the signalling view corresponds to the combined s-class & signalling views
-    #    And each field is populated with data
+    # Given the user is authenticated to use TMV
+    # When the user opts to access the Signalling Log View
+    # Then the signalling view corresponds to the combined s-class & signalling views
+    # And each field is populated with data
     Given the following signalling update message is sent from LINX
       | trainDescriber | address | data | timestamp |
       | D1             | 31      | 00   | 17:45:00  |
