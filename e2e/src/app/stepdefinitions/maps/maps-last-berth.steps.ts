@@ -37,7 +37,7 @@ Then('the user is presented with a list of the last {string} services that have 
       const expectedOperator = expectedRecord.operatorCode;
       const expectedPunctuality = expectedRecord.punct;
       let expectedEventDateTime: string = expectedRecord.eventDateTime;
-      expectedEventDateTime = await DateAndTimeUtils.adjustNowTime(
+      expectedEventDateTime = await DateAndTimeUtils.adjustLocalNowTime(
         expectedEventDateTime.substr(4, 1), parseInt(expectedEventDateTime.substr(6), 10));
       expectedEventDateTime = expectedEventDateTime.substr(0, 4);
       await CucumberLog.addText(

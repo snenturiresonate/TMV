@@ -18,22 +18,21 @@ Feature: 34372 - TMV Replay Recording of Events
   Scenario Outline: 34372-9 Replay - View Associations in the timetable
         # Replay Setup
     * I add map grouping configuration to the old replay data, modified to be 32 days old
-    * I add the following active service to the replay schedule data, modified to be 32 days old plus 0 minutes
-      | trainDescription   | planningUid    |
-      | <trainDescription> | <planningUid>  |
-    * I add the following punctuality to the replay schedule data, modified to be 32 days old plus 0 minutes
-      | planningUid   | punctuality |
-      | <planningUid> | 60          |
     * I add the following planned schedule to the replay schedule data, modified to be 32 days old plus 0 minutes
       | trainDescription   | planningUid   | numberOfEntries |
       | <trainDescription> | <planningUid> | 1               |
-    * I add the following associations to the replay schedule data, modified to be 32 days old plus 0 minutes
-      | planningUid   | headcode          | type        | location       |
-      | <planningUid> | <assocHeadcode1>  | <assocType> | <assocTiploc>  |
-    * I add the following associations to the replay schedule data, modified to be 32 days old plus 1 minutes
-      | planningUid   | headcode          | type        | location       |
-      | <planningUid> | <assocHeadcode1>  | <assocType> | <assocTiploc>  |
-      | <planningUid> | <assocHeadcode2>  | <assocType> | <assocTiploc>  |
+    * I add the following active service to the replay schedule data with planningUid <planningUid> and headcode <trainDescription>, modified to be 32 days old plus 0 minutes
+      | type               | location   | dateTime               | reason          |
+    * I add the following punctuality to the replay schedule data, modified to be 32 days old plus 0 minutes
+      | planningUid   | punctuality |
+      | <planningUid> | 60          |
+    * I add the following associations to the replay schedule data with planningUid <planningUid>, modified to be 32 days old plus 0 minutes
+      | headcode          | type        | location       |
+      | <assocHeadcode1>  | <assocType> | <assocTiploc>  |
+    * I add the following associations to the replay schedule data with planningUid <planningUid>, modified to be 32 days old plus 1 minutes
+      | headcode          | type        | location       |
+      | <assocHeadcode1>  | <assocType> | <assocTiploc>  |
+      | <assocHeadcode2>  | <assocType> | <assocTiploc>  |
 
     # Start a replay
     And I give the replay data a further 2 seconds to be recorded
@@ -64,7 +63,7 @@ Feature: 34372 - TMV Replay Recording of Events
       | <assocLoc> | <assocType> | <assocHeadcode2> |
     Examples:
       | trainDescription | assocTiploc | assocLoc  | assocType | assocHeadcode1 | assocHeadcode2 | planningUid |
-      | generated        | WSTBRYW     | Westbury  | NP Next   | 1A11           | 1A12           | T02201      |
+      | generated        | WSTBRYW     | Westbury  | NP Next   | 1A11           | 1A12           | T02203      |
 
 
 #    Given has started a replay session
@@ -74,9 +73,8 @@ Feature: 34372 - TMV Replay Recording of Events
   Scenario Outline: 34372-11 Replay - Current Punctuality in the timetable
         # Replay Setup
     * I add map grouping configuration to the old replay data, modified to be 32 days old
-    * I add the following active service to the replay schedule data, modified to be 32 days old plus 0 minutes
-      | trainDescription   | planningUid    |
-      | <trainDescription> | <planningUid>  |
+    * I add the following active service to the replay schedule data with planningUid <planningUid> and headcode <trainDescription>, modified to be 32 days old plus 0 minutes
+      | type               | location   | dateTime               | reason          |
     * I add the following punctuality to the replay schedule data, modified to be 32 days old plus 0 minutes
       | planningUid     | punctuality |
       | <planningUid>   | 60          |
@@ -112,7 +110,7 @@ Feature: 34372 - TMV Replay Recording of Events
     And the punctuality is displayed as '+5m'
     Examples:
       | trainDescription | planningUid |
-      | generated        | T02201      |
+      | generated        | T02204      |
 
 
 #    Given has started a replay session

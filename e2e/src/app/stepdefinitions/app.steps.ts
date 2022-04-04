@@ -293,7 +293,7 @@ When(/^the following live berth interpose messages? (?:is|are) sent from LINX(.*
 
 When(/^the following live (.) (.*) minutes? berth interpose messages? (?:is|are) sent from LINX(.*)$/,
   async (operator: string, minutesToAdjust: number, explanation: string, berthInterposeMessageTable: any) => {
-    const adjustedTime: string = await DateAndTimeUtils.adjustNowTime(operator, minutesToAdjust);
+    const adjustedTime: string = await DateAndTimeUtils.adjustLocalNowTime(operator, minutesToAdjust);
     const berthInterposeMessages: any = berthInterposeMessageTable.hashes();
     for (const berthInterposeMessage of berthInterposeMessages) {
       await linxRestClient.postInterpose(
@@ -342,7 +342,7 @@ When(/^the following live berth step messages? (?:is|are) sent from LINX(.*)$/,
 
 When(/^the following live (.) (.*) minutes? berth step messages? (?:is|are) sent from LINX(.*)$/,
   async (operator: string, minutesToAdjust: number, explanation: string, berthStepMessageTable: any) => {
-    const adjustedTime: string = await DateAndTimeUtils.adjustNowTime(operator, minutesToAdjust);
+    const adjustedTime: string = await DateAndTimeUtils.adjustLocalNowTime(operator, minutesToAdjust);
     const berthStepMessages: any = berthStepMessageTable.hashes();
     for (const berthStepMessage of berthStepMessages) {
       const berthStep: BerthStep = new BerthStep(

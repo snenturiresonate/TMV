@@ -10,12 +10,14 @@ export class ReplayTimetableDataService {
     daysOld: number,
     plusMinutesOffset: number,
     trainDescription: string,
-    planningUid: string
+    planningUid: string,
+    snapshot: any[]
   ): Promise<void> {
     const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().plusMinutes(plusMinutesOffset);
     const timestamp = now.minusDays(daysOld).toEpochSecond() * 1000;
     const oldDate: string = now.minusDays(daysOld).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
     const partitionKey: string = planningUid + ':' + oldDate + '-active-service';
+    const modificationsList = this.getModifications(snapshot);
 
     const entry = {
       currentTrainDescription: {
@@ -25,7 +27,7 @@ export class ReplayTimetableDataService {
         S: 'trustId'
       },
       modifications: {
-        L: []
+        L: modificationsList
       }
     };
 
@@ -83,13 +85,13 @@ export class ReplayTimetableDataService {
   public async injectIntoAssociations(
     daysOld: number,
     plusMinutesOffset: number,
-    snapshot: any[]
+    snapshot: any[],
+    planningUid: string
   ): Promise<void> {
     const entries = [];
     const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().plusMinutes(plusMinutesOffset);
     const timestamp = now.minusDays(daysOld).toEpochSecond() * 1000;
     const oldDate: string = now.minusDays(daysOld).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
-    const planningUid = snapshot[0].planningUid;
     const partitionKey: string = planningUid + ':' + oldDate + '-associations';
 
     for (const snapshotEntry of snapshot) {
@@ -208,6 +210,40 @@ export class ReplayTimetableDataService {
         },
         associationType: {
           S: type
+        }
+      }
+    };
+  }
+
+  private getModifications(snapshot: any[]): any {
+    const modifications: any[] = [];
+    if (snapshot) {
+      // tslint:disable-next-line:prefer-for-of
+      for (let i = 0; i < snapshot.length; i++) {
+        const snapshotEntry = snapshot[i];
+        if (snapshotEntry) {
+          modifications.push(this.getModificationEntry(snapshotEntry));
+        }
+      }
+    }
+
+    return modifications;
+  }
+
+  private getModificationEntry(snapshotEntry: any): any {
+    return {
+      M: {
+        modificationType: {
+          S: snapshotEntry.type
+        },
+        modificationLocation: {
+          S: snapshotEntry.location
+        },
+        modificationDatetime: {
+          S: snapshotEntry.dateTime
+        },
+        modificationReason: {
+          S: snapshotEntry.reason
         }
       }
     };

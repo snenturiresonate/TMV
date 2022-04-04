@@ -121,9 +121,16 @@ export class DateAndTimeUtils {
    * Returns the entire time component (HH:MM:SS) from the string input of date & time
    * Input: DateTime of type string
    */
-  public static async getTimeComponent(dateTime: string): Promise<string> {
+  public static async getLocalTimeComponent(dateTime: string): Promise<string> {
     const inputDateTime: Date = new Date(dateTime);
     return moment(inputDateTime).format('HH:mm:ss');
+  }
+
+  public static async getTimeComponent(dateTime: string): Promise<string> {
+    const inputDateTime = new Date(dateTime);
+
+    const options = { timeZone: DateAndTimeUtils.ZONE_ID, timeStyle: 'medium', hour12: false };
+    return inputDateTime.toLocaleTimeString('en-GB', options);
   }
 
   /**
@@ -133,7 +140,7 @@ export class DateAndTimeUtils {
    */
   public static async addMinsToDateTime(timeStamp: string, increment: number): Promise<any> {
     const parsedDateTime = new Date(timeStamp);
-    return moment(parsedDateTime).add(increment, 'minute').toDate();
+    return moment(parsedDateTime).tz(DateAndTimeUtils.ZONE_ID).add(increment, 'minute').toDate();
   }
   /**
    * Subtracts the decrement minutes to the time and Returns the parsed date time from the string input of date & time.
@@ -142,7 +149,7 @@ export class DateAndTimeUtils {
    */
   public static async subtractMinsToDateTime(timeStamp: string, decrement: number): Promise<any> {
     const parsedDateTime = new Date(timeStamp);
-    return moment(parsedDateTime).subtract(decrement, 'minute').toDate();
+    return moment(parsedDateTime).tz(DateAndTimeUtils.ZONE_ID).subtract(decrement, 'minute').toDate();
   }
   /**
    * Adds the increment hours to the time and Returns the parsed date time from the string input of date & time.
@@ -151,7 +158,7 @@ export class DateAndTimeUtils {
    */
   public static async addHoursToDateTime(timeStamp: string, increment: number): Promise<any> {
     const parsedDateTime = new Date(timeStamp);
-    return moment(parsedDateTime).add(increment, 'hours').toDate();
+    return moment(parsedDateTime).tz(DateAndTimeUtils.ZONE_ID).add(increment, 'hours').toDate();
   }
   /**
    * Subtracts the decrement hours to the time and Returns the parsed date time from the string input of date & time.
@@ -160,7 +167,7 @@ export class DateAndTimeUtils {
    */
   public static async subtractHoursToDateTime(timeStamp: string, decrement: number): Promise<any> {
     const parsedDateTime = new Date(timeStamp);
-    return moment(parsedDateTime).subtract(decrement, 'hours').toDate();
+    return moment(parsedDateTime).tz(DateAndTimeUtils.ZONE_ID).subtract(decrement, 'hours').toDate();
   }
   /**
    * Adds the increment seconds to the time and Returns the parsed date time from the string input of date & time.
@@ -238,22 +245,42 @@ export class DateAndTimeUtils {
   }
 
   /**
-   * adjustNowTimeWithSuppliedNow
+   * adjustLocalNowTime
+   * @param operator: either '+' or '-'
+   * @param minutesToAdjust: the number of minutes to add or subtract to the current time
+   */
+  public static async adjustLocalNowTime(operator: string, minutesToAdjust: number): Promise<string> {
+    let adjustedTime = DateAndTimeUtils.getCurrentTime();
+    if (operator === '-') {
+      adjustedTime = await DateAndTimeUtils.subtractMinsToDateTime(
+        DateAndTimeUtils.getCurrentDateTimeString('MM-dd-yyyy HH:mm:ss xxx'), minutesToAdjust);
+      adjustedTime = await DateAndTimeUtils.getLocalTimeComponent(adjustedTime);
+    }
+    else if (operator === '+') {
+      adjustedTime = await DateAndTimeUtils.addMinsToDateTime(
+        DateAndTimeUtils.getCurrentDateTimeString('MM-dd-yyyy HH:mm:ss xxx'), minutesToAdjust);
+      adjustedTime = await DateAndTimeUtils.getLocalTimeComponent(adjustedTime);
+    }
+    return adjustedTime;
+  }
+
+  /**
+   * adjustLocalNowTimeWithSuppliedNow
    * @param operator: either '+' or '-'
    * @param minutesToAdjust: the number of minutes to add or subtract to the current time
    * @param suppliedNow: the supplied version of the current time to start from
    */
-  public static async adjustNowTimeWithSuppliedNow(operator: string, minutesToAdjust: number, suppliedNow: LocalDateTime): Promise<string> {
+  public static async adjustLocalNowTimeWithSuppliedNow(operator: string, minutesToAdjust: number, suppliedNow: LocalDateTime): Promise<string> {
     let adjustedTime = DateAndTimeUtils.getCurrentTime();
     if (operator === '-') {
         adjustedTime = await DateAndTimeUtils.subtractMinsToDateTime(
           suppliedNow.format(DateTimeFormatter.ofPattern('MM-dd-yyyy HH:mm:ss')), minutesToAdjust);
-        adjustedTime = await DateAndTimeUtils.getTimeComponent(adjustedTime);
+        adjustedTime = await DateAndTimeUtils.getLocalTimeComponent(adjustedTime);
     }
     else if (operator === '+') {
       adjustedTime = await DateAndTimeUtils.addMinsToDateTime(
         suppliedNow.format(DateTimeFormatter.ofPattern('MM-dd-yyyy HH:mm:ss')), minutesToAdjust);
-      adjustedTime = await DateAndTimeUtils.getTimeComponent(adjustedTime);
+      adjustedTime = await DateAndTimeUtils.getLocalTimeComponent(adjustedTime);
     }
     return adjustedTime;
   }
@@ -269,7 +296,7 @@ export class DateAndTimeUtils {
       if (timeString === 'now') {
         return establishedNow.format(DateTimeFormatter.ofPattern(pattern));
       } else {
-        return DateAndTimeUtils.adjustNowTimeWithSuppliedNow(timeString.substr(4, 1), parseInt(timeString.substr(6), 10), establishedNow);
+        return DateAndTimeUtils.adjustLocalNowTimeWithSuppliedNow(timeString.substr(4, 1), parseInt(timeString.substr(6), 10), establishedNow);
       }
     }
     else {

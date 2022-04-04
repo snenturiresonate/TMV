@@ -25,11 +25,11 @@ Given(/I add map grouping configuration to the old replay data, modified to be (
     await replayMapDataService.injectMapGroupingConfigurationIntoOldData(daysOld);
   });
 
-Given(/I add the following active service to the replay schedule data, modified to be (.*) days old plus (.*) minutes/,
-  async (daysOld: number, plusMinutesOffset: number, dataTable: any) => {
-    const snapshot = dataTable.hashes()[0];
+Given(/I add the following active service to the replay schedule data with planningUid (.*) and headcode (.*), modified to be (.*) days old plus (.*) minutes/,
+  async (planningUid: string, trainDescription: string, daysOld: number, plusMinutesOffset: number, dataTable: any) => {
+    const snapshot = dataTable.hashes();
     await replayTimetableDataService.injectIntoActiveService(
-      daysOld, plusMinutesOffset, snapshot.trainDescription, snapshot.planningUid);
+      daysOld, plusMinutesOffset, trainDescription, planningUid, snapshot);
   });
 
 Given(/I add the following punctuality to the replay schedule data, modified to be (.*) days old plus (.*) minutes/,
@@ -46,9 +46,9 @@ Given(/I add the following planned schedule to the replay schedule data, modifie
       daysOld, plusMinutesOffset, snapshot.trainDescription, snapshot.planningUid, snapshot.numberOfEntries);
   });
 
-Given(/I add the following associations to the replay schedule data, modified to be (.*) days old plus (.*) minutes/,
-  async (daysOld: number, plusMinutesOffset: number, dataTable: any) => {
+Given(/I add the following associations to the replay schedule data with planningUid (.*), modified to be (.*) days old plus (.*) minutes/,
+  async (planningUid: string, daysOld: number, plusMinutesOffset: number, dataTable: any) => {
     const snapshot = dataTable.hashes();
     await replayTimetableDataService.injectIntoAssociations(
-      daysOld, plusMinutesOffset, snapshot);
+      daysOld, plusMinutesOffset, snapshot, planningUid);
   });

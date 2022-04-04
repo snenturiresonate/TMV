@@ -116,7 +116,7 @@ export class ReplaySelectTimerangePage {
 
   public async setStartTimeWithDropdown(time: any): Promise<void> {
     if (time.toLowerCase().includes('now -') || time.toLowerCase().includes('now +') ) {
-      time = await DateAndTimeUtils.adjustNowTime(time.charAt(4), parseInt(time.substr(6), 10));
+      time = await DateAndTimeUtils.adjustLocalNowTime(time.charAt(4), parseInt(time.substr(6), 10));
     }
     browser.startTime = time;
 
