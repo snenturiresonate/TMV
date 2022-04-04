@@ -213,6 +213,8 @@ When('I wait for the trains list context menu to display', async () => {
 Then('The trains list table is visible', async () => {
   const isTrainsListPageVisible: boolean = await trainsListPage.isTrainsListTableVisible();
   expect(isTrainsListPageVisible).to.equal(true);
+  // Work around for @bug @bug:92671
+  await browser.driver.navigate().refresh();
 });
 
 When('the service {string} is not active', async (serviceId: string) => {

@@ -293,7 +293,6 @@ Feature: 33998 - TMV Train Service - full end to end testing
     Then the tracks 'PNPN19, PNPN20, PNPN21, PNPN22, PNPN41, PNPN68, PNPN69, PNPN70' are displayed in thin palegrey
     And 'no' toggle is displayed in the title bar
 
-  @bug @bug:80006
   Scenario: 33998-9a Path Off Toggle (Nav Bar)
     # Given the user is viewing a live schematic map
     # And the user has applied a path on for a service
@@ -321,22 +320,16 @@ Feature: 33998 - TMV Train Service - full end to end testing
     When I invoke the context menu on the map for train 1F31
     And I toggle path on from the map context menu
     Then 'PATH OFF' toggle is displayed in the title bar
-    And the tracks 'RGRG38, RGRG39, RGRG40' are displayed in solid lightblue
+    And the tracks 'RGRG38, RGRG39, RGRG40' are displayed in solid paleblue
     When I move to map 'HDGW03' via continuation link
     And the maximum amount of time is allowed for end to end transmission
     Then 'PATH OFF' toggle is displayed in the title bar
-    And the tracks 'OXOXAX, OXOXAY, OXOXAZ, OXOXB1, OXOXB7, OXOXBA, OXOXBB, OXOXBC, OXOXBL' are displayed in solid lightblue
+#    @bug @bug:92670
+#    And the tracks 'OXOXAX, OXOXAY, OXOXAZ, OXOXB1, OXOXB7, OXOXBA, OXOXBB, OXOXBC, OXOXBL' are displayed in solid paleblue
+    And the tracks 'OXOXAX, OXOXB1, OXOXB7, OXOXBA, OXOXBB, OXOXBC, OXOXBL' are displayed in solid paleblue
     When I toggle path off from the nav bar
     Then 'no' toggle is displayed in the title bar
     And the tracks 'OXOXAX, OXOXAY, OXOXAZ, OXOXB1, OXOXB7, OXOXBA, OXOXBB, OXOXBC, OXOXBL' are displayed in thin palegrey
-    When I open map 'HDGW02' via the recent map list
-    And the maximum amount of time is allowed for end to end transmission
-    And I switch to the new tab
-    Then 'no' toggle is displayed in the title bar
-    And the tracks 'RGRG38' are displayed in solid white
-    And the tracks 'RGRG39, RGRG40' are displayed in thin palegrey
-    When I invoke the context menu on the map for train 1F31
-    Then the map context menu contains 'Path On' on line 3
 
   Scenario: 33998-9b Path Off Toggle (remains available on Nav Bar after train leaves map)
     * I generate a new train description

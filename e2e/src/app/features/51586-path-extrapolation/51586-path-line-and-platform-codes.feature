@@ -33,7 +33,6 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | 1A26             | A51586   | R007      | 0037    | D3             | Royal Oak Junction | 1        | 1        |
       | 1B26             | B51586   | 0173      | 0179    | D3             | [Acton Main Line]  | ML       | ML       |
 
-  @bug @bug:65574
   Scenario Outline: 51586 - 27 Actual platform code displayed
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -46,9 +45,8 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | fromBerth   | toBerth      | trainDescriber   | trainDescription   |
       | <fromBerth> | <toBerth>    | <trainDescriber> | <trainDescription> |
       | <toBerth>   | <thirdBerth> | <trainDescriber> | <trainDescription> |
-    And I give the System 5 seconds to load
     When I am on the timetable view for service '<trainUid>'
-    And the Inserted toggle is 'on'
+    And the Inserted toggle is 'off'
     Then the actual/predicted platform is correct
       | location   | instance | platform   |
       | <location> | 1        | <platform> |

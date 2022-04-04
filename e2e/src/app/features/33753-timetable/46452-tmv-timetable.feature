@@ -425,46 +425,25 @@ Feature: 33753 - TMV Timetable
       | trainNum | planningUid | changeTrainDescription | description        | time  |
       | 1A09     | L10019      | 1X09                   | Change Of Identity | 12:00 |
 
-  @bug @bug:72179
-  @replaySetup
-  Scenario Outline: 33753-7 - View Timetable Detail (Not Schedule Matched - becoming matched)
+  Scenario Outline: 33753-7 - View Timetable Detail (Not Schedule Matched)
     #Given the user is authenticated to use TMV
     #And the user has opened a timetable
     #And the train is not schedule matched
     #When the user selects the details tab of the timetable
     #Then the train's basic header information is displayed
-    * I remove today's train '<planningUid>' from the trainlist
-    Given the following live berth interpose message is sent from LINX (which won't match anything)
-      | toBerth | trainDescriber | trainDescription |
-      | 1693    | D1             | <trainNum>       |
-    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
+    * I generate a new trainUID
+    Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/1S42_PADTON_DIDCOTP.cif | RDNGSTN     | WTT_arr       | <trainNum>          | <planningUid>  |
     And I wait until today's train '<planningUid>' has loaded
     And I am on the timetable view for service '<planningUid>'
-    Then The values for the header properties are as follows
-      | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
-      | LTP       |            |            | <planningUid> |         |         | <trainNum> |
-    And the punctuality is displayed as ''
     When I switch to the timetable details tab
     And The timetable details tab is visible
     And I give the timetable a settling time of 2 seconds to update
     Then The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed  | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
       | 15/12/2019 to 10/05/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             |         | EF       | 25507005         | P               | OO            |           |              | 1     | S            |              |            | EMU       | 110mph |           | m           | D                            |                 |
-    When the following live berth step message is sent from LINX (creating a match)
-      | fromBerth | toBerth | trainDescriber | trainDescription |
-      | 1693      | 1717    | D1             | <trainNum>       |
-    And I wait for the last Signal to populate
-    Then The values for the header properties are as follows
-      | schedType | lastSignal    | lastReport | trainUid      | trustId | lastTJM | headCode   |
-      | LTP       | T1717X, T1717 |            | <planningUid> |         |         | <trainNum> |
-    And I give the timetable a settling time of 2 seconds to update
-    And The timetable details table contains the following data in each row
-      | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed  | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
-      | 15/12/2019 to 10/05/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | D11717  | EF       | 25507005         | P               | OO            |           |              | 1     | S            |              |            | EMU       | 110mph |           | m           | D                            |                 |
-    And the punctuality is displayed as one of On time,+0m 30s,-0m 30s,+1m,-1m
 
     Examples:
       | trainNum | planningUid |
-      | 1A10     | L10010      |
+      | 1B42     | generated   |

@@ -220,23 +220,14 @@ Feature: 37657 - Basic Timetable Modelling
       | access-plan/schedules_BS_type_N.cif | W12245   | 1W22      |
       | access-plan/schedules_BS_type_O.cif | W12845   | 1W28      |
 
-  @bug @bug_61861 @bug_61862
-  Scenario Outline: 37657-10 Schedule associations are displayed
+  Scenario Outline: 37657-10 Schedule associations are displayed - <assocType>:<trainDesc>-><assocTrainDesc>
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # When a user views that timetable
     # Then the associations displayed match those provided in the CIF
     # ***** NB - CIF covers STP types P, O and N
     Given the access plan located in CIF file 'access-plan/associations_test.cif' is received from LINX
-    And I am on the trains list page 1
-    And I restore to default train list config '1'
-    And I refresh the browser
-    And I save the trains list config
-    And The trains list table is visible
-    And train '<trainDesc>' with schedule id '<trainUid>' for today is visible on the trains list
-    And I invoke the context menu for todays train '<trainDesc>' schedule uid '<trainUid>' from the trains list
-    And I wait for the trains list context menu to display
-    And I open timetable from the context menu
-    And I switch to the new tab
+    And I wait until today's train '<trainUid>' has loaded
+    And I am on the timetable view for service '<trainUid>'
     When I switch to the timetable details tab
     And The timetable details tab is visible
     Then The timetable associations table contains the following entries
@@ -245,13 +236,10 @@ Feature: 37657 - Basic Timetable Modelling
 
     Examples:
       | trainDesc | trainUid | assocType        | assocLoc       | assocTrainDesc |
-      | 2B99      | Y74849   | Next Working     | Swindon        | 2M39           |
-      | 2M39      | L78729   | Previous Working | Swindon        | 2B99           |
-      | 2M39      | L78729   | Next Working     | Westbury       | 2F97           |
-      | 2G13      | L04499   | Join             | Purley         | 2P13           |
-      | 2P13      | L06304   | Join             | Purley         | 2G13           |
-      | 1H63      | G46338   | Split            | Haywards Heath | 1H65           |
-      | 1H65      | W21919   | Split            | Haywards Heath | 1H63           |
+      | 2B99      | Y74849   | NP Next          | Swindon        | 2M39           |
+      | 2M39      | L78729   | NP Next          | Westbury       | 2F97           |
+      | 2G13      | L04499   | JJ Join          | Purley         | 2P13           |
+      | 1H63      | G46338   | VV Divide        | Haywards Heath | 1H65           |
 
 
   Scenario: 37657-11 Schedule change en route are displayed

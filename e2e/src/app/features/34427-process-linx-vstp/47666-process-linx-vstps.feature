@@ -101,6 +101,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | trainDescription | scheduleEndDate | scheduleDaysRuns | vstpStpIndicator | statusType | displayType |
       | 1B88             | 20500101        | 1111111          | N                | UNCALLED   | VSTP        |
 
+  @blp
   Scenario Outline: 34427-4b Base Schedule is displayed - vstp on top of original cif (cif P, vstp N)
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # And no other STPs have been received for that service
@@ -134,7 +135,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
 
     Examples:
       | prevCIFLoaded                                      | origTrainDescription | newTrainDescription | scheduleEndDate | scheduleDaysRuns | vstpStpIndicator | statusType | displayType | refLocation |
-      | access-plan/34427-schedules/initial_cif_type_P.cif | 6D04                 | 6P47                | 20500101        | 1111111          | N                | UNCALLED   | VSTP        | WHATFHH     |
+      | access-plan/34427-schedules/initial_cif_type_P.cif | 6D04                 | 6P47                | 20500101        | 1111111          | N                | ACTIVATED  | VSTP        | WHATFHH     |
 
   Scenario Outline: 34427-5a Schedule Cancellation is displayed - no original cif (vstp C)
     #Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
@@ -368,7 +369,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | trainDescription | scheduleEndDate | scheduleDaysRuns | vstpStpIndicator1 | vstpStpIndicator2 | displayType |
       | 6D16             | 20500101        | 1111111          | N                 | C                 | VSTP CAN    |
 
-  @bug @bug_61862 @bug_61862 @bug_63592
+  @bug @bug_63592
   Scenario Outline: 34427-11a Schedule associations are displayed - Next-previous - vstp overlay on Train 2 and then Train 3
     #Given schedule(s) has been received via a CIF which has an association to a schedule received via a VSTP
     #When a user views the timetable for the VSTP schedule
@@ -425,7 +426,7 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | 2B99       | Y74849    | 2M39           | 2M40          | L78729    | 2F97           | 2F98          | Y95036    | Swindon   | Westbury  |
 
 
-  @bug @bug_61862 @bug_63592
+  @bug @bug_63592
   Scenario Outline: 34427-11b Schedule associations are displayed - Joins: first train has VSTP overlay
     #Given schedule(s) has been received via a CIF which has an association to a schedule received via a VSTP
     #When a user views the timetable for the VSTP schedule
@@ -457,32 +458,24 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | trainDesc1 | trainUid1 | newTrainDesc1 | origTrainDesc2 | trainUid2 | assocLoc |
       | 2P13       | L063041   | 2P14          | 2G13           | L06304    | Purley   |
 
-  @bug @bug_61862
+  @bug @bug:63592
   Scenario Outline: 34427-11b Schedule associations are displayed - Splits: second train has VSTP overlay
     #Given schedule(s) has been received via a CIF which has an association to a schedule received via a VSTP
     #When a user views the timetable for the VSTP schedule
     #Then the associations displayed match those provided in the CIF
     Given the access plan located in CIF file 'access-plan/associations_test.cif' is received from LINX
-    And I am on the trains list page 1
-    And The trains list table is visible
-    And train '<trainDesc1>' with schedule id '<trainUid1>' for today is visible on the trains list
+    And I wait until today's train '<trainUid1>' has loaded
     And the vstp schedule has a schedule in the current time period with the dummy uid
     And the following VSTP update messages are sent from LINX starting as specified
       | asXml                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
       | <?xml version="1.0"?><VSTPCIFMsgV1   xmlns="http://xml.networkrail.co.uk/ns/2008/Train"   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xmlns:eai="http://xml.networkrail.co.uk/ns/2008/EAI" classification="industry" timestamp="2020-02-24T00:47:08-00:00" owner="Network Rail" originMsgId="2020-02-24T00:47:10-00:00@vstp.networkrail.co.uk"><eai:Sender organisation="Network Rail" application="TSIA" component="TSIA" userID="#WAEDMRT" sessionID="X289735" /><schedule schedule_id="" transaction_type="Create" schedule_start_date="<schedule_start_date>" schedule_end_date="20500101" schedule_days_runs="1111111" applicable_timetable="Y" CIF_bank_holiday_running="" CIF_train_uid="<trainUid2>" train_status="P" CIF_stp_indicator="O"><schedule_segment signalling_id="<newTrainDesc2>" uic_code="" atoc_code="SN" CIF_train_category="XX" CIF_headcode="6400" CIF_course_indicator="" CIF_train_service_code="24746000" CIF_business_sector="" CIF_power_type="EMU" CIF_timing_load=""  CIF_speed="100" CIF_operating_characteristics="D" CIF_train_class="B" CIF_sleepers="" CIF_reservations="S" CIF_connection_indicator="" CIF_catering_code="" CIF_service_branding="" CIF_traction_class=""><schedule_location scheduled_arrival_time=" " scheduled_departure_time="220700" scheduled_pass_time=" " public_arrival_time=" " public_departure_time="220700" CIF_platform="1" CIF_line="" CIF_path="" CIF_activity="TB" CIF_engineering_allowance="" CIF_pathing_allowance="" CIF_performance_allowance=""><location><tiploc tiploc_id="HYWRDSH" /></location></schedule_location><schedule_location scheduled_arrival_time="      " scheduled_departure_time="      " scheduled_pass_time="221030" public_arrival_time="      " public_departure_time="      " CIF_platform="" CIF_line="" CIF_path="" CIF_activity="" CIF_engineering_allowance="" CIF_pathing_allowance="" CIF_performance_allowance=""><location><tiploc tiploc_id="KEYMERJ" /></location></schedule_location><schedule_location scheduled_arrival_time="      " scheduled_departure_time="      " scheduled_pass_time="221100" public_arrival_time="      " public_departure_time="      " CIF_platform="1" CIF_line="" CIF_path="" CIF_activity="" CIF_engineering_allowance="" CIF_pathing_allowance="" CIF_performance_allowance=""><location><tiploc tiploc_id="BURGESH" /></location></schedule_location><schedule_location scheduled_arrival_time="221800" scheduled_departure_time="221830" scheduled_pass_time="      " public_arrival_time="221800" public_departure_time="221800" CIF_platform="3" CIF_line="" CIF_path="" CIF_activity="T" CIF_engineering_allowance="" CIF_pathing_allowance="" CIF_performance_allowance=""><location><tiploc tiploc_id="PRSP" /></location></schedule_location><schedule_location scheduled_arrival_time="222130" scheduled_departure_time="      " scheduled_pass_time="      " public_arrival_time="222200" public_departure_time="      " CIF_platform="3" CIF_line="" CIF_path="" CIF_activity="TF" CIF_engineering_allowance="" CIF_pathing_allowance="" CIF_performance_allowance=""><location><tiploc tiploc_id="HOVE" /></location></schedule_location></schedule_segment></schedule></VSTPCIFMsgV1> |
-    And I give the system 3 seconds to load
+    And I wait until today's train '<trainUid2>' has loaded
     And I am on the timetable view for service '<trainUid1>'
     And I switch to the timetable details tab
     And The timetable details tab is visible
     Then The timetable associations table contains the following entries
-      | location   | type  | trainDescription |
-      | <assocLoc> | Split | <newTrainDesc2>  |
-    When I am on the timetable view for service '<trainUid2>'
-    And I switch to the timetable details tab
-    And The timetable details tab is visible
-    Then The timetable associations table contains the following entries
-      | location   | type  | trainDescription |
-      | <assocLoc> | Split | <origTrainDesc1> |
+      | location   | type      | trainDescription |
+      | <assocLoc> | VV Divide | <newTrainDesc2>  |
 
     Examples:
       | trainDesc1 | trainUid1 | newTrainDesc2 | trainUid2 | assocLoc       |

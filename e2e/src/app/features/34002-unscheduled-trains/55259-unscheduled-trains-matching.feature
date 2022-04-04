@@ -175,7 +175,6 @@ Feature: 34002 - Unscheduled Trains Matching
       | generated | L12005       | L12006       |
 
   @bug @bug:83004 @bug:83005
-  # Used to be flaky - see 68327
   Scenario Outline: 34002:6b Make Match - matching unmatched step to a matched service - and checking matching change shows on map
     * I generate a new train description
     * I generate a new trainUID
