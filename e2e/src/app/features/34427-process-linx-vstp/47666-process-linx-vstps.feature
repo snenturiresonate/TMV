@@ -101,7 +101,6 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | trainDescription | scheduleEndDate | scheduleDaysRuns | vstpStpIndicator | statusType | displayType |
       | 1B88             | 20500101        | 1111111          | N                | UNCALLED   | VSTP        |
 
-  @blp
   Scenario Outline: 34427-4b Base Schedule is displayed - vstp on top of original cif (cif P, vstp N)
     # Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     # And no other STPs have been received for that service

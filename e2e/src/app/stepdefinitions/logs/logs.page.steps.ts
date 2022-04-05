@@ -221,7 +221,7 @@ Then(/^the value of the (.*) field for (Timetable|Berth|Signalling) is (.*)$/, a
 Then(/^the value of the date picker for (Timetable|Berth|Signalling) is (.*)$/, async (tab: string, val: string) => {
   const displayedValue = await logsPage.getDatePickerDateSelected();
   const displayedDate = Date.parse(displayedValue);
-  const expectedValue = DateAndTimeUtils.convertToDesiredDateAndFormat(val, 'yyyy-MM-dd');
+  const expectedValue = DateAndTimeUtils.convertToDesiredDateAndFormat(val, 'd MMMM yyyy');
   const expectedDate = Date.parse(expectedValue);
   const dateDiff = expectedDate - displayedDate;
   expect(dateDiff, `Expected ${displayedValue} to be ${expectedValue}`).to.equal(0);

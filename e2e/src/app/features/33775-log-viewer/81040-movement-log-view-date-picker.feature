@@ -21,9 +21,7 @@ Feature: 33775 - TMV Log Viewer - Movement Log View - Date Picker
     And I am on the home page
 
   Scenario: 81040 - 1 Movement Log View - Date Picker - defaults
-
-# Default to today's date
-
+    # Default to today's date
     When I am on the log viewer page
     And  I navigate to the Movement log tab
     Then the date field for Berth is displayed

@@ -1,5 +1,6 @@
 import * as moment from 'moment-timezone';
 import {DateTimeFormatter, Instant, LocalDate, LocalDateTime, LocalTime, ZoneId} from '@js-joda/core';
+import {Locale} from '@js-joda/locale_en';
 
 export class DateAndTimeUtils {
   public static ZONE_ID = 'Europe/London';
@@ -71,19 +72,20 @@ export class DateAndTimeUtils {
       adjValue = parseInt(dateString.substr(7), 10);
       dateString = dateString.substr(0, 7);
     }
+    const formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat).withLocale(Locale.ENGLISH);
     switch (dateString.toLowerCase()) {
       case 'today':
-        return DateAndTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern(dateFormat));
+        return DateAndTimeUtils.getCurrentDateTime().format(formatter);
       case 'today +':
-        return DateAndTimeUtils.getCurrentDateTime().plusDays(adjValue).format(DateTimeFormatter.ofPattern(dateFormat));
+        return DateAndTimeUtils.getCurrentDateTime().plusDays(adjValue).format(formatter);
       case 'today -':
-        return DateAndTimeUtils.getCurrentDateTime().minusDays(adjValue).format(DateTimeFormatter.ofPattern(dateFormat));
+        return DateAndTimeUtils.getCurrentDateTime().minusDays(adjValue).format(formatter);
       case 'tomorrow':
-        return DateAndTimeUtils.getCurrentDateTime().plusDays(1).format(DateTimeFormatter.ofPattern(dateFormat));
+        return DateAndTimeUtils.getCurrentDateTime().plusDays(1).format(formatter);
       case 'yesterday':
-        return DateAndTimeUtils.getCurrentDateTime().minusDays(1).format(DateTimeFormatter.ofPattern(dateFormat));
+        return DateAndTimeUtils.getCurrentDateTime().minusDays(1).format(formatter);
       default:
-        return LocalDate.parse(date, DateTimeFormatter.ofPattern(dateFormat)).format(DateTimeFormatter.ofPattern(dateFormat));
+        return LocalDate.parse(date, formatter).format(formatter);
     }
   }
   /**
@@ -270,7 +272,8 @@ export class DateAndTimeUtils {
    * @param minutesToAdjust: the number of minutes to add or subtract to the current time
    * @param suppliedNow: the supplied version of the current time to start from
    */
-  public static async adjustLocalNowTimeWithSuppliedNow(operator: string, minutesToAdjust: number, suppliedNow: LocalDateTime): Promise<string> {
+  public static async adjustLocalNowTimeWithSuppliedNow(
+    operator: string, minutesToAdjust: number, suppliedNow: LocalDateTime): Promise<string> {
     let adjustedTime = DateAndTimeUtils.getCurrentTime();
     if (operator === '-') {
         adjustedTime = await DateAndTimeUtils.subtractMinsToDateTime(
@@ -296,7 +299,8 @@ export class DateAndTimeUtils {
       if (timeString === 'now') {
         return establishedNow.format(DateTimeFormatter.ofPattern(pattern));
       } else {
-        return DateAndTimeUtils.adjustLocalNowTimeWithSuppliedNow(timeString.substr(4, 1), parseInt(timeString.substr(6), 10), establishedNow);
+        return DateAndTimeUtils
+          .adjustLocalNowTimeWithSuppliedNow(timeString.substr(4, 1), parseInt(timeString.substr(6), 10), establishedNow);
       }
     }
     else {
