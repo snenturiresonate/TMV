@@ -831,13 +831,13 @@ Given(/^I log the berth & locations from the berth level schedule for '(.*)'$/, 
     trainUid = browser.referenceTrainUid;
   }
   const scheduleKey = `${trainUid}:${DateAndTimeUtils.getCurrentDateTimeString('yyyy-MM-dd')}`;
-  const berthLevelSchedule = await client.hgetParseJSON('{schedule-matching}-berth-level-schedules-cache', scheduleKey);
+  const berthLevelSchedule = await client.hgetParseJSON('berth-level-schedules-cache', scheduleKey);
 
   for (const pathEntry of berthLevelSchedule.pathEntries) {
     if (pathEntry.berths.length > 0) {
       const berth = pathEntry.berths[0];
       const berthKey = `${berth.trainDescriberCode}${berth.berthName}`;
-      const info = await client.hgetParseJSON('{schedule-matching}-schedule-matching-berths', berthKey);
+      const info = await client.hgetParseJSON('schedule-matching-berths', berthKey);
       await CucumberLog.addText(`${berth.plannedStepTime} ${info.id} ${info.berthLocation}`);
     }
   }
