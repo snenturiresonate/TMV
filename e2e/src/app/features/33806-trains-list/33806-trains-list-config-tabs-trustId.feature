@@ -9,7 +9,6 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     * I am on the home page
     * I restore to default train list config '1'
     * I am on the trains list page 1
-    * I have navigated to the 'Train Class & MISC' configuration tab
     * I have navigated to the 'Nominated Services' configuration tab
 
   #33806 - 33 Trains List Config (TRUST IDs View)
@@ -89,6 +88,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     Then train '<trainDescription>' with schedule id '<trainUid>' for today is visible on the trains list
     When I navigate to train list configuration
     And I have navigated to the 'Nominated Services' configuration tab
+    And the Nominated Services toggle is toggled on
     When I input '<nonExistentTrainId>' in the 'trainIdInput' input box
     And I click the add button for Nominated Services Filter
     Then The Nominated Services table contains the following results
@@ -98,6 +98,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     Then train description '<trainDescription>' with schedule type 'LTP' disappears from the trains list
     When I navigate to train list configuration
     And I have navigated to the 'Nominated Services' configuration tab
+    And the Nominated Services toggle is toggled on
     When I input '<STANOX>' in the 'stanoxInput' input box
     When I input '<trainDescription>' in the 'trainIdInput' input box
     When I input '<scheduleType>' in the 'scheduleTypeInput' input box
@@ -119,6 +120,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
   Scenario: 33806 AC2 - Limit of 50 TRUST IDs - frontend and backend validation
     Given I am on the trains list page 1
     And I have navigated to the 'Nominated Services' configuration tab
+    And the Nominated Services toggle is toggled on
     Then the train ID input box is not disabled
     When I add 50 TRUST IDs to the filter list
     And I give the list 1 second to stabilize

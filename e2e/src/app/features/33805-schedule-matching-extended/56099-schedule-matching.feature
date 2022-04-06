@@ -206,6 +206,7 @@ Feature: 33805 TMV Schedule Matching
       | BN             | 0181  | 0209      | 1B12      | B22222   | is not | is        | Open     | NORMAL    |
       | BN             | NCAP  | 0144      | 1B12      | B22222   | is     | is not    | No       | EXCLUDE   |
 
+  @flaky
   Scenario Outline: 4a. Interpose - Cancelled schedules are not matched - <matchLevel> match
     #    Given there is a valid schedule has a STP indicator of Cancelled  (C or CV)
     #    And a TD update with the type <Step Type> has been received for the same train description
@@ -236,6 +237,7 @@ Feature: 33805 TMV Schedule Matching
       | D3             | A011  | 1B11          | B11111   | PADTON   | 401         | location     |
       | D3             | 0106  | 1B11          | B11111   | PRTOBJP  | 401         | sub-division |
 
+  @flaky
   Scenario Outline: 4b. Step - Cancelled schedules are not matched - <matchLevel> match
     #    Given there is a valid schedule has a STP indicator of Cancelled  (C or CV)
     #    And a TD update with the type <Step Type> has been received for the same train description

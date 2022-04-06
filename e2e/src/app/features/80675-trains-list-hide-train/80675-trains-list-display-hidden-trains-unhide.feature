@@ -76,8 +76,8 @@ Feature: 80675 - TMV Trains List - Hide Train - Unhide
     When I click the trains list menu button
     And the trains list toggle menu is displayed
     And the hidden trains toggle is off
-    Then I toggle the hidden trains to on
-    When I invoke the context menu for todays train '<trainDescription>' schedule uid '<planningUid>' from the trains list
+    When I toggle the hidden trains to on
+    And I invoke the context menu for todays train '<trainDescription>' schedule uid '<planningUid>' from the trains list
     And I wait for the trains list context menu to display
     Then the trains list context menu contains 'Hide Train' on line 4
     When I hover over the trains list context menu on line 4

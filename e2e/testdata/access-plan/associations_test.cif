@@ -2,6 +2,8 @@ HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119
 AANL04499L063041912152405101111111JJSPURLEY   TP                               P
 AANG46338W219191912152405101111111VVSHYWRDSH  TP                               P
 AANG46338A647021912152405101111111VVSBRHM     TP                               P
+AANG46339W219191912152405101111111VVSHYWRDSH  TP                               P
+AANG46339A647021912152405101111111VVSBRHM     TP                               P
 AANY74849L787291912152405101111111NPSSDON     TP                               P
 AANL78729Y950361912152405101111111NPSWSTBRYW  TP                               P
 BSNY748491912152405101111111 POO2B99    125486001 DMUE   090      S            P
@@ -70,6 +72,47 @@ LICOLSTWN 0809 0810      080908101        T
 LIREEDHMS 0812H0813      08130813         T                                     
 LTPURLEY  0816 08165     TF                                                     
 BSNG463381912152405101111111 PXX1H6364001247460001EMU    100D     B S          N
+BX         SNY                                                                  
+LOVICTRIC 2116 211616 FL     TB                                                 
+LIBATRSPJ           2118H00000000                          H                    
+LICLPHMJC 2122 2123      2122212313 FL    T                                     
+LIBALHAM            2125H000000003                                              
+LISTRENJN           2127 00000000                                               
+LISELHRST           2130 000000003                                              
+LIWNDMLBJ           2130H00000000   FL                                          
+LIECROYDN 2131H2133      213221333        T                                     
+LIPURLEY            2136H000000002                                              
+LISNSTJN            2137H00000000   QL                                          
+LIEARLSWD           2143 00000000   FL                                          
+LIGTWK    2147 2150      214721507        T                                     
+LITHBDGS            2153 000000005                                              
+LIBALCMTJ           2154H00000000                                               
+LICPYHLDJ           2158H00000000                                               
+LIHYWRDSH 2200 2204      220022041        T -D                                  
+LIKEYMERJ           2207H00000000                                               
+LIBURGESH           2208 000000002                       H                      
+LIPRSP              2215 000000003                                              
+LIHOVE    2218 2219      221822193        T                                     
+LISHRHMBS 2224H2225H     222522252        T                                     
+LIWORTHNG 2231 2235      223122353        T                                     
+LIWWRTHNG           2236H00000000                                               
+LIANGMRNG           2240H00000000                         1                     
+LIARUNDLJ           2245 00000000                                               
+LIFORD    2246H2247      224722472        T                                     
+LIBRHM    2251 2252      225122522        T                                     
+LICHCHSTR 2259 2300      225923002        T                                     
+LIBOSHAM  2304 2304H     23042304         T                                     
+LINUTBORN 2307H2308      23082308         T                                     
+LISBOURNE 2310 2310H     23102310         T                                     
+LIEMSWTH  2313 2313H     23132313         T                                     
+LIHAVANT  2316H2317H     231723172        T                                     
+LIFRLNGTJ           2321H00000000                                               
+LIPCRKJN            2322 00000000                                               
+LIFRATTNE           2324H00000000   DML                                         
+LIFRATTON 2325H2326H     232623263        T                                     
+LIPSEA    2329 2330      232923302        T                                     
+LTPHBR    2333 23334     TF                                                     
+BSNG463391912152405101111111 PXX1H6364001247460001EMU    100D     B S          N
 BX         SNY                                                                  
 LOVICTRIC 2116 211616 FL     TB                                                 
 LIBATRSPJ           2118H00000000                          H                    

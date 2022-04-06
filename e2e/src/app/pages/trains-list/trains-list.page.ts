@@ -152,6 +152,7 @@ export class TrainsListPageObject {
   public async rightClickTrainListItemNum(position: number): Promise<void> {
     const rows = this.trainsListItems;
     const targetRow = rows.get(position - 1);
+    await CommonActions.waitForElementInteraction(targetRow);
     browser.actions().click(targetRow, protractor.Button.RIGHT).perform();
   }
   public async rightClickTrainListItem(scheduleString: string): Promise<void> {

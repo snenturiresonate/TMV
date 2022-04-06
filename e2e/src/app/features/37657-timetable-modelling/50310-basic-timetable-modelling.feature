@@ -239,7 +239,7 @@ Feature: 37657 - Basic Timetable Modelling
       | 2B99      | Y74849   | NP Next          | Swindon        | 2M39           |
       | 2M39      | L78729   | NP Next          | Westbury       | 2F97           |
       | 2G13      | L04499   | JJ Join          | Purley         | 2P13           |
-      | 1H63      | G46338   | VV Divide        | Haywards Heath | 1H65           |
+      | 1H63      | G46339   | VV Divide        | Haywards Heath | 1H65           |
 
 
   Scenario: 37657-11 Schedule change en route are displayed

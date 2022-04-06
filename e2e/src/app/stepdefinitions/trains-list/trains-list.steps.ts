@@ -1,7 +1,7 @@
 import {Given, When, Then} from 'cucumber';
 import {TrainsListPageObject} from '../../pages/trains-list/trains-list.page';
 import {expect} from 'chai';
-import {browser, protractor} from 'protractor';
+import {browser, by, element, protractor} from 'protractor';
 import {CssColorConverterService} from '../../services/css-color-converter.service';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {BackEndChecksService} from '../../services/back-end-checks.service';
@@ -213,8 +213,6 @@ When('I wait for the trains list context menu to display', async () => {
 Then('The trains list table is visible', async () => {
   const isTrainsListPageVisible: boolean = await trainsListPage.isTrainsListTableVisible();
   expect(isTrainsListPageVisible).to.equal(true);
-  // Work around for @bug @bug:92671
-  await browser.driver.navigate().refresh();
 });
 
 When('the service {string} is not active', async (serviceId: string) => {
@@ -799,10 +797,12 @@ Then(/^the trains list filter display contains$/, async (inputs: any) => {
 
 When('I toggle the hidden trains to on', async () => {
   await trainsListPage.toggleHiddenOn();
+  await CommonActions.waitForElementToBeVisible(element(by.css('#hiddentoggle .absolute-on')));
 });
 
 When('I toggle the hidden trains to off', async () => {
   await trainsListPage.toggleHiddenOff();
+  await CommonActions.waitForElementToBeVisible(element(by.css('#hiddentoggle .absolute-off')));
 });
 
 When('I click Unhide All Trains', async () => {

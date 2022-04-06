@@ -10,6 +10,7 @@ Feature: 80970 - TMV Restrictions - View (Standard User)
     Given I have not already authenticated
     And I access the homepage as restriction user
 
+  @bug @bug:92716
   Scenario Outline: 81561 - 1 - View (Standard User) - multiple restrictions present
 
     #  Given the user is viewing a live schematic map
@@ -25,6 +26,7 @@ Feature: 80970 - TMV Restrictions - View (Standard User)
     Given I remove all restrictions for track division <trackDivisionId>
     And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
+    And I give the map an extra 1 second to load
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
     And I switch to the new restriction tab

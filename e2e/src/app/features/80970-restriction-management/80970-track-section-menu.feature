@@ -202,6 +202,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
       | HDGW01paddington.v | PNSH6M          |
 
 
+  @bug @bug:92716
   Scenario Outline:81559 - 5 Track Section Menu - Concurrent restrictions of same type  - comment reflects operational restriction that started first
 
 #   If there two restrictions of the same type then prioritise by:
@@ -210,6 +211,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
     Given I remove all restrictions for track division <trackDivisionId>
     And I clear all restrictions events and snapshots for map <map>
     And I am viewing the map <map>
+    And I give the map an extra 1 second to load
     And I right click on track with id '<trackDivisionId>'
     And I open restrictions screen from the map context menu
     And I switch to the new restriction tab
