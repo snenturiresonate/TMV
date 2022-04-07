@@ -121,41 +121,12 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       | cif                                     | trainUid  | trainDescription |
       | access-plan/55226-schedules/55226-5.cif | generated | 3U05             |
 
-  @bug @bug:80955
-  Scenario Outline: 51586 -6  Stop predicting to new destination (cancelled at origin)
-    # Given a valid schedule exists
-    # And a train activation has been received for that schedule
-    # And a Train Journey Modification with the type 91 has been received for that schedule
-    # When the user views the timetable
-    # Then no predicted times and punctuality are displayed for any location
-    * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
-    Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
-      | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
-    And I wait until today's train '<trainUid>' has loaded
-    And the following train activation message is sent from LINX
-      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
-      | <trainUid> | <trainDescription> | now                    | 42140               | CREWE                  | today         |
-    When the following TJM is received
-      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time     | modificationReason | nationalDelayCode |
-      | <trainUid> | <trainDescription> | 12            | create | 91        | 91              | 99999       | CREWE          | now      | 82                 | VA                |
-    And I am on the timetable view for service '<trainUid>'
-    Then the Departure time for location "Crewe" instance 1 is ""
-    And the Departure time for location "Crewe Basford Hall Jn" instance 1 is ""
-    Examples:
-      | cif                                     | trainUid  | trainDescription |
-      | access-plan/55226-schedules/55226-6.cif | generated | 3U06             |
-
-  @bug @bug:80955
   Scenario Outline: 51586 -7  Stop predicting to new destination (cancelled at Scheduled Location)
     # Given a valid schedule exists
     # And a train activation has been received for that schedule
     # And a Train Journey Modification with the type 92 has been received for that schedule
     # When the user views the timetable
     # Then predicted times and punctuality are displayed up to the cancelled location
-    # And cancelled location only has a predicted arrival time
-    # And there are no predicted times for all locations after the new destination
     * I generate a new trainUID
     * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
@@ -170,7 +141,7 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
       | <trainUid> | <trainDescription> | 12            | create | 92        | 92              | 99999       | STAFFRD        | now      | 82                 | VA                |
     And I am on the timetable view for service '<trainUid>'
     Then the Arrival time for location "Stafford" instance 1 is "now + 18"
-    And the Departure time for location "Stafford" instance 1 is ""
+
     Examples:
       | cif                                     | trainUid  | trainDescription |
       | access-plan/55226-schedules/55226-7.cif | generated | 3U07             |
@@ -531,44 +502,3 @@ Feature: 51586 - TMV - Extrapolate path with predicted path information
     Examples:
       | cif                                   | trainUid  | trainDescription | location      |
       | access-plan/55226-schedules/55226.cif | generated | 3U18             | Stafford      |
-
-  @bug @bug:80955
-  Scenario Outline: 51586 - 19  Actuals after a new destination
-    # Given a valid schedule exists
-    # And a train activation has been received for that schedule
-    # And a Train Journey Modification with the <TJM type> has been received for that schedule
-    # And a TD update has been received for a location after the new destination
-    # When the user views the timetable
-    # Then predicted times and punctuality are only present to the new destination
-
-      # | TJM type |
-      # | 91|
-      # | 92|
-    * I generate a new trainUID
-    * I delete '<trainUid>:today' from hash 'schedule-modifications-today'
-    Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
-      | filePath  | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | <cif>     | CREWE       | WTT_dep       | <trainDescription>  | <trainUid>     |
-    And I wait until today's train '<trainUid>' has loaded
-    And the following train activation message is sent from LINX
-      | trainUID   | trainNumber        | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
-      | <trainUid> | <trainDescription> | now                    | 42140               | CREWE                  | today         |
-    And I give the activation 2 seconds to process
-    And I log the berth & locations from the berth level schedule for '<trainUid>'
-    When the following TJM is received
-      | trainUid   | trainNumber        | departureHour | status | indicator | statusIndicator | primaryCode   | subsidiaryCode         | time | modificationReason   | nationalDelayCode   |
-      | <trainUid> | <trainDescription> | now           | create | <tjmType> | <tjmType>       | <primaryCode> | <cancellationLocation> | now  | <modificationReason> | <nationalDelayCode> |
-    And I give the tjm 2 seconds to process
-    And the following train running information message with delay against booked time is sent from LINX
-      | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode   | locationSubsidiaryCode  | messageType        | delay | hourDepartFromOrigin |
-      | <trainUid> | <trainDescription> | today              | 69021                 | NNTN                    | Arrival at Station | 00:01 | now                  |
-    And I am on the timetable view for service '<trainUid>'
-    Then the predicted departure time displayed for location "<location>" instance 1 is the current punctuality + the planned location departure time
-    And the Departure punctuality for location "<location>" instance 1 is "-0m or +0m"
-    And the actual/predicted Arrival time for location "Milton Keynes Central" instance 1 is correctly calculated based on External timing ""
-    And the actual/predicted Arrival time for location "London Euston" instance 1 is correctly calculated based on External timing ""
-
-    Examples:
-      | cif                                   | trainUid  | trainDescription | location | tjmType | modificationReason | nationalDelayCode | primaryCode | cancellationLocation |
-      | access-plan/55226-schedules/55226.cif | generated | 3U19             | Nuneaton | 91      | 12                 | PD                | 42140       | CREWE                |
-      | access-plan/55226-schedules/55226.cif | generated | 3U29             | Nuneaton | 92      | 19                 | OZ                | 43331       | RUGL                 |

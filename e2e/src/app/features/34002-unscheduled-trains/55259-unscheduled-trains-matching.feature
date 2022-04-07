@@ -128,7 +128,7 @@ Feature: 34002 - Unscheduled Trains Matching
       | trainNum |
       | 1C11     |
 
-  Scenario Outline: 34002:6a Make Match - matching unmatched step to an unmatched service
+  Scenario Outline: 34002:6 Make Match - matching unmatched step to an unmatched service
     ##
     # Given the user is viewing the manual matching view
     # And the user has the schedule matching role
@@ -174,69 +174,7 @@ Feature: 34002 - Unscheduled Trains Matching
       | trainNum  | planningUid1 | planningUid2 |
       | generated | L12005       | L12006       |
 
-  @bug @bug:83004 @bug:83005
-  Scenario Outline: 34002:6b Make Match - matching unmatched step to a matched service - and checking matching change shows on map
-    * I generate a new train description
-    * I generate a new trainUID
-    * I remove today's train '<planningUid1>' from the trainlist
-    * I remove today's train '<planningUid2>' from the trainlist
-    And the following live berth interpose message is sent from LINX (to set up unmatched train on map at Uffington)
-      | toBerth | trainDescriber | trainDescription |
-      | 1115    | D7             | <trainNum>       |
-    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
-      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1B69_PADTON_SWANSEA.cif | SDON        | WTT_arr       | <trainNum>          | <planningUid1> |
-    And the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
-      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/2P77_RDNGSTN_PADTON.cif | RDNGSTN     | WTT_dep       | <trainNum>          | <planningUid2> |
-    And I wait until today's train '<planningUid1>' has loaded
-    And I wait until today's train '<planningUid2>' has loaded
-    And the following train activation message is sent from LINX
-      | trainUID       | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
-      | <planningUid1> | <trainNum>  | now                    | 99999               | PADTON                 | today         | now                 |
-    And the following live berth interpose message is sent from LINX (to create a match at Swindon)
-      | toBerth | trainDescriber | trainDescription |
-      | 1201    | D7             | <trainNum>       |
-    And I am viewing the map gw05swindon.v
-    And berth '1115' in train describer 'D7' contains '<trainNum>' and is visible
-    And berth '1201' in train describer 'D7' contains '<trainNum>' and is visible
-    And the train headcode color for berth 'D71115' is lightgrey
-    And the train headcode color for berth 'D71201' is green
-    And I right click on berth with id 'D71115'
-    And I open schedule matching screen from the map context menu
-    And I switch to the new tab
-    And no matched service is visible
-    And the unmatched search results show the following 4 results
-      | trainNumber | planUID        | status    | sched | date     | origin  | originTime | dest    |
-      | <trainNum>  | <planningUid1> | ACTIVATED | LTP   | today    | PADTON  | now - 71   | SWANSEA |
-      | <trainNum>  | <planningUid2> | UNCALLED  | LTP   | today    | RDNGSTN | now - 0    | PADTON  |
-      | <trainNum>  | <planningUid1> | UNCALLED  | LTP   | tomorrow | PADTON  | now - 71   | SWANSEA |
-      | <trainNum>  | <planningUid2> | UNCALLED  | LTP   | tomorrow | RDNGSTN | now - 0    | PADTON  |
-    When I select to match the result for todays service with planning Id '<planningUid1>'
-    Then the matched service uid is shown as '<planningUid1>'
-    And the unmatched search results show the following 4 results
-      | trainNumber | planUID        | status    | sched | date     | origin  | originTime | dest    |
-      | <trainNum>  | <planningUid1> | ACTIVATED | LTP   | today    | PADTON  | now - 71   | SWANSEA |
-      | <trainNum>  | <planningUid2> | UNCALLED  | LTP   | today    | RDNGSTN | now - 0    | PADTON  |
-      | <trainNum>  | <planningUid1> | UNCALLED  | LTP   | tomorrow | PADTON  | now - 71   | SWANSEA |
-      | <trainNum>  | <planningUid2> | UNCALLED  | LTP   | tomorrow | RDNGSTN | now - 0    | PADTON  |
-    And I switch to the second-newest tab
-    And the following live berth step message is sent from LINX (to move train)
-      | fromBerth | toBerth | trainDescriber | trainDescription |
-      | 1115      | 1121    | D7             | <trainNum>       |
-    And the following live berth step message is sent from LINX (to move train)
-      | fromBerth | toBerth | trainDescriber | trainDescription |
-      | 1201      | 1221    | D7             | <trainNum>       |
-    And berth '1121' in train describer 'D7' contains '<trainNum>' and is visible
-    And berth '1221' in train describer 'D7' contains '<trainNum>' and is visible
-    And the train headcode color for berth 'D71121' is green
-    And the train headcode color for berth 'D71221' is grey
-
-    Examples:
-      | trainNum  | planningUid1 | planningUid2 |
-      | generated | generated    | L12008       |
-
-  Scenario Outline: 34002:7a Make Rematch - matching matched step to an unmatched service
+  Scenario Outline: 34002:7 Make Rematch - matching matched step to an unmatched service
     # Given the user is viewing the manual matching view
     # And the user has the schedule matching role
     # And the user is presented with at least one new schedule to match with (other than the currently matched schedule)
@@ -306,71 +244,6 @@ Feature: 34002 - Unscheduled Trains Matching
     Examples:
       | trainNum  | planningUid1 | planningUid2 |
       | generated | generated    | L12010       |
-
-#  @bug @bug:82919 <- will need to remove the activations and set ACTIVATED to UNCALLED to test this one
-  @bug @bug:83004 @bug:83005
-  Scenario Outline: 34002:7b Make ReMatch - matching matched step to a different matched service
-    * I generate a new train description
-    * I generate a new trainUID
-    And the train in CIF file below is updated accordingly so time at the reference point is now + '1' minute, and then received from LINX
-      | filePath                                    | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/2P04_RDNGSTN_PADTON_STOPPER.cif | TWYFORD     | WTT_arr       | <trainNum>          | <planningUid1> |
-    And the train in CIF file below is updated accordingly so time at the reference point is now + '1' minute, and then received from LINX
-      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/2P77_RDNGSTN_PADTON.cif | SLOUGH      | WTT_arr       | <trainNum>          | <planningUid2> |
-    And I wait until today's train '<planningUid1>' has loaded
-    And I wait until today's train '<planningUid2>' has loaded
-    And the following train activation message is sent from LINX
-      | trainUID       | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
-      | <planningUid1> | <trainNum>  | now                    | 99999               | RDNGSTN                | today         | now                 |
-    And the following train activation message is sent from LINX
-      | trainUID       | trainNumber | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate | actualDepartureHour |
-      | <planningUid2> | <trainNum>  | now                    | 99999               | RDNGSTN                | today         | now                 |
-    And the following live berth interpose message is sent from LINX (to create a match at Twyford)
-      | toBerth | trainDescriber | trainDescription |
-      | 1630    | D1             | <trainNum>       |
-    And the following live berth interpose message is sent from LINX (to create a match at Slough)
-      | toBerth | trainDescriber | trainDescription |
-      | 0514    | D6             | <trainNum>       |
-    And I am viewing the map gw2aslough.v
-    And berth '1630' in train describer 'D1' contains '<trainNum>' and is visible
-    And berth '0514' in train describer 'D6' contains '<trainNum>' and is visible
-    And the train headcode color for berth 'D11630' is green
-    And the train headcode color for berth 'D60514' is green
-    And I right click on berth with id 'D11630'
-    And the map context menu contains 'Unmatch/Rematch' on line 3
-    And I open schedule matching screen from the map context menu
-    And I switch to the new tab
-    And the matched service uid is shown as '<planningUid1>'
-    And the unmatched search results show the following 4 results
-      | trainNumber | planUID        | status    | sched | date     | origin  | originTime | dest   |
-      | <trainNum>  | <planningUid1> | ACTIVATED | LTP   | today    | RDNGSTN | now - 6    | PADTON |
-      | <trainNum>  | <planningUid2> | ACTIVATED | LTP   | today    | RDNGSTN | now - 21   | PADTON |
-      | <trainNum>  | <planningUid1> | UNCALLED  | LTP   | tomorrow | RDNGSTN | now - 6    | PADTON |
-      | <trainNum>  | <planningUid2> | UNCALLED  | LTP   | tomorrow | RDNGSTN | now - 21   | PADTON |
-    When I select to match the result for todays service with planning Id '<planningUid2>'
-    Then the matched service uid is shown as '<planningUid2>'
-    And the unmatched search results show the following 4 results
-      | trainNumber | planUID        | status    | sched | date     | origin  | originTime | dest   |
-      | <trainNum>  | <planningUid1> | ACTIVATED | LTP   | today    | RDNGSTN | now - 6    | PADTON |
-      | <trainNum>  | <planningUid2> | ACTIVATED | LTP   | today    | RDNGSTN | now - 21   | PADTON |
-      | <trainNum>  | <planningUid1> | UNCALLED  | LTP   | tomorrow | RDNGSTN | now - 6    | PADTON |
-      | <trainNum>  | <planningUid2> | UNCALLED  | LTP   | tomorrow | RDNGSTN | now - 21   | PADTON |
-    And I switch to the second-newest tab
-    And the following live berth step message is sent from LINX (to move train)
-      | fromBerth | toBerth | trainDescriber | trainDescription |
-      | 1630      | 1628    | D1             | <trainNum>       |
-    And berth '1628' in train describer 'D1' contains '<trainNum>' and is visible
-    And the following live berth step message is sent from LINX (to move train)
-      | fromBerth | toBerth | trainDescriber | trainDescription |
-      | 0514      | 0506    | D6             | <trainNum>       |
-    And berth '0506' in train describer 'D6' contains '<trainNum>' and is visible
-    And the train headcode color for berth 'D11628' is red
-    And the train headcode color for berth 'D60506' is lightgrey
-
-    Examples:
-      | trainNum  | planningUid1 | planningUid2 |
-      | generated | generated    | L12012       |
 
   Scenario Outline: 34002:8 Unmatch
     # Given the user is viewing the manual matching view
