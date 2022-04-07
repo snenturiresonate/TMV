@@ -322,14 +322,14 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
     And I give the train 2 seconds to dwell
     And the following live berth step message is sent from LINX (departing from Paddington)
       | fromBerth | toBerth | trainDescriber | trainDescription   |
-      | A007      | 0039    | D3             | <trainDescription> |
+      | A007      | 0037    | D3             | <trainDescription> |
     And I give the train 2 seconds to dwell
     And the following train running information message is sent from LINX
       | trainUID      | trainNumber        | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType           |
       | <planningUid> | <trainDescription> | today              | 73000               | PADTON                 | Departure from origin |
     And the following live berth step message is sent from LINX (moving the train along)
       | fromBerth | toBerth | trainDescriber | trainDescription   |
-      | 0039      | 0059    | D3             | <trainDescription> |
+      | 0037      | 0059    | D3             | <trainDescription> |
     And I give the train 2 seconds to dwell
     And the following change of ID TJM is received
       | trainUid      | newTrainNumber  | oldTrainNumber     | departureHour | status | indicator | statusIndicator | primaryCode | modificationTime | subsidiaryCode | modificationReason |
@@ -366,10 +366,9 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
     And the tab title is '<trainDescription> TMV Replay Timetable'
     And I switch to the timetable details tab
     And I click Play button
-#    @bug @bug:83954
-#    Then The values for 'berthId' are the following as time passes
-#      | values                 |
-#      | D3A007, D30039, D30059 |
+    Then The values for 'berthId' are the following as time passes
+      | values                 |
+      | D3A007, D30037, D30059 |
 
     Examples:
       | trainDescription          | planningUid       |
