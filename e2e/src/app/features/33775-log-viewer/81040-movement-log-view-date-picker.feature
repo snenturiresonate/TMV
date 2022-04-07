@@ -48,8 +48,8 @@ Feature: 33775 - TMV Log Viewer - Movement Log View - Date Picker
 
   Scenario Outline: 81040 - 3 Movement Log View - Date Picker - validation through date picker
 
-# restricted to 90 days in the past and today's date
-# Can select a date 90 days in the past
+    # restricted to 90 days in the past and today's date
+    # Can select a date 90 days in the past
 
     When I am on the log viewer page
     And I navigate to the Movement log tab

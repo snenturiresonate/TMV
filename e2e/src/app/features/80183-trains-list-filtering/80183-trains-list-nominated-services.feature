@@ -18,7 +18,7 @@ Feature: 80183 - TMV Trains List Filtering - Config - Nominated Services
 #       * The overriding of all other criteria means the following:
 #           - Columns - unaffected
 #           - Punctuality - colours unaffected, but exclusions are applicable
-#           - TOC/FOC -  overridden i.e. include all - none selected
+#           - TOC/FOC - overridden i.e. include all - none selected
 #           - Locations - overridden i.e. include all - none selected
 #           - Train indication - colours unaffected, but exclusions are applicable
 #           - MISC

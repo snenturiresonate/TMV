@@ -178,6 +178,7 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | generatedTrainDescription | generatedTrainUId |
 
   Scenario Outline: 34375-6 Replay - View Timetable Detail (Schedule Matched)
+
     # Given the user is authenticated to use TMV replay
     # And the user has opened a timetable within Replay
     # And the schedule is matched to live stepping
@@ -229,7 +230,7 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | LTP       | SN7        | Departure from London Paddington | <planningUid> | 70<trainDescription>MHtoday | Change Of Identity | 1B99     |
      And The timetable details table contains the following data in each row
        | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class     | seatingClass | reservations | timingLoad | powerType | speed           | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
-       | 04/01/2021 to 25/03/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             |         | EF       | 25507005         | P               | XX            |           | ,            | generated | B ,          | A ,          | 802 , 811  | EMU , DMU | 120mph , 144mph | ,         | m , m       | D , D,B,A                    |                 |
+       | 04/01/2021 to 25/03/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | D3A007  | EF       | 25507005         | P               | XX            |           | ,            | generated | B ,          | A ,          | 802 , 811  | EMU , DMU | 120mph , 144mph | ,         | m , m       | D , D,B,A                    |                 |
     And there is a record in the modifications table
       | description        | location          | time | reason         |
       | Change Of Identity | London Paddington | now  | Change to 1B99 |

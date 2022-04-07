@@ -22,7 +22,7 @@ Feature: 33775 - TMV Log Viewer - Signalling Log View - Date Picker
 
   Scenario: 81043 - 1 Signalling Log View - Date Picker - defaults
 
-# Default to today's date
+    # Default to today's date
 
     When I am on the log viewer page
     And  I navigate to the Signalling log tab

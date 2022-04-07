@@ -44,7 +44,7 @@ export class LogsPage {
     this.logTabs = element.all(by.css('.tmv-tabs-vertical li span'));
     this.visibleValidationError = element(by.css('.tmv-tab-content-active .validation-error'));
     this.visibleOpenCalendarPickerButton = element(by.css('.tmv-tab-content-active [aria-label="Open calendar"]'));
-    this.datePickerSelectedElement = element(by.css('.mat-datepicker-content td[aria-selected = "true"]'));
+    this.datePickerSelectedElement = element(by.css('.mat-datepicker-content button[aria-pressed = "true"]'));
   }
 
   public async openTab(tabId: string): Promise<void> {

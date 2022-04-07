@@ -9,7 +9,7 @@ export class DatePicker {
   }
 
   public async selectFieldByValue(value): Promise<void> {
-    const el = element(by.xpath(`//td[not(@aria-disabled)]//div[contains(@class, "mat-calendar-body-cell-content")][normalize-space()="${value}"]`));
+    const el = element(by.cssContainingText('button.mat-calendar-body-cell:not([aria-disabled=true])', ` ${value} `));
     await el.click();
   }
 }

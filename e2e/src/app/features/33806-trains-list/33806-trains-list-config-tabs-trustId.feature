@@ -70,6 +70,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
     #Given the user has made changes to the TRUST ID settings
     #When the user views the trains list
     #Then the view is updated to reflect the user's TRUST ID changes
+
     * I generate a new trainUID
     * I remove today's train '<trainUid>' from the trainlist
     Given I delete '<trainUid>:today' from hash 'schedule-modifications-today'

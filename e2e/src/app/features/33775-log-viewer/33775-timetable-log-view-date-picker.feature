@@ -22,7 +22,7 @@ Feature: 33775 - TMV Log Viewer - Timetable Log View - Date Picker
 
   Scenario: 81035 - 1 Timetable Log View - Date Picker - defaults
 
-# Default to today's date
+    # Default to today's date
 
     When I am on the log viewer page
     And  I navigate to the Timetable log tab
