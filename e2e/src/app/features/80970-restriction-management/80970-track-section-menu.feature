@@ -30,7 +30,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
     Given I have not already authenticated
     And I access the homepage as restriction user
 
-  Scenario Outline:81559 - 1 Track Section Menu - no restriction present
+  Scenario Outline:81560 - 1 Track Section Menu - no restriction present
 
 #    Cover where no restriction is displayed and if comment is blank
 
@@ -48,7 +48,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
       | map                | trackDivisionId |
       | HDGW01paddington.v | PNSH6M          |
 
-  Scenario Outline:81559 - 2 Track Section Menu - 1 restriction present with comment
+  Scenario Outline:81560 - 2 Track Section Menu - 1 restriction present with comment
 
     Given I remove all restrictions for track division <trackDivisionId>
     And I clear all restrictions events and snapshots for map <map>
@@ -85,7 +85,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
       | map                | trackDivisionId | comment            |
       | HDGW01paddington.v | PNSH6M          | Leaves on the line |
 
-  Scenario Outline:81559 - 3 Track Section Menu - 1 restriction present with no comment
+  Scenario Outline:81560 - 3 Track Section Menu - 1 restriction present with no comment
 
 #    Cover where no restriction is displayed and if comment is blank
 
@@ -116,7 +116,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
       | HDGW01paddington.v | PNSH6M          |
 
 
-  Scenario Outline:81559 - 4 Track Section Menu - Many concurrent restrictions - comment reflects highest priority type
+  Scenario Outline:81560 - 4 Track Section Menu - Many concurrent restrictions - comment reflects highest priority type
 
 #    If more than one restriction is applied then display the highest priority based on the following Restriction Type prioritisation:
 #     BLOK (Line Blockage)
@@ -203,7 +203,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
 
 
   @bug @bug:92716
-  Scenario Outline:81559 - 5 Track Section Menu - Concurrent restrictions of same type  - comment reflects operational restriction that started first
+  Scenario Outline:81560 - 5 Track Section Menu - Concurrent restrictions of same type  - comment reflects operational restriction that started first
 
 #   If there two restrictions of the same type then prioritise by:
 #     Operational start date & time (early first) and then operational end date & time (later first with blank highest)
@@ -243,7 +243,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
       | HDGW01paddington.v | PNSH6M          |
 
 
-  Scenario Outline:81559 - 6 Track Section Menu - Concurrent restrictions of same type and start  - comment reflects operational restriction that ends latest
+  Scenario Outline:81560 - 6 Track Section Menu - Concurrent restrictions of same type and start  - comment reflects operational restriction that ends latest
 
 #   If there two restrictions of the same type then prioritise by:
 #     Operational start date & time (early first) and then operational end date & time (later first with blank highest)

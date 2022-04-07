@@ -42,7 +42,7 @@ Feature: 80970 - TMV Restrictions - Operational
       | HDGW01paddington.v | PNSH18          |
 
 
-  Scenario Outline: 81573 - 2 - Styling of a single operational restriction on a track division
+  Scenario Outline: 81573 - 2 - Styling of a single operational restriction on a track division - <restrictionType>
 
     Given I remove all restrictions for track division <trackDivisionId>
     And I clear all restrictions events and snapshots for map <map>
