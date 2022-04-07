@@ -35,7 +35,8 @@ Feature: 80970 - TMV Restrictions - View Ordering
     Given I have not already authenticated
     And I access the homepage as restriction user
 
-  @bug @bug:92716
+#  @bug @bug:92716
+  @blp
   Scenario Outline: 87348 - View Ordering
 
     Given I remove all restrictions for track division <trackDivisionId>

@@ -10,7 +10,8 @@ Feature: 80970 - TMV Restrictions - View (Standard User)
     Given I have not already authenticated
     And I access the homepage as restriction user
 
-  @bug @bug:92716
+#  @bug @bug:92716
+  @blp
   Scenario Outline: 81561 - 1 - View (Standard User) - multiple restrictions present
 
     #  Given the user is viewing a live schematic map
