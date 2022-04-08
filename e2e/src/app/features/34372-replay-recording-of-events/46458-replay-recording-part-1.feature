@@ -75,7 +75,6 @@ Feature: 34372 - TMV Replay Recording of Events
       | trainDescription |
       | generated        |
 
-
   #  Given a user has selected to start a replay
   #  And entered the time period in recent time window
   #  And selected the maps containing manual trust berths
@@ -108,3 +107,37 @@ Feature: 34372 - TMV Replay Recording of Events
     Examples:
       | cif                                     | trainUID | trainNumber |
       | access-plan/34082-schedules/60651-1.cif | C33605   | 2N02        |
+
+  #  Given a user has selected to start a replay
+  #  And entered the time period in old time window
+  #  And selected the maps containing manual trust berths
+  #  When they press play
+  #  Then the manual trust berth updates are displayed on the map
+  Scenario Outline: 34372 -6 Replay - Play replay map Manual TRUST berth data (old data)
+    # Replay Setup
+    Given I add map grouping configuration to the old replay data, modified to be 32 days old
+    * I add the following train running info message to the old replay snapshot data, modified to be 32 days old plus 0 minutes
+      | mapId             | trainUID   | trainNumber   | locationSubsidiaryCode | manualTrustBerthId |
+      | NW05sandhillsnl.v | <trainUID> | <trainNumber> | RUFDORD                | 30155U             |
+    * I add the following train running info message to the old replay object state data, modified to be 32 days old plus 0 minutes
+      | trainDescriber    | trainUID   | trainNumber   | locationSubsidiaryCode | manualTrustBerthId |
+      | PK                | <trainUID> | <trainNumber> | RUFDORD                | 30155U             |
+
+    # Replay Test
+    When I am on the replay page
+    * I set the date and time for replay to
+      | date       | time    | duration |
+      | today - 32 | now - 5 | 5        |
+    * I select Next
+    * I expand the replay group of maps with name 'North West and Central'
+    * I select the map 'NW05sandhillsnl.v'
+    * I wait for the buffer to fill
+    * I click Skip forward button '3' times
+    * I increase the replay speed at position 15
+    * I click Play button
+    Then headcode '<trainNumber>' is present in manual-trust berth '30155U'
+
+    Examples:
+      | trainUID | trainNumber |
+      | C33605   | 2N02        |
+

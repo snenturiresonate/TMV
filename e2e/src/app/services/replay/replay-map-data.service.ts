@@ -119,4 +119,101 @@ export class ReplayMapDataService {
 
     return this.dynamoClient.putItem(item, `MapGroupingConfiguration-${browser.params.dynamo_suffix}`);
   }
+
+  public async injectManualTrustBerthSnapshotAudit(
+    daysOld: number,
+    plusMinutesOffset: number,
+    mapId: string,
+    planningUid: string,
+    headcode: string,
+    locationSubsidiaryCode: string,
+    manualTrustBerthId: string): Promise<void> {
+
+    if (headcode.includes('generated')) {
+      headcode = browser.referenceTrainDescription;
+    }
+    const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().minusDays(daysOld).plusMinutes(plusMinutesOffset);
+    const updateTime = `${now.toEpochSecond() * 1000}`;
+    const oldDate: string = now.format(DateTimeFormatter.ISO_LOCAL_DATE);
+    const nowTime: string = now.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+    const manualTrustBerthDateTime = `${oldDate}T${nowTime}Z`;
+
+    const manualTrustBerth = {
+      lastMessageId: `${updateTime}-0`,
+      manualTrustBerthStates: [
+        {
+          manualTrustBerthId,
+          planningLocationCode: locationSubsidiaryCode,
+          manualTrustBerthDateTime,
+          manualTrustBerthStateUpdates: [
+            {
+              manualTrustBerthDateTime,
+              manualTrustBerthTrainDescription: headcode,
+              offRoute: '0',
+              status: 'C',
+              manualTrustBerthScheduleId: {
+                planningUid,
+                scheduledOriginDepartureDate: oldDate
+              }
+            }
+          ]
+        }
+      ]
+    };
+
+    const item = {
+      mapId: {S: mapId.toLowerCase()},
+      updateTime: {N: updateTime},
+      newValue: {S: JSON.stringify(manualTrustBerth)}
+    };
+
+    return this.dynamoClient.putItem(item, `ManualTrustBerthSnapshotAudit-${browser.params.dynamo_suffix}`);
+  }
+
+
+  public async injectManualTrustBerthObjectStateAudit(
+    daysOld: number,
+    plusMinutesOffset: number,
+    trainDescriber: string,
+    planningUid: string,
+    headcode: string,
+    locationSubsidiaryCode: string,
+    manualTrustBerthId: string): Promise<void> {
+
+    if (headcode.includes('generated')) {
+      headcode = browser.referenceTrainDescription;
+    }
+    const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().minusDays(daysOld).plusMinutes(plusMinutesOffset);
+    const streamRecordId = `${now.toEpochSecond() * 1000}-0`;
+    const oldDate: string = now.format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
+    const nowTime: string = now.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+    const manualTrustBerthDateTime = `${oldDate}T${nowTime}Z`;
+
+    const manualTrustBerth = {
+      manualTrustBerthId,
+      planningLocationCode: locationSubsidiaryCode,
+      manualTrustBerthDateTime,
+      manualTrustBerthStateUpdates: [
+        {
+          manualTrustBerthDateTime,
+          manualTrustBerthTrainDescription: headcode,
+          offRoute: '0',
+          status: 'C',
+          manualTrustBerthScheduleId: {
+            planningUid,
+            scheduledOriginDepartureDate: oldDate
+          }
+        }
+      ]
+    };
+
+    const item = {
+      partitionKey: {S: trainDescriber},
+      streamRecordId: {S: streamRecordId},
+      newValue: {S: JSON.stringify(manualTrustBerth)}
+    };
+
+    return this.dynamoClient.putItem(item, `ManualTrustBerthEventAudit-${browser.params.dynamo_suffix}`);
+  }
+
 }

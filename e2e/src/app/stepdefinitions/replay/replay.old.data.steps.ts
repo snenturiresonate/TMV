@@ -20,6 +20,23 @@ Given(/I add the following berth interpose to the old replay object state data, 
       snapshot.signalName, snapshot.punctuality);
   });
 
+Given(/I add the following train running info message to the old replay snapshot data, modified to be (.*) days old plus (.*) minutes/,
+  async (daysOld: number, plusMinutesOffset: number, dataTable: any) => {
+    const snapshot = dataTable.hashes()[0];
+    await replayMapDataService.injectManualTrustBerthSnapshotAudit(
+      daysOld, plusMinutesOffset, snapshot.mapId, snapshot.trainUID, snapshot.trainNumber,
+      snapshot.locationSubsidiaryCode, snapshot.manualTrustBerthId);
+  });
+
+
+Given(/I add the following train running info message to the old replay object state data, modified to be (.*) days old plus (.*) minutes/,
+  async (daysOld: number, plusMinutesOffset: number, dataTable: any) => {
+    const snapshot = dataTable.hashes()[0];
+    await replayMapDataService.injectManualTrustBerthObjectStateAudit(
+      daysOld, plusMinutesOffset, snapshot.trainDescriber, snapshot.trainUID, snapshot.trainNumber,
+      snapshot.locationSubsidiaryCode, snapshot.manualTrustBerthId);
+  });
+
 Given(/I add map grouping configuration to the old replay data, modified to be (.*) days old/,
   async (daysOld: number) => {
     await replayMapDataService.injectMapGroupingConfigurationIntoOldData(daysOld);
