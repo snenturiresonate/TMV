@@ -66,8 +66,11 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
     And the following live berth interpose message is sent from LINX (to create a match at Paddington)
       | toBerth | trainDescriber | trainDescription   |
       | A007    | D3             | <trainDescription> |
+    And the following live berth step message is sent from LINX (departing from Paddington)
+      | fromBerth | toBerth | trainDescriber | trainDescription   |
+      | A007      | 0039    | D3             | <trainDescription> |
     And I am viewing the map HDGW01paddington.v
-    And berth 'A007' in train describer 'D3' contains '<trainDescription>' and is visible
+    And berth '0039' in train describer 'D3' contains '<trainDescription>' and is visible
     And I invoke the context menu on the map for train <trainDescription>
     And the Matched version of the Schedule-matching map context menu is displayed
     And I open schedule matching screen from the map context menu
@@ -76,7 +79,7 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
     When I un-match the currently matched schedule
     And the following live berth step message is sent from LINX (departing from Paddington and manifesting the scheduling changes)
       | fromBerth | toBerth | trainDescriber | trainDescription   |
-      | A007      | 0039    | D3             | <trainDescription> |
+      | 0039      | 0059    | D3             | <trainDescription> |
     And I give the replay data a further 2 seconds to be recorded
     And I refresh the Elastic Search indices
     And I am on the replay page
@@ -299,8 +302,6 @@ Feature: 34375 - TMV Replay Timetable - View Timetable
       | trainDescription          | planningUid       |
       | generatedTrainDescription | generatedTrainUId |
 
-  # This test passes locally but fails when ran on the build server
-  @manual
   Scenario Outline: 34375-8 Replay - View Timetable Detail (Replay Control - covering play and stop)
     # Given the user is authenticated to use TMV replay
     # And the user has opened a timetable within Replay
