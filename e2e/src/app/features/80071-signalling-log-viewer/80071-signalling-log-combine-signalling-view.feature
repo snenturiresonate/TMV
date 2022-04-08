@@ -12,6 +12,7 @@ Feature: 80071 - TMV Signalling Log Viewer - Combine Signalling View
     And I clear the logged-s-class Elastic Search index
     And I clear the logged-agreed-schedules Elastic Search index
 
+  @Mat
   Scenario: 80302 - Combine Signalling View
     # Given the user is authenticated to use TMV
     # When the user opts to access the Signalling Log View

@@ -88,6 +88,7 @@ Feature: 78858 - TMV Replay Controls & Display - Multi-tab Change Replay Session
       | trainDescription | planningUID |
       | generated        | generated   |
 
+  @Mat
   Scenario Outline: 84098-2 - Change Replay Session Start and End Time (Multi-Tab) - Map and Timetable
     # setup the replay data
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
@@ -164,6 +165,7 @@ Feature: 78858 - TMV Replay Controls & Display - Multi-tab Change Replay Session
       | trainDescription | planningUID |
       | generated        | generated   |
 
+  @Mat
   Scenario Outline: 84098-3 - Change Replay Session Start and End Time (Multi-Tab) - Multiple Timetables
     # setup the replay data
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
