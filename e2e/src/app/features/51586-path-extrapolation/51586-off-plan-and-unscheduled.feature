@@ -7,26 +7,6 @@ Feature: 51586 - Path Extrapolation - Off plan and unscheduled
   Background:
     Given I reset redis
 
-  @bug @72055
-  Scenario Outline: 51586 - 30 Display attention indicator for off plan train (TD)
-    * I remove today's train '<trainUid>' from the trainlist
-    Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
-      | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
-      | access-plan/1W06_EUSTON_BHAMNWS.cif | EUSTON      | WTT_dep       | <trainDescription>  | <trainUid>     |
-    And I wait until today's train '<trainUid>' has loaded
-    And the following live berth step message is sent from LINX (to move train)
-      | fromBerth   | toBerth   | trainDescriber   | trainDescription   |
-      | <fromBerth> | <toBerth> | <trainDescriber> | <trainDescription> |
-    When I am on the timetable view for service '<trainUid>'
-    Then the punctuality is displayed as '<punctuality>'
-    And the navbar punctuality indicator is displayed as '<indicatorColour>'
-
-    Examples:
-      | trainDescription | trainUid | fromBerth | toBerth | trainDescriber | punctuality | indicatorColour |
-      | 1B30             | A51586   | C009      | 0818    | WY             | Off route   | blue            |
-      | 1B30             | A51586   | A001      | 0743    | WY             | Off route   | blue            |
-      | 1B30             | A51586   | 0165      | A374    | WJ             | Off route   | blue            |
-
   @flaky @manual
   Scenario Outline: 51586 - 31 Over midnight
     Given I am on the home page
