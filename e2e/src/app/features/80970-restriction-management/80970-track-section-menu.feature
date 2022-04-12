@@ -202,7 +202,6 @@ Feature: 80970 - TMV Restrictions - Track Section Menu
       | HDGW01paddington.v | PNSH6M          |
 
 
-  @bug @bug:92716
   Scenario Outline:81560 - 5 Track Section Menu - Concurrent restrictions of same type  - comment reflects operational restriction that started first
 
 #   If there two restrictions of the same type then prioritise by:
