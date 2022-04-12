@@ -6,6 +6,7 @@ import {AdminRestClient} from '../../api/admin/admin-rest-client';
 import {RestrictionsPageObject} from '../../pages/restrictions/restrictions-page';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {StringUtils} from '../../pages/common/utilities/StringUtils';
+import {ResponsePromise} from 'protractor-http-client/dist/promisewrappers';
 
 const restrictionsPageObject: RestrictionsPageObject = new RestrictionsPageObject();
 const adminRestClient: AdminRestClient = new AdminRestClient();
@@ -17,7 +18,8 @@ Given(/^I remove all restrictions for track division (.*)$/, async (trackDivisio
 });
 
 Given(/^I publish all restriction changes$/, async () => {
-  await restrictionsRestClient.publishRestrictions();
+  const response: ResponsePromise = await restrictionsRestClient.publishRestrictions();
+  expect(response.statusCode).to.equal(200);
   await adminRestClient.waitMaxTransmissionTime();
 });
 
@@ -164,15 +166,15 @@ When('I add the following restrictions whilst preserving allocated dates', {time
   await addRestrictions(table, true);
 });
 
-When('I add the following restrictions starting now', {timeout: 8 * 5000}, async (table: any) => {
+When(/I add the following restrictions starting (.*)/, {timeout: 8 * 5000}, async (startDateTime: string, table: any) => {
   // variant on the step 'I add the following restrictions' above with all having the same start-date
 
   const values = table.hashes();
-  const now = DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy HH:mm:ss');
+  const starting = DateAndTimeUtils.parseTimeEquation(startDateTime, 'dd/MM/yyyy HH:mm:ss');
   const numRows = values.length;
   for (let i = 0; i < numRows; i++) {
     await restrictionsPageObject.addRestriction();
-    await restrictionsPageObject.setValue('start-date', now);
+    await restrictionsPageObject.setValue('start-date', starting);
     for (const [key, value] of Object.entries(table.hashes()[i])) {
       let val = String(value);
       if (val.includes('now')) {

@@ -368,6 +368,9 @@ export class MapPageObject {
 
   public async rightClickTrack(trackId: string): Promise<void> {
     const track: ElementFinder = element.all(by.id('track-element-path-' + trackId)).first();
+    await CommonActions.waitForElementToBePresent(track);
+    await CommonActions.waitForElementToBeVisible(track);
+    await CommonActions.waitForElementInteraction(track);
     await browser.actions().click(track, protractor.Button.RIGHT).perform();
   }
 
