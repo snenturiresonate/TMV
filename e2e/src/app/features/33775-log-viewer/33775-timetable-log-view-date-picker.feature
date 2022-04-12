@@ -63,16 +63,15 @@ Feature: 33775 - TMV Log Viewer - Timetable Log View - Date Picker
       | isn't      | today - 91 |
       | isn't      | today + 1  |
 
-  @bug @bug:92801
   Scenario Outline: 81035 - 4 Timetable Log View - Date Picker - results only show timetables running on date chosen - train <isRunning> running
 
 #  And the results reflects the date
 
     Given I clear the logged-agreed-schedules Elastic Search index
     And I load a CIF file leaving RDNGSTN now using access-plan/2P77_RDNGSTN_PADTON.cif which <isRunning> running today
-    And I wait until today's train 'generated' has loaded
+    And I wait until <dayRunning>'s train 'generated' has loaded
     And I load a CIF file leaving PADTON now using access-plan/1B69_PADTON_SWANSEA.cif which <isRunning> running today
-    And I wait until today's train 'generated' has loaded
+    And I wait until <dayRunning>'s train 'generated' has loaded
     And I give the timetables 2 seconds to load and get into elastic search
     And I refresh the Elastic Search indices
     When I am on the log viewer page
@@ -81,7 +80,6 @@ Feature: 33775 - TMV Log Viewer - Timetable Log View - Date Picker
     Then there are <resultsReturned> rows returned in the log results
 
     Examples:
-      | isRunning | resultsReturned |
-      | is        | 2               |
-      | isn't     | 0               |
-
+      | isRunning | resultsReturned | dayRunning |
+      | is        | 2               | today      |
+      | isn't     | 0               | tomorrow   |
