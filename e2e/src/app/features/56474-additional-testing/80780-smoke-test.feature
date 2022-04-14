@@ -4,11 +4,13 @@ Feature: 80780 - Smoke Test TMV Environments
   I want to smoke test the TMV environments
   So that the automated tests can fail quickly if there are environment issues
 
+
   Background:
     * I am on the home page
     * I generate a new trainUID
     * I generate a new train description
     * I delete 'generated:today' from hash 'schedule-modifications-today'
+
 
   Scenario Outline: 81123-1 - Smoke Test - Timetable Service and Live Maps Service are Working
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX

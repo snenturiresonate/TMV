@@ -7,6 +7,8 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
 
   Background:
     And I reset redis
+    * I generate a new train description
+    * I generate a new trainUID
 
   Scenario Outline: 51586 - 20 Current punctuality at origin (late)
     * I remove today's train '<trainUid>' from the trainlist
@@ -22,10 +24,9 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | cif                                      | trainUid | trainDescription |
       | access-plan/51586-schedules/51586-20.cif | A50020   | 5A20             |
 
-  @bug @bug:81830
   Scenario Outline: 51586 - 20 Current punctuality at origin (on time/early)
     * I remove today's train '<trainUid>' from the trainlist
-    Given the access plan located in CIF file '<cif>' is received from LINX
+    Given the access plan located in CIF file '<cif>' is received from LINX with the new uid
     And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
@@ -34,8 +35,8 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
     Then the punctuality is displayed as 'On time'
 
     Examples:
-      | cif                                       | trainUid | trainDescription |
-      | access-plan/51586-schedules/51586-20b.cif | B50020   | 5B20             |
+      | cif                                       | trainUid  | trainDescription |
+      | access-plan/51586-schedules/51586-20b.cif | generated | generated        |
 
   @manual
   Scenario Outline: 51586 - 21 Current punctuality for a train that is not moving
