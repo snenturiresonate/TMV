@@ -4,6 +4,7 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
   I want the actual train movements to be incorporated into the schedule
   So that they can be displayed in the UI and used to predict future timings and punctuality
 
+
   Background:
     * I reset redis
     * I am on the home page
