@@ -28,8 +28,17 @@ Feature: 37659 - Schedule Matching - Consistent Stepping has a time limit
     Then berth '0222' in train describer 'D3' contains '9F01' and is visible
     And the train headcode color for berth 'D30222' is lightgrey
 
-  @tdd @tdd:60684
   Scenario: 37659 -7  Context menu when too old for consistent stepping
+    #    Given a TD update with the type <stepType> has been received
+    #    And a prior TD update has been matched to the service more than 20 minutes ago
+    #    And unable to rematch at berth, location or sub division level
+    #    And the user is viewing the map that contains that berth
+    #    When the user opens the context menu for the train description
+    #    Then the unmatched version of the context menu is displayed
+    #
+    #    Examples:
+    #      | stepType |
+    #      | Step     |
     Given the following berth step messages is sent from LINX (to move train)
       | timestamp | fromBerth | toBerth | trainDescriber | trainDescription |
       | 10:00:00  | R001      | 0212    | D3             | 9F01             |

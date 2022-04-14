@@ -1,5 +1,6 @@
 @SmokeTest @newSession
 Feature: 80780 - Smoke Test TMV Environments
+
   As a TMV dev team member
   I want to smoke test the TMV environments
   So that the automated tests can fail quickly if there are environment issues
@@ -27,7 +28,7 @@ Feature: 80780 - Smoke Test TMV Environments
       | CIF                              | trainDescription | trainUid  | toBerth | trainDescriber |
       | access-plan/1D46_PADTON_OXFD.cif | generated        | generated | A001    | D3             |
 
-    
+
 
   Scenario Outline: 81123-2 - Smoke Test - Trains List is Working
     Given I am on the home page
