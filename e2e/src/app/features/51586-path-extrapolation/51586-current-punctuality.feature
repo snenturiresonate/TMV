@@ -141,7 +141,6 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | access-plan/51586-schedules/51586-24.cif | A50024   | 5A24             | 22:49:30  | +1m                 | Departure from Station | 99999               | WVRMPTN                | 22:48:30   |
       | access-plan/51586-schedules/51586-24.cif | A50024   | 5A24             | 22:53:00  | +2m                 | Passing Location       | 99999               | BSBYJN                 | 22:51:00   |
 
-  @bug @bug:83973
   Scenario Outline: 51586 - 25 Current punctuality after an earlier TRI update - <messageType>
     * I remove today's train '<trainUid>' from the trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
@@ -149,6 +148,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | <trainUid> | <trainDescription> | 22                  | 22:30                  | 99999               | BHAMNWS                | today         |
+    # -1 minute
     And the following train running info message with time and delay is sent from LINX
       | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode | locationSubsidiaryCode | messageType            | timestamp | bookedTime | hourDepartFromOrigin |
       | <trainUid> | <trainDescription> | today              | 99999               | MNCRPIC                | Arrival at Termination | 00:14:00  | 00:15:00   | 22                   |
@@ -156,7 +156,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode   | locationSubsidiaryCode   | messageType   | timestamp   | bookedTime   | hourDepartFromOrigin |
       | <trainUid> | <trainDescription> | today              | <locationPrimaryCode> | <locationSubsidiaryCode> | <messageType> | <timestamp> | <bookedTime> | 22                   |
     And I am on the timetable view for service '<trainUid>'
-    Then the punctuality is displayed as '+1m'
+    Then the punctuality is displayed as '-1m'
 
     Examples:
       | cif                                      | trainUid | trainDescription | timestamp | messageType            | locationPrimaryCode | locationSubsidiaryCode | bookedTime |

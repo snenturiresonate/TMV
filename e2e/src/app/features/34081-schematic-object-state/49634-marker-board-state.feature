@@ -4,6 +4,7 @@ Feature: 49634 - Schematic State - marker-board state
   I want to schematic objects displayed with the latest state
   So that I have a live view of the railway
 
+
   Background:
     * I reset redis
     * I am viewing the map gw15cambrian.v
