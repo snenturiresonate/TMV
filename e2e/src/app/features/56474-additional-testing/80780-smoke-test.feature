@@ -4,7 +4,6 @@ Feature: 80780 - Smoke Test TMV Environments
   I want to smoke test the TMV environments
   So that the automated tests can fail quickly if there are environment issues
 
-
   Background:
     * I am on the home page
     * I generate a new trainUID
