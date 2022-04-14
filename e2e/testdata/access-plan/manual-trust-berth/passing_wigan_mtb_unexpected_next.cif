@@ -1,0 +1,18 @@
+HDTPS.UCFT1LX.PD2010010110201945CFT1LXKCFT1LXJFA011020011121                    
+BSNC334372005184012121111111 POO2K64    112225110 DMUS   075      S            P
+BX         NTY                                                                  
+LOMNCRVIC 0913 09135  FL     TB                                                 
+LIMNCRDST           0914H00000000                                               
+LISLFDORD 0915H0917H     09160917         T             1                       
+LISLFDCT  0921 0922      092109222        T                                     
+LISWNT    0928 0929      09280929         T                                     
+LIMRSD    0931 0931H     09310931         T                                     
+LIWALKDEN 0934H0935H     09350935         T                                     
+LIATHERTN 0940H0941H     09410941         T                                     
+LIHAGFOLD 0943H0944      09440944         T                                     
+LIDAISYH  0946H0947H     09470947         T                                     
+LICRWNSTJ           0950H00000000                                               
+LIHINDLEY 0951H0952      09520952         T                                     
+LIINCE    0955 0955H     09550955         T                                     
+LTWIGANWL 0958 0958      TF                                                     
+ZZ                                                                              

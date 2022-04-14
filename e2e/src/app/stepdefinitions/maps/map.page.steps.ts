@@ -15,6 +15,7 @@ import {TMVRedisUtils} from '../../utils/tmv-redis-utils';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {CucumberLog} from '../../logging/cucumber-log';
 import {BerthCancel} from '../../../../../src/app/api/linx/models/berth-cancel';
+import {ManualTrustBerthEntry} from '../../model/manual-trust-berth-entry';
 
 let page: MapPageObject;
 const appPage: AppPage = new AppPage();
@@ -1101,7 +1102,7 @@ Then('the punctuality color for berth {string} is {word}',
       .to.equal(expectedColorHex);
   });
 
-Then('the manual trust berth type for {string} is {word}',
+Then(/the manual trust berth type for (.*) is (.*)/,
   async (berthId: string, expectedType: string) => {
     const actualType: string = await mapPageObject.getManualBerthType(berthId);
     expect(actualType, 'Manual Berth type is not ' + expectedType)
@@ -1224,6 +1225,9 @@ Given(/^I have cleared out all headcodes$/, async () => {
 });
 
 Given(/^headcode '(.*)' is present in manual-trust berth '(.*)'$/, async (headcode: string, berthID: string) => {
+  if (headcode.includes('generated')) {
+    headcode = browser.referenceTrainDescription;
+  }
   await browser.wait(async () => {
     return (await mapPageObject.getHeadcodesAtManualTrustBerth(berthID)).includes(headcode);
   }, browser.params.general_timeout, `headcode ${headcode} not in manual trust berth stack ${berthID} when should be`);
@@ -1305,3 +1309,22 @@ Then('the map context menu has {int} items', async (numItems: number) => {
   expect(actualNumMenuItems, 'Number of Map menu items is not as expected').to.equal(numItems);
 });
 
+Then(/the user is presented with a list of the last ([0-9]*) services? that (?:have|has) (.*) this manual trust berth/,
+  async (expectedNumServices: string, expectedBehavior: string, expectedServicesTable: any) => {
+    const expectedServices: ManualTrustBerthEntry[] = expectedServicesTable.hashes();
+    // populate the train description and time
+    expectedServices.forEach((service, index, serviceArray) => {
+      service.time = DateAndTimeUtils.parseTimeEquation(service.time, 'HH:mm');
+      if (service.trainDescription.includes('generated')) {
+        service.trainDescription = browser.referenceTrainDescription;
+      }
+      serviceArray[index] = service;
+    });
+    const actualServicesInManualTrustBerth: ManualTrustBerthEntry[] = await mapPageObject.getManualTrustBerthServices();
+    expect(actualServicesInManualTrustBerth.length.toString()).is.equal(expectedNumServices);
+    expect(actualServicesInManualTrustBerth).to.eql(expectedServices);
+  });
+
+When(/I use the primary mouse on manual TRUST berth train (.*)/, async (trainDescription: string) => {
+  await mapPageObject.clickManualTrustBerthTrain(trainDescription);
+});

@@ -7,6 +7,7 @@ import {AppPage} from '../app.po';
 import {LinxRestClient} from '../../api/linx/linx-rest-client';
 import {RedisClient} from '../../api/redis/redis-client';
 import {DateAndTimeUtils} from '../common/utilities/DateAndTimeUtils';
+import {ManualTrustBerthEntry} from '../../model/manual-trust-berth-entry';
 
 let linxRestClient: LinxRestClient;
 
@@ -536,7 +537,7 @@ export class MapPageObject {
   }
 
   public async getManualBerthType(berthId: string): Promise<string> {
-    const manualBerth: ElementFinder = element(by.id('manual-berth-element-text-' + berthId));
+    const manualBerth: ElementFinder = element(by.id('manual-trust-berth-element-text-' + berthId));
     return manualBerth.getText();
   }
   public async getBerthRectangleColour(berthId: string): Promise<string> {
@@ -573,5 +574,26 @@ export class MapPageObject {
 
   public async getMapContextMenuItemTextDecorationLine(rowIndex: number): Promise<string> {
     return this.mapContextMenuItems.get(rowIndex - 1).getCssValue('text-decoration-line');
+  }
+
+  public async getManualTrustBerthServices(): Promise<ManualTrustBerthEntry[]> {
+    const services: ElementArrayFinder = element.all(by.css('.mtb-list-item'));
+    const results: ManualTrustBerthEntry[] = [];
+    await services.each(async service => {
+      results.push({
+        trainDescription: `${await service.element(by.css('.mtb-item-train-desc')).getText()}`,
+        operator: `${await service.element(by.css('.mtb-item-operator-code')).getText()}`,
+        punctuality: `${await service.element(by.css('.mtb-item-punctuality')).getText()}`,
+        time: `${await service.element(by.css('.mtb-item-event-date-time')).getText()}`
+      });
+    });
+    return results;
+  }
+
+  public async clickManualTrustBerthTrain(trainDescription: string): Promise<void> {
+    if (trainDescription.includes('generated')) {
+      trainDescription = browser.referenceTrainDescription;
+    }
+    return element(by.cssContainingText('.mtb-item-train-desc', trainDescription)).click();
   }
 }
