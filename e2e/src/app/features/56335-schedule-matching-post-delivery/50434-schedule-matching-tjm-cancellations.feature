@@ -110,8 +110,7 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
     And I invoke the context menu on the map for train <origTrainDesc>
-#    @tdd @tdd:60684
-#    Then the Matched version of the map context menu is displayed
+    Then the Matched version of the Schedule-matching map context menu is displayed
 
     Examples:
       | trainDescriber | berth | origTrainDesc | trainUid | type | modificationReason | nationalDelayCode | significance |
@@ -277,9 +276,8 @@ Feature: 56335 - Schedule Matching - TJM Cancellations
       | <berth> | <trainDescriber> | <origTrainDesc>  |
     And I am viewing the map HDGW01paddington.v
     Then berth '<berth>' in train describer '<trainDescriber>' contains '<origTrainDesc>' and is visible
-#    @tdd @tdd:60684
-#    When I invoke the context menu on the map for train <origTrainDesc>
-#    Then the Unmatched version of the map context menu is displayed
+    When I invoke the context menu on the map for train <origTrainDesc>
+    Then the Unmatched version of the Schedule-matching map context menu is displayed
 
     Examples:
       | trainDescriber | berth | origTrainDesc | trainUid | cancelledLocation | type | modificationReason | nationalDelayCode |
