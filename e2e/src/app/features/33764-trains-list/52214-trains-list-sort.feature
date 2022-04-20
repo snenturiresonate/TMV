@@ -47,7 +47,6 @@ Feature: 52214 - TMV Trains List - sort
       | Schedule Type       | SCHED.        | SERVICE |
       | Destination         | DEST.>PLANNED | DEST.   |
 
-  @tdd
   Scenario: 33764-4a Trains List Column (Ascending/Descending Sorting - Initial display list is correctly sorted)
     # Given the user is viewing the trains list
     # And the default columns have a sort (primary and secondary)
