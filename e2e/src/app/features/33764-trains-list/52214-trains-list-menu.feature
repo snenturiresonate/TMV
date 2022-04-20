@@ -81,7 +81,7 @@ Feature: 52214 - TMV Trains List - menu
     | generated | 2P73             |
 
   # unmatched services from stepping is part of CCN1
-  @tdd
+  @superseded
   Scenario: 33764-5d Trains List Context menu - unmatched train with unknown direction
     #    Given the user is authenticated to use TMV
     #    And the user is viewing the trains list
@@ -110,5 +110,3 @@ Feature: 52214 - TMV Trains List - menu
     Then the tab title is 'TMV Schedule Matching 5N68'
     And no matched service is visible
     * the access plan located in CIF file 'access-plan/trains_list_sort_cancelled.cif' is received from LINX
-
-
