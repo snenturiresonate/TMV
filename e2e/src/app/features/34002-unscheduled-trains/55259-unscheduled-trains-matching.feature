@@ -20,6 +20,7 @@ Feature: 34002 - Unscheduled Trains Matching
     * I have cleared out all headcodes
     * I generate a new train description
     * I generate a new trainUID
+    * I delete '<planningUid1>:today' from hash 'schedule-modifications-today'
     And the following live berth interpose message is sent from LINX (to set up unmatched train on map)
       | toBerth | trainDescriber | trainDescription |
       | 0481    | D6             | <trainNum>       |
@@ -47,6 +48,7 @@ Feature: 34002 - Unscheduled Trains Matching
       | trainUid       | trainNumber | departureHour | status | indicator | statusIndicator | primaryCode | subsidiaryCode | time | modificationReason | nationalDelayCode |
       | <planningUid3> | <trainNum>  | now           | create | 91        | 91              | 73000       | PADTON         | now  | 91                 | PG                |
     And I give the TJM and Activation 2 seconds to load
+    And I refresh the Elastic Search indices
     And the following live berth interpose message is sent from LINX (to create a match)
       | toBerth | trainDescriber | trainDescription |
       | 0519    | D6             | <trainNum>       |
@@ -69,7 +71,7 @@ Feature: 34002 - Unscheduled Trains Matching
 
     Examples:
       | trainNum  | planningUid1 | planningUid2 | planningUid3 | planningUid4 |
-      | generated | generated    | L12002       | L12003       | L12004       |
+      | generated | generated    | L12022       | L12003       | L12004       |
 
   Scenario Outline: 65053:bug: Manual Matched consistent step following unmatched, unscheduled id not persisted
     ##
@@ -129,7 +131,6 @@ Feature: 34002 - Unscheduled Trains Matching
       | 1C11     |
 
   Scenario Outline: 34002:6 Make Match - matching unmatched step to an unmatched service
-    ##
     # Given the user is viewing the manual matching view
     # And the user has the schedule matching role
     # And the user is presented with at least one new schedule to match with (other than the currently matched schedule)
@@ -166,7 +167,7 @@ Feature: 34002 - Unscheduled Trains Matching
     And the unmatched search results show the following 4 results
       | trainNumber | planUID        | status    | sched | date     | origin | originTime | dest    |
       | <trainNum>  | <planningUid1> | UNCALLED  | LTP   | today    | PADTON | now - 5    | OXFD    |
-      | <trainNum>  | <planningUid2> | ACTIVATED | LTP   | today    | PADTON | now - 30   | DIDCOTP |
+      | <trainNum>  | <planningUid2> | UNCALLED  | LTP   | today    | PADTON | now - 30   | DIDCOTP |
       | <trainNum>  | <planningUid1> | UNCALLED  | LTP   | tomorrow | PADTON | now - 5    | OXFD    |
       | <trainNum>  | <planningUid2> | UNCALLED  | LTP   | tomorrow | PADTON | now - 30   | DIDCOTP |
 
@@ -245,6 +246,7 @@ Feature: 34002 - Unscheduled Trains Matching
       | trainNum  | planningUid1 | planningUid2 |
       | generated | generated    | L12010       |
 
+  @bug @bug:93325
   Scenario Outline: 34002:8 Unmatch
     # Given the user is viewing the manual matching view
     # And the user has the matching role
@@ -263,6 +265,8 @@ Feature: 34002 - Unscheduled Trains Matching
     And I am viewing the map HDGW01paddington.v
     And berth '0214' in train describer 'D3' contains '<trainNum>' and is visible
     And the train headcode color for berth 'D30214' is green
+    And I give the data 2 seconds to reach elastic
+    And I refresh the Elastic Search indices
     And I right click on berth with id 'D30214'
     And the map context menu contains 'Unmatch/Rematch' on line 3
     And I open schedule matching screen from the map context menu

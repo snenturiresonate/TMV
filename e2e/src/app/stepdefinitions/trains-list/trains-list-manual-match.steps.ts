@@ -5,6 +5,7 @@ import {TrainsListManualMatchPageObject} from '../../pages/trains-list/trains-li
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {DateTimeFormatter} from '@js-joda/core';
 import {browser} from 'protractor';
+import {CommonActions} from '../../pages/common/ui-event-handlers/actionsAndWaits';
 
 const trainsListManualMatchPage: TrainsListManualMatchPageObject = new TrainsListManualMatchPageObject();
 
@@ -75,6 +76,8 @@ Then('the matched service uid is shown as {string}', async (expectedMatchedServi
   if (expectedMatchedServiceUIDText.includes('generated')) {
     expectedMatchedServiceUIDText = browser.referenceTrainUid;
   }
+  await CommonActions.waitForElementToBePresent(trainsListManualMatchPage.matchedTrainUID);
+  await CommonActions.waitForElementToBeVisible(trainsListManualMatchPage.matchedTrainUID);
   const actualMatchedServiceText = await trainsListManualMatchPage.matchedTrainUID.getText();
   expect(actualMatchedServiceText, `UID for Matched service is not correct`)
     .equals(expectedMatchedServiceUIDText);
