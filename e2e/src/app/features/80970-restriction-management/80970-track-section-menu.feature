@@ -1,5 +1,5 @@
 @TMVPhase2 @P2.S4
-Feature: 80970 - TMV Restrictions - Track Section Menu
+Feature: 80970 - TMV Restrictions - Track Section Menu - Restriction User
 
   As a TMV User (with restrictions role)
   I want the ability manage restrictions
