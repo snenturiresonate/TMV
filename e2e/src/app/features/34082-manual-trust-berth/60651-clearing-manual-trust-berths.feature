@@ -87,6 +87,7 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
       | cif                                     | trainUID | trainNumber |
       | access-plan/34082-schedules/60651-1.cif | C33605   | 2N02        |
 
+  @bug @bug:81831
   Scenario Outline: Don't show in MTB when later MTB already received
     * I remove today's train '<trainUID>' from the trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX

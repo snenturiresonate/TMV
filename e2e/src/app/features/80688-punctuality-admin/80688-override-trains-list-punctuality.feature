@@ -1,4 +1,5 @@
 @TMVPhase2 @P2.S2
+@newSession
 Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
 
   As a TMV Admin User
