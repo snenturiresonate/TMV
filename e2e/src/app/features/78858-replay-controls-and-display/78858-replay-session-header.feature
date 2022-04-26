@@ -1,4 +1,5 @@
 @TMVPhase2 @P2.S1
+@newSession
 Feature: 78858 - TMV Replay Controls & Display - Replay Session Header
   As a TMV User
   I want to the replay controls and view updated
