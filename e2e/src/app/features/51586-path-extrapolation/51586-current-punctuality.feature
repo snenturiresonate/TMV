@@ -38,7 +38,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | cif                                       | trainUid  | trainDescription |
       | access-plan/51586-schedules/51586-20b.cif | generated | generated        |
 
-  @manual
+  @manual @manual:93467
   Scenario Outline: 51586 - 21 Current punctuality for a train that is not moving
     Given I am on the trains list page 1
     And the access plan located in CIF file '<cif>' is received from LINX

@@ -7,7 +7,8 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
   Background:
     Given I reset redis
 
-  @flaky @manual
+  @manual @manual:93492
+  @flaky
   Scenario Outline: 51586 - 26 Actual path and line code displayed
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -58,7 +59,8 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | access-plan/1D46_PADTON_OXFD-RDNGSTN_PASSING.cif | 1C27             | E51586   | 1685      | 1686    | 1733       | D1             | Reading  | 9        |
       | access-plan/1D46_PADTON_OXFD-RDNGSTN_PASSING.cif | 1D27             | F51586   | 1685      | 1684    | 1733       | D1             | Reading  | 8        |
 
-  @flaky @manual
+  @manual @manual:93493
+  @flaky
   Scenario Outline: 51586 - 28 Predicted path and line code displayed
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -81,7 +83,8 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | 1A28             | G51586   | Royal Oak Junction | 1        | 1        |
       | 1B28             | H51586   | [Acton Main Line]  | ML       | ML       |
 
-  @flaky @manual
+  @manual @manual:93495
+  @flaky
   Scenario Outline: 51586 - 29 Predicted platform code displayed
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath | refLocation | refTimingType | newTrainDescription | newPlanningUid |

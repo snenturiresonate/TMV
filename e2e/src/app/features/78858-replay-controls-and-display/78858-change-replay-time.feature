@@ -65,7 +65,7 @@ Feature: 78858 - TMV Replay Controls & Display - Change Replay Session Start and
       | today | now - 5  | 5        |
     And the maximum duration possible is 240 minutes
     And I select Next
-    # @manual - check monthly stepping
+    # @manual @manual:93477 - check monthly stepping
     # Then the replay playback time and status contains 'Loading data...'
     And the select map page is not displayed
     When I start the stopwatch

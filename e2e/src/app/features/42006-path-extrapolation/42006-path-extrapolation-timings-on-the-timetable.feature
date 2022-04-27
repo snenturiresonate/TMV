@@ -50,7 +50,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | access-plan/42006-schedules/42006-2b.cif | C11104   | 1U04             | Stafford            | now       | R3             | 5582      | 3580    | STAFFRD | Stops at Stafford   |
       | access-plan/42006-schedules/42006-2c.cif | C11105   | 1U05             | Harrow & Wealdstone | now       | WJ             | 0142      | 0138    | HROW    | Passes Heathrow     |
 
-  @manual @fixed-time
+  @manual @manual:93483
+  @fixed-time
   Scenario Outline: 42006-3 Display calculated arrival time for a location that appears more than once
     Given the access plan located in CIF file '<cif>' is received from LINX
     And I wait until today's train '<trainUid>' has loaded
@@ -69,7 +70,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | cif                                     | trainUid | trainDescription |
       | access-plan/42006-schedules/42006-3.cif | C11106   | 1U06             |
 
-  @manual @fixed-time
+  @manual @manual:93484
+  @fixed-time
   Scenario Outline: 42006-3b Display calculated arrival time for a location that appears more than once - same location
     Given the access plan located in CIF file '<cif>' is received from LINX
     And I wait until today's train '<trainUid>' has loaded
@@ -87,7 +89,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | cif                                      | trainUid | trainDescription |
       | access-plan/42006-schedules/42006-3b.cif | C11107   | 1U07             |
 
-  @manual @fixed-time
+  @manual @manual:93485
+  @fixed-time
   Scenario Outline: 42006-4 Display calculated departure time for a location that appears more than once
     Given the access plan located in CIF file '<cif>' is received from LINX
     And I wait until today's train '<trainUid>' has loaded
@@ -216,7 +219,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
       | cif                                      | trainUid | trainDescription | location | timestamp | plannedTime | trainDescriber | toBerth | fromBerth | stepType              |
       | access-plan/42006-schedules/42006-8c.cif | C11119   | 1U19             | Crewe    | now       | now + 2     | CE             | H056    | A120      | departure from origin |
 
-  @manual @fixed-time
+  @manual @manual:93486
+  @fixed-time
   Scenario: 42006-9 Display calculated punctuality following an arrival for a location that appears more than once (Stopping)
     Given the access plan located in CIF file 'access-plan/42006-schedules/42006-9.cif' is received from LINX
     And I wait until today's train 'C11120' has loaded
@@ -230,7 +234,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
     And I toggle the inserted locations on
     Then the Arrival punctuality for location "Stafford" instance 2 is correctly calculated based on expected time "14:51:00" & actual time "14:50:00"
 
-  @manual @fixed-time
+  @manual @manual:93487
+  @fixed-time
   Scenario: 42006-9b Display calculated punctuality following an arrival for a location that appears more than once (Destination)
     Given the access plan located in CIF file 'access-plan/42006-schedules/42006-9b.cif' is received from LINX
     And I wait until today's train 'C11121' has loaded
@@ -244,7 +249,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
     And I toggle the inserted locations on
     Then the Arrival punctuality for location "Stafford" instance 2 is correctly calculated based on expected time "14:55:00" & actual time "14:50:00"
 
-  @manual @fixed-time
+  @manual @manual:93488
+  @fixed-time
   Scenario: 42006-10 Display calculated punctuality following a departure for a location that appears more than once (origin)
     Given the access plan located in CIF file 'access-plan/42006-schedules/42006-10.cif' is received from LINX
     And I wait until today's train 'C11122' has loaded
@@ -258,7 +264,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
     And I toggle the inserted locations on
     Then the Departure punctuality for location "Crewe" instance 2 is correctly calculated based on expected time "15:03:30" & actual time "15:03:00"
 
-  @manual @fixed-time
+  @manual @manual:93489
+  @fixed-time
   Scenario: 42006-10b Display calculated punctuality following a departure for a location that appears more than once (passing)
     Given the access plan located in CIF file 'access-plan/42006-schedules/42006-10b.cif' is received from LINX
     And I wait until today's train 'C11123' has loaded
@@ -273,7 +280,8 @@ Feature: 42006 - Path Extrapolation - Timings on the timetable
     And I toggle the inserted locations on
     Then the Departure punctuality for location "Madeley (Staffs)" instance 2 is correctly calculated based on expected time "14:59:30" & actual time "14:59:01"
 
-  @manual @fixed-time
+  @manual @manual:93490
+  @fixed-time
   Scenario: 42006-10c Display calculated punctuality following a departure for a location that appears more than once (stopping)
     Given the access plan located in CIF file 'access-plan/42006-schedules/42006-10c.cif' is received from LINX
     And I wait until today's train 'C11124' has loaded

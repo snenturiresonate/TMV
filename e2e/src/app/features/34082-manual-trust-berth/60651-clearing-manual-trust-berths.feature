@@ -115,7 +115,7 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
   # value = */30 * * * * *
   # name = MANUAL_TRUST_BERTH_TERMINATION_ADDITIONAL_TIME
   # value = 1s
-  @manual
+  @manual @manual:93497
   Scenario Outline: MTB is cleared when Cancel at Origin TJM is received
     * I remove today's train '<trainUID>' from the trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
@@ -134,7 +134,7 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
       | access-plan/34082-schedules/60651-2.cif | C13649   | 2T08        |
 
   # See comment on scenario: MTB is cleared when Cancel at Origin TJM is received
-  @manual
+  @manual @manual:93499
   Scenario Outline: MTB is cleared when Cancel at Booked Location TJM is received (current location)
     * I remove today's train '<trainUID>' from the trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
@@ -154,7 +154,7 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
       | access-plan/34082-schedules/60651-3.cif | C33606   | 2N03        |
 
   # See comment on scenario: MTB is cleared when Cancel at Origin TJM is received
-  @manual
+  @manual @manual:93503
   Scenario Outline: MTB is cleared when Cancel at Booked Location TJM is received (next location)
     * I remove today's train '<trainUID>' from the trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
@@ -174,7 +174,7 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
       | access-plan/34082-schedules/60651-4.cif | C33607   | 2N04        |
 
   # See comment on scenario: MTB is cleared when Cancel at Origin TJM is received
-  @manual
+  @manual @manual:93504
   Scenario Outline: MTB is cleared following a termination at destination
     * I remove today's train '<trainUID>' from the trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX

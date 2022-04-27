@@ -117,7 +117,7 @@ Feature: 33806 - TMV User Preferences - full end to end testing
       | generated | 5B62             | 5B63               | 70     | M            | H    | today      |
 
   # the following test passes well locally, but struggles on the server with 'stale element reference'
-  @manual
+  @manual @manual:93465
   Scenario: 33806 AC2 - Limit of 50 TRUST IDs - frontend and backend validation
     Given I am on the trains list page 1
     And I have navigated to the 'Nominated Services' configuration tab

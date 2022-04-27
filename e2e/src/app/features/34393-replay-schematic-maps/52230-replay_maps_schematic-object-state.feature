@@ -112,7 +112,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - General Signalli
     Then the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
     And the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in solid white
 
-  @manual
+  @manual @manual:93470
   Scenario:34393-35 Track State (Route Not Set)
     # Replay Setup - 34081 - 29 Track State (Route Not Set)
     * I am viewing the map HDGW01paddington.v
@@ -145,7 +145,7 @@ Feature: 34393 - Replay page Schematic Object State Scenarios - General Signalli
     And the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in solid white
     And the tracks 'PNPNG2, PNPNG1, PNPNF9, PNPNF8, PNPNF7, PNPNE4, PNPN4I, PNPNF1, PNPNE6, PNPN07' are displayed in thin palegrey
 
-  @manual
+  @manual @manual:93471
   Scenario: 34393-36 Dual Signals
     # Replay Setup - 34081 - 30 Dual Signals
     * I am viewing the map HDGW01paddington.v

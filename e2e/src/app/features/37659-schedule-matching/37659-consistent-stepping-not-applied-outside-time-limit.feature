@@ -49,7 +49,7 @@ Feature: 37659 - Schedule Matching - Consistent Stepping has a time limit
     And I invoke the context menu on the map for train 9F01
     And the Unmatched version of the Schedule-matching map context menu is displayed
 
-  @manual
+  @manual @manual:93510
   Scenario Outline: 37659 -8  Consistent stepping not applied if outside allowed time but schedule rematched
     When the following berth step messages is sent from LINX (to move train)
       | timestamp | fromBerth | toBerth | trainDescriber | trainDescription |
@@ -63,7 +63,7 @@ Feature: 37659 - Schedule Matching - Consistent Stepping has a time limit
       | D3             | A011  | PADTON   | 401         | location     | lightgrey |
       | D3             | 0106  | PRTOBJP  | 401         | sub-division | lightgrey |
 
-  @manual
+  @manual @manual:93511
   Scenario Outline: 37659 -9  Context menu when too old for consistent stepping
     When the following berth step messages is sent from LINX (to move train)
       | timestamp | fromBerth | toBerth | trainDescriber | trainDescription |

@@ -8,25 +8,25 @@ Feature: 51351 - Administration Login Message Part 2 - full end to end testing
     Given I am on the admin page
     And I navigate to the 'Login Message' admin tab
 
-  @manual
+  @manual @manual:93515
   Scenario: 33767-9 Unsaved changes - Pop Up Menu - Cancel Option
     When I update login settings 'Message' as 'I am a message'
     And I close the current tab
     Then I cancel on browser popup
 
-  @manual
+  @manual @manual:93516
   Scenario: 33767-9 Unsaved changes - Pop Up Menu - Leave Option
     When I update login settings 'Message' as 'I am a message'
     And I close the current tab
     Then I confirm on browser popup
 
-  @manual
+  @manual @manual:93517
   Scenario: 33767-10 Closing admin without unsaved changes
     When I close the current tab
     Then The browser popup does not appear
     And The admin view is closed
 
-  @manual
+  @manual @manual:93518
   Scenario: 33767-11 Discarding unsaved changes
     When I update login settings 'Message' as 'I am a message'
     And I close the current tab
@@ -36,7 +36,7 @@ Feature: 51351 - Administration Login Message Part 2 - full end to end testing
     And I navigate to the 'Login Message' admin tab
     Then I should see the login settings 'Message' as 'Welcome to TMV'
 
-  @manual
+  @manual @manual:93519
   Scenario: 33767-12 Continuing with unsaved changes
     When I update login settings 'Message' as 'I am a message'
     And I close the current tab

@@ -117,7 +117,8 @@ Feature: 33753 - TMV Timetable
       | generated | generated   | 0249  | Unscheduled | UNCALLED      |
 
 
-  @manual @flaky
+  @manual @manual:93455
+  @flaky
   @replaySetup
   Scenario Outline: 33753-4a - View Timetable (Schedule Matched - live updates are applied)
     #Given the user is authenticated to use TMV

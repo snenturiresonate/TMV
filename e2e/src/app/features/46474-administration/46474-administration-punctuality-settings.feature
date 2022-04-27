@@ -141,7 +141,7 @@ Feature: 46474 - Administration Display Settings - full end to end testing - pun
       | #ff009c              | 20       |        | 20 minutes or more late  |
     And I reset the punctuality settings
 
-  @manual
+  @manual @manual:93522
   Scenario: User should see the unsaved dialogue when closing the page without saving the changes
     When I add a punctuality time-band
     And I edit the display name of the added time band as "Time band Added"

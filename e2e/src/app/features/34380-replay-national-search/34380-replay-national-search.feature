@@ -150,7 +150,8 @@ Feature: 34380 - TMV Replay National Search
       |HDGW01 |
       |GW01   |
 
-  @manual @flaky
+  @manual @manual:93513
+  @flaky
   Scenario: 34380-7 National Train Search Highlight
     # Given the user is authenticated to use TMV replay
     # And the user is viewing the train search results
