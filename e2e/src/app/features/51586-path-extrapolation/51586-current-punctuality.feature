@@ -58,16 +58,10 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | cif                                      | trainUid | trainDescription |
       | access-plan/51586-schedules/51586-20.cif | A50020   | 5A20             |
 
-  @tdd @tdd:64086 # Flaky updating of punctuality in timetable
   Scenario Outline: 51586 - 22 Current punctuality at a stopping location
     Given I am on the trains list page 1
     And the access plan located in CIF file '<cif>' is received from LINX
-    And I restore to default train list config '1'
-    And I refresh the browser
-    And I save the trains list config
-    And the following service is displayed on the trains list '1'
-      | trainId            | trainUId   |
-      | <trainDescription> | <trainUid> |
+    And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | <trainUid> | <trainDescription> | 22                  | 22:30                  | 99999               | BHAMNWS                | today         |
@@ -75,7 +69,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | timestamp   | fromBerth | toBerth | trainDescriber | trainDescription   |
       | <timestamp> | 5583      | 9350    | R3             | <trainDescription> |
     When I am on the timetable view for service '<trainUid>'
-    Then the punctuality is displayed as '<expectedPunctuality>'
+    Then the punctuality is displayed as one of <expectedPunctuality>
     And the Departure punctuality for location "Stafford" instance 1 is "<expectedDeparturePunctuality>"
     Examples:
       | cif                                      | trainUid | trainDescription | timestamp | expectedPunctuality | expectedDeparturePunctuality |
@@ -86,16 +80,10 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | access-plan/51586-schedules/51586-22.cif | A50022   | 5A22             | 23:05:30  | +4m 30s             | (+2m)                        |
       | access-plan/51586-schedules/51586-22.cif | A50022   | 5A22             | 23:06:30  | +5m 30s             | (+3m)                        |
 
-  @tdd @tdd:64086 # Flaky updating of punctuality in timetable
   Scenario Outline: 51586 - 23 Current punctuality after a TD update
     Given I am on the trains list page 1
     And the access plan located in CIF file '<cif>' is received from LINX
-    And I restore to default train list config '1'
-    And I refresh the browser
-    And I save the trains list config
-    And the following service is displayed on the trains list '1'
-      | trainId            | trainUId   |
-      | <trainDescription> | <trainUid> |
+    And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | <trainUid> | <trainDescription> | 22                  | 22:30                  | 99999               | BHAMNWS                | today         |
@@ -103,7 +91,7 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | timestamp   | fromBerth | toBerth | trainDescriber | trainDescription   |
       | <timestamp> | 5583      | 9350    | R3             | <trainDescription> |
     When I am on the timetable view for service '<trainUid>'
-    Then the punctuality is displayed as '<expectedPunctuality>'
+    Then the punctuality is displayed as one of <expectedPunctuality>
     And the navbar punctuality indicator is displayed as "<expectedColour>"
 
     Examples:
@@ -112,16 +100,10 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | access-plan/51586-schedules/51586-23.cif | A50023   | 5A23             | 23:01:00  | On time             | green          |
       | access-plan/51586-schedules/51586-23.cif | A50023   | 5A23             | 23:02:00  | +1m                 | yellow         |
 
-  @tdd @tdd:64086 # Flaky updating of punctuality in timetable
   Scenario Outline: 51586 - 24 Current punctuality after a later TRI update
     Given I am on the trains list page 1
     And the access plan located in CIF file '<cif>' is received from LINX
-    And I restore to default train list config '1'
-    And I refresh the browser
-    And I save the trains list config
-    And the following service is displayed on the trains list '1'
-      | trainId            | trainUId   |
-      | <trainDescription> | <trainUid> |
+    And I wait until today's train '<trainUid>' has loaded
     And the following train activation message is sent from LINX
       | trainUID   | trainNumber        | actualDepartureHour | scheduledDepartureTime | locationPrimaryCode | locationSubsidiaryCode | departureDate |
       | <trainUid> | <trainDescription> | 22                  | 22:30                  | 99999               | BHAMNWS                | today         |
@@ -132,14 +114,14 @@ Feature: 51586 - Path Extrapolation - Current Punctuality
       | trainUID   | trainNumber        | scheduledStartDate | locationPrimaryCode   | locationSubsidiaryCode   | messageType   | timestamp   | bookedTime   | hourDepartFromOrigin |
       | <trainUid> | <trainDescription> | today              | <locationPrimaryCode> | <locationSubsidiaryCode> | <messageType> | <timestamp> | <bookedTime> | 22                   |
     And I am on the timetable view for service '<trainUid>'
-    Then the punctuality is displayed as '<expectedPunctuality>'
+    Then the punctuality is displayed as one of <expectedPunctuality>
 
     Examples:
       | cif                                      | trainUid | trainDescription | timestamp | expectedPunctuality | messageType            | locationPrimaryCode | locationSubsidiaryCode | bookedTime |
-      | access-plan/51586-schedules/51586-24.cif | A50024   | 5A24             | 00:16:00  | +1m                 | Arrival at Termination | 99999               | MNCRPIC                | 00:15:00   |
-      | access-plan/51586-schedules/51586-24.cif | A50024   | 5A24             | 22:32:00  | +2m                 | Departure from Origin  | 99999               | BHAMNWS                | 22:30:00   |
-      | access-plan/51586-schedules/51586-24.cif | A50024   | 5A24             | 22:49:30  | +1m                 | Departure from Station | 99999               | WVRMPTN                | 22:48:30   |
-      | access-plan/51586-schedules/51586-24.cif | A50024   | 5A24             | 22:53:00  | +2m                 | Passing Location       | 99999               | BSBYJN                 | 22:51:00   |
+      | access-plan/51586-schedules/51586-24.cif | A50024   | 5A24             | 00:16:00  | On time,+0m 30s,+1m | Arrival at Termination | 99999               | MNCRPIC                | 00:15:00   |
+      | access-plan/51586-schedules/51586-24.cif | A50024   | 5A24             | 22:32:00  | +1m,+1m 30s,+2m     | Departure from Origin  | 99999               | BHAMNWS                | 22:30:00   |
+      | access-plan/51586-schedules/51586-24.cif | A50024   | 5A24             | 22:49:30  | On time,+0m 30s,+1m | Departure from Station | 99999               | WVRMPTN                | 22:48:30   |
+      | access-plan/51586-schedules/51586-24.cif | A50024   | 5A24             | 22:53:00  | +1m,+1m 30s,+2m     | Passing Location       | 99999               | BSBYJN                 | 22:51:00   |
 
   Scenario Outline: 51586 - 25 Current punctuality after an earlier TRI update - <messageType>
     * I remove today's train '<trainUid>' from the trainlist

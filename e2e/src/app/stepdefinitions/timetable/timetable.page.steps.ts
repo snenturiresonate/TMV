@@ -178,14 +178,13 @@ Then('The values for the header properties are as follows',
     const actualHeaderTJM: string = await timetablePage.headerTJM.getText();
     let expectedUid = expectedHeaderPropertyValues.trainUid;
     let expectedTrainDescription = expectedHeaderPropertyValues.headCode;
-    const expectedTJM = expectedHeaderPropertyValues.lastTJM;
+
     if (expectedUid.includes('generated')) {
       expectedUid = browser.referenceTrainUid;
     }
     if (expectedTrainDescription.includes('generated')) {
       expectedTrainDescription = browser.referenceTrainDescription;
     }
-    expectedTJM.replace('today', DateAndTimeUtils.getCurrentDateTimeString('dd-MM-yyyy'));
 
     expect(actualHeaderHeadcode, 'Headcode is not as expected')
       .to.equal(expectedTrainDescription);
@@ -203,7 +202,8 @@ Then('The values for the header properties are as follows',
       .replace('generatedTrainDescription', browser.referenceTrainDescription)
       .replace('today', DateAndTimeUtils.getCurrentDateTimeString('dd')));
     expect(actualHeaderTJM, 'Last TJM is not as expected')
-      .to.contain(expectedHeaderPropertyValues.lastTJM);
+      .to.contain(expectedHeaderPropertyValues.lastTJM
+      .replace('today', DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy')));
   });
 
 Then('The values for the cutdown header properties are as follows',
@@ -296,7 +296,10 @@ Then(/^there is a record in the modifications table$/, async (table: any) => {
       modType = await row.getModificationReason();
       found = ((modification === expectedRecord.description)
         && (modLocation === expectedRecord.location)
-        && (modTime.includes(expectedRecord.time.replace('now', DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy HH:'))))
+        && (modTime.includes(expectedRecord.time
+          .replace('now', DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy HH:'))
+          .replace('today', DateAndTimeUtils.getCurrentDateTimeString('dd/MM/yyyy'))
+        ))
         && (modType === expectedRecord.reason));
       if (found) {
         break;

@@ -225,8 +225,12 @@ Feature: 33753 - TMV Timetable
       | trainNum | planningUid |
       | 1A06     | generated   |
 
-  @replaySetup @tdd @tdd:60541
+  @replaySetup
   Scenario Outline: 33753-4b - View Timetable (Schedule Matched - becoming unmatched)
+    * I generate a new trainUID
+    * I generate a new train description
+    * I remove all trains from the trains list
+    * I remove today's train '<planningUid>' from the trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                            | refLocation | refTimingType | newTrainDescription | newPlanningUid |
       | access-plan/2P77_RDNGSTN_PADTON.cif | EALINGB     | WTT_arr       | <trainNum>          | <planningUid>  |
@@ -269,16 +273,15 @@ Feature: 33753 - TMV Timetable
     And I switch to the second-newest tab
     Then The values for the header properties are as follows
       | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
-      | LTP       |            |            | <planningUid> |         |         | <trainNum> |
+      | LTP       | SN202      |            | <planningUid> |         |         | <trainNum> |
     And The live timetable actual time entries are populated as follows:
       | location        | instance | column    | valType |
-      | Ealing Broadway | 1        | actualArr | absent  |
-      | Ealing Broadway | 1        | actualDep | absent  |
+      | Ealing Broadway | 1        | actualArr | actual  |
+      | Ealing Broadway | 1        | actualDep | actual  |
 
     Examples:
-      | trainNum | planningUid |
-      | 1A07     | L10007      |
-
+      | trainNum  | planningUid |
+      | generated | generated   |
 
   @replaySetup
   Scenario Outline: 33753-5 - View Timetable (Schedule Not Matched - becoming matched)
@@ -343,13 +346,14 @@ Feature: 33753 - TMV Timetable
       | trainNum  | planningUid |
       | generated | generated   |
 
-  @replaySetup @tdd @tdd:60541
+  @replaySetup
   Scenario Outline: 33753-6 - View Timetable Detail (Schedule Matched - becoming unmatched)
 #    Given the user is authenticated to use TMV
 #    And the user has opened a timetable
 #    And the schedule is matched to live stepping
 #    When the user selects the details tab of the timetable
 #    Then the train's CIF information and header information with any TJM, Association and Change-en-route is displayed
+    * I remove all trains from the trains list
     * I remove today's train '<planningUid>' from the trainlist
     Given the train in CIF file below is updated accordingly so time at the reference point is now, and then received from LINX
       | filePath                         | refLocation | refTimingType | newTrainDescription | newPlanningUid |
@@ -389,16 +393,20 @@ Feature: 33753 - TMV Timetable
       | <planningUid> | <trainNum>  | now                    | 73000               | PADTON                 | today         | now                 |
     And the following change of ID TJM is received
       | trainUid      | newTrainNumber           | oldTrainNumber | departureHour | status | indicator | statusIndicator | primaryCode | modificationTime |
-      | <planningUid> | <changeTrainDescription> | <trainNum>     | 12            | create | 07        | 07              | 99999       | <time>           |
+      | <planningUid> | <changeTrainDescription> | <trainNum>     | 12            | create | 07        | 07              | 99999       | <tjmTime>        |
+    And the following live berth step message is sent from LINX (moving train along)
+      | fromBerth | toBerth | trainDescriber | trainDescription               |
+      | 0037      | 0026    | D3             | <changeTrainDescription>       |
+    And I give the timetable a settling time of 2 seconds to update
     Then the current headcode in the header row is '<changeTrainDescription>'
     And the old headcode in the header row is '(<trainNum>)'
     And I wait for the last Signal to populate
     And The values for the header properties are as follows
-      | schedType | lastSignal | lastReport | trainUid      | trustId             | lastTJM                     | headCode                 |
-      | LTP       | SN37       |            | <planningUid> | 70<trainNum>MHtoday | <description>, today <time> | <changeTrainDescription> |
+      | schedType | lastSignal  | lastReport | trainUid      | trustId             | lastTJM                     | headCode                 |
+      | LTP       | SN26, SN26X |            | <planningUid> | 70<trainNum>MHtoday | <description>, today <time> | <changeTrainDescription> |
     And there is a record in the modifications table
-      | description   | location | time         | type |
-      | <description> |          | today <time> |      |
+      | description   | location | time         | reason |
+      | <description> |          | today <time> |        |
     When I switch to the second-newest tab
     And I invoke the context menu on the map for train <changeTrainDescription>
     And I open schedule matching screen from the map context menu
@@ -408,23 +416,22 @@ Feature: 33753 - TMV Timetable
     And I give the timetable a settling time of 2 seconds to update
     And The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed           | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
-      | 04/01/2021 to 25/03/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             |         | EF       | 25507005         | P               | XX            |           | ,            | 1     | B ,          | A ,          | 802 , 811  | EMU , DMU | 120mph , 144mph | ,         | m , m       | D , D,B,A                    |                 |
+      | 04/01/2021 to 25/03/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | D30026  | EF       | 25507005         | P               | XX            |           | ,            | 1     | B ,          | A ,          | 802 , 811  | EMU , DMU | 120mph , 144mph | ,         | m , m       | D , D,B,A                    |                 |
     And The entry of the change en route table contains the following data
-      | columnName |
-      | ACTONW     |
-      | DMU        |
-      | 811        |
-      | 144mph     |
-      | D          |
+     | columnName |
+     | Acton West |
+     | DMU        |
+     | 811        |
+     | 144mph     |
+     | D,B,A      |
     And The values for the header properties are as follows
-      | schedType | lastSignal | lastReport | trainUid      | trustId | lastTJM | headCode   |
-      | LTP       |            |            | <planningUid> |         |         | <trainNum> |
+      | schedType | lastSignal  | lastReport | trainUid      | trustId              | lastTJM | headCode                 |
+      | LTP       | SN26, SN26X |            | <planningUid> |  70<trainNum>MHtoday |         | <changeTrainDescription> |
     And there are no records in the modifications table
 
-
     Examples:
-      | trainNum | planningUid | changeTrainDescription | description        | time  |
-      | 1A09     | L10019      | 1X09                   | Change Of Identity | 12:00 |
+      | trainNum | planningUid | changeTrainDescription | description        | tjmTime  | time  |
+      | 1A09     | L10019      | 1X09                   | Change Of Identity | 12:00:00 | 12:00 |
 
   Scenario Outline: 33753-7 - View Timetable Detail (Not Schedule Matched)
     #Given the user is authenticated to use TMV
