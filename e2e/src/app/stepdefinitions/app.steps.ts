@@ -31,6 +31,7 @@ import {TrainUIDUtils} from '../pages/common/utilities/trainUIDUtils';
 import {MapPageObject} from '../pages/maps/map.page';
 import {TrainsListConfigCommonPage} from '../pages/trains-list-config/trains.list.config.common.page';
 import {DelayUtils} from '../utils/delayUtils';
+import {LocalStorage} from '../../../local-storage/local-storage';
 
 const page: AppPage = new AppPage();
 const linxRestClient: LinxRestClient = new LinxRestClient();
@@ -199,6 +200,7 @@ Then(/^I am not re-directed to home page$/, async () => {
 });
 
 Given(/^I have not already authenticated$/, {timeout: 5 * 10000}, async () => {
+  await LocalStorage.reset();
   await logout();
 });
 
