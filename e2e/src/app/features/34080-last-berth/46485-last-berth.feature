@@ -261,18 +261,18 @@ Feature: 34080 - Last Berth
     Then berth '<lB1>' in train describer '<lBTD>' contains '<lTD1>' and is visible
     When I use the secondary mouse on last berth <TDandBerthId1>
     Then the user is presented with a list of the last '<numTrains1>' services that have 'finished at' this berth
-      | serviceDescription | operatorCode | punct             | eventDateTime |
-      | 2B68               | (EF)         | +0m or -1m or +1m | now + 0       |
-      | 2B67               | (EF)         | +0m or -1m or +1m | now + 0       |
-      | 2B66               | (EF)         | +0m or -1m or +1m | now + 0       |
-      | 2B65               | (EF)         | +0m or -1m or +1m | now + 0       |
-      | 2B64               | (EF)         | +0m or -1m or +1m | now + 0       |
-      | 2B63               | (EF)         | +0m or -1m or +1m | now + 0       |
-      | 2B62               | (EF)         | +0m or -1m or +1m | now + 0       |
-      | 2B61               | (EF)         | +0m or -1m or +1m | now + 0       |
-      | 2B60               | (EF)         | +0m or -1m or +1m | now + 0       |
-      | 2B59               | (EF)         | +0m or -1m or +1m | now + 0       |
-      | 2B58               | (EF)         | +0m or -1m or +1m | now + 0       |
+      | serviceDescription | operatorCode | punct                    | eventDateTime |
+      | 2B68               | (EF)         | -0m or +0m or -1m or +1m | now + 0       |
+      | 2B67               | (EF)         | -0m or +0m or -1m or +1m | now + 0       |
+      | 2B66               | (EF)         | -0m or +0m or -1m or +1m | now + 0       |
+      | 2B65               | (EF)         | -0m or +0m or -1m or +1m | now + 0       |
+      | 2B64               | (EF)         | -0m or +0m or -1m or +1m | now + 0       |
+      | 2B63               | (EF)         | -0m or +0m or -1m or +1m | now + 0       |
+      | 2B62               | (EF)         | -0m or +0m or -1m or +1m | now + 0       |
+      | 2B61               | (EF)         | -0m or +0m or -1m or +1m | now + 0       |
+      | 2B60               | (EF)         | -0m or +0m or -1m or +1m | now + 0       |
+      | 2B59               | (EF)         | -0m or +0m or -1m or +1m | now + 0       |
+      | 2B58               | (EF)         | -0m or +0m or -1m or +1m | now + 0       |
 
     Examples:
       | cifFile                                              | map          | lBTD | lB1  | lTD1 | TDandBerthId1 | numTrains1 |

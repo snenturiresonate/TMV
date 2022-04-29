@@ -49,7 +49,8 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
       | cif                                     | trainUID | trainNumber | trainUID2 | trainNumber2 |
       | access-plan/34082-schedules/60651-5.cif | L79156   | 5F73        | L79157    | 5F74         |
 
-
+  # the following test can pass locally when ran against a clean environment:
+  @manual @manual:93635
   Scenario Outline: MTB is cleared when later TRI is received (non MTB location)
     * I remove today's train '<trainUID>' from the trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX
@@ -67,6 +68,8 @@ Feature: 60651 - TMV Manual TRUST Berth - Clearing berths
       | cif                                     | trainUID | trainNumber |
       | access-plan/34082-schedules/60651-1.cif | C33605   | 2N02        |
 
+  # the following test can pass locally when ran against a clean environment:
+  @manual @manual:93638
   Scenario Outline: MTB is cleared when later TD stepping is received
     * I remove today's train '<trainUID>' from the trainlist
     Given the access plan located in CIF file '<cif>' is received from LINX

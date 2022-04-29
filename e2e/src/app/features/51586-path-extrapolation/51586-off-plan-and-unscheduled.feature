@@ -7,6 +7,8 @@ Feature: 51586 - Path Extrapolation - Off plan and unscheduled
   Background:
     Given I reset redis
 
+  # the following test is flaky on the server but can pass when ran locally, semi-automated
+  @manual @manual:93632
   Scenario Outline: 51586 - 31 Over midnight
     Given I am on the home page
     And the access plan located in CIF file '<cif>' is received from LINX

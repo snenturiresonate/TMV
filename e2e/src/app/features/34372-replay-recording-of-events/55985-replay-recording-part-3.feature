@@ -167,6 +167,7 @@ Feature: 34372 - TMV Replay Recording of Events
       | generated        | T02204      |
 
 
+  @bug @bug:93604
 #    Given has started a replay session
 #    When they view a map with trains present
 #    Then the current punctuality is displayed for the day corresponding to the date and time of the replay
@@ -184,6 +185,8 @@ Feature: 34372 - TMV Replay Recording of Events
       | D3             | <trainDescription> | 0067      | SN99       | 300           |
 
     # Replay Test
+    * I give the replay data a further 2 seconds to be recorded
+    * I refresh the Elastic Search indices
     Given I am on the replay page
     When I set the date and time for replay to
       | date       | time    | duration |
