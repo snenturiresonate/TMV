@@ -1,5 +1,5 @@
 import {browser} from 'protractor';
-import {DateTimeFormatter, ZonedDateTime} from '@js-joda/core';
+import {DateTimeFormatter, ZonedDateTime, ZoneId} from '@js-joda/core';
 import {DateAndTimeUtils} from '../../pages/common/utilities/DateAndTimeUtils';
 import {DynamodbClient} from '../../api/dynamo/dynamodb-client';
 import * as fs from 'fs';
@@ -65,10 +65,10 @@ export class ReplayMapDataService {
     if (headcode.includes('generated')) {
       headcode = browser.referenceTrainDescription;
     }
-    const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().plusMinutes(plusMinutesOffset);
-    const sortKey = `${now.minusDays(daysOld).toEpochSecond() * 1000}-0`;
-    const oldDate: string = now.minusDays(daysOld).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
-    const nowTime: string = now.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+    const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().minusDays(daysOld).plusMinutes(plusMinutesOffset);
+    const sortKey = `${now.toEpochSecond() * 1000}-0`;
+    const oldDate: string = now.format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
+    const nowTime: string = now.withZoneSameInstant(ZoneId.UTC).format(DateTimeFormatter.ofPattern('HH:mm:ss'));
     const punctualityNum = (!!punctuality ? parseInt(punctuality, 10) : 0);
 
     const tdState = {
@@ -135,7 +135,7 @@ export class ReplayMapDataService {
     const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().minusDays(daysOld).plusMinutes(plusMinutesOffset);
     const updateTime = `${now.toEpochSecond() * 1000}`;
     const oldDate: string = now.format(DateTimeFormatter.ISO_LOCAL_DATE);
-    const nowTime: string = now.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+    const nowTime: string = now.withZoneSameInstant(ZoneId.UTC).format(DateTimeFormatter.ofPattern('HH:mm:ss'));
     const manualTrustBerthDateTime = `${oldDate}T${nowTime}Z`;
 
     const manualTrustBerth = {
@@ -186,7 +186,7 @@ export class ReplayMapDataService {
     const now: ZonedDateTime = DateAndTimeUtils.getCurrentDateTime().minusDays(daysOld).plusMinutes(plusMinutesOffset);
     const streamRecordId = `${now.toEpochSecond() * 1000}-0`;
     const oldDate: string = now.format(DateTimeFormatter.ofPattern('yyyy-MM-dd'));
-    const nowTime: string = now.format(DateTimeFormatter.ofPattern('HH:mm:ss'));
+    const nowTime: string = now.withZoneSameInstant(ZoneId.UTC).format(DateTimeFormatter.ofPattern('HH:mm:ss'));
     const manualTrustBerthDateTime = `${oldDate}T${nowTime}Z`;
 
     const manualTrustBerth = {

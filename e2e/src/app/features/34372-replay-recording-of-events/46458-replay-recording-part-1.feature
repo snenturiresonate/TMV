@@ -14,6 +14,7 @@ Feature: 34372 - TMV Replay Recording of Events
   #  Given a user has selected to start a replay
   #  When they enter a time period for the replay session
   #  Then the replay map selection is presented to select the starting map with maps that were available during that time period
+  #
   Scenario: 34372-1 Replay - Select a map available for the replay time period
     Given I am on the replay page
     When I select Next

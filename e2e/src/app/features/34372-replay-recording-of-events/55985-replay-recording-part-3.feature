@@ -167,7 +167,6 @@ Feature: 34372 - TMV Replay Recording of Events
       | generated        | T02204      |
 
 
-  @bug @bug:93604
 #    Given has started a replay session
 #    When they view a map with trains present
 #    Then the current punctuality is displayed for the day corresponding to the date and time of the replay
