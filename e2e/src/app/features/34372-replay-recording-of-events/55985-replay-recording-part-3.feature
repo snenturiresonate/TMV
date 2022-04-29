@@ -1,5 +1,5 @@
 @newSession
-Feature: 34372 - TMV Replay Recording of Events
+Feature: 34372 - TMV Replay Recording of Events - Part 3
   As a TMV User
   I want the system to record the live railway events
   So that I can replay the railway for replay purposes
