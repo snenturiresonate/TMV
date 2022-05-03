@@ -147,6 +147,7 @@ Feature: 80970 - TMV Restrictions - Track Section Menu - Standard User
       | HDGW01paddington.v | PNPNDM          |
 
 
+  @manual @manual:93700
   Scenario Outline:81559 - 4 Track Section Menu - Many concurrent restrictions - comment reflects highest priority type
 
 #    If more than one restriction is applied then display the highest priority based on the following Restriction Type prioritisation:
