@@ -153,7 +153,7 @@ Feature: 33768-3: TMV User Management
       | Matched   | restriction | generated         | generated    | D1             | 1698    | generated         | generated    |
       | Matched   | standard    | generated         | generated    | D1             | 1698    | generated         | generated    |
 
-  Scenario Outline: 16b Displaying matching for user without Schedule Matching Role - map
+  Scenario Outline: 16b Displaying matching for user without Schedule Matching Role - map - <matchType> - <roleType>
     * I reset redis
     * I generate a new trainUID
     * I generate a new train description
@@ -186,7 +186,7 @@ Feature: 33768-3: TMV User Management
       | Unmatched | restriction | generated         | generated    | D1             | 1777    | 2V46              |
       | Unmatched | standard    | generated         | generated    | D1             | 1777    | 2V46              |
 
-  Scenario Outline: 16c Displaying matching for user without Schedule Matching Role - Enquiries
+  Scenario Outline: 16c Displaying matching for user without Schedule Matching Role - Enquiries - <matchType> - <roleType>
     * I reset redis
     * I generate a new trainUID
     * I generate a new train description

@@ -202,6 +202,10 @@ Then(/^I am not re-directed to home page$/, async () => {
 Given(/^I have not already authenticated$/, {timeout: 5 * 10000}, async () => {
   await LocalStorage.reset();
   await logout();
+  await page.navigateToWithoutSignIn('');
+  await browser.waitForAngularEnabled(false);
+  expect(await authPage.signInModalTitleIsPresent()).to.equal(true);
+  await browser.waitForAngularEnabled(true);
 });
 
 
