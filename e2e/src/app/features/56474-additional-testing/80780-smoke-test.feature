@@ -1,4 +1,5 @@
-@SmokeTest @newSession
+@SmokeTest
+@newSession
 Feature: 80780 - Smoke Test TMV Environments
 
   As a TMV dev team member
