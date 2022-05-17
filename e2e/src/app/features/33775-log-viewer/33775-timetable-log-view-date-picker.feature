@@ -65,7 +65,7 @@ Feature: 33775 - TMV Log Viewer - Timetable Log View - Date Picker
 
   Scenario Outline: 81035 - 4 Timetable Log View - Date Picker - results only show timetables running on date chosen - train <isRunning> running
 
-#  And the results reflects the date
+    #  And the results reflects the date
 
     Given I clear the logged-agreed-schedules Elastic Search index
     And I load a CIF file leaving RDNGSTN now using access-plan/2P77_RDNGSTN_PADTON.cif which <isRunning> running today
