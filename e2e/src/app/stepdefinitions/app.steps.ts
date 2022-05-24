@@ -285,7 +285,6 @@ When(/^the following berth step messages? (?:is|are) sent from LINX(.*)$/, async
     await CucumberLog.addJson(berthStep);
     await linxRestClient.postBerthStep(berthStep);
   }
-  await linxRestClient.waitMaxTransmissionTime();
 });
 
 When(/^the following live berth step messages? (?:is|are) sent from LINX (.*)$/,
