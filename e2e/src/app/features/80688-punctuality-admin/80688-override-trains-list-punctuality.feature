@@ -83,8 +83,7 @@ Feature: 80688 - TMV Punctuality Admin - Override Trains List Punctuality
       | punctualityColor       | fromTime | toTime |
       | rgba(119, 153, 136, 1) |          | -20    |
       | rgba(255, 68, 170, 1)  | -20      | -10    |
-#      Punctuality group not shown
-#      | rgb(170, 255, 255, 1)  | -10      | -5     |
+      | rgba(170, 255, 255, 1) | -10      | -5     |
       | rgba(17, 170, 85, 1)   | -5       | -1     |
       | rgba(34, 34, 170, 1)   | -1       | 1      |
       | rgba(170, 170, 17, 1)  | 1        | 5      |
