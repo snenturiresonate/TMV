@@ -155,7 +155,6 @@ Feature: 34427 - TMV Process LINX VSTP (S002)
       | trainDescription | scheduleEndDate | scheduleDaysRuns | vstpStpIndicator | statusType | displayType |
       | 6P44             | 20500101        | 1111111          | C                | CANCELLED  | VSTP CAN    |
 
-  @bug @bug:93697
   Scenario Outline: 34427-5b Schedule Cancellation is displayed - vstp on top of original cif (cif P, P then O, N, N then O followed by vstp C) - <origDisplayType>
     #Given schedule(s) has been received with <STP indicator> that applies to the current time period (Date Runs To, Date Runs From and Days Run don't exclude it)
     #When a user searches for that timetable
