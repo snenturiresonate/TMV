@@ -138,8 +138,6 @@ When('the following service is displayed on the trains list', async (table: any)
   const serviceId = tableValues.trainId;
   const trainUID = tableValues.trainUId;
   await page.navigateTo('/tmv/trains-list');
-
-  // give the trains list time to load
   browser.sleep(2000);
   const isTrainVisible: boolean = await trainsListPage.isTrainVisible(serviceId, trainUID);
   expect(isTrainVisible, `Service ${serviceId} with trainUId ${trainUID} is not displayed`).to.equal(true);
