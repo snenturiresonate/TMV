@@ -1,5 +1,5 @@
 HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
-BSNC460962101202309091111111 PXX1B696175125375002 HST    125      B S C        P
+BSNC460962101205001011111111 PXX1B696175125375002 HST    125      B S C        P
 BX         GWY                                                                  
 LOPADTON  1730 17304  1      TB                                                 
 LIROYAOJN           1731 00000000   1                                           

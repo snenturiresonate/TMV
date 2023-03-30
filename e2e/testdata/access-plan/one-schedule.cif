@@ -1,6 +1,6 @@
 HDTPS.UCFR1LX.PD2009212109201554CFR1LXBCFR1LXAUA210920211020                    
 AANC59916C579842009032010011111100NPSDIDCOTP2 TO                               0
-BSNH394072009042010011111111 FH46V10    157610310        060Q                  P
+BSNH394072009045001011111111 FH46V10    157610310        060Q                  P
 BX         ZZY                                                                  
 TN1TRAIN SPECIFIC NOTE                                                          
 LOPADTON  1230H12306  2  1 10TB          99                                     

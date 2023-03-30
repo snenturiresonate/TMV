@@ -1,5 +1,5 @@
 HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
-BSNY777851912152305101111111 POO2R73    125507005 EMU    110D     S            P
+BSNY777851912155001011111111 POO2R73    125507005 EMU    110D     S            P
 BX         GWY                                                                  
 LOWDRYTON 2129 21293  RL     TB                                                 
 LISLOUGH  2132 2134      213221344  RL    T                                     

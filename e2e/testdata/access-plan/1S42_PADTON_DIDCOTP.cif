@@ -1,5 +1,5 @@
 HDTPS.UCFT1LX.PD1812010112182000CFT1LXQCFT1LXPFA011218010119                    
-BSNL552851912152305101111111 POO1S42    125507005 EMU    110D     S            P
+BSNL552851912155001011111111 POO1S42    125507005 EMU    110D     S            P
 BX         GWY                                                                  
 LOPADTON  2120 211914 4      TB                                                 
 LIROYAOJN           2121 00000000   4                                           

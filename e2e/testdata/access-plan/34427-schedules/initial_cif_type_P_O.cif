@@ -26,7 +26,7 @@ LISCOTEJN           0539 00000000                     1
 LITHEA831           0545 00000000                     1                         
 LTTHEARCP 0549 0609      00000000                     1                         
 LTTHEAARC 0639 0000      TF                                                     
-BSNA237642005032112031111111 2B46D014743157622972 D                            O
+BSNA237642005035001011111111 2B46D014743157622972 D                            O
 BX         HOY                                                                  
 LOWHATFHH 0250 0000        3 TB                                                 
 LIFROMNSB           0312 00000000                                               
