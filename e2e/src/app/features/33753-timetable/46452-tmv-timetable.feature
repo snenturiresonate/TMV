@@ -379,7 +379,7 @@ Feature: 33753 - TMV Timetable
     And I give the timetable a settling time of 2 seconds to update
     And The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed           | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
-      | 04/01/2021 to 25/03/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | D30037  | EF       | 25507005         | P               | XX            |           | ,            | 1     | B ,          | A ,          | 802 , 811  | EMU , DMU | 120mph , 144mph | ,         | m , m       | D , D,B,A                    |                 |
+      | 04/01/2021 to 01/01/2050 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | D30037  | EF       | 25507005         | P               | XX            |           | ,            | 1     | B ,          | A ,          | 802 , 811  | EMU , DMU | 120mph , 144mph | ,         | m , m       | D , D,B,A                    |                 |
     And The entry of the change en route table contains the following data
       | columnName |
       | Acton West |
@@ -416,7 +416,7 @@ Feature: 33753 - TMV Timetable
     And I give the timetable a settling time of 2 seconds to update
     And The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed           | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
-      | 04/01/2021 to 25/03/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | D30026  | EF       | 25507005         | P               | XX            |           | ,            | 1     | B ,          | A ,          | 802 , 811  | EMU , DMU | 120mph , 144mph | ,         | m , m       | D , D,B,A                    |                 |
+      | 04/01/2021 to 01/01/2050 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             | D30026  | EF       | 25507005         | P               | XX            |           | ,            | 1     | B ,          | A ,          | 802 , 811  | EMU , DMU | 120mph , 144mph | ,         | m , m       | D , D,B,A                    |                 |
     And The entry of the change en route table contains the following data
      | columnName |
      | Acton West |
@@ -450,7 +450,7 @@ Feature: 33753 - TMV Timetable
     And I give the timetable a settling time of 2 seconds to update
     Then The timetable details table contains the following data in each row
       | daysRun                  | runs                                                            | bankHoliday | berthId | operator | trainServiceCode | trainStatusCode | trainCategory | direction | cateringCode | class | seatingClass | reservations | timingLoad | powerType | speed  | portionId | trainLength | trainOperatingCharacteristcs | serviceBranding |
-      | 15/12/2019 to 10/05/2023 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             |         | EF       | 25507005         | P               | OO            |           |              | 1     | S            |              |            | EMU       | 110mph |           | m           | D                            |                 |
+      | 15/12/2019 to 01/01/2050 | Monday, Tuesday, Wednesday, Thursday, Friday, Saturday & Sunday |             |         | EF       | 25507005         | P               | OO            |           |              | 1     | S            |              |            | EMU       | 110mph |           | m           | D                            |                 |
 
     Examples:
       | trainNum | planningUid |
